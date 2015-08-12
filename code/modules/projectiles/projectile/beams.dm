@@ -175,5 +175,5 @@ var/list/beam_master = list()
 	icon_state = "stun"
 	nodamage = 1
 	taser_effect = 1
-	agony = 40
+	agony = 70
 	damage_type = HALLOSS
