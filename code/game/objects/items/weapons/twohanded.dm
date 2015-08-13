@@ -216,8 +216,8 @@
 	throw_range = 7
 	throwforce = 7
 	attack_verb = list("smashed", "beaten", "slammed", "smacked", "striked", "battered", "bonked")
-	hitsound = 'sound/weapons/genhit3.ogg'
-	force_wielded = 23
+	hitsound = 'sound/weapons/basebat.ogg'
+	force_wielded = 18
 
 /obj/item/weapon/twohanded/baseballbat/metal
 	name = "metal bat"
@@ -227,4 +227,5 @@
 	item_state = "metalbat"
 	force = 18
 	w_class = 3.0
-	force_wielded = 27
+	force_wielded = 20
+	hitsound = 'sound/weapons/genhit3.ogg'

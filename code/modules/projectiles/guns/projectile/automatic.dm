@@ -60,6 +60,7 @@
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/c762
 
+
 /obj/item/weapon/gun/projectile/automatic/sts35/update_icon()
 	..()
 	icon_state = (ammo_magazine)? "arifle" : "arifle-empty"
@@ -97,13 +98,13 @@
 	caliber = "a556"
 	origin_tech = "combat=8;materials=3"
 	ammo_type = "/obj/item/ammo_casing/a556"
-	fire_sound = 'sound/weapons/Gunshot.ogg'
+	fire_sound = 'sound/weapons/Machinegun.ogg'
 	slot_flags = SLOT_BACK
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/a556
 	auto_eject = 1
 	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
-	
+
 	var/use_launcher = 0
 	var/obj/item/weapon/gun/launcher/grenade/underslung/launcher
 
@@ -163,7 +164,7 @@
 	origin_tech = "combat=6;materials=1;syndicate=2"
 	slot_flags = SLOT_BACK
 	ammo_type = "/obj/item/ammo_casing/a762"
-	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
+	fire_sound = 'sound/weapons/Machinegun.ogg'
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/a762
 	var/cover_open = 0
