@@ -13,6 +13,7 @@
 	load_method = SINGLE_CASING
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
 	handle_casings = HOLD_CASINGS
+	fire_sound = 'sound/weapons/shotgun.ogg'
 	var/recentpump = 0 // to prevent spammage
 
 /obj/item/weapon/gun/projectile/shotgun/pump/consume_next_projectile()
@@ -65,6 +66,7 @@
 	caliber = "shotgun"
 	origin_tech = "combat=3;materials=1"
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
 
 /obj/item/weapon/gun/projectile/shotgun/doublebarrel/flare
 	name = "signal shotgun"

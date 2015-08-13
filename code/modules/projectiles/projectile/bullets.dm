@@ -98,10 +98,10 @@
 /* short-casing projectiles, like the kind used in pistols or SMGs */
 
 /obj/item/projectile/bullet/pistol
-	damage = 20
+	damage = 25
 
 /obj/item/projectile/bullet/pistol/medium
-	damage = 25
+	damage = 30
 
 /obj/item/projectile/bullet/pistol/strong //revolvers and matebas
 	damage = 60
@@ -109,7 +109,7 @@
 /obj/item/projectile/bullet/pistol/rubber //"rubber" bullets
 	name = "rubber bullet"
 	damage = 10
-	agony = 40
+	agony = 70
 	embed = 0
 	sharp = 0
 
@@ -117,12 +117,12 @@
 
 /obj/item/projectile/bullet/shotgun
 	name = "slug"
-	damage = 60
+	damage = 70
 
 /obj/item/projectile/bullet/shotgun/beanbag		//because beanbags are not bullets
 	name = "beanbag"
 	damage = 20
-	agony = 60
+	agony = 80
 	embed = 0
 	sharp = 0
 

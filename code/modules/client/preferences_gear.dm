@@ -674,6 +674,26 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_wear_suit
 
+/datum/gear/militaryjacket
+	display_name = "military jacket"
+	path = /obj/item/clothing/suit/storage/militaryjacket
+	cost = 2
+	slot = slot_wear_suit
+
+/datum/gear/leathercoat
+	display_name = "leather coat"
+	path = /obj/item/clothing/suit/storage/leathercoat
+	cost = 2
+	slot = slot_wear_suit
+
+/datum/gear/leathercoatsec
+	display_name = "leather coat, (Security)"
+	path = /obj/item/clothing/suit/storage/leathercoatsec
+	cost = 2
+	slot = slot_wear_suit
+	allowed_roles = list("Security Officer","Head of Security","Warden")
+
+
 /datum/gear/hazard_vest
 	display_name = "hazard vest"
 	path = /obj/item/clothing/suit/storage/hazardvest
