@@ -47,7 +47,7 @@
 		desc = "This is a paper titled '" + name + "'."
 
 	if(info != initial(info))
-		info = rhtml_encode(info)
+		info = html_encode(info)
 		info = replacetext(info, "\n", "<BR>")
 		info = parsepencode(info)
 
@@ -371,7 +371,7 @@
 		t = rhtml_encode(t)
 		t = replacetext(t, "\n", "<BR>")
 		t = parsepencode(t, i, usr, iscrayon) // Encode everything from pencode to html
-
+		t = cp1251_to_utf8(t)
 
 		if(fields > 50)//large amount of fields creates a heavy load on the server, see updateinfolinks() and addtofield()
 			usr << "<span class='warning'>Too many fields. Sorry, you can't do this.</span>"

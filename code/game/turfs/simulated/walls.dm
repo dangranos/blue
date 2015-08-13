@@ -258,6 +258,7 @@
 
 //Interactions
 /turf/simulated/wall/attack_hand(mob/user as mob)
+	user.next_move = world.time + 8
 	if (HULK in user.mutations)
 		if (prob(hulk_destroy_prob) || rotting)
 			usr << text("\blue You smash through the wall.")
@@ -284,7 +285,7 @@
 	return 0
 
 /turf/simulated/wall/attack_generic(var/mob/user, var/damage, var/attack_message, var/wallbreaker)
-
+	user.next_move = world.time + 8
 	if(!damage || !wallbreaker)
 		user << "You push the wall but nothing happens."
 		return
@@ -301,7 +302,7 @@
 	return 1
 
 /turf/simulated/wall/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
+	user.next_move = world.time + 8
 	if (!(istype(user, /mob/living/carbon/human) || ticker) && ticker.mode.name != "monkey")
 		user << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return

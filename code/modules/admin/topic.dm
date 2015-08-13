@@ -50,6 +50,11 @@
 				log_admin("[key_name(usr)] has spawned vox raiders.")
 				if(!src.makeVoxRaiders())
 					usr << "\red Unfortunately there weren't enough candidates available."
+
+	else if(href_list["showmultiacc"])
+		if(!check_rights(R_ADMIN))	return
+		showAccounts(src.owner.mob, href_list["showmultiacc"])
+
 	else if(href_list["dbsearchckey"] || href_list["dbsearchadmin"])
 		var/adminckey = href_list["dbsearchadmin"]
 		var/playerckey = href_list["dbsearchckey"]

@@ -86,9 +86,9 @@
 	var/obj/item/W = get_active_hand()
 
 	if(W == A)
-		next_move = world.time + 6
+		//next_move = world.time + 6
 		if(W.flags&USEDELAY)
-			next_move += 5
+			next_move = world.time + 5
 		W.attack_self(src)
 		if(hand)
 			update_inv_l_hand(0)
@@ -102,20 +102,22 @@
 	if(A == loc || (A in loc) || (sdepth != -1 && sdepth <= 1))
 
 		// faster access to objects already on you
-		if(A in contents)
-			next_move = world.time + 6 // on your person
-		else
-			next_move = world.time + 8 // in a box/bag or in your square
+	//	if(A in contents)
+	//		next_move = world.time + 6 // on your person
+	//	else
+	//		next_move = world.time + 8 // in a box/bag or in your square
 
 		// No adjacency needed
 		if(W)
 			if(W.flags&USEDELAY)
-				next_move += 5
+				next_move = world.time + 5
 
 			var/resolved = A.attackby(W,src)
 			if(!resolved && A && W)
 				W.afterattack(A,src,1,params) // 1 indicates adjacency
 		else
+			if(ismob(A))
+				next_move = world.time + 8
 			UnarmedAttack(A, 1)
 		return
 
@@ -125,18 +127,20 @@
 	// Allows you to click on a box's contents, if that box is on the ground, but no deeper than that
 	sdepth = A.storage_depth_turf()
 	if(isturf(A) || isturf(A.loc) || (sdepth != -1 && sdepth <= 1))
-		next_move = world.time + 10
+		//next_move = world.time + 10
 
 		if(A.Adjacent(src)) // see adjacent.dm
 			if(W)
 				if(W.flags&USEDELAY)
-					next_move += 5
+					next_move = world.time + 5
 
 				// Return 1 in attackby() to prevent afterattack() effects (when safely moving items for example)
 				var/resolved = A.attackby(W,src)
 				if(!resolved && A && W)
 					W.afterattack(A,src,1,params) // 1: clicking something Adjacent
 			else
+				if(ismob(A))
+					next_move = world.time + 8
 				UnarmedAttack(A, 1)
 			return
 		else // non-adjacent click
@@ -152,7 +156,8 @@
 
 // Default behavior: ignore double clicks, consider them normal clicks instead
 /mob/proc/DblClickOn(var/atom/A, var/params)
-	ClickOn(A,params)
+	//ClickOn(A,params)
+	return
 
 /*
 	Translates into attack_hand, etc.
@@ -165,6 +170,8 @@
 	in human click code to allow glove touches only at melee range.
 */
 /mob/proc/UnarmedAttack(var/atom/A, var/proximity_flag)
+	if(ismob(A))
+		next_move = world.time + 8
 	return
 
 /mob/living/UnarmedAttack(var/atom/A, var/proximity_flag)
