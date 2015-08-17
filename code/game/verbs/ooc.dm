@@ -25,7 +25,7 @@
 		if(handle_spam_prevention(msg,MUTE_OOC))
 			return
 
-	log_ooc("[mob.name]/[key] : [msg]")
+	log_ooc("[key]/[mob.name] : [msg]")
 
 	var/ooc_style = "everyone"
 	if(holder && !holder.fakekey)

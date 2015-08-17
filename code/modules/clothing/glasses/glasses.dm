@@ -35,6 +35,7 @@
 	icon_action_button = "action_meson" //This doesn't actually matter, the action button is generated from the current icon_state. But, this is the only way to get it to show up.
 	origin_tech = "magnets=2;engineering=2"
 	toggleable = 1
+	see_invisible = SEE_INVISIBLE_MINIMUM
 	vision_flags = SEE_TURFS
 
 /obj/item/clothing/glasses/meson/New()
@@ -62,6 +63,7 @@
 	icon_state = "night"
 	item_state = "glasses"
 	origin_tech = "magnets=2"
+	see_invisible = SEE_INVISIBLE_MINIMUM
 	darkness_view = 7
 
 /obj/item/clothing/glasses/night/New()
@@ -209,7 +211,7 @@
 	origin_tech = "magnets=3"
 	toggleable = 1
 	vision_flags = SEE_MOBS
-	invisa_view = 2
+	see_invisible = SEE_INVISIBLE_MINIMUM
 
 	emp_act(severity)
 		if(istype(src.loc, /mob/living/carbon/human))
