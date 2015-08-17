@@ -175,6 +175,7 @@
 	playsound(loc, 'sound/effects/Glasshit.ogg', 50, 1)
 
 /obj/structure/window/attack_hand(mob/user as mob)
+	user.next_move = world.time + 8
 	if(HULK in user.mutations)
 		user.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!"))
 		user.visible_message("<span class='danger'>[user] smashes through [src]!</span>")
@@ -200,6 +201,7 @@
 	return
 
 /obj/structure/window/attack_generic(var/mob/user, var/damage)
+	user.next_move = world.time + 8
 	if(!damage)
 		return
 	if(damage >= 10)
@@ -210,6 +212,7 @@
 	return 1
 
 /obj/structure/window/attackby(obj/item/W as obj, mob/user as mob)
+	user.next_move = world.time + 8
 	if(!istype(W)) return//I really wish I did not need this
 	if (istype(W, /obj/item/weapon/grab) && get_dist(src,user)<2)
 		var/obj/item/weapon/grab/G = W

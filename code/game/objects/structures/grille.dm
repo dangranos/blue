@@ -27,7 +27,7 @@
 	if(ismob(user)) shock(user, 70)
 
 /obj/structure/grille/attack_hand(mob/user as mob)
-
+	user.next_move = world.time + 8
 	playsound(loc, 'sound/effects/grillehit.ogg', 80, 1)
 
 	var/damage_dealt = 1
@@ -95,6 +95,7 @@
 	spawn(0) healthcheck() //spawn to make sure we return properly if the grille is deleted
 
 /obj/structure/grille/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	user.next_move = world.time + 8
 	if(iswirecutter(W))
 		if(!shock(user, 100))
 			playsound(loc, 'sound/items/Wirecutter.ogg', 100, 1)
@@ -211,6 +212,7 @@
 	..()
 
 /obj/structure/grille/attack_generic(var/mob/user, var/damage, var/attack_verb)
+	user.next_move = world.time + 8
 	visible_message("<span class='danger'>[user] [attack_verb] the [src]!</span>")
 	health -= damage
 	spawn(1) healthcheck()

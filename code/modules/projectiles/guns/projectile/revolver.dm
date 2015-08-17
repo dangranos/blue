@@ -8,6 +8,7 @@
 	handle_casings = CYCLE_CASINGS
 	max_shells = 7
 	ammo_type = /obj/item/ammo_casing/a357
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 
 /obj/item/weapon/gun/projectile/revolver/mateba
 	name = "mateba"

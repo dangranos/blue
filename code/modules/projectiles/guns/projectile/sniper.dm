@@ -14,6 +14,8 @@
 	load_method = SINGLE_CASING
 	max_shells = 1
 	ammo_type = /obj/item/ammo_casing/a145
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+
 	//+2 accuracy over the LWAP because only one shot
 	accuracy = -1
 	scoped_accuracy = 2

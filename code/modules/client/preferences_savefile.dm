@@ -142,6 +142,22 @@
 	S["job_engsec_med"]		>> job_engsec_med
 	S["job_engsec_low"]		>> job_engsec_low
 
+	//Flavour Text
+	S["flavor_texts_general"]	>> flavor_texts["general"]
+	S["flavor_texts_head"]		>> flavor_texts["head"]
+	S["flavor_texts_face"]		>> flavor_texts["face"]
+	S["flavor_texts_eyes"]		>> flavor_texts["eyes"]
+	S["flavor_texts_torso"]		>> flavor_texts["torso"]
+	S["flavor_texts_arms"]		>> flavor_texts["arms"]
+	S["flavor_texts_hands"]		>> flavor_texts["hands"]
+	S["flavor_texts_legs"]		>> flavor_texts["legs"]
+	S["flavor_texts_feet"]		>> flavor_texts["feet"]
+
+	//Flavour text for robots.
+	S["flavour_texts_robot_Default"] >> flavour_texts_robot["Default"]
+	for(var/module in robot_module_types)
+		S["flavour_texts_robot_[module]"] >> flavour_texts_robot[module]
+
 	//Miscellaneous
 	S["med_record"]			>> med_record
 	S["sec_record"]			>> sec_record
@@ -273,6 +289,21 @@
 	S["job_engsec_med"]		<< job_engsec_med
 	S["job_engsec_low"]		<< job_engsec_low
 
+	//Flavour Text
+	S["flavor_texts_general"]	<< flavor_texts["general"]
+	S["flavor_texts_head"]		<< flavor_texts["head"]
+	S["flavor_texts_face"]		<< flavor_texts["face"]
+	S["flavor_texts_eyes"]		<< flavor_texts["eyes"]
+	S["flavor_texts_torso"]		<< flavor_texts["torso"]
+	S["flavor_texts_arms"]		<< flavor_texts["arms"]
+	S["flavor_texts_hands"]		<< flavor_texts["hands"]
+	S["flavor_texts_legs"]		<< flavor_texts["legs"]
+	S["flavor_texts_feet"]		<< flavor_texts["feet"]
+
+	//Flavour text for robots.
+	S["flavour_texts_robot_Default"] << flavour_texts_robot["Default"]
+	for(var/module in robot_module_types)
+		S["flavour_texts_robot_[module]"] << flavour_texts_robot[module]
 
 	//Miscellaneous
 	S["med_record"]			<< med_record

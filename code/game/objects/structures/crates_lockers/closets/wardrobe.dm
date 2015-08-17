@@ -193,6 +193,9 @@
 	new /obj/item/clothing/head/beret/eng(src)
 	new /obj/item/clothing/head/beret/eng(src)
 	new /obj/item/clothing/head/beret/eng(src)
+	new /obj/item/clothing/under/rank/engineer/alt(src)
+	new /obj/item/clothing/under/rank/engineer/alt(src)
+	new /obj/item/clothing/under/rank/engineer/alt(src)
 	return
 
 

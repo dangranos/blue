@@ -211,11 +211,25 @@
 
 //coats
 
-/obj/item/clothing/suit/leathercoat
+/obj/item/clothing/suit/storage/leathercoat
 	name = "leather coat"
 	desc = "A long, thick black leather coat."
 	icon_state = "leathercoat"
 	item_state = "leathercoat"
+
+/obj/item/clothing/suit/storage/leathercoatsec
+	name = "leather coat"
+	desc = "A long, thick black leather coat. That one has a security badge and somewhat armored."
+	icon_state = "leathercoat-sec"
+	item_state = "leathercoat-sec"
+	armor = list(melee = 50, bullet = 15, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
+	allowed = list(/obj/item/weapon/gun/energy,/obj/item/weapon/reagent_containers/spray/pepper,/obj/item/weapon/gun/projectile,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/handcuffs)
+
+/obj/item/clothing/suit/storage/militaryjacket
+	name = "military jacket"
+	desc = "A canvas jacket styled after classical American military garb. Feels sturdy, yet comfortable."
+	icon_state = "militaryjacket"
+	item_state = "militaryjacket"
 
 /obj/item/clothing/suit/browncoat
 	name = "brown leather coat"
@@ -228,6 +242,7 @@
 	desc = "A flowing, black coat."
 	icon_state = "neocoat"
 	item_state = "neocoat"
+
 
 //stripper
 /obj/item/clothing/under/stripper
@@ -358,6 +373,17 @@
 	min_cold_protection_temperature = T0C - 20
 	siemens_coefficient = 0.7
 
+
+//This one has buttons for some reason
+/obj/item/clothing/suit/storage/toggle/brown_jacket
+	name = "leather jacket"
+	desc = "A brown leather coat."
+	icon_state = "brown_jacket"
+	item_state = "brown_jacket"
+	icon_open = "brown_jacket_open"
+	icon_closed = "brown_jacket"
+	body_parts_covered = UPPER_TORSO|ARMS
+
 /obj/item/clothing/suit/storage/leather_jacket
 	name = "leather jacket"
 	desc = "A black leather coat."
@@ -369,15 +395,6 @@
 	desc = "A black leather coat. The letters NT are proudly displayed on the back."
 	icon_state = "leather_jacket_nt"
 
-//This one has buttons for some reason
-/obj/item/clothing/suit/storage/toggle/brown_jacket
-	name = "leather jacket"
-	desc = "A brown leather coat."
-	icon_state = "brown_jacket"
-	item_state = "brown_jacket"
-	icon_open = "brown_jacket_open"
-	icon_closed = "brown_jacket"
-	body_parts_covered = UPPER_TORSO|ARMS
 
 /obj/item/clothing/suit/storage/toggle/brown_jacket/nanotrasen
 	desc = "A brown leather coat. The letters NT are proudly displayed on the back."

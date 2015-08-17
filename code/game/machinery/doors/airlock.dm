@@ -31,6 +31,7 @@
 	var/datum/wires/airlock/wires = null
 
 /obj/machinery/door/airlock/attack_generic(var/mob/user, var/damage)
+	user.next_move = world.time + 8
 	if(stat & (BROKEN|NOPOWER))
 		if(damage >= 10)
 			if(src.density)
@@ -625,6 +626,7 @@ About the new airlock wires panel:
 	return ..()
 
 /obj/machinery/door/airlock/attack_hand(mob/user as mob)
+	user.next_move = world.time + 8
 	if(!istype(usr, /mob/living/silicon))
 		if(src.isElectrified())
 			if(src.shock(user, 100))
@@ -864,6 +866,7 @@ About the new airlock wires panel:
 	return 0
 
 /obj/machinery/door/airlock/attackby(C as obj, mob/user as mob)
+	user.next_move = world.time + 8
 	//world << text("airlock attackby src [] obj [] mob []", src, C, user)
 	if(!istype(usr, /mob/living/silicon))
 		if(src.isElectrified())
