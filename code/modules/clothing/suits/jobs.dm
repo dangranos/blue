@@ -31,12 +31,13 @@
 	flags_inv = HIDEJUMPSUIT
 
 //Chaplain
-/obj/item/clothing/suit/chaplain_hoodie
+/obj/item/clothing/suit/storage/chaplain_hoodie
 	name = "chaplain hoodie"
 	desc = "This suit says to you 'hush'!"
 	icon_state = "chaplain_hoodie"
 	item_state = "chaplain_hoodie"
 	body_parts_covered = UPPER_TORSO|ARMS
+	allowed = list (/obj/item/weapon/storage/bible,/obj/item/weapon/nullrod)
 	sprite_sheets = list("Vox" = 'icons/mob/species/vox/suit.dmi')
 
 //Chaplain
