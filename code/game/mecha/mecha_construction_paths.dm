@@ -1060,6 +1060,8 @@
 		return check_all_steps(used_atom,user)
 
 
+
+
 /datum/construction/mecha/odysseus_chassis
 	steps = list(list("key"=/obj/item/mecha_parts/part/odysseus_torso),//1
 					 list("key"=/obj/item/mecha_parts/part/odysseus_head),//2
