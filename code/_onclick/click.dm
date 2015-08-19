@@ -45,6 +45,9 @@
 		return
 
 	var/list/modifiers = params2list(params)
+	if(modifiers["shift"] && modifiers["ctrl"])
+		CtrlShiftClickOn(A)
+		return
 	if(modifiers["middle"])
 		MiddleClickOn(A)
 		return
@@ -156,8 +159,7 @@
 
 // Default behavior: ignore double clicks, consider them normal clicks instead
 /mob/proc/DblClickOn(var/atom/A, var/params)
-	//ClickOn(A,params)
-	return
+	ClickOn(A,params)
 
 /*
 	Translates into attack_hand, etc.
@@ -298,6 +300,17 @@
 
 /mob/proc/TurfAdjacent(var/turf/T)
 	return T.AdjacentQuick(src)
+
+/*
+	Control+Shift click
+	Unused except for AI
+*/
+/mob/proc/CtrlShiftClickOn(var/atom/A)
+	A.CtrlShiftClick(src)
+	return
+
+/atom/proc/CtrlShiftClick(var/mob/user)
+	return
 
 /*
 	Misc helpers
