@@ -454,8 +454,8 @@
 		msg += "<span class = 'deptradio'>Physical status:</span> <a href='?src=\ref[src];medical=1'>\[[medical]\]</a>\n"
 		msg += "<span class = 'deptradio'>Medical records:</span> <a href='?src=\ref[src];medrecord=`'>\[View\]</a> <a href='?src=\ref[src];medrecordadd=`'>\[Add comment\]</a>\n"
 
-
-	if(print_flavor_text()) msg += "[print_flavor_text()]\n"
+	var/flavor = print_flavor_text()
+	if(flavor) msg += "[flavor]\n"
 
 	msg += "*---------*</span>"
 	if (pose)

@@ -58,20 +58,23 @@ datum/preferences
 	var/undershirt						//undershirt type
 	var/backbag = 2						//backpack type
 	var/h_style = "Bald"				//Hair type
-	var/r_hair = 0						//Hair color
-	var/g_hair = 0						//Hair color
-	var/b_hair = 0						//Hair color
+	var/hair_r = 0						//Hair color
+	var/hair_g = 0						//Hair color
+	var/hair_b = 0						//Hair color
 	var/f_style = "Shaved"				//Face hair type
-	var/r_facial = 0					//Face hair color
-	var/g_facial = 0					//Face hair color
-	var/b_facial = 0					//Face hair color
+	var/facial_r = 0					//Face hair color
+	var/facial_g = 0					//Face hair color
+	var/facial_b = 0					//Face hair color
 	var/s_tone = 0						//Skin tone
-	var/r_skin = 0						//Skin color
-	var/g_skin = 0						//Skin color
-	var/b_skin = 0						//Skin color
-	var/r_eyes = 0						//Eye color
-	var/g_eyes = 0						//Eye color
-	var/b_eyes = 0						//Eye color
+	var/skin_r = 0						//Skin color
+	var/skin_g = 0						//Skin color
+	var/skin_b = 0						//Skin color
+	var/eyes_r = 0						//Eye color
+	var/eyes_g = 0						//Eye color
+	var/eyes_b = 0						//Eye color
+	var/mech_eyes_r = 0					//Mechanical eye color
+	var/mech_eyes_g = 0					//Mechanical eye color
+	var/mech_eyes_b = 0					//Mechanical eye color
 	var/species = "Human"               //Species datum to use.
 	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
 	var/species_preview                 //Used for the species selection window.
@@ -311,19 +314,23 @@ datum/preferences
 	dat += "<br>"
 
 	dat += "<br><b>Hair</b><br>"
-	dat += "<a href='?_src_=prefs;preference=hair;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(r_hair, 2)][num2hex(g_hair, 2)][num2hex(b_hair, 2)]'><table style='display:inline;' bgcolor='#[num2hex(r_hair, 2)][num2hex(g_hair, 2)][num2hex(b_hair)]'><tr><td>__</td></tr></table></font> "
+	dat += "<a href='?_src_=prefs;preference=hair;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(hair_r, 2)][num2hex(hair_g, 2)][num2hex(hair_b, 2)]'><table style='display:inline;' bgcolor='#[num2hex(hair_r, 2)][num2hex(hair_g, 2)][num2hex(hair_b)]'><tr><td>__</td></tr></table></font> "
 	dat += " Style: <a href='?_src_=prefs;preference=h_style;task=input'>[h_style]</a><br>"
 
 	dat += "<br><b>Facial</b><br>"
-	dat += "<a href='?_src_=prefs;preference=facial;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(r_facial, 2)][num2hex(g_facial, 2)][num2hex(b_facial, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(r_facial, 2)][num2hex(g_facial, 2)][num2hex(b_facial)]'><tr><td>__</td></tr></table></font> "
+	dat += "<a href='?_src_=prefs;preference=facial;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(facial_r, 2)][num2hex(facial_g, 2)][num2hex(facial_b, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(facial_r, 2)][num2hex(facial_g, 2)][num2hex(facial_b)]'><tr><td>__</td></tr></table></font> "
 	dat += " Style: <a href='?_src_=prefs;preference=f_style;task=input'>[f_style]</a><br>"
 
 	dat += "<br><b>Eyes</b><br>"
-	dat += "<a href='?_src_=prefs;preference=eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(r_eyes, 2)][num2hex(g_eyes, 2)][num2hex(b_eyes, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(r_eyes, 2)][num2hex(g_eyes, 2)][num2hex(b_eyes)]'><tr><td>__</td></tr></table></font><br>"
+	dat += "<a href='?_src_=prefs;preference=eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(eyes_r, 2)][num2hex(eyes_g, 2)][num2hex(eyes_b, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(eyes_r, 2)][num2hex(eyes_g, 2)][num2hex(eyes_b)]'><tr><td>__</td></tr></table></font><br>"
+
+	if( organ_data["eyes"] == "mechanical" )
+		dat += "<br><b>Mechanical eyes</b><br>"
+		dat += "<a href='?_src_=prefs;preference=mech_eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(mech_eyes_r, 2)][num2hex(mech_eyes_g, 2)][num2hex(mech_eyes_b, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(mech_eyes_r, 2)][num2hex(mech_eyes_g, 2)][num2hex(mech_eyes_b)]'><tr><td>__</td></tr></table></font><br>"
 
 	if(species_flags & HAS_SKIN_COLOR)
 		dat += "<br><b>Body Color</b><br>"
-		dat += "<a href='?_src_=prefs;preference=skin;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(r_skin, 2)][num2hex(g_skin, 2)][num2hex(b_skin, 2)]'><table style='display:inline;' bgcolor='#[num2hex(r_skin, 2)][num2hex(g_skin, 2)][num2hex(b_skin)]'><tr><td>__</td></tr></table></font>"
+		dat += "<a href='?_src_=prefs;preference=skin;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(skin_r, 2)][num2hex(skin_g, 2)][num2hex(skin_b, 2)]'><table style='display:inline;' bgcolor='#[num2hex(skin_r, 2)][num2hex(skin_g, 2)][num2hex(skin_b)]'><tr><td>__</td></tr></table></font>"
 
 	dat += "<br><br><b>Background Information</b><br>"
 	dat += "<b>Home system</b>: <a href='byond://?src=\ref[user];preference=home_system;task=input'>[home_system]</a><br/>"
@@ -602,6 +609,9 @@ datum/preferences
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=eyes'>Eyes:</a> "
 	HTML += TextPreview(cp1251_to_utf8(flavor_texts["eyes"]))
+	HTML += "<br>"
+	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=mech_eyes'>Mechanical eyes:</a> "
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["mech_eyes"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=torso'>Body:</a> "
 	HTML += TextPreview(cp1251_to_utf8(flavor_texts["torso"]))
@@ -1042,15 +1052,15 @@ datum/preferences
 				if("age")
 					age = rand(AGE_MIN, AGE_MAX)
 				if("hair")
-					r_hair = rand(0,255)
-					g_hair = rand(0,255)
-					b_hair = rand(0,255)
+					hair_r = rand(0,255)
+					hair_g = rand(0,255)
+					hair_b = rand(0,255)
 				if("h_style")
 					h_style = random_hair_style(gender, species)
 				if("facial")
-					r_facial = rand(0,255)
-					g_facial = rand(0,255)
-					b_facial = rand(0,255)
+					facial_r = rand(0,255)
+					facial_g = rand(0,255)
+					facial_b = rand(0,255)
 				if("f_style")
 					f_style = random_facial_hair_style(gender, species)
 				if("underwear")
@@ -1062,15 +1072,19 @@ datum/preferences
 					undershirt = undershirt_t[r]
 					ShowChoices(user)
 				if("eyes")
-					r_eyes = rand(0,255)
-					g_eyes = rand(0,255)
-					b_eyes = rand(0,255)
+					eyes_r = rand(0,255)
+					eyes_g = rand(0,255)
+					eyes_b = rand(0,255)
+				if("mech_eyes")
+					mech_eyes_r = rand(0,255)
+					mech_eyes_g = rand(0,255)
+					mech_eyes_b = rand(0,255)
 				if("s_tone")
 					s_tone = random_skin_tone()
 				if("s_color")
-					r_skin = rand(0,255)
-					g_skin = rand(0,255)
-					b_skin = rand(0,255)
+					skin_r = rand(0,255)
+					skin_g = rand(0,255)
+					skin_b = rand(0,255)
 				if("bag")
 					backbag = rand(1,4)
 				/*if("skin_style")
@@ -1138,9 +1152,9 @@ datum/preferences
 							f_style = facial_hair_styles_list["Shaved"]
 
 						//reset hair colour and skin colour
-						r_hair = 0//hex2num(copytext(new_hair, 2, 4))
-						g_hair = 0//hex2num(copytext(new_hair, 4, 6))
-						b_hair = 0//hex2num(copytext(new_hair, 6, 8))
+						hair_r = 0//hex2num(copytext(new_hair, 2, 4))
+						hair_g = 0//hex2num(copytext(new_hair, 4, 6))
+						hair_b = 0//hex2num(copytext(new_hair, 6, 8))
 
 						s_tone = 0
 
@@ -1175,11 +1189,11 @@ datum/preferences
 
 				if("hair")
 					if(species == "Human" || species == "Unathi" || species == "Tajara" || species == "Skrell")
-						var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference", rgb(r_hair, g_hair, b_hair)) as color|null
+						var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference", rgb(hair_r, hair_g, hair_b)) as color|null
 						if(new_hair)
-							r_hair = hex2num(copytext(new_hair, 2, 4))
-							g_hair = hex2num(copytext(new_hair, 4, 6))
-							b_hair = hex2num(copytext(new_hair, 6, 8))
+							hair_r = hex2num(copytext(new_hair, 2, 4))
+							hair_g = hex2num(copytext(new_hair, 4, 6))
+							hair_b = hex2num(copytext(new_hair, 6, 8))
 
 				if("h_style")
 					var/list/valid_hairstyles = list()
@@ -1195,11 +1209,11 @@ datum/preferences
 						h_style = new_h_style
 
 				if("facial")
-					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference", rgb(r_facial, g_facial, b_facial)) as color|null
+					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference", rgb(facial_r, facial_g, facial_b)) as color|null
 					if(new_facial)
-						r_facial = hex2num(copytext(new_facial, 2, 4))
-						g_facial = hex2num(copytext(new_facial, 4, 6))
-						b_facial = hex2num(copytext(new_facial, 6, 8))
+						facial_r = hex2num(copytext(new_facial, 2, 4))
+						facial_g = hex2num(copytext(new_facial, 4, 6))
+						facial_b = hex2num(copytext(new_facial, 6, 8))
 
 				if("f_style")
 					var/list/valid_facialhairstyles = list()
@@ -1240,11 +1254,18 @@ datum/preferences
 					ShowChoices(user)
 
 				if("eyes")
-					var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference", rgb(r_eyes, g_eyes, b_eyes)) as color|null
+					var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference", rgb(eyes_r, eyes_g, eyes_b)) as color|null
 					if(new_eyes)
-						r_eyes = hex2num(copytext(new_eyes, 2, 4))
-						g_eyes = hex2num(copytext(new_eyes, 4, 6))
-						b_eyes = hex2num(copytext(new_eyes, 6, 8))
+						eyes_r = hex2num(copytext(new_eyes, 2, 4))
+						eyes_g = hex2num(copytext(new_eyes, 4, 6))
+						eyes_b = hex2num(copytext(new_eyes, 6, 8))
+
+				if("mech_eyes")
+					var/new_eyes = input(user, "Choose your character's mechanical eyes colour:", "Character Preference", rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b)) as color|null
+					if(new_eyes)
+						mech_eyes_r = hex2num(copytext(new_eyes, 2, 4))
+						mech_eyes_g = hex2num(copytext(new_eyes, 4, 6))
+						mech_eyes_b = hex2num(copytext(new_eyes, 6, 8))
 
 				if("s_tone")
 					if(!(species_flags & HAS_SKIN_TONE))
@@ -1255,11 +1276,11 @@ datum/preferences
 
 				if("skin")
 					if(species_flags & HAS_SKIN_COLOR)
-						var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", rgb(r_skin, g_skin, b_skin)) as color|null
+						var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", rgb(skin_r, skin_g, skin_b)) as color|null
 						if(new_skin)
-							r_skin = hex2num(copytext(new_skin, 2, 4))
-							g_skin = hex2num(copytext(new_skin, 4, 6))
-							b_skin = hex2num(copytext(new_skin, 6, 8))
+							skin_r = hex2num(copytext(new_skin, 2, 4))
+							skin_g = hex2num(copytext(new_skin, 4, 6))
+							skin_b = hex2num(copytext(new_skin, 6, 8))
 
 				if("ooccolor")
 					var/new_ooccolor = input(user, "Choose your OOC colour:", "Game Preference") as color|null
@@ -1357,6 +1378,9 @@ datum/preferences
 							organ_data[organ] = "assisted"
 						if("Mechanical")
 							organ_data[organ] = "mechanical"
+							mech_eyes_r = eyes_r
+							mech_eyes_g = eyes_g
+							mech_eyes_b = eyes_b
 
 				if("skin_style")
 					var/skin_style_name = input(user, "Select a new skin style") as null|anything in list("default1", "default2", "default3")
@@ -1515,6 +1539,7 @@ datum/preferences
 	character.flavor_texts["head"] = flavor_texts["head"]
 	character.flavor_texts["face"] = flavor_texts["face"]
 	character.flavor_texts["eyes"] = flavor_texts["eyes"]
+	character.flavor_texts["mech_eyes"] = flavor_texts["mech_eyes"]
 	character.flavor_texts["torso"] = flavor_texts["torso"]
 	character.flavor_texts["arms"] = flavor_texts["arms"]
 	character.flavor_texts["hands"] = flavor_texts["hands"]
@@ -1530,21 +1555,25 @@ datum/preferences
 	character.age = age
 	character.b_type = b_type
 
-	character.r_eyes = r_eyes
-	character.g_eyes = g_eyes
-	character.b_eyes = b_eyes
+	character.eyes_r = eyes_r
+	character.eyes_g = eyes_g
+	character.eyes_b = eyes_b
 
-	character.r_hair = r_hair
-	character.g_hair = g_hair
-	character.b_hair = b_hair
+	character.mech_eyes_r = mech_eyes_r
+	character.mech_eyes_g = mech_eyes_g
+	character.mech_eyes_b = mech_eyes_b
 
-	character.r_facial = r_facial
-	character.g_facial = g_facial
-	character.b_facial = b_facial
+	character.hair_r = hair_r
+	character.hair_g = hair_g
+	character.hair_b = hair_b
 
-	character.r_skin = r_skin
-	character.g_skin = g_skin
-	character.b_skin = b_skin
+	character.facial_r = facial_r
+	character.facial_g = facial_g
+	character.facial_b = facial_b
+
+	character.skin_r = skin_r
+	character.skin_g = skin_g
+	character.skin_b = skin_b
 
 	character.s_tone = s_tone
 

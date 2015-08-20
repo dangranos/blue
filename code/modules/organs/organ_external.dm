@@ -1051,7 +1051,7 @@ obj/item/weapon/organ/New(loc, mob/living/carbon/human/H)
 	if(base)
 		//Changing limb's skin color to match owner
 		if(!H.species || H.species.flags & HAS_SKIN_COLOR)
-			base.Blend(rgb(H.r_skin, H.g_skin, H.b_skin), ICON_ADD)
+			base.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
 
 	icon = base
 	set_dir(SOUTH)
@@ -1100,7 +1100,7 @@ obj/item/weapon/organ/head/New(loc, mob/living/carbon/human/H)
 		if(facial_hair_style)
 			var/icon/facial = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			if(facial_hair_style.do_colouration)
-				facial.Blend(rgb(H.r_facial, H.g_facial, H.b_facial), ICON_ADD)
+				facial.Blend(rgb(H.facial_r, H.facial_g, H.facial_b), ICON_ADD)
 
 			overlays.Add(facial) // icon.Blend(facial, ICON_OVERLAY)
 
@@ -1109,7 +1109,7 @@ obj/item/weapon/organ/head/New(loc, mob/living/carbon/human/H)
 		if(hair_style)
 			var/icon/hair = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
 			if(hair_style.do_colouration)
-				hair.Blend(rgb(H.r_hair, H.g_hair, H.b_hair), ICON_ADD)
+				hair.Blend(rgb(H.hair_r, H.hair_g, H.hair_b), ICON_ADD)
 
 			overlays.Add(hair) //icon.Blend(hair, ICON_OVERLAY)
 

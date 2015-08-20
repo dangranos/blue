@@ -110,21 +110,24 @@
 	S["spawnpoint"]			>> spawnpoint
 
 	//colors to be consolidated into hex strings (requires some work with dna code)
-	S["hair_red"]			>> r_hair
-	S["hair_green"]			>> g_hair
-	S["hair_blue"]			>> b_hair
-	S["facial_red"]			>> r_facial
-	S["facial_green"]		>> g_facial
-	S["facial_blue"]		>> b_facial
+	S["hair_red"]			>> hair_r
+	S["hair_green"]			>> hair_g
+	S["hair_blue"]			>> hair_b
+	S["facial_red"]			>> facial_r
+	S["facial_green"]		>> facial_g
+	S["facial_blue"]		>> facial_b
 	S["skin_tone"]			>> s_tone
-	S["skin_red"]			>> r_skin
-	S["skin_green"]			>> g_skin
-	S["skin_blue"]			>> b_skin
+	S["skin_red"]			>> skin_r
+	S["skin_green"]			>> skin_g
+	S["skin_blue"]			>> skin_b
 	S["hair_style_name"]	>> h_style
 	S["facial_style_name"]	>> f_style
-	S["eyes_red"]			>> r_eyes
-	S["eyes_green"]			>> g_eyes
-	S["eyes_blue"]			>> b_eyes
+	S["eyes_red"]			>> eyes_r
+	S["eyes_green"]			>> eyes_g
+	S["eyes_blue"]			>> eyes_b
+	S["mech_eyes_red"]		>> mech_eyes_r
+	S["mech_eyes_green"]	>> mech_eyes_g
+	S["mech_eyes_blue"]		>> mech_eyes_b
 	S["underwear"]			>> underwear
 	S["undershirt"]			>> undershirt
 	S["backbag"]			>> backbag
@@ -147,6 +150,7 @@
 	S["flavor_texts_head"]		>> flavor_texts["head"]
 	S["flavor_texts_face"]		>> flavor_texts["face"]
 	S["flavor_texts_eyes"]		>> flavor_texts["eyes"]
+	S["flavor_texts_mech_eyes"]	>> flavor_texts["mech_eyes"]
 	S["flavor_texts_torso"]		>> flavor_texts["torso"]
 	S["flavor_texts_arms"]		>> flavor_texts["arms"]
 	S["flavor_texts_hands"]		>> flavor_texts["hands"]
@@ -201,21 +205,24 @@
 	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
 	gender			= sanitize_gender(gender)
 	age				= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
-	r_hair			= sanitize_integer(r_hair, 0, 255, initial(r_hair))
-	g_hair			= sanitize_integer(g_hair, 0, 255, initial(g_hair))
-	b_hair			= sanitize_integer(b_hair, 0, 255, initial(b_hair))
-	r_facial		= sanitize_integer(r_facial, 0, 255, initial(r_facial))
-	g_facial		= sanitize_integer(g_facial, 0, 255, initial(g_facial))
-	b_facial		= sanitize_integer(b_facial, 0, 255, initial(b_facial))
+	hair_r			= sanitize_integer(hair_r, 0, 255, initial(hair_r))
+	hair_g			= sanitize_integer(hair_g, 0, 255, initial(hair_g))
+	hair_b			= sanitize_integer(hair_b, 0, 255, initial(hair_b))
+	facial_r		= sanitize_integer(facial_r, 0, 255, initial(facial_r))
+	facial_g		= sanitize_integer(facial_g, 0, 255, initial(facial_g))
+	facial_b		= sanitize_integer(facial_b, 0, 255, initial(facial_b))
 	s_tone			= sanitize_integer(s_tone, -185, 34, initial(s_tone))
-	r_skin			= sanitize_integer(r_skin, 0, 255, initial(r_skin))
-	g_skin			= sanitize_integer(g_skin, 0, 255, initial(g_skin))
-	b_skin			= sanitize_integer(b_skin, 0, 255, initial(b_skin))
+	skin_r			= sanitize_integer(skin_r, 0, 255, initial(skin_r))
+	skin_g			= sanitize_integer(skin_g, 0, 255, initial(skin_g))
+	skin_b			= sanitize_integer(skin_b, 0, 255, initial(skin_b))
 	h_style			= sanitize_inlist(h_style, hair_styles_list, initial(h_style))
 	f_style			= sanitize_inlist(f_style, facial_hair_styles_list, initial(f_style))
-	r_eyes			= sanitize_integer(r_eyes, 0, 255, initial(r_eyes))
-	g_eyes			= sanitize_integer(g_eyes, 0, 255, initial(g_eyes))
-	b_eyes			= sanitize_integer(b_eyes, 0, 255, initial(b_eyes))
+	eyes_r			= sanitize_integer(eyes_r, 0, 255, initial(eyes_r))
+	eyes_g			= sanitize_integer(eyes_g, 0, 255, initial(eyes_g))
+	eyes_b			= sanitize_integer(eyes_b, 0, 255, initial(eyes_b))
+	mech_eyes_r		= sanitize_integer(mech_eyes_r, 0, 255, initial(mech_eyes_r))
+	mech_eyes_g		= sanitize_integer(mech_eyes_g, 0, 255, initial(mech_eyes_g))
+	mech_eyes_b		= sanitize_integer(mech_eyes_b, 0, 255, initial(mech_eyes_b))
 	backbag			= sanitize_integer(backbag, 1, backbaglist.len, initial(backbag))
 	b_type			= sanitize_text(b_type, initial(b_type))
 
@@ -256,21 +263,24 @@
 	S["age"]				<< age
 	S["species"]			<< species
 	S["language"]			<< language
-	S["hair_red"]			<< r_hair
-	S["hair_green"]			<< g_hair
-	S["hair_blue"]			<< b_hair
-	S["facial_red"]			<< r_facial
-	S["facial_green"]		<< g_facial
-	S["facial_blue"]		<< b_facial
+	S["hair_red"]			<< hair_r
+	S["hair_green"]			<< hair_g
+	S["hair_blue"]			<< hair_b
+	S["facial_red"]			<< facial_r
+	S["facial_green"]		<< facial_g
+	S["facial_blue"]		<< facial_b
 	S["skin_tone"]			<< s_tone
-	S["skin_red"]			<< r_skin
-	S["skin_green"]			<< g_skin
-	S["skin_blue"]			<< b_skin
+	S["skin_red"]			<< skin_r
+	S["skin_green"]			<< skin_g
+	S["skin_blue"]			<< skin_b
 	S["hair_style_name"]	<< h_style
 	S["facial_style_name"]	<< f_style
-	S["eyes_red"]			<< r_eyes
-	S["eyes_green"]			<< g_eyes
-	S["eyes_blue"]			<< b_eyes
+	S["eyes_red"]			<< eyes_r
+	S["eyes_green"]			<< eyes_g
+	S["eyes_blue"]			<< eyes_b
+	S["mech_eyes_red"]		<< mech_eyes_r
+	S["mech_eyes_green"]	<< mech_eyes_g
+	S["mech_eyes_blue"]		<< mech_eyes_b
 	S["underwear"]			<< underwear
 	S["undershirt"]			<< undershirt
 	S["backbag"]			<< backbag
@@ -294,6 +304,7 @@
 	S["flavor_texts_head"]		<< flavor_texts["head"]
 	S["flavor_texts_face"]		<< flavor_texts["face"]
 	S["flavor_texts_eyes"]		<< flavor_texts["eyes"]
+	S["flavor_texts_mech_eyes"]	<< flavor_texts["mech_eyes"]
 	S["flavor_texts_torso"]		<< flavor_texts["torso"]
 	S["flavor_texts_arms"]		<< flavor_texts["arms"]
 	S["flavor_texts_hands"]		<< flavor_texts["hands"]
