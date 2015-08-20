@@ -96,7 +96,7 @@
 /obj/machinery/conveyor/attackby(var/obj/item/I, mob/user)
 	if(isrobot(user))	return //Carn: fix for borgs dropping their modules on conveyor belts
 	if(I.loc != user)	return // This should stop mounted modules ending up outside the module.
-		
+
 	user.drop_item(src)
 	return
 
