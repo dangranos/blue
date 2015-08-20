@@ -113,11 +113,11 @@
 /obj/item/clothing/accessory/holster/waist
 	name = "waist holster"
 	desc = "A handgun holster. Made of expensive leather."
-	icon_state = "holster"
-	item_color = "holster_low"
+	icon_state = "holster_waist"
+	item_color = "holster_waist"
 
 /obj/item/clothing/accessory/holster/hip
 	name = "hip holster"
 	desc = "A handgun holster slung low on the hip, draw pardner!"
 	icon_state = "holster_hip"
-	item_color = "holster_hip"
+	item_color = "holster_leg"

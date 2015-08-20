@@ -73,6 +73,7 @@ datum/preferences
 	var/g_eyes = 0						//Eye color
 	var/b_eyes = 0						//Eye color
 	var/species = "Human"               //Species datum to use.
+	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
 	var/species_preview                 //Used for the species selection window.
 	var/language = "None"				//Secondary language
 	var/list/gear						//Custom/fluff item loadout.
@@ -136,6 +137,8 @@ datum/preferences
 					return
 	gender = pick(MALE, FEMALE)
 	real_name = random_name(gender,species)
+	var/datum/species/current_species = all_species[species_preview]
+	species_flags = current_species.flags
 
 	gear = list()
 
@@ -212,7 +215,8 @@ datum/preferences
 	dat += "Species: <a href='?src=\ref[user];preference=species;task=change'>[species]</a><br>"
 	dat += "Secondary Language:<br><a href='byond://?src=\ref[user];preference=language;task=input'>[language]</a><br>"
 	dat += "Blood Type: <a href='byond://?src=\ref[user];preference=b_type;task=input'>[b_type]</a><br>"
-	dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
+	if(species_flags & HAS_SKIN_TONE)
+		dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
 	//dat += "Skin pattern: <a href='byond://?src=\ref[user];preference=skin_style;task=input'>Adjust</a><br>"
 	dat += "Needs Glasses: <a href='?_src_=prefs;preference=disabilities'><b>[disabilities == 0 ? "No" : "Yes"]</b></a><br>"
 	dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=input'>Adjust</a><br>"
@@ -317,8 +321,9 @@ datum/preferences
 	dat += "<br><b>Eyes</b><br>"
 	dat += "<a href='?_src_=prefs;preference=eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(r_eyes, 2)][num2hex(g_eyes, 2)][num2hex(b_eyes, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(r_eyes, 2)][num2hex(g_eyes, 2)][num2hex(b_eyes)]'><tr><td>__</td></tr></table></font><br>"
 
-	dat += "<br><b>Body Color</b><br>"
-	dat += "<a href='?_src_=prefs;preference=skin;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(r_skin, 2)][num2hex(g_skin, 2)][num2hex(b_skin, 2)]'><table style='display:inline;' bgcolor='#[num2hex(r_skin, 2)][num2hex(g_skin, 2)][num2hex(b_skin)]'><tr><td>__</td></tr></table></font>"
+	if(species_flags & HAS_SKIN_COLOR)
+		dat += "<br><b>Body Color</b><br>"
+		dat += "<a href='?_src_=prefs;preference=skin;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(r_skin, 2)][num2hex(g_skin, 2)][num2hex(b_skin, 2)]'><table style='display:inline;' bgcolor='#[num2hex(r_skin, 2)][num2hex(g_skin, 2)][num2hex(b_skin)]'><tr><td>__</td></tr></table></font>"
 
 	dat += "<br><br><b>Background Information</b><br>"
 	dat += "<b>Home system</b>: <a href='byond://?src=\ref[user];preference=home_system;task=input'>[home_system]</a><br/>"
@@ -587,31 +592,31 @@ datum/preferences
 	HTML += "<b>Set Flavour Text</b> <hr />"
 	HTML += "<br></center>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=general'>General:</a> "
-	HTML += TextPreview(flavor_texts["general"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["general"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=head'>Head:</a> "
-	HTML += TextPreview(flavor_texts["head"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["head"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=face'>Face:</a> "
-	HTML += TextPreview(flavor_texts["face"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["face"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=eyes'>Eyes:</a> "
-	HTML += TextPreview(flavor_texts["eyes"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["eyes"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=torso'>Body:</a> "
-	HTML += TextPreview(flavor_texts["torso"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["torso"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=arms'>Arms:</a> "
-	HTML += TextPreview(flavor_texts["arms"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["arms"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=hands'>Hands:</a> "
-	HTML += TextPreview(flavor_texts["hands"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["hands"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=legs'>Legs:</a> "
-	HTML += TextPreview(flavor_texts["legs"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["legs"]))
 	HTML += "<br>"
 	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=feet'>Feet:</a> "
-	HTML += TextPreview(flavor_texts["feet"])
+	HTML += TextPreview(cp1251_to_utf8(flavor_texts["feet"]))
 	HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[user];preference=flavor_text;task=done'>\[Done\]</a>"
@@ -626,11 +631,11 @@ datum/preferences
 	HTML += "<b>Set Robot Flavour Text</b> <hr />"
 	HTML += "<br></center>"
 	HTML += "<a href ='byond://?src=\ref[user];preference=flavour_text_robot;task=Default'>Default:</a> "
-	HTML += TextPreview(flavour_texts_robot["Default"])
+	HTML += TextPreview(cp1251_to_utf8(flavour_texts_robot["Default"]))
 	HTML += "<hr />"
 	for(var/module in robot_module_types)
 		HTML += "<a href='byond://?src=\ref[user];preference=flavour_text_robot;task=[module]'>[module]:</a> "
-		HTML += TextPreview(flavour_texts_robot[module])
+		HTML += TextPreview(cp1251_to_utf8(flavour_texts_robot[module]))
 		HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[user];preference=flavour_text_robot;task=done'>\[Done\]</a>"
@@ -1093,6 +1098,8 @@ datum/preferences
 					var/prev_species = species
 					species = href_list["newspecies"]
 					if(prev_species != species)
+						var/datum/species/current_species = all_species[species_preview]
+						species_flags = current_species.flags
 						//grab one of the valid hair styles for the newly chosen species
 						var/list/valid_hairstyles = list()
 						for(var/hairstyle in hair_styles_list)
@@ -1240,14 +1247,14 @@ datum/preferences
 						b_eyes = hex2num(copytext(new_eyes, 6, 8))
 
 				if("s_tone")
-					if(species != "Human")
+					if(!(species_flags & HAS_SKIN_TONE))
 						return
 					var/new_s_tone = input(user, "Choose your character's skin-tone:\n(Light 1 - 220 Dark)", "Character Preference")  as num|null
 					if(new_s_tone)
 						s_tone = 35 - max(min( round(new_s_tone), 220),1)
 
 				if("skin")
-					if(species == "Unathi" || species == "Tajara" || species == "Skrell")
+					if(species_flags & HAS_SKIN_COLOR)
 						var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", rgb(r_skin, g_skin, b_skin)) as color|null
 						if(new_skin)
 							r_skin = hex2num(copytext(new_skin, 2, 4))
