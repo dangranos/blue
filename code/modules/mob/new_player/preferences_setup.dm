@@ -12,6 +12,7 @@ datum/preferences
 		randomize_hair_color("hair")
 		randomize_hair_color("facial")
 		randomize_eyes_color()
+		randomize_mech_eyes_color()
 		randomize_skin_color()
 		underwear = rand(1,underwear_m.len)
 		undershirt = rand(1,undershirt_t.len)
@@ -20,163 +21,90 @@ datum/preferences
 		if(H)
 			copy_to(H,1)
 
+	proc/get_random_color()
 
-	proc/randomize_hair_color(var/target = "hair")
-		if(prob (75) && target == "facial") // Chance to inherit hair color
-			r_facial = r_hair
-			g_facial = g_hair
-			b_facial = b_hair
-			return
-
-		var/red
-		var/green
-		var/blue
+		var/list/color_pack = list ("red" = 0, "blue" = 0, "green" = 0)
 
 		var/col = pick ("blonde", "black", "chestnut", "copper", "brown", "wheat", "old", "punk")
 		switch(col)
 			if("blonde")
-				red = 255
-				green = 255
-				blue = 0
+				color_pack["red"] = 255
+				color_pack["green"] = 255
+				color_pack["blue"] = 0
 			if("black")
-				red = 0
-				green = 0
-				blue = 0
+				color_pack["red"] = 0
+				color_pack["green"] = 0
+				color_pack["blue"] = 0
 			if("chestnut")
-				red = 153
-				green = 102
-				blue = 51
+				color_pack["red"] = 153
+				color_pack["green"] = 102
+				color_pack["blue"] = 51
 			if("copper")
-				red = 255
-				green = 153
-				blue = 0
+				color_pack["red"] = 255
+				color_pack["green"] = 153
+				color_pack["blue"] = 0
 			if("brown")
-				red = 102
-				green = 51
-				blue = 0
+				color_pack["red"] = 102
+				color_pack["green"] = 51
+				color_pack["blue"] = 0
 			if("wheat")
-				red = 255
-				green = 255
-				blue = 153
+				color_pack["red"] = 255
+				color_pack["green"] = 255
+				color_pack["blue"] = 153
 			if("old")
-				red = rand (100, 255)
-				green = red
-				blue = red
+				color_pack["red"] = rand (100, 255)
+				color_pack["green"] = color_pack["red"]
+				color_pack["blue"] = color_pack["red"]
 			if("punk")
-				red = rand (0, 255)
-				green = rand (0, 255)
-				blue = rand (0, 255)
+				color_pack["red"] = rand (0, 255)
+				color_pack["green"] = rand (0, 255)
+				color_pack["blue"] = rand (0, 255)
 
-		red = max(min(red + rand (-25, 25), 255), 0)
-		green = max(min(green + rand (-25, 25), 255), 0)
-		blue = max(min(blue + rand (-25, 25), 255), 0)
+		color_pack["red"] = max(min(color_pack["red"] + rand (-25, 25), 255), 0)
+		color_pack["green"] = max(min(color_pack["green"] + rand (-25, 25), 255), 0)
+		color_pack["blue"] = max(min(color_pack["blue"] + rand (-25, 25), 255), 0)
+
+		return color_pack
+
+	proc/randomize_hair_color(var/target = "hair")
+		if(prob (75) && target == "facial") // Chance to inherit hair color
+			facial_r = hair_r
+			facial_g = hair_g
+			facial_b = hair_b
+			return
+
+		var/colors = get_random_color()
 
 		switch(target)
 			if("hair")
-				r_hair = red
-				g_hair = green
-				b_hair = blue
+				hair_r = colors["red"]
+				hair_g = colors["green"]
+				hair_b = colors["blue"]
 			if("facial")
-				r_facial = red
-				g_facial = green
-				b_facial = blue
+				facial_r = colors["red"]
+				facial_g = colors["green"]
+				facial_b = colors["blue"]
 
 	proc/randomize_eyes_color()
-		var/red
-		var/green
-		var/blue
+		var/colors = get_random_color()
 
-		var/col = pick ("black", "grey", "brown", "chestnut", "blue", "lightblue", "green", "albino")
-		switch(col)
-			if("black")
-				red = 0
-				green = 0
-				blue = 0
-			if("grey")
-				red = rand (100, 200)
-				green = red
-				blue = red
-			if("brown")
-				red = 102
-				green = 51
-				blue = 0
-			if("chestnut")
-				red = 153
-				green = 102
-				blue = 0
-			if("blue")
-				red = 51
-				green = 102
-				blue = 204
-			if("lightblue")
-				red = 102
-				green = 204
-				blue = 255
-			if("green")
-				red = 0
-				green = 102
-				blue = 0
-			if("albino")
-				red = rand (200, 255)
-				green = rand (0, 150)
-				blue = rand (0, 150)
+		eyes_r = colors["red"]
+		eyes_g = colors["green"]
+		eyes_b = colors["blue"]
 
-		red = max(min(red + rand (-25, 25), 255), 0)
-		green = max(min(green + rand (-25, 25), 255), 0)
-		blue = max(min(blue + rand (-25, 25), 255), 0)
+	proc/randomize_mech_eyes_color()
+		var/colors = get_random_color()
 
-		r_eyes = red
-		g_eyes = green
-		b_eyes = blue
+		mech_eyes_r = colors["red"]
+		mech_eyes_g = colors["green"]
+		mech_eyes_b = colors["blue"]
 
 	proc/randomize_skin_color()
-		var/red
-		var/green
-		var/blue
+		var/colors = get_random_color()
 
-		var/col = pick ("black", "grey", "brown", "chestnut", "blue", "lightblue", "green", "albino")
-		switch(col)
-			if("black")
-				red = 0
-				green = 0
-				blue = 0
-			if("grey")
-				red = rand (100, 200)
-				green = red
-				blue = red
-			if("brown")
-				red = 102
-				green = 51
-				blue = 0
-			if("chestnut")
-				red = 153
-				green = 102
-				blue = 0
-			if("blue")
-				red = 51
-				green = 102
-				blue = 204
-			if("lightblue")
-				red = 102
-				green = 204
-				blue = 255
-			if("green")
-				red = 0
-				green = 102
-				blue = 0
-			if("albino")
-				red = rand (200, 255)
-				green = rand (0, 150)
-				blue = rand (0, 150)
-
-		red = max(min(red + rand (-25, 25), 255), 0)
-		green = max(min(green + rand (-25, 25), 255), 0)
-		blue = max(min(blue + rand (-25, 25), 255), 0)
-
-		r_skin = red
-		g_skin = green
-		b_skin = blue
-
+		skin_r = colors["red"]
+		skin_g = colors["green"]
+		skin_b = colors["blue"]
 
 	proc/update_preview_icon()		//seriously. This is horrendous.
 		del(preview_icon_front)
@@ -214,7 +142,7 @@ datum/preferences
 
 		// Skin color
 		if(current_species && (current_species.flags & HAS_SKIN_COLOR))
-			preview_icon.Blend(rgb(r_skin, g_skin, b_skin), ICON_ADD)
+			preview_icon.Blend(rgb(skin_r, skin_g, skin_b), ICON_ADD)
 
 		// Skin tone
 		if(current_species && (current_species.flags & HAS_SKIN_TONE))
@@ -223,20 +151,25 @@ datum/preferences
 			else
 				preview_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
 
+		// Eyes color
 		var/icon/eyes_s = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = current_species ? current_species.eyes : "eyes_s")
 		if ((current_species && (current_species.flags & HAS_EYE_COLOR)))
-			eyes_s.Blend(rgb(r_eyes, g_eyes, b_eyes), ICON_ADD)
+			if( organ_data["eyes"] == "mechanical" )
+				eyes_s.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
+			else
+				eyes_s.Blend(rgb(eyes_r, eyes_g, eyes_b), ICON_ADD)
 
+		// Hair Style'n'Color
 		var/datum/sprite_accessory/hair_style = hair_styles_list[h_style]
 		if(hair_style)
 			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
-			hair_s.Blend(rgb(r_hair, g_hair, b_hair), ICON_ADD)
+			hair_s.Blend(rgb(hair_r, hair_g, hair_b), ICON_ADD)
 			eyes_s.Blend(hair_s, ICON_OVERLAY)
 
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[f_style]
 		if(facial_hair_style)
 			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
-			facial_s.Blend(rgb(r_facial, g_facial, b_facial), ICON_ADD)
+			facial_s.Blend(rgb(facial_r, facial_g, facial_b), ICON_ADD)
 			eyes_s.Blend(facial_s, ICON_OVERLAY)
 
 		var/icon/underwear_s = null

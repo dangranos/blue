@@ -33,16 +33,16 @@
 			if(index)
 				beard = index * f_hrange - rand(1,f_hrange-1)
 
-			temp = add_zero2(num2hex((character.r_hair),1), 3)
-			temp += add_zero2(num2hex((character.b_hair),1), 3)
-			temp += add_zero2(num2hex((character.g_hair),1), 3)
-			temp += add_zero2(num2hex((character.r_facial),1), 3)
-			temp += add_zero2(num2hex((character.b_facial),1), 3)
-			temp += add_zero2(num2hex((character.g_facial),1), 3)
+			temp = add_zero2(num2hex((character.hair_r),1), 3)
+			temp += add_zero2(num2hex((character.hair_b),1), 3)
+			temp += add_zero2(num2hex((character.hair_g),1), 3)
+			temp += add_zero2(num2hex((character.facial_r),1), 3)
+			temp += add_zero2(num2hex((character.facial_b),1), 3)
+			temp += add_zero2(num2hex((character.facial_g),1), 3)
 			temp += add_zero2(num2hex(((character.s_tone + 220) * 16),1), 3)
-			temp += add_zero2(num2hex((character.r_eyes),1), 3)
-			temp += add_zero2(num2hex((character.g_eyes),1), 3)
-			temp += add_zero2(num2hex((character.b_eyes),1), 3)
+			temp += add_zero2(num2hex((character.eyes_r),1), 3)
+			temp += add_zero2(num2hex((character.eyes_g),1), 3)
+			temp += add_zero2(num2hex((character.eyes_b),1), 3)
 
 			var/gender
 
@@ -91,16 +91,16 @@
 	if(index)
 		beard = index * f_hrange - rand(1,f_hrange-1)
 
-	temp = add_zero2(num2hex((character.r_hair),1), 3)
-	temp += add_zero2(num2hex((character.b_hair),1), 3)
-	temp += add_zero2(num2hex((character.g_hair),1), 3)
-	temp += add_zero2(num2hex((character.r_facial),1), 3)
-	temp += add_zero2(num2hex((character.b_facial),1), 3)
-	temp += add_zero2(num2hex((character.g_facial),1), 3)
+	temp = add_zero2(num2hex((character.hair_r),1), 3)
+	temp += add_zero2(num2hex((character.hair_b),1), 3)
+	temp += add_zero2(num2hex((character.hair_g),1), 3)
+	temp += add_zero2(num2hex((character.facial_r),1), 3)
+	temp += add_zero2(num2hex((character.facial_b),1), 3)
+	temp += add_zero2(num2hex((character.facial_g),1), 3)
 	temp += add_zero2(num2hex(((character.s_tone + 220) * 16),1), 3)
-	temp += add_zero2(num2hex((character.r_eyes),1), 3)
-	temp += add_zero2(num2hex((character.g_eyes),1), 3)
-	temp += add_zero2(num2hex((character.b_eyes),1), 3)
+	temp += add_zero2(num2hex((character.eyes_r),1), 3)
+	temp += add_zero2(num2hex((character.eyes_g),1), 3)
+	temp += add_zero2(num2hex((character.eyes_b),1), 3)
 
 	var/gender
 
