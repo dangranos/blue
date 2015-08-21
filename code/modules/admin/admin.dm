@@ -873,7 +873,6 @@
 	set desc="Reboots the server post haste"
 	set name="Immediate Reboot"
 	if(!usr.client.holder)	return
-
 	if( alert("Reboot server?",,"Yes","No") == "No")
 		return
 	world << "\red <b>Rebooting world!</b> \blue Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key]!"

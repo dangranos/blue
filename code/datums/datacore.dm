@@ -177,24 +177,29 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	// Skin color
 	if(H.species.flags & HAS_SKIN_TONE)
 		if(!H.species || H.species.flags & HAS_SKIN_COLOR)
-			preview_icon.Blend(rgb(H.r_skin, H.g_skin, H.b_skin), ICON_ADD)
+			preview_icon.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
 
-	var/icon/eyes_s = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? H.species.eyes : "eyes_s")
+	var/icon/eyes = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? H.species.eyes : "eyes_s")
 
 	if (H.species.flags & HAS_EYE_COLOR)
-		eyes_s.Blend(rgb(H.r_eyes, H.g_eyes, H.b_eyes), ICON_ADD)
+		var/datum/organ/internal/eyes/E = H.internal_organs_by_name["eyes"]
+		if( E )
+			if( E.robotic >= 2 )
+				eyes.Blend(rgb(H.mech_eyes_r, H.mech_eyes_g, H.mech_eyes_b), ICON_ADD)
+			else
+				eyes.Blend(rgb(H.eyes_r, H.eyes_g, H.eyes_b), ICON_ADD)
 
 	var/datum/sprite_accessory/hair_style = hair_styles_list[H.h_style]
 	if(hair_style)
 		var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
-		hair_s.Blend(rgb(H.r_hair, H.g_hair, H.b_hair), ICON_ADD)
-		eyes_s.Blend(hair_s, ICON_OVERLAY)
+		hair_s.Blend(rgb(H.hair_r, H.hair_g, H.hair_b), ICON_ADD)
+		eyes.Blend(hair_s, ICON_OVERLAY)
 
 	var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[H.f_style]
 	if(facial_hair_style)
 		var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
-		facial_s.Blend(rgb(H.r_facial, H.g_facial, H.b_facial), ICON_ADD)
-		eyes_s.Blend(facial_s, ICON_OVERLAY)
+		facial_s.Blend(rgb(H.facial_r, H.facial_g, H.facial_b), ICON_ADD)
+		eyes.Blend(facial_s, ICON_OVERLAY)
 
 	var/icon/clothes_s = null
 	switch(H.mind.assigned_role)
@@ -294,10 +299,10 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 		else
 			clothes_s = new /icon('icons/mob/uniform.dmi', "grey_s")
 			clothes_s.Blend(new /icon('icons/mob/feet.dmi', "black"), ICON_UNDERLAY)
-	preview_icon.Blend(eyes_s, ICON_OVERLAY)
+	preview_icon.Blend(eyes, ICON_OVERLAY)
 	if(clothes_s)
 		preview_icon.Blend(clothes_s, ICON_OVERLAY)
-	del(eyes_s)
+	del(eyes)
 	del(clothes_s)
 
 	return preview_icon
