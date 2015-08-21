@@ -26,7 +26,7 @@
 		restricted_jobs += protected_jobs
 
 	var/num_players = num_players()
-	max_headrevs = max(num_players / 4, 3)
+	max_headrevs = min(num_players / 4, 3)
 	recommended_enemies = max_headrevs
 
 	var/list/datum/mind/possible_headrevs = get_players_for_role(BE_REV)
@@ -38,9 +38,8 @@
 			break
 
 	for(var/datum/mind/player in possible_headrevs)
-		for(var/job in restricted_jobs)//Removing heads and such from the list
-			if(player.assigned_role == job)
-				possible_headrevs -= player
+		if(player.assigned_role in restricted_jobs) //Removing heads and such from the list
+			possible_headrevs -= player
 
 	for (var/i=1 to max_headrevs)
 		if (possible_headrevs.len==0)
@@ -71,7 +70,7 @@
 	for(var/datum/mind/rev_mind in head_revolutionaries)
 		greet_revolutionary(rev_mind)
 		rev_mind.current.verbs += /mob/living/carbon/human/proc/RevConvert
-		equip_traitor(rev_mind.current, 1) //changing how revs get assigned their uplink so they can get PDA uplinks. --NEO
+//		equip_traitor(rev_mind.current, 1) //changing how revs get assigned their uplink so they can get PDA uplinks. --NEO
 
 	modePlayer += head_revolutionaries
 	spawn (rand(waittime_l, waittime_h))
