@@ -439,9 +439,9 @@ var/list/sacrificed = list()
 			D.universal_speak = 1
 			D.status_flags &= ~GODMODE
 			D.s_tone = 35
-			D.b_eyes = 200
-			D.r_eyes = 200
-			D.g_eyes = 200
+			D.eyes_b = 200
+			D.eyes_r = 200
+			D.eyes_g = 200
 			D.underwear = 0
 
 			D.key = ghost.key

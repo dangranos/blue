@@ -362,14 +362,16 @@ proc/get_damage_icon_part(damage_state, body_part)
 
 	//Skin colour. Not in cache because highly variable (and relatively benign).
 	if (species.flags & HAS_SKIN_COLOR)
-		stand_icon.Blend(rgb(r_skin, g_skin, b_skin), ICON_ADD)
+		stand_icon.Blend(rgb(skin_r, skin_g, skin_b), ICON_ADD)
 
 	if(has_head)
 		//Eyes
 		if(!skeleton)
 			var/icon/eyes = new/icon('icons/mob/human_face.dmi', species.eyes)
 			if (species.flags & HAS_EYE_COLOR)
-				eyes.Blend(rgb(r_eyes, g_eyes, b_eyes), ICON_ADD)
+				var/datum/organ/internal/eyes/E = src.internal_organs_by_name["eyes"]
+				if( E.robotic >= 2 ) 	eyes.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
+				else 					eyes.Blend(rgb(eyes_r, eyes_g, eyes_b), ICON_ADD)
 			stand_icon.Blend(eyes, ICON_OVERLAY)
 
 		//Mouth	(lipstick!)
@@ -412,7 +414,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		if(facial_hair_style && facial_hair_style.species_allowed && (src.species.name in facial_hair_style.species_allowed))
 			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			if(facial_hair_style.do_colouration)
-				facial_s.Blend(rgb(r_facial, g_facial, b_facial), ICON_ADD)
+				facial_s.Blend(rgb(facial_r, facial_g, facial_b), ICON_ADD)
 
 			face_standing.Blend(facial_s, ICON_OVERLAY)
 
@@ -421,7 +423,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		if(hair_style && src.species.name in hair_style.species_allowed)
 			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
 			if(hair_style.do_colouration)
-				hair_s.Blend(rgb(r_hair, g_hair, b_hair), ICON_ADD)
+				hair_s.Blend(rgb(hair_r, hair_g, hair_b), ICON_ADD)
 
 			face_standing.Blend(hair_s, ICON_OVERLAY)
 
@@ -686,7 +688,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 /mob/living/carbon/human/update_inv_head(var/update_icons=1)
 	if(head)
 		head.screen_loc = ui_head		//TODO
-		
+
 		//Determine the icon to use
 		var/t_icon = INV_HEAD_DEF_ICON
 		if(head.icon_override)
@@ -695,17 +697,17 @@ proc/get_damage_icon_part(damage_state, body_part)
 			t_icon = head.sprite_sheets[species.name]
 		else if(head.item_icons && (icon_head in head.item_icons))
 			t_icon = head.item_icons[icon_head]
-		
+
 		//Determine the state to use
 		var/t_state = head.icon_state
 		if(istype(head, /obj/item/weapon/paper))
 			/* I don't like this, but bandaid to fix half the hats in the game
 			   being completely broken without re-breaking paper hats */
 			t_state = "paper"
-		
+
 		//Create the image
 		var/image/standing = image(icon = t_icon, icon_state = t_state)
-		
+
 		if(head.blood_DNA)
 			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "helmetblood")
 			bloodsies.color = head.blood_color
@@ -786,6 +788,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 
 	if(update_icons)   update_icons()
 
+
 /mob/living/carbon/human/update_inv_pockets(var/update_icons=1)
 	if(l_store)			l_store.screen_loc = ui_storage1	//TODO
 	if(r_store)			r_store.screen_loc = ui_storage2	//TODO
@@ -865,11 +868,11 @@ proc/get_damage_icon_part(damage_state, body_part)
 /mob/living/carbon/human/update_inv_r_hand(var/update_icons=1)
 	if(r_hand)
 		r_hand.screen_loc = ui_rhand	//TODO
-		
+
 		var/t_icon = INV_R_HAND_DEF_ICON
 		if(r_hand.item_icons && (icon_r_hand in r_hand.item_icons))
 			t_icon = r_hand.item_icons[icon_r_hand]
-		
+
 		var/t_state = r_hand.item_state //useful for clothing that changes icon_state but retains the same sprite on the mob when held in hand
 		if(!t_state)	t_state = r_hand.icon_state
 		if(r_hand.icon_override)
@@ -881,18 +884,18 @@ proc/get_damage_icon_part(damage_state, body_part)
 		if (handcuffed) drop_r_hand()
 	else
 		overlays_standing[R_HAND_LAYER] = null
-	
+
 	if(update_icons) update_icons()
 
 
 /mob/living/carbon/human/update_inv_l_hand(var/update_icons=1)
 	if(l_hand)
 		l_hand.screen_loc = ui_lhand	//TODO
-		
+
 		var/t_icon = INV_L_HAND_DEF_ICON
 		if(l_hand.item_icons && (icon_l_hand in l_hand.item_icons))
 			t_icon = l_hand.item_icons[icon_l_hand]
-		
+
 		var/t_state = l_hand.item_state //useful for clothing that changes icon_state but retains the same sprite on the mob when held in hand
 		if(!t_state)	t_state = l_hand.icon_state
 		if(l_hand.icon_override)
@@ -904,7 +907,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		if (handcuffed) drop_l_hand()
 	else
 		overlays_standing[L_HAND_LAYER] = null
-	
+
 	if(update_icons) update_icons()
 
 /mob/living/carbon/human/proc/update_tail_showing(var/update_icons=1)
@@ -913,7 +916,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 	if(species.tail)
 		if(!wear_suit || !(wear_suit.flags_inv & HIDETAIL) && !istype(wear_suit, /obj/item/clothing/suit/space))
 			var/icon/tail_s = new/icon("icon" = 'icons/effects/species.dmi', "icon_state" = "[species.tail]_s")
-			tail_s.Blend(rgb(r_skin, g_skin, b_skin), ICON_ADD)
+			tail_s.Blend(rgb(skin_r, skin_g, skin_b), ICON_ADD)
 
 			overlays_standing[TAIL_LAYER]	= image(tail_s)
 
@@ -966,20 +969,27 @@ proc/get_damage_icon_part(damage_state, body_part)
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[f_style]
 		if(facial_hair_style)
 			var/icon/facial_l = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_l")
-			facial_l.Blend(rgb(r_facial, g_facial, b_facial), ICON_ADD)
+			facial_l.Blend(rgb(facial_r, facial_g, facial_b), ICON_ADD)
 			face_lying.Blend(facial_l, ICON_OVERLAY)
 
 	if(h_style)
 		var/datum/sprite_accessory/hair_style = hair_styles_list[h_style]
 		if(hair_style)
 			var/icon/hair_l = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_l")
-			hair_l.Blend(rgb(r_hair, g_hair, b_hair), ICON_ADD)
+			hair_l.Blend(rgb(hair_r, hair_g, hair_b), ICON_ADD)
 			face_lying.Blend(hair_l, ICON_OVERLAY)
 
 	//Eyes
 	// Note: These used to be in update_face(), and the fact they're here will make it difficult to create a disembodied head
 	var/icon/eyes_l = new/icon('icons/mob/human_face.dmi', "eyes_l")
-	eyes_l.Blend(rgb(r_eyes, g_eyes, b_eyes), ICON_ADD)
+	var/datum/organ/internal/eyes/E = src.internal_organs_by_name["eyes"]
+	if( E )
+		if( E.robotic >= 2 )
+			eyes_l.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
+		else
+			eyes_l.Blend(rgb(eyes_r, eyes_g, eyes_b), ICON_ADD)
+	else
+		eyes_l.Blend(rgb(128, 0, 0), ICON_ADD)
 	face_lying.Blend(eyes_l, ICON_OVERLAY)
 
 	if(lip_style)

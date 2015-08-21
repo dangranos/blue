@@ -782,23 +782,23 @@
 		src.verbs -= /mob/living/carbon/human/proc/morph
 		return
 
-	var/new_facial = input("Please select facial hair color.", "Character Generation",rgb(r_facial,g_facial,b_facial)) as color
+	var/new_facial = input("Please select facial hair color.", "Character Generation",rgb(facial_r,facial_g,facial_b)) as color
 	if(new_facial)
-		r_facial = hex2num(copytext(new_facial, 2, 4))
-		g_facial = hex2num(copytext(new_facial, 4, 6))
-		b_facial = hex2num(copytext(new_facial, 6, 8))
+		facial_r = hex2num(copytext(new_facial, 2, 4))
+		facial_g = hex2num(copytext(new_facial, 4, 6))
+		facial_b = hex2num(copytext(new_facial, 6, 8))
 
-	var/new_hair = input("Please select hair color.", "Character Generation",rgb(r_hair,g_hair,b_hair)) as color
+	var/new_hair = input("Please select hair color.", "Character Generation",rgb(hair_r,hair_g,hair_b)) as color
 	if(new_facial)
-		r_hair = hex2num(copytext(new_hair, 2, 4))
-		g_hair = hex2num(copytext(new_hair, 4, 6))
-		b_hair = hex2num(copytext(new_hair, 6, 8))
+		hair_r = hex2num(copytext(new_hair, 2, 4))
+		hair_g = hex2num(copytext(new_hair, 4, 6))
+		hair_b = hex2num(copytext(new_hair, 6, 8))
 
-	var/new_eyes = input("Please select eye color.", "Character Generation",rgb(r_eyes,g_eyes,b_eyes)) as color
+	var/new_eyes = input("Please select eye color.", "Character Generation",rgb(eyes_r,eyes_g,eyes_b)) as color
 	if(new_eyes)
-		r_eyes = hex2num(copytext(new_eyes, 2, 4))
-		g_eyes = hex2num(copytext(new_eyes, 4, 6))
-		b_eyes = hex2num(copytext(new_eyes, 6, 8))
+		eyes_r = hex2num(copytext(new_eyes, 2, 4))
+		eyes_g = hex2num(copytext(new_eyes, 4, 6))
+		eyes_b = hex2num(copytext(new_eyes, 6, 8))
 
 	var/new_tone = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation", "[35-s_tone]")  as text
 
@@ -1135,13 +1135,13 @@
 
 	if(species.base_color && default_colour)
 		//Apply colour.
-		r_skin = hex2num(copytext(species.base_color,2,4))
-		g_skin = hex2num(copytext(species.base_color,4,6))
-		b_skin = hex2num(copytext(species.base_color,6,8))
+		skin_r = hex2num(copytext(species.base_color,2,4))
+		skin_g = hex2num(copytext(species.base_color,4,6))
+		skin_b = hex2num(copytext(species.base_color,6,8))
 	else
-		r_skin = 0
-		g_skin = 0
-		b_skin = 0
+		skin_r = 0
+		skin_g = 0
+		skin_b = 0
 
 	species.handle_post_spawn(src)
 
@@ -1241,38 +1241,46 @@
 
 /mob/living/carbon/human/print_flavor_text(var/shrink = 1)
 	var/list/equipment = list(src.head,src.wear_mask,src.glasses,src.w_uniform,src.wear_suit,src.gloves,src.shoes)
-	var/head_exposed = 1
-	var/face_exposed = 1
-	var/eyes_exposed = 1
-	var/torso_exposed = 1
-	var/arms_exposed = 1
-	var/legs_exposed = 1
-	var/hands_exposed = 1
-	var/feet_exposed = 1
+	var/list/exposed = list( \
+	"head" = 1,\
+	"face" = 1,\
+	"eyes" = 1,\
+	"mech_eyes" = 1,\
+	"torso" = 1,\
+	"arms" = 1,\
+	"legs" = 1,\
+	"hands" = 1,\
+	"feet" = 1\
+	)
 
 	for(var/obj/item/clothing/C in equipment)
 		if(C.body_parts_covered & HEAD)
-			head_exposed = 0
+			exposed["head"] = 0
 		if(C.body_parts_covered & FACE)
-			face_exposed = 0
+			exposed["face"] = 0
 		if(C.body_parts_covered & EYES)
-			eyes_exposed = 0
+			exposed["eyes"] = 0
+			exposed["mech_eyes"] = 0
+		else
+			var/datum/organ/internal/eyes/E = src.internal_organs_by_name["eyes"]
+			if( E.robotic >= 2 ) 	exposed["eyes"] = 0
+			else					exposed["mech_eyes"] = 0
 		if(C.body_parts_covered & UPPER_TORSO)
-			torso_exposed = 0
+			exposed["torso"] = 0
 		if(C.body_parts_covered & ARMS)
-			arms_exposed = 0
+			exposed["arms"] = 0
 		if(C.body_parts_covered & HANDS)
-			hands_exposed = 0
+			exposed["hands"] = 0
 		if(C.body_parts_covered & LEGS)
-			legs_exposed = 0
+			exposed["legs"] = 0
 		if(C.body_parts_covered & FEET)
-			feet_exposed = 0
+			exposed["feet"] = 0
 
 	flavor_text = flavor_texts["general"]
 	flavor_text += "\n\n"
 	for (var/T in flavor_texts)
 		if(flavor_texts[T] && flavor_texts[T] != "")
-			if((T == "head" && head_exposed) || (T == "face" && face_exposed) || (T == "eyes" && eyes_exposed) || (T == "torso" && torso_exposed) || (T == "arms" && arms_exposed) || (T == "hands" && hands_exposed) || (T == "legs" && legs_exposed) || (T == "feet" && feet_exposed))
+			if( exposed[T] )
 				flavor_text += flavor_texts[T]
 				flavor_text += "\n\n"
 	if(!shrink)
