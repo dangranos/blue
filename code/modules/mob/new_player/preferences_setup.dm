@@ -192,7 +192,7 @@ datum/preferences
 
 		else
 			var/datum/job/J = job_master.GetJob(high_job_title)
-			if( J )//I hate how this looks, but there's no reason to go through this switch if it's empty
+			if(J)//I hate how this looks, but there's no reason to go through this switch if it's empty
 
 				var/obj/item/clothing/under/UF = J.uniform
 				clothes_s = new /icon('icons/mob/uniform.dmi', "[initial(UF.item_color)]_s")
@@ -204,7 +204,7 @@ datum/preferences
 				if(GL) clothes_s.Blend(new /icon('icons/mob/hands.dmi', initial(GL.item_state)), ICON_UNDERLAY)
 
 				var/obj/item/weapon/storage/belt/BT = J.belt
-				if (BT) clothes_s.Blend(new /icon('icons/mob/belt.dmi', initial(BT.item_state)), ICON_OVERLAY)
+				if(BT) clothes_s.Blend(new /icon('icons/mob/belt.dmi', initial(BT.item_state)), ICON_OVERLAY)
 
 				var/obj/item/clothing/suit/ST = J.suit
 				if(ST) clothes_s.Blend(new /icon('icons/mob/suit.dmi', initial(ST.item_state)), ICON_OVERLAY)
@@ -212,7 +212,7 @@ datum/preferences
 				var/obj/item/clothing/head/HT = J.hat
 				if(HT) clothes_s.Blend(new /icon('icons/mob/head.dmi', initial(HT.item_state)), ICON_OVERLAY)
 
-				if( backbag > 1)
+				if( backbag > 1 )
 					var/obj/item/weapon/storage/backpack/BP = J.backpacks[backbag-1]
 					clothes_s.Blend(new /icon('icons/mob/back.dmi', initial(BP.item_state)), ICON_OVERLAY)
 
