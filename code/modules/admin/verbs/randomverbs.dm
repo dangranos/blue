@@ -588,7 +588,8 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		src << "Only administrators may use this command."
 		return
 	if(job_master)
-		for(var/datum/job/job in job_master.occupations)
+		for(var/rank in job_master.occupations)
+			var/datum/job/job = job_master.occupations[rank]
 			src << "[job.title]: [job.total_positions]"
 
 /client/proc/cmd_admin_explosion(atom/O as obj|mob|turf in world)

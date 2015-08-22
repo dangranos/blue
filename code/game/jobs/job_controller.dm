@@ -22,10 +22,9 @@ var/global/datum/controller/occupations/job_master
 		for(var/J in all_jobs)
 			var/datum/job/job = new J()
 			if(!job)	continue
+			if(job.title == "NONE") continue
 			if(job.faction != faction)	continue
-			occupations += job
-
-
+			occupations[job.title] = job
 		return 1
 
 
@@ -37,10 +36,7 @@ var/global/datum/controller/occupations/job_master
 
 	proc/GetJob(var/rank)
 		if(!rank)	return null
-		for(var/datum/job/J in occupations)
-			if(!J)	continue
-			if(J.title == rank)	return J
-		return null
+		return  occupations[rank]
 
 	proc/GetPlayerAltTitle(mob/new_player/player, rank)
 		return player.client.prefs.GetPlayerAltTitle(GetJob(rank))
@@ -548,11 +544,7 @@ var/global/datum/controller/occupations/job_master
 		if(!H)	return 0
 		var/obj/item/weapon/card/id/C = null
 
-		var/datum/job/job = null
-		for(var/datum/job/J in occupations)
-			if(J.title == rank)
-				job = J
-				break
+		var/datum/job/job = occupations[rank]
 
 		if(job)
 			if(job.title == "Cyborg")
@@ -574,13 +566,12 @@ var/global/datum/controller/occupations/job_master
 
 			H.equip_to_slot_or_del(C, slot_wear_id)
 
-		H.equip_to_slot_or_del(new /obj/item/device/pda(H), slot_belt)
-		if(locate(/obj/item/device/pda,H))
-			var/obj/item/device/pda/pda = locate(/obj/item/device/pda,H)
-			pda.owner = H.real_name
-			pda.ownjob = C.assignment
-			pda.ownrank = C.rank
-			pda.name = "PDA-[H.real_name] ([pda.ownjob])"
+		var/obj/item/device/pda/P = locate(/obj/item/device/pda) in H
+		if(P)
+			P.owner = H.real_name
+			P.ownjob = C.assignment
+			P.ownrank = C.rank
+			P.name = "PDA-[H.real_name] ([P.ownjob])"
 
 		return 1
 
