@@ -117,8 +117,8 @@
 		H.equip_to_slot_or_del(new pda (H), slot_belt)
 
 	//Put items in backpack
-	if(H.backbag)
-		var/backpack = backpacks[H.backbag]
+	if( H.backbag != 1 )
+		var/backpack = backpacks[H.backbag-1]
 		H.equip_to_slot_or_del(new backpack(H), slot_back)
 		for( var/obj/item/I in put_in_backpack )
 			H.equip_to_slot_or_del(new I(H), slot_in_backpack)
