@@ -188,6 +188,7 @@ datum/preferences
 	dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'><b>[(toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</b></a><br>"
 	dat += "<b>Ghost sight:</b> <a href='?_src_=prefs;preference=ghost_sight'><b>[(toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</b></a><br>"
 	dat += "<b>Ghost radio:</b> <a href='?_src_=prefs;preference=ghost_radio'><b>[(toggles & CHAT_GHOSTRADIO) ? "All Chatter" : "Nearest Speakers"]</b></a><br>"
+	dat += "<b>Your key in dead chat will be:</b> <a href='?_src_=prefs;preference=ghost_anon'><b>[(toggles & CHAT_GHOSTANON) ? "Hidden" : "Shown"]</b></a><br>"
 
 	dat += "<br><b>Custom Loadout:</b> "
 	var/total_cost = 0
@@ -1500,6 +1501,9 @@ datum/preferences
 
 				if("ghost_radio")
 					toggles ^= CHAT_GHOSTRADIO
+
+				if("ghost_anon")
+					toggles ^= CHAT_GHOSTANON
 
 				if("save")
 					save_preferences()
