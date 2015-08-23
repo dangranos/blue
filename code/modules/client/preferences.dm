@@ -92,6 +92,8 @@ datum/preferences
 	var/icon/preview_icon_front = null
 	var/icon/preview_icon_side = null
 
+	var/high_job_title = ""
+
 		//Jobs, uses bitflags
 	var/job_civilian_high = 0
 	var/job_civilian_med = 0
@@ -186,6 +188,7 @@ datum/preferences
 	dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'><b>[(toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</b></a><br>"
 	dat += "<b>Ghost sight:</b> <a href='?_src_=prefs;preference=ghost_sight'><b>[(toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</b></a><br>"
 	dat += "<b>Ghost radio:</b> <a href='?_src_=prefs;preference=ghost_radio'><b>[(toggles & CHAT_GHOSTRADIO) ? "All Chatter" : "Nearest Speakers"]</b></a><br>"
+	dat += "<b>Your key in dead chat will be:</b> <a href='?_src_=prefs;preference=ghost_anon'><b>[(toggles & CHAT_GHOSTANON) ? "Hidden" : "Shown"]</b></a><br>"
 
 	dat += "<br><b>Custom Loadout:</b> "
 	var/total_cost = 0
@@ -384,8 +387,8 @@ datum/preferences
 	//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
 	var/datum/job/lastJob
 	if (!job_master)		return
-	for(var/datum/job/job in job_master.occupations)
-
+	for(var/J in job_master.occupations)
+		var/datum/job/job = job_master.occupations[J]
 		index += 1
 		if((index >= limit) || (job.title in splitJobs))
 			if((index < limit) && (lastJob != null))
@@ -744,6 +747,7 @@ datum/preferences
 			job_civilian_high = 0
 			job_medsci_high = 0
 			job_engsec_high = 0
+			high_job_title = ""
 			return 1
 		if(2)//Set current highs to med, then reset them
 			job_civilian_med |= job_civilian_high
@@ -752,6 +756,7 @@ datum/preferences
 			job_civilian_high = 0
 			job_medsci_high = 0
 			job_engsec_high = 0
+			high_job_title = job.title
 
 	switch(job.department_flag)
 		if(CIVILIAN)
@@ -1496,6 +1501,9 @@ datum/preferences
 
 				if("ghost_radio")
 					toggles ^= CHAT_GHOSTRADIO
+
+				if("ghost_anon")
+					toggles ^= CHAT_GHOSTANON
 
 				if("save")
 					save_preferences()
