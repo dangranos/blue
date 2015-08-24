@@ -61,7 +61,7 @@
 
 
 	equip(var/mob/living/carbon/human/H)
-		if(!H)	return 0
+		if(!..())	return 0
 		if (H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Emergency Physician")
@@ -184,7 +184,7 @@
 		)
 
 	equip(var/mob/living/carbon/human/H)
-		if(!H)	return 0
+		if(!..())	return 0
 		if (H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Psychiatrist")
