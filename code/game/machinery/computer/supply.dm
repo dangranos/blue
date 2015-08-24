@@ -187,7 +187,7 @@
 
 		if ( istype(src, /obj/machinery/computer/order/supply) )
 			temp = "Order request placed.<BR>"
-			temp += "<BR><A href='?src=\ref[src];order=[last_viewed_group]'>Back</A> | <A href='?src=\ref[src];mainmenu=1'>Main Menu</A> | <A href='?src=\ref[src];confirmorder=[O.ordernum]';back_to=[last_viewed_group]>Authorize Order</A>"
+			temp += "<BR><A href='?src=\ref[src];order=[last_viewed_group]'>Back</A> | <A href='?src=\ref[src];mainmenu=1'>Main Menu</A> | <A href='?src=\ref[src];confirmorder=[O.ordernum]'>Authorize Order</A>"
 		else
 			temp = "Thanks for your request. The cargo team will process it as soon as possible.<BR>"
 			temp += "<BR><A href='?src=\ref[src];order=[last_viewed_group]'>Back</A> <A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
@@ -239,6 +239,7 @@
 		shuttle.cancel_launch(src)
 
 	else if (href_list["viewrequests"])
+		last_viewed_group = ""
 		temp = "<style>span.cost{padding-left: 50px;}</style>"
 		temp += "<b>Current requests: </b><BR><BR>"
 		for(var/S in supply_controller.requestlist)
@@ -249,7 +250,6 @@
 		temp += "<BR><A href='?src=\ref[src];mainmenu=1'>OK</A>"
 
 	else if(href_list["confirmorder"])
-		var/back_to = href_list["back_to"]
 		//Find the correct supply_order datum
 		var/ordernum = text2num(href_list["confirmorder"])
 		var/datum/supply_order/O
@@ -267,7 +267,7 @@
 					temp = "Thanks for your order.<BR>"
 				else
 					temp = "Not enough supply points.<BR>"
-				temp += "<BR><A href='?src=\ref[src];[back_to?"order=[back_to]":"viewrequests=1"]'>Back</A> <A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
+				temp += "<BR><A href='?src=\ref[src];[last_viewed_group?"order=[last_viewed_group]":"viewrequests=1"]'>Back</A> <A href='?src=\ref[src];mainmenu=1'>Main Menu</A>"
 				break
 
 	else if (href_list["rreq"])
