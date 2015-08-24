@@ -4,7 +4,7 @@
 #define SUPPLY_STATION_AREATYPE "/area/supply/station" //Type of the supply shuttle area for station
 #define SUPPLY_DOCK_AREATYPE "/area/supply/dock"	//Type of the supply shuttle area for dock
 
-//Supply packs are in /code/defines/obj/supplypacks.dm
+//Supply packs are in /code/datums/supplypacks.dm
 //Computers are in /code/game/machinery/computer/supply.dm
 
 var/datum/controller/supply/supply_controller = new()
@@ -110,6 +110,7 @@ var/list/mechtoys = list(
 	var/datum/supply_packs/object = null
 	var/orderedby = null
 	var/comment = null
+	var/cost = 0
 
 /datum/controller/supply
 	var/processing = 1
@@ -127,19 +128,21 @@ var/list/mechtoys = list(
 	var/list/shoppinglist = list()
 	var/list/requestlist = list()
 	var/list/supply_packs = list()
+	var/list/custom_supply_packs = list()
+	var/price_enabled = 0
 	//shuttle movement
 	var/movetime = 1200
 	var/datum/shuttle/ferry/supply/shuttle
 
 	New()
 		ordernum = rand(1,9000)
+		spawn(5)
+			for(var/typepath in (typesof(/datum/supply_packs) - /datum/supply_packs - /datum/supply_packs/custom))
+				var/datum/supply_packs/P = new typepath()
+				supply_packs[P.name] = P
 
 	//Supply shuttle ticker - handles supply point regenertion and shuttle travelling between centcomm and the station
 	proc/process()
-		for(var/typepath in (typesof(/datum/supply_packs) - /datum/supply_packs))
-			var/datum/supply_packs/P = new typepath()
-			supply_packs[P.name] = P
-
 		spawn(0)
 			set background = 1
 			while(1)
