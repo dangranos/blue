@@ -6,6 +6,7 @@
 //NEW NOTE: Do NOT set the price of any crates below 7 points. Doing so allows infinite points.
 
 var/list/all_supply_groups = list("Operations","Security","Hospitality","Engineering","Atmospherics","Medical","Science","Hydroponics", "Supply", "Miscellaneous")
+var/list/custom_supply_groups = list ()
 
 /datum/supply_packs
 	var/name = null
@@ -13,6 +14,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	var/manifest = ""
 	var/amount = null
 	var/cost = null
+	var/price = 0
 	var/containertype = null
 	var/containername = null
 	var/access = null
@@ -22,9 +24,10 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 
 /datum/supply_packs/New()
 	manifest += "<ul>"
-	for(var/atom/movable/path in contains)
+	for(var/path in contains)
 		if(!path)	continue
-		manifest += "<li>[initial(path.name)]</li>"
+		var/obj/element = path
+		manifest += "<li>[initial(element.name)]</li>"
 	manifest += "</ul>"
 
 /datum/supply_packs/specialops
@@ -1512,5 +1515,24 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 					/obj/item/device/floor_painter,
 					/obj/item/device/floor_painter)
 
+/datum/supply_packs/custom
+	name = "custom pack"
+	cost = 0
+	price = 0
+	containername = "crate"
+	group = "Operations"
+	contains = list()
 
-
+/datum/supply_packs/custom/New( t_name="Custom supply pack", t_cost=8, t_price=0, t_access=null, \
+								t_containername="crate", t_containertype="obj/structure/closet/crate", \
+								t_group="Operations", t_hide=0, t_contains = list() )
+	name = t_name
+	cost = t_cost
+	price = t_price
+	access = t_access
+	group = t_group
+	containername = t_containername
+	containertype = text2path(t_containertype)
+	for( var/item in t_contains )
+		contains += item
+	..()
