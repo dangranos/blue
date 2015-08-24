@@ -42,8 +42,3 @@
 	containername = "Authentication Key Pinpointer crate"
 	access = access_heads
 	group = "Operations"
-
-	New()
-		// This crate is only accessible during mutiny rounds
-		if (istype(ticker.mode,/datum/game_mode/mutiny))
-			..()
