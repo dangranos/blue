@@ -572,7 +572,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		src << "<span class='info'>Your key won't be shown when you speak in dead chat.</span>"
 	else
 		src << "<span class='info'>Your key will be publicly visible again.</span>"
-	client.kprefs.save_preferences()
+	client.prefs.save_preferences()
 
 /mob/dead/observer/canface()
 	return 1
