@@ -214,7 +214,7 @@ datum/preferences
 
 				if( backbag > 1 )
 					var/obj/item/weapon/storage/backpack/BP = J.backpacks[backbag-1]
-					clothes_s.Blend(new /icon('icons/mob/back.dmi', initial(BP.item_state)), ICON_OVERLAY)
+					clothes_s.Blend(new /icon('icons/mob/back.dmi', initial(BP.icon_state)), ICON_OVERLAY)
 
 		if(disabilities & NEARSIGHTED)
 			preview_icon.Blend(new /icon('icons/mob/eyes.dmi', "glasses"), ICON_OVERLAY)

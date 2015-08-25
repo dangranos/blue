@@ -99,5 +99,7 @@
 			debug_variables(alarm_manager)
 		if("Nano")
 			debug_variables(nanomanager)
+		if("Jobs")
+			debug_variables(job_master)
 	message_admins("Admin [key_name_admin(usr)] is debugging the [controller] controller.")
 	return

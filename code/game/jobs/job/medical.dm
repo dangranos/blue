@@ -48,7 +48,9 @@
 	minimal_access = list(access_medical, access_morgue, access_surgery, access_virology)
 	alt_titles = list("Surgeon","Emergency Physician","Nurse","Virologist")
 
+	uniform = /obj/item/clothing/under/rank/medical
 	shoes = /obj/item/clothing/shoes/white
+	suit = /obj/item/clothing/suit/storage/toggle/labcoat
 	pda = /obj/item/device/pda/medical
 	ear = /obj/item/device/radio/headset/headset_med
 	hand = /obj/item/weapon/storage/firstaid/adv
@@ -91,9 +93,6 @@
 						H.equip_to_slot_or_del(new /obj/item/clothing/head/nursehat(H), slot_head)
 					else
 						H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/purple(H), slot_w_uniform)
-		else
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical(H), slot_w_uniform)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat(H), slot_wear_suit)
 		..()
 		H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
 		return 1
@@ -171,6 +170,7 @@
 	minimal_access = list(access_medical, access_psychiatrist)
 	alt_titles = list("Psychologist")
 
+	uniform = /obj/item/clothing/under/rank/psych
 	pda = /obj/item/device/pda/medical
 	ear = /obj/item/device/radio/headset/headset_med
 	shoes = /obj/item/clothing/shoes/laceup
@@ -187,12 +187,8 @@
 		if(!H)	return 0
 		if (H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
-				if("Psychiatrist")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/psych(H), slot_w_uniform)
 				if("Psychologist")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/psych/turtleneck(H), slot_w_uniform)
-		else
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical(H), slot_w_uniform)
 		return ..()
 
 
@@ -210,6 +206,8 @@
 	minimal_access = list(access_medical, access_morgue, access_eva, access_maint_tunnels, access_external_airlocks)
 	alt_titles = list("Emergency Medical Technician")
 
+	uniform = /obj/item/clothing/under/rank/medical/black
+	suit = /obj/item/clothing/suit/storage/toggle/fr_jacket
 	pda = /obj/item/device/pda/medical
 	ear = /obj/item/device/radio/headset/headset_med
 	shoes = /obj/item/clothing/shoes/jackboots
@@ -227,14 +225,9 @@
 		)
 
 	equip(var/mob/living/carbon/human/H)
-		if(!..())	return 0
+		if(!H)	return 0
 		if (H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Emergency Medical Technician")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/fluff/short(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/fr_jacket(H), slot_wear_suit)
-				if("Paramedic")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/black(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/fr_jacket(H), slot_wear_suit)
-		else
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical(H), slot_w_uniform)
+		return ..()

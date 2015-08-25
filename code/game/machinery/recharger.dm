@@ -15,6 +15,35 @@ obj/machinery/recharger
 	var/icon_state_idle = "recharger0" //also when unpowered
 	var/portable = 1
 
+obj/machinery/recharger/examine(mob/user)
+	if(charging)
+		desc =  "The charge meter reads: [round(chargepercentage())]%"
+	else
+		desc = "It's empty"
+	..(user)
+
+obj/machinery/recharger/proc/chargepercentage()
+	if(istype(charging, /obj/item/weapon/gun/energy))
+		var/obj/item/weapon/gun/energy/E = charging
+		if(E.power_supply)
+			return E.power_supply.percent()
+
+	else if(istype(charging, /obj/item/weapon/melee/baton))
+		var/obj/item/weapon/melee/baton/B = charging
+		if(B.bcell)
+			return B.bcell.percent()
+
+	else if(istype(charging, /obj/item/device/laptop))
+		var/obj/item/device/laptop/L = charging
+		if(L.stored_computer.battery)
+			return L.stored_computer.battery.percent()
+
+	else if(istype(charging, /obj/item/weapon/cell))
+		var/obj/item/weapon/cell/C = charging
+		return C.percent()
+
+	return 0
+
 obj/machinery/recharger/attackby(obj/item/weapon/G as obj, mob/user as mob)
 	if(istype(user,/mob/living/silicon))
 		return
