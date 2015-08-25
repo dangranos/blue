@@ -178,7 +178,7 @@
 
 	for(var/mob/M in player_list)
 		if(M.client)
-			clients++
+//			clients++
 //			if(ishuman(M))
 //				if(M.stat != DEAD)
 //					surviving_humans++
