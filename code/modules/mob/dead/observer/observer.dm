@@ -568,7 +568,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set desc = "Toggles showing your key in dead chat."
 
 	client.prefs.toggles ^= CHAT_GHOSTANON
-	if((client.prefs.toggles & CHAT_GHOSTEARS))
+	if((client.prefs.toggles & CHAT_GHOSTANON))
 		src << "<span class='info'>Your key won't be shown when you speak in dead chat.</span>"
 	else
 		src << "<span class='info'>Your key will be publicly visible again.</span>"
