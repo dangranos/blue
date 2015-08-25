@@ -6,7 +6,6 @@ var/list/ai_verbs_subsystems = list(
 )
 
 /mob/living/silicon/ai
-	var/
 	var/obj/nano_module/crew_monitor/crew_monitor
 	var/obj/nano_module/rcon/rcon
 	var/obj/nano_module/power_monitor/power_monitor
