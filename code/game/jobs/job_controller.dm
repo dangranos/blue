@@ -22,7 +22,7 @@ var/global/datum/controller/occupations/job_master
 		for(var/J in all_jobs)
 			var/datum/job/job = new J()
 			if(!job)	continue
-			if(job.title == "NONE") continue
+			if(job.title == "MODE") continue
 			if(job.faction != faction)	continue
 			occupations[job.title] = job
 		return 1
@@ -461,22 +461,6 @@ var/global/datum/controller/occupations/job_master
 					return H
 				if("Clown")	//don't need bag preference stuff!
 				else
-					switch(H.backbag) //BS12 EDIT
-						if(1)
-							H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_r_hand)
-						if(2)
-							var/obj/item/weapon/storage/backpack/BPK = new/obj/item/weapon/storage/backpack(H)
-							new /obj/item/weapon/storage/box/survival(BPK)
-							H.equip_to_slot_or_del(BPK, slot_back,1)
-						if(3)
-							var/obj/item/weapon/storage/backpack/BPK = new/obj/item/weapon/storage/backpack/satchel_norm(H)
-							new /obj/item/weapon/storage/box/survival(BPK)
-							H.equip_to_slot_or_del(BPK, slot_back,1)
-						if(4)
-							var/obj/item/weapon/storage/backpack/BPK = new/obj/item/weapon/storage/backpack/satchel(H)
-							new /obj/item/weapon/storage/box/survival(BPK)
-							H.equip_to_slot_or_del(BPK, slot_back,1)
-
 					//Deferred item spawning.
 					if(spawn_in_storage && spawn_in_storage.len)
 						var/obj/item/weapon/storage/B
