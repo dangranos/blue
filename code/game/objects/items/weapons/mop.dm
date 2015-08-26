@@ -17,7 +17,7 @@
 	create_reagents(5)
 
 /turf/proc/clean(atom/source)
-	if(source.reagents.has_reagent("water", 1))
+	if( istype(source, /obj/item/weapon/soap) || (source.reagents && source.reagents.has_reagent("water", 1)) )
 		clean_blood()
 		if(istype(src, /turf/simulated))
 			var/turf/simulated/T = src
@@ -25,8 +25,9 @@
 		for(var/obj/effect/O in src)
 			if(istype(O,/obj/effect/rune) || istype(O,/obj/effect/decal/cleanable) || istype(O,/obj/effect/overlay))
 				del(O)
-	source.reagents.reaction(src, TOUCH, 10)	//10 is the multiplier for the reaction effect. probably needed to wet the floor properly.
-	source.reagents.remove_any(1)				//reaction() doesn't use up the reagents
+	if(source.reagents)
+		source.reagents.reaction(src, TOUCH, 10)	//10 is the multiplier for the reaction effect. probably needed to wet the floor properly.
+		source.reagents.remove_any(1)				//reaction() doesn't use up the reagents
 
 
 /obj/item/weapon/mop/afterattack(atom/A, mob/user, proximity)

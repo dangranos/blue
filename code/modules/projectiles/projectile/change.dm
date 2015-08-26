@@ -53,7 +53,10 @@
 				new_mob.universal_speak = 1
 			if("xeno")
 				var/alien_caste = pick("Hunter","Sentinel","Drone","Larva")
-				new_mob = create_new_xenomorph(alien_caste,M.loc)
+				if(alien_caste == "Larva")
+					new_mob = new/mob/living/carbon/alien/larva(M.loc)
+				else
+					new_mob = create_new_xenomorph(alien_caste,M.loc)
 				new_mob.universal_speak = 1
 			if("human")
 				new_mob = new /mob/living/carbon/human(M.loc, pick(all_species))
