@@ -149,9 +149,9 @@
 	name = T_BOARD("disease splicer")
 	build_path = /obj/machinery/computer/diseasesplicer
 
-/obj/item/weapon/circuitboard/ordercomp
+/obj/item/weapon/circuitboard/order
 	name = T_BOARD("supply ordering console")
-	build_path = /obj/machinery/computer/ordercomp
+	build_path = /obj/machinery/computer/order
 	origin_tech = "programming=2"
 
 /obj/item/weapon/circuitboard/mining_shuttle

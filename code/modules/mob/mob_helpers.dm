@@ -531,9 +531,9 @@ proc/is_blind(A)
 				if(istype(subject, /mob/dead/observer))
 					DM = subject
 				if(M.client.holder) 							// What admins see
-					lname = "[keyname][(DM && DM.anonsay) ? "*" : (DM ? "" : "^")] ([name])"
+					lname = "[keyname][(DM && (DM.client.prefs.toggles & CHAT_GHOSTANON)) ? "*" : (DM ? "" : "^")] ([name])"
 				else
-					if(DM && DM.anonsay)						// If the person is actually observer they have the option to be anonymous
+					if(DM && (DM.client.prefs.toggles & CHAT_GHOSTANON))	// If the person is actually observer they have the option to be anonymous
 						lname = "Ghost of [name]"
 					else if(DM)									// Non-anons
 						lname = "[keyname] ([name])"

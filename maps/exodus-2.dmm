@@ -1180,7 +1180,7 @@
 "wJ" = (/obj/structure/window/reinforced,/turf/unsimulated/floor{icon_state = "dark"},/area/centcom/specops)
 "wK" = (/turf/unsimulated/floor{icon_state = "greencorner"; dir = 4},/area/centcom/control)
 "wL" = (/obj/structure/grille,/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 5; health = 1e+007},/turf/unsimulated/floor{name = "plating"},/area/centcom/control)
-"wM" = (/obj/machinery/computer/ordercomp,/turf/unsimulated/floor{icon_state = "floor"},/area/centcom/control)
+"wM" = (/obj/machinery/computer/order,/turf/unsimulated/floor{icon_state = "floor"},/area/centcom/control)
 "wN" = (/obj/structure/bed/chair{dir = 8},/turf/unsimulated/floor{icon_state = "floor"},/area/centcom/control)
 "wO" = (/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 8},/obj/item/device/radio/intercom{broadcasting = 1; dir = 1; frequency = 1443; listening = 0; name = "Spec Ops Intercom"; pixel_y = 28},/turf/unsimulated/floor{icon_state = "floor"},/area/centcom/control)
 "wP" = (/obj/machinery/door/window{dir = 2; name = "AI Core Door"; req_access_txt = "109"},/turf/unsimulated/floor{icon_state = "floor"},/area/centcom/control)

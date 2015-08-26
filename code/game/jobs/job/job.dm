@@ -120,8 +120,9 @@
 	if( H.backbag != 1 )
 		var/backpack = backpacks[H.backbag-1]
 		H.equip_to_slot_or_del(new backpack(H), slot_back)
-		for( var/obj/item/I in put_in_backpack )
-			H.equip_to_slot_or_del(new I(H), slot_in_backpack)
+		for( var/path in put_in_backpack )
+			var/obj/item/I = new path (H)
+			H.equip_to_slot_or_del(I, slot_in_backpack)
 	else
 		var/list/slots = list( slot_r_store, slot_l_store, slot_r_hand, slot_l_hand, slot_s_store )
 		for( var/path in put_in_backpack )

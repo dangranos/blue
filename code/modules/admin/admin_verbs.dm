@@ -99,7 +99,8 @@ var/list/admin_verbs_spawn = list(
 	/datum/admins/proc/spawn_plant,
 	/datum/admins/proc/spawn_atom,		/*allows us to spawn instances*/
 	/client/proc/respawn_character,
-	/client/proc/virus2_editor
+	/client/proc/virus2_editor,
+	/client/proc/add_supply_pack
 	)
 var/list/admin_verbs_server = list(
 	/client/proc/Set_Holiday,
@@ -653,7 +654,7 @@ var/list/admin_verbs_mentor = list(
 	set name = "Rename Silicon"
 	set category = "Admin"
 
-	if(holder)
+	if(holder && istype(S))
 		var/new_name = trim_strip_input(src, "Enter new name. Leave blank or as is to cancel.", "Enter new silicon name", S.real_name)
 		if(new_name && new_name != S.real_name)
 			admin_log_and_message_admins("has renamed the silicon '[S.real_name]' to '[new_name]'")
@@ -768,3 +769,61 @@ var/list/admin_verbs_mentor = list(
 		usr << "You now will get debug log messages"
 	else
 		usr << "You now won't get debug log messages"
+
+/client/proc/add_supply_pack()
+	set category = "Fun"
+	set name = "Add supply pack"
+	set desc = "Add custom supply pack, it will be available in cargo"
+
+	/*var/datum/custom_pack_generator/CPG = new()
+//	supply_controller.custom_supply_packs_generators[usr.name] = CPG
+	CPG.interact( usr )*/
+
+	if( !src.holder || !src.holder.marked_datum ) return
+	var/obj/structure/closet/MD = src.holder.marked_datum
+	if( !istype( MD ) )
+		alert( "Aai io?ii nicaaou yuee (iauaeo oeia /obj/structure/closet).\nCaiieieou aai ia naia oniio?aiea, aaou aio eiy \n e ioiaoeou (VV -> mark object)", "Error", "Ok" )
+
+	var/name = "Custom supply pack"
+	var/cost = 8
+	var/price = 0
+	var/access = MD:req_access
+	var/containername = MD.name
+	var/containertype = MD.type
+	var/group = "Operations"
+	var/hide = 0
+	var/contains = list()
+	var/error = 1
+
+	for( var/atom/movable/AM in MD.contents )
+		contains += AM.type
+
+	while( error )
+		name = input( "Enter supply pack new name\nHow it will be displayed in cosole\nNo name for exit", "Name", name ) as text|null
+		if( !supply_controller.supply_packs.Find(name) )
+			if( name ) error = 0
+			else if (alert( "Name is requied!", "Error", "Retry", "Abort") == "Abort") return
+		else
+			if (alert( "Name must be unic!", "Error", "Retry", "Abort") == "Abort") return
+
+	error = 1
+	while( error )
+		cost = input( "Enter supply pack new cost (in supply points)\nIt must be >= 8", "Cost", cost) as num|null
+		if( cost >= 8 ) error = 0
+		else if (alert( "Cost must be >= 8!", "Error", "Retry", "Abort") == "Abort") return
+
+	error = 1
+	while( error )
+		access = input( "Enter req access level (sry only digit form for now).\nSee code\\game\\jobs\\access.dm for help", "Access", 0) as num|null
+		if( access >= 0 ) error = 0
+		else if (alert( "Access can't be < 0", "Error", "Retry", "Abort") == "Abort") return
+
+	group = input( "Select group for pack", "Group", group) in all_supply_groups
+
+	hide = alert( "Pack must be visiable onli in hacked console?", "Hide", "Yes", "No")=="Yes" ? 1 : 0
+
+	var/datum/supply_packs/custom/CP = new( \
+		name, cost, price, access, containername, \
+		containertype, group, hide, contains )
+	if( supply_controller.supply_packs.Find(name) ) log_debug("Supply pack [name] already exist!")
+	else supply_controller.supply_packs[name] = CP
