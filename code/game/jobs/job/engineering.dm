@@ -65,8 +65,8 @@
 		)
 
 	backpacks = list(
-		/obj/item/weapon/storage/backpack,\
-		/obj/item/weapon/storage/backpack/satchel_norm,\
+		/obj/item/weapon/storage/backpack/industrial,\
+		/obj/item/weapon/storage/backpack/satchel_eng,\
 		/obj/item/weapon/storage/backpack/satchel
 		)
 
