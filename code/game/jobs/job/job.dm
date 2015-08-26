@@ -1,7 +1,7 @@
 /datum/job
 
 	//The name of the job
-	var/title = "NONE"
+	var/title = "MODE"
 
 	//Job access. The use of minimal_access or access is determined by a config setting: config.jobs_have_minimal_access
 	var/list/minimal_access = list()		//Useful for servers which prefer to only have access given to the places a job absolutely needs (Larger server population)
@@ -119,10 +119,10 @@
 	//Put items in backpack
 	if( H.backbag != 1 )
 		var/backpack = backpacks[H.backbag-1]
-		H.equip_to_slot_or_del(new backpack(H), slot_back)
+		var/obj/item/weapon/storage/backpack/BPK = new backpack(H)
 		for( var/path in put_in_backpack )
-			var/obj/item/I = new path (H)
-			H.equip_to_slot_or_del(I, slot_in_backpack)
+			var/obj/item/I = new path(BPK)
+		H.equip_to_slot_or_del(BPK, slot_back,1)
 	else
 		var/list/slots = list( slot_r_store, slot_l_store, slot_r_hand, slot_l_hand, slot_s_store )
 		for( var/path in put_in_backpack )
