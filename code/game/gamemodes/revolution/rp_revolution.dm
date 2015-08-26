@@ -40,6 +40,11 @@
 	for(var/datum/mind/player in possible_headrevs)
 		if(player.assigned_role in restricted_jobs) //Removing heads and such from the list
 			possible_headrevs -= player
+			continue
+		var/datum/job/J = job_master.occupations[player.assigned_role]
+		if(J.implanted)
+			possible_headrevs -= player
+			continue
 
 	for (var/i=1 to max_headrevs)
 		if (possible_headrevs.len==0)
