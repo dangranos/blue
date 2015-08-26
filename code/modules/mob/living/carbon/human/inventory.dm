@@ -323,8 +323,7 @@ This saves us from having to call add_fingerprint() any time something is put in
 				src.u_equip(W)
 			W.loc = src.back
 		if(slot_tie)
-			var/obj/item/clothing/under/uniform = src.w_uniform
-			uniform.attackby(W,src)
+			w_uniform.attackby(W,src)
 		else
 			src << "\red You are trying to eqip this item to an unsupported inventory slot. How the heck did you manage that? Stop it..."
 			return

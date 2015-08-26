@@ -370,8 +370,8 @@ proc/get_damage_icon_part(damage_state, body_part)
 			var/icon/eyes = new/icon('icons/mob/human_face.dmi', species.eyes)
 			if (species.flags & HAS_EYE_COLOR)
 				var/datum/organ/internal/eyes/E = src.internal_organs_by_name["eyes"]
-				if( E.robotic >= 2 ) 	eyes.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
-				else 					eyes.Blend(rgb(eyes_r, eyes_g, eyes_b), ICON_ADD)
+				if( E && E.robotic >= 2 ) 	eyes.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
+				else 						eyes.Blend(rgb(eyes_r, eyes_g, eyes_b), ICON_ADD)
 			stand_icon.Blend(eyes, ICON_OVERLAY)
 
 		//Mouth	(lipstick!)
@@ -411,7 +411,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 
 	if(f_style)
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[f_style]
-		if(facial_hair_style && facial_hair_style.species_allowed && (src.species.name in facial_hair_style.species_allowed))
+		if( (facial_hair_style != null) && (src.species.name in facial_hair_style.species_allowed) )
 			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			if(facial_hair_style.do_colouration)
 				facial_s.Blend(rgb(facial_r, facial_g, facial_b), ICON_ADD)
@@ -420,7 +420,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 
 	if(h_style && !(head && (head.flags & BLOCKHEADHAIR)))
 		var/datum/sprite_accessory/hair_style = hair_styles_list[h_style]
-		if(hair_style && src.species.name in hair_style.species_allowed)
+		if( (hair_style != null) && (src.species.name in hair_style.species_allowed) )
 			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
 			if(hair_style.do_colouration)
 				hair_s.Blend(rgb(hair_r, hair_g, hair_b), ICON_ADD)
@@ -982,14 +982,15 @@ proc/get_damage_icon_part(damage_state, body_part)
 	//Eyes
 	// Note: These used to be in update_face(), and the fact they're here will make it difficult to create a disembodied head
 	var/icon/eyes_l = new/icon('icons/mob/human_face.dmi', "eyes_l")
-	var/datum/organ/internal/eyes/E = src.internal_organs_by_name["eyes"]
-	if( E )
-		if( E.robotic >= 2 )
-			eyes_l.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
+	if (species.flags & HAS_EYE_COLOR)
+		var/datum/organ/internal/eyes/E = src.internal_organs_by_name["eyes"]
+		if( E )
+			if( E.robotic >= 2 )
+				eyes_l.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
+			else
+				eyes_l.Blend(rgb(eyes_r, eyes_g, eyes_b), ICON_ADD)
 		else
-			eyes_l.Blend(rgb(eyes_r, eyes_g, eyes_b), ICON_ADD)
-	else
-		eyes_l.Blend(rgb(128, 0, 0), ICON_ADD)
+			eyes_l.Blend(rgb(128, 0, 0), ICON_ADD)
 	face_lying.Blend(eyes_l, ICON_OVERLAY)
 
 	if(lip_style)

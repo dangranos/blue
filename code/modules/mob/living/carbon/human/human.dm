@@ -1101,6 +1101,11 @@
 
 /mob/living/carbon/human/proc/set_species(var/new_species, var/default_colour)
 
+	if(!all_species[new_species])
+		new_species = "Human"
+		if(!all_species[new_species])
+			return 0
+
 	if(!dna)
 		if(!new_species)
 			new_species = "Human"
@@ -1263,7 +1268,7 @@
 			exposed["mech_eyes"] = 0
 		else
 			var/datum/organ/internal/eyes/E = src.internal_organs_by_name["eyes"]
-			if( E.robotic >= 2 ) 	exposed["eyes"] = 0
+			if( E && E.robotic >= 2 ) 	exposed["eyes"] = 0
 			else					exposed["mech_eyes"] = 0
 		if(C.body_parts_covered & UPPER_TORSO)
 			exposed["torso"] = 0
