@@ -121,7 +121,7 @@
 		var/backpack = backpacks[H.backbag-1]
 		var/obj/item/weapon/storage/backpack/BPK = new backpack(H)
 		for( var/path in put_in_backpack )
-			var/obj/item/I = new path(BPK)
+			new path(BPK)
 		H.equip_to_slot_or_del(BPK, slot_back,1)
 	else
 		var/list/slots = list( slot_r_store, slot_l_store, slot_r_hand, slot_l_hand, slot_s_store )
