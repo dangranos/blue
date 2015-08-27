@@ -110,6 +110,9 @@
 				playermob = M
 				break
 
+		if( playermob == null )
+			usr << "<span class = 'warning'>Player have no mob! Check ban and connent to coder.</span>"
+
 		banreason = "(MANUAL BAN) "+banreason
 
 		DB_ban_record(bantype, playermob, banduration, banreason, banjob, null, banckey)

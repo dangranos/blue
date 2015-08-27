@@ -277,8 +277,8 @@
 
 
 /obj/machinery/alarm/proc/master_is_operating()
-	return alarm_area.master_air_alarm && !(alarm_area.master_air_alarm.stat & (NOPOWER|BROKEN))
-
+	return alarm_area && alarm_area.master_air_alarm && !(alarm_area.master_air_alarm.stat & (NOPOWER|BROKEN))
+//TODO: Chek is it ok if alarm_area == null
 
 /obj/machinery/alarm/proc/elect_master()
 	for (var/area/A in alarm_area.related)

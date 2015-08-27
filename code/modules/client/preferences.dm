@@ -142,9 +142,9 @@ datum/preferences
 					return
 	gender = pick(MALE, FEMALE)
 	real_name = random_name(gender,species)
-	var/datum/species/current_species = all_species[species_preview]
+	var/datum/species/current_species = all_species["Human"]
 	species_flags = current_species.flags
-
+	h_style = random_hair_style(gender, species)
 	gear = list()
 
 
