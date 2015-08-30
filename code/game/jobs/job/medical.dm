@@ -33,6 +33,7 @@
 	equip(var/mob/living/carbon/human/H)
 		if(!..())	return 0
 		H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
+		return 1
 
 
 /datum/job/doctor

@@ -24,7 +24,7 @@ var/global/datum/controller/occupations/job_master
 			if(!job)	continue
 			if(job.title == "MODE") continue
 			if(job.faction != faction)	continue
-			occupations[job.title] = job
+			occupations += job
 		return 1
 
 
@@ -36,7 +36,11 @@ var/global/datum/controller/occupations/job_master
 
 	proc/GetJob(var/rank)
 		if(!rank)	return null
-		return  occupations[rank]
+		for(var/datum/job/J in occupations)
+			if(!J)	continue
+			if(J.title == rank)	return J
+		return null
+
 
 	proc/GetPlayerAltTitle(mob/new_player/player, rank)
 		return player.client.prefs.GetPlayerAltTitle(GetJob(rank))
@@ -88,7 +92,8 @@ var/global/datum/controller/occupations/job_master
 
 	proc/GiveRandomJob(var/mob/new_player/player)
 		Debug("GRJ Giving random job, Player: [player]")
-		for(var/datum/job/job in shuffle(occupations))
+		for(var/rank in shuffle(occupations))
+			var/datum/job/job = GetJob(rank)
 			if(!job)
 				continue
 
@@ -528,7 +533,7 @@ var/global/datum/controller/occupations/job_master
 		if(!H)	return 0
 		var/obj/item/weapon/card/id/C = null
 
-		var/datum/job/job = occupations[rank]
+		var/datum/job/job = GetJob(rank)
 
 		if(job)
 			if(job.title == "Cyborg")
