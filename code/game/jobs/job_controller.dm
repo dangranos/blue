@@ -92,8 +92,7 @@ var/global/datum/controller/occupations/job_master
 
 	proc/GiveRandomJob(var/mob/new_player/player)
 		Debug("GRJ Giving random job, Player: [player]")
-		for(var/rank in shuffle(occupations))
-			var/datum/job/job = GetJob(rank)
+		for(var/datum/job/job in shuffle(occupations))
 			if(!job)
 				continue
 
