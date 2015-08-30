@@ -2202,8 +2202,7 @@
 					for(var/line in job_master.job_debug)
 						dat += "[line]<BR>"
 					dat+= "*******<BR><BR>"
-					for(var/rank in job_master.occupations)
-						var/datum/job/job = job_master.occupations[rank]
+					for(var/datum/job/job in job_master.occupations)
 						if(!job)	continue
 						dat += "job: [job.title], current_positions: [job.current_positions], total_positions: [job.total_positions] <BR>"
 					usr << browse(dat, "window=jobdebug;size=600x500")

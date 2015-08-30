@@ -842,7 +842,7 @@
 		"name" = suffix,
 		"loca" = (loc ? loc.loc : "Unknown"),	// somehow loc can be null and cause a runtime - Quarxink
 		"mode" = mode,
-		"powr" = (cell ? cell.percent() : 0),
+		"powr" = (cell ? round(cell.percent()) : 0),
 		"dest" = destination,
 		"home" = home_destination,
 		"load" = load,

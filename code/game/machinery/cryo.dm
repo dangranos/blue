@@ -125,6 +125,8 @@
 			for(var/datum/reagent/R in beaker.reagents.reagent_list)
 				data["beakerVolume"] += R.volume
 
+	data["beakerVolume"] = num2text( round(data["beakerVolume"], 0.1) )
+
 	// update the ui if it exists, returns null if no ui is passed/found
 	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
