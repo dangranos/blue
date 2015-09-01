@@ -55,9 +55,7 @@
 	pda = /obj/item/device/pda/chef
 	hat = /obj/item/clothing/head/chefhat
 	suit = /obj/item/clothing/suit/chef
-	ear = /obj/item/device/radio/headset
-
-
+	ear = /obj/item/device/radio/headset/headset_service
 
 /datum/job/hydro
 	title = "Gardener"
