@@ -19,6 +19,7 @@
 			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway)
 	minimal_player_age = 14
 
+	implanted = 1
 	uniform = /obj/item/clothing/under/rank/head_of_security
 	pda = /obj/item/device/pda/heads/hos
 	ear = /obj/item/device/radio/headset/heads/hos
