@@ -56,7 +56,7 @@
 				sleep(15)
 			else if (istype(copyitem, /obj/item/weapon/paper_bundle))
 				var/obj/item/weapon/paper_bundle/B = bundlecopy(copyitem)
-				sleep(15*B.amount)
+				sleep(15*B.contents.len)
 			else
 				usr << "<span class='warning'>\The [copyitem] can't be copied by \the [src].</span>"
 				break
@@ -227,8 +227,6 @@
 		else if(istype(W, /obj/item/weapon/photo))
 			W = photocopy(W)
 		W.loc = p
-		p.amount++
-	//p.amount--
 	p.loc = src.loc
 	p.update_icon()
 	p.icon_state = "paper_words"
