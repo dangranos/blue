@@ -105,6 +105,10 @@
 		"eyes" =     /datum/organ/internal/eyes
 		)
 
+	//Misc
+	var/restricted_jobs = list()
+
+
 /datum/species/New()
 	if(hud_type)
 		hud = new hud_type()
