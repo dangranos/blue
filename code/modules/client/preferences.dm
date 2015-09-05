@@ -147,6 +147,10 @@ datum/preferences
 	h_style = random_hair_style(gender, species)
 	gear = list()
 
+/datum/preferences/proc/IsJobRestricted(rank)
+	var/datum/species/PS = all_species[species]
+	if(rank in PS.restricted_jobs) return 1
+	return 0
 
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!user || !user.client)	return

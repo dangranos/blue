@@ -171,12 +171,17 @@
 		else if(!href_list["late_join"])
 			new_player_panel()
 
+	proc/IsJobRestricted(rank)
+		if(client && client.prefs)
+			return client.prefs.IsJobRestricted(rank)
+		return 0
 
 	proc/IsJobAvailable(rank)
 		var/datum/job/job = job_master.GetJob(rank)
-		if(!job)	return 0
-		if(!job.is_position_available()) return 0
-		if(jobban_isbanned(src,rank))	return 0
+		if(!job)								return 0
+		if(!job.is_position_available())		return 0
+		if(jobban_isbanned(src,rank))			return 0
+		if(IsJobRestricted(rank))				return 0
 		if(!job.player_old_enough(src.client))	return 0
 		return 1
 
