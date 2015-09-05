@@ -131,6 +131,7 @@
 	name = "laceup shoes"
 	desc = "The height of fashion, and they're pre-polished!"
 	icon_state = "laceups"
+	species_restricted = list("exclude","Unathi","Tajara")
 
 /obj/item/clothing/shoes/swimmingfins
 	desc = "Help you swim good."
