@@ -237,6 +237,7 @@ var/list/mechtoys = list(
 			var/datum/supply_packs/SP = SO.object
 
 			var/atom/A = new SP.containertype(pickedloc)
+			A.contents.Cut()
 			A.name = "[SP.containername] [SO.comment ? "([SO.comment])":"" ]"
 
 			//supply manifest generation begin
