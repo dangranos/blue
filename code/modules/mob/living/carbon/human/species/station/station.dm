@@ -106,7 +106,7 @@
 		)
 	cold_discomfort_level = 275
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
 
@@ -132,8 +132,8 @@
 	base_color = "#006666"
 	reagent_tag = IS_SKRELL
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Warden",\
-						"Detective", "Security", "Station Engineer", "Atmospheric Technician", "Quartermaster", "Cargo",\
-						"Shaft Miner")
+						"Detective", "Security Officer", "Station Engineer", "Atmospheric Technician",\
+						"Quartermaster", "Cargo Technician", "Shaft Miner")
 
 /datum/species/diona
 	name = "Diona"
@@ -185,7 +185,7 @@
 
 	reagent_tag = IS_DIONA
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
 						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist", "Paramedic",\
 						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
 
