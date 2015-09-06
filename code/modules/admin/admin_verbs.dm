@@ -778,15 +778,16 @@ var/list/admin_verbs_mentor = list(
 //	supply_controller.custom_supply_packs_generators[usr.name] = CPG
 	CPG.interact( usr )*/
 
-	if( !src.holder || !src.holder.marked_datum ) return
+	if( !src.holder ) return
 	var/obj/structure/closet/MD = src.holder.marked_datum
-	if( !istype( MD ) )
-		alert( "Aai io?ii nicaaou yuee (iauaeo oeia /obj/structure/closet).\nCaiieieou aai ia naia oniio?aiea, aaou aio eiy \n e ioiaoeou (VV -> mark object)", "Error", "Ok" )
+	if( (src.holder.marked_datum==null) || !istype( MD ))
+		alert( "You must select any object with type \"/obj/structure/closet\" as \"Marked object\" ( VV-> mark object) before we can start", "Error", "Ok" )
+		return
 
 	var/name = "Custom supply pack"
 	var/cost = 8
 	var/price = 0
-	var/access = MD:req_access
+	var/access = MD:req_access?MD:req_access[1]:0
 	var/containername = MD.name
 	var/containertype = MD.type
 	var/group = "Operations"
@@ -798,12 +799,18 @@ var/list/admin_verbs_mentor = list(
 		contains += AM.type
 
 	while( error )
-		name = input( "Enter supply pack new name\nHow it will be displayed in cosole\nNo name for exit", "Name", name ) as text|null
-		if( !supply_controller.supply_packs.Find(name) )
-			if( name ) error = 0
-			else if (alert( "Name is requied!", "Error", "Retry", "Abort") == "Abort") return
-		else
+		name = input( "Enter supply pack new name\nIt will be displayed in cargo cosole\nNo name for exit", "Name", name ) as text|null
+		var/clear_name = reject_bad_name(name, 1, 50)
+		if( !name == clear_name )
+			if(alert("Inputed name have bad symbols! New name is [clear_name]", "Warning", "Ok", "Enter new name") == "Ok")
+				name = clear_name
+			else
+				continue
+		if( !name && alert( "Name is requied!", "Error", "Retry", "Abort") == "Abort") return
+		else if( supply_controller.supply_packs.Find(name) )
 			if (alert( "Name must be unic!", "Error", "Retry", "Abort") == "Abort") return
+		else
+			error = 0
 
 	error = 1
 	while( error )
@@ -813,16 +820,20 @@ var/list/admin_verbs_mentor = list(
 
 	error = 1
 	while( error )
-		access = input( "Enter req access level (sry only digit form for now).\nSee code\\game\\jobs\\access.dm for help", "Access", 0) as num|null
+		access = input( "Enter req access level (sorry only digit form for now).\nSee code/game/jobs/access.dm for help", "Access", access) as num|null
 		if( access >= 0 ) error = 0
 		else if (alert( "Access can't be < 0", "Error", "Retry", "Abort") == "Abort") return
 
 	group = input( "Select group for pack", "Group", group) in all_supply_groups
 
-	hide = alert( "Pack must be visiable onli in hacked console?", "Hide", "Yes", "No")=="Yes" ? 1 : 0
+	hide = alert( "Pack must be visiable only in hacked console?", "Hide", "No", "Yes")=="Yes" ? 1 : 0
 
 	var/datum/supply_packs/custom/CP = new( \
 		name, cost, price, access, containername, \
 		containertype, group, hide, contains )
+
 	if( supply_controller.supply_packs.Find(name) ) log_debug("Supply pack [name] already exist!")
-	else supply_controller.supply_packs[name] = CP
+	else
+		supply_controller.supply_packs[name] = CP
+		usr << "Supply pack [name] successfully created!"
+		log_admin("[key_name(usr)] has add custom supply pack [name]")
