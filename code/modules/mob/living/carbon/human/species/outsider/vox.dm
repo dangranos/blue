@@ -50,7 +50,7 @@
 		"eyes" =     /datum/organ/internal/eyes
 		)
 	restricted_jobs = list("Captain","Head of Personnel","Head of Security","Chief Engineer","Research Director",\
-					"Chief Medical Officer", "Warden", "Detective", "Security", "Station Engineer",\
+					"Chief Medical Officer", "Warden", "Detective", "Security Officer", "Station Engineer",\
 					"Atmospheric Technician","Medical Doctor","Geneticist","Psychiatrist","Chemist","Paramedic",\
 					"Scientist", "Roboticist", "Xenobiologist", "Bartender", "Gardener", "Chef", "Librarian",\
 					"Quartermaster", "Lawyer", "Internal Affairs Agent", "Chaplain")
