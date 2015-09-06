@@ -59,6 +59,12 @@
 		"Your scales bristle against the cold."
 		)
 
+
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
+						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
+						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
+
 /datum/species/tajaran
 	name = "Tajara"
 	name_plural = "Tajaran"
@@ -99,6 +105,10 @@
 		"Your overheated skin itches."
 		)
 	cold_discomfort_level = 275
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security",\
+						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
+						"Quartermaster", "Internal Affairs Agent")
 
 /datum/species/skrell
 	name = "Skrell"
@@ -120,8 +130,10 @@
 	flesh_color = "#8CD7A3"
 	blood_color = "#1D2CBF"
 	base_color = "#006666"
-
 	reagent_tag = IS_SKRELL
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Warden",\
+						"Detective", "Security", "Station Engineer", "Atmospheric Technician", "Quartermaster", "Cargo",\
+						"Shaft Miner")
 
 /datum/species/diona
 	name = "Diona"
@@ -172,6 +184,10 @@
 	flesh_color = "#907E4A"
 
 	reagent_tag = IS_DIONA
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security",\
+						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist", "Paramedic",\
+						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
 
 /datum/species/diona/can_understand(var/mob/other)
 	var/mob/living/carbon/alien/diona/D = other
