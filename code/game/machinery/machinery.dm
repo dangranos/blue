@@ -385,3 +385,12 @@ Class Procs:
 			threatcount += 4
 
 	return threatcount
+
+/obj/machinery/attackby(obj/item/W, mob/user)
+	if( istype(W, /obj/item/device/debugger) )
+		if(emagged)
+			user << "\red There is a software error with the device."
+		else
+			user << "\blue The device's software appears to be fine."
+		return 1
+	..()

@@ -188,6 +188,14 @@
 /obj/machinery/door/attackby(obj/item/I as obj, mob/user as mob)
 	if(istype(I, /obj/item/device/detective_scanner))
 		return
+
+	if(istype(I, /obj/item/device/debugger))
+		if(operating == -1)
+			user << "\red There is a software error with the device."
+		else
+			user << "\blue The device's software appears to be fine."
+		return 1
+
 	if(src.operating > 0 || isrobot(user))	return //borgs can't attack doors open because it conflicts with their AI-like interaction with them.
 	src.add_fingerprint(user)
 
