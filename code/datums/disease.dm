@@ -49,6 +49,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 	var/can_carry = 1 // If the disease allows "carriers".
 	var/age = 0 // age of the disease in the current mob
 	var/stage_minimum_age = 0 // how old the disease must be to advance per stage
+	var/list/immune_species = ("Machine")
 	// if hidden[1] is true, then virus is hidden from medical scanners
 	// if hidden[2] is true, then virus is hidden from PANDEMIC machine
 
@@ -126,7 +127,7 @@ var/list/diseases = typesof(/datum/disease) - /datum/disease
 			source = affected_mob
 		else //no source and no mob affected. Rogue disease. Break
 			return
-	
+
 	if(affected_mob.reagents != null)
 		if(affected_mob)
 			if(affected_mob.reagents.has_reagent("spaceacillin"))
