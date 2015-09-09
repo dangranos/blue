@@ -21,8 +21,8 @@
 
 	origin_tech = "magnets=1;engineering=1"
 	var/obj/machinery/telecomms/buffer // simple machine buffer for device linkage
-
-/obj/item/device/debugger/is_used_on(obj/O, mob/user)
+/*
+/obj/item/device/debugger/afterattack(var/obj/item/weapon/O as obj, mob/user as mob)
 	if(istype(O, /obj/machinery/power/apc))
 		var/obj/machinery/power/apc/A = O
 		if(A.emagged || A.malfhack)
@@ -44,3 +44,4 @@
 		else
 			user << "\blue The device's software appears to be fine."
 		return 1
+*/
