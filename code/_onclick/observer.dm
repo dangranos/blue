@@ -32,11 +32,16 @@
 	if(client.buildmode)
 		build_click(src, client.buildmode, params, A)
 		return
+	var/list/modifiers = params2list(params)
+	if(modifiers["shift"])
+		ShiftClickOn(A)
+		return
 	if(world.time <= next_move)
 		return
 	//next_move = world.time + 8
 	// You are responsible for checking config.ghost_interaction when you override this function
 	// Not all of them require checking, see below
+	face_atom(A)
 	A.attack_ghost(src)
 
 // Oh by the way this didn't work with old click code which is why clicking shit didn't spam you
