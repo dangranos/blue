@@ -139,7 +139,7 @@
 		return
 
 	var/mob/living/carbon/human/T = G.affecting
-	if(!istype(T))
+	if(!istype(T) || T.species.flags & IS_SYNTHETIC)
 		src << "<span class='warning'>[T] is not compatible with our biology.</span>"
 		return
 
