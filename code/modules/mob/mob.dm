@@ -425,7 +425,7 @@ var/list/slot_equipment_priority = list( \
 
 		if (deathtime < 18000)
 			if(is_admin)
-				if(alert("Normal plyaer must wait 30 minutes to respawn! Would you?","Warning", "Ok", "No") == "Ok")
+				if(alert("Normal players must wait at least 30 minutes to respawn! Would you?","Warning", "Ok", "No") == "Ok")
 					return
 			else
 				usr << "You must wait 30 minutes to respawn!"
