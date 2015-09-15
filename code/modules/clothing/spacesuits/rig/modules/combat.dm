@@ -167,7 +167,8 @@
 
 /obj/item/rig_module/mounted/energy_blade/activate()
 
-	..()
+	if(!..())
+		return
 
 	var/mob/living/M = holder.wearer
 

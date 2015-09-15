@@ -3773,7 +3773,7 @@
 "buC" = (/obj/machinery/camera{c_tag = "Mech Bay"; dir = 4},/obj/item/device/radio/intercom{dir = 8; name = "Station Intercom (General)"; pixel_x = -28},/turf/simulated/floor,/area/assembly/chargebay)
 "buD" = (/obj/structure/cable/green{d1 = 2; d2 = 4; icon_state = "2-4"},/obj/machinery/hologram/holopad,/turf/simulated/floor,/area/assembly/chargebay)
 "buE" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/cable/green{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor/plating,/area/assembly/robotics)
-"buF" = (/obj/structure/table,/obj/structure/cable/green{d1 = 4; d2 = 8; icon_state = "4-8"},/obj/item/weapon/book/manual/robotics_cyborgs{pixel_x = -5; pixel_y = 5},/obj/item/stack/sheet/plasteel,/turf/simulated/floor,/area/assembly/robotics)
+"buF" = (/obj/structure/table,/obj/structure/cable/green{d1 = 4; d2 = 8; icon_state = "4-8"},/obj/item/weapon/book/manual/robotics_cyborgs{pixel_x = -5; pixel_y = 5},/obj/item/stack/sheet/plasteel{amount = 10},/turf/simulated/floor,/area/assembly/robotics)
 "buG" = (/obj/item/weapon/stool,/obj/effect/landmark/start{name = "Roboticist"},/obj/structure/cable/green{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor,/area/assembly/robotics)
 "buH" = (/obj/structure/cable/green{d1 = 4; d2 = 8; icon_state = "4-8"},/turf/simulated/floor{icon_state = "bot"},/area/assembly/robotics)
 "buI" = (/obj/structure/cable/green{d1 = 4; d2 = 8; icon_state = "4-8"},/obj/structure/cable/green{d1 = 1; d2 = 4; icon_state = "1-4"},/turf/simulated/floor{icon_state = "bot"},/area/assembly/robotics)
