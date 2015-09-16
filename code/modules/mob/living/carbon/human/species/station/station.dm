@@ -65,6 +65,28 @@
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
 
+/datum/species/unathi/accent(n)
+	var/te = rhtml_decode(n)
+	var/t = ""
+	var/list/replace = list("c"="cc", "?"="??", "?"="?", "?"="?-?", "?"="?",\
+							"?"="??", "?"="?-??", "?"="?", "?"="?-?", "?"="?")
+	var/list/firstletter = list("?" = "?", "?" = "?")
+	n = length(n)
+	var/new_word = 1
+	var/p = 1//1 is the start of any word
+	while(p <= n)
+		var/n_letter = copytext(te, p, p + 1)
+		if (n_letter == " ") new_word = 1
+		else				 new_word = 0
+		if (prob(80))
+			if( n_letter in replace )
+				n_letter = replace[n_letter]
+			else if( new_word && n_letter in firstletter )
+				n_letter = firstletter[n_letter]
+		t += n_letter
+		p++
+	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))
+
 /datum/species/tajaran
 	name = "Tajara"
 	name_plural = "Tajaran"
@@ -109,6 +131,20 @@
 						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
+
+/datum/species/tajaran/accent(n)
+	var/te = rhtml_decode(n)
+	var/t = ""
+	var/list/replace = list("?" = "?-?", "?" = "??", "?"="?-?", "?"="??")
+	n = length(n)
+	var/p = 1//1 is the start of any word
+	while(p <= n)
+		var/n_letter = copytext(te, p, p + 1)
+		if (prob(80) && (n_letter in replace))
+			n_letter = replace[n_letter]
+		t += n_letter
+		p++
+	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))
 
 /datum/species/skrell
 	name = "Skrell"
@@ -216,7 +252,7 @@
 
 /datum/species/machine
 	name = "Machine"
-	name_plural = "machines"
+	name_plural = "Machines"
 
 	icobase = 'icons/mob/human_races/r_machine.dmi'
 	deform = 'icons/mob/human_races/r_machine.dmi'
