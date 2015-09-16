@@ -139,7 +139,7 @@
 		return
 
 	var/mob/living/carbon/human/T = G.affecting
-	if(!istype(T))
+	if(!istype(T) || T.species.flags & IS_SYNTHETIC)
 		src << "<span class='warning'>[T] is not compatible with our biology.</span>"
 		return
 
@@ -687,6 +687,7 @@ var/list/datum/dna/hivemind_bank = list()
 	if(!(T in view(changeling.sting_range))) return
 	if(!sting_can_reach(T, changeling.sting_range)) return
 	if(!changeling_power(required_chems)) return
+	if(T.species.flags & IS_SYNTHETIC) return
 
 	changeling.chem_charges -= required_chems
 	changeling.sting_range = 1
@@ -705,6 +706,7 @@ var/list/datum/dna/hivemind_bank = list()
 	set desc = "Causes terror in the target."
 
 	var/mob/living/carbon/T = changeling_sting(15,/mob/proc/changeling_lsdsting)
+
 	if(!T)	return 0
 	spawn(rand(300,600))
 		if(T)	T.hallucination += 400
