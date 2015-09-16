@@ -106,7 +106,7 @@
 		)
 
 	//Misc
-	var/restricted_jobs = list()
+	var/list/restricted_jobs = list()
 
 
 /datum/species/New()
@@ -255,3 +255,5 @@
 
 	return 0
 
+/datum/species/proc/accent(n, /datum/species/S)
+	return n
