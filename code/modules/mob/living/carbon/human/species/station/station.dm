@@ -68,9 +68,9 @@
 /datum/species/unathi/accent(n)
 	var/te = rhtml_decode(n)
 	var/t = ""
-	var/list/replace = list("c"="cc", "?"="??", "?"="?", "?"="?-?", "?"="?",\
-							"?"="??", "?"="?-??", "?"="?", "?"="?-?", "?"="?")
-	var/list/firstletter = list("?" = "?", "?" = "?")
+	var/list/replace = list("с"="сс", "ш"="шш", "ч"="ш", "щ"="щ-щ", "ц"="с",\
+							"С"="С-с", "Ш"="Ш-ш", "Ч"="Ш", "Щ"="Щ-щ", "Ц"="С")
+	var/list/firstletter = list("г" = "х", "Г" = "Х")
 	n = length(n)
 	var/new_word = 1
 	var/p = 1//1 is the start of any word
@@ -135,7 +135,7 @@
 /datum/species/tajaran/accent(n)
 	var/te = rhtml_decode(n)
 	var/t = ""
-	var/list/replace = list("?" = "?-?", "?" = "??", "?"="?-?", "?"="??")
+	var/list/replace = list("р" = "рр", "Р" = "Р-р", "м"="мр", "М"="Мр")
 	n = length(n)
 	var/p = 1//1 is the start of any word
 	while(p <= n)
