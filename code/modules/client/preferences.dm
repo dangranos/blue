@@ -51,6 +51,7 @@ datum/preferences
 	var/real_name						//our character's name
 	var/be_random_name = 0				//whether we are a random name every round
 	var/gender = MALE					//gender of character (well duh)
+	var/body_build = 0					//type of char body (sprite pack)
 	var/age = 30						//age of character
 	var/spawnpoint = "Arrivals Shuttle" //where this character will spawn (0-2).
 	var/b_type = "A+"					//blood type (not-chooseable)
@@ -76,7 +77,7 @@ datum/preferences
 	var/mech_eyes_g = 0					//Mechanical eye color
 	var/mech_eyes_b = 0					//Mechanical eye color
 	var/species = "Human"               //Species datum to use.
-	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
+	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR | SLIM_FEMALE
 	var/species_preview                 //Used for the species selection window.
 	var/language = "None"				//Secondary language
 	var/list/gear						//Custom/fluff item loadout.
@@ -179,6 +180,8 @@ datum/preferences
 	dat += "<br>"
 
 	dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'><b>[gender == MALE ? "Male" : "Female"]</b></a><br>"
+	if(gender == FEMALE && species_flags & SLIM_FEMALE)
+		dat += "<b>Body build:</b> <a href='?_src_=prefs;preference=build'><b>[body_build == BODY_DEFAULT ? "Default" : "Slim"]</b></a><br>"
 	dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><br>"
 	dat += "<b>Spawn Point</b>: <a href='byond://?src=\ref[user];preference=spawnpoint;task=input'>[spawnpoint]</a>"
 
@@ -226,10 +229,10 @@ datum/preferences
 	dat += "Blood Type: <a href='byond://?src=\ref[user];preference=b_type;task=input'>[b_type]</a><br>"
 	if(species_flags & HAS_SKIN_TONE)
 		dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
-	//dat += "Skin pattern: <a href='byond://?src=\ref[user];preference=skin_style;task=input'>Adjust</a><br>"
 	dat += "Needs Glasses: <a href='?_src_=prefs;preference=disabilities'><b>[disabilities == 0 ? "No" : "Yes"]</b></a><br>"
-	dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=input'>Adjust</a><br>"
-	dat += "Internal Organs: <a href='byond://?src=\ref[user];preference=organs;task=input'>Adjust</a><br>"
+	if( !(species_flags & (IS_PLANT | IS_SYNTHETIC)) )
+		dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=input'>Adjust</a><br>"
+		dat += "Internal Organs: <a href='byond://?src=\ref[user];preference=organs;task=input'>Adjust</a><br>"
 
 	//display limbs below
 	var/ind = 0
@@ -1314,6 +1317,8 @@ datum/preferences
 						user << browse(null, "window=disabil")
 
 				if("limbs")
+					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
+						return
 					var/limb_name = input(user, "Which limb do you want to change?") as null|anything in list("Left Leg","Right Leg","Left Arm","Right Arm","Left Foot","Right Foot","Left Hand","Right Hand")
 					if(!limb_name) return
 
@@ -1364,7 +1369,10 @@ datum/preferences
 								organ_data[second_limb] = "cyborg"
 							if(third_limb && organ_data[third_limb] == "amputated")
 								organ_data[third_limb] = null
+
 				if("organs")
+					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
+						return
 					var/organ_name = input(user, "Which internal function do you want to change?") as null|anything in list("Heart", "Eyes")
 					if(!organ_name) return
 
@@ -1450,6 +1458,12 @@ datum/preferences
 						gender = FEMALE
 					else
 						gender = MALE
+
+				if("build")
+					if(body_build == BODY_DEFAULT)
+						body_build = BODY_SLIM
+					else
+						body_build = BODY_DEFAULT
 
 				if("disabilities")				//please note: current code only allows nearsightedness as a disability
 					disabilities = !disabilities//if you want to add actual disabilities, code that selects them should be here
@@ -1559,6 +1573,7 @@ datum/preferences
 	character.exploit_record = exploit_record
 
 	character.gender = gender
+	character.body_build = body_build
 	character.age = age
 	character.b_type = b_type
 

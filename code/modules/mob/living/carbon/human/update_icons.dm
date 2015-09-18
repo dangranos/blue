@@ -233,6 +233,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 	var/skeleton = (SKELETON in src.mutations)
 
 	var/g = (gender == FEMALE ? "f" : "m")
+	if(body_build) g = "[g][body_build]"
 	var/has_head = 0
 
 	//CACHING: Generate an index key from visible bodyparts.
@@ -290,10 +291,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 			if(part.status & ORGAN_DESTROYED)
 				continue
 
-			if (istype(part, /datum/organ/external/groin) || istype(part, /datum/organ/external/head) || istype(part, /datum/organ/external/chest))
-				temp = part.get_icon(race_icon,deform_icon,g)
-			else
-				temp = part.get_icon(race_icon,deform_icon)
+			temp = part.get_icon(race_icon,deform_icon,g)
 
 			if(part.status & ORGAN_DEAD)
 				temp.ColorTone(necrosis_color_mod)
@@ -350,7 +348,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 				if(s_tone >= 0)
 					base_icon.Blend(rgb(s_tone, s_tone, s_tone), ICON_ADD)
 				else
-					base_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
+					base_icon.Blend(rgb(-s_tone, -s_tone, -s_tone), ICON_SUBTRACT)
 
 		human_icon_cache[icon_key] = base_icon
 
@@ -533,7 +531,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(w_uniform.sprite_sheets && w_uniform.sprite_sheets[species.name])
 			standing.icon = w_uniform.sprite_sheets[species.name]
 		else
-			standing.icon = 'icons/mob/uniform.dmi'
+			standing.icon	= (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/uniform_f.dmi' : 'icons/mob/uniform.dmi'
 
 		if(w_uniform.blood_DNA)
 			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "uniformblood")
@@ -582,7 +580,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(gloves.sprite_sheets && gloves.sprite_sheets[species.name])
 			standing = image("icon" = gloves.sprite_sheets[species.name], "icon_state" = "[t_state]")
 		else
-			standing = image("icon" = 'icons/mob/hands.dmi', "icon_state" = "[t_state]")
+			standing	= image ("icon" = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/hands_f.dmi' : 'icons/mob/hands.dmi', "icon_state" = "[t_state]")
 
 		if(gloves.blood_DNA)
 			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "bloodyhands")
@@ -608,7 +606,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(glasses.sprite_sheets && glasses.sprite_sheets[species.name])
 			overlays_standing[GLASSES_LAYER]= image("icon" = glasses.sprite_sheets[species.name], "icon_state" = "[glasses.icon_state]")
 		else
-			overlays_standing[GLASSES_LAYER]= image("icon" = 'icons/mob/eyes.dmi', "icon_state" = "[glasses.icon_state]")
+			overlays_standing[GLASSES_LAYER]= image("icon" = (gender == FEMALE && body_build == BODY_SLIM)?'icons/mob/eyes_f.dmi':'icons/mob/eyes.dmi', "icon_state" = "[glasses.icon_state]")
 
 	else
 		overlays_standing[GLASSES_LAYER]	= null
@@ -631,7 +629,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 				t_type = "[t_type]_l"
 				overlays_standing[EARS_LAYER] = image("icon" = l_ear.sprite_sheets[species.name], "icon_state" = "[t_type]")
 			else
-				overlays_standing[EARS_LAYER] = image("icon" = 'icons/mob/ears.dmi', "icon_state" = "[t_type]")
+				overlays_standing[EARS_LAYER] = image("icon" = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/ears_f.dmi' : 'icons/mob/ears.dmi', "icon_state" = "[t_type]")
 
 		if(r_ear)
 
@@ -643,7 +641,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 				t_type = "[t_type]_r"
 				overlays_standing[EARS_LAYER] = image("icon" = r_ear.sprite_sheets[species.name], "icon_state" = "[t_type]")
 			else
-				overlays_standing[EARS_LAYER] = image("icon" = 'icons/mob/ears.dmi', "icon_state" = "[t_type]")
+				overlays_standing[EARS_LAYER] = image("icon" = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/ears_f.dmi' : 'icons/mob/ears.dmi', "icon_state" = "[t_type]")
 
 	else
 		overlays_standing[EARS_LAYER]	= null
@@ -658,7 +656,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(shoes.sprite_sheets && shoes.sprite_sheets[species.name])
 			standing = image("icon" = shoes.sprite_sheets[species.name], "icon_state" = "[shoes.icon_state]")
 		else
-			standing = image("icon" = 'icons/mob/feet.dmi', "icon_state" = "[shoes.icon_state]")
+			standing = image("icon" = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/feet_f.dmi' : 'icons/mob/feet.dmi', "icon_state" = "[shoes.icon_state]")
 
 		if(shoes.blood_DNA)
 			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "shoeblood")
@@ -736,13 +734,13 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(belt.sprite_sheets && belt.sprite_sheets[species.name])
 			standing.icon = belt.sprite_sheets[species.name]
 		else
-			standing.icon = 'icons/mob/belt.dmi'
+			standing.icon = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/belt_f.dmi' : 'icons/mob/belt.dmi'
 
 		if(belt.contents.len && istype(belt, /obj/item/weapon/storage/belt))
 			for(var/obj/item/i in belt.contents)
 				var/i_state = i.item_state
 				if(!i_state) i_state = i.icon_state
-				standing.overlays	+= image("icon" = 'icons/mob/belt.dmi', "icon_state" = "[i_state]")
+				standing.overlays	+= image("icon" = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/belt_f.dmi' : 'icons/mob/belt.dmi', "icon_state" = "[i_state]")
 
 		overlays_standing[BELT_LAYER] = standing
 	else
@@ -762,7 +760,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(wear_suit.sprite_sheets && wear_suit.sprite_sheets[species.name])
 			standing = image("icon" = wear_suit.sprite_sheets[species.name], "icon_state" = "[wear_suit.icon_state]")
 		else
-			standing = image("icon" = 'icons/mob/suit.dmi', "icon_state" = "[wear_suit.icon_state]")
+			standing	= image ("icon"= (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/suit_f.dmi' : 'icons/mob/suit.dmi', "icon_state" = "[wear_suit.icon_state]")
 
 		if( istype(wear_suit, /obj/item/clothing/suit/straight_jacket) )
 			drop_from_inventory(handcuffed)
@@ -805,7 +803,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(wear_mask.sprite_sheets && wear_mask.sprite_sheets[species.name])
 			standing = image("icon" = wear_mask.sprite_sheets[species.name], "icon_state" = "[wear_mask.icon_state]")
 		else
-			standing = image("icon" = 'icons/mob/mask.dmi', "icon_state" = "[wear_mask.icon_state]")
+			standing	= image ("icon"= (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/mask_f.dmi' : 'icons/mob/mask.dmi', "icon_state" = "[wear_mask.icon_state]")
 
 		if( !istype(wear_mask, /obj/item/clothing/mask/smokable/cigarette) && wear_mask.blood_DNA )
 			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "maskblood")
@@ -829,7 +827,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		else if(back.sprite_sheets && back.sprite_sheets[species.name])
 			overlays_standing[BACK_LAYER] = image("icon" = back.sprite_sheets[species.name], "icon_state" = "[back.icon_state]")
 		else
-			overlays_standing[BACK_LAYER] = image("icon" = 'icons/mob/back.dmi', "icon_state" = "[back.icon_state]")
+			overlays_standing[BACK_LAYER]	= image ("icon"= (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/back_f.dmi' : 'icons/mob/back.dmi', "icon_state" = "[back.icon_state]")
 	else
 		overlays_standing[BACK_LAYER]	= null
 	if(update_icons)   update_icons()

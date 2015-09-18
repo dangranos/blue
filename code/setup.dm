@@ -610,6 +610,10 @@ var/list/be_special_flags = list(
 #define GETPULSE_HAND 0 // Less accurate. (hand)
 #define GETPULSE_TOOL 1 // More accurate. (med scanner, sleeper, etc.)
 
+// Body builds
+#define BODY_DEFAULT	0	// Default body build
+#define BODY_SLIM		1	// Slim body build
+
 // Species flags.
 #define NO_BLOOD       1     // Vessel var is not filled with blood, cannot bleed out.
 #define NO_BREATHE     2     // Cannot suffocate or take oxygen loss.
@@ -627,6 +631,7 @@ var/list/be_special_flags = list(
 #define HAS_EYE_COLOR  8192  // Eye colour selectable in chargen. (RGB)
 #define CAN_JOIN       16384 // Species is selectable in chargen.
 #define IS_RESTRICTED  32768 // Is not a core/normally playable species. (castes, mutantraces)
+#define SLIM_FEMALE    65536 // I don't give up but can't wait sry.
 
 // Language flags.
 #define WHITELISTED 1   // Language is available if the speaker is whitelisted.

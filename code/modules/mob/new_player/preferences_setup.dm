@@ -129,9 +129,11 @@ datum/preferences
 		for(var/name in list("r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
 			if(organ_data[name] == "amputated") continue
 
-			var/icon/temp = new /icon(icobase, "[name]")
+			var/icon/temp = null
 			if(organ_data[name] == "cyborg")
-				temp.MapColors(rgb(77,77,77), rgb(150,150,150), rgb(28,28,28), rgb(0,0,0))
+				temp = new /icon('icons/mob/human_races/robotic.dmi', "[name]_[g]")
+			else
+				temp = new /icon(icobase, "[name]_[g]")
 
 			preview_icon.Blend(temp, ICON_OVERLAY)
 
