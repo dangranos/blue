@@ -35,6 +35,7 @@
 	suit_type = "cyber"
 	desc = "An advanced powered armour suit with many cyberwarfare enhancements."
 	icon_state = "hacker_rig"
+	flags = ONLY_DEFAULT_BODY
 
 	req_access = list(access_syndicate)
 

@@ -107,6 +107,7 @@
 
 	//Misc
 	var/list/restricted_jobs = list()
+	var/allow_slim_fem = 0
 
 
 /datum/species/New()

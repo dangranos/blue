@@ -195,6 +195,7 @@
 #define	NOREACT                4096 // Reagents don't react inside this container.
 #define BLOCKHEADHAIR          4    // Temporarily removes the user's hair overlay. Leaves facial hair.
 #define BLOCKHAIR              8192 // Temporarily removes the user's hair, facial and otherwise.
+#define ONLY_DEFAULT_BODY      16384
 
 // Flags for pass_flags.
 #define PASSTABLE  1
@@ -631,7 +632,6 @@ var/list/be_special_flags = list(
 #define HAS_EYE_COLOR  8192  // Eye colour selectable in chargen. (RGB)
 #define CAN_JOIN       16384 // Species is selectable in chargen.
 #define IS_RESTRICTED  32768 // Is not a core/normally playable species. (castes, mutantraces)
-#define SLIM_FEMALE    65536 // I don't give up but can't wait sry.
 
 // Language flags.
 #define WHITELISTED 1   // Language is available if the speaker is whitelisted.

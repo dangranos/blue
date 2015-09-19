@@ -51,7 +51,7 @@ datum/preferences
 	var/real_name						//our character's name
 	var/be_random_name = 0				//whether we are a random name every round
 	var/gender = MALE					//gender of character (well duh)
-	var/body_build = 0					//type of char body (sprite pack)
+	var/body_build = ""					//type of char body (sprite pack)
 	var/age = 30						//age of character
 	var/spawnpoint = "Arrivals Shuttle" //where this character will spawn (0-2).
 	var/b_type = "A+"					//blood type (not-chooseable)
@@ -77,7 +77,8 @@ datum/preferences
 	var/mech_eyes_g = 0					//Mechanical eye color
 	var/mech_eyes_b = 0					//Mechanical eye color
 	var/species = "Human"               //Species datum to use.
-	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR | SLIM_FEMALE
+	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
+	var/allow_slim_fem = 1
 	var/species_preview                 //Used for the species selection window.
 	var/language = "None"				//Secondary language
 	var/list/gear						//Custom/fluff item loadout.
@@ -145,6 +146,7 @@ datum/preferences
 	real_name = random_name(gender,species)
 	var/datum/species/current_species = all_species["Human"]
 	species_flags = current_species.flags
+	allow_slim_fem = current_species.allow_slim_fem
 	h_style = random_hair_style(gender, species)
 	gear = list()
 
@@ -180,7 +182,7 @@ datum/preferences
 	dat += "<br>"
 
 	dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'><b>[gender == MALE ? "Male" : "Female"]</b></a><br>"
-	if(gender == FEMALE && species_flags & SLIM_FEMALE)
+	if(gender == FEMALE && allow_slim_fem)
 		dat += "<b>Body build:</b> <a href='?_src_=prefs;preference=build'><b>[body_build == BODY_DEFAULT ? "Default" : "Slim"]</b></a><br>"
 	dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><br>"
 	dat += "<b>Spawn Point</b>: <a href='byond://?src=\ref[user];preference=spawnpoint;task=input'>[spawnpoint]</a>"
