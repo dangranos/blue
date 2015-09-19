@@ -7,6 +7,7 @@
 	var/slots = 3
 	var/obj/item/weapon/storage/internal/hold
 	w_class = 3.0
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/accessory/storage/New()
 	..()
@@ -52,6 +53,7 @@
 	desc = "Sturdy mess of synthcotton belts and buckles, ready to share your burden."
 	icon_state = "webbing"
 	item_color = "webbing"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/accessory/storage/black_vest
 	name = "black webbing vest"

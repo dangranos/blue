@@ -145,21 +145,24 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	var/g = "m"
 	if (H.gender == FEMALE)
 		g = "f"
+	var/body = H.body_build ? "[H.body_build]" : ""
+
 
 	var/icon/icobase = H.species.icobase
 
-	preview_icon = new /icon(icobase, "torso_[g]")
+	preview_icon = new /icon(icobase, "torso_[g][body]")
 	var/icon/temp
-	temp = new /icon(icobase, "groin_[g]")
+	temp = new /icon(icobase, "groin_[g][body]")
 	preview_icon.Blend(temp, ICON_OVERLAY)
-	temp = new /icon(icobase, "head_[g]")
+	temp = new /icon(icobase, "head_[g][body]")
 	preview_icon.Blend(temp, ICON_OVERLAY)
 
 	for(var/datum/organ/external/E in H.organs)
 		if(E.status & ORGAN_CUT_AWAY || E.status & ORGAN_DESTROYED) continue
-		temp = new /icon(icobase, "[E.name]")
 		if(E.status & ORGAN_ROBOT)
-			temp.MapColors(rgb(77,77,77), rgb(150,150,150), rgb(28,28,28), rgb(0,0,0))
+			temp = new /icon('icons/mob/human_races/robotic.dmi', "[E.name]_[g][body]")
+		else
+			temp = new /icon(icobase, "[E.name]_[g][body]")
 		preview_icon.Blend(temp, ICON_OVERLAY)
 
 	//Tail
@@ -207,11 +210,11 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	if(J)
 		var/obj/item/clothing/under/UF = J.uniform
 		var/obj/item/clothing/shoes/SH = J.shoes
-		clothes_s = new /icon('icons/mob/uniform.dmi', "[initial(UF.item_color)]_s")
-		clothes_s.Blend(new /icon('icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)
+		clothes_s = new /icon((g == "f" && body)?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[initial(UF.item_color)]_s")
+		clothes_s.Blend(new /icon((g == "f" && body)?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)
 	else
-		clothes_s = new /icon('icons/mob/uniform.dmi', "grey_s")
-		clothes_s.Blend(new /icon('icons/mob/feet.dmi', "black"), ICON_UNDERLAY)
+		clothes_s = new /icon((g == "f" && body)?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "grey_s")
+		clothes_s.Blend(new /icon((g == "f" && body)?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', "black"), ICON_UNDERLAY)
 
 
 	preview_icon.Blend(eyes, ICON_OVERLAY)

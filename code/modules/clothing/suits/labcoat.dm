@@ -65,6 +65,7 @@
 	icon_state = "labcoat_cmoalt_open"
 	icon_open = "labcoat_cmoalt_open"
 	icon_closed = "labcoat_cmoalt"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/storage/toggle/labcoat/mad
 	name = "The Mad's labcoat"

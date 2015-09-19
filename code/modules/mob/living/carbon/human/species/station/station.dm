@@ -12,6 +12,8 @@
 
 	flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
 
+	allow_slim_fem = 1
+
 /datum/species/unathi
 	name = "Unathi"
 	name_plural = "Unathi"

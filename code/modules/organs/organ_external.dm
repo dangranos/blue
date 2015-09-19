@@ -806,12 +806,12 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 /datum/organ/external/get_icon(var/icon/race_icon, var/icon/deform_icon,gender="")
 	if (status & ORGAN_ROBOT && !(owner.species && owner.species.flags & IS_SYNTHETIC))
-		return new /icon('icons/mob/human_races/robotic.dmi', "[icon_name][gender ? "_[gender]" : ""]")
+		return new /icon('icons/mob/human_races/robotic.dmi', "[icon_name]_[gender]")
 
 	if (status & ORGAN_MUTATED)
-		return new /icon(deform_icon, "[icon_name][gender ? "_[gender]" : ""]")
+		return new /icon(deform_icon, "[icon_name]_[gender]")
 
-	return new /icon(race_icon, "[icon_name][gender ? "_[gender]" : ""]")
+	return new /icon(race_icon, "[icon_name]_[gender]")
 
 
 /datum/organ/external/proc/is_usable()
@@ -977,6 +977,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	 return ..()
 	var/g = "m"
 	if(owner.gender == FEMALE)	g = "f"
+	if(owner.body_build) g+="[owner.body_build]"
 	if (status & ORGAN_MUTATED)
 		. = new /icon(deform_icon, "[icon_name]_[g]")
 	else

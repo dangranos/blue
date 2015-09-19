@@ -29,6 +29,7 @@
 	item_state = "capjacket"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	flags_inv = HIDEJUMPSUIT
+	flags = ONLY_DEFAULT_BODY
 
 //Chaplain
 /obj/item/clothing/suit/storage/chaplain_hoodie
@@ -107,6 +108,7 @@
 
 /obj/item/clothing/suit/storage/det_suit/black
 	icon_state = "detective2"
+	flags = ONLY_DEFAULT_BODY
 
 //Forensics
 /obj/item/clothing/suit/storage/forensics
@@ -151,6 +153,7 @@
 	icon_closed = "suitjacket_blue"
 	blood_overlay_type = "coat"
 	body_parts_covered = UPPER_TORSO|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/storage/lawyer/purpjacket
 	name = "Purple Suit Jacket"
@@ -159,6 +162,7 @@
 	item_state = "suitjacket_purp"
 	blood_overlay_type = "coat"
 	body_parts_covered = UPPER_TORSO|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 //Internal Affairs
 /obj/item/clothing/suit/storage/toggle/internalaffairs
@@ -170,8 +174,7 @@
 	icon_closed = "ia_jacket"
 	blood_overlay_type = "coat"
 	body_parts_covered = UPPER_TORSO|ARMS
-
-
+	flags = ONLY_DEFAULT_BODY
 
 //Medical
 /obj/item/clothing/suit/storage/toggle/fr_jacket
