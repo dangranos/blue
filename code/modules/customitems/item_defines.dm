@@ -857,6 +857,7 @@
 	desc = "A labcoat with a few markings denoting it as the labcoat of roboticist."
 	icon = 'icons/obj/custom_items.dmi'
 	icon_state = "aeneasrinil"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/storage/labcoat/fluff/pink //spaceman96: Trenna Seber
 	name = "pink labcoat"
@@ -870,6 +871,7 @@
 	icon = 'icons/obj/custom_items.dmi'
 	icon_state = "mitlabcoat"
 	item_state = "mitlabcoat"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/storage/toggle/labcoat/fluff/epsilon //Devildabeast: Looping Song
 	name = "e UMi labcoat"
@@ -879,6 +881,7 @@
 	icon_open = "labcoat_black_open"
 	icon_closed = "labcoat_black"
 	item_state = "labcoat_black"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/storage/det_suit/fluff/leatherjack //atomicdog92: Seth Sealis
 	name = "leather jacket"
@@ -912,6 +915,7 @@
 	icon_state = "br_dress"
 	item_state = "br_dress"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	flags = ONLY_DEFAULT_BODY
 
 //////////////////////////////// Broseph Stylin - Lombardi's Jacket ///////////////////////////
 
@@ -922,6 +926,7 @@
 	icon_state = "lombardi_jacket"
 	item_state = "lombardi_jacket"
 	body_parts_covered = UPPER_TORSO|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 	verb/toggle()
 		set name = "Toggle Jacket Buttons"

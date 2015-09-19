@@ -195,6 +195,7 @@
 #define	NOREACT                4096 // Reagents don't react inside this container.
 #define BLOCKHEADHAIR          4    // Temporarily removes the user's hair overlay. Leaves facial hair.
 #define BLOCKHAIR              8192 // Temporarily removes the user's hair, facial and otherwise.
+#define ONLY_DEFAULT_BODY      16384
 
 // Flags for pass_flags.
 #define PASSTABLE  1
@@ -609,6 +610,10 @@ var/list/be_special_flags = list(
 #define PULSE_THREADY 5 // Occurs during hypovolemic shock
 #define GETPULSE_HAND 0 // Less accurate. (hand)
 #define GETPULSE_TOOL 1 // More accurate. (med scanner, sleeper, etc.)
+
+// Body builds
+#define BODY_DEFAULT	0	// Default body build
+#define BODY_SLIM		1	// Slim body build
 
 // Species flags.
 #define NO_BLOOD       1     // Vessel var is not filled with blood, cannot bleed out.

@@ -63,6 +63,7 @@
 	armor = list(melee = 15, bullet = 15, laser = 80, energy = 80, bomb = 60, bio = 100, rad = 100)
 	slowdown = 1
 	offline_vision_restriction = 1
+	flags = ONLY_DEFAULT_BODY
 
 	helm_type = /obj/item/clothing/head/helmet/space/rig/ert
 
@@ -85,6 +86,7 @@
 	armor = list(melee = 30, bullet = 15, laser = 20, energy = 60, bomb = 30, bio = 100, rad = 100)
 	slowdown = 1
 	offline_vision_restriction = 1
+	flags = ONLY_DEFAULT_BODY
 
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/firstaid,/obj/item/device/healthanalyzer,/obj/item/stack/medical,/obj/item/roller )
 
@@ -105,6 +107,7 @@
 	armor = list(melee = 60, bullet = 10, laser = 30, energy = 5, bomb = 45, bio = 100, rad = 10)
 	slowdown = 1
 	offline_vision_restriction = 1
+	flags = ONLY_DEFAULT_BODY
 
 	helm_type = /obj/item/clothing/head/helmet/space/rig/ert
 
