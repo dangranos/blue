@@ -147,6 +147,10 @@ datum/preferences
 	h_style = random_hair_style(gender, species)
 	gear = list()
 
+/datum/preferences/proc/IsJobRestricted(rank)
+	var/datum/species/PS = all_species[species]
+	if(rank in PS.restricted_jobs) return 1
+	return 0
 
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!user || !user.client)	return
@@ -386,8 +390,7 @@ datum/preferences
 	//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
 	var/datum/job/lastJob
 	if (!job_master)		return
-	for(var/J in job_master.occupations)
-		var/datum/job/job = job_master.occupations[J]
+	for(var/datum/job/job in job_master.occupations)
 		index += 1
 		if((index >= limit) || (job.title in splitJobs))
 			if((index < limit) && (lastJob != null))

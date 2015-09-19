@@ -59,6 +59,34 @@
 		"Your scales bristle against the cold."
 		)
 
+
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
+						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
+						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
+
+/datum/species/unathi/accent(n)
+	var/te = rhtml_decode(n)
+	var/t = ""
+	var/list/replace = list("ñ"="ññ", "ø"="øø", "ù"="ùù", "÷"="ø", "ö"="ñ",\
+							"Ñ"="Ñ-ñ", "Ø"="Ø-ø", "Ù"="Ù-ù", "×"="Ø", "Ö"="Ñ")
+	var/list/firstletter = list("ã" = "õ", "Ã" = "Õ")
+	n = length(n)
+	var/new_word = 1
+	var/p = 1//1 is the start of any word
+	while(p <= n)
+		var/n_letter = copytext(te, p, p + 1)
+		if (n_letter == " ") new_word = 1
+		else				 new_word = 0
+		if (prob(80))
+			if( n_letter in replace )
+				n_letter = replace[n_letter]
+			else if( new_word && n_letter in firstletter )
+				n_letter = firstletter[n_letter]
+		t += n_letter
+		p++
+	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))
+
 /datum/species/tajaran
 	name = "Tajara"
 	name_plural = "Tajaran"
@@ -99,6 +127,24 @@
 		"Your overheated skin itches."
 		)
 	cold_discomfort_level = 275
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
+						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
+						"Quartermaster", "Internal Affairs Agent")
+
+/datum/species/tajaran/accent(n)
+	var/te = rhtml_decode(n)
+	var/t = ""
+	var/list/replace = list("ð" = "ðð", "Ð" = "Ð-ð", "Ì"="Ìð", "ì"="ìð")
+	n = length(n)
+	var/p = 1//1 is the start of any word
+	while(p <= n)
+		var/n_letter = copytext(te, p, p + 1)
+		if (prob(80) && (n_letter in replace))
+			n_letter = replace[n_letter]
+		t += n_letter
+		p++
+	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))
 
 /datum/species/skrell
 	name = "Skrell"
@@ -120,8 +166,10 @@
 	flesh_color = "#8CD7A3"
 	blood_color = "#1D2CBF"
 	base_color = "#006666"
-
 	reagent_tag = IS_SKRELL
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Warden",\
+						"Detective", "Security Officer", "Station Engineer", "Atmospheric Technician",\
+						"Quartermaster", "Cargo Technician", "Shaft Miner")
 
 /datum/species/diona
 	name = "Diona"
@@ -172,6 +220,10 @@
 	flesh_color = "#907E4A"
 
 	reagent_tag = IS_DIONA
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
+						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist", "Paramedic",\
+						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
 
 /datum/species/diona/can_understand(var/mob/other)
 	var/mob/living/carbon/alien/diona/D = other
@@ -200,7 +252,7 @@
 
 /datum/species/machine
 	name = "Machine"
-	name_plural = "machines"
+	name_plural = "Machines"
 
 	icobase = 'icons/mob/human_races/r_machine.dmi'
 	deform = 'icons/mob/human_races/r_machine.dmi'

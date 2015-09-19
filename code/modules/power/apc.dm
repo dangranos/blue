@@ -516,6 +516,12 @@
 					update_icon()
 				else
 					user << "<span class='warning'>You fail to [ locked ? "unlock" : "lock"] the APC interface.</span>"
+	else if (istype(W, /obj/item/device/debugger))
+		if(emagged || malfhack)
+			user << "\red There is a software error with the device."
+		else
+			user << "\blue The device's software appears to be fine."
+		return 1
 	else if (istype(W, /obj/item/stack/cable_coil) && !terminal && opened && has_electronics!=2)
 		if (src.loc:intact)
 			user << "<span class='warning'>You must remove the floor plating in front of the APC first.</span>"

@@ -3,6 +3,7 @@
 	icon_state = "black"
 	item_color = "black"
 	desc = "A pair of black shoes."
+	species_restricted = list("exclude","Unathi","Tajara")
 
 	cold_protection = FEET
 	min_cold_protection_temperature = SHOE_MIN_COLD_PROTECTION_TEMPERATURE
@@ -17,6 +18,7 @@
 	desc = "A pair of brown shoes."
 	icon_state = "brown"
 	item_color = "brown"
+	species_restricted = list("exclude","Unathi","Tajara")
 
 	captain
 		item_color = "captain"	//Exists for washing machines. Is not different from brown shoes in any way.
@@ -67,6 +69,7 @@
 	icon_state = "white"
 	permeability_coefficient = 0.01
 	item_color = "white"
+	species_restricted = list("exclude","Unathi","Tajara")
 
 /obj/item/clothing/shoes/leather
 	name = "leather shoes"
@@ -84,6 +87,7 @@
 	name = "orange shoes"
 	icon_state = "orange"
 	item_color = "orange"
+	species_restricted = list("exclude","Unathi","Tajara")
 	var/obj/item/weapon/handcuffs/chained = null
 
 /obj/item/clothing/shoes/orange/proc/attach_cuffs(var/obj/item/weapon/handcuffs/cuffs, mob/user as mob)

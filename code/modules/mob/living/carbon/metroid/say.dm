@@ -1,8 +1,17 @@
 /mob/living/carbon/slime/say(var/message)
+
+	message = trim_strip_html_properly(message)
+	message = capitalize_cp1251(trim_left(message))
+
 	var/verb = say_quote(message)
 
 	if(copytext(message,1,2) == "*")
 		return emote(copytext(message,2))
+
+	if(stat)
+		if(stat == 2)
+			return say_dead(message)
+		return
 
 	return ..(capitalize_cp1251(message), null, verb)
 

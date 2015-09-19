@@ -24,7 +24,7 @@ var/global/datum/controller/occupations/job_master
 			if(!job)	continue
 			if(job.title == "MODE") continue
 			if(job.faction != faction)	continue
-			occupations[job.title] = job
+			occupations += job
 		return 1
 
 
@@ -36,7 +36,11 @@ var/global/datum/controller/occupations/job_master
 
 	proc/GetJob(var/rank)
 		if(!rank)	return null
-		return  occupations[rank]
+		for(var/datum/job/J in occupations)
+			if(!J)	continue
+			if(J.title == rank)	return J
+		return null
+
 
 	proc/GetPlayerAltTitle(mob/new_player/player, rank)
 		return player.client.prefs.GetPlayerAltTitle(GetJob(rank))
@@ -47,6 +51,7 @@ var/global/datum/controller/occupations/job_master
 			var/datum/job/job = GetJob(rank)
 			if(!job)	return 0
 			if(jobban_isbanned(player, rank))	return 0
+			if(player.IsJobRestricted(rank))	return 0
 			if(!job.player_old_enough(player.client)) return 0
 			var/position_limit = job.total_positions
 			if(!latejoin)
@@ -75,6 +80,9 @@ var/global/datum/controller/occupations/job_master
 			if(jobban_isbanned(player, job.title))
 				Debug("FOC isbanned failed, Player: [player]")
 				continue
+			if(player.IsJobRestricted(job.title))
+				Debug("FOC IsJobRestricted failed, Player: [player]")
+				continue
 			if(!job.player_old_enough(player.client))
 				Debug("FOC player not old enough, Player: [player]")
 				continue
@@ -100,6 +108,10 @@ var/global/datum/controller/occupations/job_master
 
 			if(jobban_isbanned(player, job.title))
 				Debug("GRJ isbanned failed, Player: [player], Job: [job.title]")
+				continue
+
+			if(player.IsJobRestricted(job.title))
+				Debug("GRJ IsJobRestricted failed, Player: [player]")
 				continue
 
 			if(!job.player_old_enough(player.client))
@@ -282,6 +294,10 @@ var/global/datum/controller/occupations/job_master
 
 					if(jobban_isbanned(player, job.title))
 						Debug("DO isbanned failed, Player: [player], Job:[job.title]")
+						continue
+
+					if(player.IsJobRestricted(job.title))
+						Debug("DO IsJobRestricted failed, Player: [player]")
 						continue
 
 					if(!job.player_old_enough(player.client))
@@ -528,7 +544,7 @@ var/global/datum/controller/occupations/job_master
 		if(!H)	return 0
 		var/obj/item/weapon/card/id/C = null
 
-		var/datum/job/job = occupations[rank]
+		var/datum/job/job = GetJob(rank)
 
 		if(job)
 			if(job.title == "Cyborg")

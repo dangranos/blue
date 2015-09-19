@@ -105,6 +105,10 @@
 		"eyes" =     /datum/organ/internal/eyes
 		)
 
+	//Misc
+	var/list/restricted_jobs = list()
+
+
 /datum/species/New()
 	if(hud_type)
 		hud = new hud_type()
@@ -251,3 +255,5 @@
 
 	return 0
 
+/datum/species/proc/accent(n, /datum/species/S)
+	return n

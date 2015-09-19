@@ -59,10 +59,10 @@
 		return
 	if (istype(C, /obj/item/weapon/weldingtool))
 		var/obj/item/weapon/weldingtool/WT = C
-		if(WT.remove_fuel(0, user))
+		if(WT.remove_fuel(1, user))
 			user << "\blue Slicing lattice joints ..."
-		new /obj/item/stack/rods(src.loc)
-		del(src)
+			new /obj/item/stack/rods(src.loc)
+			del(src)
 
 	return
 

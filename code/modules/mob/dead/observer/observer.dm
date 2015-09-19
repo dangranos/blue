@@ -22,6 +22,7 @@
 	universal_speak = 1
 	var/atom/movable/following = null
 	var/admin_ghosted = 0
+	var/anonsay = 0
 
 /mob/dead/observer/New(mob/body)
 	sight |= SEE_TURFS | SEE_MOBS | SEE_OBJS | SEE_SELF
@@ -567,12 +568,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Toggle Anonymous Chat"
 	set desc = "Toggles showing your key in dead chat."
 
-	client.prefs.toggles ^= CHAT_GHOSTANON
-	if((client.prefs.toggles & CHAT_GHOSTANON))
+	src.anonsay = !src.anonsay
+	if(anonsay)
 		src << "<span class='info'>Your key won't be shown when you speak in dead chat.</span>"
 	else
 		src << "<span class='info'>Your key will be publicly visible again.</span>"
-	client.prefs.save_preferences()
 
 /mob/dead/observer/canface()
 	return 1

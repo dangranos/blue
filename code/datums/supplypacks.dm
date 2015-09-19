@@ -1520,11 +1520,12 @@ var/list/custom_supply_groups = list ()
 	cost = 0
 	price = 0
 	containername = "crate"
+	containertype = /obj/structure/closet/crate
 	group = "Operations"
 	contains = list()
 
 /datum/supply_packs/custom/New( t_name="Custom supply pack", t_cost=8, t_price=0, t_access=null, \
-								t_containername="crate", t_containertype="obj/structure/closet/crate", \
+								t_containername="crate", t_containertype=/obj/structure/closet/crate, \
 								t_group="Operations", t_hide=0, t_contains = list() )
 	name = t_name
 	cost = t_cost
@@ -1532,7 +1533,7 @@ var/list/custom_supply_groups = list ()
 	access = t_access
 	group = t_group
 	containername = t_containername
-	containertype = text2path(t_containertype)
+	containertype = t_containertype
 	for( var/item in t_contains )
 		contains += item
 	..()
