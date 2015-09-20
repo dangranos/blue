@@ -61,33 +61,14 @@
 		"Your scales bristle against the cold."
 		)
 
+	accent = list("ñ"="ññ", "ø"="øø", "ù"="ùù", "÷"="ø", "ö"="ñ",\
+							"Ñ"="Ñ-ñ", "Ø"="Ø-ø", "Ù"="Ù-ù", "×"="Ø", "Ö"="Ñ")
+	accentFL = list("ã" = "õ", "Ã" = "Õ")
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
 						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
-
-/datum/species/unathi/accent(n)
-	var/te = rhtml_decode(n)
-	var/t = ""
-	var/list/replace = list("ñ"="ññ", "ø"="øø", "ù"="ùù", "÷"="ø", "ö"="ñ",\
-							"Ñ"="Ñ-ñ", "Ø"="Ø-ø", "Ù"="Ù-ù", "×"="Ø", "Ö"="Ñ")
-	var/list/firstletter = list("ã" = "õ", "Ã" = "Õ")
-	n = length(n)
-	var/new_word = 1
-	var/p = 1//1 is the start of any word
-	while(p <= n)
-		var/n_letter = copytext(te, p, p + 1)
-		if (prob(80))
-			if( n_letter in replace )
-				n_letter = replace[n_letter]
-			else if( new_word && n_letter in firstletter )
-				n_letter = firstletter[n_letter]
-		if (n_letter == " ") new_word = 1
-		else				 new_word = 0
-		t += n_letter
-		p++
-	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))
 
 /datum/species/tajaran
 	name = "Tajara"
@@ -133,20 +114,7 @@
 						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
-
-/datum/species/tajaran/accent(n)
-	var/te = rhtml_decode(n)
-	var/t = ""
-	var/list/replace = list("ð" = "ðð", "Ð" = "Ð-ð", "Ì"="Ìð", "ì"="ìð")
-	n = length(n)
-	var/p = 1//1 is the start of any word
-	while(p <= n)
-		var/n_letter = copytext(te, p, p + 1)
-		if (prob(80) && (n_letter in replace))
-			n_letter = replace[n_letter]
-		t += n_letter
-		p++
-	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))
+	accent = list("ð" = "ðð", "Ð" = "Ð-ð", "Ì"="Ìð", "ì"="ìð")
 
 /datum/species/skrell
 	name = "Skrell"
