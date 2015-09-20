@@ -291,6 +291,7 @@
 		'nano/templates/helm.tmpl',
 		'nano/templates/identification_computer.tmpl',
 		'nano/templates/isolation_centrifuge.tmpl',
+		'nano/templates/janitorcart.tmpl',
 		'nano/templates/jukebox.tmpl',
 		'nano/templates/layout_basic.tmpl',
 		'nano/templates/layout_default.tmpl',
