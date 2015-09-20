@@ -41,7 +41,7 @@
 
 	//parse the language code and consume it
 	var/datum/language/speaking = parse_language(message)
-	if(speaking != all_languages[species.default_language])
+	if(speaking != all_languages[species.language])
 		message = species.accent(message)
 	if(speaking)
 		message = copytext(message,2+length(speaking.key))
