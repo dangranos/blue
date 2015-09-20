@@ -70,6 +70,13 @@
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/headset_sec
 
+/obj/item/device/radio/headset/headset_sec/alt
+	name = "bowman security radio headset"
+	desc = "This is used by your elite security force."
+	icon_state = "sec_headset_alt"
+	item_state = "sec_headset_alt"
+	ks2type = /obj/item/device/encryptionkey/headset_sec
+
 /obj/item/device/radio/headset/headset_eng
 	name = "engineering radio headset"
 	desc = "When the engineers wish to chat like girls."
@@ -91,6 +98,13 @@
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/headset_med
 
+/obj/item/device/radio/headset/headset_med/alt
+	name = "medical radio headset"
+	desc = "A headset for the trained staff of the medbay."
+	icon_state = "med_headset_alt"
+	item_state = "med_headset_alt"
+	ks2type = /obj/item/device/encryptionkey/headset_med
+
 /obj/item/device/radio/headset/headset_sci
 	name = "science radio headset"
 	desc = "A sciency headset. Like usual."
@@ -110,6 +124,13 @@
 	desc = "A headset with a commanding channel."
 	icon_state = "com_headset"
 	item_state = "headset"
+	ks2type = /obj/item/device/encryptionkey/headset_com
+
+/obj/item/device/radio/headset/headset_com/alt
+	name = "command radio headset"
+	desc = "A headset with a commanding channel."
+	icon_state = "com_headset_alt"
+	item_state = "com_headset_alt"
 	ks2type = /obj/item/device/encryptionkey/headset_com
 
 /obj/item/device/radio/headset/heads/captain
@@ -144,8 +165,8 @@
 /obj/item/device/radio/headset/heads/hos
 	name = "head of security's headset"
 	desc = "The headset of the man who protects your worthless lifes."
-	icon_state = "com_headset"
-	item_state = "headset"
+	icon_state = "com_headset_alt"
+	item_state = "com_headset_alt"
 	ks2type = /obj/item/device/encryptionkey/heads/hos
 
 /obj/item/device/radio/headset/heads/ce
@@ -200,8 +221,8 @@
 /obj/item/device/radio/headset/ert
 	name = "emergency response team radio headset"
 	desc = "The headset of the boss's boss."
-	icon_state = "com_headset"
-	item_state = "headset"
+	icon_state = "cent_headset_alt"
+	item_state = "cent_headset_alt"
 	freerange = 1
 	ks2type = /obj/item/device/encryptionkey/ert
 

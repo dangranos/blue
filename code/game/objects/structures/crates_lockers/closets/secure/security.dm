@@ -162,6 +162,7 @@
 		new /obj/item/weapon/storage/box/holobadge(src)
 		new /obj/item/clothing/head/beret/sec/warden(src)
 		new /obj/item/clothing/suit/security/navywarden(src)
+		new /obj/item/device/radio/headset/headset_sec/alt(src)
 		return
 
 
@@ -199,6 +200,7 @@
 		new /obj/item/clothing/under/rank/security/corp(src)
 		new /obj/item/ammo_magazine/c45m/rubber(src)
 		new /obj/item/weapon/gun/energy/taser(src)
+		new /obj/item/device/radio/headset/headset_sec/alt(src)
 		return
 
 
