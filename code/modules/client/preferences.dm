@@ -576,7 +576,8 @@ datum/preferences
 	dat += "</center></body>"
 
 	user << browse(null, "window=preferences")
-	user << browse(dat, "window=species;size=700x400")
+	spawn(2)
+		user << browse(dat, "window=species;size=700x400")
 
 /datum/preferences/proc/SetAntagoptions(mob/user)
 	if(uplinklocation == "" || !uplinklocation)
@@ -1530,7 +1531,8 @@ datum/preferences
 
 				if("open_load_dialog")
 					if(!IsGuestKey(user.key))
-						open_load_dialog(user)
+						spawn(2)
+							open_load_dialog(user)
 
 				if("close_load_dialog")
 					close_load_dialog(user)
