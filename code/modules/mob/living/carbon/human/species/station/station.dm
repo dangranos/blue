@@ -78,13 +78,13 @@
 	var/p = 1//1 is the start of any word
 	while(p <= n)
 		var/n_letter = copytext(te, p, p + 1)
-		if (n_letter == " ") new_word = 1
-		else				 new_word = 0
 		if (prob(80))
 			if( n_letter in replace )
 				n_letter = replace[n_letter]
 			else if( new_word && n_letter in firstletter )
 				n_letter = firstletter[n_letter]
+		if (n_letter == " ") new_word = 1
+		else				 new_word = 0
 		t += n_letter
 		p++
 	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))
