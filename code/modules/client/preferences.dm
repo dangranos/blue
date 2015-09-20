@@ -1126,6 +1126,9 @@ datum/preferences
 					if(prev_species != species)
 						var/datum/species/current_species = all_species[species_preview]
 						species_flags = current_species.flags
+						allow_slim_fem = current_species.allow_slim_fem
+						if(!allow_slim_fem) body_build = BODY_DEFAULT
+
 						//grab one of the valid hair styles for the newly chosen species
 						var/list/valid_hairstyles = list()
 						for(var/hairstyle in hair_styles_list)
@@ -1460,6 +1463,7 @@ datum/preferences
 						gender = FEMALE
 					else
 						gender = MALE
+						body_build = 0
 
 				if("build")
 					if(body_build == BODY_DEFAULT)
@@ -1575,7 +1579,7 @@ datum/preferences
 	character.exploit_record = exploit_record
 
 	character.gender = gender
-	character.body_build = body_build
+	character.body_build = (allow_slim_fem && gender == FEMALE) ? body_build : 0
 	character.age = age
 	character.b_type = b_type
 
