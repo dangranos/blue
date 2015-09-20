@@ -104,7 +104,7 @@
 	S["real_name"]			>> real_name
 	S["name_is_always_random"] >> be_random_name
 	S["gender"]				>> gender
-	S["body_build"]		>> body_build
+	S["body_build"]			>> body_build
 	S["age"]				>> age
 	S["species"]			>> species
 	S["language"]			>> language
