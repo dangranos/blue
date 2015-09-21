@@ -738,6 +738,7 @@ var/list/admin_verbs_mentor = list(
 						M.body_build = 0
 
 	M.dna.ResetUIFrom(M)
+	M.dna.real_name = M.real_name
 	M.update_hair()
 	M.update_body()
 	M.check_dna(M)
