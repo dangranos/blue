@@ -672,6 +672,9 @@ var/list/admin_verbs_mentor = list(
 	if(!istype(M, /mob/living/carbon/human))
 		usr << "\red You can only do this to humans!"
 		return
+	var/datum/species/S = M.species
+	if(!S) S = all_species["Human"]
+
 	switch(alert("Are you sure you wish to edit this mob's appearance? Skrell, Unathi, Vox and Tajaran can result in unintended consequences.",,"Yes","No"))
 		if("No")
 			return
@@ -687,23 +690,25 @@ var/list/admin_verbs_mentor = list(
 		M.hair_g = hex2num(copytext(new_hair, 4, 6))
 		M.hair_b = hex2num(copytext(new_hair, 6, 8))
 
-	var/new_eyes = input("Please select eye color.", "Character Generation") as color
-	if(new_eyes)
-		M.eyes_r = hex2num(copytext(new_eyes, 2, 4))
-		M.eyes_g = hex2num(copytext(new_eyes, 4, 6))
-		M.eyes_b = hex2num(copytext(new_eyes, 6, 8))
+	if(S.flags & HAS_EYE_COLOR)
+		var/new_eyes = input("Please select eye color.", "Character Generation") as color
+		if(new_eyes)
+			M.eyes_r = hex2num(copytext(new_eyes, 2, 4))
+			M.eyes_g = hex2num(copytext(new_eyes, 4, 6))
+			M.eyes_b = hex2num(copytext(new_eyes, 6, 8))
 
-	var/new_skin = input("Please select body color. This is for Tajaran, Unathi, and Skrell only!", "Character Generation") as color
-	if(new_skin)
-		M.skin_r = hex2num(copytext(new_skin, 2, 4))
-		M.skin_g = hex2num(copytext(new_skin, 4, 6))
-		M.skin_b = hex2num(copytext(new_skin, 6, 8))
+	if(S.flags & HAS_SKIN_COLOR)
+		var/new_skin = input("Please select body color. This is for Tajaran, Unathi, and Skrell only!", "Character Generation") as color
+		if(new_skin)
+			M.skin_r = hex2num(copytext(new_skin, 2, 4))
+			M.skin_g = hex2num(copytext(new_skin, 4, 6))
+			M.skin_b = hex2num(copytext(new_skin, 6, 8))
 
-	var/new_tone = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation")  as text
-
-	if (new_tone)
-		M.s_tone = max(min(round(text2num(new_tone)), 220), 1)
-		M.s_tone =  -M.s_tone + 35
+	if(S.flags & HAS_SKIN_TONE)
+		var/new_tone = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation")  as text
+		if (new_tone)
+			M.s_tone = max(min(round(text2num(new_tone)), 220), 1)
+			M.s_tone =  -M.s_tone + 35
 
 	// hair
 	var/new_hstyle = input(usr, "Select a hair style", "Grooming")  as null|anything in hair_styles_list
@@ -719,8 +724,21 @@ var/list/admin_verbs_mentor = list(
 	if (new_gender)
 		if(new_gender == "Male")
 			M.gender = MALE
+			M.body_build = 0
 		else
 			M.gender = FEMALE
+			if(!S.allow_slim_fem)
+				M.body_build = 0
+			else // If slim body allowed
+				var/new_body_build = alert(usr, "Please select body build.", "Character body build", "Default", "Slim")
+				if (new_body_build)
+					if(new_body_build == "Slim")
+						M.body_build = 1
+					else
+						M.body_build = 0
+
+	M.dna.ResetUIFrom(M)
+	M.dna.real_name = M.real_name
 	M.update_hair()
 	M.update_body()
 	M.check_dna(M)
