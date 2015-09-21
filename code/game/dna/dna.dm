@@ -48,14 +48,17 @@
 
 			if (character.gender == MALE)
 				gender = add_zero2(num2hex((rand(1,(2050+BLOCKADD))),1), 3)
+				body_build = 0
 			else
 				gender = add_zero2(num2hex((rand((2051+BLOCKADD),4094)),1), 3)
+				body_build = character.body_build
 
 			temp += gender
 			temp += add_zero2(num2hex((beard),1), 3)
 			temp += add_zero2(num2hex((hair),1), 3)
 
 			uni_identity = temp
+
 		if(length(struc_enzymes)!= 3*STRUCDNASIZE)
 			var/mutstring = ""
 			for(var/i = 1, i <= STRUCDNASIZE, i++)
@@ -106,8 +109,10 @@
 
 	if (character.gender == MALE)
 		gender = add_zero2(num2hex((rand(1,(2050+BLOCKADD))),1), 3)
+		body_build = 0
 	else
 		gender = add_zero2(num2hex((rand((2051+BLOCKADD),4094)),1), 3)
+		body_build = character.body_build
 
 	temp += gender
 	temp += add_zero2(num2hex((beard),1), 3)
