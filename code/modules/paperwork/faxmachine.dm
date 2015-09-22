@@ -24,6 +24,8 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 
 	var/destination = "Central Command" // the department we're sending to
 
+	pass_flags = PASSTABLE
+
 /obj/machinery/photocopier/faxmachine/New()
 	..()
 	allfaxes += src
