@@ -43,7 +43,7 @@ var/list/department_radio_keys = list(
 	  ":û" = "Security",	"#û" = "Security",		".û" = "Security",
 	  ":ö" = "whisper",		"#ö" = "whisper",		".ö" = "whisper",
 	  ":å" = "Mercenary",	"#å" = "Mercenary",		".å" = "Mercenary",
-	  ":é" = "Supply",		"#é" = "Supply",		".ã" = "Supply",
+	  ":ã" = "Supply",		"#ã" = "Supply",		".ã" = "Supply",
 	  ":ì" = "Service",		"#ì" = "Service",		".ì" = "Service",
 	  ":ç" = "AI Private",	"#ç" = "AI Private",	".ç" = "AI Private",
 )
@@ -82,6 +82,9 @@ proc/get_radio_key_from_channel(var/channel)
 		if(dongle.translate_binary) return 1
 
 /mob/living/say(var/message, var/datum/language/speaking = null, var/verb="says", var/alt_name="", var/italics=0, var/message_range = world.view, var/sound/speech_sound, var/sound_vol)
+
+	message = trim_strip_html_properly(message)
+	message = capitalize_cp1251(trim_left(message))
 
 	var/turf/T = get_turf(src)
 

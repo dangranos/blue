@@ -37,8 +37,6 @@
 		else
 			message = copytext(message,3)
 
-	message = capitalize_cp1251(trim_left(message))
-
 	//parse the language code and consume it
 	var/datum/language/speaking = parse_language(message)
 	if(speaking != all_languages[species.language])
