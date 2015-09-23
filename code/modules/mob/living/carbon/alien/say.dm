@@ -20,8 +20,6 @@
 	if(speaking)
 		message = copytext(message, 2+length(speaking.key))
 
-	message = capitalize_cp1251(trim(message))
-
 	if(!message || stat)
 		return
 

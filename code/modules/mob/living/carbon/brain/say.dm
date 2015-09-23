@@ -33,4 +33,4 @@
 			var/obj/item/device/mmi/radio_enabled/R = container
 			if(R.radio)
 				spawn(0) R.radio.hear_talk(src, trim(sanitize(message)), verb, speaking)
-		..(capitalize_cp1251(trim(message)), speaking, verb)
+		..(trim(message), speaking, verb)
