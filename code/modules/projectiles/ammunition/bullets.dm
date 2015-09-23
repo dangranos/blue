@@ -64,6 +64,7 @@
 	name = "shotgun slug"
 	desc = "A 12 gauge slug."
 	icon_state = "slshell"
+	spent_icon = "slshell-spent"
 	caliber = "shotgun"
 	projectile_type = /obj/item/projectile/bullet/shotgun
 	matter = list("metal" = 360)
@@ -72,6 +73,7 @@
 	name = "shotgun shell"
 	desc = "A 12 gauge shell."
 	icon_state = "gshell"
+	spent_icon = "gshell-spent"
 	projectile_type = /obj/item/projectile/bullet/pellet/shotgun
 	matter = list("metal" = 360)
 
@@ -79,6 +81,7 @@
 	name = "shotgun shell"
 	desc = "A blank shell."
 	icon_state = "blshell"
+	spent_icon = "blshell-spent"
 	projectile_type = /obj/item/projectile/bullet/blank
 	matter = list("metal" = 90)
 
@@ -86,6 +89,7 @@
 	name = "beanbag shell"
 	desc = "A beanbag shell."
 	icon_state = "bshell"
+	spent_icon = "bshell-spent"
 	projectile_type = /obj/item/projectile/bullet/shotgun/beanbag
 	matter = list("metal" = 180)
 
@@ -108,6 +112,7 @@
 	name = "flash shell"
 	desc = "A chemical shell used to signal distress or provide illumination."
 	icon_state = "fshell"
+	spent_icon = "fshell-spent"
 	projectile_type = /obj/item/projectile/energy/flash/flare
 	matter = list("metal" = 90, "glass" = 90)
 

@@ -14,6 +14,7 @@ obj/machinery/recharger
 	var/icon_state_charging = "recharger1"
 	var/icon_state_idle = "recharger0" //also when unpowered
 	var/portable = 1
+	pass_flags = PASSTABLE
 
 obj/machinery/recharger/examine(mob/user)
 	if(charging)
