@@ -197,10 +197,8 @@
 									available_channels.Add(":n")
 								if("Medical")
 									available_channels.Add(":m")
-								if("Mining")
-									available_channels.Add(":d")
 								if("Cargo")
-									available_channels.Add(":q")
+									available_channels.Add(":u")
 
 						if(headset_to_add.translate_binary)
 							available_channels.Add(":b")
