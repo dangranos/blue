@@ -141,6 +141,8 @@
 						"Detective", "Security Officer", "Station Engineer", "Atmospheric Technician",\
 						"Quartermaster", "Cargo Technician", "Shaft Miner")
 
+	allow_slim_fem = 1
+
 /datum/species/diona
 	name = "Diona"
 	name_plural = "Dionaea"
