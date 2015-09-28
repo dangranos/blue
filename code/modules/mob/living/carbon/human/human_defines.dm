@@ -28,7 +28,7 @@
 	var/skin_g = 0
 	var/skin_b = 0
 
-	var/body_build = null // Only for fem rigth now
+	var/body_build = BODY_DEFAULT // Only for fem rigth now
 
 	var/size_multiplier = 1 //multiplier for the mob's icon size
 	var/damage_multiplier = 1 //multiplies melee combat damage
