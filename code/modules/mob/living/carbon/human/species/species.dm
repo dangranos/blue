@@ -273,6 +273,7 @@
 				n_letter = accent[n_letter]
 			else if( new_word && n_letter in accentFL )
 				n_letter = accentFL[n_letter]
+		if (length(n_letter)>1 && prob(50)) n_letter = copytext(n_letter, 1,2)+"-"+copytext(n_letter,2)
 		if (n_letter == " ") new_word = 1
 		else				 new_word = 0
 		t += n_letter

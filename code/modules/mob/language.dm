@@ -165,7 +165,9 @@
 	exclaim_verb = "yowls"
 	colour = "tajaran"
 	key = "j"
-	flags = WHITELISTED
+	signlang_verb = list("lightly touches a chin with a paw", "waves their tail", "twitches the end of their tail",\
+						 "pins back their ears")
+	flags = WHITELISTED | NONVERBAL
 	syllables = list("rr","rr","tajr","kir","raj","kii","mir","kra","ahk","nal","vah","khaz","jri","ran","darr", \
 	"mi","jri","dynh","manq","rhe","zar","rrhaz","kal","chur","eech","thaa","dra","jurl","mah","sanu","dra","ii'r", \
 	"ka","aasi","far","wa","baq","ara","qara","zir","sam","mak","hrar","nja","rir","khan","jun","dar","rik","kah", \
