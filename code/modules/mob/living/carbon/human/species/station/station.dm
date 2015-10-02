@@ -61,8 +61,8 @@
 		"Your scales bristle against the cold."
 		)
 
-	accent = list("ñ"="ññ", "ø"="øø", "ù"="ùù", "÷"="ø", "ö"="ñ",\
-							"Ñ"="Ñ-ñ", "Ø"="Ø-ø", "Ù"="Ù-ù", "×"="Ø", "Ö"="Ñ")
+	accent = list("ñ"="ññ", "ø"="øø", "ù"="ùù",\
+				  "Ñ"="Ññ", "Ø"="Øø", "Ù"="Ùù")
 	accentFL = list("ã" = "õ", "Ã" = "Õ")
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
@@ -114,7 +114,7 @@
 						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
-	accent = list("ð" = "ðð", "Ð" = "Ð-ð", "Ì"="Ìð", "ì"="ìð")
+	accent = list("ð" = "ðð", "Ð" = "Ðð")
 
 /datum/species/skrell
 	name = "Skrell"
