@@ -1402,7 +1402,7 @@
 		log_admin("[key_name(H)] got their cookie, spawned by [key_name(src.owner)]")
 		message_admins("[key_name(H)] got their cookie, spawned by [key_name(src.owner)]")
 		H << "\blue Your prayers have been answered!! You received the <b>best cookie</b>!"
-/*
+
 	else if(href_list["CentcommReply"])
 		var/mob/living/carbon/human/H = locate(href_list["CentcommReply"])
 		if(!istype(H))
@@ -1450,7 +1450,7 @@
 			var/data = ""
 			var/obj/item/weapon/paper_bundle/B = fax
 
-			for (var/page = 1, page <= B.amount, page++)
+			for (var/page = 1, page <= B.contents.len, page++)
 				var/obj/pageobj = B.contents[page]
 				data += "<A href='?src=\ref[src];AdminFaxViewPage=[page];paper_bundle=\ref[B]'>Page [page] - [pageobj.name]</A><BR>"
 
@@ -1550,7 +1550,6 @@
 		src.owner << "/red Unable to locate fax!"
 		*/
 
-*/
 
 	else if(href_list["jumpto"])
 		if(!check_rights(R_ADMIN))	return

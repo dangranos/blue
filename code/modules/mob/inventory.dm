@@ -21,6 +21,10 @@
 	if(lying)			return 0
 	if(!istype(W))		return 0
 	if(!l_hand)
+		if(istype(src, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = src
+			var/datum/organ/external/E = H.organs_by_name["l_hand"]
+			if(!E || E.amputated) return 0
 		W.loc = src		//TODO: move to equipped?
 		l_hand = W
 		W.layer = 20	//TODO: move to equipped?
@@ -37,6 +41,10 @@
 	if(lying)			return 0
 	if(!istype(W))		return 0
 	if(!r_hand)
+		if(istype(src, /mob/living/carbon/human))
+			var/mob/living/carbon/human/H = src
+			var/datum/organ/external/E = H.organs_by_name["r_hand"]
+			if(!E || E.amputated) return 0
 		W.loc = src
 		r_hand = W
 		W.layer = 20
