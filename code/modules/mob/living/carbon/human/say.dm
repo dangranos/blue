@@ -49,6 +49,9 @@
 	if(!(speaking == all_languages[species.language] || (speaking.flags&(NO_STUTTER|HIVEMIND))) )
 		message = species.handle_accent(message)
 
+	if(!(speaking == all_languages[species.language] || (speaking.flags&(NO_STUTTER|HIVEMIND))) )
+		message = species.handle_accent(message)
+
 	var/ending = copytext(message, length(message))
 	if (speaking)
 		// This is broadcast to all mobs with the language,
