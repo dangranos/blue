@@ -55,6 +55,7 @@
 	set category = "IC"
 
 	var/list/langs = list()
+	if(!languages || !languages.len) return
 	for(var/datum/language/L in languages)
 		langs += L.name
 

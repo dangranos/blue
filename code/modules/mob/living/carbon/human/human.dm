@@ -867,7 +867,7 @@
 	if (isnull(target))
 		return
 
-	var/say = input ("What do you wish to say")
+	var/say = russian_to_cp1251(input ("What do you wish to say"))
 	if(mRemotetalk in target.mutations)
 		target.show_message("\blue You hear [src.real_name]'s voice: [say]")
 	else
