@@ -635,7 +635,7 @@ var/list/be_special_flags = list(
 
 // Language flags.
 #define WHITELISTED 1   // Language is available if the speaker is whitelisted.
-#define RESTRICTED  2   // Language can only be accquired by spawning or an admin.
+#define PUBLIC      2   // Language can be accquired by anybody without restriction.
 #define NONVERBAL   4   // Language has a significant non-verbal component. Speech is garbled without line-of-sight.
 #define SIGNLANG    8   // Language is completely non-verbal. Speech is displayed through emotes for those who can understand.
 #define HIVEMIND    16  // Broadcast to all mobs with this language.
