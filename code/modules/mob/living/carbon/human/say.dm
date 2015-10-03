@@ -46,10 +46,7 @@
 		if(default_language)
 			speaking = default_language
 
-	if(!(speaking == all_languages[species.language] || (speaking.flags&(NO_STUTTER|HIVEMIND))) )
-		message = species.handle_accent(message)
-
-	if(!(speaking == all_languages[species.language] || (speaking.flags&(NO_STUTTER|HIVEMIND))) )
+	if(!(speaking == all_languages[species.language] || (speaking.flags&(NO_STUTTER|HIVEMIND)) || speaking == all_languages["Noise"]) )
 		message = species.handle_accent(message)
 
 	var/ending = copytext(message, length(message))
