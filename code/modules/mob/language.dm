@@ -124,7 +124,7 @@
 	name = "Noise"
 	desc = "Noises"
 	key = ""
-	flags = RESTRICTED|NONGLOBAL|INNATE|NO_TALK_MSG|NO_STUTTER
+	flags = NONGLOBAL|INNATE|NO_TALK_MSG|NO_STUTTER
 
 /datum/language/noise/format_message(message, verb)
 	return "<span class='message'><span class='[colour]'>[message]</span></span>"
@@ -216,7 +216,6 @@
 	exclaim_verb = "rustles"
 	colour = "soghun"
 	key = "q"
-	flags = RESTRICTED
 	syllables = list("hs","zt","kr","st","sh")
 
 /datum/language/diona/get_random_name()
@@ -230,7 +229,6 @@
 	speech_verb = "says"
 	whisper_verb = "whispers"
 	key = "0"
-	flags = RESTRICTED
 	syllables = list("blah","blah","blah","bleh","meh","neh","nah","wah")
 
 //TODO flag certain languages to use the mob-type specific say_quote and then get rid of these.
@@ -249,7 +247,6 @@
 	whisper_verb = "whispers"
 	colour = "solcom"
 	key = "1"
-	flags = RESTRICTED
 
 	//syllables are at the bottom of the file
 
@@ -278,6 +275,7 @@
 	colour = "say_quote"
 	key = "2"
 	space_chance = 100
+	flags = PUBLIC
 	syllables = list("lorem", "ipsum", "dolor", "sit", "amet", "consectetur", "adipiscing", "elit",
 					 "sed", "do", "eiusmod", "tempor", "incididunt", "ut", "labore", "et", "dolore",
 					 "magna", "aliqua", "ut", "enim", "ad", "minim", "veniam", "quis", "nostrud",
@@ -293,6 +291,7 @@
 	speech_verb = "growls"
 	colour = "rough"
 	key = "3"
+	flags = PUBLIC
 	syllables = list ("gra","ba","ba","breh","bra","rah","dur","ra","ro","gro","go","ber","bar","geh","heh", "gra")
 
 /datum/language/xenocommon
@@ -303,7 +302,6 @@
 	ask_verb = "hisses"
 	exclaim_verb = "hisses"
 	key = "4"
-	flags = RESTRICTED
 	syllables = list("sss","sSs","SSS")
 
 /datum/language/xenos
@@ -314,7 +312,7 @@
 	exclaim_verb = "hisses"
 	colour = "alien"
 	key = "a"
-	flags = RESTRICTED | HIVEMIND
+	flags = HIVEMIND
 
 /datum/language/xenos/check_special_condition(var/mob/other)
 
@@ -332,7 +330,7 @@
 	speech_verb = "says"
 	colour = "changeling"
 	key = "g"
-	flags = RESTRICTED | HIVEMIND
+	flags = HIVEMIND
 
 /datum/language/ling/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
 
@@ -349,7 +347,7 @@
 	exclaim_verb = "sings"
 	colour = "alien"
 	key = "x"
-	flags = RESTRICTED | HIVEMIND
+	flags = HIVEMIND
 
 /datum/language/corticalborer/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
 
@@ -373,7 +371,7 @@
 	ask_verb = "queries"
 	exclaim_verb = "declares"
 	key = "b"
-	flags = RESTRICTED | HIVEMIND
+	flags = HIVEMIND
 	var/drone_only
 
 /datum/language/binary/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
@@ -424,7 +422,7 @@
 	exclaim_verb = "transmits"
 	colour = "say_quote"
 	key = "d"
-	flags = RESTRICTED | HIVEMIND
+	flags = HIVEMIND
 	drone_only = 1
 
 // Language handling.

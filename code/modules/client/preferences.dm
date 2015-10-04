@@ -1175,27 +1175,21 @@ datum/preferences
 						s_tone = 0
 
 				if("language")
-					var/languages_available
 					var/list/new_languages = list("None")
 					var/datum/species/S = all_species[species]
 
-					if(config.usealienwhitelist)
-						for(var/L in all_languages)
-							var/datum/language/lang = all_languages[L]
-							if((!(lang.flags & RESTRICTED)) && (is_alien_whitelisted(user, L)||(!( lang.flags & WHITELISTED ))||(S && (L in S.secondary_langs))))
-								new_languages += lang
+					for(var/L in all_languages)
+						var/datum/language/lang = all_languages[L]
+						if((lang.flags & PUBLIC))
+							new_languages += lang.name
 
-								languages_available = 1
+					for(var/L in S.secondary_langs)
+						new_languages += L
 
-						if(!(languages_available))
-							alert(user, "There are not currently any available secondary languages.")
+					if(!(new_languages.len))
+						alert(user, "There are not currently any available secondary languages.")
 					else
-						for(var/L in all_languages)
-							var/datum/language/lang = all_languages[L]
-							if(!(lang.flags & RESTRICTED))
-								new_languages += lang.name
-
-					language = input("Please select a secondary language", "Character Generation", null) in new_languages
+						language = input("Please select a secondary language", "Character Generation", null) in new_languages
 
 
 				if("b_type")
