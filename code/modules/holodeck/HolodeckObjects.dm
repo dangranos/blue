@@ -390,9 +390,9 @@
 
 /mob/living/simple_animal/hostile/carp/holodeck
 	icon = 'icons/mob/AI.dmi'
-	icon_state = "holo4"
-	icon_living = "holo4"
-	icon_dead = "holo4"
+	icon_state = "holo5"
+	icon_living = "holo5"
+	icon_dead = "holo5"
 	alpha = 127
 	icon_gib = null
 	meat_amount = 0
