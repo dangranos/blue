@@ -1018,6 +1018,7 @@ obj/item/weapon/organ/New(loc, mob/living/carbon/human/H)
 	..(loc)
 	if(!istype(H))
 		return
+
 	if(H.dna)
 		if(!blood_DNA)
 			blood_DNA = list()
@@ -1055,6 +1056,16 @@ obj/item/weapon/organ/New(loc, mob/living/carbon/human/H)
 			base.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
 
 	icon = base
+
+	var/g = "m"
+	if (H.gender == FEMALE)
+		if(H.body_build == BODY_SLIM)
+			g = "f1"
+		else
+			g = "f"
+
+	icon_state = "[icon_state]_[g]"
+
 	set_dir(SOUTH)
 	src.transform = turn(src.transform, rand(70,130))
 
