@@ -141,15 +141,19 @@
 			H << "<font color='blue'><b>You deploy your suit helmet, sealing you off from the world.</b></font>"
 	helmet.update_light(H)
 
-/obj/item/clothing/suit/space/void/attackby(obj/item/W as obj, mob/user as mob)
-
-	if(!istype(user,/mob/living)) return
-
+/obj/item/clothing/suit/space/void/proc/can_modify(mob/user as mob)
+	if(!istype(user,/mob/living)) return 0
 	if(istype(src.loc,/mob/living))
 		user << "<span class='danger'>How do you propose to modify a hardsuit while it is being worn?</span>"
-		return
+		return 0
+	return 1
+
+/obj/item/clothing/suit/space/void/attackby(obj/item/W as obj, mob/user as mob)
+
+	if(!istype(user,/mob/living)) ..()
 
 	if(istype(W,/obj/item/weapon/screwdriver))
+		if(!can_modify(user)) return
 		if(helmet)
 			user << "You detatch \the [helmet] from \the [src]'s helmet mount."
 			helmet.loc = get_turf(src)
@@ -161,7 +165,9 @@
 		else
 			user << "\The [src] does not have anything installed."
 		return
+
 	else if(istype(W,/obj/item/clothing/head/helmet/space))
+		if(!can_modify(user)) return
 		if(helmet)
 			user << "\The [src] already has a helmet installed."
 		else
@@ -170,7 +176,9 @@
 			W.loc = src
 			src.helmet = W
 		return
+
 	else if(istype(W,/obj/item/clothing/shoes/magboots))
+		if(!can_modify(user)) return
 		if(boots)
 			user << "\The [src] already has magboots installed."
 		else

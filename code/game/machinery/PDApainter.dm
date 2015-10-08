@@ -40,7 +40,6 @@
 
 		src.colorlist += D
 
-
 /obj/machinery/pdapainter/attackby(var/obj/item/O as obj, var/mob/user as mob)
 	if(istype(O, /obj/item/device/pda))
 		if(storedpda)
@@ -48,8 +47,7 @@
 			return
 
 		storedpda = O
-		user.drop_item()
-		storedpda.loc = src
+		user.drop_from_inventory(storedpda, src)
 		storedpda.add_fingerprint(usr)
 		update_icon()
 
@@ -73,13 +71,15 @@
 		src.add_fingerprint(user)
 		return
 
-	if(istype(O,/obj/item/weapon/wrench))
+	else if(istype(O,/obj/item/weapon/wrench))
 		user << "\blue You begin to [anchored ? "unwrench" : "wrench"] the [src]"
 		if (do_after(user, 40))
 			anchored = !anchored
 			src.add_fingerprint(usr)
 			user.visible_message("\red [user] is messing with the [src]!", "You [anchored ? "wrenched" : "unwrenched"] the machine.","You hear strange ratched sound.")
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+
+	else ..()
 
 /obj/machinery/pdapainter/attack_hand(mob/user as mob)
 	..()
