@@ -575,7 +575,8 @@ BLIND     // can't see anything
 /obj/item/clothing/under/verb/removetie()
 	set name = "Remove Accessory"
 	set category = "Object"
-	set src in usr
+	set src in view(1)
+
 	if(!istype(usr, /mob/living)) return
 	if(usr.stat) return
 	if(!accessories.len) return
