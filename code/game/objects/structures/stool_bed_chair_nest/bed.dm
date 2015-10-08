@@ -41,6 +41,14 @@
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 		new /obj/item/stack/sheet/metal(src.loc)
 		del(src)
+	else if(istype(W, /obj/item/weapon/bedsheet))
+		user.drop_from_inventory(W, src.loc)
+		if(buckled_mob)
+			W.layer = 5
+			src.visible_message("<span class='notice'>[user] cover [buckled_mob] with \the [W].")
+		else
+			W.layer = initial(W.layer)
+			src.visible_message("<span class='notice'>[user] make the bed with \the [W].")
 	else
 		..()
 
