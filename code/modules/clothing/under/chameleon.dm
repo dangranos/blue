@@ -1,3 +1,46 @@
+var/global/list/chameleons = list(
+	"under" = list(),
+	"head" = list(),
+	"suit" = list(),
+	"shoes" = list(),
+	"backpack" = list(),
+	"gloves" = list(),
+	"mask" = list(),
+	"glasses" = list(),
+	"projectile" = list()
+)
+
+/obj/item/proc/initialize_chameleon_list(var/style_list = "", var/basic_type, var/list/blocked = list())
+	world << "Try rebuild [style_list] list"
+	var/list/check = chameleons[style_list]
+	if(check && check.len) return
+	world << "Rebuild [style_list] list"
+	chameleons[style_list] = list("protect")
+	var/list/styles = list()
+	for(var/T in typesof(basic_type) - blocked - type)
+		var/obj/O = T
+		styles[initial(O.name)] = T
+	chameleons[style_list] = styles
+	return
+
+/obj/item/proc/change_item_appearance(var/obj/item/new_type)
+	if(!new_type) return
+	desc = initial(new_type.desc)
+	name = initial(new_type.name)
+	icon = initial(new_type.icon)
+	icon_state = initial(new_type.icon_state)
+	item_state = initial(new_type.item_state)
+	item_color = initial(new_type.item_color)
+	body_parts_covered = initial(new_type.body_parts_covered)
+	//flags = initial(new_type.flags)
+	flags_inv = initial(new_type.flags_inv)
+	description_info = initial(new_type.description_info)
+	//slot_flags = initial(new_type.slot_flags)
+	if (ismob(loc))
+		var/mob/M = loc
+		M.update_inv_obj(src, 1)
+
+
 //*****************
 //**Cham Jumpsuit**
 //*****************
@@ -9,16 +52,13 @@
 	item_state = "bl_suit"
 	item_color = "black"
 	desc = "It's a plain jumpsuit. It seems to have a small dial on the wrist."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
-	var/list/clothing_choices = list()
-
-/obj/item/clothing/under/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/clothing/under/chameleon, /obj/item/clothing/under/cloud, /obj/item/clothing/under/gimmick)//Prevent infinite loops and bad jumpsuits.
-	for(var/U in typesof(/obj/item/clothing/under)-blocked)
-		var/obj/item/clothing/under/V = new U
-		src.clothing_choices[V.name] = U
-	return
+	var/style_list = "under"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/under/cloud,\
+									/obj/item/clothing/under/gimmick))
 
 /obj/item/clothing/under/chameleon/emp_act(severity)
 	name = "psychedelic"
@@ -33,22 +73,12 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select jumpsuit to change it to", "Chameleon Jumpsuit")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select jumpsuit to change it to", "Chameleon Jumpsuit")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/clothing/A = new newtype
 
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	item_color = A.item_color
-	body_parts_covered = A.body_parts_covered
-	update_clothing_icon()	//so our overlays update.
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
 //*****************
 //**Chameleon Hat**
@@ -60,17 +90,13 @@
 	item_state = "greysoft"
 	item_color = "grey"
 	desc = "It looks like a plain hat, but upon closer inspection, there's an advanced holographic array installed inside. It seems to have a small dial inside."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	body_parts_covered = 0
-	var/list/clothing_choices = list()
-
-/obj/item/clothing/head/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/clothing/head/chameleon,/obj/item/clothing/head/justice,)//Prevent infinite loops and bad hats.
-	for(var/U in typesof(/obj/item/clothing/head)-blocked)
-		var/obj/item/clothing/head/V = new U
-		src.clothing_choices[V.name] = U
-	return
+	var/style_list = "head"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/head/justice))
 
 /obj/item/clothing/head/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "grey cap"
@@ -85,23 +111,12 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select headwear to change it to", "Chameleon Hat")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select headwear to change it to", "Chameleon Hat")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/clothing/A = new newtype
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	item_color = A.item_color
-	flags_inv = A.flags_inv
-	body_parts_covered = A.body_parts_covered
-	update_clothing_icon()	//so our overlays update.
 
 //******************
 //**Chameleon Suit**
@@ -112,17 +127,13 @@
 	icon_state = "armor"
 	item_state = "armor"
 	desc = "It appears to be a vest of standard armor, except this is embedded with a hidden holographic cloaker, allowing it to change it's appearance, but offering no protection.. It seems to have a small dial inside."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
-	var/list/clothing_choices = list()
-
-/obj/item/clothing/suit/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/clothing/suit/chameleon, /obj/item/clothing/suit/cyborg_suit, /obj/item/clothing/suit/justice,
-		/obj/item/clothing/suit/greatcoat)//Prevent infinite loops and bad suits.
-	for(var/U in typesof(/obj/item/clothing/suit)-blocked)
-		var/obj/item/clothing/suit/V = new U
-		src.clothing_choices[V.name] = U
-	return
+	var/style_list = "suit"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/suit/cyborg_suit,\
+									/obj/item/clothing/suit/justice, /obj/item/clothing/suit/greatcoat))
 
 /obj/item/clothing/suit/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "armor"
@@ -137,23 +148,11 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select exosuit to change it to", "Chameleon Exosuit")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select exosuit to change it to", "Chameleon Exosuit")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/clothing/A = new newtype
-
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	item_color = A.item_color
-	flags_inv = A.flags_inv
-	body_parts_covered = A.body_parts_covered
-	update_clothing_icon()	//so our overlays update.
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
 //*******************
 //**Chameleon Shoes**
@@ -164,16 +163,13 @@
 	item_state = "black"
 	item_color = "black"
 	desc = "They're comfy black shoes, with clever cloaking technology built in. It seems to have a small dial on the back of each shoe."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
-	var/list/clothing_choices = list()
-
-/obj/item/clothing/shoes/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/clothing/shoes/chameleon, /obj/item/clothing/shoes/syndigaloshes, /obj/item/clothing/shoes/cyborg)//prevent infinite loops and bad shoes.
-	for(var/U in typesof(/obj/item/clothing/shoes)-blocked)
-		var/obj/item/clothing/shoes/V = new U
-		src.clothing_choices[V.name] = U
-	return
+	var/style_list = "shoes"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type,\
+			list(/obj/item/clothing/shoes/syndigaloshes, /obj/item/clothing/shoes/cyborg))
 
 /obj/item/clothing/shoes/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "black shoes"
@@ -189,21 +185,11 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select shoes to change it to", "Chameleon Shoes")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select shoes to change it to", "Chameleon Shoes")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/clothing/A = new newtype
-
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	item_color = A.item_color
-	update_clothing_icon()	//so our overlays update.
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
 //**********************
 //**Chameleon Backpack**
@@ -213,16 +199,13 @@
 	icon_state = "backpack"
 	item_state = "backpack"
 	desc = "A backpack outfitted with cloaking tech. It seems to have a small dial inside, kept away from the storage."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
-	var/list/clothing_choices = list()
-
-/obj/item/weapon/storage/backpack/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/weapon/storage/backpack/chameleon, /obj/item/weapon/storage/backpack/satchel/withwallet)
-	for(var/U in typesof(/obj/item/weapon/storage/backpack)-blocked)//Prevent infinite loops and bad backpacks.
-		var/obj/item/weapon/storage/backpack/V = new U
-		src.clothing_choices[V.name] = U
-	return
+	var/style_list = "backpack"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type,\
+			list(/obj/item/weapon/storage/backpack/satchel/withwallet))
 
 /obj/item/weapon/storage/backpack/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "backpack"
@@ -239,25 +222,11 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select backpack to change it to", "Chameleon Backpack")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select backpack to change it to", "Chameleon Backpack")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/weapon/storage/backpack/A = new newtype
-
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	item_color = A.item_color
-
-	//so our overlays update.
-	if (ismob(src.loc))
-		var/mob/M = src.loc
-		M.update_inv_back()
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
 //********************
 //**Chameleon Gloves**
@@ -269,16 +238,12 @@
 	item_state = "bgloves"
 	item_color = "brown"
 	desc = "It looks like a pair of gloves, but it seems to have a small dial inside."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
-	var/list/clothing_choices = list()
-
-/obj/item/clothing/gloves/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/clothing/gloves/chameleon)//Prevent infinite loops and bad hats.
-	for(var/U in typesof(/obj/item/clothing/gloves)-blocked)
-		var/obj/item/clothing/gloves/V = new U
-		src.clothing_choices[V.name] = U
-	return
+	var/style_list = "gloves"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type)
 
 /obj/item/clothing/gloves/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "black gloves"
@@ -293,22 +258,11 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select gloves to change it to", "Chameleon Gloves")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select gloves to change it to", "Chameleon Gloves")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/clothing/A = new newtype
-
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	item_color = A.item_color
-	flags_inv = A.flags_inv
-	update_clothing_icon()	//so our overlays update.
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
 //******************
 //**Chameleon Mask**
@@ -319,17 +273,12 @@
 	icon_state = "gas_alt"
 	item_state = "gas_alt"
 	desc = "It looks like a plain gask mask, but on closer inspection, it seems to have a small dial inside."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
-	var/list/clothing_choices = list()
-
-/obj/item/clothing/mask/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/clothing/mask/chameleon)//Prevent infinite loops and bad hats.
-	for(var/U in typesof(/obj/item/clothing/mask)-blocked)
-		var/obj/item/clothing/mask/V = new U
-		if(V)
-			src.clothing_choices[V.name] = U
-	return
+	var/style_list = "mask"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type)
 
 /obj/item/clothing/mask/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "gas mask"
@@ -343,22 +292,11 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select mask to change it to", "Chameleon Mask")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select mask to change it to", "Chameleon Mask")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/clothing/A = new newtype
-
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	flags_inv = A.flags_inv
-	body_parts_covered = A.body_parts_covered
-	update_clothing_icon()	//so our overlays update.
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
 //*********************
 //**Chameleon Glasses**
@@ -369,16 +307,12 @@
 	icon_state = "meson"
 	item_state = "glasses"
 	desc = "It looks like a plain set of mesons, but on closer inspection, it seems to have a small dial inside."
+	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
-	var/list/clothing_choices = list()
-
-/obj/item/clothing/glasses/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/clothing/glasses/chameleon)//Prevent infinite loops and bad hats.
-	for(var/U in typesof(/obj/item/clothing/glasses)-blocked)
-		var/obj/item/clothing/glasses/V = new U
-		src.clothing_choices[V.name] = U
-	return
+	var/style_list = "glasses"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type)
 
 /obj/item/clothing/glasses/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "Optical Meson Scanner"
@@ -392,21 +326,11 @@
 	set category = "Object"
 	set src in usr
 
-	var/picked = input("Select glasses to change it to", "Chameleon Glasses")as null|anything in clothing_choices
-	if(!picked || !clothing_choices[picked])
+	var/picked = input("Select glasses to change it to", "Chameleon Glasses")as null|anything in chameleons[style_list]
+	if(!picked)
 		return
-	var/newtype = clothing_choices[picked]
-	var/obj/item/clothing/A = new newtype
-
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	flags_inv = A.flags_inv
-	update_clothing_icon()	//so our overlays update.
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
 
 //*****************
 //**Chameleon Gun**
@@ -421,15 +345,11 @@
 	origin_tech = "combat=2;materials=2;syndicate=8"
 	ammo_type = "/obj/item/ammo_casing/chameleon"
 	matter = list()
-	var/list/gun_choices = list()
-
-/obj/item/weapon/gun/projectile/chameleon/New()
-	..()
-	var/blocked = list(/obj/item/weapon/gun/projectile/chameleon)
-	for(var/U in typesof(/obj/item/weapon/gun/)-blocked)
-		var/obj/item/weapon/gun/V = new U
-		src.gun_choices[V.name] = U
-	return
+	permeability_coefficient = 0.90
+	var/style_list = "projectile"
+	New()
+		..()
+		initialize_chameleon_list(style_list, parent_type)
 
 /obj/item/weapon/gun/projectile/chameleon/emp_act(severity)
 	name = "desert eagle"
@@ -441,27 +361,11 @@
 		M.update_inv_r_hand()
 		M.update_inv_l_hand()
 
-/obj/item/weapon/gun/projectile/chameleon/verb/change(picked in gun_choices)
+/obj/item/weapon/gun/projectile/chameleon/verb/change()
 	set name = "Change Gun Appearance"
 	set category = "Object"
 	set src in usr
 
-	if(!picked || !gun_choices[picked])
-		return
-	var/newtype = gun_choices[picked]
-	var/obj/item/weapon/gun/A = new newtype
-
-	desc = null
-	permeability_coefficient = 0.90
-
-	desc = A.desc
-	name = A.name
-	icon_state = A.icon_state
-	item_state = A.item_state
-	flags_inv = A.flags_inv
-
-	//so our overlays update.
-	if (ismob(src.loc))
-		var/mob/M = src.loc
-		M.update_inv_r_hand()
-		M.update_inv_l_hand()
+	var/picked = input("Select backpack to change it to", "Chameleon Backpack")as null|anything in chameleons[style_list]
+	var/newtype = chameleons[style_list][picked]
+	change_item_appearance(newtype)
