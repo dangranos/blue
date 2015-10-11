@@ -58,11 +58,6 @@
 	description_antag = "This gun can alter its appearance to mimick other weapons.  To change the appearance, use the appropriate verb in the object tab. \
 	The ammo loaded by default makes the gun useless for actual combat."
 
-/obj/item/weapon/gun/projectile/chameleon/change(picked in gun_choices) //Making the gun change its help text to match the weapon's help text.
-	..(picked)
-	var/obj/O = gun_choices[picked]
-	description_info = initial(O.description_info)
-
 /obj/item/weapon/gun/projectile/shotgun/pump
 	description_info = "This is a ballistic weapon.  To fire the weapon, ensure your intent is *not* set to 'help', have your gun mode set to 'fire', \
 	then click where you want to fire.  After firing, you will need to pump the gun, by clicking on the gun in your hand.  To reload, load more shotgun \

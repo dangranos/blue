@@ -520,7 +520,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 //vvvvvv UPDATE_INV PROCS vvvvvv
 
 /mob/living/carbon/human/update_inv_w_uniform(var/update_icons=1)
-	if(w_uniform && istype(w_uniform, /obj/item/clothing/under) )
+	if(w_uniform)
 		w_uniform.screen_loc = ui_iclothing
 		var/t_color = w_uniform.item_color
 		if(!t_color)		t_color = icon_state
@@ -538,7 +538,8 @@ proc/get_damage_icon_part(damage_state, body_part)
 			bloodsies.color		= w_uniform.blood_color
 			standing.overlays	+= bloodsies
 
-		if(w_uniform:accessories.len)	//WE CHECKED THE TYPE ABOVE. THIS REALLY SHOULD BE FINE.
+		var/obj/item/clothing/under/U = w_uniform
+		if(istype(U) && U.accessories.len)	//WE CHECKED THE TYPE ABOVE. THIS REALLY SHOULD BE FINE.
 			for(var/obj/item/clothing/accessory/A in w_uniform:accessories)
 				var/tie_color = A.item_color
 				if(!tie_color) tie_color = A.icon_state
@@ -907,6 +908,23 @@ proc/get_damage_icon_part(damage_state, body_part)
 		overlays_standing[L_HAND_LAYER] = null
 
 	if(update_icons) update_icons()
+
+/mob/living/carbon/human/update_inv_obj(var/obj/item/I, var/update_icons=1)
+	if(I == r_hand)						update_inv_r_hand(update_icons)
+	else if(I == l_hand)				update_inv_l_hand(update_icons)
+	else if(I == w_uniform)				update_inv_w_uniform(update_icons)
+	else if(I == gloves)				update_inv_gloves(update_icons)
+	else if(I == glasses)				update_inv_glasses(update_icons)
+	else if(I == l_ear || I == r_ear)	update_inv_ears(update_icons)
+	else if(I == shoes)					update_inv_shoes(update_icons)
+	else if(I == head)					update_inv_head(update_icons)
+	else if(I == back)					update_inv_back(update_icons)
+	else if(I == wear_suit)				update_inv_wear_suit(update_icons)
+	else if(I == wear_mask)				update_inv_wear_mask(update_icons)
+	else if(I == belt)					update_inv_belt(update_icons)
+	else if(I == wear_id)				update_inv_wear_id(update_icons)
+	else if(I == s_store)				update_inv_s_store(update_icons)
+	return
 
 /mob/living/carbon/human/proc/update_tail_showing(var/update_icons=1)
 	overlays_standing[TAIL_LAYER] = null
