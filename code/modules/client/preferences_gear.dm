@@ -872,6 +872,11 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_gloves
 
+/datum/gear/latex_gloves
+	display_name = "gloves, latex, tajaran"
+	path = /obj/item/clothing/gloves/fluff/murad_hassim_1
+	cost = 3
+	slot = slot_gloves
 
 /datum/gear/orange_gloves
 	display_name = "gloves, orange"
