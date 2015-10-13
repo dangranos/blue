@@ -51,7 +51,7 @@ datum/preferences
 	var/real_name						//our character's name
 	var/be_random_name = 0				//whether we are a random name every round
 	var/gender = MALE					//gender of character (well duh)
-	var/body_build = ""					//type of char body (sprite pack)
+	var/body_build = 0					//type of char body (sprite pack)
 	var/age = 30						//age of character
 	var/spawnpoint = "Arrivals Shuttle" //where this character will spawn (0-2).
 	var/b_type = "A+"					//blood type (not-chooseable)
@@ -233,7 +233,7 @@ datum/preferences
 		dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
 	dat += "Needs Glasses: <a href='?_src_=prefs;preference=disabilities'><b>[disabilities == 0 ? "No" : "Yes"]</b></a><br>"
 	if( !(species_flags & (IS_PLANT | IS_SYNTHETIC)) )
-		dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=input'>Adjust</a><br>"
+		dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=open'>Adjust</a><br>"
 		dat += "Internal Organs: <a href='byond://?src=\ref[user];preference=organs;task=input'>Adjust</a><br>"
 
 	//display limbs below
@@ -605,40 +605,16 @@ datum/preferences
 	return
 
 /datum/preferences/proc/SetFlavorText(mob/user)
+	var/list/flavs = list("General"="general", "Body"="torso", "Head"="head", "Face"="face", "Eyes"="eyes",\
+					"Mechanical eyes"="mech_eyes", "Arms"="arms", "Hands"="hands", "Legs"="legs", "Feet"="feet")
 	var/HTML = "<body>"
 	HTML += "<tt><center>"
 	HTML += "<b>Set Flavour Text</b> <hr />"
 	HTML += "<br></center>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=general'>General:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["general"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=head'>Head:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["head"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=face'>Face:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["face"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=eyes'>Eyes:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["eyes"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=mech_eyes'>Mechanical eyes:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["mech_eyes"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=torso'>Body:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["torso"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=arms'>Arms:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["arms"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=hands'>Hands:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["hands"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=legs'>Legs:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["legs"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=feet'>Feet:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["feet"]))
-	HTML += "<br>"
+	for(var/flavor in flavs)
+		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavs[flavor]]'>[flavor]:</a> "
+		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavs[flavor]]))
+		HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[user];preference=flavor_text;task=done'>\[Done\]</a>"
 	HTML += "<tt>"
@@ -663,6 +639,28 @@ datum/preferences
 	HTML += "<tt>"
 	user << browse(null, "window=preferences")
 	user << browse(HTML, "window=flavour_text_robot;size=430x300")
+	return
+
+/datum/preferences/proc/SetLimbs(mob/user)
+	var/list/limbs = list("Left Arm"="l_arm", "Left Hand"="l_hand", "Right Arm"="r_arm", "Right Hand"="r_hand",\
+						  "Left Leg"="l_leg", "Left Foot"="l_foot", "Right Leg"="r_leg", "Right Foot"="r_foot")
+	var/list/states = list("Normal"=null,"Amputated"="amputated","Prothesis"="cyborg")
+	var/HTML = "<body>"
+	HTML += "<tt><center>"
+	HTML += "<b>Set Limbs State</b> <hr />"
+	HTML += "<br></center>"
+	for(var/limb in limbs)
+		HTML += "[limb]:"
+		for (var/state in states)
+			if( organ_data[limbs[limb]]==states[state] )
+				HTML += "\t<b>[state]</b>"
+			else
+				HTML += "\t<a href='byond://?src=\ref[user];preference=limbs;task=input;limb=[limb];state=[state]'>[state]</a> "
+		HTML += "<br>"
+	HTML += "<hr />"
+	HTML +="<a href='?src=\ref[user];preference=limbs;task=done'>\[Done\]</a>"
+	HTML += "<tt>"
+	user << browse(HTML, "window=set_limbs;size=430x300")
 	return
 
 /datum/preferences/proc/GetPlayerAltTitle(datum/job/job)
@@ -952,6 +950,7 @@ datum/preferences
 
 				med_record = medmsg
 				SetRecords(user)
+				return
 
 		if(href_list["task"] == "sec_record")
 			var/secmsg = input(usr,"Set your security notes here.","Security Records",rhtml_decode(sec_record)) as message
@@ -962,6 +961,8 @@ datum/preferences
 
 				sec_record = secmsg
 				SetRecords(user)
+				return
+
 		if(href_list["task"] == "gen_record")
 			var/genmsg = input(usr,"Set your employment notes here.","Employment Records",rhtml_decode(gen_record)) as message
 
@@ -971,6 +972,7 @@ datum/preferences
 
 				gen_record = genmsg
 				SetRecords(user)
+				return
 
 		if(href_list["task"] == "exploitable_record")
 			var/exploitmsg = input(usr,"Set exploitable information about you here.","Exploitable Information",rhtml_decode(exploit_record)) as message
@@ -981,6 +983,7 @@ datum/preferences
 
 				exploit_record = exploitmsg
 				SetAntagoptions(user)
+				return
 
 	else if (href_list["preference"] == "antagoptions")
 		if(text2num(href_list["active"]) == 0)
@@ -1104,6 +1107,7 @@ datum/preferences
 					h_style = random_skin_style(gender)*/
 				if("all")
 					randomize_appearance_for()	//no params needed
+
 		if("input")
 			switch(href_list["preference"])
 				if("name")
@@ -1319,8 +1323,12 @@ datum/preferences
 				if("limbs")
 					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
 						return
-					var/limb_name = input(user, "Which limb do you want to change?") as null|anything in list("Left Leg","Right Leg","Left Arm","Right Arm","Left Foot","Right Foot","Left Hand","Right Hand")
+
+					var/limb_name = href_list["limb"]
 					if(!limb_name) return
+
+					var/new_state = href_list["state"]
+					if(!new_state) return
 
 					var/limb = null
 					var/second_limb = null // if you try to change the arm, the hand should also change
@@ -1351,9 +1359,6 @@ datum/preferences
 							limb = "r_hand"
 							third_limb = "r_arm"
 
-					var/new_state = input(user, "What state do you wish the limb to be in?") as null|anything in list("Normal","Amputated","Prothesis")
-					if(!new_state) return
-
 					switch(new_state)
 						if("Normal")
 							organ_data[limb] = null
@@ -1369,6 +1374,9 @@ datum/preferences
 								organ_data[second_limb] = "cyborg"
 							if(third_limb && organ_data[third_limb] == "amputated")
 								organ_data[third_limb] = null
+					ShowChoices(user)
+					SetLimbs(user)
+					return
 
 				if("organs")
 					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
@@ -1453,6 +1461,15 @@ datum/preferences
 					religion = choice
 		else
 			switch(href_list["preference"])
+				if("limbs")
+					switch(href_list["task"])
+						if("open")
+							spawn(2)
+								SetLimbs(user)
+						if("done")
+							user << browse(null, "window=set_limbs")
+							ShowChoices(user)
+							return
 				if("gender")
 					if(gender == MALE)
 						gender = FEMALE
