@@ -13,7 +13,7 @@
 			return say_dead(message)
 		return
 
-	return ..(capitalize_cp1251(message), null, verb)
+	return ..(message, null, verb)
 
 /mob/living/carbon/slime/say_quote(var/text)
 	var/ending = copytext(text, length(text))

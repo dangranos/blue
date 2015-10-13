@@ -142,6 +142,7 @@
 	armor = list(melee = 65, bullet = 30, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.6
+	flags = THICKMATERIAL | ONLY_DEFAULT_BODY
 
 
 /obj/item/clothing/head/helmet/HoS/dermal

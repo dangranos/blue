@@ -37,16 +37,17 @@
 		else
 			message = copytext(message,3)
 
-	message = capitalize_cp1251(trim_left(message))
-
 	//parse the language code and consume it
 	var/datum/language/speaking = parse_language(message)
-	if(speaking != all_languages[species.default_language])
-		message = species.accent(message)
 	if(speaking)
 		message = copytext(message,2+length(speaking.key))
-	else if(species.default_language)
-		speaking = all_languages[species.default_language]
+	else
+		if(!default_language || !(default_language in languages)) default_language = all_languages[species.default_language]
+		if(default_language)
+			speaking = default_language
+
+	if(!(speaking == all_languages[species.language] || (speaking.flags&(NO_STUTTER|HIVEMIND)) || speaking == all_languages["Noise"]) )
+		message = species.handle_accent(message)
 
 	var/ending = copytext(message, length(message))
 	if (speaking)

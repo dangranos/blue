@@ -144,8 +144,8 @@
 /obj/item/device/radio/headset/heads/hos
 	name = "head of security's headset"
 	desc = "The headset of the man who protects your worthless lifes."
-	icon_state = "com_headset"
-	item_state = "headset"
+	icon_state = "com_headset_alt"
+	item_state = "com_headset_alt"
 	ks2type = /obj/item/device/encryptionkey/heads/hos
 
 /obj/item/device/radio/headset/heads/ce
@@ -200,8 +200,8 @@
 /obj/item/device/radio/headset/ert
 	name = "emergency response team radio headset"
 	desc = "The headset of the boss's boss."
-	icon_state = "com_headset"
-	item_state = "headset"
+	icon_state = "cent_headset_alt"
+	item_state = "cent_headset_alt"
 	freerange = 1
 	ks2type = /obj/item/device/encryptionkey/ert
 

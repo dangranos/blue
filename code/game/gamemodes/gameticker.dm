@@ -48,6 +48,7 @@ var/global/datum/controller/gameticker/ticker
 	'sound/music/traitor.ogg',\
 	'sound/music/title2.ogg',\
 	'sound/music/clouds.s3m',\
+	'sound/music/First_rendez-vous.ogg',\
 	'sound/music/space_oddity.ogg') //Ground Control to Major Tom, this song is cool, what's going on?
 	do
 		pregame_timeleft = 180

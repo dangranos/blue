@@ -88,6 +88,7 @@
 	desc = "Heavy, royal purple robes threaded with psychic amplifiers and weird, bulbous lenses. Do not machine wash."
 	icon_state = "psyamp"
 	item_state = "psyamp"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/wizrobe/gentlecoat
 	name = "Gentlemans Coat"

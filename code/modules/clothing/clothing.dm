@@ -22,25 +22,29 @@
 	if (!..())
 		return 0
 
-	if(species_restricted && istype(M,/mob/living/carbon/human))
-		var/exclusive = null
-		var/wearable = null
-		var/mob/living/carbon/human/H = M
+	var/mob/living/carbon/human/H = M
+	if(istype(H))
+		if ((H.gender == FEMALE) && (H.body_build == BODY_SLIM) && (flags & ONLY_DEFAULT_BODY))
+			H << "<span class='danger'>It's not your sized item!</span>"
+			return 0
+		if(species_restricted)
+			var/exclusive = null
+			var/wearable = null
 
-		if("exclude" in species_restricted)
-			exclusive = 1
+			if("exclude" in species_restricted)
+				exclusive = 1
 
-		if(H.species)
-			if(exclusive)
-				if(!(H.species.name in species_restricted))
-					wearable = 1
-			else
-				if(H.species.name in species_restricted)
-					wearable = 1
+			if(H.species)
+				if(exclusive)
+					if(!(H.species.name in species_restricted))
+						wearable = 1
+				else
+					if(H.species.name in species_restricted)
+						wearable = 1
 
-			if(!wearable && !(slot in list(slot_l_store, slot_r_store, slot_s_store)))
-				H << "<span class='danger'>Your species cannot wear [src].</span>"
-				return 0
+				if(!wearable && !(slot in list(slot_l_store, slot_r_store, slot_s_store)))
+					H << "<span class='danger'>Your species cannot wear [src].</span>"
+					return 0
 	return 1
 
 /obj/item/clothing/proc/refit_for_species(var/target_species)
@@ -571,7 +575,8 @@ BLIND     // can't see anything
 /obj/item/clothing/under/verb/removetie()
 	set name = "Remove Accessory"
 	set category = "Object"
-	set src in usr
+	set src in view(1)
+
 	if(!istype(usr, /mob/living)) return
 	if(usr.stat) return
 	if(!accessories.len) return

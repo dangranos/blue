@@ -241,6 +241,9 @@
 				usr << "<span class='notice'>[src] cannot hold [W] as it's a storage item of the same size.</span>"
 			return 0 //To prevent the stacking of same sized storage items.
 
+	if(istype(W, /obj/item/weapon/hand_labeler))
+		var/obj/item/weapon/hand_labeler/L = W
+		if(L.mode) return 0
 	return 1
 
 //This proc handles items being inserted. It does not perform any checks of whether an item can or can't be inserted. That's done by can_be_inserted()

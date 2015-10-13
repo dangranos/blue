@@ -1183,8 +1183,8 @@ datum
 						D.cure()
 				..()
 				return
-		synaptizine
 
+		synaptizine
 			name = "Synaptizine"
 			id = "synaptizine"
 			description = "Synaptizine is used to treat various diseases."
@@ -1205,6 +1205,19 @@ datum
 				if(prob(60))	M.adjustToxLoss(1)
 				..()
 				return
+
+		synaptirex
+			name = "Synaptirex"
+			id = "synaptirex"
+			description = "Synaptirex is used for cleaning blood from synaptizine"
+			reagent_state = LIQUID
+			color = "#99CCAA"
+			overdose = REAGENTS_OVERDOSE
+			scannable = 1
+
+			on_mob_life(var/mob/living/M as mob)
+				holder.remove_reagent("synaptizine", 2*REM)
+				..()
 
 		impedrezene
 			name = "Impedrezene"

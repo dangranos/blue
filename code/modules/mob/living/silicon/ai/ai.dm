@@ -279,34 +279,12 @@ var/list/ai_verbs_default = list(
 				icon = 'icons/mob/custom-synthetic.dmi'
 
 		//if(icon_state == initial(icon_state))
-	var/icontype = ""
-	if (custom_sprite == 1) icontype = ("Custom")//automagically selects custom sprite if one is available
-	else icontype = input("Select an icon!", "AI", null, null) in list("Monochrome", "Rainbow", "Blue", "Inverted", "Text", "Smiley", "Angry", "Dorf", "Matrix", "Bliss", "Firewall", "Green", "Red", "Static", "Triumvirate", "Triumvirate Static", "Soviet", "Trapped", "Heartline", "Chatterbox")
-	switch(icontype)
-		if("Custom") icon_state = "[src.ckey]-ai"
-		if("Rainbow") icon_state = "ai-clown"
-		if("Monochrome") icon_state = "ai-mono"
-		if("Inverted") icon_state = "ai-u"
-		if("Firewall") icon_state = "ai-magma"
-		if("Green") icon_state = "ai-wierd"
-		if("Red") icon_state = "ai-red"
-		if("Static") icon_state = "ai-static"
-		if("Text") icon_state = "ai-text"
-		if("Smiley") icon_state = "ai-smiley"
-		if("Matrix") icon_state = "ai-matrix"
-		if("Angry") icon_state = "ai-angryface"
-		if("Dorf") icon_state = "ai-dorf"
-		if("Bliss") icon_state = "ai-bliss"
-		if("Triumvirate") icon_state = "ai-triumvirate"
-		if("Triumvirate Static") icon_state = "ai-triumvirate-malf"
-		if("Soviet") icon_state = "ai-redoctober"
-		if("Trapped") icon_state = "ai-hades"
-		if("Heartline") icon_state = "ai-heartline"
-		if("Chatterbox") icon_state = "ai-president"
-		else icon_state = "ai"
-	//else
-			//usr <<"You can only change your display once!"
-			//return
+
+	if (custom_sprite == 1) icon_state = "[src.ckey]-ai"
+	var/icontype = input("Select an icon!", "AI", null, null) in AI_icons
+	if( icontype in AI_icons )
+		icon_state = AI_icons[icontype]
+	else icon_state = "ai"
 
 /mob/living/silicon/ai/proc/is_malf()
 	if(ticker.mode.name == "AI malfunction")
@@ -587,6 +565,8 @@ var/list/ai_verbs_default = list(
 		var/icon_list[] = list(
 		"default",
 		"floating face",
+		"Zone AI",
+		"Zone AI (clothing)",
 		"carp"
 		)
 		input = input("Please select a hologram:") as null|anything in icon_list
@@ -597,8 +577,12 @@ var/list/ai_verbs_default = list(
 					holo_icon = getHologramIcon(icon('icons/mob/AI.dmi',"holo1"))
 				if("floating face")
 					holo_icon = getHologramIcon(icon('icons/mob/AI.dmi',"holo2"))
-				if("carp")
+				if("Zone AI")
+					holo_icon = getHologramIcon(icon('icons/mob/AI.dmi',"holo3"))
+				if("Zone AI (clothing)")
 					holo_icon = getHologramIcon(icon('icons/mob/AI.dmi',"holo4"))
+				if("carp")
+					holo_icon = getHologramIcon(icon('icons/mob/AI.dmi',"holo5"))
 	return
 
 /*/mob/living/silicon/ai/proc/corereturn()

@@ -135,6 +135,7 @@
 	item_state = "seclite"
 	brightness_on = 5
 	force = 10.0
+	hitsound = 'sound/weapons/genhit1.ogg'
 
 
 // the desk lamps are a bit special

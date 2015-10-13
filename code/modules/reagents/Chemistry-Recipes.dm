@@ -182,6 +182,13 @@ datum
 			required_reagents = list("sugar" = 1, "lithium" = 1, "water" = 1)
 			result_amount = 3
 
+		synaptirex
+			name = "Synaptirex"
+			id = "synaptirex"
+			result = "synaptirex"
+			required_reagents = list("sugar" = 1, "lithium" = 1, "anti_toxin" = 1)
+			result_amount = 3
+
 		hyronalin
 			name = "Hyronalin"
 			id = "hyronalin"

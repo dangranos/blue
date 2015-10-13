@@ -51,6 +51,7 @@ datum/preferences
 	var/real_name						//our character's name
 	var/be_random_name = 0				//whether we are a random name every round
 	var/gender = MALE					//gender of character (well duh)
+	var/body_build = 0					//type of char body (sprite pack)
 	var/age = 30						//age of character
 	var/spawnpoint = "Arrivals Shuttle" //where this character will spawn (0-2).
 	var/b_type = "A+"					//blood type (not-chooseable)
@@ -77,6 +78,7 @@ datum/preferences
 	var/mech_eyes_b = 0					//Mechanical eye color
 	var/species = "Human"               //Species datum to use.
 	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
+	var/allow_slim_fem = 1
 	var/species_preview                 //Used for the species selection window.
 	var/language = "None"				//Secondary language
 	var/list/gear						//Custom/fluff item loadout.
@@ -144,6 +146,7 @@ datum/preferences
 	real_name = random_name(gender,species)
 	var/datum/species/current_species = all_species["Human"]
 	species_flags = current_species.flags
+	allow_slim_fem = current_species.allow_slim_fem
 	h_style = random_hair_style(gender, species)
 	gear = list()
 
@@ -179,6 +182,8 @@ datum/preferences
 	dat += "<br>"
 
 	dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'><b>[gender == MALE ? "Male" : "Female"]</b></a><br>"
+	if(gender == FEMALE && allow_slim_fem)
+		dat += "<b>Body build:</b> <a href='?_src_=prefs;preference=build'><b>[body_build == BODY_DEFAULT ? "Default" : "Slim"]</b></a><br>"
 	dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><br>"
 	dat += "<b>Spawn Point</b>: <a href='byond://?src=\ref[user];preference=spawnpoint;task=input'>[spawnpoint]</a>"
 
@@ -226,10 +231,10 @@ datum/preferences
 	dat += "Blood Type: <a href='byond://?src=\ref[user];preference=b_type;task=input'>[b_type]</a><br>"
 	if(species_flags & HAS_SKIN_TONE)
 		dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
-	//dat += "Skin pattern: <a href='byond://?src=\ref[user];preference=skin_style;task=input'>Adjust</a><br>"
 	dat += "Needs Glasses: <a href='?_src_=prefs;preference=disabilities'><b>[disabilities == 0 ? "No" : "Yes"]</b></a><br>"
-	dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=input'>Adjust</a><br>"
-	dat += "Internal Organs: <a href='byond://?src=\ref[user];preference=organs;task=input'>Adjust</a><br>"
+	if( !(species_flags & (IS_PLANT | IS_SYNTHETIC)) )
+		dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=open'>Adjust</a><br>"
+		dat += "Internal Organs: <a href='byond://?src=\ref[user];preference=organs;task=input'>Adjust</a><br>"
 
 	//display limbs below
 	var/ind = 0
@@ -571,7 +576,8 @@ datum/preferences
 	dat += "</center></body>"
 
 	user << browse(null, "window=preferences")
-	user << browse(dat, "window=species;size=700x400")
+	spawn(2)
+		user << browse(dat, "window=species;size=700x400")
 
 /datum/preferences/proc/SetAntagoptions(mob/user)
 	if(uplinklocation == "" || !uplinklocation)
@@ -599,40 +605,16 @@ datum/preferences
 	return
 
 /datum/preferences/proc/SetFlavorText(mob/user)
+	var/list/flavs = list("General"="general", "Body"="torso", "Head"="head", "Face"="face", "Eyes"="eyes",\
+					"Mechanical eyes"="mech_eyes", "Arms"="arms", "Hands"="hands", "Legs"="legs", "Feet"="feet")
 	var/HTML = "<body>"
 	HTML += "<tt><center>"
 	HTML += "<b>Set Flavour Text</b> <hr />"
 	HTML += "<br></center>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=general'>General:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["general"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=head'>Head:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["head"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=face'>Face:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["face"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=eyes'>Eyes:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["eyes"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=mech_eyes'>Mechanical eyes:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["mech_eyes"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=torso'>Body:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["torso"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=arms'>Arms:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["arms"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=hands'>Hands:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["hands"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=legs'>Legs:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["legs"]))
-	HTML += "<br>"
-	HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=feet'>Feet:</a> "
-	HTML += TextPreview(cp1251_to_utf8(flavor_texts["feet"]))
-	HTML += "<br>"
+	for(var/flavor in flavs)
+		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavs[flavor]]'>[flavor]:</a> "
+		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavs[flavor]]))
+		HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[user];preference=flavor_text;task=done'>\[Done\]</a>"
 	HTML += "<tt>"
@@ -657,6 +639,28 @@ datum/preferences
 	HTML += "<tt>"
 	user << browse(null, "window=preferences")
 	user << browse(HTML, "window=flavour_text_robot;size=430x300")
+	return
+
+/datum/preferences/proc/SetLimbs(mob/user)
+	var/list/limbs = list("Left Arm"="l_arm", "Left Hand"="l_hand", "Right Arm"="r_arm", "Right Hand"="r_hand",\
+						  "Left Leg"="l_leg", "Left Foot"="l_foot", "Right Leg"="r_leg", "Right Foot"="r_foot")
+	var/list/states = list("Normal"=null,"Amputated"="amputated","Prothesis"="cyborg")
+	var/HTML = "<body>"
+	HTML += "<tt><center>"
+	HTML += "<b>Set Limbs State</b> <hr />"
+	HTML += "<br></center>"
+	for(var/limb in limbs)
+		HTML += "[limb]:"
+		for (var/state in states)
+			if( organ_data[limbs[limb]]==states[state] )
+				HTML += "\t<b>[state]</b>"
+			else
+				HTML += "\t<a href='byond://?src=\ref[user];preference=limbs;task=input;limb=[limb];state=[state]'>[state]</a> "
+		HTML += "<br>"
+	HTML += "<hr />"
+	HTML +="<a href='?src=\ref[user];preference=limbs;task=done'>\[Done\]</a>"
+	HTML += "<tt>"
+	user << browse(HTML, "window=set_limbs;size=430x300")
 	return
 
 /datum/preferences/proc/GetPlayerAltTitle(datum/job/job)
@@ -946,6 +950,7 @@ datum/preferences
 
 				med_record = medmsg
 				SetRecords(user)
+				return
 
 		if(href_list["task"] == "sec_record")
 			var/secmsg = input(usr,"Set your security notes here.","Security Records",rhtml_decode(sec_record)) as message
@@ -956,6 +961,8 @@ datum/preferences
 
 				sec_record = secmsg
 				SetRecords(user)
+				return
+
 		if(href_list["task"] == "gen_record")
 			var/genmsg = input(usr,"Set your employment notes here.","Employment Records",rhtml_decode(gen_record)) as message
 
@@ -965,6 +972,7 @@ datum/preferences
 
 				gen_record = genmsg
 				SetRecords(user)
+				return
 
 		if(href_list["task"] == "exploitable_record")
 			var/exploitmsg = input(usr,"Set exploitable information about you here.","Exploitable Information",rhtml_decode(exploit_record)) as message
@@ -975,6 +983,7 @@ datum/preferences
 
 				exploit_record = exploitmsg
 				SetAntagoptions(user)
+				return
 
 	else if (href_list["preference"] == "antagoptions")
 		if(text2num(href_list["active"]) == 0)
@@ -1098,6 +1107,7 @@ datum/preferences
 					h_style = random_skin_style(gender)*/
 				if("all")
 					randomize_appearance_for()	//no params needed
+
 		if("input")
 			switch(href_list["preference"])
 				if("name")
@@ -1121,6 +1131,9 @@ datum/preferences
 					if(prev_species != species)
 						var/datum/species/current_species = all_species[species_preview]
 						species_flags = current_species.flags
+						allow_slim_fem = current_species.allow_slim_fem
+						if(!allow_slim_fem) body_build = BODY_DEFAULT
+
 						//grab one of the valid hair styles for the newly chosen species
 						var/list/valid_hairstyles = list()
 						for(var/hairstyle in hair_styles_list)
@@ -1166,27 +1179,21 @@ datum/preferences
 						s_tone = 0
 
 				if("language")
-					var/languages_available
 					var/list/new_languages = list("None")
 					var/datum/species/S = all_species[species]
 
-					if(config.usealienwhitelist)
-						for(var/L in all_languages)
-							var/datum/language/lang = all_languages[L]
-							if((!(lang.flags & RESTRICTED)) && (is_alien_whitelisted(user, L)||(!( lang.flags & WHITELISTED ))||(S && (L in S.secondary_langs))))
-								new_languages += lang
+					for(var/L in all_languages)
+						var/datum/language/lang = all_languages[L]
+						if((lang.flags & PUBLIC))
+							new_languages += lang.name
 
-								languages_available = 1
+					for(var/L in S.secondary_langs)
+						new_languages += L
 
-						if(!(languages_available))
-							alert(user, "There are not currently any available secondary languages.")
+					if(!(new_languages.len))
+						alert(user, "There are not currently any available secondary languages.")
 					else
-						for(var/L in all_languages)
-							var/datum/language/lang = all_languages[L]
-							if(!(lang.flags & RESTRICTED))
-								new_languages += lang.name
-
-					language = input("Please select a secondary language", "Character Generation", null) in new_languages
+						language = input("Please select a secondary language", "Character Generation", null) in new_languages
 
 
 				if("b_type")
@@ -1314,8 +1321,14 @@ datum/preferences
 						user << browse(null, "window=disabil")
 
 				if("limbs")
-					var/limb_name = input(user, "Which limb do you want to change?") as null|anything in list("Left Leg","Right Leg","Left Arm","Right Arm","Left Foot","Right Foot","Left Hand","Right Hand")
+					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
+						return
+
+					var/limb_name = href_list["limb"]
 					if(!limb_name) return
+
+					var/new_state = href_list["state"]
+					if(!new_state) return
 
 					var/limb = null
 					var/second_limb = null // if you try to change the arm, the hand should also change
@@ -1346,9 +1359,6 @@ datum/preferences
 							limb = "r_hand"
 							third_limb = "r_arm"
 
-					var/new_state = input(user, "What state do you wish the limb to be in?") as null|anything in list("Normal","Amputated","Prothesis")
-					if(!new_state) return
-
 					switch(new_state)
 						if("Normal")
 							organ_data[limb] = null
@@ -1364,7 +1374,13 @@ datum/preferences
 								organ_data[second_limb] = "cyborg"
 							if(third_limb && organ_data[third_limb] == "amputated")
 								organ_data[third_limb] = null
+					ShowChoices(user)
+					SetLimbs(user)
+					return
+
 				if("organs")
+					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
+						return
 					var/organ_name = input(user, "Which internal function do you want to change?") as null|anything in list("Heart", "Eyes")
 					if(!organ_name) return
 
@@ -1445,11 +1461,27 @@ datum/preferences
 					religion = choice
 		else
 			switch(href_list["preference"])
+				if("limbs")
+					switch(href_list["task"])
+						if("open")
+							spawn(2)
+								SetLimbs(user)
+						if("done")
+							user << browse(null, "window=set_limbs")
+							ShowChoices(user)
+							return
 				if("gender")
 					if(gender == MALE)
 						gender = FEMALE
 					else
 						gender = MALE
+						body_build = 0
+
+				if("build")
+					if(body_build == BODY_DEFAULT)
+						body_build = BODY_SLIM
+					else
+						body_build = BODY_DEFAULT
 
 				if("disabilities")				//please note: current code only allows nearsightedness as a disability
 					disabilities = !disabilities//if you want to add actual disabilities, code that selects them should be here
@@ -1514,7 +1546,8 @@ datum/preferences
 
 				if("open_load_dialog")
 					if(!IsGuestKey(user.key))
-						open_load_dialog(user)
+						spawn(2)
+							open_load_dialog(user)
 
 				if("close_load_dialog")
 					close_load_dialog(user)
@@ -1559,6 +1592,7 @@ datum/preferences
 	character.exploit_record = exploit_record
 
 	character.gender = gender
+	character.body_build = (allow_slim_fem && gender == FEMALE) ? body_build : 0
 	character.age = age
 	character.b_type = b_type
 

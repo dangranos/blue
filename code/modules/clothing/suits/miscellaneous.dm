@@ -17,6 +17,7 @@
 	body_parts_covered = UPPER_TORSO
 	allowed = list (/obj/item/weapon/gun/energy/lasertag/blue)
 	siemens_coefficient = 3.0
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/redtag
 	name = "red laser tag armour"
@@ -27,6 +28,7 @@
 	body_parts_covered = UPPER_TORSO
 	allowed = list (/obj/item/weapon/gun/energy/lasertag/red)
 	siemens_coefficient = 3.0
+	flags = ONLY_DEFAULT_BODY
 
 /*
  * Costume
@@ -37,6 +39,7 @@
 	icon_state = "pirate"
 	item_state = "pirate"
 	body_parts_covered = UPPER_TORSO|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 
 /obj/item/clothing/suit/hgpirate
@@ -46,6 +49,7 @@
 	item_state = "hgpirate"
 	flags_inv = HIDEJUMPSUIT
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
+	flags = ONLY_DEFAULT_BODY
 
 
 /obj/item/clothing/suit/cyborg_suit
@@ -106,7 +110,7 @@
 	icon_state = "overalls"
 	item_state = "overalls"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
-
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/syndicatefake
 	name = "red space suit replica"
@@ -125,6 +129,7 @@
 	item_state = "hastur"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	flags = ONLY_DEFAULT_BODY
 
 
 /obj/item/clothing/suit/imperium_monk
@@ -134,6 +139,7 @@
 	item_state = "imperium_monk"
 	body_parts_covered = HEAD|UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS
 	flags_inv = HIDESHOES|HIDEJUMPSUIT
+	flags = ONLY_DEFAULT_BODY
 
 
 /obj/item/clothing/suit/chickensuit
@@ -144,6 +150,7 @@
 	body_parts_covered = UPPER_TORSO|ARMS|LOWER_TORSO|LEGS|FEET
 	flags_inv = HIDESHOES|HIDEJUMPSUIT
 	siemens_coefficient = 2.0
+	flags = ONLY_DEFAULT_BODY
 
 
 /obj/item/clothing/suit/monkeysuit
@@ -172,6 +179,7 @@
 	item_state = "cardborg"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO
 	flags_inv = HIDEJUMPSUIT
+	flags = ONLY_DEFAULT_BODY
 
 /*
  * Misc
@@ -191,6 +199,7 @@
 	icon_state = "ianshirt"
 	item_state = "ianshirt"
 	body_parts_covered = UPPER_TORSO|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 //pyjamas
 //originally intended to be pinstripes >.>
@@ -216,6 +225,7 @@
 	desc = "A long, thick black leather coat."
 	icon_state = "leathercoat"
 	item_state = "leathercoat"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/storage/leathercoatsec
 	name = "leather coat"
@@ -230,6 +240,7 @@
 	desc = "A canvas jacket styled after classical American military garb. Feels sturdy, yet comfortable."
 	icon_state = "militaryjacket"
 	item_state = "militaryjacket"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/browncoat
 	name = "brown leather coat"
@@ -268,6 +279,7 @@
 	icon_state = "stripper_p_over"
 	item_state = "stripper_p"
 	siemens_coefficient = 1
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/stripper/stripper_green
 	name = "green skimpy dress"
@@ -275,6 +287,7 @@
 	icon_state = "stripper_g_over"
 	item_state = "stripper_g"
 	siemens_coefficient = 1
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/under/stripper/mankini
 	name = "mankini"
@@ -291,6 +304,8 @@
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	siemens_coefficient = 2.0
+	flags = ONLY_DEFAULT_BODY
+
 //swimsuit
 /obj/item/clothing/under/swimsuit/
 	siemens_coefficient = 1
@@ -336,6 +351,7 @@
 	desc = "A simple, comfortable poncho."
 	icon_state = "classicponcho"
 	item_state = "classicponcho"
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/poncho/green
 	name = "green poncho"

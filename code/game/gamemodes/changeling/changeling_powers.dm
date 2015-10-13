@@ -256,12 +256,26 @@
 		return
 
 	changeling.chem_charges -= 5
+	var/old_body_build = src:body_build
 	src.visible_message("<span class='warning'>[src] transforms!</span>")
 	changeling.geneticdamage = 30
 	src.dna = chosen_dna.Clone()
 	src.real_name = chosen_dna.real_name
 	src.flavor_text = ""
 	src.UpdateAppearance()
+	var/mob/living/carbon/human/H = src
+	if(old_body_build != src:body_build && istype(H))
+		update_inv_wear_suit(0)
+		update_inv_gloves(0)
+		update_inv_shoes(0)
+		update_inv_w_uniform(0)
+		update_inv_belt(0)
+		update_inv_wear_id(0)
+		update_inv_ears(0)
+		update_inv_s_store(0)
+		update_inv_back(0)
+		update_inv_wear_mask()
+
 	domutcheck(src, null)
 
 	src.verbs -= /mob/proc/changeling_transform

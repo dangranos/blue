@@ -38,7 +38,7 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 		if(!..())	return 0
 		if(H.age>49)
 			var/obj/item/clothing/under/U = H.w_uniform
-			U.accessories += new /obj/item/clothing/accessory/medal/gold/captain(U)
+			if(istype(U)) U.accessories += new /obj/item/clothing/accessory/medal/gold/captain(U)
 
 		var/sound/announce_sound = (ticker.current_state <= GAME_STATE_SETTING_UP)? null : sound('sound/misc/boatswain.ogg', volume=20)
 		captain_announcement.Announce("All hands, Captain [H.real_name] on deck!", new_sound=announce_sound)

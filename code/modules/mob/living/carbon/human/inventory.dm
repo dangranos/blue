@@ -96,7 +96,11 @@ This saves us from having to call add_fingerprint() any time something is put in
 
 	if (W == wear_suit)
 		if(s_store)
-			drop_from_inventory(s_store)
+			var/obj/item/clothing/suit/space/suit = W
+			if(istype(suit) && suit.try_attach(s_store))
+				drop_from_inventory(s_store, suit)
+			else
+				drop_from_inventory(s_store)
 		if(W)
 			success = 1
 		wear_suit = null

@@ -49,7 +49,6 @@
 			return 1
 		return ..()
 
-
 /mob/living/carbon/brain/update_canmove()
 	if(in_contents_of(/obj/mecha))
 		canmove = 1

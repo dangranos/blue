@@ -107,6 +107,9 @@
 
 	//Misc
 	var/list/restricted_jobs = list()
+	var/list/accent = list()
+	var/list/accentFL = list()
+	var/allow_slim_fem = 0
 
 
 /datum/species/New()
@@ -255,5 +258,24 @@
 
 	return 0
 
-/datum/species/proc/accent(n, /datum/species/S)
-	return n
+/datum/species/proc/handle_accent(n, /datum/species/S)
+	if(!accent.len && !accentFL.len)
+		return n
+	var/te = rhtml_decode(n)
+	var/t = ""
+	n = length(n)
+	var/new_word = 1
+	var/p = 1//1 is the start of any word
+	while(p <= n)
+		var/n_letter = copytext(te, p, p + 1)
+		if (prob(80))
+			if( n_letter in accent )
+				n_letter = accent[n_letter]
+			else if( new_word && n_letter in accentFL )
+				n_letter = accentFL[n_letter]
+		if (length(n_letter)>1 && prob(50)) n_letter = copytext(n_letter, 1,2)+"-"+copytext(n_letter,2)
+		if (n_letter == " ") new_word = 1
+		else				 new_word = 0
+		t += n_letter
+		p++
+	return sanitize(copytext(t,1,MAX_MESSAGE_LEN))

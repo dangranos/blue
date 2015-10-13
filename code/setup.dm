@@ -195,6 +195,7 @@
 #define	NOREACT                4096 // Reagents don't react inside this container.
 #define BLOCKHEADHAIR          4    // Temporarily removes the user's hair overlay. Leaves facial hair.
 #define BLOCKHAIR              8192 // Temporarily removes the user's hair, facial and otherwise.
+#define ONLY_DEFAULT_BODY      16384
 
 // Flags for pass_flags.
 #define PASSTABLE  1
@@ -610,6 +611,10 @@ var/list/be_special_flags = list(
 #define GETPULSE_HAND 0 // Less accurate. (hand)
 #define GETPULSE_TOOL 1 // More accurate. (med scanner, sleeper, etc.)
 
+// Body builds
+#define BODY_DEFAULT	0	// Default body build
+#define BODY_SLIM		1	// Slim body build
+
 // Species flags.
 #define NO_BLOOD       1     // Vessel var is not filled with blood, cannot bleed out.
 #define NO_BREATHE     2     // Cannot suffocate or take oxygen loss.
@@ -630,14 +635,14 @@ var/list/be_special_flags = list(
 
 // Language flags.
 #define WHITELISTED 1   // Language is available if the speaker is whitelisted.
-#define RESTRICTED  2   // Language can only be accquired by spawning or an admin.
+#define PUBLIC      2   // Language can be accquired by anybody without restriction.
 #define NONVERBAL   4   // Language has a significant non-verbal component. Speech is garbled without line-of-sight.
 #define SIGNLANG    8   // Language is completely non-verbal. Speech is displayed through emotes for those who can understand.
 #define HIVEMIND    16  // Broadcast to all mobs with this language.
 #define NONGLOBAL   32  // Do not add to general languages list.
 #define INNATE      64  // All mobs can be assumed to speak and understand this language. (audible emotes)
 #define NO_TALK_MSG 128 // Do not show the "\The [speaker] talks into \the [radio]" message
-#define NO_STUTTER 256		// No stuttering, slurring, or other speech problems
+#define NO_STUTTER  256 // No stuttering, slurring, or other speech problems
 
 //Flags for zone sleeping
 #define ZONE_ACTIVE   1

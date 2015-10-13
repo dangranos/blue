@@ -893,8 +893,10 @@ About the new airlock wires panel:
 			if (stat & BROKEN)
 				usr << "<span class='warning'>The panel is broken and cannot be closed.</span>"
 			else
+				usr << "<span class='notice'>You close '[name]' airlock panel.</span>"
 				src.p_open = 0
 		else
+			usr << "<span class='notice'>You open '[name]' airlock panel.</span>"
 			src.p_open = 1
 		src.update_icon()
 	else if(istype(C, /obj/item/weapon/wirecutters))

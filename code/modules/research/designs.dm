@@ -966,6 +966,12 @@ datum/design/circuit/mechfab
 	req_tech = list("programming" = 3, "engineering" = 3)
 	build_path = /obj/item/weapon/circuitboard/mechfab
 
+datum/design/circuit/PDApainter
+	name = "PDA painter board"
+	id = "pda_painter"
+	req_tech = list("programming" = 2, "engineering" = 2)
+	build_path = /obj/item/weapon/circuitboard/pdapainter
+
 datum/design/circuit/gas_heater
 	name = "gas heating system"
 	id = "gasheater"

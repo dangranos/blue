@@ -50,6 +50,18 @@
 
 	say_dead_direct("[pick("complains","moans","whines","laments","blubbers")], <span class='message'>\"[message]\"</span>", src)
 
+/mob/verb/set_languate()
+	set name = "Set default language"
+	set category = "IC"
+
+	var/list/langs = list()
+	if(!languages || !languages.len) return
+	for(var/datum/language/L in languages)
+		langs += L.name
+
+	var/new_language = input("Select new default language", "Default language") in langs
+	if(new_language) default_language = all_languages[new_language]
+
 /mob/proc/say_understands(var/mob/other,var/datum/language/speaking = null)
 
 	if (src.stat == 2)		//Dead

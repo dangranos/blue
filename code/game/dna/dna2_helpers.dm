@@ -151,8 +151,10 @@
 
 		if (dna.GetUIState(DNA_UI_GENDER))
 			H.gender = FEMALE
+			H.body_build = dna.body_build
 		else
 			H.gender = MALE
+			H.body_build = 0
 
 		//Hair
 		var/hair = dna.GetUIValueRange(DNA_UI_HAIR_STYLE,hair_styles_list.len)
