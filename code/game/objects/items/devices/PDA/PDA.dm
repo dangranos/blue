@@ -1007,7 +1007,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			if(M.stat == DEAD && M.client && (M.client.prefs.toggles & CHAT_GHOSTEARS)) // src.client is so that ghosts don't have to listen to mice
 				if(istype(M, /mob/new_player))
 					continue
-				M.show_message("<span class='game say'>PDA Message - <span class='name'>[owner]</span> -> <span class='name'>[P.owner]</span>: <span class='message'>[t]</span></span>")
+				M.show_message("<span class='game say'>PDA Message - <span class='name'>[owner]</span> -> <span class='name'>[P.owner]</span>: <span class='message'>[reception.message]</span></span>")
 
 		if(!conversations.Find("\ref[P]"))
 			conversations.Add("\ref[P]")
@@ -1022,7 +1022,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			for(var/mob/living/silicon/ai/ai in mob_list)
 				// Allows other AIs to intercept the message but the AI won't intercept their own message.
 				if(ai.aiPDA != P && ai.aiPDA != src)
-					ai.show_message("<i>Intercepted message from <b>[who]</b>: [t]</i>")
+					ai.show_message("<i>Intercepted message from <b>[who]</b>: [reception.message]</i>")
 
 		P.new_message_from_pda(src, t)
 		nanomanager.update_user_uis(U, src) // Update the sending user's PDA UI so that they can see the new message
