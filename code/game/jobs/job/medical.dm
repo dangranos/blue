@@ -46,7 +46,7 @@
 	supervisors = "the chief medical officer"
 	selection_color = "#ffeef0"
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
-	minimal_access = list(access_medical, access_morgue, access_surgery, access_virology)
+	minimal_access = list(access_medical, access_morgue, access_surgery, access_virology, access_genetics)
 	alt_titles = list("Surgeon","Emergency Physician","Nurse","Virologist")
 
 	uniform = /obj/item/clothing/under/rank/medical
