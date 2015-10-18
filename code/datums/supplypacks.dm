@@ -395,9 +395,18 @@ var/list/custom_supply_groups = list ()
 					/obj/item/weapon/reagent_containers/glass/bottle/stoxin,
 					/obj/item/weapon/storage/box/syringes,
 					/obj/item/weapon/storage/box/autoinjectors)
-	cost = 10
+	cost = 12
 	containertype = /obj/structure/closet/crate/medical
 	containername = "Medical crate"
+	group = "Medical"
+
+/datum/supply_packs/medical
+	name = "Genetics disks crate"
+	contains = list(/obj/item/weapon/storage/box/disks,
+					/obj/item/weapon/storage/box/disks)
+	cost = 10
+	containertype = /obj/structure/closet/crate/medical
+	containername = "Genetics disks crate"
 	group = "Medical"
 
 /datum/supply_packs/bloodpack
