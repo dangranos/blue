@@ -303,9 +303,14 @@ var/list/valid_secondary_effect_types = list(\
 				my_effect.ToggleActivate()
 			if(secondary_effect && secondary_effect.trigger == TRIGGER_FORCE && prob(25))
 				secondary_effect.ToggleActivate(0)
-	else if(ishuman(M) && !istype(M:gloves,/obj/item/clothing/gloves))
-		var/warn = 0
+	else if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves) && !H.gloves:clipped)
+			return ..()
+		if(istype(H.wear_suit, /obj/item/clothing/suit/space))
+			return ..()
 
+		var/warn = 0
 		if (my_effect.trigger == TRIGGER_TOUCH && prob(50))
 			my_effect.ToggleActivate()
 			warn = 1

@@ -1022,7 +1022,6 @@ datum
 				var/mob/living/carbon/slime/S = new /mob/living/carbon/slime
 				S.loc = get_turf(holder.my_atom)
 
-
 		slimemonkey
 			name = "Slime Monkey"
 			id = "m_monkey"
@@ -1036,6 +1035,7 @@ datum
 					var /obj/item/weapon/reagent_containers/food/snacks/monkeycube/M = new /obj/item/weapon/reagent_containers/food/snacks/monkeycube
 					M.loc = get_turf(holder.my_atom)
 
+
 //Green
 		slimemutate
 			name = "Mutation Toxin"
@@ -1045,6 +1045,7 @@ datum
 			result_amount = 1
 			required_other = 1
 			required_container = /obj/item/slime_extract/green
+
 
 //Metal
 		slimemetal
@@ -1062,6 +1063,7 @@ datum
 				var/obj/item/stack/sheet/plasteel/P = new /obj/item/stack/sheet/plasteel
 				P.amount = 5
 				P.loc = get_turf(holder.my_atom)
+
 
 //Gold
 		slimecrit
@@ -1110,6 +1112,7 @@ datum
 				for(var/mob/O in viewers(get_turf(holder.my_atom), null))
 					O.show_message(text("\red The slime core fizzles disappointingly,"), 1)
 
+
 //Silver
 		slimebork
 			name = "Slime Bork"
@@ -1149,6 +1152,8 @@ datum
 			result_amount = 10
 			required_container = /obj/item/slime_extract/blue
 			required_other = 1
+
+
 //Dark Blue
 		slimefreeze
 			name = "Slime Freeze"
@@ -1166,6 +1171,7 @@ datum
 				for(var/mob/living/M in range (get_turf(holder.my_atom), 7))
 					M.bodytemperature -= 140
 					M << "\blue You feel a chill!"
+
 
 //Orange
 		slimecasp
@@ -1194,6 +1200,7 @@ datum
 					target_tile.assume_gas("phoron", 25, 1400)
 					spawn (0) target_tile.hotspot_expose(700, 400)
 
+
 //Yellow
 		slimeoverload
 			name = "Slime EMP"
@@ -1205,7 +1212,6 @@ datum
 			required_other = 1
 			on_reaction(var/datum/reagents/holder, var/created_volume)
 				empulse(get_turf(holder.my_atom), 3, 7)
-
 
 		slimecell
 			name = "Slime Powercell"
@@ -1233,8 +1239,8 @@ datum
 				var/obj/item/device/flashlight/slime/F = new /obj/item/device/flashlight/slime
 				F.loc = get_turf(holder.my_atom)
 
-//Purple
 
+//Purple
 		slimepsteroid
 			name = "Slime Steroid"
 			id = "m_steroid"
@@ -1246,8 +1252,6 @@ datum
 			on_reaction(var/datum/reagents/holder)
 				var/obj/item/weapon/slimesteroid/P = new /obj/item/weapon/slimesteroid
 				P.loc = get_turf(holder.my_atom)
-
-
 
 		slimejam
 			name = "Slime Jam"
@@ -1273,6 +1277,7 @@ datum
 				P.amount = 10
 				P.loc = get_turf(holder.my_atom)
 
+
 //Red
 		slimeglycerol
 			name = "Slime Glycerol"
@@ -1282,7 +1287,6 @@ datum
 			result_amount = 8
 			required_container = /obj/item/slime_extract/red
 			required_other = 1
-
 
 		slimebloodlust
 			name = "Bloodlust"
@@ -1297,6 +1301,7 @@ datum
 					slime.rabid = 1
 					for(var/mob/O in viewers(get_turf(holder.my_atom), null))
 						O.show_message(text("\red The [slime] is driven into a frenzy!"), 1)
+
 
 //Pink
 		slimeppotion
@@ -1322,6 +1327,7 @@ datum
 			required_other = 1
 			required_container = /obj/item/slime_extract/black
 
+
 //Oil
 		slimeexplosion
 			name = "Slime Explosion"
@@ -1336,6 +1342,8 @@ datum
 					O.show_message(text("\red The slime extract begins to vibrate violently !"), 1)
 				sleep(50)
 				explosion(get_turf(holder.my_atom), 1 ,3, 6)
+
+
 //Light Pink
 		slimepotion2
 			name = "Slime Potion 2"
@@ -1348,6 +1356,8 @@ datum
 			on_reaction(var/datum/reagents/holder)
 				var/obj/item/weapon/slimepotion2/P = new /obj/item/weapon/slimepotion2
 				P.loc = get_turf(holder.my_atom)
+
+
 //Adamantine
 		slimegolem
 			name = "Slime Golem"
@@ -1361,6 +1371,22 @@ datum
 				var/obj/effect/golemrune/Z = new /obj/effect/golemrune
 				Z.loc = get_turf(holder.my_atom)
 				Z.announce_to_ghosts()
+
+
+//Brain
+		slimeclonning
+			name = "Slime Clone"
+			id = "m_clone"
+			result = null
+			required_reagents = list("phoron" = 5)
+			result_amount = 1
+			required_container = /obj/item/organ/brain/slime
+//			required_other = 1
+			on_reaction(var/datum/reagents/holder)
+				var/obj/item/organ/brain/slime/B = holder.my_atom
+				spawn
+					B.slimeclone()
+
 
 //////////////////////////////////////////PAINT///////////////////////////////////////////
 //Crayon dust -> paint

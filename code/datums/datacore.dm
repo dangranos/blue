@@ -178,7 +178,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 			preview_icon.Blend(rgb(-H.s_tone,  -H.s_tone,  -H.s_tone), ICON_SUBTRACT)
 
 	// Skin color
-	if(H.species.flags & HAS_SKIN_TONE)
+	if(H.species.flags & HAS_SKIN_COLOR)
 		if(!H.species || H.species.flags & HAS_SKIN_COLOR)
 			preview_icon.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
 

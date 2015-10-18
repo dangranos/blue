@@ -72,6 +72,8 @@
 	var/vision_restriction
 	var/offline_vision_restriction = 1                        // 0 - none, 1 - welder vision, 2 - blind. Maybe move this to helmets.
 
+	var/list/species_restricted = null
+
 	var/emp_protection = 0
 
 	// Wiring! How exciting.
@@ -146,6 +148,7 @@
 		piece.permeability_coefficient = permeability_coefficient
 		piece.unacidable = unacidable
 		if(islist(armor)) piece.armor = armor.Copy()
+		if(species_restricted) piece:species_restricted = species_restricted
 
 	update_icon(1)
 
