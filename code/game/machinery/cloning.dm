@@ -408,6 +408,16 @@
 	var/datum/dna2/record/buf = null
 	var/read_only = 0 //Well,it's still a floppy disk
 
+/obj/item/weapon/disk/data/attackby(var/obj/item/weapon/pen/P as obj, var/mob/user as mob)
+	if(!istype(P)) return ..()
+
+	var/turf/src_turf = get_turf(src)
+	if( !src_turf.Adjacent(user) ) return
+	var/new_name = input("Type in new disk label", "New lable")
+	if(!new_name) return
+	if( !src_turf.Adjacent(user) ) return
+	name = "[initial(name)]: [new_name]"
+
 /obj/item/weapon/disk/data/proc/initializeDisk()
 	buf = new
 	buf.dna=new

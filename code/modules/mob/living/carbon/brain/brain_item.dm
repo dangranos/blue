@@ -26,6 +26,7 @@
 /obj/item/organ/brain/New()
 	..()
 	spawn(5)
+		create_reagents(10)
 		if(brainmob && brainmob.client)
 			brainmob.client.screen.len = null //clear the hud
 
@@ -41,6 +42,9 @@
 
 	brainmob << "<span class='notice'>You feel slightly disoriented. That's normal when you're just a [initial(src.name)].</span>"
 	callHook("debrain", list(brainmob))
+
+	for(var/datum/language/L in H.languages)
+		brainmob.add_language(L.name)
 
 /obj/item/organ/brain/examine(mob/user) // -- TLE
 	..(user)
@@ -83,6 +87,48 @@
 	robotic = 2
 	icon = 'icons/mob/slimes.dmi'
 	icon_state = "green slime extract"
+	var/clonnig_process = 0
+	var/attemps = 2
+
+/obj/item/organ/brain/slime/proc/slimeclone()
+
+	if(attemps<=0) usr << "<span class = 'warning'>[src] is not react!</span>"
+	if(clonnig_process) return 0
+	clonnig_process = 1
+	attemps--
+
+	visible_message("<span class = 'notice'>It seems [src] start moving!</span>")
+	if(!brainmob || !brainmob.mind)
+		clonnig_process = 0
+		return 0
+
+	if(!brainmob.client)
+		for(var/mob/dead/observer/ghost in player_list)
+			if(ghost.mind == brainmob.mind)
+				ghost << "<b><font color = #330033><font size = 3>Your corpse has been placed into a cloning scanner. Return to your body if you want to be resurrected/cloned!</b> (Verbs -> Ghost -> Re-enter corpse)</font color>"
+				break
+
+		for(var/i = 0; i < 6; i++)
+			sleep(100)
+			visible_message("<span class = 'notice'>[src] moving slightly!</span>")
+			if(brainmob.client) break
+
+	if(!brainmob.client)
+		visible_message("<span class = 'warning'>It seems \the [src] stop moving</span>")
+		clonnig_process = 0
+		return 0
+
+	var/datum/mind/clonemind = brainmob.mind
+	if(clonemind.current != brainmob)
+		clonnig_process = 0
+		return 0
+
+	visible_message("<span class = 'warning'>\The [src] start growing!</span>")
+	var/mob/living/carbon/slime/S = new
+	brainmob.mind.transfer_to(S)
+	S.dna = brainmob.dna
+	S.a_intent = "hurt"
+	del(src)
 
 /obj/item/organ/brain/golem
 	name = "chem"
