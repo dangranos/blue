@@ -244,7 +244,7 @@
 	desc = "A stylish monstrosity unearthed from Earth's Renaissance period. With this most distinguish'd wig, you'll be ready for your next soiree!"
 	icon_state = "philosopher_wig"
 	item_state = "philosopher_wig"
-	flags = BLOCKHAIR
+	flags = BLOCKHEADHAIR
 	siemens_coefficient = 2.0 //why is it so conductive?!
 	body_parts_covered = 0
 
