@@ -430,6 +430,15 @@ var/list/robot_verbs_default = list(
 		updatename()
 		updateicon()
 
+/mob/living/silicon/robot/verb/set_flavor()
+	set name = "Set Flavour Text"
+	set desc = "Sets an extended description of your character's features."
+	set category = "IC"
+	var/newflavor = input(src,"You are a robot. Enter a name, or leave blank for the default name.", "Name change","") as text
+	newflavor = rhtml_encode(newflavor)
+	if (newflavor != "")
+		flavor_text = newflavor
+
 // this verb lets cyborgs see the stations manifest
 /mob/living/silicon/robot/verb/cmd_station_manifest()
 	set category = "Robot Commands"
