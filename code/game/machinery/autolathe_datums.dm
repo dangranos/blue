@@ -266,6 +266,11 @@
 	path = /obj/item/device/assembly/prox_sensor
 	category = "Devices and Components"
 
+/datum/autolathe/recipe/voice_analyzer
+	name = "voice analyzer"
+	path = /obj/item/device/assembly/voice
+	category = "Devices and Components"
+
 /datum/autolathe/recipe/tube
 	name = "light tube"
 	path = /obj/item/weapon/light/tube
