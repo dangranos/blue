@@ -11,10 +11,10 @@ var/global/list/chameleons = list(
 )
 
 /obj/item/proc/initialize_chameleon_list(var/style_list = "", var/basic_type, var/list/blocked = list())
-	world << "Try rebuild [style_list] list"
+	//world << "Try rebuild [style_list] list"
 	var/list/check = chameleons[style_list]
 	if(check && check.len) return
-	world << "Rebuild [style_list] list"
+	//world << "Rebuild [style_list] list"
 	chameleons[style_list] = list("protect")
 	var/list/styles = list()
 	for(var/T in typesof(basic_type) - blocked - type)
