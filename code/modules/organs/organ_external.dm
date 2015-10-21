@@ -1100,11 +1100,11 @@ obj/item/weapon/organ/r_leg
 	icon_state = "r_leg"
 obj/item/weapon/organ/head
 	name = "head"
-	icon_state = "head_m"
+	icon_state = "head"
 
 obj/item/weapon/organ/head/New(loc, mob/living/carbon/human/H)
-	if(istype(H))
-		src.icon_state = H.gender == MALE? "head_m" : "head_f"
+//	if(istype(H))
+//		src.icon_state = H.gender == MALE? "head_m" : "head_f"
 	..()
 	//Add (facial) hair.
 	if(H.f_style)
