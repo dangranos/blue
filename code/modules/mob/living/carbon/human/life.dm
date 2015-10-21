@@ -1384,7 +1384,7 @@
 
 			if(config.welder_vision)
 				var/found_welder
-				if(istype(glasses, /obj/item/clothing/glasses/welding))
+				if(istype(glasses, /obj/item/clothing/glasses/welding) && !istype(glasses, /obj/item/clothing/glasses/welding/superior))
 					var/obj/item/clothing/glasses/welding/O = glasses
 					if(!O.up)
 						found_welder = 1
