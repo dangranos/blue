@@ -534,7 +534,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 			standing.icon	= (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/uniform_f.dmi' : 'icons/mob/uniform.dmi'
 
 		if(w_uniform.blood_DNA)
-			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "uniformblood")
+			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "uniformblood[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color		= w_uniform.blood_color
 			standing.overlays	+= bloodsies
 
@@ -584,14 +584,14 @@ proc/get_damage_icon_part(damage_state, body_part)
 			standing	= image ("icon" = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/hands_f.dmi' : 'icons/mob/hands.dmi', "icon_state" = "[t_state]")
 
 		if(gloves.blood_DNA)
-			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "bloodyhands")
+			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "bloodyhands[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color = gloves.blood_color
 			standing.overlays	+= bloodsies
 		gloves.screen_loc = ui_gloves
 		overlays_standing[GLOVES_LAYER]	= standing
 	else
 		if(blood_DNA)
-			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "bloodyhands")
+			var/image/bloodsies	= image("icon" = 'icons/effects/blood.dmi', "icon_state" = "bloodyhands[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color = hand_blood_color
 			overlays_standing[GLOVES_LAYER]	= bloodsies
 		else
@@ -601,14 +601,12 @@ proc/get_damage_icon_part(damage_state, body_part)
 
 /mob/living/carbon/human/update_inv_glasses(var/update_icons=1)
 	if(glasses)
-
 		if(glasses.icon_override)
 			overlays_standing[GLASSES_LAYER] = image("icon" = glasses.icon_override, "icon_state" = "[glasses.icon_state]")
 		else if(glasses.sprite_sheets && glasses.sprite_sheets[species.name])
 			overlays_standing[GLASSES_LAYER]= image("icon" = glasses.sprite_sheets[species.name], "icon_state" = "[glasses.icon_state]")
 		else
 			overlays_standing[GLASSES_LAYER]= image("icon" = (gender == FEMALE && body_build == BODY_SLIM)?'icons/mob/eyes_f.dmi':'icons/mob/eyes.dmi', "icon_state" = "[glasses.icon_state]")
-
 	else
 		overlays_standing[GLASSES_LAYER]	= null
 	if(update_icons)   update_icons()
@@ -660,13 +658,13 @@ proc/get_damage_icon_part(damage_state, body_part)
 			standing = image("icon" = (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/feet_f.dmi' : 'icons/mob/feet.dmi', "icon_state" = "[shoes.icon_state]")
 
 		if(shoes.blood_DNA)
-			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "shoeblood")
+			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "shoeblood[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color = shoes.blood_color
 			standing.overlays += bloodsies
 		overlays_standing[SHOES_LAYER] = standing
 	else
 		if(feet_blood_DNA)
-			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "shoeblood")
+			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "shoeblood[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color = feet_blood_color
 			overlays_standing[SHOES_LAYER] = bloodsies
 		else
@@ -770,7 +768,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 
 		if(wear_suit.blood_DNA)
 			var/obj/item/clothing/suit/S = wear_suit
-			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "[S.blood_overlay_type]blood")
+			var/image/bloodsies = image("icon" = 'icons/effects/blood.dmi', "icon_state" = "[S.blood_overlay_type]blood[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color = wear_suit.blood_color
 			standing.overlays	+= bloodsies
 

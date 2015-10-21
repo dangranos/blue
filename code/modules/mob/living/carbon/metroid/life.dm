@@ -167,7 +167,7 @@
 		if (client && prob(5))
 			src << "<span class='danger'>You are starving!</span>"
 
-	else if (nutrition >= get_grow_nutrition() && amount_grown < 10)
+	else if (nutrition >= get_grow_nutrition() && ((amount_grown < 10)||(dna)) )
 		nutrition -= 20
 		amount_grown++
 
