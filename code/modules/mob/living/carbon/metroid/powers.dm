@@ -120,19 +120,18 @@
 			maxHealth = 200
 			amount_grown = 0
 			regenerate_icons()
-			name = text("[colour] [is_adult ? "adult" : "baby"] slime ([number])")
+			real_name = text("[colour] [is_adult ? "adult" : "baby"] slime ([number])")
+			name = real_name
 		else
 			src << "<span class='notice'>I am not ready to evolve yet...</span>"
 	else if(!dna)
 		src << "<span class='notice'>I have already evolved...</span>"
 	else
 		if(amount_grown >= 15)
-			var/mob/living/carbon/human/H = new /mob/living/carbon/human(src, dna.species)
+			var/mob/living/carbon/human/H = new /mob/living/carbon/human(src.loc, dna.species)
 			if(!dna.real_name)	//to prevent null names
 				dna.real_name = "Human slime ([rand(0,999)])"
 			H.real_name = dna.real_name
-			H.adjustToxLoss(50)
-			H.adjustBrainLoss(30)
 			H.Paralyse(4)
 			H.updatehealth()
 			if(mind) mind.transfer_to(H)
@@ -140,6 +139,9 @@
 			H.UpdateAppearance()
 			for(var/datum/language/L in languages)
 				H.add_language(L.name)
+			del(src)
+		else
+			src << "<span class='notice'>I am not ready to evolve yet...</span>"
 
 /mob/living/carbon/slime/verb/Reproduce()
 	set category = "Slime"
