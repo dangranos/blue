@@ -178,7 +178,8 @@
 		affected.status = 0
 		affected.amputated = 0
 		affected.destspawn = 0
-		target.update_body()
+		target.update_body(0)
+		target.update_hair()
 		target.updatehealth()
 		target.UpdateDamageIcon()
 		for(var/obj/item/organ/replacing_organ in tool)

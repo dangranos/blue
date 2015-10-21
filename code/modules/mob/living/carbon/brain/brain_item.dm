@@ -105,7 +105,7 @@
 	if(!brainmob.client)
 		for(var/mob/dead/observer/ghost in player_list)
 			if(ghost.mind == brainmob.mind)
-				ghost << "<b><font color = #330033><font size = 3>Your corpse has been placed into a cloning scanner. Return to your body if you want to be resurrected/cloned!</b> (Verbs -> Ghost -> Re-enter corpse)</font color>"
+				ghost << "<b><font color = #330033><font size = 3>Someone is trying to regrown you from your brain. Return to your body if you want to be resurrected/cloned!</b> (Verbs -> Ghost -> Re-enter corpse)</font color>"
 				break
 
 		for(var/i = 0; i < 6; i++)
@@ -124,10 +124,11 @@
 		return 0
 
 	visible_message("<span class = 'warning'>\The [src] start growing!</span>")
-	var/mob/living/carbon/slime/S = new
+	var/mob/living/carbon/slime/S = new(src.loc)
 	brainmob.mind.transfer_to(S)
 	S.dna = brainmob.dna
 	S.a_intent = "hurt"
+	S.add_language("Galactic Common")
 	del(src)
 
 /obj/item/organ/brain/golem
