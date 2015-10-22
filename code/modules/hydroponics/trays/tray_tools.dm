@@ -258,7 +258,7 @@
 
 
 /obj/item/weapon/scythe
-	icon_state = "scythe0"
+	icon_state = "scythe"
 	name = "scythe"
 	desc = "A sharp and curved blade on a long fibremetal handle, this tool makes it easy to reap what you sow."
 	force = 13.0
