@@ -114,6 +114,10 @@ var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Satchel Al
 			language_keys[":[lowertext(L.key)]"] = L
 			language_keys[".[lowertext(L.key)]"] = L
 			language_keys["#[lowertext(L.key)]"] = L
+			if(L.rkey != "")
+				language_keys[":[rlowertext(L.rkey)]"] = L
+				language_keys[".[rlowertext(L.rkey)]"] = L
+				language_keys["#[rlowertext(L.rkey)]"] = L
 
 	var/rkey = 0
 	paths = typesof(/datum/species)-/datum/species
