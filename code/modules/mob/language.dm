@@ -14,6 +14,7 @@
 	var/signlang_verb = list()       // list of emotes that might be displayed if this language has NONVERBAL or SIGNLANG flags
 	var/colour = "body"              // CSS style to use for strings in this language.
 	var/key = "x"                    // Character used to speak in language eg. :o for Unathi.
+	var/rkey = ""
 	var/flags = 0                    // Various language flags.
 	var/native                       // If set, non-native speakers will have trouble speaking.
 	var/list/syllables               // Used when scrambling text for a non-speaker.
@@ -124,6 +125,7 @@
 	name = "Noise"
 	desc = "Noises"
 	key = ""
+	rkey = ""
 	flags = NONGLOBAL|INNATE|NO_TALK_MSG|NO_STUTTER
 
 /datum/language/noise/format_message(message, verb)
@@ -147,6 +149,7 @@
 	exclaim_verb = "roars"
 	colour = "soghun"
 	key = "o"
+	rkey = "ù"
 	flags = WHITELISTED
 	syllables = list("ss","ss","ss","ss","skak","seeki","resh","las","esi","kor","sh")
 
@@ -165,6 +168,7 @@
 	exclaim_verb = "yowls"
 	colour = "tajaran"
 	key = "j"
+	rkey = "î"
 	signlang_verb = list("lightly touches a chin with a paw", "waves their tail", "twitches the end of their tail",\
 						 "pins back their ears")
 	flags = WHITELISTED | NONVERBAL
@@ -190,6 +194,7 @@
 	exclaim_verb = "warbles"
 	colour = "skrell"
 	key = "k"
+	rkey = "ë"
 	flags = WHITELISTED
 	syllables = list("qr","qrr","xuq","qil","quum","xuqm","vol","xrim","zaoo","qu-uu","qix","qoo","zix","*","!")
 
@@ -216,6 +221,7 @@
 	exclaim_verb = "rustles"
 	colour = "soghun"
 	key = "q"
+	rkey = "é"
 	syllables = list("hs","zt","kr","st","sh")
 
 /datum/language/diona/get_random_name()
@@ -312,6 +318,7 @@
 	exclaim_verb = "hisses"
 	colour = "alien"
 	key = "a"
+	rkey = "ô"
 	flags = HIVEMIND
 
 /datum/language/xenos/check_special_condition(var/mob/other)
@@ -330,6 +337,7 @@
 	speech_verb = "says"
 	colour = "changeling"
 	key = "g"
+	rkey = "ï"
 	flags = HIVEMIND
 
 /datum/language/ling/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
@@ -347,6 +355,7 @@
 	exclaim_verb = "sings"
 	colour = "alien"
 	key = "x"
+	rkey = "÷"
 	flags = HIVEMIND
 
 /datum/language/corticalborer/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
@@ -371,6 +380,7 @@
 	ask_verb = "queries"
 	exclaim_verb = "declares"
 	key = "b"
+	rkey = "è"
 	flags = HIVEMIND
 	var/drone_only
 
@@ -422,6 +432,7 @@
 	exclaim_verb = "transmits"
 	colour = "say_quote"
 	key = "d"
+	rkey = "â"
 	flags = HIVEMIND
 	drone_only = 1
 
