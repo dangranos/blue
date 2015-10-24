@@ -104,6 +104,10 @@ If you have any questions/constructive-comments/bugs-to-report/or have a massivl
 Please contact me on #coderbus IRC. ~Carn x
 */
 
+//Human Underlays Indexes/////////
+#define BACK_UNDERLAY			1
+#define TOTAL_UNDERLAYS			1
+
 //Human Overlays Indexes/////////
 #define MUTATIONS_LAYER			1
 #define DAMAGE_LAYER			2
@@ -134,6 +138,7 @@ Please contact me on #coderbus IRC. ~Carn x
 
 /mob/living/carbon/human
 	var/list/overlays_standing[TOTAL_LAYERS]
+	var/list/underlays_standing[TOTAL_UNDERLAYS]
 	var/previous_damage_appearance // store what the body last looked like, so we only have to update it if something changed
 
 //UPDATES OVERLAYS FROM OVERLAYS_LYING/OVERLAYS_STANDING
@@ -161,6 +166,8 @@ Please contact me on #coderbus IRC. ~Carn x
 		icon = stand_icon
 		for(var/image/I in overlays_standing)
 			overlays += I
+		for(var/image/I in underlays_standing)
+			underlays += I
 
 	if(lying && !species.prone_icon) //Only rotate them if we're not drawing a specific icon for being prone.
 		var/matrix/M = matrix()
@@ -820,6 +827,7 @@ proc/get_damage_icon_part(damage_state, body_part)
 		var/obj/item/weapon/rig/rig = back
 		if(back.icon_override)
 			overlays_standing[BACK_LAYER] = image("icon" = back.icon_override, "icon_state" = "[back.icon_state]")
+			underlays_standing[BACK_UNDERLAY] = image("icon" = back.icon_override, "icon_state" = "[back.icon_state]_u")
 		//If this is a rig and a mob_icon is set, it will take species into account in the rig update_icon() proc.
 		else if(istype(rig) && rig.mob_icon)
 			overlays_standing[BACK_LAYER]  = rig.mob_icon
@@ -827,6 +835,8 @@ proc/get_damage_icon_part(damage_state, body_part)
 			overlays_standing[BACK_LAYER] = image("icon" = back.sprite_sheets[species.name], "icon_state" = "[back.icon_state]")
 		else
 			overlays_standing[BACK_LAYER]	= image ("icon"= (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/back_f.dmi' : 'icons/mob/back.dmi', "icon_state" = "[back.icon_state]")
+			underlays_standing[BACK_UNDERLAY] = image ("icon"= (gender == FEMALE && body_build == BODY_SLIM) ? 'icons/mob/back_f.dmi' : 'icons/mob/back.dmi', "icon_state" = "[back.icon_state]_u")
+
 	else
 		overlays_standing[BACK_LAYER]	= null
 	if(update_icons)   update_icons()
@@ -1012,6 +1022,10 @@ proc/get_damage_icon_part(damage_state, body_part)
 
 	var/image/face_lying_image = new /image(icon = face_lying)
 	return face_lying_image
+
+//Human Underlayst Indexes///////
+#undef BACK_UNDERLAY
+#undef TOTAL_UNDERLAYS
 
 //Human Overlays Indexes/////////
 #undef MUTATIONS_LAYER
