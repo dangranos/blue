@@ -110,36 +110,38 @@ Please contact me on #coderbus IRC. ~Carn x
 
 //Human Overlays Indexes/////////
 #define MUTATIONS_LAYER			1
-#define DAMAGE_LAYER			2
-#define SURGERY_LEVEL			3		//bs12 specific.
-#define UNIFORM_LAYER			4
-#define ID_LAYER				5
-#define SHOES_LAYER				6
-#define GLOVES_LAYER			7
-#define SUIT_LAYER				8
-#define TAIL_LAYER				9		//bs12 specific. this hack is probably gonna come back to haunt me
-#define GLASSES_LAYER			10
-#define BELT_LAYER				11		//Possible make this an overlay of somethign required to wear a belt?
-#define SUIT_STORE_LAYER		12
-#define BACK_LAYER				13
-#define HAIR_LAYER				14		//TODO: make part of head layer?
-#define EARS_LAYER				15
-#define FACEMASK_LAYER			16
-#define HEAD_LAYER				17
-#define COLLAR_LAYER			18
-#define HANDCUFF_LAYER			19
-#define LEGCUFF_LAYER			20
-#define L_HAND_LAYER			21
-#define R_HAND_LAYER			22
-#define FIRE_LAYER				23		//If you're on fire
-#define TARGETED_LAYER			24		//BS12: Layer for the target overlay from weapon targeting system
-#define TOTAL_LAYERS			24
+#define TATTOO_LAYER			2
+#define DAMAGE_LAYER			3
+#define SURGERY_LEVEL			4		//bs12 specific.
+#define UNIFORM_LAYER			5
+#define ID_LAYER				6
+#define SHOES_LAYER				7
+#define GLOVES_LAYER			8
+#define SUIT_LAYER				9
+#define TAIL_LAYER				10		//bs12 specific. this hack is probably gonna come back to haunt me
+#define GLASSES_LAYER			11
+#define BELT_LAYER				12		//Possible make this an overlay of somethign required to wear a belt?
+#define SUIT_STORE_LAYER		13
+#define BACK_LAYER				14
+#define HAIR_LAYER				15		//TODO: make part of head layer?
+#define EARS_LAYER				16
+#define FACEMASK_LAYER			17
+#define HEAD_LAYER				18
+#define COLLAR_LAYER			19
+#define HANDCUFF_LAYER			20
+#define LEGCUFF_LAYER			21
+#define L_HAND_LAYER			22
+#define R_HAND_LAYER			23
+#define FIRE_LAYER				24		//If you're on fire
+#define TARGETED_LAYER			25		//BS12: Layer for the target overlay from weapon targeting system
+#define TOTAL_LAYERS			25
 //////////////////////////////////
 
 /mob/living/carbon/human
 	var/list/overlays_standing[TOTAL_LAYERS]
 	var/list/underlays_standing[TOTAL_UNDERLAYS]
 	var/previous_damage_appearance // store what the body last looked like, so we only have to update it if something changed
+	var/previous_tatoo_appearance  // store what the tattoo last looked like, so we only have to update it if something changed
 
 //UPDATES OVERLAYS FROM OVERLAYS_LYING/OVERLAYS_STANDING
 //this proc is messy as I was forced to include some old laggy cloaking code to it so that I don't break cloakers
@@ -226,6 +228,43 @@ proc/get_damage_icon_part(damage_state, body_part)
 	overlays_standing[DAMAGE_LAYER]	= standing_image
 
 	if(update_icons)   update_icons()
+
+//DAMAGE OVERLAYS
+//constructs damage icon for each organ from mask * damage field and saves it in our overlays_ lists
+/mob/living/carbon/human/proc/UpdateTattooIcon(var/update_icons=1)
+	// first check whether something actually changed about damage appearance
+	var/tatoo_appearance = ""
+
+	for(var/datum/organ/external/O in organs)
+		if(O.status & ORGAN_DESTROYED || !O.tattoo)
+			tatoo_appearance += "0"
+		else
+			tatoo_appearance += "[O.tattoo]"
+
+	if(tatoo_appearance == previous_tatoo_appearance)
+		// nothing to do here
+		return
+
+	previous_tatoo_appearance = tatoo_appearance
+
+	var/icon/standing = new /icon('icons/mob/tattoo.dmi', "00")
+
+	var/image/standing_image = new /image("icon" = standing)
+
+	// blend the individual damage states with our icons
+	for(var/datum/organ/external/O in organs)
+		if(!(O.status & ORGAN_DESTROYED) && O.tattoo)
+			O.update_icon()
+			if(O.tattoo == "") continue
+
+			var/icon/TI = new /icon('icons/mob/tattoo.dmi', "[O.name]_[O.tattoo]_[body_build]")
+
+			standing_image.overlays += TI
+
+	overlays_standing[TATTOO_LAYER]	= standing_image
+
+	if(update_icons)   update_icons()
+
 
 //BASE MOB SPRITE
 /mob/living/carbon/human/proc/update_body(var/update_icons=1)
@@ -390,11 +429,15 @@ proc/get_damage_icon_part(damage_state, body_part)
 	if(undershirt && species.flags & HAS_UNDERWEAR)
 		stand_icon.Blend(new /icon('icons/mob/human.dmi', "[undershirt]_[g]"), ICON_OVERLAY)
 
-	if(update_icons)
-		update_icons()
+	//tattoo
+	UpdateTattooIcon(0)
 
 	//tail
 	update_tail_showing(0)
+
+	if(update_icons)
+		update_icons()
+
 
 //HAIR OVERLAY
 /mob/living/carbon/human/proc/update_hair(var/update_icons=1)
