@@ -58,6 +58,21 @@ var/global/list/undershirt_t = list("White Tank top" = "u1", "Black Tank top" = 
 	//Backpacks
 var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Satchel Alt")
 
+	//Tattoo
+var/global/list/tattoo_list = list(
+	"chest"  = list("Abstract" = 1, "Abstract (back)" = 2),
+	"head"   = list("Abstract" = 1),
+	"groin"  = list("Abstract" = 1),
+	"l_arm"  = list("Abstract" = 1),
+	"l_hand" = list("Abstract" = 1),
+	"r_arm"  = list("Abstract" = 1),
+	"r_hand" = list("Abstract" = 1),
+	"l_leg"  = list("Abstract" = 1),
+	"l_foot" = list("Abstract" = 1),
+	"r_leg"  = list("Abstract" = 1),
+	"r_foot" = list("Abstract" = 1)
+)
+
 //////////////////////////
 /////Initial Building/////
 //////////////////////////
