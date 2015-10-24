@@ -70,7 +70,6 @@
 			flick("e_flash", M.flash)
 
 			if(ishuman(M) && ishuman(user) && M.stat!=DEAD)
-				user << "Is humans and blah blah blah"
 				if(user.mind && user.mind in ticker.mode.head_revolutionaries && ticker.mode.name == "revolution")
 					var/revsafe = 0
 					for(var/obj/item/weapon/implant/loyalty/L in M)
@@ -87,8 +86,6 @@
 						user << "<span class='warning'>Something seems to be blocking the flash!</span>"
 					else
 						user << "<span class='warning'>This mind seems resistant to the flash!</span>"
-			else
-				user << "\red Not humans and blah blah blah"
 		else
 			flashfail = 1
 
