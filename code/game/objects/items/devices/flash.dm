@@ -63,7 +63,7 @@
 	playsound(src.loc, 'sound/weapons/flash.ogg', 100, 1)
 	var/flashfail = 0
 
-	if(iscarbon(M))
+	if(istype(M, /mob/living/carbon))
 		var/safety = M:eyecheck()
 		if(safety <= 0)
 			M.Weaken(10)
@@ -90,6 +90,7 @@
 			flashfail = 1
 
 	else if(issilicon(M))
+		user << "Not carbon"
 		M.Weaken(rand(5,10))
 	else
 		flashfail = 1
