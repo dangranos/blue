@@ -2037,66 +2037,74 @@ datum
 				..()
 				return
 
-			reaction_mob(var/mob/living/M, var/method=TOUCH, var/volume)//magic numbers everywhere
+			reaction_mob(var/mob/living/M, var/method=TOUCH, var/volume)
 				if(!istype(M, /mob/living))
 					return
+				var/damage_factor = 0.5
 				if(method == TOUCH)
-					if(ishuman(M))
-						var/mob/living/carbon/human/H = M
-
-						if(H.head)
-							if(prob(meltprob) && !H.head.unacidable)
-								H << "<span class='danger'>Your headgear melts away but protects you from the acid!</span>"
-								del(H.head)
-								H.update_inv_head(0)
-								H.update_hair(0)
-							else
-								H << "<span class='warning'>Your headgear protects you from the acid.</span>"
-							return
-
-						if(H.wear_mask)
-							if(prob(meltprob) && !H.wear_mask.unacidable)
-								H << "<span class='danger'>Your mask melts away but protects you from the acid!</span>"
-								del (H.wear_mask)
-								H.update_inv_wear_mask(0)
-								H.update_hair(0)
-							else
-								H << "<span class='warning'>Your mask protects you from the acid.</span>"
-							return
-
-						if(H.glasses) //Doesn't protect you from the acid but can melt anyways!
-							if(prob(meltprob) && !H.glasses.unacidable)
-								H << "<span class='danger'>Your glasses melts away!</span>"
-								del (H.glasses)
-								H.update_inv_glasses(0)
-
-					else if(ismonkey(M))
-						var/mob/living/carbon/monkey/MK = M
-						if(MK.wear_mask)
-							if(!MK.wear_mask.unacidable)
-								MK << "<span class='danger'>Your mask melts away but protects you from the acid!</span>"
-								del (MK.wear_mask)
-								MK.update_inv_wear_mask(0)
-							else
-								MK << "<span class='warning'>Your mask protects you from the acid.</span>"
-							return
-
-					if(!M.unacidable)
-						if(istype(M, /mob/living/carbon/human) && volume >= 10)
+					if (ishuman(M))	//если человек
+						var/mob/user = holder.my_atom.loc; //тот кто целится
+						if (istype(user)) //если он есть
 							var/mob/living/carbon/human/H = M
-							var/datum/organ/external/affecting = H.get_organ("head")
-							if(affecting)
-								if(affecting.take_damage(4*toxpwr, 2*toxpwr))
-									H.UpdateDamageIcon()
-								if(prob(meltprob)) //Applies disfigurement
-									if (!(H.species && (H.species.flags & NO_PAIN)))
-										H.emote("scream")
-									H.status_flags |= DISFIGURED
-						else
-							M.take_organ_damage(min(6*toxpwr, volume * toxpwr)) // uses min() and volume to make sure they aren't being sprayed in trace amounts (1 unit != insta rape) -- Doohl
-				else
-					if(!M.unacidable)
-						M.take_organ_damage(min(6*toxpwr, volume * toxpwr))
+							var/list/protective_gear = list(H.head, H.wear_mask, H.glasses, H.wear_suit, H.w_uniform, H.gloves, H.shoes) //предметы
+							var/target_zone = check_zone(user.zone_sel.selecting) //зона куда целятся
+							var/rand_zone = target_zone
+							var/part_count = 1; //количество частей тела куда попадет кислота
+							var/total_damage = 0; //полученый урон
+							if (volume > 50 && user != M) //если кислоты больше чем полведра то она попадает на несколько частей тела, если цель может уворачиваться
+								part_count = rand(3, 5) //от 1 до 5 частей тела куда можно попасть
+								M.visible_message("<span class = 'danger'> Splashes of [name] flow down on [H.name]'s body</span>")
+								//брызги кислоты разлетабтся по всему телу
+							for (var/n = 0, n < part_count, n++)
+								if (user != M) //если игрок льёт не на себя
+									rand_zone = get_zone_with_miss_chance(target_zone, M);
+								var/datum/organ/external/affecting = H.get_organ(rand_zone)
+								if (affecting)
+									var/damage = damage_factor * toxpwr * volume / part_count //урон
+									for(var/i = 1, i <= protective_gear.len, i++)
+										var/gear = protective_gear[i]
+										if(gear && istype(gear ,/obj/item/clothing))
+											var/obj/item/clothing/C = gear
+											if(C.body_parts_covered & affecting.body_part) //проверка покрытия частей тела
+												if (C.unacidable) // если кислотостойкая
+													damage = 0
+													break
+												if (C.health)
+													damage -= C.armor["melee"];
+												if (damage >= 0) //если кислота прожгла предмет насквозь
+													M.visible_message("<span class = 'danger'>[name] melting [H.name]'s [C.name]</span>")
+													H.u_equip(gear)
+													del gear
+												else
+													break
+									if (damage > 0 && !M.unacidable) //наносим урон
+										affecting.take_damage(0, damage)
+										H.UpdateDamageIcon()
+										total_damage += damage
+										M.visible_message("<span class = 'danger'>[name] melting [H.name]'s [affecting.name]</span>")
+										if (rand_zone == "head")
+											if (prob(damage * 5))
+												H.status_flags |= DISFIGURED
+											if (prob(damage * 3)) //повреждение глаз
+												var/datum/organ/internal/eyes/eyes = H.internal_organs_by_name["eyes"]
+												if(eyes && istype(eyes))
+													eyes.damage += damage * 4
+											if (prob(damage * 3))//сжигаем волосы
+												H.f_style = "Shaved"
+												H.h_style = "Bald"
+												H.update_hair()
+							if ((total_damage > 0) && prob(total_damage))//боль крики
+								if (!(H.species && (H.species.flags & NO_PAIN)))
+									H.emote("scream")
+							return
+
+				if (!M.unacidable)
+					var/part_count = 1;
+					if (volume > 50)
+						part_count = rand(1, 5)
+					var/damage = damage_factor * toxpwr * volume / part_count
+					for (var/n = 0, n < part_count, n++)
+						M.take_organ_damage(0, damage);
 
 			reaction_obj(var/obj/O, var/volume)
 				if((istype(O,/obj/item) || istype(O,/obj/effect/plant)) && prob(meltprob * 3))
