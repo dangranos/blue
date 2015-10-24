@@ -539,6 +539,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		"tunnel clown",
 		"masked killer",
 		"assassin",
+		"phantom of the station",
 		"special ops officer",
 		"blue wizard",
 		"red wizard",
@@ -725,6 +726,18 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			W.assignment = "Reaper"
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("phantom of the station")
+			M.equip_if_possible(new /obj/item/clothing/under/phantom(M), slot_w_uniform)
+			M.equip_if_possible(new /obj/item/clothing/shoes/laceup(M), slot_shoes)
+			M.equip_if_possible(new /obj/item/clothing/gloves/white(M), slot_gloves)
+
+			var/obj/item/weapon/card/id/centcom/W = new(M)
+			W.name = "[M.real_name]'s ID Card"
+			W.access = get_all_accesses()
+			W.assignment = "Phantom of the Station"
+			W.registered_name = M.real_name
+			M.equip_if_possible(W, slot_wear_id)
 
 		if("nanotrasen representative")
 			M.equip_if_possible(new /obj/item/clothing/under/rank/centcom(M), slot_w_uniform)
