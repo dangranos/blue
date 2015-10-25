@@ -172,6 +172,7 @@
 	S["disabilities"]		>> disabilities
 	S["player_alt_titles"]	>> player_alt_titles
 	S["organ_data"]			>> organ_data
+	S["tattoo_data"]		>> tattoo_data
 	S["gear"]				>> gear
 	S["home_system"] 		>> home_system
 	S["citizenship"] 		>> citizenship
@@ -243,6 +244,7 @@
 	if(isnull(disabilities)) disabilities = 0
 	if(!player_alt_titles) player_alt_titles = new()
 	if(!organ_data) src.organ_data = list()
+	if(!tattoo_data) src.tattoo_data = list()
 	if(!gear) src.gear = list()
 	//if(!skin_style) skin_style = "Default"
 
@@ -329,6 +331,7 @@
 	S["be_special"]			<< be_special
 	S["disabilities"]		<< disabilities
 	S["organ_data"]			<< organ_data
+	S["tattoo_data"]		<< tattoo_data
 	S["gear"]				<< gear
 	S["home_system"] 		<< home_system
 	S["citizenship"] 		<< citizenship

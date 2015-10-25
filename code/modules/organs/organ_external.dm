@@ -14,6 +14,8 @@
 	var/max_size = 0
 	var/last_dam = -1
 
+	var/tattoo = null
+
 	var/display_name
 	var/list/wounds = list()
 	var/number_wounds = 0 // cache the number of wounds, which is NOT wounds.len!
