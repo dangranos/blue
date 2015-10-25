@@ -2042,42 +2042,42 @@ datum
 					return
 				var/damage_factor = 0.5
 				if(method == TOUCH)
-					if (ishuman(M))	//если человек
-						var/mob/user = holder.my_atom.loc; //тот кто целится
-						if (istype(user)) //если он есть
+					if (ishuman(M))	//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+						var/mob/user = holder.my_atom.loc; //пїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+						if (istype(user)) //пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 							var/mob/living/carbon/human/H = M
-							var/list/protective_gear = list(H.head, H.wear_mask, H.glasses, H.wear_suit, H.w_uniform, H.gloves, H.shoes) //предметы
-							var/target_zone = check_zone(user.zone_sel.selecting) //зона куда целятся
+							var/list/protective_gear = list(H.head, H.wear_mask, H.glasses, H.wear_suit, H.w_uniform, H.gloves, H.shoes) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+							var/target_zone = check_zone(user.zone_sel.selecting) //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 							var/rand_zone = target_zone
-							var/part_count = 1; //количество частей тела куда попадет кислота
-							var/total_damage = 0; //полученый урон
-							if (volume > 50 && user != M) //если кислоты больше чем полведра то она попадает на несколько частей тела, если цель может уворачиваться
-								part_count = rand(3, 5) //от 1 до 5 частей тела куда можно попасть
+							var/part_count = 1; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+							var/total_damage = 0; //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+							if (volume > 50 && user != M) //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
+								part_count = rand(3, 5) //пїЅпїЅ 1 пїЅпїЅ 5 пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 								M.visible_message("<span class = 'danger'> Splashes of [name] flow down on [H.name]'s body</span>")
-								//брызги кислоты разлетабтся по всему телу
+								//пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 							for (var/n = 0, n < part_count, n++)
-								if (user != M) //если игрок льёт не на себя
+								if (user != M) //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ
 									rand_zone = get_zone_with_miss_chance(target_zone, M);
 								var/datum/organ/external/affecting = H.get_organ(rand_zone)
 								if (affecting)
-									var/damage = damage_factor * toxpwr * volume / part_count //урон
+									var/damage = damage_factor * toxpwr * volume / part_count //пїЅпїЅпїЅпїЅ
 									for(var/i = 1, i <= protective_gear.len, i++)
 										var/gear = protective_gear[i]
 										if(gear && istype(gear ,/obj/item/clothing))
 											var/obj/item/clothing/C = gear
-											if(C.body_parts_covered & affecting.body_part) //проверка покрытия частей тела
-												if (C.unacidable) // если кислотостойкая
+											if(C.body_parts_covered & affecting.body_part) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
+												if (C.unacidable) // пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 													damage = 0
 													break
 												if (C.health)
 													damage -= C.armor["melee"];
-												if (damage >= 0) //если кислота прожгла предмет насквозь
+												if (damage >= 0) //пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
 													M.visible_message("<span class = 'danger'>[name] melting [H.name]'s [C.name]</span>")
 													H.u_equip(gear)
 													del gear
 												else
 													break
-									if (damage > 0 && !M.unacidable) //наносим урон
+									if (damage > 0 && !M.unacidable) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 										affecting.take_damage(0, damage)
 										H.UpdateDamageIcon()
 										total_damage += damage
@@ -2085,15 +2085,15 @@ datum
 										if (rand_zone == "head")
 											if (prob(damage * 5))
 												H.status_flags |= DISFIGURED
-											if (prob(damage * 3)) //повреждение глаз
+											if (prob(damage * 3)) //пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ
 												var/datum/organ/internal/eyes/eyes = H.internal_organs_by_name["eyes"]
 												if(eyes && istype(eyes))
 													eyes.damage += damage * 4
-											if (prob(damage * 3))//сжигаем волосы
+											if (prob(damage * 3))//пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ
 												H.f_style = "Shaved"
 												H.h_style = "Bald"
 												H.update_hair()
-							if ((total_damage > 0) && prob(total_damage))//боль крики
+							if ((total_damage > 0) && prob(total_damage))//пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ
 								if (!(H.species && (H.species.flags & NO_PAIN)))
 									H.emote("scream")
 							return
@@ -2101,7 +2101,7 @@ datum
 				if (!M.unacidable)
 					var/part_count = 1;
 					if (volume > 50)
-						part_count = rand(1, 5)
+						part_count = rand(3, 5)
 					var/damage = damage_factor * toxpwr * volume / part_count
 					for (var/n = 0, n < part_count, n++)
 						M.take_organ_damage(0, damage);
