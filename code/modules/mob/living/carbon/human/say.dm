@@ -20,6 +20,9 @@
 	if (istype(src.wear_mask, /obj/item/clothing/mask/muzzle))
 		src << "<span class='danger'>You're muzzled and cannot speak!</span>"
 		return
+	if (oxygen_alert > 0)
+		spawn src.emote("me", 1 , "trying to say something")
+		return
 
 	var/message_mode = parse_message_mode(message, "headset")
 
