@@ -8,6 +8,12 @@
 	w_class = 2
 	gas_transfer_coefficient = 0.90
 
+/obj/item/clothing/mask/muzzle/ballgag
+	name = "ballgag"
+	desc = "For when Master wants silence."
+	icon_state = "ballgag"
+	item_state = "ballgag"
+
 // Clumsy folks can't take the mask off themselves.
 /obj/item/clothing/mask/muzzle/attack_hand(mob/user as mob)
 	if(user.wear_mask == src && !user.IsAdvancedToolUser())
@@ -101,3 +107,37 @@
 	w_class = 2
 	var/voicechange = 0
 	siemens_coefficient = 0.9
+
+
+/obj/item/clothing/mask/bluescarf
+	name = "blue neck scarf"
+	desc = "A blue neck scarf."
+	icon_state = "blueneckscarf"
+	item_state = "blueneckscarf"
+	w_class = 2
+	gas_transfer_coefficient = 0.90
+
+/obj/item/clothing/mask/redscarf
+	name = "red scarf"
+	desc = "A red and white checkered neck scarf."
+	icon_state = "redwhite_scarf"
+	item_state = "redwhite_scarf"
+	w_class = 2
+	gas_transfer_coefficient = 0.90
+
+/obj/item/clothing/mask/greenscarf
+	name = "green scarf"
+	desc = "A green neck scarf."
+	icon_state = "green_scarf"
+	item_state = "green_scarf"
+	w_class = 2
+	gas_transfer_coefficient = 0.90
+
+/obj/item/clothing/mask/ninjascarf
+	name = "ninja scarf"
+	desc = "A stealthy, dark scarf."
+	icon_state = "ninja_scarf"
+	item_state = "ninja_scarf"
+	w_class = 2
+	gas_transfer_coefficient = 0.90
+	siemens_coefficient = 0
