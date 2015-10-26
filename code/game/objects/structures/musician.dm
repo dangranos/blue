@@ -209,7 +209,6 @@
 	for(var/mob/M in hearers(15, source))
 		M.playsound_local(source, file(soundfile), 100, falloff = 5)
 
-
 /obj/structure/device/piano/proc/playsong()
 	do
 		var/cur_oct[7]
@@ -252,7 +251,7 @@
 			repeat-- //Infinite loops are baaaad.
 	while(repeat > 0)
 	playing = 0
-	updateUsrDialog()
+	attack_hand(usr)
 
 /obj/structure/device/piano/attack_hand(var/mob/user as mob)
 	if(!anchored)
@@ -405,10 +404,10 @@
 				song = new()
 				song.lines = lines
 				song.tempo = tempo
-				updateUsrDialog()
+				attack_hand(usr)
 
 	add_fingerprint(usr)
-	updateUsrDialog()
+	attack_hand(usr)
 	return
 
 /obj/structure/device/piano/attackby(obj/item/O as obj, mob/user as mob)
