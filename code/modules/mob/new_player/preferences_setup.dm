@@ -141,7 +141,7 @@ datum/preferences
 				tattoo = new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo_data[name]]_[body_build]")
 
 			preview_icon.Blend(temp, ICON_OVERLAY)
-			preview_icon.Blend(tattoo, ICON_OVERLAY)
+			if(tattoo) preview_icon.Blend(tattoo, ICON_OVERLAY)
 
 		//Tail
 		if(current_species && (current_species.tail))
