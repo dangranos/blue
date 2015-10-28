@@ -317,6 +317,24 @@ var/global/list/gear_datums = list()
 	slot = slot_wear_mask
 	cost = 2
 
+/datum/gear/redscarf
+	display_name = "scarf, red"
+	path = /obj/item/clothing/mask/redscarf
+	slot = slot_wear_mask
+	cost = 2
+
+/datum/gear/greenscarf
+	display_name = "scarf, green"
+	path = /obj/item/clothing/mask/greenscarf
+	slot = slot_wear_mask
+	cost = 2
+
+/datum/gear/bluescarf
+	display_name = "scarf, blue"
+	path = /obj/item/clothing/mask/bluescarf
+	slot = slot_wear_mask
+	cost = 2
+
 // Uniform slot
 
 /datum/gear/blazer_blue
