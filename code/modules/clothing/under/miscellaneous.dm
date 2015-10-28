@@ -493,7 +493,18 @@
 
 /obj/item/clothing/under/blazer
 	name = "blue blazer"
-	desc = "A bold but yet conservative outfit, red corduroys, navy blazer and a tie." 
+	desc = "A bold but yet conservative outfit, red corduroys, navy blazer and a tie."
 	icon_state = "blue_blazer"
 	item_state = "blue_blazer"
 	item_color = "blue_blazer"
+
+/obj/item/clothing/under/lawyer
+	desc = "Slick threads."
+	name = "Lawyer suit"
+
+
+/obj/item/clothing/under/phantom
+	name = "stylish red vest"
+	icon_state = "phantom"
+	item_state = "phantom"
+	item_color = "phantom"

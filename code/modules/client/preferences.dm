@@ -116,6 +116,7 @@ datum/preferences
 	// maps each organ to either null(intact), "cyborg" or "amputated"
 	// will probably not be able to do this for head and torso ;)
 	var/list/organ_data = list()
+	var/list/tattoo_data = list()
 	var/list/player_alt_titles = new()		// the default name of a job like "Medical Doctor"
 
 	var/med_record = ""
@@ -232,6 +233,7 @@ datum/preferences
 	if(species_flags & HAS_SKIN_TONE)
 		dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
 	dat += "Needs Glasses: <a href='?_src_=prefs;preference=disabilities'><b>[disabilities == 0 ? "No" : "Yes"]</b></a><br>"
+	dat += "Tattoo: <a href='byond://?src=\ref[user];preference=tattoo;task=open'>Set</a><br>"
 	if( !(species_flags & (IS_PLANT | IS_SYNTHETIC)) )
 		dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=open'>Adjust</a><br>"
 		dat += "Internal Organs: <a href='byond://?src=\ref[user];preference=organs;task=input'>Adjust</a><br>"
@@ -662,6 +664,27 @@ datum/preferences
 	HTML += "<tt>"
 	user << browse(HTML, "window=set_limbs;size=430x300")
 	return
+
+/datum/preferences/proc/SetTattoo(mob/user)
+	var/list/limbs = list("Head"="head", "Chest"="chest", "Groin"="groin",\
+						  "Left Arm"="l_arm", "Left Hand"="l_hand", "Right Arm"="r_arm", "Right Hand"="r_hand",\
+						  "Left Leg"="l_leg", "Left Foot"="l_foot", "Right Leg"="r_leg", "Right Foot"="r_foot")
+	var/HTML = "<body>"
+	HTML += "<tt><center>"
+	HTML += "<b>Set Tattoo State</b> <hr />"
+	HTML += "<br></center>"
+	for(var/limb in limbs)
+		HTML += "[limb]:"
+		if( tattoo_data[limbs[limb]] )
+			HTML += "\t<a href='byond://?src=\ref[user];preference=tattoo;task=input;limb=[limb];mark=[limbs[limb]];state=drop'>Drop</a> "
+		HTML += "\t<a href='byond://?src=\ref[user];preference=tattoo;task=input;limb=[limb];mark=[limbs[limb]]'>Set</a> <br>"
+	HTML += "<br>"
+	HTML += "<hr />"
+	HTML +="<a href='?src=\ref[user];preference=tattoo;task=done'>\[Done\]</a>"
+	HTML += "<tt>"
+	user << browse(HTML, "window=set_tattoo;size=430x300")
+	return
+
 
 /datum/preferences/proc/GetPlayerAltTitle(datum/job/job)
 	return player_alt_titles.Find(job.title) > 0 \
@@ -1320,6 +1343,29 @@ datum/preferences
 					else
 						user << browse(null, "window=disabil")
 
+				if("tattoo")
+					var/limb_name = href_list["limb"]
+					var/mark = href_list["mark"]
+					if(!limb_name || !mark) return
+
+					if(href_list["state"] == "drop")
+						tattoo_data -= mark
+					else
+						var/list/states = list("None") + tattoo_list[mark]
+						if(!states) return
+
+						var/new_state = input("Select tattoo for your [limb_name]") in states
+						if(!new_state) return
+
+						if(new_state == "None")
+							tattoo_data -= mark
+						else
+							tattoo_data[mark] = states[new_state]
+
+					ShowChoices(user)
+					SetTattoo(user)
+					return
+
 				if("limbs")
 					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
 						return
@@ -1470,6 +1516,17 @@ datum/preferences
 							user << browse(null, "window=set_limbs")
 							ShowChoices(user)
 							return
+
+				if("tattoo")
+					switch(href_list["task"])
+						if("open")
+							spawn(2)
+								SetTattoo(user)
+						if("done")
+							user << browse(null, "window=set_tattoo")
+							ShowChoices(user)
+							return
+
 				if("gender")
 					if(gender == MALE)
 						gender = FEMALE
@@ -1628,9 +1685,10 @@ datum/preferences
 
 	// Destroy/cyborgize organs
 
-	for(var/name in organ_data)
+	for(var/name in organ_data|tattoo_data)
 
 		var/status = organ_data[name]
+		var/tattoo = tattoo_data[name]
 		var/datum/organ/external/O = character.organs_by_name[name]
 		if(O)
 			if(status == "amputated")
@@ -1639,6 +1697,8 @@ datum/preferences
 				O.destspawn = 1
 			else if(status == "cyborg")
 				O.status |= ORGAN_ROBOT
+			else
+				O.tattoo = tattoo
 		else
 			var/datum/organ/internal/I = character.internal_organs_by_name[name]
 			if(I)

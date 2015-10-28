@@ -128,16 +128,20 @@ datum/preferences
 		preview_icon.Blend(new /icon(icobase, "groin_[g]"), ICON_OVERLAY)
 		preview_icon.Blend(new /icon(icobase, "head_[g]"), ICON_OVERLAY)
 
-		for(var/name in list("r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
+		for(var/name in list("chest", "head", "groin", "r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
 			if(organ_data[name] == "amputated") continue
 
 			var/icon/temp = null
+			var/icon/tattoo = null
 			if(organ_data[name] == "cyborg")
 				temp = new /icon('icons/mob/human_races/robotic.dmi', "[name]_[g]")
 			else
 				temp = new /icon(icobase, "[name]_[g]")
+				// Tattoo
+				tattoo = new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo_data[name]]_[body_build]")
 
 			preview_icon.Blend(temp, ICON_OVERLAY)
+			if(tattoo) preview_icon.Blend(tattoo, ICON_OVERLAY)
 
 		//Tail
 		if(current_species && (current_species.tail))

@@ -64,7 +64,7 @@
 	origin_tech = "materials=1;engineering=1"
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
 	var/drill_sound = 'sound/weapons/Genhit.ogg'
-	var/drill_verb = "drilling"
+	var/drill_verb = "picking"
 	sharp = 1
 
 	var/excavation_amount = 100
@@ -73,6 +73,7 @@
 	name = "sledgehammer"
 	//icon_state = "sledgehammer" Waiting on sprite
 	desc = "A mining hammer made of reinforced metal. You feel like smashing your boss in the face with this."
+	drill_verb = "hammering"
 
 /obj/item/weapon/pickaxe/silver
 	name = "silver pickaxe"
@@ -107,7 +108,6 @@
 	digspeed = 20
 	origin_tech = "materials=4"
 	desc = "This makes no metallurgic sense."
-	drill_verb = "picking"
 
 /obj/item/weapon/pickaxe/plasmacutter
 	name = "plasma cutter"
@@ -127,7 +127,6 @@
 	digspeed = 10
 	origin_tech = "materials=6;engineering=4"
 	desc = "A pickaxe with a diamond pick head."
-	drill_verb = "picking"
 
 /obj/item/weapon/pickaxe/diamonddrill //When people ask about the badass leader of the mining tools, they are talking about ME!
 	name = "diamond mining drill"

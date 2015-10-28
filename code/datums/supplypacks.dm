@@ -400,7 +400,7 @@ var/list/custom_supply_groups = list ()
 	containername = "Medical crate"
 	group = "Medical"
 
-/datum/supply_packs/medical
+/datum/supply_packs/gen_disks
 	name = "Genetics disks crate"
 	contains = list(/obj/item/weapon/storage/box/disks,
 					/obj/item/weapon/storage/box/disks)
