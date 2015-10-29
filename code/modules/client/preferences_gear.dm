@@ -296,6 +296,13 @@ var/global/list/gear_datums = list()
 	slot = slot_glasses
 	allowed_roles = list("Security Officer","Head of Security","Warden")
 
+/datum/gear/medical_hud
+	display_name = "Medical HUD (prescription)"
+	path = /obj/item/clothing/glasses/hud/health/prescription
+	cost = 1
+	slot = slot_glasses
+	allowed_roles = list("Chief Medical Officer","Medical Doctor","Paramedic")
+
 /datum/gear/thugshades
 	display_name = "Sunglasses, Fat (Security)"
 	path = /obj/item/clothing/glasses/sunglasses/big
