@@ -64,6 +64,10 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 		usr << "Not when you're incapacitated."
 		return 0
 
+	if (ishuman(usr))
+		spawn usr.emote("me", 1 , "trying to say something")
+		return 0
+
 	if(ishuman(usr) || ismonkey(usr))
 		if(istype(usr.wear_mask, /obj/item/clothing/mask/muzzle))
 			usr << "Mmmf mrrfff!"
