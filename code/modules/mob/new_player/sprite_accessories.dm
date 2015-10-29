@@ -300,7 +300,7 @@
 		icon_state = "hair_kusanagi"
 
 	kusangialt
-		name = "Kusanagi Alt Hair"
+		name = "Kusanagi Hair Alt"
 		icon_state = "hair_kusanagialt"
 
 	hamasaki
@@ -313,23 +313,18 @@
 		icon_state = "hair_kagami"
 		gender = FEMALE
 
-	test
-		name = "Test Hair"
-		icon_state = "hair_test"
+	ladylike
+		name = "Ladylike"
+		icon_state = "hair_ladylike"
 		gender = FEMALE
 
-	test2
-		name = "Test 2 Hair"
+	test
+		name = "Test Hair"
 		icon_state = "hair_test2"
 		gender = FEMALE
 
-	levb
-		name = "Pigtails"
-		icon_state = "hair_levb"
-		gender = FEMALE
-
-	levb
-		name = "Pigtails"
+	ladylike2
+		name = "Ladylike alt"
 		icon_state = "hair_levb"
 		gender = FEMALE
 
