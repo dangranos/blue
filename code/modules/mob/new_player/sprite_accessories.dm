@@ -290,13 +290,42 @@
 		name = "Spiky"
 		icon_state = "hair_spikey"
 		species_allowed = list("Human","Unathi")
+
+	sidepart
+		name = "Sidepart Hair"
+		icon_state = "hair_sidepart"
+
 	kusangi
 		name = "Kusanagi Hair"
 		icon_state = "hair_kusanagi"
 
+	kusangialt
+		name = "Kusanagi Hair Alt"
+		icon_state = "hair_kusanagialt"
+
+	hamasaki
+		name = "Hamaski Hair"
+		icon_state = "hair_hamasaki"
+		gender = FEMALE
+
 	kagami
-		name = "Pigtails"
+		name = "Kagami Hair"
 		icon_state = "hair_kagami"
+		gender = FEMALE
+
+	ladylike
+		name = "Ladylike"
+		icon_state = "hair_ladylike"
+		gender = FEMALE
+
+	test
+		name = "Test Hair"
+		icon_state = "hair_test2"
+		gender = FEMALE
+
+	ladylike2
+		name = "Ladylike alt"
+		icon_state = "hair_levb"
 		gender = FEMALE
 
 	himecut
