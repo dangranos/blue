@@ -846,6 +846,12 @@ var/global/list/gear_datums = list()
 	slot = slot_wear_suit
 	whitelisted = "Tajara" // You do have a monopoly on a fur suit tho
 
+/datum/gear/ianshirt
+	display_name = "Worn shirt"
+	path = /obj/item/clothing/suit/ianshirt
+	cost = 4
+	slot = slot_wear_suit
+
 // Gloves
 
 /datum/gear/black_gloves
@@ -895,6 +901,7 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/gloves/fluff/murad_hassim_1
 	cost = 3
 	slot = slot_gloves
+	whitelisted = "Tajara"
 
 /datum/gear/orange_gloves
 	display_name = "gloves, orange"
