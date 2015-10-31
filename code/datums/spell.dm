@@ -65,8 +65,10 @@ var/list/spells = typesof(/obj/effect/proc_holder/spell) //needed for the badmin
 		return 0
 
 	if (ishuman(usr))
-		spawn usr.emote("me", 1 , "trying to say something")
-		return 0
+		var/mob/living/carbon/human/H = usr
+		if (H.oxygen_alert > 0)
+			spawn usr.emote("me", 1 , "trying to say something")
+			return 0
 
 	if(ishuman(usr) || ismonkey(usr))
 		if(istype(usr.wear_mask, /obj/item/clothing/mask/muzzle))
