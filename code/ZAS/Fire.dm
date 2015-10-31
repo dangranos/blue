@@ -144,7 +144,7 @@ turf/simulated/hotspot_expose(exposed_temperature, exposed_volume, soh)
 
 				//If extinguisher mist passed over the turf it's trying to spread to, don't spread and
 				//reduce firelevel.
-				if(enemy_tile.fire_protection > world.time-30)
+				if(enemy_tile.fire_protection > world.time - 30)
 					firelevel -= 1.5
 					continue
 
@@ -160,15 +160,15 @@ turf/simulated/hotspot_expose(exposed_temperature, exposed_volume, soh)
 	for(var/direction in cardinal)
 		var/turf/simulated/enemy_tile = get_step(my_tile, direction)
 		if(istype(enemy_tile))
-			if(my_tile.open_directions & direction) //Grab all valid bordering tiles
+			if(my_tile.open_directions & direction)
 				if(!enemy_tile.zone || enemy_tile.fire)
 					continue
-
 				if(!enemy_tile.zone.fire_tiles.len)
 					var/datum/gas_mixture/acs = enemy_tile.return_air()
 					if(!acs || !acs.check_combustability())
 						continue
-				//Spread the fire.
+				if(enemy_tile.fire_protection > world.time - 30)
+					continue
 				if(my_tile.CanPass(null, enemy_tile, 0,0) && enemy_tile.CanPass(null, my_tile, 0,0))
 					enemy_tile.hotspot_expose(1000, firelevel, 1)
 
