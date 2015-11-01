@@ -4,11 +4,12 @@
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "taperoll"
 	w_class = 1
+	var/in_action = 0
 
 /* -- Disabled for now until it has a use --
 /obj/item/weapon/tape_roll/attack_self(mob/user as mob)
 	user << "You remove a length of tape from [src]."
-	
+
 	var/obj/item/weapon/ducttape/tape = new()
 	user.put_in_hands(tape)
 */
@@ -16,11 +17,25 @@
 /obj/item/weapon/tape_roll/proc/stick(var/obj/item/weapon/W, mob/user)
 	if(!istype(W, /obj/item/weapon/paper))
 		return
-	
+
 	user.drop_from_inventory(W)
 	var/obj/item/weapon/ducttape/tape = new(get_turf(src))
 	tape.attach(W)
 	user.put_in_hands(tape)
+
+/obj/item/weapon/tape_roll/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
+	if(!istype(M))	return ..()
+	if(in_action)
+		return
+	in_action = 1
+	if(user.zone_sel.selecting == "mounth" && user.zone_sel.selecting == "head")
+
+		in_action = 0
+
+	if(M!=user)
+		var/obj/item/weapon/handcuffs/cyborg/tape/H = new(src)
+		H.attack(M, user)
+	in_action = 0
 
 /obj/item/weapon/ducttape
 	name = "tape"
@@ -52,7 +67,7 @@
 		return
 
 	user << "You remove \the [initial(name)] from [stuck]."
-	
+
 	user.drop_from_inventory(src)
 	stuck.forceMove(get_turf(src))
 	user.put_in_hands(stuck)

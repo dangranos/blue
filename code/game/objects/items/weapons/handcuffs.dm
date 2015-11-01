@@ -148,6 +148,11 @@ var/last_chew = 0
 			del(src)
 			update_icon(user)
 
+/obj/item/weapon/handcuffs/cyborg/tape
+	name = "tape restraints"
+	desc = "A few pieces of tape glued together. It looks unreliable."
+	breakouttime = 300
+	cuff_sound = 'sound/weapons/tapecuff.wav'
 
 /obj/item/weapon/handcuffs/cyborg
 	dispenser = 1

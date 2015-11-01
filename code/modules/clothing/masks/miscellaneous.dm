@@ -20,6 +20,12 @@
 		return 0
 	..()
 
+/obj/item/clothing/mask/muzzle/tape
+	name = "tape piece"
+	desc = "For when Master wants silence."
+	icon_state = "tape"
+	item_state = "tape"
+
 /obj/item/clothing/mask/surgical
 	name = "sterile mask"
 	desc = "A sterile mask designed to help prevent the spread of diseases."
