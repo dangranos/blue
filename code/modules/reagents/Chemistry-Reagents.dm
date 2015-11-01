@@ -2029,11 +2029,10 @@ datum
 			reagent_state = LIQUID
 			color = "#DB5008" // rgb: 219, 80, 8
 			toxpwr = 1
-			var/meltprob = 10
 
 			on_mob_life(var/mob/living/M as mob)
 				if(!M) M = holder.my_atom
-				M.take_organ_damage(0, 1*REM)
+				M.take_organ_damage(0, toxpwr * REM)
 				..()
 				return
 
@@ -2042,58 +2041,59 @@ datum
 					return
 				var/damage_factor = 0.5
 				if(method == TOUCH)
-					if (ishuman(M))	//���� �������
-						var/mob/user = holder.my_atom.loc; //��� ��� �������
-						if (istype(user)) //���� �� ����
+					if (ishuman(M))
+						var/mob/user = holder.my_atom.loc;
+						if (istype(user))
 							var/mob/living/carbon/human/H = M
-							var/list/protective_gear = list(H.head, H.wear_mask, H.glasses, H.wear_suit, H.w_uniform, H.gloves, H.shoes) //��������
-							var/target_zone = check_zone(user.zone_sel.selecting) //���� ���� �������
+							var/list/protective_gear = list(H.head, H.wear_mask, H.glasses, H.wear_suit, H.w_uniform, H.gloves, H.shoes)
+							var/target_zone = check_zone(user.zone_sel.selecting)
 							var/rand_zone = target_zone
-							var/part_count = 1; //���������� ������ ���� ���� ������� �������
-							var/total_damage = 0; //��������� ����
-							if (volume > 50 && user != M) //���� ������� ������ ��� �������� �� ��� �������� �� ��������� ������ ����, ���� ���� ����� �������������
-								part_count = rand(3, 5) //�� 1 �� 5 ������ ���� ���� ����� �������
-								M.visible_message("<span class = 'danger'> Splashes of [name] flow down on [H.name]'s body</span>")
-								//������ ������� ����������� �� ����� ����
+							var/part_count = 1;
+							var/total_damage = 0;
+							if (volume > 50 && user != H)
+								part_count = rand(3, 5)
+								H.visible_message("<span class = 'danger'> Splashes of [name] flow down on [H.name]'s body</span>")
 							for (var/n = 0, n < part_count, n++)
-								if (user != M) //���� ����� ���� �� �� ����
-									rand_zone = get_zone_with_miss_chance(target_zone, M);
+								if (user != H)
+									rand_zone = get_zone_with_miss_chance(target_zone, H);
 								var/datum/organ/external/affecting = H.get_organ(rand_zone)
 								if (affecting)
-									var/damage = damage_factor * toxpwr * volume / part_count //����
+									var/damage = damage_factor * toxpwr * volume / part_count
 									for(var/i = 1, i <= protective_gear.len, i++)
 										var/gear = protective_gear[i]
 										if(gear && istype(gear ,/obj/item/clothing))
 											var/obj/item/clothing/C = gear
-											if(C.body_parts_covered & affecting.body_part) //�������� �������� ������ ����
-												if (C.unacidable) // ���� ��������������
+											if(C.body_parts_covered & affecting.body_part)
+												if (C.unacidable)
 													damage = 0
 													break
 												if (C.health)
 													damage -= C.armor["melee"];
-												if (damage >= 0) //���� ������� ������� ������� ��������
-													M.visible_message("<span class = 'danger'>[name] melting [H.name]'s [C.name]</span>")
+												if (damage >= 0)
+													H.visible_message("<span class = 'danger'>[name] melting [H.name]'s [C.name]</span>")
 													H.u_equip(gear)
+													var/obj/effect/decal/cleanable/molten_item/I = new/obj/effect/decal/cleanable/molten_item(C.loc)
+													I.desc = "Looks like this was \an [C.name] some time ago."
 													del gear
 												else
 													break
-									if (damage > 0 && !M.unacidable) //������� ����
+									if (damage > 0 && !H.unacidable)
 										affecting.take_damage(0, damage)
 										H.UpdateDamageIcon()
 										total_damage += damage
-										M.visible_message("<span class = 'danger'>[name] melting [H.name]'s [affecting.name]</span>")
+										H.visible_message("<span class = 'danger'>[name] melting [H.name]'s [affecting.name]</span>")
 										if (rand_zone == "head")
 											if (prob(damage * 5))
 												H.status_flags |= DISFIGURED
-											if (prob(damage * 3)) //����������� ����
+											if (prob(damage * 3))
 												var/datum/organ/internal/eyes/eyes = H.internal_organs_by_name["eyes"]
 												if(eyes && istype(eyes))
 													eyes.damage += damage * 4
-											if (prob(damage * 3))//������� ������
+											if (prob(damage * 3))
 												H.f_style = "Shaved"
 												H.h_style = "Bald"
 												H.update_hair()
-							if ((total_damage > 0) && prob(total_damage))//���� �����
+							if ((total_damage > 0) && prob(total_damage))
 								if (!(H.species && (H.species.flags & NO_PAIN)))
 									H.emote("scream")
 							return
@@ -2107,13 +2107,28 @@ datum
 						M.take_organ_damage(0, damage);
 
 			reaction_obj(var/obj/O, var/volume)
-				if((istype(O,/obj/item) || istype(O,/obj/effect/plant)) && prob(meltprob * 3))
-					if(!O.unacidable)
-						var/obj/effect/decal/cleanable/molten_item/I = new/obj/effect/decal/cleanable/molten_item(O.loc)
-						I.desc = "Looks like this was \an [O] some time ago."
-						for(var/mob/M in viewers(5, O))
-							M << "\red \the [O] melts."
-						del(O)
+				if (!O.unacidable)
+					var/damage = volume * toxpwr * 0.5
+					if (istype(O,/obj/item))
+						var/obj/item/T = O
+						if (T.health)
+							if (T.health >= damage)
+								T.health -= damage;
+								return
+						else
+							return
+					else if (istype(O,/obj/effect/plant))
+						var/obj/effect/plant/T = O
+						if (T.health > damage)
+							T.health -= damage;
+							return
+					else
+						return
+					var/obj/effect/decal/cleanable/molten_item/I = new/obj/effect/decal/cleanable/molten_item(O.loc)
+					I.desc = "Looks like this was \an [O] some time ago."
+					for(var/mob/M in viewers(5, O))
+						M << "\red \the [O] melts."
+					del(O)
 
 		toxin/acid/polyacid
 			name = "Polytrinic acid"
@@ -2122,7 +2137,6 @@ datum
 			reagent_state = LIQUID
 			color = "#8E18A9" // rgb: 142, 24, 169
 			toxpwr = 2
-			meltprob = 30
 
 /////////////////////////Food Reagents////////////////////////////
 // Part of the food code. Nutriment is used instead of the old "heal_amt" code. Also is where all the food
