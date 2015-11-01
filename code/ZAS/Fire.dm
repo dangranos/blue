@@ -19,7 +19,6 @@ atom/proc/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed
 
 turf/proc/hotspot_expose(exposed_temperature, exposed_volume, soh = 0)
 
-
 turf/simulated/hotspot_expose(exposed_temperature, exposed_volume, soh)
 	if(fire_protection > world.time-300)
 		return 0
@@ -34,30 +33,30 @@ turf/simulated/hotspot_expose(exposed_temperature, exposed_volume, soh)
 
 	if(air_contents.check_combustability(liquid))
 		igniting = 1
-
-		create_fire(1000)
+		create_fire(exposed_volume)
 	return igniting
 
 /zone/proc/process_fire()
-	if(!air.check_combustability())
-		for(var/turf/simulated/T in fire_tiles)
+	for(var/turf/simulated/T in fire_tiles)
+		if (!istype(T))
+			continue
+		var/obj/effect/decal/cleanable/liquid_fuel/liquid = locate() in T
+		if (!air.check_combustability(liquid))
 			if(istype(T.fire))
 				T.fire.RemoveFire()
 			T.fire = null
-		fire_tiles.Cut()
+			fire_tiles.Remove(T)
+		else
+			var/datum/gas_mixture/burn_gas = air.remove_ratio(vsc.fire_consuption_rate)
+			var/gm = burn_gas.group_multiplier
+			burn_gas.group_multiplier = 1
+			burn_gas.zburn(liquid, 1, 1)
+			burn_gas.group_multiplier = gm
+			air.merge(burn_gas)
 
 	if(!fire_tiles.len)
 		air_master.active_fire_zones.Remove(src)
 		return
-
-	var/datum/gas_mixture/burn_gas = air.remove_ratio(vsc.fire_consuption_rate, fire_tiles.len)
-	var/gm = burn_gas.group_multiplier
-
-	burn_gas.group_multiplier = 1
-	burn_gas.zburn(force_burn = 1, no_check = 1)
-	burn_gas.group_multiplier = gm
-
-	air.merge(burn_gas)
 
 	var/firelevel = air.calculate_firelevel()
 
@@ -81,6 +80,7 @@ turf/simulated/hotspot_expose(exposed_temperature, exposed_volume, soh)
 	fire = new(src, fl)
 	zone.fire_tiles |= src
 	air_master.active_fire_zones |= zone
+	fire.spread()
 	return 0
 
 /obj/fire
@@ -144,16 +144,34 @@ turf/simulated/hotspot_expose(exposed_temperature, exposed_volume, soh)
 
 				//If extinguisher mist passed over the turf it's trying to spread to, don't spread and
 				//reduce firelevel.
-				if(enemy_tile.fire_protection > world.time-30)
+				if(enemy_tile.fire_protection > world.time - 30)
 					firelevel -= 1.5
 					continue
 
 				//Spread the fire.
-				if(prob( 50 + 50 * (firelevel/vsc.fire_firelevel_multiplier) ) && my_tile.CanPass(null, enemy_tile, 0,0) && enemy_tile.CanPass(null, my_tile, 0,0))
-					enemy_tile.create_fire(firelevel)
+				if(my_tile.CanPass(null, enemy_tile, 0,0) && enemy_tile.CanPass(null, my_tile, 0,0))
+					enemy_tile.hotspot_expose(1000, firelevel, 1)
 
 			else
 				enemy_tile.adjacent_fire_act(loc, air_contents, air_contents.temperature, air_contents.volume)
+
+/obj/fire/proc/spread()
+	var/turf/simulated/my_tile = loc
+	for(var/direction in cardinal)
+		var/turf/simulated/enemy_tile = get_step(my_tile, direction)
+		if(istype(enemy_tile))
+			if(my_tile.open_directions & direction)
+				if(!enemy_tile.zone || enemy_tile.fire)
+					continue
+				if(!enemy_tile.zone.fire_tiles.len)
+					var/datum/gas_mixture/acs = enemy_tile.return_air()
+					if(!acs || !acs.check_combustability())
+						continue
+				if(enemy_tile.fire_protection > world.time - 30)
+					continue
+				if(my_tile.CanPass(null, enemy_tile, 0,0) && enemy_tile.CanPass(null, my_tile, 0,0))
+					enemy_tile.hotspot_expose(1000, firelevel, 1)
+
 
 /obj/fire/New(newLoc,fl)
 	..()
@@ -237,7 +255,7 @@ datum/gas_mixture/proc/zburn(obj/effect/decal/cleanable/liquid_fuel/liquid, forc
 		adjust_gas("carbon_dioxide", max(total_fuel*used_reactants_ratio, 0))
 
 		if(liquid)
-			liquid.amount -= (liquid.amount * used_fuel_ratio * used_reactants_ratio) * 5 // liquid fuel burns 5 times as quick
+			liquid.amount -= (liquid.amount * used_fuel_ratio * used_reactants_ratio) * 5
 
 			if(liquid.amount <= 0) del liquid
 
