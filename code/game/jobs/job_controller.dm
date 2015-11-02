@@ -403,6 +403,11 @@ var/global/datum/controller/occupations/job_master
 			//Equip job items.
 			job.equip(H)
 			job.apply_fingerprints(H)
+			if(!joined_late)
+				if(rank == "Bartender")
+					var/mob/living/carbon/monkey/Pun = locate("Pun Pun")
+					if(Pun) Pun.setMaster(H)
+
 			//If some custom items could not be equipped before, try again now.
 			for(var/thing in custom_equip_leftovers)
 				var/datum/gear/G = gear_datums[thing]

@@ -69,13 +69,32 @@
 		G.process()
 
 	if(!client && stat == CONSCIOUS)
-
-		if(prob(33) && canmove && isturf(loc) && !pulledby) //won't move if being pulled
-
-			step(src, pick(cardinal))
-
-		if(prob(1))
-			emote(pick("scratch","jump","roll","tail"))
+		if(target)
+			if(buckled && !handcuffed)
+				buckled.attack_hand(src)
+			else
+				if(istype(target.loc, /turf))
+					if(target.loc.Adjacent(src))
+						var/obj/item/weapon/W = get_active_hand()
+						if(!W) W = get_inactive_hand()
+						if(!W)
+							//src.put_in_hands(target)
+							target.attack_hand(src)
+						else
+							target.attackby(W, src)
+							//drop_from_inventory(W, target.loc)
+						dropTarget()
+					else
+						var/dist = get_dist(src.loc,target.loc)-2
+						if(dist<=1) dist = 1
+						walk_to(src, target, dist, 5)
+				else
+					dropTarget()
+		else
+			if(prob(33) && canmove && isturf(loc) && !pulledby) //won't move if being pulled
+				step(src, pick(cardinal))
+			if(prob(1))
+				emote(pick("scratch","jump","roll","tail"))
 	updatehealth()
 
 /mob/living/carbon/monkey
