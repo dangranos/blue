@@ -23,19 +23,50 @@
 	tape.attach(W)
 	user.put_in_hands(tape)
 
-/obj/item/weapon/tape_roll/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(!istype(M))	return ..()
+/obj/item/weapon/tape_roll/attack(mob/living/carbon/C as mob, mob/living/carbon/user as mob)
+	if(!istype(C))	return ..()
 	if(in_action)
 		return
 	in_action = 1
-	if(user.zone_sel.selecting == "mounth" && user.zone_sel.selecting == "head")
+	if(user.zone_sel.selecting == "mouth" || user.zone_sel.selecting == "head")
+		if(!C.wear_mask)
+			if(C==user)
+				if(user.equip_to_slot_or_del( new/obj/item/clothing/mask/muzzle/tape(user), slot_wear_mask))
+					C.update_inv_wear_mask()
+				in_action = 0
+				return
 
+			var/turf/p_loc = user.loc
+			var/turf/p_loc_m = C.loc
+			playsound(src.loc, 'sound/weapons/tapecuff.wav', 30, 1, -2)
+			user.visible_message("\red <B>[user] is trying to close up [C]'s mounth with [src]!</B>")
+
+			if (ishuman(C))
+				var/mob/living/carbon/human/H = C
+				if (!H.has_organ_for_slot(slot_wear_mask))
+					in_action = 0
+					return
+
+			spawn(8)
+				if(!C)
+					in_action = 0
+					return
+				if(p_loc == user.loc && p_loc_m == C.loc)
+					var/obj/item/clothing/mask/muzzle/tape/T = new(C)
+					if(C.equip_to_slot_or_del(T, slot_wear_mask))
+						C.update_inv_wear_mask()
 		in_action = 0
 
-	if(M!=user)
-		var/obj/item/weapon/handcuffs/cyborg/tape/H = new(src)
-		H.attack(M, user)
-	in_action = 0
+	else
+		if(C!=user)
+			var/obj/item/weapon/handcuffs/tape/T = new(src)
+			T.attack(C, user)
+		in_action = 0
+
+/obj/item/weapon/tape_piece
+	name = "utilized piece of tape"
+	desc = "Not sticky for now"
+	icon_state = "taperoll_piece"
 
 /obj/item/weapon/ducttape
 	name = "tape"

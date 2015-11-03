@@ -22,9 +22,14 @@
 
 /obj/item/clothing/mask/muzzle/tape
 	name = "tape piece"
-	desc = "For when Master wants silence."
 	icon_state = "tape"
 	item_state = "tape"
+
+/obj/item/clothing/mask/muzzle/tape/dropped()
+	name = "utilized tape piece"
+	slot_flags = 0
+	icon = 'icons/obj/items.dmi'
+	icon_state = "taperoll_piece"
 
 /obj/item/clothing/mask/surgical
 	name = "sterile mask"
