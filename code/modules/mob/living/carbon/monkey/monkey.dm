@@ -14,6 +14,8 @@
 	//var/uni_append = "12C4E2"                // Small appearance modifier for different species.
 	var/list/uni_append = list(0x12C,0x4E2)    // Same as above for DNA2.
 	var/update_muts = 1                        // Monkey gene must be set at start.
+	var/mob/living/carbon/human/master = null  // Someone who control
+	var/atom/target = null
 
 /mob/living/carbon/monkey/tajara
 	name = "farwa"
@@ -39,6 +41,28 @@
 	greaterform = "Unathi"
 	uni_append = list(0x044,0xC5D) // 044C5D
 
+/mob/living/carbon/monkey/proc/setMaster(mob/living/carbon/human/H as mob)
+	if(!master && H && istype(H) && !H.pet)
+		master = H
+		master.pet = src
+
+/mob/living/carbon/monkey/proc/command(atom/A as mob|obj|turf)
+	if(!A in view()) return
+	if(l_hand || r_hand)
+		if(istype(A, /obj/structure/table))
+			setTarget(A)
+	else
+		if(istype(A, /obj/item/weapon/reagent_containers/food/drinks) || \
+		istype(A, /obj/item/weapon/tray))
+			setTarget(A)
+
+/mob/living/carbon/monkey/proc/setTarget(atom/A as mob|obj|turf)
+	target = A
+
+/mob/living/carbon/monkey/proc/dropTarget()
+	target = null
+	walk(src,0)
+
 /mob/living/carbon/monkey/New()
 
 	verbs += /mob/living/proc/ventcrawl
@@ -53,6 +77,10 @@
 	if(name == initial(name)) //To stop Pun-Pun becoming generic.
 		name = "[name] ([rand(1, 1000)])"
 		real_name = name
+	else
+		var/mob/living/carbon/monkey/Spec = locate(name)
+		if(!Spec)
+			tag = name
 
 	if (!(dna))
 		if(gender == NEUTER)
