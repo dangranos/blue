@@ -57,7 +57,7 @@
 		var/obj/effect/equip_e/human/O = new /obj/effect/equip_e/human(  )
 		O.source = user
 		O.target = H
-		O.item = user.get_active_hand()
+		O.item = dispenser ? src : user.get_active_hand()
 		O.s_loc = user.loc
 		O.t_loc = H.loc
 		O.place = "handcuff"
@@ -148,6 +148,37 @@ var/last_chew = 0
 			del(src)
 			update_icon(user)
 
+/obj/item/weapon/handcuffs/tape
+	dispenser = 1
+	name = "tape restraints"
+	desc = "A few pieces of tape glued together. It looks unreliable."
+	icon_state = "tapecuffs"
+	breakouttime = 300
+	cuff_sound = 'sound/weapons/tapecuff.wav'
+
+/obj/item/weapon/handcuffs/cyborg/tape/dropped()
+	new/obj/item/weapon/tape_piece(src.loc)
+	del(src)
+
+/obj/item/weapon/handcuffs/tape/place_handcuffs(mob/living/carbon/C as mob, mob/user as mob)
+	if(!C.handcuffed)
+		var/turf/p_loc = user.loc
+		var/turf/p_loc_m = C.loc
+		playsound(src.loc, cuff_sound, 30, 1, -2)
+		user.visible_message("\red <B>[user] is trying to put handcuffs on [C]!</B>")
+
+		if (ishuman(C))
+			var/mob/living/carbon/human/H = C
+			if (!H.has_organ_for_slot(slot_handcuffed))
+				user << "\red \The [H] needs at least two wrists before you can cuff them together!"
+				return
+
+		spawn(30)
+			if(!C)	return
+			if(p_loc == user.loc && p_loc_m == C.loc)
+				C.handcuffed = src
+				src.loc = C
+				C.update_inv_handcuffed()
 
 /obj/item/weapon/handcuffs/cyborg
 	dispenser = 1
