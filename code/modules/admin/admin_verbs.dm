@@ -839,14 +839,14 @@ var/list/admin_verbs_mentor = list(
 
 	if( !src.holder ) return
 	var/obj/structure/closet/MD = src.holder.marked_datum
-	if( (src.holder.marked_datum==null) || !istype( MD ))
+	if( (src.holder.marked_datum==null) || (!istype( MD )||!istype(MD, /obj/structure/largecrate)) )
 		alert( "You must select any object with type \"/obj/structure/closet\" as \"Marked object\" ( VV-> mark object) before we can start", "Error", "Ok" )
 		return
 
 	var/name = "Custom supply pack"
 	var/cost = 8
 	var/price = 0
-	var/access = MD:req_access?MD:req_access[1]:0
+	var/access = MD.req_access.len?MD:req_access[1]:0
 	var/containername = MD.name
 	var/containertype = MD.type
 	var/group = "Operations"
@@ -877,11 +877,14 @@ var/list/admin_verbs_mentor = list(
 		if( cost >= 8 ) error = 0
 		else if (alert( "Cost must be >= 8!", "Error", "Retry", "Abort") == "Abort") return
 
-	error = 1
-	while( error )
-		access = input( "Enter req access level (sorry only digit form for now).\nSee code/game/jobs/access.dm for help", "Access", access) as num|null
-		if( access >= 0 ) error = 0
-		else if (alert( "Access can't be < 0", "Error", "Retry", "Abort") == "Abort") return
+	if(istype(MD, /obj/structure/closet/crate/secure))
+		error = 1
+		while( error )
+			access = input( "Enter req access level (sorry only digit form for now).\nSee code/game/jobs/access.dm for help", "Access", access) as num|null
+			if( access >= 0 ) error = 0
+			else if (alert( "Access can't be < 0", "Error", "Retry", "Abort") == "Abort") return
+	else
+		access = 0
 
 	group = input( "Select group for pack", "Group", group) in all_supply_groups
 

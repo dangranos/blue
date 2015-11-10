@@ -85,3 +85,6 @@
 	var/hand_blood_color
 
 	var/list/flavor_texts = list()
+
+	//var/mob/living/pet = null
+	var/mob/living/carbon/monkey/pet = null // just monkey for begining

@@ -249,6 +249,9 @@ var/list/slot_equipment_priority = list( \
 
 	var/obj/P = new /obj/effect/decal/point(tile)
 	P.invisibility = invisibility
+	var/mob/living/carbon/human/H = src
+	if(istype(H) && H.pet)
+		H.pet.command(A)
 	spawn (20)
 		if(P)
 			del(P)	// qdel

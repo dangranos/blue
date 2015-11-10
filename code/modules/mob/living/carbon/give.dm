@@ -10,10 +10,7 @@ mob/living/carbon/verb/give(var/mob/living/carbon/target in view(1)-usr)
 	if(usr.hand && usr.l_hand == null)
 		usr << "<span class='warning'>You don't have anything in your left hand to give to [target.name]</span>"
 		return
-	if(usr.hand)
-		I = usr.l_hand
-	else if(!usr.hand)
-		I = usr.r_hand
+	I = usr.get_active_hand()
 	if(!I)
 		return
 	if(target.r_hand == null || target.l_hand == null)
@@ -33,19 +30,8 @@ mob/living/carbon/verb/give(var/mob/living/carbon/target in view(1)-usr)
 					target << "<span class='warning'>Your hands are full.</span>"
 					usr << "<span class='warning'>Their hands are full.</span>"
 					return
-				else
-					usr.drop_item()
-					if(target.r_hand == null)
-						target.r_hand = I
-					else
-						target.l_hand = I
-				I.loc = target
-				I.layer = 20
-				I.add_fingerprint(target)
-				target.update_inv_l_hand()
-				target.update_inv_r_hand()
-				usr.update_inv_l_hand()
-				usr.update_inv_r_hand()
+				usr.drop_item()
+				target.put_in_hands(I)
 				target.visible_message("<span class='notice'>[usr.name] handed \the [I.name] to [target.name].</span>")
 			if("No")
 				target.visible_message("<span class='warning'>[usr.name] tried to hand [I.name] to [target.name] but [target.name] didn't want it.</span>")
