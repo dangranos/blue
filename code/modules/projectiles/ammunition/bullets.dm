@@ -38,11 +38,21 @@
 	caliber = "9mm"
 	projectile_type = /obj/item/projectile/bullet/pistol/rubber
 
+/obj/item/ammo_casing/c9mmp
+	desc = "A 9mm practice bullet casing."
+	caliber = "9mm"
+	projectile_type = /obj/item/projectile/bullet/pistol/practice
+
 
 /obj/item/ammo_casing/c45
 	desc = "A .45 bullet casing."
 	caliber = ".45"
 	projectile_type = /obj/item/projectile/bullet/pistol/medium
+
+/obj/item/ammo_casing/c45p
+	desc = "A .45 practice bullet casing."
+	caliber = ".45"
+	projectile_type = /obj/item/projectile/bullet/pistol/practice
 
 /obj/item/ammo_casing/c45r
 	desc = "A .45 rubber bullet casing."
@@ -64,34 +74,37 @@
 	name = "shotgun slug"
 	desc = "A 12 gauge slug."
 	icon_state = "slshell"
-	spent_icon = "slshell-spent"
 	caliber = "shotgun"
 	projectile_type = /obj/item/projectile/bullet/shotgun
-	matter = list("metal" = 360)
+	matter = list(DEFAULT_WALL_MATERIAL = 360)
 
 /obj/item/ammo_casing/shotgun/pellet
 	name = "shotgun shell"
 	desc = "A 12 gauge shell."
 	icon_state = "gshell"
-	spent_icon = "gshell-spent"
 	projectile_type = /obj/item/projectile/bullet/pellet/shotgun
-	matter = list("metal" = 360)
+	matter = list(DEFAULT_WALL_MATERIAL = 360)
 
 /obj/item/ammo_casing/shotgun/blank
 	name = "shotgun shell"
 	desc = "A blank shell."
 	icon_state = "blshell"
-	spent_icon = "blshell-spent"
 	projectile_type = /obj/item/projectile/bullet/blank
+	matter = list(DEFAULT_WALL_MATERIAL = 90)
+
+/obj/item/ammo_casing/shotgun/practice
+	name = "shotgun shell"
+	desc = "A practice shell."
+	icon_state = "pshell"
+	projectile_type = /obj/item/projectile/bullet/shotgun/practice
 	matter = list("metal" = 90)
 
 /obj/item/ammo_casing/shotgun/beanbag
 	name = "beanbag shell"
 	desc = "A beanbag shell."
 	icon_state = "bshell"
-	spent_icon = "bshell-spent"
 	projectile_type = /obj/item/projectile/bullet/shotgun/beanbag
-	matter = list("metal" = 180)
+	matter = list(DEFAULT_WALL_MATERIAL = 180)
 
 //Can stun in one hit if aimed at the head, but
 //is blocked by clothing that stops tasers and is vulnerable to EMP
@@ -101,7 +114,7 @@
 	icon_state = "stunshell"
 	spent_icon = "stunshell-spent"
 	projectile_type = /obj/item/projectile/energy/electrode/stunshot
-	matter = list("metal" = 360, "glass" = 720)
+	matter = list(DEFAULT_WALL_MATERIAL = 360, "glass" = 720)
 
 /obj/item/ammo_casing/shotgun/stunshell/emp_act(severity)
 	if(prob(100/severity)) BB = null
@@ -112,9 +125,8 @@
 	name = "flash shell"
 	desc = "A chemical shell used to signal distress or provide illumination."
 	icon_state = "fshell"
-	spent_icon = "fshell-spent"
 	projectile_type = /obj/item/projectile/energy/flash/flare
-	matter = list("metal" = 90, "glass" = 90)
+	matter = list(DEFAULT_WALL_MATERIAL = 90, "glass" = 90)
 
 /obj/item/ammo_casing/a762
 	desc = "A 7.62mm bullet casing."
@@ -128,12 +140,17 @@
 	spent_icon = "lcasing-spent"
 	caliber = "14.5mm"
 	projectile_type = /obj/item/projectile/bullet/rifle/a145
-	matter = list("metal" = 1250)
+	matter = list(DEFAULT_WALL_MATERIAL = 1250)
 
 /obj/item/ammo_casing/a556
 	desc = "A 5.56mm bullet casing."
 	caliber = "a556"
 	projectile_type = /obj/item/projectile/bullet/rifle/a556
+
+/obj/item/ammo_casing/a556p
+	desc = "A 5.56mm practice bullet casing."
+	caliber = "a556"
+	projectile_type = /obj/item/projectile/bullet/rifle/a556/practice
 
 /obj/item/ammo_casing/rocket
 	name = "rocket shell"

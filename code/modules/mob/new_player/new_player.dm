@@ -39,20 +39,40 @@
 			output += "<p><a href='byond://?src=\ref[src];late_join=1'>Join Game!</A></p>"
 
 		output += "<p><a href='byond://?src=\ref[src];observe=1'>Observe</A></p>"
+
+		if(!IsGuestKey(src.key))
+			establish_db_connection()
+
+			if(dbcon.IsConnected())
+				var/isadmin = 0
+				if(src.client && src.client.holder)
+					isadmin = 1
+				var/DBQuery/query = dbcon.NewQuery("SELECT id FROM erro_poll_question WHERE [(isadmin ? "" : "adminonly = false AND")] Now() BETWEEN starttime AND endtime AND id NOT IN (SELECT pollid FROM erro_poll_vote WHERE ckey = \"[ckey]\") AND id NOT IN (SELECT pollid FROM erro_poll_textreply WHERE ckey = \"[ckey]\")")
+				query.Execute()
+				var/newpoll = 0
+				while(query.NextRow())
+					newpoll = 1
+					break
+
+				if(newpoll)
+					output += "<p><b><a href='byond://?src=\ref[src];showpoll=1'>Show Player Polls</A> (NEW!)</b></p>"
+				else
+					output += "<p><a href='byond://?src=\ref[src];showpoll=1'>Show Player Polls</A></p>"
+
 		output += "</div>"
 
 		src << browse(output,"window=playersetup;size=210x280;can_close=0")
 		return
 
+	proc/IsJobRestricted(rank)
+		if(client && client.prefs)
+			return client.prefs.IsJobRestricted(rank)
+		return 0
+
 	Stat()
 		..()
 
-		statpanel("Status")
-		if (client.statpanel == "Status" && ticker)
-			if (ticker.current_state != GAME_STATE_PREGAME)
-				stat(null, "Station Time: [worldtime2text()]")
-		statpanel("Lobby")
-		if(client.statpanel=="Lobby" && ticker)
+		if(statpanel("Lobby") && ticker)
 			if(ticker.hide_mode)
 				stat("Game Mode:", "Secret")
 			else
@@ -118,7 +138,7 @@
 				if(!client.holder && !config.antag_hud_allowed)           // For new ghosts we remove the verb from even showing up if it's not allowed.
 					observer.verbs -= /mob/dead/observer/verb/toggle_antagHUD        // Poor guys, don't know what they are missing!
 				observer.key = key
-				del(src)
+				qdel(src)
 
 				return 1
 
@@ -165,16 +185,49 @@
 			AttemptLateSpawn(href_list["SelectedJob"],client.prefs.spawnpoint)
 			return
 
+		if(href_list["privacy_poll"])
+			establish_db_connection()
+			if(!dbcon.IsConnected())
+				return
+			var/voted = 0
+
+			//First check if the person has not voted yet.
+			var/DBQuery/query = dbcon.NewQuery("SELECT * FROM erro_privacy WHERE ckey='[src.ckey]'")
+			query.Execute()
+			while(query.NextRow())
+				voted = 1
+				break
+
+			//This is a safety switch, so only valid options pass through
+			var/option = "UNKNOWN"
+			switch(href_list["privacy_poll"])
+				if("signed")
+					option = "SIGNED"
+				if("anonymous")
+					option = "ANONYMOUS"
+				if("nostats")
+					option = "NOSTATS"
+				if("later")
+					usr << browse(null,"window=privacypoll")
+					return
+				if("abstain")
+					option = "ABSTAIN"
+
+			if(option == "UNKNOWN")
+				return
+
+			if(!voted)
+				var/sql = "INSERT INTO erro_privacy VALUES (null, Now(), '[src.ckey]', '[option]')"
+				var/DBQuery/query_insert = dbcon.NewQuery(sql)
+				query_insert.Execute()
+				usr << "<b>Thank you for your vote!</b>"
+				usr << browse(null,"window=privacypoll")
+
 		if(!ready && href_list["preference"])
 			if(client)
 				client.prefs.process_link(src, href_list)
 		else if(!href_list["late_join"])
 			new_player_panel()
-
-	proc/IsJobRestricted(rank)
-		if(client && client.prefs)
-			return client.prefs.IsJobRestricted(rank)
-		return 0
 
 	proc/IsJobAvailable(rank)
 		var/datum/job/job = job_master.GetJob(rank)
@@ -187,7 +240,7 @@
 
 
 	proc/AttemptLateSpawn(rank,var/spawning_at)
-		if (src != usr)
+		if(src != usr)
 			return 0
 		if(!ticker || ticker.current_state != GAME_STATE_PLAYING)
 			usr << "\red The round is either not ready, or has already finished..."
@@ -207,7 +260,7 @@
 		var/mob/living/character = create_character()	//creates the human and transfers vars and mind
 		character = job_master.EquipRank(character, rank, 1)					//equips the human
 		UpdateFactionList(character)
-		EquipCustomItems(character)
+		equip_custom_items(character)
 
 		// AIs don't need a spawnpoint, they must spawn at an empty core
 		if(character.mind.assigned_role == "AI")
@@ -221,10 +274,10 @@
 			character.loc = C.loc
 
 			AnnounceCyborg(character, rank, "has been downloaded to the empty core in \the [character.loc.loc]")
-			ticker.mode.latespawn(character)
+			ticker.mode.handle_latejoin(character)
 
-			del(C)
-			del(src)
+			qdel(C)
+			qdel(src)
 			return
 
 		//Find our spawning point.
@@ -252,9 +305,7 @@
 			character.buckled.loc = character.loc
 			character.buckled.set_dir(character.dir)
 
-		ticker.mode.latespawn(character)
-
-		//ticker.mode.latespawn(character)
+		ticker.mode.handle_latejoin(character)
 
 		if(character.mind.assigned_role != "Cyborg")
 			data_core.manifest_inject(character)
@@ -266,7 +317,7 @@
 		else
 			AnnounceCyborg(character, rank, join_message)
 
-		del(src)
+		qdel(src)
 
 	proc/AnnounceArrival(var/mob/living/carbon/human/character, var/rank, var/join_message)
 		if (ticker.current_state == GAME_STATE_PLAYING)
@@ -282,16 +333,11 @@
 			global_announcer.autosay("A new[rank ? " [rank]" : " visitor" ] [join_message ? join_message : "has arrived on the station"].", "Arrivals Announcement Computer")
 
 	proc/LateChoices()
-		var/mills = world.time // 1/10 of a second, not real milliseconds but whatever
-		//var/secs = ((mills % 36000) % 600) / 10 //Not really needed, but I'll leave it here for refrence.. or something
-		var/mins = (mills % 36000) / 600
-		var/hours = mills / 36000
-
 		var/name = client.prefs.be_random_name ? "friend" : client.prefs.real_name
 
 		var/dat = "<html><body><center>"
 		dat += "<b>Welcome, [name].<br></b>"
-		dat += "Round Duration: [round(hours)]h [round(mins)]m<br>"
+		dat += "Round Duration: [round_duration()]<br>"
 
 		if(emergency_shuttle) //In case Nanotrasen decides reposess CentComm's shuttles.
 			if(emergency_shuttle.going_to_centcom()) //Shuttle is going to centcomm, not recalled
@@ -321,13 +367,16 @@
 
 		var/mob/living/carbon/human/new_character
 
+		var/use_species_name
 		var/datum/species/chosen_species
 		if(client.prefs.species)
 			chosen_species = all_species[client.prefs.species]
-		if(chosen_species)
+			use_species_name = chosen_species.get_station_variant() //Only used by pariahs atm.
+
+		if(chosen_species && use_species_name)
 			// Have to recheck admin due to no usr at roundstart. Latejoins are fine though.
 			if(is_species_whitelisted(chosen_species) || has_admin_rights())
-				new_character = new(loc, client.prefs.species)
+				new_character = new(loc, use_species_name)
 
 		if(!new_character)
 			new_character = new(loc)
@@ -371,6 +420,8 @@
 		//new_character.dna.UpdateSE()
 
 		// Do the initial caching of the player's body icons.
+		new_character.force_update_limbs()
+		new_character.update_eyes()
 		new_character.regenerate_icons()
 
 		new_character.key = key		//Manually transfer the key to log them in

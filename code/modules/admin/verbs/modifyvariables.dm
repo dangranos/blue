@@ -1,6 +1,15 @@
 var/list/forbidden_varedit_object_types = list(
-										/datum/admins						//Admins editing their own admin-power object? Yup, sounds like a good idea.
-									)
+										/datum/admins,						//Admins editing their own admin-power object? Yup, sounds like a good idea.
+										/obj/machinery/blackbox_recorder,	//Prevents people messing with feedback gathering
+										/datum/									)
+
+/*
+/client/proc/cmd_modify_object_variables(obj/O as obj|mob|turf|area in world)
+	set category = "Debug"
+	set name = "Edit Variables"
+	set desc="(target) Edit a target item's variables"
+	src.modify_variables(O)
+*/
 
 /client/proc/cmd_modify_ticker_variables()
 	set category = "Debug"
@@ -32,7 +41,7 @@ var/list/forbidden_varedit_object_types = list(
 	switch(class)
 
 		if("text")
-			var_value = input("Enter new text:","Text") as null|text
+			var_value = input("Enter new text:","Text") as null|text//todo: sanitize ???
 
 		if("num")
 			var_value = input("Enter new number:","Num") as null|num
@@ -81,7 +90,7 @@ var/list/forbidden_varedit_object_types = list(
 	switch(class)
 
 		if("text")
-			var_value = input("Enter new text:","Text") as text
+			var_value = input("Enter new text:","Text") as text//todo: sanitize ???
 
 		if("num")
 			var_value = input("Enter new number:","Num") as num
@@ -231,7 +240,7 @@ var/list/forbidden_varedit_object_types = list(
 			return
 
 		if("text")
-			L[L.Find(variable)] = input("Enter new text:","Text") as text
+			L[L.Find(variable)] = input("Enter new text:","Text") as text//todo: sanitize ???
 
 		if("num")
 			L[L.Find(variable)] = input("Enter new number:","Num") as num
@@ -438,15 +447,15 @@ var/list/forbidden_varedit_object_types = list(
 			return .(O.vars[variable])
 
 		if("text")
-			var/var_new = input("Enter new text:","Text",O.vars[variable]) as null|text
+			var/var_new = input("Enter new text:","Text",O.vars[variable]) as null|text//todo: sanitize ???
 			if(var_new==null) return
 			O.vars[variable] = var_new
 
 		if("num")
-			if(variable=="luminosity")
+			if(variable=="light_range")
 				var/var_new = input("Enter new number:","Num",O.vars[variable]) as null|num
 				if(var_new == null) return
-				O.SetLuminosity(var_new)
+				O.set_light(var_new)
 			else if(variable=="stat")
 				var/var_new = input("Enter new number:","Num",O.vars[variable]) as null|num
 				if(var_new == null) return

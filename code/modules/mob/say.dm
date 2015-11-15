@@ -9,7 +9,9 @@
 /mob/verb/say_verb(message as text)
 	set name = "Say"
 	set category = "IC"
-
+	if(say_disabled)	//This is here to try to identify lag problems
+		usr << "\red Speech is currently admin-disabled."
+		return
 	//Let's try to make users fix their errors - we try to detect single, out-of-place letters and 'unintended' words
 	/*
 	var/first_letter = copytext(message,1,2)
@@ -30,7 +32,11 @@
 	set name = "Me"
 	set category = "IC"
 
-	message = strip_html_properly(message)
+	if(say_disabled)	//This is here to try to identify lag problems
+		usr << "\red Speech is currently admin-disabled."
+		return
+
+	message = sanitize(message)
 
 	set_typing_indicator(0)
 	if(use_me)
@@ -39,6 +45,10 @@
 		usr.emote(message)
 
 /mob/proc/say_dead(var/message)
+	if(say_disabled)	//This is here to try to identify lag problems
+		usr << "<span class='danger'>Speech is currently admin-disabled.</span>"
+		return
+
 	if(!src.client.holder)
 		if(!config.dsay_allowed)
 			src << "<span class='danger'>Deadchat is globally muted.</span>"
@@ -49,18 +59,6 @@
 		return
 
 	say_dead_direct("[pick("complains","moans","whines","laments","blubbers")], <span class='message'>\"[message]\"</span>", src)
-
-/mob/verb/set_languate()
-	set name = "Set default language"
-	set category = "IC"
-
-	var/list/langs = list()
-	if(!languages || !languages.len) return
-	for(var/datum/language/L in languages)
-		langs += L.name
-
-	var/new_language = input("Select new default language", "Default language") in langs
-	if(new_language) default_language = all_languages[new_language]
 
 /mob/proc/say_understands(var/mob/other,var/datum/language/speaking = null)
 
@@ -142,7 +140,7 @@
 
 	if(length(message) >= 2)
 		var/channel_prefix = copytext(message, 1 ,3)
-		return department_radio_keys[rlowertext(channel_prefix)]
+		return department_radio_keys[channel_prefix]
 
 	return null
 
