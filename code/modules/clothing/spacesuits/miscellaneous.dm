@@ -84,7 +84,6 @@
 	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
 	siemens_coefficient = 0.9
 	body_parts_covered = UPPER_TORSO|ARMS
-	flags = STOPPRESSUREDAMAGE | THICKMATERIAL | ONLY_DEFAULT_BODY
 
 //Orange emergency space suit
 /obj/item/clothing/head/helmet/space/emergency

@@ -65,7 +65,7 @@
 				for(var/mob/M in range(10, src))
 					if(!M.stat && !istype(M, /mob/living/silicon/ai))\
 						shake_camera(M, 3, 1)
-				del(src)
+				qdel(src)
 				return 1
 		else
 			return 0
@@ -137,3 +137,16 @@
 			var/mob/living/carbon/human/M = target
 			M.adjustBrainLoss(20)
 			M.hallucination += 20
+
+/obj/item/projectile/icarus/pointdefense/process()
+	Icarus_FireLaser(get_turf(original))
+	spawn
+		qdel(src)
+
+	return
+
+/obj/item/projectile/icarus/guns/process()
+	Icarus_FireCannon(get_turf(original))
+	spawn
+		qdel(src)
+	return

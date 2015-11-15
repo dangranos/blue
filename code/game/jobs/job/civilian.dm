@@ -2,6 +2,7 @@
 /datum/job/bartender
 	title = "Bartender"
 	flag = BARTENDER
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
@@ -40,6 +41,7 @@
 /datum/job/chef
 	title = "Chef"
 	flag = CHEF
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
@@ -60,6 +62,7 @@
 /datum/job/hydro
 	title = "Gardener"
 	flag = BOTANIST
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
@@ -92,6 +95,7 @@
 /datum/job/qm
 	title = "Quartermaster"
 	flag = QUARTERMASTER
+	department = "Cargo"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
@@ -114,6 +118,7 @@
 /datum/job/cargo_tech
 	title = "Cargo Technician"
 	flag = CARGOTECH
+	department = "Cargo"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
@@ -131,6 +136,7 @@
 /datum/job/mining
 	title = "Shaft Miner"
 	flag = MINER
+	department = "Cargo"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 3
@@ -243,14 +249,15 @@
 /datum/job/janitor
 	title = "Janitor"
 	flag = JANITOR
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of personnel"
 	selection_color = "#dddddd"
-	access = list(access_janitor, access_maint_tunnels)
-	minimal_access = list(access_janitor, access_maint_tunnels)
+	access = list(access_janitor, access_maint_tunnels, access_engine, access_research, access_sec_doors, access_medical)
+	minimal_access = list(access_janitor, access_maint_tunnels, access_engine, access_research, access_sec_doors, access_medical)
 
 	uniform = /obj/item/clothing/under/rank/janitor
 	pda = /obj/item/device/pda/janitor
@@ -262,6 +269,7 @@
 /datum/job/librarian
 	title = "Librarian"
 	flag = LIBRARIAN
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
@@ -282,14 +290,15 @@
 /datum/job/lawyer
 	title = "Internal Affairs Agent"
 	flag = LAWYER
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	supervisors = "the captain"
+	supervisors = "Nanotrasen officials and Corporate Regulations"
 	selection_color = "#dddddd"
-	access = list(access_lawyer, access_court, access_sec_doors, access_maint_tunnels)
-	minimal_access = list(access_lawyer, access_court, access_sec_doors)
+	access = list(access_lawyer, access_court, access_sec_doors, access_maint_tunnels, access_heads)
+	minimal_access = list(access_lawyer, access_court, access_sec_doors, access_heads)
 
 	implanted = 1
 	uniform = /obj/item/clothing/under/rank/internalaffairs

@@ -404,7 +404,7 @@
 				song = new()
 				song.lines = lines
 				song.tempo = tempo
-				attack_hand(usr)
+			attack_hand(usr)
 
 	add_fingerprint(usr)
 	attack_hand(usr)
