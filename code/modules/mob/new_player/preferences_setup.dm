@@ -202,7 +202,15 @@ datum/preferences
 			if(J)//I hate how this looks, but there's no reason to go through this switch if it's empty
 
 				var/obj/item/clothing/under/UF = J.uniform
-				clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[initial(UF.icon_state)]_s")
+
+
+				var/under_state
+				if(initial(UF.item_state))
+					under_state = initial(UF.item_state)
+				else
+					under_state = initial(UF.icon_state)
+
+				clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[under_state]_s")
 
 				var/obj/item/clothing/shoes/SH = J.shoes
 				clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)

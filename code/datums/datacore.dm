@@ -143,7 +143,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	var/g = "m"
 	if (H.gender == FEMALE)
 		g = "f"
-		if(H.body_build) g = "f1"
+	g = "[g][H.body_build]"
 
 	var/icon/icobase = H.species.icobase
 
@@ -201,7 +201,14 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	if(J)
 		var/obj/item/clothing/under/UF = J.uniform
 		var/obj/item/clothing/shoes/SH = J.shoes
-		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[initial(UF.icon_state)]_s")
+
+		var/under_state
+		if(initial(UF.item_state))
+			under_state = initial(UF.item_state)
+		else
+			under_state = initial(UF.icon_state)
+
+		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[under_state]_s")
 		clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)
 	else
 		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "grey_s")

@@ -71,7 +71,7 @@
 	item_state = "b_suit"
 	worn_state = "hopwhimsy"
 
-/obj/item/clothing/under/rank/head_of_personnel
+/obj/item/clothing/under/rank/head_of_personnel_dark
 	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
 	name = "head of personnel's jumpsuit"
 	icon_state = "hop_dark"

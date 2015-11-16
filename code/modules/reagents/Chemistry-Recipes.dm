@@ -878,19 +878,6 @@
 /datum/chemical_reaction/aluminum_paint/send_data()
 	return "#F0F8FF"
 
-//Brain
-/datum/chemical_reaction/slimeclonning
-	name = "Slime Clone"
-	id = "m_clone"
-	result = null
-	required_reagents = list("phoron" = 5)
-	result_amount = 1
-
-/datum/chemical_reaction/slimeclonning/on_reaction(var/datum/reagents/holder)
-	var/obj/item/organ/brain/slime/B = holder.my_atom
-	if(!istype(B)) return
-	spawn B.slimeclone()
-
 
 /* Slime cores */
 
@@ -911,6 +898,20 @@
 		T.visible_message("\icon[T]<span class='notice'>\The [T]'s power is consumed in the reaction.</span>")
 		T.name = "used slime extract"
 		T.desc = "This extract has been used up."
+
+//Brain
+/datum/chemical_reaction/slime/clone
+	name = "Slime Clone"
+	id = "m_clone"
+	result = null
+	required_reagents = list("phoron" = 5)
+	result_amount = 1
+	required = /obj/item/organ/brain/slime
+
+/datum/chemical_reaction/slime/clone/on_reaction(var/datum/reagents/holder)
+	var/obj/item/organ/brain/slime/B = holder.my_atom
+	if(!istype(B)) return
+	spawn B.slimeclone()
 
 //Grey
 /datum/chemical_reaction/slime/spawn
