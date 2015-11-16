@@ -143,7 +143,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	var/g = "m"
 	if (H.gender == FEMALE)
 		g = "f"
-		if(H.body_build) g = "f1"
+	g = "[g][H.body_build]"
 
 	var/icon/icobase = H.species.icobase
 
