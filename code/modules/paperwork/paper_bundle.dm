@@ -1,57 +1,73 @@
 /obj/item/weapon/paper_bundle
 	name = "paper bundle"
-	gender = PLURAL
+	gender = NEUTER
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "paper"
 	item_state = "paper"
 	throwforce = 0
-	w_class = 1.0
+	w_class = 2
 	throw_range = 2
 	throw_speed = 1
 	layer = 4
 	pressure_resistance = 1
 	attack_verb = list("bapped")
-	var/page = 1
+	var/page = 1    // current page
+	var/list/pages = list()  // Ordered list of pages as they are to be displayed. Can be different order than src.contents.
+
 
 /obj/item/weapon/paper_bundle/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
 
+	if (istype(W, /obj/item/weapon/paper/carbon))
+		var/obj/item/weapon/paper/carbon/C = W
+		if (!C.iscopy && !C.copied)
+			user << "<span class='notice'>Take off the carbon copy first.</span>"
+			add_fingerprint(user)
+			return
+	// adding sheets		
 	if(istype(W, /obj/item/weapon/paper) || istype(W, /obj/item/weapon/photo))
-		if (istype(W, /obj/item/weapon/paper/carbon))
-			var/obj/item/weapon/paper/carbon/C = W
-			if (!C.iscopy && !C.copied)
-				user << "<span class='notice'>Take off the carbon copy first.</span>"
-				add_fingerprint(user)
-				return
-		user << "<span class='notice'>You add [W.name] to [src.name].</span>"
-		user.drop_from_inventory(W)
-		W.loc = src
-		if(istype(user,/mob/living/carbon/human))
-			var/mob/living/carbon/human/H = user
-			H.update_inv_l_hand()
-			H.update_inv_r_hand()
+		insert_sheet_at(user, pages.len+1, W)
+		
+	// burning	
 	else if(istype(W, /obj/item/weapon/flame))
 		burnpaper(W, user)
+		
+	// merging bundles
 	else if(istype(W, /obj/item/weapon/paper_bundle))
 		user.drop_from_inventory(W)
 		for(var/obj/O in W)
 			O.loc = src
 			O.add_fingerprint(usr)
-		user << "<span class='notice'>You add \the [W.name] to [src.name].</span>"
-		del(W)
-	else if(istype(W, /obj/item/weapon/tape_roll))
-		return 0
-	else if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/toy/crayon))
-		usr << browse("", "window=[name]") //Closes the dialog
+			pages.Add(O)
+
+		user << "<span class='notice'>You add \the [W.name] to [(src.name == "paper bundle") ? "the paper bundle" : src.name].</span>"
+		qdel(W)
 	else
-		var/obj/item/weapon/paper/P = src[page]
+		if(istype(W, /obj/item/weapon/tape_roll))
+			return 0
+		if(istype(W, /obj/item/weapon/pen))
+			usr << browse("", "window=[name]") //Closes the dialog
+		var/obj/P = pages[page]
 		P.attackby(W, user)
 
 	update_icon()
-	updateUsrDialog() //Update the browsed page.
+	attack_self(usr) //Update the browsed page.
 	add_fingerprint(usr)
 	return
 
+/obj/item/weapon/paper_bundle/proc/insert_sheet_at(mob/user, var/index, obj/item/weapon/sheet)	
+	if(istype(sheet, /obj/item/weapon/paper))
+		user << "<span class='notice'>You add [(sheet.name == "paper") ? "the paper" : sheet.name] to [(src.name == "paper bundle") ? "the paper bundle" : src.name].</span>"
+	else if(istype(sheet, /obj/item/weapon/photo))
+		user << "<span class='notice'>You add [(sheet.name == "photo") ? "the photo" : sheet.name] to [(src.name == "paper bundle") ? "the paper bundle" : src.name].</span>"
+		
+	user.drop_from_inventory(sheet)
+	sheet.loc = src
+	
+	pages.Insert(index, sheet)
+	
+	if(index <= page)
+		page++
 
 /obj/item/weapon/paper_bundle/proc/burnpaper(obj/item/weapon/flame/P, mob/user)
 	var/class = "<span class='warning'>"
@@ -72,7 +88,7 @@
 					user.drop_from_inventory(src)
 
 				new /obj/effect/decal/cleanable/ash(src.loc)
-				del(src)
+				qdel(src)
 
 			else
 				user << "\red You must hold \the [P] steady to burn \the [src]."
@@ -85,24 +101,33 @@
 	return
 
 /obj/item/weapon/paper_bundle/proc/show_content(mob/user as mob)
-	var/dat = ""
-	var/obj/item/weapon/W = src[page<=contents.len ? page : contents.len]
+	var/dat
+	var/obj/item/weapon/W = pages[page]
 
-	//Generate header
-	dat+= "<DIV STYLE='float:left; text-align:left; width:33.33333%'><A href='?src=\ref[src];prev_page=1'>[page>1?"Previous Page":""]</A></DIV>"
-	dat+= "<DIV STYLE='float:left; text-align:center; width:33.33333%'><A href='?src=\ref[src];remove=1'>Remove [(istype(W, /obj/item/weapon/paper)) ? "paper" : "photo"]</A></DIV>"
-	dat+= "<DIV STYLE='float:left; text-align:right; width:33.33333%'><A href='?src=\ref[src];next_page=1'>[page<contents.len?"Next Page":""]</A></DIV><BR><HR>"
+	// first
+	if(page == 1)
+		dat+= "<DIV STYLE='float:left; text-align:left; width:33.33333%'><A href='?src=\ref[src];prev_page=1'>Front</A></DIV>"
+		dat+= "<DIV STYLE='float:left; text-align:center; width:33.33333%'><A href='?src=\ref[src];remove=1'>Remove [(istype(W, /obj/item/weapon/paper)) ? "paper" : "photo"]</A></DIV>"
+		dat+= "<DIV STYLE='float:left; text-align:right; width:33.33333%'><A href='?src=\ref[src];next_page=1'>Next Page</A></DIV><BR><HR>"
+	// last
+	else if(page == pages.len)
+		dat+= "<DIV STYLE='float:left; text-align:left; width:33.33333%'><A href='?src=\ref[src];prev_page=1'>Previous Page</A></DIV>"
+		dat+= "<DIV STYLE='float:left; text-align:center; width:33.33333%'><A href='?src=\ref[src];remove=1'>Remove [(istype(W, /obj/item/weapon/paper)) ? "paper" : "photo"]</A></DIV>"
+		dat+= "<DIV STYLE='float;left; text-align:right; with:33.33333%'><A href='?src=\ref[src];next_page=1'>Back</A></DIV><BR><HR>"
+	// middle pages
+	else
+		dat+= "<DIV STYLE='float:left; text-align:left; width:33.33333%'><A href='?src=\ref[src];prev_page=1'>Previous Page</A></DIV>"
+		dat+= "<DIV STYLE='float:left; text-align:center; width:33.33333%'><A href='?src=\ref[src];remove=1'>Remove [(istype(W, /obj/item/weapon/paper)) ? "paper" : "photo"]</A></DIV>"
+		dat+= "<DIV STYLE='float:left; text-align:right; width:33.33333%'><A href='?src=\ref[src];next_page=1'>Next Page</A></DIV><BR><HR>"
 
-	//Generate page body
-	if(istype(W, /obj/item/weapon/paper))
+	if(istype(pages[page], /obj/item/weapon/paper))
 		var/obj/item/weapon/paper/P = W
 		if(!(istype(usr, /mob/living/carbon/human) || istype(usr, /mob/dead/observer) || istype(usr, /mob/living/silicon)))
 			dat+= "<HTML><HEAD><TITLE>[P.name]</TITLE></HEAD><BODY>[stars(P.info)][P.stamps]</BODY></HTML>"
 		else
 			dat+= "<HTML><HEAD><TITLE>[P.name]</TITLE></HEAD><BODY>[P.info][P.stamps]</BODY></HTML>"
 		user << browse(dat, "window=[name]")
-
-	else if(istype(W, /obj/item/weapon/photo))
+	else if(istype(pages[page], /obj/item/weapon/photo))
 		var/obj/item/weapon/photo/P = W
 		user << browse_rsc(P.img, "tmp_photo.png")
 		user << browse(dat + "<html><head><title>[P.name]</title></head>" \
@@ -119,49 +144,53 @@
 
 /obj/item/weapon/paper_bundle/Topic(href, href_list)
 	..()
-	if(!(src in usr.contents) && !(istype(src.loc, /obj/item/weapon/folder) && (src.loc in usr.contents)))
+	if((src in usr.contents) || (istype(src.loc, /obj/item/weapon/folder) && (src.loc in usr.contents)))
+		usr.set_machine(src)
+		var/obj/item/weapon/in_hand = usr.get_active_hand()
+		if(href_list["next_page"])
+			if(in_hand && (istype(in_hand, /obj/item/weapon/paper) || istype(in_hand, /obj/item/weapon/photo)))
+				insert_sheet_at(usr, page+1, in_hand)
+			else if(page != pages.len)	
+				page++
+				playsound(src.loc, "pageturn", 50, 1)
+		if(href_list["prev_page"])
+			if(in_hand && (istype(in_hand, /obj/item/weapon/paper) || istype(in_hand, /obj/item/weapon/photo)))
+				insert_sheet_at(usr, page, in_hand)
+			else if(page > 1)
+				page--
+				playsound(src.loc, "pageturn", 50, 1)
+		if(href_list["remove"])
+			var/obj/item/weapon/W = pages[page]
+			usr.put_in_hands(W)
+			pages.Remove(pages[page])
+			
+			usr << "<span class='notice'>You remove the [W.name] from the bundle.</span>"
+			
+			if(pages.len <= 1)
+				var/obj/item/weapon/paper/P = src[1]
+				usr.drop_from_inventory(src)
+				usr.put_in_hands(P)
+				qdel(src)
+				
+				return
+				
+			if(page > pages.len)
+				page = pages.len
+				
+			update_icon()
+	else
 		usr << "<span class='notice'>You need to hold it in hands!</span>"
-		return
-
-	usr.set_machine(src)
-
-	if(href_list["next_page"])
-		if(page < contents.len)
-			page++
-			playsound(src.loc, "pageturn", 50, 1)
-
-	else if(href_list["prev_page"])
-		if(page > 1)
-			page--
-			playsound(src.loc, "pageturn", 50, 1)
-
-	else if(href_list["remove"])
-		var/obj/item/weapon/W = src[page]
-		usr.put_in_hands(W)
-		usr << "<span class='notice'>You remove the [W.name] from the bundle.</span>"
-		if(contents.len == 1)
-			var/obj/item/weapon/paper/P = src[1]
-			usr.drop_from_inventory(src)
-			usr.put_in_hands(P)
-			usr << browse("", "window=[name]") //Closes the dialog
-			usr.examinate(P)
-			del(src)
-			return
-		update_icon()
-
 	if (istype(src.loc, /mob) ||istype(src.loc.loc, /mob))
-		src.attack_self(src.loc)
+		src.attack_self(usr)
 		updateUsrDialog()
-
-
 
 /obj/item/weapon/paper_bundle/verb/rename()
 	set name = "Rename bundle"
 	set category = "Object"
 	set src in usr
 
-	var/n_name = sanitize(copytext(input(usr, "What would you like to label the bundle?", "Bundle Labelling", null)  as text, 1, MAX_NAME_LEN))
-	if((loc == usr && usr.stat == 0))
+	var/n_name = sanitizeSafe(input(usr, "What would you like to label the bundle?", "Bundle Labelling", null)  as text, MAX_NAME_LEN)
+	if((loc == usr || loc.loc && loc.loc == usr) && usr.stat == 0)
 		name = "[(n_name ? text("[n_name]") : "paper")]"
 	add_fingerprint(usr)
 	return
@@ -178,12 +207,12 @@
 		O.layer = initial(O.layer)
 		O.add_fingerprint(usr)
 	usr.drop_from_inventory(src)
-	del(src)
+	qdel(src)
 	return
 
 
 /obj/item/weapon/paper_bundle/update_icon()
-	var/obj/item/weapon/paper/P = src[1]
+	var/obj/item/weapon/paper/P = pages[1]
 	icon_state = P.icon_state
 	overlays = P.overlays
 	underlays = 0

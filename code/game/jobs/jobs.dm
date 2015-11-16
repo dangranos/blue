@@ -56,7 +56,8 @@ var/list/command_positions = list(
 	"Head of Security",
 	"Chief Engineer",
 	"Research Director",
-	"Chief Medical Officer"
+	"Chief Medical Officer",
+	"Internal Affairs Agent"
 )
 
 
@@ -97,7 +98,6 @@ var/list/civilian_positions = list(
 	"Cargo Technician",
 	"Shaft Miner",
 	"Lawyer",
-	"Internal Affairs Agent",
 	"Chaplain",
 	"Assistant"
 )
@@ -116,6 +116,10 @@ var/list/nonhuman_positions = list(
 	"Cyborg",
 	"pAI"
 )
+
+
+/proc/guest_jobbans(var/job)
+	return ((job in command_positions) || (job in nonhuman_positions) || (job in security_positions))
 
 /proc/get_job_datums()
 	var/list/occupations = list()

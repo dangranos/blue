@@ -2,10 +2,8 @@
 	data_core = new /obj/effect/datacore()
 	return 1
 
-/obj/effect/datacore/proc/manifest(var/nosleep = 0)
+/obj/effect/datacore/proc/manifest()
 	spawn()
-		if(!nosleep)
-			sleep(40)
 		for(var/mob/living/carbon/human/H in player_list)
 			manifest_inject(H)
 		return
@@ -39,7 +37,7 @@
 	if(PDA_Manifest.len)
 		PDA_Manifest.Cut()
 
-	if(H.mind && (H.mind.assigned_role != "MODE"))
+	if(H.mind && !player_is_antag(H.mind, only_offstation_roles = 1))
 		var/assignment
 		if(H.mind.role_alt_title)
 			assignment = H.mind.role_alt_title
@@ -145,8 +143,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	var/g = "m"
 	if (H.gender == FEMALE)
 		g = "f"
-		if(H.body_build) g = "f1"
-
+	g = "[g][H.body_build]"
 
 	var/icon/icobase = H.species.icobase
 
@@ -157,13 +154,8 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	temp = new /icon(icobase, "head_[g]")
 	preview_icon.Blend(temp, ICON_OVERLAY)
 
-	for(var/datum/organ/external/E in H.organs)
-		if(E.status & ORGAN_CUT_AWAY || E.status & ORGAN_DESTROYED) continue
-		if(E.status & ORGAN_ROBOT)
-			temp = new /icon('icons/mob/human_races/robotic.dmi', "[E.name]_[g]")
-		else
-			temp = new /icon(icobase, "[E.name]_[g]")
-		preview_icon.Blend(temp, ICON_OVERLAY)
+	for(var/obj/item/organ/external/E in H.organs)
+		preview_icon.Blend(E.get_icon(), ICON_OVERLAY)
 
 	//Tail
 	if(H.species.tail)
@@ -178,14 +170,13 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 			preview_icon.Blend(rgb(-H.s_tone,  -H.s_tone,  -H.s_tone), ICON_SUBTRACT)
 
 	// Skin color
-	if(H.species.flags & HAS_SKIN_COLOR)
-		if(!H.species || H.species.flags & HAS_SKIN_COLOR)
-			preview_icon.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
+	if(H.species && H.species.flags & HAS_SKIN_COLOR)
+		preview_icon.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
 
 	var/icon/eyes = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? H.species.eyes : "eyes_s")
 
 	if (H.species.flags & HAS_EYE_COLOR)
-		var/datum/organ/internal/eyes/E = H.internal_organs_by_name["eyes"]
+		var/obj/item/organ/eyes/E = H.internal_organs_by_name["eyes"]
 		if( E )
 			if( E.robotic >= 2 )
 				eyes.Blend(rgb(H.mech_eyes_r, H.mech_eyes_g, H.mech_eyes_b), ICON_ADD)
@@ -210,7 +201,14 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	if(J)
 		var/obj/item/clothing/under/UF = J.uniform
 		var/obj/item/clothing/shoes/SH = J.shoes
-		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[initial(UF.item_color)]_s")
+
+		var/under_state
+		if(initial(UF.icon_state))
+			under_state = initial(UF.icon_state)
+		else
+			under_state = initial(UF.item_state)
+
+		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[under_state]_s")
 		clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)
 	else
 		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "grey_s")
@@ -220,7 +218,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	preview_icon.Blend(eyes, ICON_OVERLAY)
 	if(clothes_s)
 		preview_icon.Blend(clothes_s, ICON_OVERLAY)
-	del(eyes)
-	del(clothes_s)
+	qdel(eyes)
+	qdel(clothes_s)
 
 	return preview_icon
