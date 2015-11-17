@@ -19,5 +19,3 @@
 			else		config.Tickcomp = 0
 	else
 		src << "\red Error: ticklag(): Invalid world.ticklag value. No changes made."
-
-

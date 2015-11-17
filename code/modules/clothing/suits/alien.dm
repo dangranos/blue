@@ -6,6 +6,7 @@
 	icon_state = "robe-unathi"
 	item_state = "robe-unathi"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/unathi/mantle
 	name = "hide mantle"
@@ -13,6 +14,7 @@
 	icon_state = "mantle-unathi"
 	item_state = "mantle-unathi"
 	body_parts_covered = UPPER_TORSO
+	flags = ONLY_DEFAULT_BODY
 
 //Taj clothing.
 
@@ -22,6 +24,7 @@
 	icon_state = "zhan_furs"
 	item_state = "zhan_furs"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/head/tajaran/scarf
 	name = "headscarf"

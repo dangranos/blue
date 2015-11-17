@@ -34,7 +34,7 @@
 		if(4)
 			if(!src.transformed)
 				if ((!strain_data["name"]) || (!strain_data["UI"]) || (!strain_data["SE"]))
-					qdel(affected_mob.virus)
+					del(affected_mob.virus)
 					return
 
 				//Save original dna for when the disease is cured.
@@ -56,7 +56,7 @@
 
 	return
 
-/datum/disease/dnaspread/Destroy()
+/datum/disease/dnaspread/Del()
 	if ((original_dna["name"]) && (original_dna["UI"]) && (original_dna["SE"]))
 		var/list/newUI=original_dna["UI"]
 		var/list/newSE=original_dna["SE"]

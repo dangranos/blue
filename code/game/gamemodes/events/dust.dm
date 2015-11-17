@@ -37,7 +37,7 @@ The "dust" will damage the hull of the station causin minor hull breaches.
 	density = 1
 	anchored = 1
 	var/strength = 2 //ex_act severity number
-	var/life = 2 //how many things we hit before qdel(src)
+	var/life = 2 //how many things we hit before del(src)
 
 	weak
 		strength = 3
@@ -80,11 +80,10 @@ The "dust" will damage the hull of the station causin minor hull breaches.
 				startx = (TRANSITIONEDGE+1)
 				endy = rand(TRANSITIONEDGE,world.maxy-TRANSITIONEDGE)
 				endx = world.maxx-TRANSITIONEDGE
-		var/z_level = pick(config.station_levels)
-		var/goal = locate(endx, endy, z_level)
+		var/goal = locate(endx, endy, 1)
 		src.x = startx
 		src.y = starty
-		src.z = z_level
+		src.z = pick(config.station_levels)
 		spawn(0)
 			walk_towards(src, goal, 1)
 		return
@@ -107,7 +106,8 @@ The "dust" will damage the hull of the station causin minor hull breaches.
 				life--
 				if(life <= 0)
 					walk(src,0)
-					qdel(src)
+					spawn(1)
+						del(src)
 					return 0
 		return
 
@@ -118,5 +118,5 @@ The "dust" will damage the hull of the station causin minor hull breaches.
 
 
 	ex_act(severity)
-		qdel(src)
+		del(src)
 		return

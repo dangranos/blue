@@ -33,55 +33,34 @@
 /obj/item/weapon/rig/light/hacker
 	name = "cybersuit control module"
 	suit_type = "cyber"
-	desc = "An advanced powered armour suit with many cyberwarfare enhancements. Comes with built-in insulated gloves for safely tampering with electronics."
+	desc = "An advanced powered armour suit with many cyberwarfare enhancements."
 	icon_state = "hacker_rig"
+	flags = ONLY_DEFAULT_BODY
 
 	req_access = list(access_syndicate)
 
-	airtight = 0
-	seal_delay = 5 //not being vaccum-proof has an upside I guess
-	
-	helm_type = /obj/item/clothing/head/lightrig/hacker
-	chest_type = /obj/item/clothing/suit/lightrig/hacker
-	glove_type = /obj/item/clothing/gloves/lightrig/hacker
-	boot_type = /obj/item/clothing/shoes/lightrig/hacker
+	helm_type = /obj/item/clothing/head/helmet/space/rig/mask
 
 	initial_modules = list(
 		/obj/item/rig_module/ai_container,
 		/obj/item/rig_module/power_sink,
-		/obj/item/rig_module/datajack,
-		/obj/item/rig_module/electrowarfare_suite,
-		/obj/item/rig_module/voice,
-		/obj/item/rig_module/vision,
+		/obj/item/rig_module/datajack
 		)
 
-//The cybersuit is not space-proof. It does however, have good siemens_coefficient values
-/obj/item/clothing/head/lightrig/hacker
-	name = "HUD"
-	siemens_coefficient = 0.4
-	flags = 0
-
-/obj/item/clothing/suit/lightrig/hacker
-	siemens_coefficient = 0.4
-
-/obj/item/clothing/shoes/lightrig/hacker
-	siemens_coefficient = 0.4
-	flags = NOSLIP //All the other rigs have magboots anyways, hopefully gives the hacker suit something more going for it.
-
-/obj/item/clothing/gloves/lightrig/hacker
-	siemens_coefficient = 0
+/obj/item/clothing/head/helmet/space/rig/mask
+	name = "mask"
+	flags = THICKMATERIAL
 
 /obj/item/weapon/rig/light/ninja
 	name = "ominous suit control module"
 	suit_type = "ominous"
 	desc = "A unique, vaccum-proof suit of nano-enhanced armor designed specifically for Spider Clan assassins."
 	icon_state = "ninja_rig"
-	armor = list(melee = 50, bullet = 15, laser = 30, energy = 10, bomb = 25, bio = 100, rad = 30)
+	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
 	emp_protection = 40 //change this to 30 if too high.
 	slowdown = 0
 
 	chest_type = /obj/item/clothing/suit/space/rig/light/ninja
-	glove_type = /obj/item/clothing/gloves/rig/light/ninja
 
 	req_access = list(access_syndicate)
 
@@ -102,10 +81,6 @@
 
 	..()
 
-/obj/item/clothing/gloves/rig/light/ninja
-	name = "insulated gloves"
-	siemens_coefficient = 0
-
 /obj/item/clothing/suit/space/rig/light/ninja
 	breach_threshold = 38 //comparable to regular hardsuits
 
@@ -113,11 +88,12 @@
 	name = "stealth suit control module"
 	suit_type = "stealth"
 	desc = "A highly advanced and expensive suit designed for covert operations."
-	icon_state = "stealth_rig"
+	icon_state = "ninja_rig"
 
 	req_access = list(access_syndicate)
 
 	initial_modules = list(
+		/obj/item/rig_module/teleporter,
 		/obj/item/rig_module/stealth_field,
 		/obj/item/rig_module/vision
 		)

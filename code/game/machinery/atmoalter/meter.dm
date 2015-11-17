@@ -104,7 +104,7 @@
 			"\blue You have unfastened \the [src].", \
 			"You hear ratchet.")
 		new /obj/item/pipe_meter(src.loc)
-		qdel(src)
+		del(src)
 
 // TURF METER - REPORTS A TILE'S AIR CONTENTS
 

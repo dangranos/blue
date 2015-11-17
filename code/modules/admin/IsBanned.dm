@@ -81,4 +81,3 @@ world/IsBanned(key,address,computer_id)
 		return ..()	//default pager ban stuff
 #endif
 #undef OVERRIDE_BAN_SYSTEM
-

@@ -23,13 +23,12 @@
 		usr << "Your module is not installed in a hardsuit."
 		return
 
-	module.holder.ui_interact(usr, nano_state = contained_state)
+	module.holder.ui_interact(usr)
 
 /obj/item/rig_module/ai_container
 
 	name = "IIS module"
 	desc = "An integrated intelligence system module suitable for most hardsuits."
-	icon_state = "IIS"
 	toggleable = 1
 	usable = 1
 	disruptive = 0
@@ -46,31 +45,13 @@
 	var/obj/item/ai_card  // Reference to the MMI, posibrain, intellicard or pAI card previously holding the AI.
 	var/obj/item/ai_verbs/verb_holder
 
-/mob
-	var/get_rig_stats = 0
-
-/obj/item/rig_module/ai_container/process()
-	if(integrated_ai)
-		var/obj/item/weapon/rig/rig = get_rig()
-		if(rig && rig.ai_override_enabled)
-			integrated_ai.get_rig_stats = 1
-		else
-			integrated_ai.get_rig_stats = 0
-
-/mob/living/Stat()
-	. = ..()
-	if(. && get_rig_stats)
-		var/obj/item/weapon/rig/rig = get_rig()
-		if(rig)
-			SetupStat(rig)
-
 /obj/item/rig_module/ai_container/proc/update_verb_holder()
 	if(!verb_holder)
 		verb_holder = new(src)
 	if(integrated_ai)
-		verb_holder.forceMove(integrated_ai)
+		verb_holder.loc = integrated_ai
 	else
-		verb_holder.forceMove(src)
+		verb_holder.loc = src
 
 /obj/item/rig_module/ai_container/accepts_item(var/obj/item/input_device, var/mob/living/user)
 
@@ -145,7 +126,7 @@
 	if(!target)
 		if(ai_card)
 			if(istype(ai_card,/obj/item/device/aicard))
-				ai_card.ui_interact(H, state = deep_inventory_state)
+				ai_card.attack_self(H)
 			else
 				eject_ai(H)
 		update_verb_holder()
@@ -171,20 +152,18 @@
 			user << "<span class='danger'>You purge the remaining scraps of data from your previous AI, freeing it for use.</span>"
 			if(integrated_ai)
 				integrated_ai.ghostize()
-				qdel(integrated_ai)
-				integrated_ai = null
-			if(ai_card)
-				qdel(ai_card)
-				ai_card = null
+				del(integrated_ai)
+			if(ai_card) del(ai_card)
 		else if(user)
 			user.put_in_hands(ai_card)
 		else
-			ai_card.forceMove(get_turf(src))
+			ai_card.loc = get_turf(src)
 	ai_card = null
 	integrated_ai = null
 	update_verb_holder()
 
 /obj/item/rig_module/ai_container/proc/integrate_ai(var/obj/item/ai,var/mob/user)
+
 	if(!ai) return
 
 	// The ONLY THING all the different AI systems have in common is that they all store the mob inside an item.
@@ -209,7 +188,7 @@
 					return 0
 			else
 				user.drop_from_inventory(ai)
-				ai.forceMove(src)
+				ai.loc = src
 				ai_card = ai
 				ai_mob << "<font color='blue'>You have been transferred to \the [holder]'s [src].</font>"
 				user << "<font color='blue'>You load [ai_mob] into \the [holder]'s [src].</font>"
@@ -230,7 +209,6 @@
 
 	name = "datajack module"
 	desc = "A simple induction datalink module."
-	icon_state = "datajack"
 	toggleable = 1
 	activates_on_touch = 1
 	usable = 0
@@ -321,7 +299,6 @@
 
 	name = "electrowarfare module"
 	desc = "A bewilderingly complex bundle of fiber optics and chips."
-	icon_state = "ewar"
 	toggleable = 1
 	usable = 0
 
@@ -352,7 +329,6 @@
 
 	name = "hardsuit power sink"
 	desc = "An heavy-duty power sink."
-	icon_state = "powersink"
 	toggleable = 1
 	activates_on_touch = 1
 	disruptive = 0

@@ -13,7 +13,7 @@
 	var/state = 2
 	var/reinf = 0
 	var/basestate
-	var/shardtype = /obj/item/weapon/material/shard
+	var/shardtype = /obj/item/weapon/shard
 	var/glasstype = null // Set this in subtypes. Null is assumed strange or otherwise impossible to dismantle, such as for shuttle glass.
 	var/silicate = 0 // number of units of silicate
 
@@ -87,13 +87,13 @@
 		var/index = null
 		index = 0
 		while(index < 2)
-			new shardtype(loc) //todo pooling?
-			if(reinf) PoolOrNew(/obj/item/stack/rods, loc)
+			new shardtype(loc)
+			if(reinf) new /obj/item/stack/rods(loc)
 			index++
 	else
-		new shardtype(loc) //todo pooling?
-		if(reinf) PoolOrNew(/obj/item/stack/rods, loc)
-	qdel(src)
+		new shardtype(loc)
+		if(reinf) new /obj/item/stack/rods(loc)
+	del(src)
 	return
 
 
@@ -111,7 +111,7 @@
 /obj/structure/window/ex_act(severity)
 	switch(severity)
 		if(1.0)
-			qdel(src)
+			del(src)
 			return
 		if(2.0)
 			shatter(0)
@@ -179,10 +179,9 @@
 	if(HULK in user.mutations)
 		user.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!"))
 		user.visible_message("<span class='danger'>[user] smashes through [src]!</span>")
-		user.do_attack_animation(src)
 		shatter()
 
-	else if (usr.a_intent == I_HURT)
+	else if (usr.a_intent == "hurt")
 
 		if (istype(usr,/mob/living/carbon/human))
 			var/mob/living/carbon/human/H = usr
@@ -191,14 +190,13 @@
 				return
 
 		playsound(src.loc, 'sound/effects/glassknock.ogg', 80, 1)
-		user.do_attack_animation(src)
-		usr.visible_message("\red [usr.name] bangs against the [src.name]!",
-							"\red You bang against the [src.name]!",
+		usr.visible_message("\red [usr.name] bangs against the [src.name]!", \
+							"\red You bang against the [src.name]!", \
 							"You hear a banging sound.")
 	else
 		playsound(src.loc, 'sound/effects/glassknock.ogg', 80, 1)
-		usr.visible_message("[usr.name] knocks on the [src.name].",
-							"You knock on the [src.name].",
+		usr.visible_message("[usr.name] knocks on the [src.name].", \
+							"You knock on the [src.name].", \
 							"You hear a knocking sound.")
 	return
 
@@ -211,7 +209,6 @@
 		take_damage(damage)
 	else
 		visible_message("<span class='notice'>\The [user] bonks \the [src] harmlessly.</span>")
-	user.do_attack_animation(src)
 	return 1
 
 /obj/structure/window/attackby(obj/item/W as obj, mob/user as mob)
@@ -222,7 +219,7 @@
 		if(istype(G.affecting,/mob/living))
 			var/mob/living/M = G.affecting
 			var/state = G.state
-			qdel(W)	//gotta delete it here because if window breaks, it won't get deleted
+			del(W)	//gotta delete it here because if window breaks, it won't get deleted
 			switch (state)
 				if(1)
 					M.visible_message("<span class='warning'>[user] slams [M] against \the [src]!</span>")
@@ -268,14 +265,13 @@
 		else
 			visible_message("<span class='notice'>[user] dismantles \the [src].</span>")
 			if(dir == SOUTHWEST)
-				var/obj/item/stack/material/mats = new glasstype(loc)
+				var/obj/item/stack/sheet/mats = new glasstype(loc)
 				mats.amount = is_fulltile() ? 4 : 2
 			else
 				new glasstype(loc)
-			qdel(src)
+			del(src)
 	else
 		if(W.damtype == BRUTE || W.damtype == BURN)
-			user.do_attack_animation(src)
 			hit(W.force)
 			if(health <= 7)
 				anchored = 0
@@ -297,10 +293,6 @@
 	set category = "Object"
 	set src in oview(1)
 
-	// TODO :  Change to incapacitated() on merge.
-	if(usr.stat || usr.lying || usr.resting || usr.buckled)
-		return 0
-	
 	if(anchored)
 		usr << "It is fastened to the floor therefore you can't rotate it!"
 		return 0
@@ -316,10 +308,6 @@
 	set name = "Rotate Window Clockwise"
 	set category = "Object"
 	set src in oview(1)
-
-	// TODO :  Change to incapacitated() on merge.
-	if(usr.stat || usr.lying || usr.resting || usr.buckled)
-		return 0
 
 	if(anchored)
 		usr << "It is fastened to the floor therefore you can't rotate it!"
@@ -349,7 +337,7 @@
 	update_nearby_icons()
 
 
-/obj/structure/window/Destroy()
+/obj/structure/window/Del()
 	density = 0
 	update_nearby_tiles()
 	update_nearby_icons()
@@ -413,7 +401,7 @@
 	desc = "It looks thin and flimsy. A few knocks with... anything, really should shatter it."
 	icon_state = "window"
 	basestate = "window"
-	glasstype = /obj/item/stack/material/glass
+	glasstype = /obj/item/stack/sheet/glass
 
 
 /obj/structure/window/phoronbasic
@@ -421,8 +409,8 @@
 	desc = "A phoron-glass alloy window. It looks insanely tough to break. It appears it's also insanely tough to burn through."
 	basestate = "phoronwindow"
 	icon_state = "phoronwindow"
-	shardtype = /obj/item/weapon/material/shard/phoron
-	glasstype = /obj/item/stack/material/glass/phoronglass
+	shardtype = /obj/item/weapon/shard/phoron
+	glasstype = /obj/item/stack/sheet/glass/phoronglass
 	maxhealth = 120
 
 /obj/structure/window/phoronbasic/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
@@ -435,8 +423,8 @@
 	desc = "A phoron-glass alloy window, with rods supporting it. It looks hopelessly tough to break. It also looks completely fireproof, considering how basic phoron windows are insanely fireproof."
 	basestate = "phoronrwindow"
 	icon_state = "phoronrwindow"
-	shardtype = /obj/item/weapon/material/shard/phoron
-	glasstype = /obj/item/stack/material/glass/phoronrglass
+	shardtype = /obj/item/weapon/shard/phoron
+	glasstype = /obj/item/stack/sheet/glass/phoronrglass
 	reinf = 1
 	maxhealth = 160
 
@@ -450,7 +438,7 @@
 	basestate = "rwindow"
 	maxhealth = 40
 	reinf = 1
-	glasstype = /obj/item/stack/material/glass/reinforced
+	glasstype = /obj/item/stack/sheet/glass/reinforced
 
 /obj/structure/window/New(Loc, constructed=0)
 	..()
@@ -494,10 +482,10 @@
 /obj/structure/window/reinforced/polarized/proc/toggle()
 	if(opacity)
 		animate(src, color="#FFFFFF", time=5)
-		set_opacity(0)
+		SetOpacity(0)
 	else
 		animate(src, color="#222222", time=5)
-		set_opacity(1)
+		SetOpacity(1)
 
 
 

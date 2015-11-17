@@ -53,7 +53,6 @@
 	else
 		src << "As a ghost, you will [(prefs.toggles & CHAT_DEAD) ? "now" : "no longer"] see deadchat."
 
-
 /client/proc/toggleprayers()
 	set name = "Show/Hide Prayers"
 	set category = "Preferences"
@@ -99,7 +98,6 @@
 	prefs.save_preferences()
 	src << "You will [(prefs.toggles & CHAT_OOC) ? "now" : "no longer"] see messages on the OOC channel."
 
-
 /client/verb/listen_looc()
 	set name = "Show/Hide LOOC"
 	set category = "Preferences"
@@ -108,17 +106,6 @@
 	prefs.save_preferences()
 
 	src << "You will [(prefs.toggles & CHAT_LOOC) ? "now" : "no longer"] see messages on the LOOC channel."
-
-
-/client/verb/toggle_chattags()
-	set name = "Show/Hide Chat Tags"
-	set category = "Preferences"
-	set desc = "Toggles seeing chat tags/icons"
-	prefs.toggles ^= CHAT_NOICONS
-	prefs.save_preferences()
-
-	src << "You will [!(prefs.toggles & CHAT_NOICONS) ? "now" : "no longer"] see chat tag icons."
-
 
 /client/verb/Toggle_Soundscape() //All new ambience should be added here so it works with this verb until someone better at things comes up with a fix that isn't awful
 	set name = "Hear/Silence Ambience"
@@ -168,12 +155,10 @@
 	icons.Add(usr.zone_sel)
 
 	for(var/obj/screen/I in icons)
-		if(I.name in list(I_HELP, I_HURT, I_DISARM, I_GRAB)) continue
+		if(I.name in list("help", "harm", "disarm", "grab")) continue
 		I.icon = ui_style2icon(UI_style_new)
 		I.color = UI_style_color_new
 		I.alpha = UI_style_alpha_new
-
-
 
 	if(alert("Like it? Save changes?",,"Yes", "No") == "Yes")
 		prefs.UI_style = UI_style_new

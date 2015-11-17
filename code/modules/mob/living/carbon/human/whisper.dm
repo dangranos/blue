@@ -2,11 +2,7 @@
 /mob/living/carbon/human/whisper(message as text)
 	var/alt_name = ""
 
-	if(say_disabled)	//This is here to try to identify lag problems
-		usr << "\red Speech is currently admin-disabled."
-		return
-
-	message = sanitize(message)
+	message = capitalize_cp1251(trim_strip_html_properly(message))
 	log_whisper("[src.name]/[src.key] : [message]")
 
 	if (src.client)
@@ -58,7 +54,7 @@
 	else
 		not_heard = "[verb] something" //TODO get rid of the null language and just prevent speech if language is null
 
-	message = capitalize_cp1251(trim(message))
+	message = capitalize(trim(message))
 
 	if(speech_problem_flag)
 		var/list/handle_r = handle_speech_problems(message)
@@ -143,7 +139,7 @@
 	//now mobs
 	var/speech_bubble_test = say_test(message)
 	var/image/speech_bubble = image('icons/mob/talk.dmi',src,"h[speech_bubble_test]")
-	spawn(30) qdel(speech_bubble)
+	spawn(30) del(speech_bubble)
 
 	for(var/mob/M in listening)
 		M << speech_bubble

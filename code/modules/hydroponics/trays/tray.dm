@@ -350,7 +350,7 @@
 		usr << "There is no label to remove."
 	return
 
-/obj/machinery/portable_atmospherics/hydroponics/verb/setlight()
+/obj/machinery/portable_atmospherics/hydroponics/verb/set_light()
 	set name = "Set Light"
 	set category = "Object"
 	set src in view(1)
@@ -453,11 +453,11 @@
 		if(!seed)
 
 			var/obj/item/seeds/S = O
-			user.remove_from_mob(O)
+			user.drop_item(O)
 
 			if(!S.seed)
 				user << "The packet seems to be empty. You throw it away."
-				qdel(O)
+				del(O)
 				return
 
 			user << "You plant the [S.seed.seed_name] [S.seed.seed_noun]."
@@ -469,14 +469,14 @@
 			health = (istype(S, /obj/item/seeds/cutting) ? round(seed.get_trait(TRAIT_ENDURANCE)/rand(2,5)) : seed.get_trait(TRAIT_ENDURANCE))
 			lastcycle = world.time
 
-			qdel(O)
+			del(O)
 
 			check_health()
 
 		else
 			user << "<span class='danger'>\The [src] already has seeds in it!</span>"
 
-	else if (istype(O, /obj/item/weapon/material/minihoe))  // The minihoe
+	else if (istype(O, /obj/item/weapon/minihoe))  // The minihoe
 
 		if(weedlevel > 0)
 			user.visible_message("<span class='danger'>[user] starts uprooting the weeds.</span>", "<span class='danger'>You remove the weeds from the [src].</span>")
@@ -498,13 +498,13 @@
 	else if ( istype(O, /obj/item/weapon/plantspray) )
 
 		var/obj/item/weapon/plantspray/spray = O
-		user.remove_from_mob(O)
+		user.drop_item(O)
 		toxins += spray.toxicity
 		pestlevel -= spray.pest_kill_str
 		weedlevel -= spray.weed_kill_str
 		user << "You spray [src] with [O]."
 		playsound(loc, 'sound/effects/spray3.ogg', 50, 1, -6)
-		qdel(O)
+		del(O)
 		check_health()
 
 	else if(mechanical && istype(O, /obj/item/weapon/wrench))
@@ -523,13 +523,13 @@
 			user << "<span class='danger'>[src] is already occupied!</span>"
 		else
 			user.drop_item()
-			qdel(O)
+			del(O)
 
 			var/obj/machinery/apiary/A = new(src.loc)
 			A.icon = src.icon
 			A.icon_state = src.icon_state
 			A.hydrotray_type = src.type
-			qdel(src)
+			del(src)
 	else if(O.force && seed)
 		user.visible_message("<span class='danger'>\The [seed.display_name] has been attacked by [user] with \the [O]!</span>")
 		if(!dead)
@@ -597,12 +597,13 @@
 		if(closed_system && mechanical)
 			light_string = "that the internal lights are set to [tray_light] lumens"
 		else
-			var/atom/movable/lighting_overlay/L = locate(/atom/movable/lighting_overlay) in T
+			var/area/A = T.loc
 			var/light_available
-			if(L)
-				light_available = max(0,min(10,L.lum_r + L.lum_g + L.lum_b)-5)
-			else
-				light_available =  5
+			if(A)
+				if(A.lighting_use_dynamic)
+					light_available = max(0,min(10,T.lighting_lumcount)-5)
+				else
+					light_available =  5
 			light_string = "a light level of [light_available] lumens"
 
 		usr << "The tray's sensor suite is reporting [light_string] and a temperature of [environment.temperature]K."

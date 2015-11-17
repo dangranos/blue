@@ -17,8 +17,6 @@
 	//List of active tile overlays for this gas_mixture.  Updated by check_tile_graphic()
 	var/list/graphic = list()
 
-/datum/gas_mixture/New(vol = CELL_VOLUME)
-	volume = vol
 
 //Takes a gas string and the amount of moles to adjust by.  Calls update_values() if update isn't 0.
 /datum/gas_mixture/proc/adjust_gas(gasid, moles, update = 1)
@@ -99,14 +97,14 @@
 
 
 /datum/gas_mixture/proc/equalize(datum/gas_mixture/sharer)
-	var/our_heatcap = heat_capacity()
-	var/share_heatcap = sharer.heat_capacity()
-
-	for(var/g in gas|sharer.gas)
+	for(var/g in sharer.gas)
 		var/comb = gas[g] + sharer.gas[g]
 		comb /= volume + sharer.volume
 		gas[g] = comb * volume
 		sharer.gas[g] = comb * sharer.volume
+
+	var/our_heatcap = heat_capacity()
+	var/share_heatcap = sharer.heat_capacity()
 
 	if(our_heatcap + share_heatcap)
 		temperature = ((temperature * our_heatcap) + (sharer.temperature * share_heatcap)) / (our_heatcap + share_heatcap)
@@ -222,7 +220,7 @@
 /datum/gas_mixture/proc/remove_ratio(ratio, out_group_multiplier = 1)
 	if(ratio <= 0)
 		return null
-	out_group_multiplier = between(1, out_group_multiplier, group_multiplier)
+	out_group_multiplier = max(1, min(group_multiplier, out_group_multiplier))
 
 	ratio = min(ratio, 1)
 
@@ -234,17 +232,11 @@
 		gas[g] = gas[g] * (1 - ratio)
 
 	removed.temperature = temperature
-	removed.volume = volume * group_multiplier / out_group_multiplier
 	update_values()
 	removed.update_values()
 
 	return removed
 
-//Removes a volume of gas from the mixture and returns a gas_mixture containing the removed air with the given volume
-/datum/gas_mixture/proc/remove_volume(removed_volume)
-	var/datum/gas_mixture/removed = remove_ratio(removed_volume/(volume*group_multiplier), 1)
-	removed.volume = removed_volume
-	return removed
 
 //Removes moles from the gas mixture, limited by a given flag.  Returns a gax_mixture containing the removed air.
 /datum/gas_mixture/proc/remove_by_flag(flag, amount)
@@ -309,7 +301,7 @@
 
 
 /datum/gas_mixture/proc/react(atom/dump_location)
-	zburn(null, force_burn=0, no_check=0) //could probably just call zburn() here with no args but I like being explicit.
+	zburn(null)
 
 
 //Rechecks the gas_mixture and adjusts the graphic list if needed.

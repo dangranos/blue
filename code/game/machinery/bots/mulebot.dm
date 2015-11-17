@@ -19,7 +19,7 @@
 	brute_dam_coeff = 0.5
 	var/atom/movable/load = null		// the loaded crate (usually)
 	var/beacon_freq = 1400
-	var/control_freq = BOT_FREQ
+	var/control_freq = AI_FREQ
 
 	suffix = ""
 
@@ -59,7 +59,9 @@
 	..()
 	wires = new(src)
 	botcard = new(src)
-	botcard.access = list(access_maint_tunnels, access_mailsorting, access_cargo, access_cargo_bot, access_qm, access_mining, access_mining_station)
+	var/datum/job/cargo_tech/J = new/datum/job/cargo_tech
+	botcard.access = J.get_access()
+//	botcard.access += access_robotics //Why --Ikki
 	cell = new(src)
 	cell.charge = 2000
 	cell.maxcharge = 2000
@@ -75,12 +77,6 @@
 		if(!suffix)
 			suffix = "#[count]"
 		name = "Mulebot ([suffix])"
-
-/obj/machinery/bot/mulebot/Destroy()
-	if(radio_controller)
-		radio_controller.remove_object(src,beacon_freq)
-		radio_controller.remove_object(src,control_freq)
-	..()
 
 // attack by item
 // emag : lock/unlock,
@@ -267,7 +263,7 @@
 
 			if("cellremove")
 				if(open && cell && !usr.get_active_hand())
-					cell.update_icon()
+					cell.updateicon()
 					usr.put_in_active_hand(cell)
 					cell.add_fingerprint(usr)
 					cell = null
@@ -305,14 +301,7 @@
 
 			if("destination")
 				refresh=0
-				var/new_dest
-				var/list/beaconlist = new()
-				for(var/obj/machinery/navbeacon/N in navbeacons)
-					beaconlist.Add(N.location)
-				if(beaconlist.len)
-					new_dest = input("Select new destination tag", "Mulebot [suffix ? "([suffix])" : ""]", destination) in beaconlist
-				else
-					alert("No destination beacons available.")
+				var/new_dest = input("Enter new destination tag", "Mulebot [suffix ? "([suffix])" : ""]", destination) as text|null
 				refresh=1
 				if(new_dest)
 					set_destination(new_dest)
@@ -320,7 +309,7 @@
 
 			if("setid")
 				refresh=0
-				var/new_id = sanitize(input("Enter new bot ID", "Mulebot [suffix ? "([suffix])" : ""]", suffix) as text|null, MAX_NAME_LEN)
+				var/new_id = sanitize(copytext(input("Enter new bot ID", "Mulebot [suffix ? "([suffix])" : ""]", suffix) as text|null,1,MAX_NAME_LEN))
 				refresh=1
 				if(new_id)
 					suffix = new_id
@@ -748,6 +737,11 @@
 	if(!on)
 		return
 
+	/*
+	world << "rec signal: [signal.source]"
+	for(var/x in signal.data)
+		world << "* [x] = [signal.data[x]]"
+	*/
 	var/recv = signal.data["command"]
 	// process all-bot input
 	if(recv=="bot_status" && wires.RemoteRX())
@@ -870,8 +864,8 @@
 	var/turf/Tsec = get_turf(src)
 
 	new /obj/item/device/assembly/prox_sensor(Tsec)
-	PoolOrNew(/obj/item/stack/rods, Tsec)
-	PoolOrNew(/obj/item/stack/rods, Tsec)
+	new /obj/item/stack/rods(Tsec)
+	new /obj/item/stack/rods(Tsec)
 	new /obj/item/stack/cable_coil/cut(Tsec)
 	if (cell)
 		cell.loc = Tsec
@@ -884,4 +878,4 @@
 
 	new /obj/effect/decal/cleanable/blood/oil(src.loc)
 	unload(0)
-	qdel(src)
+	del(src)

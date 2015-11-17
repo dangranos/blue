@@ -15,7 +15,7 @@
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.9
-	species_restricted = list("exclude","Diona", "Xenomorph")
+	species_restricted = list("exclude","Unathi","Tajara","Diona","Vox", "Xenomorph", "Xenomorph Drone", "Xenomorph Hunter", "Xenomorph Sentinel", "Xenomorph Queen")
 
 	var/obj/machinery/camera/camera
 	var/list/camera_networks
@@ -61,22 +61,59 @@
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.9
-	species_restricted = list("exclude","Diona", "Xenomorph")
+	species_restricted = list("exclude","Unathi","Tajara","Diona","Vox", "Xenomorph", "Xenomorph Drone", "Xenomorph Hunter", "Xenomorph Sentinel", "Xenomorph Queen")
+	var/obj/item/storage = null
 
 	var/list/supporting_limbs //If not-null, automatically splints breaks. Checked when removing the suit.
 
-/obj/item/clothing/suit/space/equipped(mob/M)
+/obj/item/clothing/suit/space/equipped(mob/M, var/slot = null)
 	check_limb_support()
+	if(slot == slot_wear_suit && storage)
+		if(!M.equip_to_slot_if_possible(storage, slot_s_store, del_on_fail = 0))
+			storage.loc = M.loc
+		storage = null
 	..()
 
 /obj/item/clothing/suit/space/dropped(var/mob/user)
 	check_limb_support(user)
 	..()
 
+/obj/item/clothing/suit/space/proc/try_attach(var/obj/item/S)
+	if(!S) return 0
+	if(storage) return 0
+	for(var/type in allowed)
+		if(istype(S, type))
+			storage = S
+			if(storage.loc != src) storage.loc = src
+			return 1
+	return 0
+
+/obj/item/clothing/suit/space/verb/get_storage()
+	set name = "Empty suit storage"
+	set category = "Object"
+	set src in view(1)
+	if(!storage) return
+	usr.put_in_hands(storage)
+	storage = null
+
+/obj/item/clothing/suit/space/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	var/mob/living/carbon/human/H = user
+	if(istype(H) && is_type_in_list(W, allowed))
+		if(src == H.wear_suit)
+			H.equip_to_slot_if_possible(storage, slot_s_store, del_on_fail = 0)
+		else
+			if(!storage)
+				H.drop_from_inventory(W, src)
+				storage = W
+				H << "<span class = 'notice'>You attach \the [storage] to \the [src]</span>."
+			else
+				H << "<span class = 'warning'> There is already something in [src] storage.</span>"
+	else ..()
+
 // Some space suits are equipped with reactive membranes that support
 // broken limbs - at the time of writing, only the ninja suit, but
 // I can see it being useful for other suits as we expand them. ~ Z
-// The actual splinting occurs in /obj/item/organ/external/proc/fracture()
+// The actual splinting occurs in /datum/organ/external/proc/fracture()
 /obj/item/clothing/suit/space/proc/check_limb_support(var/mob/living/carbon/human/user)
 
 	// If this isn't set, then we don't need to care.
@@ -87,7 +124,7 @@
 		return
 
 	// Otherwise, remove the splints.
-	for(var/obj/item/organ/external/E in supporting_limbs)
+	for(var/datum/organ/external/E in supporting_limbs)
 		E.status &= ~ ORGAN_SPLINTED
-		user << "The suit stops supporting your [E.name]."
+		user << "The suit stops supporting your [E.display_name]."
 	supporting_limbs = list()

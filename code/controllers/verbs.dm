@@ -30,7 +30,7 @@
 	var/tz =    input("Z? (default 1)")       as text|null
 	new map_datum(seed,tx,ty,tz)
 
-/client/proc/restart_controller(controller in list("Jobs","Supply"))
+/client/proc/restart_controller(controller in list("Master","Failsafe","Lighting","Supply"))
 	set category = "Debug"
 	set name = "Restart Controller"
 	set desc = "Restart one of the various periodic loop controllers for the game (be careful!)"
@@ -39,22 +39,22 @@
 	usr = null
 	src = null
 	switch(controller)
+		if("Master")
+			new /datum/controller/game_controller()
+			master_controller.process()
+		if("Failsafe")
+			new /datum/controller/failsafe()
+		if("Lighting")
+			new /datum/controller/lighting()
+			lighting_controller.process()
 		if("Supply")
 			supply_controller.process()
 	message_admins("Admin [key_name_admin(usr)] has restarted the [controller] controller.")
 	return
 
-/client/proc/debug_antagonist_template(antag_type in all_antag_types)
-	set category = "Debug"
-	set name = "Debug Antagonist"
-	set desc = "Debug an antagonist template."
-
-	var/datum/antagonist/antag = all_antag_types[antag_type]
-	if(antag)
-		usr.client.debug_variables(antag)
-		message_admins("Admin [key_name_admin(usr)] is debugging the [antag.role_text] template.")
-
-/client/proc/debug_controller(controller in list("Master","Ticker","Ticker Process","Air","Jobs","Sun","Radio","Supply","Shuttles","Emergency Shuttle","Configuration","pAI", "Cameras", "Transfer Controller", "Gas Data","Event","Plants","Alarm","Nano"))
+/client/proc/debug_controller(controller in list("Master","Failsafe","Ticker","Lighting","Air","Jobs","Sun",\
+								"Radio","Supply","Shuttles","Emergency Shuttle","Configuration","pAI", "Cameras",\
+								"Transfer Controller", "Vote", "Gas Data","Event","Plants","Alarm","Nano"))
 	set category = "Debug"
 	set name = "Debug Controller"
 	set desc = "Debug the various periodic loop controllers for the game (be careful!)"
@@ -63,10 +63,12 @@
 	switch(controller)
 		if("Master")
 			debug_variables(master_controller)
+		if("Failsafe")
+			debug_variables(Failsafe)
 		if("Ticker")
 			debug_variables(ticker)
-		if("Ticker Process")
-			debug_variables(tickerProcess)
+		if("Lighting")
+			debug_variables(lighting_controller)
 		if("Air")
 			debug_variables(air_master)
 		if("Jobs")
@@ -89,6 +91,8 @@
 			debug_variables(cameranet)
 		if("Transfer Controller")
 			debug_variables(transfer_controller)
+		if("Vote")
+			debug_variables(vote)
 		if("Gas Data")
 			debug_variables(gas_data)
 		if("Event")

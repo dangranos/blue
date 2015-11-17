@@ -72,7 +72,7 @@ Radio:
 1355 - Medical
 1357 - Engineering
 1359 - Security
-1341 - deathsquad
+1341 - death squad
 1443 - Confession Intercom
 1347 - Cargo techs
 1349 - Service people
@@ -97,21 +97,20 @@ On the map:
 1455 for AI access
 */
 
-var/const/BOT_FREQ = 1447
 var/const/COMM_FREQ = 1353
-var/const/ERT_FREQ = 1345
-var/const/AI_FREQ = 1343
-var/const/DTH_FREQ = 1341
 var/const/SYND_FREQ = 1213
+var/const/ERT_FREQ = 1345
+var/const/DTH_FREQ = 1341
+var/const/AI_FREQ = 1447
 
 // department channels
 var/const/PUB_FREQ = 1459
 var/const/SEC_FREQ = 1359
 var/const/ENG_FREQ = 1357
-var/const/MED_FREQ = 1355
 var/const/SCI_FREQ = 1351
-var/const/SRV_FREQ = 1349
+var/const/MED_FREQ = 1355
 var/const/SUP_FREQ = 1347
+var/const/SRV_FREQ = 1349
 
 var/list/radiochannels = list(
 	"Common"		= PUB_FREQ,
@@ -224,7 +223,7 @@ var/global/datum/controller/radio/radio_controller
 		frequency.remove_listener(device)
 
 		if(frequency.devices.len == 0)
-			qdel(frequency)
+			del(frequency)
 			frequencies -= f_text
 
 	return 1
@@ -249,7 +248,7 @@ var/global/datum/controller/radio/radio_controller
 	if(range)
 		start_point = get_turf(source)
 		if(!start_point)
-			qdel(signal)
+			del(signal)
 			return 0
 	if (filter)
 		send_to_filter(source, signal, filter, start_point, range)

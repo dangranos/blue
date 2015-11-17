@@ -16,7 +16,6 @@
 
 	for(var/i in 1 to codelen)
 		code += pick(digits)
-		digits -= code[code.len]
 
 	generate_loot()
 
@@ -110,7 +109,7 @@
 		if(91)
 			new/obj/item/device/soulstone(src)
 		if(92)
-			new/obj/item/weapon/material/sword/katana(src)
+			new/obj/item/weapon/katana(src)
 		if(93)
 			new/obj/item/weapon/dnainjector/xraymut(src) // Probably the least OP
 		if(94) // Why the hell not
@@ -121,7 +120,7 @@
 			new/obj/item/clothing/mask/gas/clown_hat(src)
 			new/obj/item/weapon/bikehorn(src)
 			//new/obj/item/weapon/stamp/clown(src) I'd add it, but only clowns can use it
-			new/obj/item/weapon/pen/crayon/rainbow(src)
+			new/obj/item/toy/crayon/rainbow(src)
 			new/obj/item/toy/waterflower(src)
 		if(95)
 			new/obj/item/clothing/under/mime(src)
@@ -131,7 +130,7 @@
 			new/obj/item/clothing/mask/gas/mime(src)
 			new/obj/item/clothing/head/beret(src)
 			new/obj/item/clothing/suit/suspenders(src)
-			new/obj/item/weapon/pen/crayon/mime(src)
+			new/obj/item/toy/crayon/mime(src)
 			new/obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing(src)
 		if(96)
 			new/obj/item/weapon/vampiric(src)
@@ -167,7 +166,7 @@
 			user << "<span class='danger'>The crate's anti-tamper system activates!</span>"
 			var/turf/T = get_turf(src.loc)
 			explosion(T, 0, 0, 1, 2)
-			qdel(src)
+			del(src)
 
 /obj/structure/closet/crate/secure/loot/proc/check_input(var/input)
 	if(length(input) != codelen)

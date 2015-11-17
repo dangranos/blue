@@ -17,7 +17,7 @@
 	..()
 	update_nearby_tiles()
 
-/obj/effect/energy_field/Destroy()
+/obj/effect/energy_field/Del()
 	update_nearby_tiles()
 	..()
 

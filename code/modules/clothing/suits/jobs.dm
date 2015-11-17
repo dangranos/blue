@@ -10,7 +10,7 @@
 	item_state = "apron"
 	blood_overlay_type = "armor"
 	body_parts_covered = 0
-	allowed = list (/obj/item/weapon/reagent_containers/spray/plantbgone,/obj/item/device/analyzer/plant_analyzer,/obj/item/seeds,/obj/item/weapon/reagent_containers/glass/fertilizer,/obj/item/weapon/material/minihoe)
+	allowed = list (/obj/item/weapon/reagent_containers/spray/plantbgone,/obj/item/device/analyzer/plant_analyzer,/obj/item/seeds,/obj/item/weapon/reagent_containers/glass/fertilizer,/obj/item/weapon/minihoe)
 	sprite_sheets = list("Vox" = 'icons/mob/species/vox/suit.dmi')
 //Captain
 /obj/item/clothing/suit/captunic
@@ -29,6 +29,7 @@
 	item_state = "capjacket"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	flags_inv = HIDEJUMPSUIT
+	flags = ONLY_DEFAULT_BODY
 
 //Chaplain
 /obj/item/clothing/suit/storage/chaplain_hoodie
@@ -52,14 +53,14 @@
 
 //Chef
 /obj/item/clothing/suit/chef
-	name = "chef's apron"
+	name = "Chef's apron"
 	desc = "An apron used by a high class chef."
 	icon_state = "chef"
 	item_state = "chef"
 	gas_transfer_coefficient = 0.90
 	permeability_coefficient = 0.50
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
-	allowed = list (/obj/item/weapon/material/knife)
+	allowed = list (/obj/item/weapon/kitchenknife,/obj/item/weapon/butch)
 	sprite_sheets = list("Vox" = 'icons/mob/species/vox/suit.dmi')
 
 //Chef
@@ -107,6 +108,7 @@
 
 /obj/item/clothing/suit/storage/det_suit/black
 	icon_state = "detective2"
+	flags = ONLY_DEFAULT_BODY
 
 //Forensics
 /obj/item/clothing/suit/storage/forensics
@@ -151,6 +153,7 @@
 	icon_closed = "suitjacket_blue"
 	blood_overlay_type = "coat"
 	body_parts_covered = UPPER_TORSO|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/storage/lawyer/purpjacket
 	name = "Purple Suit Jacket"
@@ -159,6 +162,7 @@
 	item_state = "suitjacket_purp"
 	blood_overlay_type = "coat"
 	body_parts_covered = UPPER_TORSO|ARMS
+	flags = ONLY_DEFAULT_BODY
 
 //Internal Affairs
 /obj/item/clothing/suit/storage/toggle/internalaffairs
@@ -170,8 +174,7 @@
 	icon_closed = "ia_jacket"
 	blood_overlay_type = "coat"
 	body_parts_covered = UPPER_TORSO|ARMS
-
-
+	flags = ONLY_DEFAULT_BODY
 
 //Medical
 /obj/item/clothing/suit/storage/toggle/fr_jacket
@@ -185,14 +188,6 @@
 	allowed = list(/obj/item/stack/medical, /obj/item/weapon/reagent_containers/dropper, /obj/item/weapon/reagent_containers/hypospray, /obj/item/weapon/reagent_containers/syringe, \
 	/obj/item/device/healthanalyzer, /obj/item/device/flashlight, /obj/item/device/radio, /obj/item/weapon/tank/emergency_oxygen)
 	body_parts_covered = UPPER_TORSO|ARMS
-
-/obj/item/clothing/suit/storage/toggle/fr_jacket/ems
-	name = "\improper EMS jacket"
-	desc = "A dark blue, martian-pattern, EMS jacket. It sports high-visibility reflective stripes and a star of life on the back."
-	icon_state = "ems_jacket_closed"
-	item_state = "ems_jacket_closed"
-	icon_open = "ems_jacket_open"
-	icon_closed = "ems_jacket_closed"
 
 //Mime
 /obj/item/clothing/suit/suspenders

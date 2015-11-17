@@ -119,7 +119,6 @@
 	item_state = "paper"
 	throwforce = 1
 	w_class = 1.0
-	slot_flags = SLOT_EARS
 	throw_speed = 3
 	throw_range = 5
 

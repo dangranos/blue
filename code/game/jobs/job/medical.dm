@@ -1,8 +1,6 @@
 /datum/job/cmo
 	title = "Chief Medical Officer"
 	flag = CMO
-	head_position = 1
-	department = "Medical"
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 1
@@ -11,12 +9,12 @@
 	selection_color = "#ffddf0"
 	idtype = /obj/item/weapon/card/id/silver
 	req_admin_notify = 1
-	access = list(access_medical, access_medical_equip, access_morgue, access_genetics, access_heads,
+	access = list(access_medical, access_morgue, access_genetics, access_heads,
 			access_chemistry, access_virology, access_cmo, access_surgery, access_RC_announce,
-			access_keycard_auth, access_sec_doors, access_psychiatrist, access_eva, access_external_airlocks)
-	minimal_access = list(access_medical, access_medical_equip, access_morgue, access_genetics, access_heads,
+			access_keycard_auth, access_sec_doors, access_psychiatrist, access_eva)
+	minimal_access = list(access_medical, access_morgue, access_genetics, access_heads,
 			access_chemistry, access_virology, access_cmo, access_surgery, access_RC_announce,
-			access_keycard_auth, access_sec_doors, access_psychiatrist, access_eva, access_external_airlocks)
+			access_keycard_auth, access_sec_doors, access_psychiatrist, access_eva)
 	minimal_player_age = 10
 
 	uniform = /obj/item/clothing/under/rank/chief_medical_officer
@@ -37,18 +35,18 @@
 		H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
 		return 1
 
+
 /datum/job/doctor
 	title = "Medical Doctor"
 	flag = DOCTOR
-	department = "Medical"
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 5
 	spawn_positions = 3
 	supervisors = "the chief medical officer"
 	selection_color = "#ffeef0"
-	access = list(access_medical, access_medical_equip, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
-	minimal_access = list(access_medical, access_medical_equip, access_morgue, access_surgery, access_virology, access_genetics)
+	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
+	minimal_access = list(access_medical, access_morgue, access_surgery, access_virology, access_genetics)
 	alt_titles = list("Surgeon","Emergency Physician","Nurse","Virologist")
 
 	uniform = /obj/item/clothing/under/rank/medical
@@ -81,9 +79,9 @@
 					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/virologist(H), slot_wear_suit)
 					H.equip_to_slot_or_del(new /obj/item/clothing/mask/surgical(H), slot_wear_mask)
 					switch(H.backbag)
-						if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/virology(H), slot_back)
-						if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_vir(H), slot_back)
-						if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
+						if(1) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/virology(H), slot_back)
+						if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_vir(H), slot_back)
+						if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
 				if("Medical Doctor")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical(H), slot_w_uniform)
 					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat(H), slot_wear_suit)
@@ -106,15 +104,14 @@
 /datum/job/chemist
 	title = "Chemist"
 	flag = CHEMIST
-	department = "Medical"
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 	supervisors = "the chief medical officer"
 	selection_color = "#ffeef0"
-	access = list(access_medical, access_medical_equip, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
-	minimal_access = list(access_medical, access_medical_equip, access_chemistry)
+	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics)
+	minimal_access = list(access_medical, access_chemistry)
 	alt_titles = list("Pharmacist")
 
 	uniform = /obj/item/clothing/under/rank/chemist
@@ -134,7 +131,6 @@
 /datum/job/geneticist
 	title = "Geneticist"
 	flag = GENETICIST
-	department = "Medical"
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 0
@@ -165,15 +161,14 @@
 /datum/job/psychiatrist
 	title = "Psychiatrist"
 	flag = PSYCHIATRIST
-	department = "Medical"
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the chief medical officer"
 	selection_color = "#ffeef0"
-	access = list(access_medical, access_medical_equip, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_psychiatrist)
-	minimal_access = list(access_medical, access_medical_equip, access_psychiatrist)
+	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_psychiatrist)
+	minimal_access = list(access_medical, access_psychiatrist)
 	alt_titles = list("Psychologist")
 
 	uniform = /obj/item/clothing/under/rank/psych
@@ -202,15 +197,14 @@
 /datum/job/Paramedic
 	title = "Paramedic"
 	flag = PARAMEDIC
-	department = "Medical"
 	department_flag = MEDSCI
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 	supervisors = "the chief medical officer"
 	selection_color = "#ffeef0"
-	access = list(access_medical, access_medical_equip, access_morgue, access_surgery, access_chemistry, access_virology, access_eva, access_maint_tunnels, access_external_airlocks, access_psychiatrist)
-	minimal_access = list(access_medical, access_medical_equip, access_eva, access_maint_tunnels, access_external_airlocks)
+	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_eva, access_maint_tunnels, access_external_airlocks, access_psychiatrist)
+	minimal_access = list(access_medical, access_morgue, access_eva, access_maint_tunnels, access_external_airlocks)
 	alt_titles = list("Emergency Medical Technician")
 
 	uniform = /obj/item/clothing/under/rank/medical/black
@@ -236,5 +230,5 @@
 		if (H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Emergency Medical Technician")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/paramedic(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/fluff/short(H), slot_w_uniform)
 		return ..()

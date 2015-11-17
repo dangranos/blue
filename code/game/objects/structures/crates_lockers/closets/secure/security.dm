@@ -123,6 +123,7 @@
 		new /obj/item/clothing/accessory/holster/waist(src)
 		new /obj/item/weapon/melee/telebaton(src)
 		new /obj/item/clothing/head/beret/sec/hos(src)
+		new /obj/item/clothing/suit/security/navyhos(src)
 		return
 
 
@@ -160,13 +161,14 @@
 		new /obj/item/weapon/gun/energy/gun(src)
 		new /obj/item/weapon/storage/box/holobadge(src)
 		new /obj/item/clothing/head/beret/sec/warden(src)
+		new /obj/item/clothing/suit/security/navywarden(src)
 		return
 
 
 
 /obj/structure/closet/secure_closet/security
 	name = "security officer's locker"
-	req_access = list(access_brig)
+	req_access = list(access_security)
 	icon_state = "sec1"
 	icon_closed = "sec"
 	icon_locked = "sec1"
@@ -286,8 +288,8 @@
 
 	New()
 		..()
-		new /obj/item/weapon/reagent_containers/syringe/ld50_syringe/choral(src)
-		new /obj/item/weapon/reagent_containers/syringe/ld50_syringe/choral(src)
+		new /obj/item/weapon/reagent_containers/ld50_syringe/choral(src)
+		new /obj/item/weapon/reagent_containers/ld50_syringe/choral(src)
 		return
 
 

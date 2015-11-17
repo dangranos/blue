@@ -26,7 +26,7 @@
 	throwforce = 1.0
 	throw_speed = 5
 	throw_range = 20
-	flags = 0
+	flags = CONDUCT
 	origin_tech = "biotech=1"
 
 /*
@@ -41,7 +41,7 @@
 	throwforce = 1.0
 	throw_speed = 5
 	throw_range = 20
-	flags = 0
+	flags = CONDUCT
 
 /obj/item/stack/tile/wood/cyborg
 	name = "wood floor tile synthesizer"
@@ -63,4 +63,4 @@
 	throwforce = 1.0
 	throw_speed = 5
 	throw_range = 20
-	flags = 0
+	flags = CONDUCT

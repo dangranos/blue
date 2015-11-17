@@ -35,7 +35,7 @@
 
 	playsound(src.loc, 'sound/machines/click.ogg', 15, 1, -3)
 	for(var/obj/O in src)
-		O.forceMove(get_turf(src))
+		O.loc = get_turf(src)
 	icon_state = icon_opened
 	src.opened = 1
 
@@ -60,7 +60,7 @@
 			var/obj/structure/bed/B = O
 			if(B.buckled_mob)
 				continue
-		O.forceMove(src)
+		O.loc = src
 		itemcount++
 
 	icon_state = icon_closed
@@ -75,7 +75,7 @@
 			return
 		user.drop_item()
 		if(W)
-			W.forceMove(src.loc)
+			W.loc = src.loc
 	else if(istype(W, /obj/item/weapon/packageWrap))
 		return
 	else if(istype(W, /obj/item/stack/cable_coil))
@@ -91,7 +91,7 @@
 		if(rigged)
 			user  << "<span class='notice'>You attach [W] to [src].</span>"
 			user.drop_item()
-			W.forceMove(src)
+			W.loc = src
 			return
 	else if(istype(W, /obj/item/weapon/wirecutters))
 		if(rigged)
@@ -105,18 +105,18 @@
 	switch(severity)
 		if(1.0)
 			for(var/obj/O in src.contents)
-				qdel(O)
-			qdel(src)
+				del(O)
+			del(src)
 			return
 		if(2.0)
 			for(var/obj/O in src.contents)
 				if(prob(50))
-					qdel(O)
-			qdel(src)
+					del(O)
+			del(src)
 			return
 		if(3.0)
 			if (prob(50))
-				qdel(src)
+				del(src)
 			return
 		else
 	return
@@ -160,7 +160,7 @@
 
 /obj/structure/closet/crate/secure/proc/set_locked(var/newlocked, mob/user = null)
 	if(locked == newlocked) return
-
+	
 	locked = newlocked
 	if(user)
 		for(var/mob/O in viewers(user, 3))
@@ -433,12 +433,12 @@
 				continue
 			if(!S.anchored)
 				found = 1
-				S.forceMove(src)
+				S.loc = src
 				break
 		if(!found)
 			for(var/obj/machinery/M in src.loc)
 				if(!M.anchored)
-					M.forceMove(src)
+					M.loc = src
 					break
 	return
 
@@ -461,12 +461,12 @@
 				continue
 			if(!S.anchored)
 				found = 1
-				S.forceMove(src)
+				S.loc = src
 				break
 		if(!found)
 			for(var/obj/machinery/M in src.loc)
 				if(!M.anchored)
-					M.forceMove(src)
+					M.loc = src
 					break
 	return
 
@@ -491,7 +491,7 @@
 		..()
 		new /obj/item/weapon/reagent_containers/spray/plantbgone(src)
 		new /obj/item/weapon/reagent_containers/spray/plantbgone(src)
-		new /obj/item/weapon/material/minihoe(src)
+		new /obj/item/weapon/minihoe(src)
 //		new /obj/item/weapon/weedspray(src)
 //		new /obj/item/weapon/weedspray(src)
 //		new /obj/item/weapon/pestspray(src)

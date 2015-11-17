@@ -236,9 +236,6 @@
 		H.eyes_g = hex2num(getblock(structure,9,3))
 		H.eyes_b = hex2num(getblock(structure,10,3))
 
-		if(H.internal_organs_by_name["eyes"])
-			H.update_eyes()
-
 		if (isblockon(getblock(structure, 11,3),11 , 1))
 			H.gender = FEMALE
 		else
@@ -420,7 +417,7 @@
 			animation.master = src
 			flick("h2monkey", animation)
 			sleep(48)
-			qdel(animation)
+			del(animation)
 
 
 		var/mob/living/carbon/monkey/O = null
@@ -447,7 +444,7 @@
 
 
 		for(var/obj/T in (M.contents-implants))
-			qdel(T)
+			del(T)
 
 		O.loc = M.loc
 
@@ -469,7 +466,7 @@
 			I.loc = O
 			I.implanted = O
 //		O.update_icon = 1	//queue a full icon update at next life() call
-		qdel(M)
+		del(M)
 		return
 
 	if (!isblockon(getblock(M.dna.struc_enzymes, MONKEYBLOCK,3),MONKEYBLOCK) && !istype(M, /mob/living/carbon/human))
@@ -493,7 +490,7 @@
 			animation.master = src
 			flick("monkey2h", animation)
 			sleep(48)
-			qdel(animation)
+			del(animation)
 
 		var/mob/living/carbon/human/O = new( src )
 		if(Mo.greaterform)
@@ -519,7 +516,7 @@
 			M.viruses -= D
 
 		//for(var/obj/T in M)
-		//	qdel(T)
+		//	del(T)
 
 		O.loc = M.loc
 
@@ -553,7 +550,7 @@
 			I.loc = O
 			I.implanted = O
 //		O.update_icon = 1	//queue a full icon update at next life() call
-		qdel(M)
+		del(M)
 		return
 //////////////////////////////////////////////////////////// Monkey Block
 	if(M)

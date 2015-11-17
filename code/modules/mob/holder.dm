@@ -11,7 +11,7 @@
 	..()
 	processing_objects.Add(src)
 
-/obj/item/weapon/holder/Destroy()
+/obj/item/weapon/holder/Del()
 	processing_objects.Remove(src)
 	..()
 
@@ -26,7 +26,7 @@
 			mob_container.forceMove(get_turf(src))
 			M.reset_view()
 
-		qdel(src)
+		del(src)
 
 /obj/item/weapon/holder/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	for(var/mob/M in src.contents)
@@ -54,6 +54,7 @@
 	return
 
 //Mob specific holders.
+
 /obj/item/weapon/holder/diona
 	name = "diona nymph"
 	desc = "It's a tiny plant critter."
@@ -78,23 +79,3 @@
 	desc = "It's a slimy brain slug. Gross."
 	icon_state = "borer"
 	origin_tech = "biotech=6"
-
-/obj/item/weapon/holder/monkey
-	name = "monkey"
-	desc = "It's a monkey. Ook."
-	icon_state = "monkey"
-
-/obj/item/weapon/holder/monkey/farwa
-	name = "farwa"
-	desc = "It's a farwa."
-	icon_state = "farwa"
-
-/obj/item/weapon/holder/monkey/stok
-	name = "stok"
-	desc = "It's a stok. stok."
-	icon_state = "stok"
-
-/obj/item/weapon/holder/monkey/neaera
-	name = "neaera"
-	desc = "It's a neaera."
-	icon_state = "neaera"

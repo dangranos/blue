@@ -47,7 +47,7 @@
 		var/obj/item/weapon/hand/H = O
 		for(var/datum/playingcard/P in H.cards)
 			cards += P
-		qdel(O)
+		del(O)
 		user << "You place your cards on the bottom of the deck."
 		return
 	..()
@@ -131,7 +131,7 @@
 		for(var/datum/playingcard/P in H.cards)
 			cards += P
 		src.concealed = H.concealed
-		qdel(O)
+		del(O)
 		user.put_in_hands(src)
 		update_icon()
 		return
@@ -183,7 +183,7 @@
 	if(!discarding || !to_discard[discarding] || !usr || !src) return
 
 	var/datum/playingcard/card = to_discard[discarding]
-	qdel(to_discard)
+	del(to_discard)
 
 	var/obj/item/weapon/hand/H = new(src.loc)
 	H.cards += card
@@ -195,7 +195,7 @@
 	H.loc = get_step(usr,usr.dir)
 
 	if(!cards.len)
-		qdel(src)
+		del(src)
 
 /obj/item/weapon/hand/attack_self(var/mob/user as mob)
 	concealed = !concealed
@@ -212,7 +212,7 @@
 /obj/item/weapon/hand/update_icon(var/direction = 0)
 
 	if(!cards.len)
-		qdel(src)
+		del(src)
 		return
 	else if(cards.len > 1)
 		name = "hand of cards"

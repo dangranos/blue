@@ -20,7 +20,7 @@
 			return									// seems legit.
 
 	// Things you might plausibly want to follow
-	if((ismob(A) && A != src) || istype(A,/obj/machinery/bot) || istype(A,/obj/singularity))
+	if((ismob(A) && A != src) || istype(A,/obj/machinery/bot) || istype(A,/obj/machinery/singularity))
 		ManualFollow(A)
 
 	// Otherwise jump
@@ -36,7 +36,8 @@
 	if(modifiers["shift"])
 		ShiftClickOn(A)
 		return
-	if(world.time <= next_move) return
+	if(world.time <= next_move)
+		return
 	//next_move = world.time + 8
 	// You are responsible for checking config.ghost_interaction when you override this function
 	// Not all of them require checking, see below

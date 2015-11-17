@@ -58,15 +58,15 @@
 		src.has_power = 0
 		if(lights_on) // Light is on but there is no power!
 			lights_on = 0
-			set_light(0)
+			SetLuminosity(0)
 
 /mob/living/silicon/robot/proc/handle_regular_status_updates()
 
 	if(src.camera && !scrambledcodes)
 		if(src.stat == 2 || wires.IsIndexCut(BORG_WIRE_CAMERA))
-			src.camera.set_status(0)
+			src.camera.status = 0
 		else
-			src.camera.set_status(1)
+			src.camera.status = 1
 
 	updatehealth()
 
@@ -222,17 +222,16 @@
 			src.healths.icon_state = "health7"
 
 	if (src.syndicate && src.client)
-		for(var/datum/mind/tra in traitors.current_antagonists)
-			if(tra.current)
-				// TODO: Update to new antagonist system.
-				var/I = image('icons/mob/mob.dmi', loc = tra.current, icon_state = "traitor")
-				src.client.images += I
+		if(ticker.mode.name == "traitor")
+			for(var/datum/mind/tra in ticker.mode.traitors)
+				if(tra.current)
+					var/I = image('icons/mob/mob.dmi', loc = tra.current, icon_state = "traitor")
+					src.client.images += I
 		src.disconnect_from_ai()
 		if(src.mind)
-			// TODO: Update to new antagonist system.
 			if(!src.mind.special_role)
 				src.mind.special_role = "traitor"
-				traitors.current_antagonists |= src.mind
+				ticker.mode.traitors += src.mind
 
 	if (src.cells)
 		if (src.cell)

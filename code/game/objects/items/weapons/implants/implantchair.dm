@@ -84,7 +84,7 @@
 					return
 			var/mob/M = G:affecting
 			if(put_mob(M))
-				qdel(G)
+				del(G)
 		src.updateUsrDialog()
 		return
 

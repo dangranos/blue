@@ -9,14 +9,12 @@
 	sharp = 1
 	var/mob_passthrough_check = 0
 
-	muzzle_type = /obj/effect/projectile/bullet/muzzle
-
 /obj/item/projectile/bullet/on_hit(var/atom/target, var/blocked = 0)
 	if (..(target, blocked))
 		var/mob/living/L = target
 		shake_camera(L, 3, 2)
 
-/obj/item/projectile/bullet/attack_mob(var/mob/living/target_mob, var/distance, var/miss_modifier)
+/obj/item/projectile/bullet/attack_mob(var/mob/living/target_mob, var/distance)
 	if(penetrating > 0 && damage > 20 && prob(damage))
 		mob_passthrough_check = 1
 	else
@@ -45,15 +43,15 @@
 	var/chance = 0
 	if(istype(A, /turf/simulated/wall))
 		var/turf/simulated/wall/W = A
-		chance = round(damage/W.material.integrity*180)
+		chance = round(damage/W.damage_cap*180)
 	else if(istype(A, /obj/machinery/door))
 		var/obj/machinery/door/D = A
 		chance = round(damage/D.maxhealth*180)
 		if(D.glass) chance *= 2
-	else if(istype(A, /obj/structure/girder))
+	else if(istype(A, /obj/structure/girder) || istype(A, /obj/structure/cultgirder))
 		chance = 100
 	else if(istype(A, /obj/machinery) || istype(A, /obj/structure))
-		chance = damage
+		chance = 25
 
 	if(prob(chance))
 		if(A.opacity)
@@ -100,19 +98,18 @@
 /* short-casing projectiles, like the kind used in pistols or SMGs */
 
 /obj/item/projectile/bullet/pistol
-	damage = 20
+	damage = 25
 
 /obj/item/projectile/bullet/pistol/medium
-	damage = 25
+	damage = 30
 
 /obj/item/projectile/bullet/pistol/strong //revolvers and matebas
 	damage = 60
 
 /obj/item/projectile/bullet/pistol/rubber //"rubber" bullets
 	name = "rubber bullet"
-	check_armour = "melee"
 	damage = 10
-	agony = 40
+	agony = 70
 	embed = 0
 	sharp = 0
 
@@ -120,13 +117,12 @@
 
 /obj/item/projectile/bullet/shotgun
 	name = "slug"
-	damage = 60
+	damage = 70
 
 /obj/item/projectile/bullet/shotgun/beanbag		//because beanbags are not bullets
 	name = "beanbag"
-	check_armour = "melee"
 	damage = 20
-	agony = 60
+	agony = 80
 	embed = 0
 	sharp = 0
 
@@ -150,7 +146,6 @@
 	stun = 3
 	weaken = 3
 	penetrating = 5
-	hitscan = 1 //so the PTR isn't useless as a sniper weapon
 
 /obj/item/projectile/bullet/rifle/a556
 	damage = 40
@@ -187,15 +182,3 @@
 /obj/item/projectile/bullet/chameleon
 	damage = 1 // stop trying to murderbone with a fake gun dumbass!!!
 	embed = 0 // nope
-
-/* Practice */
-
-/obj/item/projectile/bullet/pistol/practice
-	damage = 5
-
-/obj/item/projectile/bullet/rifle/a556/practice
-	damage = 5
-
-/obj/item/projectile/bullet/shotgun/practice
-	name = "practice"
-	damage = 5
