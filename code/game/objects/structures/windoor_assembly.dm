@@ -34,10 +34,10 @@ obj/structure/windoor_assembly/New(Loc, start_dir=NORTH, constructed=0)
 			set_dir(start_dir)
 		else //If the user is facing northeast. northwest, southeast, southwest or north, default to north
 			set_dir(NORTH)
-
+	
 	update_nearby_tiles(need_rebuild=1)
 
-obj/structure/windoor_assembly/Destroy()
+obj/structure/windoor_assembly/Del()
 	density = 0
 	update_nearby_tiles()
 	..()
@@ -76,10 +76,10 @@ obj/structure/windoor_assembly/Destroy()
 					if(do_after(user, 40))
 						if(!src || !WT.isOn()) return
 						user << "\blue You dissasembled the windoor assembly!"
-						new /obj/item/stack/material/glass/reinforced(get_turf(src), 5)
+						new /obj/item/stack/sheet/glass/reinforced(get_turf(src), 5)
 						if(secure)
-							PoolOrNew(/obj/item/stack/rods, list(get_turf(src), 4))
-						qdel(src)
+							new /obj/item/stack/rods(get_turf(src), 4)
+						del(src)
 				else
 					user << "\blue You need more welding fuel to dissassemble the windoor assembly."
 					return
@@ -249,7 +249,7 @@ obj/structure/windoor_assembly/Destroy()
 						src.electronics.loc = windoor
 
 
-					qdel(src)
+					del(src)
 
 
 			else

@@ -44,7 +44,7 @@
 	armor = list(melee = 80, bullet = 10, laser = 10, energy = 10, bomb = 0, bio = 0, rad = 0)
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.5
-
+	flags = ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/armor/bulletproof
 	name = "Bulletproof Vest"
@@ -107,13 +107,14 @@
 //When the wearer gets hit, this armor will teleport the user a short distance away (to safety or to more danger, no one knows. That's the fun of it!)
 /obj/item/clothing/suit/armor/reactive
 	name = "Reactive Teleport Armor"
-	desc = "Someone separated our Research Director from their own head!"
+	desc = "Someone seperated our Research Director from his own head!"
 	var/active = 0.0
 	icon_state = "reactiveoff"
 	item_state = "reactiveoff"
 	blood_overlay_type = "armor"
 	slowdown = 1
 	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
+	flags = THICKMATERIAL | ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/armor/reactive/IsShield()
 	if(active)
@@ -183,6 +184,7 @@
 	item_state = "armor"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
 	armor = list(melee = 60, bullet = 60, laser = 60, energy = 40, bomb = 20, bio = 0, rad = 0)
+	flags = ONLY_DEFAULT_BODY
 
 //Commander
 /obj/item/clothing/suit/armor/vest/ert/command
@@ -320,6 +322,7 @@
 	cold_protection = UPPER_TORSO | LOWER_TORSO | LEGS | FEET | ARMS | HANDS
 	min_cold_protection_temperature = SPACE_SUIT_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0
+	flags = THICKMATERIAL | ONLY_DEFAULT_BODY
 
 /obj/item/clothing/suit/armor/heavy
 	name = "heavy armor"

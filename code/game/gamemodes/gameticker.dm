@@ -1,5 +1,11 @@
 var/global/datum/controller/gameticker/ticker
 
+#define GAME_STATE_PREGAME		1
+#define GAME_STATE_SETTING_UP	2
+#define GAME_STATE_PLAYING		3
+#define GAME_STATE_FINISHED		4
+
+
 /datum/controller/gameticker
 	var/const/restart_timeout = 600
 	var/current_state = GAME_STATE_PREGAME
@@ -70,61 +76,62 @@ var/global/datum/controller/gameticker/ticker
 	//Create and announce mode
 	if(master_mode=="secret")
 		src.hide_mode = 1
-
-	var/list/runnable_modes = config.get_runnable_modes()
+	var/list/datum/game_mode/runnable_modes
 	if((master_mode=="random") || (master_mode=="secret"))
-		if(!runnable_modes.len)
+		runnable_modes = config.get_runnable_modes()
+		if (runnable_modes.len==0)
 			current_state = GAME_STATE_PREGAME
 			world << "<B>Unable to choose playable game mode.</B> Reverting to pre-game lobby."
 			return 0
 		if(secret_force_mode != "secret")
-			src.mode = config.pick_mode(secret_force_mode)
+			var/datum/game_mode/M = config.pick_mode(secret_force_mode)
+			if(M.can_start())
+				src.mode = config.pick_mode(secret_force_mode)
+		job_master.ResetOccupations()
 		if(!src.mode)
-			var/list/weighted_modes = list()
-			for(var/datum/game_mode/GM in runnable_modes)
-				weighted_modes[GM.config_tag] = config.probabilities[GM.config_tag]
-			src.mode = gamemode_cache[pickweight(weighted_modes)]
+			src.mode = pickweight(runnable_modes)
+		if(src.mode)
+			var/mtype = src.mode.type
+			src.mode = new mtype
 	else
 		src.mode = config.pick_mode(master_mode)
-
-	if(!src.mode)
+	if (!src.mode.can_start())
+		world << "<B>Unable to start [mode.name].</B> Not enough players, [mode.required_players] players needed. Reverting to pre-game lobby."
+		del(mode)
 		current_state = GAME_STATE_PREGAME
-		world << "<span class='danger'>Serious error in mode setup!</span> Reverting to pre-game lobby."
+		job_master.ResetOccupations()
 		return 0
 
-	job_master.ResetOccupations()
-	src.mode.create_antagonists()
-	src.mode.pre_setup()
-	job_master.DivideOccupations() // Apparently important for new antagonist system to register specific job antags properly.
-
-	if(!src.mode.can_start())
-		world << "<B>Unable to start [mode.name].</B> Not enough players, [mode.required_players] players needed. Reverting to pre-game lobby."
+	//Configure mode and assign player to special mode stuff
+	job_master.DivideOccupations() //Distribute jobs
+	var/can_continue = src.mode.pre_setup()//Setup special modes
+	if(!can_continue)
+		del(mode)
 		current_state = GAME_STATE_PREGAME
-		mode.fail_setup()
-		mode = null
+		world << "<B>Error setting up [master_mode].</B> Reverting to pre-game lobby."
 		job_master.ResetOccupations()
 		return 0
 
 	if(hide_mode)
+		var/list/modes = new
+		for (var/datum/game_mode/M in runnable_modes)
+			modes+=M.name
+		modes = sortList(modes)
 		world << "<B>The current game mode is - Secret!</B>"
-		if(runnable_modes.len)
-			var/list/tmpmodes = new
-			for (var/datum/game_mode/M in runnable_modes)
-				tmpmodes+=M.name
-			tmpmodes = sortList(tmpmodes)
-			if(tmpmodes.len)
-				world << "<B>Possibilities:</B> [english_list(tmpmodes)]"
+		world << "<B>Possibilities:</B> [english_list(modes)]"
 	else
 		src.mode.announce()
 
-	setup_economy()
-	current_state = GAME_STATE_PLAYING
 	create_characters() //Create player characters and transfer them
 	collect_minds()
 	equip_characters()
 	data_core.manifest()
+	current_state = GAME_STATE_PLAYING
 
 	callHook("roundstart")
+
+	//here to initialize the random events nicely at round start
+	setup_economy()
 
 	shuttle_controller.setup_shuttle_docks()
 
@@ -134,7 +141,7 @@ var/global/datum/controller/gameticker/ticker
 		for(var/obj/effect/landmark/start/S in landmarks_list)
 			//Deleting Startpoints but we need the ai point to AI-ize people later
 			if (S.name != "AI")
-				qdel(S)
+				del(S)
 		world << "<FONT color='blue'><B>Enjoy the game!</B></FONT>"
 		world << sound('sound/AI/welcome.ogg') // Skie
 		//Holiday Round-start stuff	~Carn
@@ -143,13 +150,9 @@ var/global/datum/controller/gameticker/ticker
 	//start_events() //handles random events and space dust.
 	//new random event system is handled from the MC.
 
-
-/*	supply_controller.process() 		//Start the supply shuttle regenerating points -- TLE // handled in scheduler
+	supply_controller.process() 		//Start the supply shuttle regenerating points -- TLE
 	master_controller.process()		//Start master_controller.process()
 	lighting_controller.process()	//Start processing DynamicAreaLighting updates
-	*/
-
-	processScheduler.start()
 
 	for(var/obj/multiz/ladder/L in world) L.connect() //Lazy hackfix for ladders. TODO: move this to an actual controller. ~ Z
 
@@ -254,8 +257,8 @@ var/global/datum/controller/gameticker/ticker
 		//Otherwise if its a verb it will continue on afterwards.
 		sleep(300)
 
-		if(cinematic)	qdel(cinematic)		//end the cinematic
-		if(temp_buckle)	qdel(temp_buckle)	//release everybody
+		if(cinematic)	del(cinematic)		//end the cinematic
+		if(temp_buckle)	del(temp_buckle)	//release everybody
 		return
 
 
@@ -269,7 +272,7 @@ var/global/datum/controller/gameticker/ticker
 					continue
 				else
 					player.create_character()
-					qdel(player)
+					del(player)
 
 
 	proc/collect_minds()
@@ -284,10 +287,10 @@ var/global/datum/controller/gameticker/ticker
 			if(player && player.mind && player.mind.assigned_role)
 				if(player.mind.assigned_role == "Captain")
 					captainless=0
-				if(!player_is_antag(player.mind, only_offstation_roles = 1))
+				if(player.mind.assigned_role != "MODE")
 					job_master.EquipRank(player, player.mind.assigned_role, 0)
 					UpdateFactionList(player)
-					equip_custom_items(player)
+					EquipCustomItems(player)
 		if(captainless)
 			for(var/mob/M in player_list)
 				if(!istype(M,/mob/new_player))
@@ -300,7 +303,7 @@ var/global/datum/controller/gameticker/ticker
 
 		mode.process()
 
-//		emergency_shuttle.process() //handled in scheduler
+		emergency_shuttle.process()
 
 		var/game_finished = 0
 		var/mode_finished = 0
@@ -308,7 +311,7 @@ var/global/datum/controller/gameticker/ticker
 			game_finished = (emergency_shuttle.returned() || mode.station_was_nuked)
 			mode_finished = (!post_game && mode.check_finished())
 		else
-			game_finished = (mode.check_finished() || (emergency_shuttle.returned() && emergency_shuttle.evac == 1)) || universe_has_ended
+			game_finished = (mode.check_finished() || (emergency_shuttle.returned() && emergency_shuttle.evac == 1))
 			mode_finished = game_finished
 
 		if(!mode.explosion_in_progress && game_finished && (mode_finished || post_game))
@@ -349,6 +352,12 @@ var/global/datum/controller/gameticker/ticker
 				vote.autotransfer()
 
 		return 1
+
+	proc/getfactionbyname(var/name)
+		for(var/datum/faction/F in factions)
+			if(F.name == name)
+				return F
+
 
 /datum/controller/gameticker/proc/declare_completion()
 	world << "<br><br><br><H1>A round of [mode.name] has ended!</H1>"
@@ -410,6 +419,11 @@ var/global/datum/controller/gameticker/ticker
 		world << "<b>There [dronecount>1 ? "were" : "was"] [dronecount] industrious maintenance [dronecount>1 ? "drones" : "drone"] at the end of this round.</b>"
 
 	mode.declare_completion()//To declare normal completion.
+
+	//calls auto_declare_completion_* for all modes
+	for(var/handler in typesof(/datum/game_mode/proc))
+		if (findtext("[handler]","auto_declare_completion_"))
+			call(mode, handler)()
 
 	//Ask the event manager to print round end information
 	event_manager.RoundEnd()

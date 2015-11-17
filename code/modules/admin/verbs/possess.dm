@@ -2,10 +2,9 @@
 	set name = "Possess Obj"
 	set category = "Object"
 
-	if(istype(O,/obj/singularity))
-		if(config.forbid_singulo_possession)
-			usr << "It is forbidden to possess singularities."
-			return
+	if(istype(O,/obj/machinery/singularity))
+		usr << "It is forbidden to possess singularities."
+		return
 
 	var/turf/T = get_turf(O)
 
@@ -41,10 +40,3 @@
 	usr.loc = O.loc // Appear where the object you were controlling is -- TLE
 	usr.client.eye = usr
 	usr.control_object = null
-
-/proc/givetestverbs(mob/M as mob in mob_list)
-	set desc = "Give this guy possess/release verbs"
-	set category = "Debug"
-	set name = "Give Possessing Verbs"
-	M.verbs += /proc/possess
-	M.verbs += /proc/release

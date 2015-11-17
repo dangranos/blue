@@ -20,10 +20,10 @@
 
 	switch(M.a_intent)
 
-		if (I_HELP)
+		if ("help")
 			help_shake_act(M)
 
-		if (I_GRAB)
+		if ("grab")
 			if (M == src)
 				return
 			var/obj/item/weapon/grab/G = new /obj/item/weapon/grab( M, M, src )

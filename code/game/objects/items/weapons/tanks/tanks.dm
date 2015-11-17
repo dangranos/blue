@@ -31,48 +31,52 @@
 	processing_objects.Add(src)
 	return
 
-/obj/item/weapon/tank/Destroy()
+/obj/item/weapon/tank/Del()
 	if(air_contents)
-		qdel(air_contents)
+		del(air_contents)
 
 	processing_objects.Remove(src)
-	
-	if(istype(loc, /obj/item/device/transfer_valve))
-		var/obj/item/device/transfer_valve/TTV = loc
-		TTV.remove_tank(src)
 
 	..()
 
 /obj/item/weapon/tank/examine(mob/user)
-	. = ..(user, 0)
-	if(.)
-		var/celsius_temperature = air_contents.temperature - T0C
-		var/descriptive
-		switch(celsius_temperature)
-			if(300 to INFINITY)
-				descriptive = "furiously hot"
-			if(100 to 300)
-				descriptive = "hot"
-			if(80 to 100)
-				descriptive = "warm"
-			if(40 to 80)
-				descriptive = "lukewarm"
-			if(20 to 40)
-				descriptive = "room temperature"
-			else
-				descriptive = "cold"
-		user << "<span class='notice'>\The [src] feels [descriptive].</span>"
+	var/obj/icon = src
+	if (istype(src.loc, /obj/item/assembly))
+		icon = src.loc
+	if (!in_range(src, user))
+		if (icon == src) user << "\blue It's \a \icon[icon][src]! If you want any more information you'll need to get closer."
+		return
+
+	var/celsius_temperature = src.air_contents.temperature-T0C
+	var/descriptive
+
+	if (celsius_temperature < 20)
+		descriptive = "cold"
+	else if (celsius_temperature < 40)
+		descriptive = "room temperature"
+	else if (celsius_temperature < 80)
+		descriptive = "lukewarm"
+	else if (celsius_temperature < 100)
+		descriptive = "warm"
+	else if (celsius_temperature < 300)
+		descriptive = "hot"
+	else
+		descriptive = "furiously hot"
+
+	user << "\blue \The \icon[icon][src] feels [descriptive]"
+
+	return
 
 /obj/item/weapon/tank/blob_act()
 	if(prob(50))
 		var/turf/location = src.loc
 		if (!( istype(location, /turf) ))
-			qdel(src)
+			del(src)
 
 		if(src.air_contents)
 			location.assume_air(air_contents)
 
-		qdel(src)
+		del(src)
 
 /obj/item/weapon/tank/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
@@ -242,7 +246,7 @@
 
 /obj/item/weapon/tank/process()
 	//Allow for reactions
-	air_contents.react() //cooking up air tanks - add phoron and oxygen, then heat above PHORON_MINIMUM_BURN_TEMPERATURE
+	air_contents.react()
 	check_status()
 
 
@@ -273,28 +277,22 @@
 			round(min(BOMBCAP_LIGHT_RADIUS, range*1.00)), 
 			round(min(BOMBCAP_FLASH_RADIUS, range*1.50)), 
 			)
-		qdel(src)
+		del(src)
 
 	else if(pressure > TANK_RUPTURE_PRESSURE)
-		#ifdef FIREDBG
-		log_debug("\blue[x],[y] tank is rupturing: [pressure] kPa, integrity [integrity]")
-		#endif
-		
+		//world << "\blue[x],[y] tank is rupturing: [pressure] kPa, integrity [integrity]"
 		if(integrity <= 0)
 			var/turf/simulated/T = get_turf(src)
 			if(!T)
 				return
 			T.assume_air(air_contents)
 			playsound(src.loc, 'sound/effects/spray.ogg', 10, 1, -3)
-			qdel(src)
+			del(src)
 		else
 			integrity--
 
 	else if(pressure > TANK_LEAK_PRESSURE)
-		#ifdef FIREDBG
-		log_debug("\blue[x],[y] tank is leaking: [pressure] kPa, integrity [integrity]")
-		#endif
-		
+		//world << "\blue[x],[y] tank is leaking: [pressure] kPa, integrity [integrity]"
 		if(integrity <= 0)
 			var/turf/simulated/T = get_turf(src)
 			if(!T)

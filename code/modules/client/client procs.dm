@@ -45,17 +45,6 @@
 		cmd_admin_pm(C,null)
 		return
 
-	if(href_list["irc_msg"])
-		if(!holder && received_irc_pm < world.time - 6000) //Worse they can do is spam IRC for 10 minutes
-			usr << "<span class='warning'>You are no longer able to use this, it's been more then 10 minutes since an admin on IRC has responded to you</span>"
-			return
-		if(mute_irc)
-			usr << "<span class='warning'You cannot use this as your client has been muted from sending messages to the admins on IRC</span>"
-			return
-		cmd_admin_irc_pm(href_list["irc_msg"])
-		return
-
-
 
 	//Logs all hrefs
 	if(config && config.log_hrefs && href_logfile)
@@ -145,7 +134,7 @@
 	if(custom_event_msg && custom_event_msg != "")
 		src << "<h1 class='alert'>Custom Event</h1>"
 		src << "<h2 class='alert'>A custom event is taking place. OOC Info:</h2>"
-		src << "<span class='alert'>[custom_event_msg]</span>"
+		src << "<span class='alert'>[rhtml_encode(custom_event_msg)]</span>"
 		src << "<br>"
 
 	if( (world.address == address || !address) && !host )
@@ -156,24 +145,13 @@
 		add_admin_verbs()
 		admin_memo_show()
 
-	// Forcibly enable hardware-accelerated graphics, as we need them for the lighting overlays.
-	// (but turn them off first, since sometimes BYOND doesn't turn them on properly otherwise)
-	spawn(5) // And wait a half-second, since it sounds like you can do this too fast.
-		if(src)
-			winset(src, null, "command=\".configure graphics-hwmode off\"")
-			winset(src, null, "command=\".configure graphics-hwmode on\"")
-
 	log_client_to_db()
 
 	send_resources()
 	nanomanager.send_resources(src)
 
 	if(prefs.lastchangelog != changelog_hash) //bolds the changelog button on the interface so we know there are updates.
-		src << "<span class='info'>You have unread updates in the changelog.</span>"
 		winset(src, "rpane.changelog", "background-color=#eaeaea;font-style=bold")
-		if(config.aggressive_changelog)
-			src.changes()
-
 
 
 	//////////////
@@ -267,11 +245,6 @@
 		var/DBQuery/query_insert = dbcon.NewQuery("INSERT INTO erro_player (id, ckey, firstseen, lastseen, ip, computerid, lastadminrank) VALUES (null, '[sql_ckey]', Now(), Now(), '[sql_ip]', '[sql_computerid]', '[sql_admin_rank]')")
 		query_insert.Execute()
 
-	//Logging player access
-	var/serverip = "[world.internet_address]:[world.port]"
-	var/DBQuery/query_accesslog = dbcon.NewQuery("INSERT INTO `erro_connection_log`(`id`,`datetime`,`serverip`,`ckey`,`ip`,`computerid`) VALUES(null,Now(),'[serverip]','[sql_ckey]','[sql_ip]','[sql_computerid]');")
-	query_accesslog.Execute()
-
 
 #undef TOPIC_SPAM_DELAY
 #undef UPLOAD_LIMIT
@@ -289,17 +262,15 @@
 	getFiles(
 		'nano/templates/accounts_terminal.tmpl',
 		'nano/templates/advanced_airlock_console.tmpl',
-		'nano/templates/aicard.tmpl',
 		'nano/templates/air_alarm.tmpl',
 		'nano/templates/alarm_monitor.tmpl',
 		'nano/templates/apc.tmpl',
-		'nano/templates/appearance_changer.tmpl',
 		'nano/templates/atmos_alert.tmpl',
 		'nano/templates/atmos_control.tmpl',
 		'nano/templates/botany_editor.tmpl',
 		'nano/templates/botany_isolator.tmpl',
 		'nano/templates/canister.tmpl',
-		'nano/templates/chem_disp.tmpl',
+		'nano/templates/chem_dispenser.tmpl',
 		'nano/templates/crew_monitor.tmpl',
 		'nano/templates/crew_monitor_map_content.tmpl',
 		'nano/templates/crew_monitor_map_header.tmpl',
@@ -309,14 +280,12 @@
 		'nano/templates/dna_modifier.tmpl',
 		'nano/templates/docking_airlock_console.tmpl',
 		'nano/templates/door_access_console.tmpl',
-		'nano/templates/door_control.tmpl',
 		'nano/templates/engines_control.tmpl',
 		'nano/templates/escape_pod_berth_console.tmpl',
 		'nano/templates/escape_pod_console.tmpl',
 		'nano/templates/escape_shuttle_control_console.tmpl',
 		'nano/templates/freezer.tmpl',
 		'nano/templates/gas_pump.tmpl',
-		'nano/templates/generator.tmpl',
 		'nano/templates/geoscanner.tmpl',
 		'nano/templates/hardsuit.tmpl',
 		'nano/templates/helm.tmpl',
@@ -324,7 +293,6 @@
 		'nano/templates/isolation_centrifuge.tmpl',
 		'nano/templates/janitorcart.tmpl',
 		'nano/templates/jukebox.tmpl',
-		'nano/templates/law_manager.tmpl',
 		'nano/templates/layout_basic.tmpl',
 		'nano/templates/layout_default.tmpl',
 		'nano/templates/mech_bay_console.tmpl',
@@ -344,8 +312,6 @@
 		'nano/templates/pai_signaller.tmpl',
 		'nano/templates/pathogenic_isolator.tmpl',
 		'nano/templates/pda.tmpl',
-		'nano/templates/portpump.tmpl',
-		'nano/templates/portscrubber.tmpl',
 		'nano/templates/power_monitor.tmpl',
 		'nano/templates/pressure_regulator.tmpl',
 		'nano/templates/rcon.tmpl',
@@ -362,14 +328,43 @@
 		'nano/templates/tanks.tmpl',
 		'nano/templates/telescience_console.tmpl',
 		'nano/templates/transfer_valve.tmpl',
-		'nano/templates/turret_control.tmpl',
 		'nano/templates/uplink.tmpl',
 		'nano/templates/vending_machine.tmpl',
+		'nano/css/icons.css',
+		'nano/css/shared.css',
+		'nano/css/layout_basic.css',
+		'nano/css/layout_default.css',
+		'nano/images/c_charging.gif',
+		'nano/images/c_discharging.gif',
+		'nano/images/c_max.gif',
+		'nano/images/nanomap_z1.png',
+		'nano/images/nanomapBackground.png',
+		'nano/images/uiBackground-Syndicate.png',
+		'nano/images/uiBasicBackground.png',
+		'nano/images/uiIcons16.png',
+		'nano/images/uiIcons16Green.png',
+		'nano/images/uiIcons16Red.png',
+		'nano/images/uiIcons24.png',
+		'nano/images/uiMaskBackground.png',
+		'nano/images/uiNoticeBackground.jpg',
+		'nano/images/uiTitleFluff.png',
+		'nano/images/uiTitleFluff-Syndicate.png',
+		'nano/js/libraries/doT.js',
+		'nano/js/libraries/jquery.js',
+		'nano/js/libraries/jquery.timers.js',
+		'nano/js/libraries/jquery-ui.js',
+		'nano/js/libraries.min.js',
+		'nano/js/nano_base_callbacks.js',
+		'nano/js/nano_base_helpers.js',
+		'nano/js/nano_state.js',
+		'nano/js/nano_state_default.js',
+		'nano/js/nano_state_manager.js',
+		'nano/js/nano_template.js',
+		'nano/js/nano_utility.js',
 		'html/search.js',
 		'html/panels.css',
-		'html/images/loading.gif',
-		'html/images/ntlogo.png',
-		'html/images/talisman.png',
+		'html/painew.png',
+		'html/loading.gif',
 		'icons/pda_icons/pda_atmos.png',
 		'icons/pda_icons/pda_back.png',
 		'icons/pda_icons/pda_bell.png',
@@ -407,7 +402,9 @@
 		'icons/spideros_icons/sos_11.png',
 		'icons/spideros_icons/sos_12.png',
 		'icons/spideros_icons/sos_13.png',
-		'icons/spideros_icons/sos_14.png'
+		'icons/spideros_icons/sos_14.png',
+		'html/images/ntlogo.png',
+		'html/images/talisman.png'
 		)
 
 

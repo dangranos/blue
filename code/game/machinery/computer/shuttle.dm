@@ -2,7 +2,6 @@
 	name = "Shuttle"
 	desc = "For shuttle control."
 	icon_state = "shuttle"
-	light_color = "#00ffff"
 	var/auth_need = 3.0
 	var/list/authorized = list(  )
 
@@ -44,7 +43,7 @@
 						world << "\blue <B>Alert: Shuttle launch time shortened to 10 seconds!</B>"
 						emergency_shuttle.set_launch_countdown(10)
 						//src.authorized = null
-						qdel(src.authorized)
+						del(src.authorized)
 						src.authorized = list(  )
 
 				if("Repeal")

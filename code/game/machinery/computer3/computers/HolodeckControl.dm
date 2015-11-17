@@ -154,13 +154,13 @@
 		if(isobj(obj))
 			var/mob/M = obj.loc
 			if(ismob(M))
-				M.remove_from_mob(obj)
+				M.u_equip(obj)
 				M.update_icons()	//so their overlays update
 
 		if(!silent)
 			var/obj/oldobj = obj
 			obj.visible_message("The [oldobj.name] fades away!")
-		qdel(obj)
+		del(obj)
 
 	proc/checkInteg(var/area/A)
 		for(var/turf/T in A)
@@ -213,10 +213,10 @@
 			derez(item)
 
 		for(var/obj/effect/decal/cleanable/blood/B in linkedholodeck)
-			qdel(B)
+			del(B)
 
 		for(var/mob/living/simple_animal/hostile/carp/C in linkedholodeck)
-			qdel(C)
+			del(C)
 
 		holographic_items = A.copy_contents_to(linkedholodeck , 1)
 

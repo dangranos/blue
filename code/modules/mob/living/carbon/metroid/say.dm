@@ -1,6 +1,6 @@
 /mob/living/carbon/slime/say(var/message)
 
-	message = sanitize(message)
+	message = trim_strip_html_properly(message)
 	message = capitalize_cp1251(trim_left(message))
 
 	var/verb = say_quote(message)

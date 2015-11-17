@@ -24,7 +24,7 @@
 	RefreshParts()
 	src.initialize(); //Agouri
 
-/obj/machinery/r_n_d/server/Destroy()
+/obj/machinery/r_n_d/server/Del()
 	griefProtection()
 	..()
 
@@ -149,7 +149,7 @@
 				if(I.reliability != 100 && crit_fail)
 					I.crit_fail = 1
 				I.loc = src.loc
-			qdel(src)
+			del(src)
 			return 1
 
 /obj/machinery/r_n_d/server/attack_hand(mob/user as mob)
@@ -196,7 +196,6 @@
 /obj/machinery/computer/rdservercontrol
 	name = "R&D Server Controller"
 	icon_state = "rdcomp"
-	light_color = "#a97faa"
 	circuit = /obj/item/weapon/circuitboard/rdservercontrol
 	var/screen = 0
 	var/obj/machinery/r_n_d/server/temp_server

@@ -64,7 +64,7 @@
 			for(var/mob/living/carbon/target in view(1, get_turf(src)))
 				if(airborne_can_reach(get_turf(src), get_turf(target)))
 					infect_virus2(target, src.virus2)
-		qdel(src)
+		del src
 
 /obj/item/weapon/virusdish/examine(mob/user)
 	..()
@@ -91,7 +91,7 @@
 
 	if(prob(50))
 		user << "\The [src] shatters!"
-		qdel(src)
+		del src
 
 ///////////////GNA DISK///////////////
 

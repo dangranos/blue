@@ -47,14 +47,14 @@
 					in_action = 0
 					return
 
-				spawn(8)
-					if(!C)
-						in_action = 0
-						return
-					if(p_loc == user.loc && p_loc_m == C.loc)
-						var/obj/item/clothing/mask/muzzle/tape/T = new(C)
-						if(C.equip_to_slot_or_del(T, slot_wear_mask))
-							C.update_inv_wear_mask()
+			spawn(8)
+				if(!C)
+					in_action = 0
+					return
+				if(p_loc == user.loc && p_loc_m == C.loc)
+					var/obj/item/clothing/mask/muzzle/tape/T = new(C)
+					if(C.equip_to_slot_or_del(T, slot_wear_mask))
+						C.update_inv_wear_mask()
 		in_action = 0
 
 	else
@@ -98,13 +98,13 @@
 		return
 
 	user << "You remove \the [initial(name)] from [stuck]."
-	
+
 	user.drop_from_inventory(src)
 	stuck.forceMove(get_turf(src))
 	user.put_in_hands(stuck)
 	stuck = null
 	overlays = null
-	qdel(src)
+	del(src)
 
 /obj/item/weapon/ducttape/afterattack(var/A, mob/user, flag, params)
 	if(!in_range(user, A) || istype(A, /obj/machinery/door) || !stuck)

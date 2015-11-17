@@ -31,11 +31,11 @@
 		src.gift.add_fingerprint(user)
 	else
 		user << "\blue The gift was empty!"
-	qdel(src)
+	del(src)
 	return
 
 /obj/item/weapon/a_gift/ex_act()
-	qdel(src)
+	del(src)
 	return
 
 /obj/effect/spresent/relaymove(mob/user as mob)
@@ -58,7 +58,7 @@
 			M.client.eye = M.client.mob
 			M.client.perspective = MOB_PERSPECTIVE
 
-	qdel(src)
+	del(src)
 
 /obj/item/weapon/a_gift/attack_self(mob/M as mob)
 	var/gift_type = pick(/obj/item/weapon/sord,
@@ -109,10 +109,10 @@
 	if(!ispath(gift_type,/obj/item))	return
 
 	var/obj/item/I = new gift_type(M)
-	M.remove_from_mob(src)
+	M.u_equip(src)
 	M.put_in_hands(I)
 	I.add_fingerprint(M)
-	qdel(src)
+	del(src)
 	return
 
 /*
@@ -152,7 +152,7 @@
 				src.add_fingerprint(user)
 			if (src.amount <= 0)
 				new /obj/item/weapon/c_tube( src.loc )
-				qdel(src)
+				del(src)
 				return
 		else
 			user << "\blue You need scissors!"

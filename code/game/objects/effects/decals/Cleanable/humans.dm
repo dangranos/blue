@@ -20,13 +20,11 @@ var/global/list/image/splatter_cache=list()
 	var/basecolor="#A10808" // Color when wet.
 	var/list/datum/disease2/disease/virus2 = list()
 	var/amount = 5
-	var/drytime
 
-/obj/effect/decal/cleanable/blood/Destroy()
+/obj/effect/decal/cleanable/blood/Del()
 	for(var/datum/disease/D in viruses)
 		D.cure(0)
-	processing_objects -= src
-	return ..()
+	..()
 
 /obj/effect/decal/cleanable/blood/New()
 	..()
@@ -39,12 +37,8 @@ var/global/list/image/splatter_cache=list()
 				if(B != src)
 					if (B.blood_DNA)
 						blood_DNA |= B.blood_DNA.Copy()
-					qdel(B)
-	drytime = world.time + DRYING_TIME * (amount+1)
-	processing_objects += src
-
-/obj/effect/decal/cleanable/blood/process()
-	if(world.time > drytime)
+					del(B)
+	spawn(DRYING_TIME * (amount+1))
 		dry()
 
 /obj/effect/decal/cleanable/blood/update_icon()
@@ -57,8 +51,8 @@ var/global/list/image/splatter_cache=list()
 	if(amount < 1)
 		return
 
-	var/obj/item/organ/external/l_foot = perp.get_organ("l_foot")
-	var/obj/item/organ/external/r_foot = perp.get_organ("r_foot")
+	var/datum/organ/external/l_foot = perp.get_organ("l_foot")
+	var/datum/organ/external/r_foot = perp.get_organ("r_foot")
 	var/hasfeet = 1
 	if((!l_foot || l_foot.status & ORGAN_DESTROYED) && (!r_foot || r_foot.status & ORGAN_DESTROYED))
 		hasfeet = 0
@@ -97,7 +91,6 @@ var/global/list/image/splatter_cache=list()
 	desc = drydesc
 	color = adjust_brightness(color, -50)
 	amount = 0
-	processing_objects -= src
 
 /obj/effect/decal/cleanable/blood/attack_hand(mob/living/carbon/human/user)
 	..()
@@ -132,7 +125,8 @@ var/global/list/image/splatter_cache=list()
 
 /obj/effect/decal/cleanable/blood/drip/New()
 	..()
-	drips |= icon_state
+	spawn(1)
+		drips |= icon_state
 
 /obj/effect/decal/cleanable/blood/writing
 	icon_state = "tracks"
@@ -204,7 +198,7 @@ var/global/list/image/splatter_cache=list()
                 for (var/i = 0, i < pick(1, 200; 2, 150; 3, 50; 4), i++)
                         sleep(3)
                         if (i > 0)
-                                var/obj/effect/decal/cleanable/blood/b = PoolOrNew(/obj/effect/decal/cleanable/blood/splatter, src.loc)
+                                var/obj/effect/decal/cleanable/blood/b = new /obj/effect/decal/cleanable/blood/splatter(src.loc)
                                 b.basecolor = src.basecolor
                                 b.update_icon()
                                 for(var/datum/disease/D in src.viruses)

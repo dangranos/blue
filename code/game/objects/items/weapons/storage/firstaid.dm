@@ -130,7 +130,8 @@
 
 /obj/item/weapon/storage/firstaid/surgery
 	name = "surgery kit"
-	desc = "Contains tools for surgery. Has precise foam fitting for safe transport."
+	desc = "Contains tools for surgery."
+	storage_slots = 10
 
 /obj/item/weapon/storage/firstaid/surgery/New()
 	..()
@@ -145,8 +146,7 @@
 	new /obj/item/weapon/bonegel(src)
 	new /obj/item/weapon/FixOVein(src)
 	new /obj/item/stack/medical/advanced/bruise_pack(src)
-
-	make_exact_fit()
+	return
 
 /*
  * Pill Bottles
@@ -289,17 +289,3 @@
 		new /obj/item/weapon/reagent_containers/pill/tramadol( src )
 		new /obj/item/weapon/reagent_containers/pill/tramadol( src )
 		new /obj/item/weapon/reagent_containers/pill/tramadol( src )
-
-/obj/item/weapon/storage/pill_bottle/citalopram
-	name = "bottle of Citalopram pills"
-	desc = "Contains pills used to stabilize a patient's mood."
-
-	New()
-		..()
-		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
-		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
-		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
-		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
-		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
-		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
-		new /obj/item/weapon/reagent_containers/pill/citalopram( src )

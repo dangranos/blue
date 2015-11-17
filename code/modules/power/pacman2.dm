@@ -113,7 +113,7 @@
 					I.loc = src.loc
 				new_frame.state = 2
 				new_frame.icon_state = "box_1"
-				qdel(src)
+				del(src)
 
 	attack_hand(mob/user as mob)
 		..()

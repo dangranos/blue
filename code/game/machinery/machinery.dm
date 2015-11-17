@@ -49,7 +49,7 @@ Class Variables:
 Class Procs:
    New()                     'game/machinery/machine.dm'
 
-   Destroy()                     'game/machinery/machine.dm'
+   Del()                     'game/machinery/machine.dm'
 
    auto_use_power()            'game/machinery/machine.dm'
       This proc determines how power mode power is deducted by the machine.
@@ -121,17 +121,8 @@ Class Procs:
 		machines += src
 		machinery_sort_required = 1
 
-/obj/machinery/Destroy()
+/obj/machinery/Del()
 	machines -= src
-	if(component_parts)
-		for(var/atom/A in component_parts)
-			if(A.loc == src) // If the components are inside the machine, delete them.
-				qdel(A)
-			else // Otherwise we assume they were dropped to the ground during deconstruction, and were not removed from the component_parts list by deconstruction code.
-				component_parts -= A
-	if(contents) // The same for contents.
-		for(var/atom/A in contents)
-			qdel(A)
 	..()
 
 /obj/machinery/process()//If you dont use process or power why are you here
@@ -144,7 +135,7 @@ Class Procs:
 	if(use_power && stat == 0)
 		use_power(7500/severity)
 
-		var/obj/effect/overlay/pulse2 = PoolOrNew(/obj/effect/overlay, src.loc)
+		var/obj/effect/overlay/pulse2 = new/obj/effect/overlay ( src.loc )
 		pulse2.icon = 'icons/effects/effects.dmi'
 		pulse2.icon_state = "empdisable"
 		pulse2.name = "emp sparks"
@@ -152,28 +143,28 @@ Class Procs:
 		pulse2.set_dir(pick(cardinal))
 
 		spawn(10)
-			qdel(pulse2)
+			pulse2.delete()
 	..()
 
 /obj/machinery/ex_act(severity)
 	switch(severity)
 		if(1.0)
-			qdel(src)
+			del(src)
 			return
 		if(2.0)
 			if (prob(50))
-				qdel(src)
+				del(src)
 				return
 		if(3.0)
 			if (prob(25))
-				qdel(src)
+				del(src)
 				return
 		else
 	return
 
 /obj/machinery/blob_act()
 	if(prob(50))
-		qdel(src)
+		del(src)
 
 //sets the use_power var and then forces an area power update
 /obj/machinery/proc/update_use_power(var/new_use_power)
@@ -194,11 +185,8 @@ Class Procs:
 /obj/machinery/proc/inoperable(var/additional_flags = 0)
 	return (stat & (NOPOWER|BROKEN|additional_flags))
 
-/obj/machinery/CanUseTopic(var/mob/user)
-	if(stat & BROKEN)
-		return STATUS_CLOSE
-
-	if(!interact_offline && (stat & NOPOWER))
+/obj/machinery/CanUseTopic(var/mob/user, var/be_close)
+	if(!interact_offline && (stat & (NOPOWER|BROKEN)))
 		return STATUS_CLOSE
 
 	return ..()
@@ -208,7 +196,7 @@ Class Procs:
 	user.set_machine(src)
 
 /obj/machinery/CouldNotUseTopic(var/mob/user)
-	user.unset_machine()
+	usr.unset_machine()
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -227,7 +215,8 @@ Class Procs:
 	if(user.lying || user.stat)
 		return 1
 	if ( ! (istype(usr, /mob/living/carbon/human) || \
-			istype(usr, /mob/living/silicon)))
+			istype(usr, /mob/living/silicon) || \
+			istype(usr, /mob/living/carbon/monkey)) )
 		usr << "\red You don't have the dexterity to do this!"
 		return 1
 /*
@@ -276,8 +265,8 @@ Class Procs:
 	s.start()
 	if (electrocute_mob(user, get_area(src), src, 0.7))
 		var/area/temp_area = get_area(src)
-		if(temp_area)
-			var/obj/machinery/power/apc/temp_apc = temp_area.get_apc()
+		if(temp_area && temp_area.master)
+			var/obj/machinery/power/apc/temp_apc = temp_area.master.get_apc()
 
 			if(temp_apc && temp_apc.terminal && temp_apc.terminal.powernet)
 				temp_apc.terminal.powernet.trigger_warning()
@@ -343,5 +332,65 @@ Class Procs:
 		if(I.reliability != 100 && crit_fail)
 			I.crit_fail = 1
 		I.loc = loc
-	qdel(src)
+	del(src)
 	return 1
+
+/obj/machinery/proc/on_assess_perp(mob/living/carbon/human/perp)
+	return 0
+
+/obj/machinery/proc/is_assess_emagged()
+	return emagged
+
+/obj/machinery/proc/assess_perp(mob/living/carbon/human/perp, var/auth_weapons, var/check_records, var/check_arrest)
+	var/threatcount = 0	//the integer returned
+
+	if(is_assess_emagged())
+		return 10	//if emagged, always return 10.
+
+	//Agent cards lower threatlevel.
+	var/obj/item/weapon/card/id/id = GetIdCard(perp)
+	if(id && istype(id, /obj/item/weapon/card/id/syndicate))
+		threatcount -= 2
+	// A proper	CentCom id is hard currency.
+	else if(id && istype(id, /obj/item/weapon/card/id/centcom))
+		return 0
+
+	threatcount += on_assess_perp(perp)
+	if(threatcount >= 10)
+		return threatcount
+
+	if(auth_weapons && !src.allowed(perp))
+		if(istype(perp.l_hand, /obj/item/weapon/gun) || istype(perp.l_hand, /obj/item/weapon/melee))
+			threatcount += 4
+
+		if(istype(perp.r_hand, /obj/item/weapon/gun) || istype(perp.r_hand, /obj/item/weapon/melee))
+			threatcount += 4
+
+		if(istype(perp.belt, /obj/item/weapon/gun) || istype(perp.belt, /obj/item/weapon/melee))
+			threatcount += 2
+
+		if(perp.species.name != "Human") //beepsky so racist.
+			threatcount += 2
+
+	if(check_records || check_arrest)
+		var/perpname = perp.name
+		if(id)
+			perpname = id.registered_name
+
+		var/datum/data/record/R = find_security_record("name", perpname)
+		if(check_records && !R)
+			threatcount += 4
+
+		if(check_arrest && R && (R.fields["criminal"] == "*Arrest*"))
+			threatcount += 4
+
+	return threatcount
+
+/obj/machinery/attackby(obj/item/W, mob/user)
+	if( istype(W, /obj/item/device/debugger) )
+		if(emagged)
+			user << "\red There is a software error with the device."
+		else
+			user << "\blue The device's software appears to be fine."
+		return 1
+	..()

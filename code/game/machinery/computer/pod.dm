@@ -4,7 +4,6 @@
 	name = "pod launch control console"
 	desc = "A control console for launching pods. Some people prefer firing Mechas."
 	icon_state = "computer_generic"
-	light_color = "#00b000"
 	circuit = /obj/item/weapon/circuitboard/pod
 	var/id = 1.0
 	var/obj/machinery/mass_driver/connected = null
@@ -58,7 +57,7 @@
 			if(stat & BROKEN)
 				user << "\blue The broken glass falls out."
 				var/obj/structure/computerframe/A = new /obj/structure/computerframe( loc )
-				new /obj/item/weapon/material/shard( loc )
+				new /obj/item/weapon/shard( loc )
 
 				//generate appropriate circuitboard. Accounts for /pod/old computer types
 				var/obj/item/weapon/circuitboard/pod/M = null
@@ -78,7 +77,7 @@
 				A.state = 3
 				A.icon_state = "3"
 				A.anchored = 1
-				qdel(src)
+				del(src)
 			else
 				user << "\blue You disconnect the monitor."
 				var/obj/structure/computerframe/A = new /obj/structure/computerframe( loc )
@@ -101,7 +100,7 @@
 				A.state = 4
 				A.icon_state = "4"
 				A.anchored = 1
-				qdel(src)
+				del(src)
 	else
 		attack_hand(user)
 	return

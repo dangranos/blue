@@ -23,7 +23,7 @@
 	spawn(4)
 		// Not really the best way to do this, but it's better than "contents = list()"!
 		for(var/atom/movable/AM in contents)
-			qdel(AM)
+			del(AM)
 		new /obj/item/clothing/under/color/white( src )
 		new /obj/item/clothing/shoes/white( src )
 	return
@@ -55,7 +55,7 @@
 	spawn(4)
 		// Not really the best way to do this, but it's better than "contents = list()"!
 		for(var/atom/movable/AM in contents)
-			qdel(AM)
+			del(AM)
 		new /obj/item/weapon/storage/backpack/satchel/withwallet( src )
 		new /obj/item/device/radio/headset( src )
 	return
@@ -65,10 +65,10 @@
 		if (istype(W, /obj/item/weapon/grab))
 			src.MouseDrop_T(W:affecting, user)      //act like they were dragged onto the closet
 		user.drop_item()
-		if (W) W.forceMove(src.loc)
+		if (W) W.loc = src.loc
 	else if(istype(W, /obj/item/weapon/card/id))
 		if(src.broken)
-			user << "<span class='warning'>It appears to be broken.</span>"
+			user << "\red It appears to be broken."
 			return
 		var/obj/item/weapon/card/id/I = W
 		if(!I || !I.registered_name)	return

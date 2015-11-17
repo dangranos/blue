@@ -15,7 +15,7 @@
 		R.my_atom = src
 		..()
 
-	Destroy()
+	Del()
 		if(key)				//If there is a mob connected to this thing. Have to check key twice to avoid false death reporting.
 			if(stat!=DEAD)	//If not dead.
 				death(1)	//Brains can die again. AND THEY SHOULD AHA HA HA HA HA HA
@@ -48,7 +48,6 @@
 		if (istype(other, /mob/living/carbon/slime))
 			return 1
 		return ..()
-
 
 /mob/living/carbon/brain/update_canmove()
 	if(in_contents_of(/obj/mecha))

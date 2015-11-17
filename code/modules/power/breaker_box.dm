@@ -19,11 +19,6 @@
 	var/RCon_tag = "NO_TAG"
 	var/update_locked = 0
 
-/obj/machinery/power/breakerbox/Destroy()
-	..()
-	for(var/obj/nano_module/rcon/R in world)
-		R.FindDevices()
-
 /obj/machinery/power/breakerbox/activated
 	icon_state = "bbox_on"
 
@@ -122,7 +117,7 @@
 	else
 		icon_state = icon_state_off
 		for(var/obj/structure/cable/C in src.loc)
-			qdel(C)
+			del(C)
 
 // Used by RCON to toggle the breaker box.
 /obj/machinery/power/breakerbox/proc/auto_toggle()

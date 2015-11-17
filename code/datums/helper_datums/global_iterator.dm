@@ -151,8 +151,4 @@ Data storage vars:
 			start()
 		return active()
 
-/datum/global_iterator/Destroy()
-	tag = null
-	arg_list.Cut()
-	stop()
-	//Do not call ..()
+

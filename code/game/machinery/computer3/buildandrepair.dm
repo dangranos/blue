@@ -15,6 +15,7 @@
 	var/list/req_components = null
 	var/powernet = null
 	var/list/records = null
+	var/frame_desc = null
 
 	var/datum/file/program/OS = new/datum/file/program/ntos
 
@@ -93,8 +94,8 @@
 				if(do_after(user, 20))
 					if(!src || !WT.isOn()) return
 					user << "\blue You deconstruct the frame."
-					new /obj/item/stack/material/steel( src.loc, 5 )
-					qdel(src)
+					new /obj/item/stack/sheet/metal( src.loc, 5 )
+					del(src)
 		if(1)
 			if(istype(P, /obj/item/weapon/wrench))
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
@@ -159,7 +160,7 @@
 					if(do_after(user, 20))
 						if(P)
 							P:amount -= 5
-							if(!P:amount) qdel(P)
+							if(!P:amount) del(P)
 							user << "\blue You add cables to the frame."
 							src.state = 3
 							src.icon_state = "3"
@@ -178,14 +179,13 @@
 			if(istype(P, /obj/item/weapon/crowbar)) // complicated check
 				remove_peripheral()
 
-			if(istype(P, /obj/item/stack/material) && P.get_material_name() == "glass")
-				var/obj/item/stack/S = P
-				if(S.amount >= 2)
+			if(istype(P, /obj/item/stack/sheet/glass))
+				if(P:amount >= 2)
 					playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
 					if(do_after(user, 20))
-						if(S)
-							S.use(2)
-							user << "<span class='notice'>You put in the glass panel.</span>"
+						if(P)
+							P:use(2)
+							user << "\blue You put in the glass panel."
 							src.state = 4
 							src.icon_state = "4"
 		if(4)
@@ -194,7 +194,7 @@
 				user << "\blue You remove the glass panel."
 				src.state = 3
 				src.icon_state = "3"
-				new /obj/item/stack/material/glass( src.loc, 2 )
+				new /obj/item/stack/sheet/glass( src.loc, 2 )
 			if(istype(P, /obj/item/weapon/screwdriver))
 				playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
 				user << "\blue You connect the monitor."
@@ -208,7 +208,7 @@
 				if(circuit.OS)
 					circuit.OS.computer = B
 				B.RefreshParts()		// todo
-				qdel(src)
+				del(src)
 
 /*
 	This will remove peripherals if you specify one, but the main function is to

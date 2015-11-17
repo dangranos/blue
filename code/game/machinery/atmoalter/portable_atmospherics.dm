@@ -20,11 +20,6 @@
 
 	return 1
 
-/obj/machinery/portable_atmospherics/Destroy()
-	qdel(air_contents)
-	qdel(holding)
-	..()
-
 /obj/machinery/portable_atmospherics/initialize()
 	. = ..()
 	spawn()
@@ -40,8 +35,8 @@
 	else
 		update_icon()
 
-/obj/machinery/portable_atmospherics/Destroy()
-	qdel(air_contents)
+/obj/machinery/portable_atmospherics/Del()
+	del(air_contents)
 
 	..()
 
@@ -68,7 +63,6 @@
 	//Perform the connection
 	connected_port = new_port
 	connected_port.connected_device = src
-	connected_port.on = 1 //Activate port updates
 
 	anchored = 1 //Prevent movement
 
@@ -163,13 +157,6 @@
 	var/last_power_draw = 0
 	var/obj/item/weapon/cell/cell
 
-/obj/machinery/portable_atmospherics/powered/powered()
-	if(use_power) //using area power
-		return ..()
-	if(cell && cell.charge)
-		return 1
-	return 0
-
 /obj/machinery/portable_atmospherics/powered/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/weapon/cell))
 		if(cell)
@@ -183,7 +170,6 @@
 		cell = C
 		C.loc = src
 		user.visible_message("\blue [user] opens the panel on [src] and inserts [C].", "\blue You open the panel on [src] and insert [C].")
-		power_change()
 		return
 
 	if(istype(I, /obj/item/weapon/screwdriver))
@@ -195,8 +181,8 @@
 		cell.add_fingerprint(user)
 		cell.loc = src.loc
 		cell = null
-		power_change()
 		return
+
 	..()
 
 /obj/machinery/portable_atmospherics/proc/log_open()
