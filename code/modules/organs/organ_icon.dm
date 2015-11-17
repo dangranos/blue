@@ -73,20 +73,15 @@ var/global/list/limb_icon_cache = list()
 
 /obj/item/organ/external/proc/get_icon(var/skeletal)
 
-	var/gender
+	var/gender = (owner && owner.gender == FEMALE)?"f":"m"
+	var/body_build = owner ? (owner.body_build) : 0
+
 	if(force_icon)
-		mob_icon = new /icon(force_icon, "[limb_name]")
+		mob_icon = new /icon(force_icon, "[limb_name]_[gender][body_build]")
 	else
 		if(!owner)
-			mob_icon = new /icon('icons/mob/human_races/r_human.dmi', "[limb_name]_m")
+			mob_icon = new /icon('icons/mob/human_races/r_human.dmi', "[limb_name]_m0")
 		else
-
-			if(owner.gender == FEMALE)
-				gender = "f"
-			else
-				gender = "m"
-			var/body_build = owner.body_build == BODY_SLIM
-
 			if(skeletal)
 				mob_icon = new /icon('icons/mob/human_races/r_skeleton.dmi', "[limb_name]_[gender][body_build]")
 			else if ((status & ORGAN_ROBOT) && !(owner.species && owner.species.flags & IS_SYNTHETIC))
