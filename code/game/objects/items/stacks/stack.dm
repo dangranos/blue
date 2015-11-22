@@ -29,12 +29,12 @@
 		src.amount = amount
 	return
 
-/obj/item/stack/Destroy()
+/obj/item/stack/Del()
 	if(uses_charge)
-		return 1
+		return
 	if (src && usr && usr.machine == src)
 		usr << browse(null, "window=stack")
-	return ..()
+	..()
 
 /obj/item/stack/examine(mob/user)
 	if(..(user, 1))
@@ -68,7 +68,10 @@
 
 		if (istype(E, /datum/stack_recipe_list))
 			var/datum/stack_recipe_list/srl = E
-			t1 += "<a href='?src=\ref[src];sublist=[i]'>[srl.title]</a>"
+			if (src.get_amount() >= srl.req_amount)
+				t1 += "<a href='?src=\ref[src];sublist=[i]'>[srl.title] ([srl.req_amount] [src.singular_name]\s)</a>"
+			else
+				t1 += "[srl.title] ([srl.req_amount] [src.singular_name]\s)<br>"
 
 		if (istype(E, /datum/stack_recipe))
 			var/datum/stack_recipe/R = E
@@ -126,22 +129,17 @@
 			return
 
 	if (use(required))
-		var/atom/O
-		if(recipe.use_material)
-			O = new recipe.result_type(user.loc, recipe.use_material)
-		else
-			O = new recipe.result_type(user.loc)
+		var/atom/O = new recipe.result_type(user.loc)
 		O.set_dir(user.dir)
 		O.add_fingerprint(user)
 
 		if (istype(O, /obj/item/stack))
 			var/obj/item/stack/S = O
 			S.amount = produced
-			S.add_to_stacks(user)
 
 		if (istype(O, /obj/item/weapon/storage)) //BubbleWrap - so newly formed boxes are empty
 			for (var/obj/item/I in O)
-				qdel(I)
+				del(I)
 
 /obj/item/stack/Topic(href, href_list)
 	..()
@@ -152,7 +150,7 @@
 		list_recipes(usr, text2num(href_list["sublist"]))
 
 	if (href_list["make"])
-		if (src.get_amount() < 1) qdel(src) //Never should happen
+		if (src.get_amount() < 1) del(src) //Never should happen
 
 		var/list/recipes_list = recipes
 		if (href_list["sublist"])
@@ -185,14 +183,16 @@
 	if(!uses_charge)
 		amount -= used
 		if (amount <= 0)
-			if(usr)
-				usr.remove_from_mob(src)
-			qdel(src) //should be safe to qdel immediately since if someone is still using this stack it will persist for a little while longer
+			spawn(0) //delete the empty stack once the current context yields
+				if (amount <= 0) //check again in case someone transferred stuff to us
+					if(usr)
+						usr.before_take_item(src)
+					del(src)
 		return 1
 	else
 		if(get_amount() < used)
 			return 0
-		for(var/i = 1 to charge_costs.len)
+		for(var/i = 1 to uses_charge)
 			var/datum/matter_synth/S = synths[i]
 			S.use_charge(charge_costs[i] * used) // Doesn't need to be deleted
 		return 1
@@ -219,10 +219,10 @@
 */
 
 //attempts to transfer amount to S, and returns the amount actually transferred
-/obj/item/stack/proc/transfer_to(obj/item/stack/S, var/tamount=null, var/type_verified)
+/obj/item/stack/proc/transfer_to(obj/item/stack/S, var/tamount=null)
 	if (!get_amount())
 		return 0
-	if ((stacktype != S.stacktype) && !type_verified)
+	if (stacktype != S.stacktype)
 		return 0
 	if (isnull(tamount))
 		tamount = src.get_amount()
@@ -236,6 +236,7 @@
 			transfer_fingerprints_to(S)
 			if(blood_DNA)
 				S.blood_DNA |= blood_DNA
+				//todo bloody overlay
 		return transfer
 	return 0
 
@@ -265,8 +266,8 @@
 			return 0
 		var/datum/matter_synth/S = synths[1]
 		. = round(S.get_charge() / charge_costs[1])
-		if(charge_costs.len > 1)
-			for(var/i = 2 to charge_costs.len)
+		if(uses_charge > 1)
+			for(var/i = 2 to uses_charge)
 				S = synths[i]
 				. = min(., round(S.get_charge() / charge_costs[i]))
 		return
@@ -285,13 +286,13 @@
 		return
 	return max_amount
 
-/obj/item/stack/proc/add_to_stacks(mob/user as mob)
-	for (var/obj/item/stack/item in user.loc)
+/obj/item/stack/proc/add_to_stacks(mob/usr as mob)
+	for (var/obj/item/stack/item in usr.loc)
 		if (item==src)
 			continue
 		var/transfer = src.transfer_to(item)
 		if (transfer)
-			user << "<span class='notice'>You add a new [item.singular_name] to the stack. It now contains [item.amount] [item.singular_name]\s.</span>"
+			usr << "You add a new [item.singular_name] to the stack. It now contains [item.amount] [item.singular_name]\s."
 		if(!amount)
 			break
 
@@ -310,8 +311,10 @@
 	return
 
 /obj/item/stack/attackby(obj/item/W as obj, mob/user as mob)
+	..()
 	if (istype(W, /obj/item/stack))
 		var/obj/item/stack/S = W
+
 		if (user.get_inactive_hand()==src)
 			src.transfer_to(S, 1)
 		else
@@ -322,8 +325,7 @@
 				S.interact(usr)
 			if (src && usr.machine==src)
 				src.interact(usr)
-	else
-		return ..()
+	else return ..()
 
 /*
  * Recipe datum
@@ -337,9 +339,7 @@
 	var/time = 0
 	var/one_per_turf = 0
 	var/on_floor = 0
-	var/use_material
-
-	New(title, result_type, req_amount = 1, res_amount = 1, max_res_amount = 1, time = 0, one_per_turf = 0, on_floor = 0, supplied_material = null)
+	New(title, result_type, req_amount = 1, res_amount = 1, max_res_amount = 1, time = 0, one_per_turf = 0, on_floor = 0)
 		src.title = title
 		src.result_type = result_type
 		src.req_amount = req_amount
@@ -348,7 +348,6 @@
 		src.time = time
 		src.one_per_turf = one_per_turf
 		src.on_floor = on_floor
-		src.use_material = supplied_material
 
 /*
  * Recipe list datum
@@ -356,6 +355,8 @@
 /datum/stack_recipe_list
 	var/title = "ERROR"
 	var/list/recipes = null
-	New(title, recipes)
+	var/req_amount = 1
+	New(title, recipes, req_amount = 1)
 		src.title = title
 		src.recipes = recipes
+		src.req_amount = req_amount

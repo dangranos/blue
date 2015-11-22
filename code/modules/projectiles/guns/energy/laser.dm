@@ -7,7 +7,7 @@
 	slot_flags = SLOT_BELT|SLOT_BACK
 	w_class = 3
 	force = 10
-	matter = list(DEFAULT_WALL_MATERIAL = 2000)
+	matter = list("metal" = 2000)
 	origin_tech = "combat=3;magnets=2"
 	projectile_type = /obj/item/projectile/beam
 	fire_delay = 1 //rapid fire
@@ -43,7 +43,7 @@ obj/item/weapon/gun/energy/retro
 	w_class = 3
 	projectile_type = /obj/item/projectile/beam
 	origin_tech = null
-	max_shots = 5 //to compensate a bit for self-recharging
+	charge_cost = 200 //to compensate a bit for self-recharging
 	self_recharge = 1
 
 /obj/item/weapon/gun/energy/lasercannon
@@ -55,8 +55,7 @@ obj/item/weapon/gun/energy/retro
 	origin_tech = "combat=4;materials=3;powerstorage=3"
 	slot_flags = SLOT_BELT|SLOT_BACK
 	projectile_type = /obj/item/projectile/beam/heavylaser
-	charge_cost = 400
-	max_shots = 5
+	charge_cost = 250
 	fire_delay = 20
 
 /obj/item/weapon/gun/energy/lasercannon/mounted
@@ -73,8 +72,7 @@ obj/item/weapon/gun/energy/retro
 	fire_sound = 'sound/weapons/laser3.ogg'
 	origin_tech = "combat=5;materials=3;magnets=2;syndicate=2"
 	projectile_type = /obj/item/projectile/beam/xray
-	charge_cost = 100
-	max_shots = 20
+	charge_cost = 50
 	fire_delay = 1
 
 /obj/item/weapon/gun/energy/sniperrifle
@@ -86,8 +84,7 @@ obj/item/weapon/gun/energy/retro
 	origin_tech = "combat=6;materials=5;powerstorage=4"
 	projectile_type = /obj/item/projectile/beam/sniper
 	slot_flags = SLOT_BACK
-	charge_cost = 400
-	max_shots = 4
+	charge_cost = 250
 	fire_delay = 35
 	force = 10
 	w_class = 4
@@ -109,7 +106,7 @@ obj/item/weapon/gun/energy/retro
 	desc = "Standard issue weapon of the Imperial Guard"
 	origin_tech = "combat=1;magnets=2"
 	self_recharge = 1
-	matter = list(DEFAULT_WALL_MATERIAL = 2000)
+	matter = list("metal" = 2000)
 	fire_sound = 'sound/weapons/Laser.ogg'
 	projectile_type = /obj/item/projectile/beam/lastertag/blue
 	var/required_vest

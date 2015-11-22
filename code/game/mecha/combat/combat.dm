@@ -25,7 +25,7 @@
 	if(!melee_can_hit || !istype(target, /atom)) return
 	if(istype(target, /mob/living))
 		var/mob/living/M = target
-		if(src.occupant.a_intent == I_HURT)
+		if(src.occupant.a_intent == "hurt")
 			playsound(src, 'sound/weapons/punch4.ogg', 50, 1)
 			if(damtype == "brute")
 				step_away(M,src,15)
@@ -41,7 +41,7 @@
 				var/mob/living/carbon/human/H = target
 	//			if (M.health <= 0) return
 
-				var/obj/item/organ/external/temp = H.get_organ(pick("chest", "chest", "chest", "head"))
+				var/datum/organ/external/temp = H.get_organ(pick("chest", "chest", "chest", "head"))
 				if(temp)
 					var/update = 0
 					switch(damtype)

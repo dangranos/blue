@@ -2,7 +2,7 @@
 	name = "Human"
 	name_plural = "Humans"
 	language = "Sol Common"
-	primitive_form = "Monkey"
+	primitive = /mob/living/carbon/monkey
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/punch, /datum/unarmed_attack/bite)
 	blurb = "Humanity originated in the Sol system, and over the last five centuries has spread \
 	colonies across a wide swathe of space. They hold a wide range of forms and creeds.<br/><br/> \
@@ -21,9 +21,8 @@
 	deform = 'icons/mob/human_races/r_def_lizard.dmi'
 	language = "Sinta'unathi"
 	tail = "sogtail"
-	tail_animation = 'icons/mob/species/unathi/tail.dmi'
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
-	primitive_form = "Stok"
+	primitive = /mob/living/carbon/monkey/unathi
 	darksight = 3
 	gluttonous = 1
 
@@ -71,10 +70,6 @@
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
 
-/datum/species/unathi/equip_survival_gear(var/mob/living/carbon/human/H)
-	..()
-	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes)
-
 /datum/species/tajaran
 	name = "Tajara"
 	name_plural = "Tajaran"
@@ -82,7 +77,6 @@
 	deform = 'icons/mob/human_races/r_def_tajaran.dmi'
 	language = "Siik'tajr"
 	tail = "tajtail"
-	tail_animation = 'icons/mob/species/tajaran/tail.dmi'
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
 	darksight = 8
 	slowdown = -1
@@ -102,7 +96,7 @@
 	heat_level_2 = 380 //Default 400
 	heat_level_3 = 800 //Default 1000
 
-	primitive_form = "Farwa"
+	primitive = /mob/living/carbon/monkey/tajara
 
 	flags = CAN_JOIN | IS_WHITELISTED | HAS_LIPS | HAS_UNDERWEAR | HAS_SKIN_COLOR | HAS_EYE_COLOR
 
@@ -122,10 +116,6 @@
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ð" = "ðð", "Ð" = "Ðð")
 
-/datum/species/tajaran/equip_survival_gear(var/mob/living/carbon/human/H)
-	..()
-	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes)
-
 /datum/species/skrell
 	name = "Skrell"
 	name_plural = "Skrell"
@@ -133,7 +123,7 @@
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
 	eyes = "skrell_eyes_s"
 	language = "Skrellian"
-	primitive_form = "Neaera"
+	primitive = /mob/living/carbon/monkey/skrell
 	unarmed_types = list(/datum/unarmed_attack/punch)
 	blurb = "An amphibious species, Skrell come from the star system known as Qerr'Vallis, which translates to 'Star of \
 	the royals' or 'Light of the Crown'.<br/><br/>Skrell are a highly advanced and logical race who live under the rule \
@@ -146,11 +136,12 @@
 	flesh_color = "#8CD7A3"
 	blood_color = "#1D2CBF"
 	base_color = "#006666"
-
 	reagent_tag = IS_SKRELL
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Warden",\
 						"Detective", "Security Officer", "Station Engineer", "Atmospheric Technician",\
 						"Quartermaster", "Cargo Technician", "Shaft Miner")
+
+	allow_slim_fem = 1
 
 /datum/species/diona
 	name = "Diona"
@@ -159,14 +150,11 @@
 	deform = 'icons/mob/human_races/r_def_plant.dmi'
 	language = "Rootspeak"
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/diona)
-	//primitive_form = "Nymph"
+	primitive = /mob/living/carbon/alien/diona
 	slowdown = 7
 	rarity_value = 3
 	hud_type = /datum/hud_data/diona
 	siemens_coefficient = 0.3
-	eyes = "blank_eyes"
-	show_ssd = "completely quiescent"
-
 
 	blurb = "Commonly referred to (erroneously) as 'plant people', the Dionaea are a strange space-dwelling collective \
 	species hailing from Epsilon Ursae Minoris. Each 'diona' is a cluster of numerous cat-sized organisms called nymphs; \
@@ -177,30 +165,12 @@
 	water and other radiation."
 
 	has_organ = list(
-		"nutrient channel" =   /obj/item/organ/diona/nutrients,
-		"neural strata" =      /obj/item/organ/diona/strata,
-		"response node" =      /obj/item/organ/diona/node,
-		"gas bladder" =        /obj/item/organ/diona/bladder,
-		"polyp segment" =      /obj/item/organ/diona/polyp,
-		"anchoring ligament" = /obj/item/organ/diona/ligament
-		)
-
-	has_limbs = list(
-		"chest" =  list("path" = /obj/item/organ/external/diona/chest),
-		"groin" =  list("path" = /obj/item/organ/external/diona/groin),
-		"head" =   list("path" = /obj/item/organ/external/diona/head),
-		"l_arm" =  list("path" = /obj/item/organ/external/diona/arm),
-		"r_arm" =  list("path" = /obj/item/organ/external/diona/arm/right),
-		"l_leg" =  list("path" = /obj/item/organ/external/diona/leg),
-		"r_leg" =  list("path" = /obj/item/organ/external/diona/leg/right),
-		"l_hand" = list("path" = /obj/item/organ/external/diona/hand),
-		"r_hand" = list("path" = /obj/item/organ/external/diona/hand/right),
-		"l_foot" = list("path" = /obj/item/organ/external/diona/foot),
-		"r_foot" = list("path" = /obj/item/organ/external/diona/foot/right)
-		)
-
-	inherent_verbs = list(
-		/mob/living/carbon/human/proc/diona_split_nymph
+		"nutrient channel" =   /datum/organ/internal/diona/nutrients,
+		"neural strata" =      /datum/organ/internal/diona/strata,
+		"response node" =      /datum/organ/internal/diona/node,
+		"gas bladder" =        /datum/organ/internal/diona/bladder,
+		"polyp segment" =      /datum/organ/internal/diona/polyp,
+		"anchoring ligament" = /datum/organ/internal/diona/ligament
 		)
 
 	warning_low_pressure = 50
@@ -216,7 +186,7 @@
 
 	body_temperature = T0C + 15		//make the plant people have a bit lower body temperature, why not
 
-	flags = CAN_JOIN | IS_WHITELISTED | NO_BREATHE | NO_SCAN | IS_PLANT | NO_BLOOD | NO_PAIN | NO_SLIP | REGENERATES_LIMBS
+	flags = CAN_JOIN | IS_WHITELISTED | NO_BREATHE | NO_SCAN | IS_PLANT | NO_BLOOD | NO_PAIN | NO_SLIP | HAS_EYE_COLOR
 
 	blood_color = "#004400"
 	flesh_color = "#907E4A"
@@ -233,12 +203,6 @@
 		return 1
 	return 0
 
-/datum/species/diona/equip_survival_gear(var/mob/living/carbon/human/H)
-	if(H.backbag == 1)
-		H.equip_to_slot_or_del(new /obj/item/device/flashlight/flare(H), slot_r_hand)
-	else
-		H.equip_to_slot_or_del(new /obj/item/device/flashlight/flare(H.back), slot_in_backpack)
-
 /datum/species/diona/handle_post_spawn(var/mob/living/carbon/human/H)
 	H.gender = NEUTER
 	return ..()
@@ -254,13 +218,13 @@
 		if(D.client)
 			D.loc = H.loc
 		else
-			qdel(D)
+			del(D)
 
 	H.visible_message("\red[H] splits apart with a wet slithering noise!")
 
 /datum/species/machine
 	name = "Machine"
-	name_plural = "machines"
+	name_plural = "Machines"
 
 	icobase = 'icons/mob/human_races/r_machine.dmi'
 	deform = 'icons/mob/human_races/r_machine.dmi'
@@ -271,7 +235,6 @@
 	eyes = "blank_eyes"
 	brute_mod = 0.5
 	burn_mod = 1
-	show_ssd = "flashing a 'system offline' glyph on their monitor"
 
 	warning_low_pressure = 50
 	hazard_low_pressure = 0
@@ -292,13 +255,6 @@
 	flesh_color = "#575757"
 
 	has_organ = list() //TODO: Positronic brain.
-
-	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
-						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist",\
-						"Psychiatrist", "Paramedic", "Quartermaster", "Shaft Miner", "Internal Affairs Agent")
-
-/datum/species/machine/equip_survival_gear(var/mob/living/carbon/human/H)
 
 /datum/species/machine/handle_death(var/mob/living/carbon/human/H)
 	..()

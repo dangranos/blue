@@ -129,7 +129,6 @@
 	var/watertemp = "normal"	//freezing, normal, or boiling
 	var/mobpresent = 0		//true if there is a mob on the shower's loc, this is to ease process()
 	var/is_washing = 0
-	var/list/temperature_settings = list("normal" = 310, "boiling" = T0C+100, "freezing" = T0C)
 
 /obj/machinery/shower/New()
 	..()
@@ -151,7 +150,7 @@
 	if(on)
 		if (M.loc == loc)
 			wash(M)
-			process_heat(M)
+			check_heat(M)
 		for (var/atom/movable/G in src.loc)
 			G.clean_blood()
 
@@ -159,37 +158,41 @@
 	if(I.type == /obj/item/device/analyzer)
 		user << "<span class='notice'>The water temperature seems to be [watertemp].</span>"
 	if(istype(I, /obj/item/weapon/wrench))
-		var/newtemp = input(user, "What setting would you like to set the temperature valve to?", "Water Temperature Valve") in temperature_settings
 		user << "<span class='notice'>You begin to adjust the temperature valve with \the [I].</span>"
-		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 		if(do_after(user, 50))
-			watertemp = newtemp
+			switch(watertemp)
+				if("normal")
+					watertemp = "freezing"
+				if("freezing")
+					watertemp = "boiling"
+				if("boiling")
+					watertemp = "normal"
 			user.visible_message("<span class='notice'>[user] adjusts the shower with \the [I].</span>", "<span class='notice'>You adjust the shower with \the [I].</span>")
 			add_fingerprint(user)
 
 /obj/machinery/shower/update_icon()	//this is terribly unreadable, but basically it makes the shower mist up
 	overlays.Cut()					//once it's been on for a while, in addition to handling the water overlay.
 	if(mymist)
-		qdel(mymist)
+		del(mymist)
 
 	if(on)
 		overlays += image('icons/obj/watercloset.dmi', src, "water", MOB_LAYER + 1, dir)
-		if(temperature_settings[watertemp] < T20C)
-			return //no mist for cold water
+		if(watertemp == "freezing")
+			return
 		if(!ismist)
 			spawn(50)
 				if(src && on)
 					ismist = 1
-					mymist = PoolOrNew(/obj/effect/mist,loc)
+					mymist = new /obj/effect/mist(loc)
 		else
 			ismist = 1
-			mymist = PoolOrNew(/obj/effect/mist,loc)
+			mymist = new /obj/effect/mist(loc)
 	else if(ismist)
 		ismist = 1
-		mymist = PoolOrNew(/obj/effect/mist,loc)
+		mymist = new /obj/effect/mist(loc)
 		spawn(250)
 			if(src && !on)
-				qdel(mymist)
+				del(mymist)
 				ismist = 0
 
 /obj/machinery/shower/Crossed(atom/movable/O)
@@ -197,7 +200,7 @@
 	wash(O)
 	if(ismob(O))
 		mobpresent += 1
-		process_heat(O)
+		check_heat(O)
 
 /obj/machinery/shower/Uncrossed(atom/movable/O)
 	if(ismob(O))
@@ -222,12 +225,6 @@
 		if(M.back)
 			if(M.back.clean_blood())
 				M.update_inv_back(0)
-
-		//flush away reagents on the skin
-		if(M.touching)
-			var/remove_amount = M.touching.maximum_volume * M.reagent_permeability() //take off your suit first
-			M.touching.remove_any(remove_amount)
-
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			var/washgloves = 1
@@ -295,14 +292,14 @@
 		loc.clean_blood()
 		for(var/obj/effect/E in tile)
 			if(istype(E,/obj/effect/rune) || istype(E,/obj/effect/decal/cleanable) || istype(E,/obj/effect/overlay))
-				qdel(E)
+				del(E)
 
 /obj/machinery/shower/process()
 	if(!on) return
 	wash_floor()
 	if(!mobpresent)	return
-	for(var/mob/living/L in loc)
-		process_heat(L)
+	for(var/mob/living/carbon/C in loc)
+		check_heat(C)
 
 /obj/machinery/shower/proc/wash_floor()
 	if(!ismist && is_washing)
@@ -314,19 +311,22 @@
 	spawn(100)
 		is_washing = 0
 
-/obj/machinery/shower/proc/process_heat(mob/living/M)
-	if(!on || !istype(M)) return
-	
-	var/temperature = temperature_settings[watertemp]
-	var/temp_adj = between(BODYTEMP_COOLING_MAX, temperature - M.bodytemperature, BODYTEMP_HEATING_MAX)
-	M.bodytemperature += temp_adj
-	
-	if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if(temperature >= H.species.heat_level_1)
-			H << "<span class='danger'>The water is searing hot!</span>"
-		else if(temperature <= H.species.cold_level_1)
-			H << "<span class='warning'>The water is freezing cold!</span>"
+/obj/machinery/shower/proc/check_heat(mob/M as mob)
+	if(!on || watertemp == "normal") return
+	if(iscarbon(M))
+		var/mob/living/carbon/C = M
+
+		if(watertemp == "freezing")
+			C.bodytemperature = max(80, C.bodytemperature - 80)
+			C << "<span class='warning'>The water is freezing!</span>"
+			return
+		if(watertemp == "boiling")
+			C.bodytemperature = min(500, C.bodytemperature + 35)
+			C.adjustFireLoss(5)
+			C << "<span class='danger'>The water is searing!</span>"
+			return
+
+
 
 /obj/item/weapon/bikehorn/rubberducky
 	name = "rubber ducky"
@@ -346,13 +346,12 @@
 	var/busy = 0 	//Something's being washed at the moment
 
 /obj/structure/sink/attack_hand(mob/user as mob)
-	if (ishuman(user))
-		var/mob/living/carbon/human/H = user
-		var/obj/item/organ/external/temp = H.organs_by_name["r_hand"]
+	if (hasorgans(user))
+		var/datum/organ/external/temp = user:organs_by_name["r_hand"]
 		if (user.hand)
-			temp = H.organs_by_name["l_hand"]
+			temp = user:organs_by_name["l_hand"]
 		if(temp && !temp.is_usable())
-			user << "<span class='notice'>You try to move your [temp.name], but cannot!"
+			user << "<span class='notice'>You try to move your [temp.display_name], but cannot!"
 			return
 
 	if(isrobot(user) || isAI(user))
@@ -408,9 +407,6 @@
 					"<span class='danger'>[user] was stunned by \his wet [O]!</span>", \
 					"<span class='userdanger'>[user] was stunned by \his wet [O]!</span>")
 				return
-	// Short of a rewrite, this is necessary to stop monkeycubes being washed.
-	else if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/monkeycube))
-		return
 
 	var/turf/location = user.loc
 	if(!isturf(location)) return

@@ -146,7 +146,6 @@
 		H.eyes_r   = dna.GetUIValueRange(DNA_UI_EYES_R,    255)
 		H.eyes_g   = dna.GetUIValueRange(DNA_UI_EYES_G,    255)
 		H.eyes_b   = dna.GetUIValueRange(DNA_UI_EYES_B,    255)
-		H.update_eyes()
 
 		H.s_tone   = 35 - dna.GetUIValueRange(DNA_UI_SKIN_TONE, 220) // Value can be negative.
 
@@ -167,8 +166,7 @@
 		if((0 < beard) && (beard <= facial_hair_styles_list.len))
 			H.f_style = facial_hair_styles_list[beard]
 
-		H.force_update_limbs()
-		H.update_eyes(0)
+		H.update_body(0)
 		H.update_hair()
 
 		return 1

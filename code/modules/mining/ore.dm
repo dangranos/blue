@@ -2,73 +2,72 @@
 	name = "rock"
 	icon = 'icons/obj/mining.dmi'
 	icon_state = "ore2"
-	w_class = 2
 	var/datum/geosample/geologic_data
-	var/material
+	var/oretag
 
 /obj/item/weapon/ore/uranium
 	name = "pitchblende"
-	icon_state = "ore_uranium"
+	icon_state = "Uranium ore"
 	origin_tech = "materials=5"
-	material = "uranium"
+	oretag = "uranium"
 
 /obj/item/weapon/ore/iron
 	name = "hematite"
-	icon_state = "ore_iron"
+	icon_state = "Iron ore"
 	origin_tech = "materials=1"
-	material = "hematite"
+	oretag = "hematite"
 
 /obj/item/weapon/ore/coal
-	name = "raw carbon"
-	icon_state = "ore_coal"
+	name = "carbonaceous rock"
+	icon_state = "Coal ore"
 	origin_tech = "materials=1"
-	material = "carbon"
+	oretag = "coal"
 
 /obj/item/weapon/ore/glass
 	name = "impure silicates"
-	icon_state = "ore_glass"
+	icon_state = "Glass ore"
 	origin_tech = "materials=1"
-	material = "sand"
+	oretag = "sand"
 
 /obj/item/weapon/ore/phoron
 	name = "phoron crystals"
-	icon_state = "ore_phoron"
+	icon_state = "Phoron ore"
 	origin_tech = "materials=2"
-	material = "phoron"
+	oretag = "phoron"
 
 /obj/item/weapon/ore/silver
 	name = "native silver ore"
-	icon_state = "ore_silver"
+	icon_state = "Silver ore"
 	origin_tech = "materials=3"
-	material = "silver"
+	oretag = "silver"
 
 /obj/item/weapon/ore/gold
 	name = "native gold ore"
-	icon_state = "ore_gold"
+	icon_state = "Gold ore"
 	origin_tech = "materials=4"
-	material = "gold"
+	oretag = "gold"
 
 /obj/item/weapon/ore/diamond
 	name = "diamonds"
-	icon_state = "ore_diamond"
+	icon_state = "Diamond ore"
 	origin_tech = "materials=6"
-	material = "diamond"
+	oretag = "diamond"
 
 /obj/item/weapon/ore/osmium
 	name = "raw platinum"
-	icon_state = "ore_platinum"
-	material = "platinum"
+	icon_state = "Platinum ore"
+	oretag = "platinum"
 
 /obj/item/weapon/ore/hydrogen
 	name = "raw hydrogen"
-	icon_state = "ore_hydrogen"
-	material = "mhydrogen"
+	icon_state = "Phazon"
+	oretag = "hydrogen"
 
 /obj/item/weapon/ore/slag
 	name = "Slag"
-	desc = "Someone screwed up..."
+	desc = "Completely useless"
 	icon_state = "slag"
-	material = null
+	oretag = "slag"
 
 /obj/item/weapon/ore/New()
 	pixel_x = rand(0,16)-8

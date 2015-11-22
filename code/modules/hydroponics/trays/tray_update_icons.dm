@@ -36,9 +36,7 @@
 			if(age >= seed.get_trait(TRAIT_MATURATION))
 				overlay_stage = seed.growth_stages
 			else
-				var/maturation = seed.get_trait(TRAIT_MATURATION)/seed.growth_stages
-				if(maturation < 1)
-					maturation = 1
+				var/maturation = round(seed.get_trait(TRAIT_MATURATION)/seed.growth_stages)
 				overlay_stage = maturation ? max(1,round(age/maturation)) : 1
 			var/ikey = "[seed.get_trait(TRAIT_PLANT_ICON)]-[overlay_stage]"
 			var/image/plant_overlay = plant_controller.plant_icon_cache["[ikey]-[seed.get_trait(TRAIT_PLANT_COLOUR)]"]
@@ -75,11 +73,12 @@
 	// Update bioluminescence.
 	if(seed)
 		if(seed.get_trait(TRAIT_BIOLUM))
-			var/clr
+			SetLuminosity(round(seed.get_trait(TRAIT_POTENCY)/10))
 			if(seed.get_trait(TRAIT_BIOLUM_COLOUR))
-				clr = seed.get_trait(TRAIT_BIOLUM_COLOUR)
-			set_light(round(seed.get_trait(TRAIT_POTENCY)/10), l_color = clr)
+				l_color = seed.get_trait(TRAIT_BIOLUM_COLOUR)
+			else
+				l_color = null
 			return
 
-	set_light(0)
+	SetLuminosity(0)
 	return

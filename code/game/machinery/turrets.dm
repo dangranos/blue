@@ -13,6 +13,9 @@
 
 /area/turret_protected/Entered(O)
 	..()
+	if( master && master != src )
+		return master.Entered(O)
+
 	if( iscarbon(O) )
 		turretTargets |= O
 	else if( istype(O, /obj/mecha) )
@@ -24,6 +27,9 @@
 	return 1
 
 /area/turret_protected/Exited(O)
+	if( master && master != src )
+		return master.Exited(O)
+
 	if( ismob(O) && !issilicon(O) )
 		turretTargets -= O
 	else if( istype(O, /obj/mecha) )
@@ -51,8 +57,6 @@
 		// 5 = bluetag
 		// 6 = redtag
 	var/health = 80
-	var/maxhealth = 80
-	var/auto_repair = 0
 	var/obj/machinery/turretcover/cover = null
 	var/popping = 0
 	var/wasvalid = 0
@@ -70,7 +74,7 @@
 /obj/machinery/turret/proc/take_damage(damage)
 	src.health -= damage
 	if(src.health<=0)
-		qdel(src)
+		del src
 	return
 
 /obj/machinery/turret/attack_hand(var/mob/living/carbon/human/user)
@@ -92,7 +96,6 @@
 	return
 
 /obj/machinery/turret/New()
-	maxhealth = health
 	spark_system = new /datum/effect/effect/system/spark_spread
 	spark_system.set_up(5, 0, src)
 	spark_system.attach(src)
@@ -102,7 +105,7 @@
 
 /obj/machinery/turret/proc/update_health()
 	if(src.health<=0)
-		qdel(src)
+		del src
 	return
 
 /obj/machinery/turretcover
@@ -145,6 +148,8 @@
 /obj/machinery/turret/proc/get_protected_area()
 	var/area/turret_protected/TP = get_area(src)
 	if(istype(TP))
+		if(TP.master && TP.master != TP)
+			TP = TP.master
 		return TP
 	return
 
@@ -224,13 +229,6 @@
 		if(!isDown())
 			popDown()
 			use_power = 1
-
-	// Auto repair requires massive amount of power, but slowly regenerates the turret's health.
-	// Currently only used by malfunction hardware, but may be used as admin-settable option too.
-	if(auto_repair)
-		if(health < maxhealth)
-			use_power(20000)
-			health = min(health + 1, maxhealth)
 	return
 
 
@@ -266,17 +264,7 @@
 	else
 		A = new /obj/item/projectile/energy/electrode( loc )
 		use_power(200)
-	
-	//Turrets aim for the center of mass by default.
-	//If the target is grabbing someone then the turret smartly aims for extremities
-	var/obj/item/weapon/grab/G = locate() in target
-	if(G && G.state >= GRAB_NECK) //works because mobs are currently not allowed to upgrade to NECK if they are grabbing two people.
-		A.def_zone = pick("head", "l_hand", "r_hand", "l_foot", "r_foot", "l_arm", "r_arm", "l_leg", "r_leg")
-	else
-		A.def_zone = pick("chest", "groin")
-	
 	A.current = T
-	A.starting = T
 	A.yo = U.y - T.y
 	A.xo = U.x - T.x
 	spawn( 0 )
@@ -316,7 +304,7 @@
 	src.health -= Proj.damage
 	..()
 	if(prob(45) && Proj.damage > 0) src.spark_system.start()
-	qdel (Proj)
+	del (Proj)
 	if (src.health <= 0)
 		src.die()
 	return
@@ -348,11 +336,11 @@
 	src.stat |= BROKEN
 	src.icon_state = "destroyed_target_prism"
 	if (cover!=null)
-		qdel(cover)
+		del(cover)
 	sleep(3)
 	flick("explosion", src)
 	spawn(13)
-		qdel(src)
+		del(src)
 
 /obj/machinery/turret/attack_generic(var/mob/user, var/damage, var/attack_message)
 	if(!damage)
@@ -360,7 +348,6 @@
 	if(stat & BROKEN)
 		user << "That object is useless to you."
 		return 0
-	user.do_attack_animation(src)
 	visible_message("<span class='danger'>[user] [attack_message] the [src]!</span>")
 	user.attack_log += text("\[[time_stamp()]\] <font color='red'>attacked [src.name]</font>")
 	src.health -= damage
@@ -388,7 +375,7 @@
 	proc/take_damage(damage)
 		src.health -= damage
 		if(src.health<=0)
-			qdel(src)
+			del src
 		return
 
 
@@ -401,15 +388,15 @@
 
 
 	ex_act()
-		qdel(src)
+		del src
 		return
 
 	emp_act()
-		qdel(src)
+		del src
 		return
 
 	meteorhit()
-		qdel(src)
+		del src
 		return
 
 	attack_hand(mob/user as mob)

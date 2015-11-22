@@ -8,8 +8,6 @@
 	throwforce = 10
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 
-/obj/item/weapon/melee/cultblade/cultify()
-	return
 
 /obj/item/weapon/melee/cultblade/attack(mob/living/target as mob, mob/living/carbon/human/user as mob)
 	if(iscultist(user))
@@ -19,7 +17,7 @@
 		user.Paralyse(5)
 		user << "\red An unexplicable force powerfully repels the sword from [target]!"
 		var/organ = ((user.hand ? "l_":"r_") + "arm")
-		var/obj/item/organ/external/affecting = user.get_organ(organ)
+		var/datum/organ/external/affecting = user.get_organ(organ)
 		if(affecting.take_damage(rand(force/2, force))) //random amount of damage between half of the blade's force and the full force of the blade.
 			user.UpdateDamageIcon()
 	return
@@ -42,21 +40,14 @@
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0
 
-/obj/item/clothing/head/culthood/cultify()
-	return
-
-/obj/item/clothing/head/culthood/magus
-	name = "magus helm"
-	icon_state = "magus"
-	item_state = "magus"
-	desc = "A helm worn by the followers of Nar-Sie."
-	flags_inv = HIDEFACE
-	flags = HEADCOVERSEYES | HEADCOVERSMOUTH | BLOCKHAIR
-	body_parts_covered = HEAD|FACE|EYES
 
 /obj/item/clothing/head/culthood/alt
 	icon_state = "cult_hoodalt"
 	item_state = "cult_hoodalt"
+
+/obj/item/clothing/suit/cultrobes/alt
+	icon_state = "cultrobesalt"
+	item_state = "cultrobesalt"
 
 /obj/item/clothing/suit/cultrobes
 	name = "cult robes"
@@ -67,22 +58,30 @@
 	allowed = list(/obj/item/weapon/book/tome,/obj/item/weapon/melee/cultblade)
 	armor = list(melee = 50, bullet = 30, laser = 50,energy = 20, bomb = 25, bio = 10, rad = 0)
 	flags_inv = HIDEJUMPSUIT
+	flags = ONLY_DEFAULT_BODY
 	siemens_coefficient = 0
 
-/obj/item/clothing/suit/cultrobes/cultify()
-	return
+/obj/item/clothing/head/magus
+	name = "magus helm"
+	icon_state = "magus"
+	item_state = "magus"
+	desc = "A helm worn by the followers of Nar-Sie."
+	flags_inv = HIDEFACE
+	flags = HEADCOVERSEYES | HEADCOVERSMOUTH | BLOCKHAIR
+	body_parts_covered = HEAD|FACE|EYES
+	armor = list(melee = 30, bullet = 30, laser = 30,energy = 20, bomb = 0, bio = 0, rad = 0)
+	siemens_coefficient = 0
 
-/obj/item/clothing/suit/cultrobes/alt
-	icon_state = "cultrobesalt"
-	item_state = "cultrobesalt"
-
-/obj/item/clothing/suit/cultrobes/magusred
+/obj/item/clothing/suit/magusred
 	name = "magus robes"
 	desc = "A set of armored robes worn by the followers of Nar-Sie"
 	icon_state = "magusred"
 	item_state = "magusred"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+	allowed = list(/obj/item/weapon/book/tome,/obj/item/weapon/melee/cultblade)
+	armor = list(melee = 50, bullet = 30, laser = 50,energy = 20, bomb = 25, bio = 10, rad = 0)
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
+	siemens_coefficient = 0
 
 /obj/item/clothing/head/helmet/space/cult
 	name = "cult helmet"
@@ -92,8 +91,6 @@
 	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
 	siemens_coefficient = 0
 
-/obj/item/clothing/head/helmet/space/cult/cultify()
-	return
 
 /obj/item/clothing/suit/space/cult
 	name = "cult armour"
@@ -106,6 +103,4 @@
 	armor = list(melee = 60, bullet = 50, laser = 30,energy = 15, bomb = 30, bio = 30, rad = 30)
 	siemens_coefficient = 0
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS|HANDS
-
-/obj/item/clothing/suit/space/cult/cultify()
-	return
+	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | STOPPRESSUREDAMAGE | THICKMATERIAL | AIRTIGHT | ONLY_DEFAULT_BODY

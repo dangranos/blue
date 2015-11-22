@@ -48,6 +48,7 @@
 	max_shells = 7 //match the ammo box capacity, also it can hold a round in the chamber anyways, for a total of 8.
 	ammo_type = /obj/item/ammo_casing/shotgun
 
+
 /obj/item/weapon/gun/projectile/shotgun/doublebarrel
 	name = "double-barreled shotgun"
 	desc = "A true classic."
@@ -66,23 +67,11 @@
 	origin_tech = "combat=3;materials=1"
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
 	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
-	
-	burst_delay = 0
-	firemodes = list(
-		list(name="fire one barrel at a time", burst=1),
-		list(name="fire both barrels at once", burst=2),
-		)
-
-/obj/item/weapon/gun/projectile/shotgun/doublebarrel/pellet
-	ammo_type = /obj/item/ammo_casing/shotgun/pellet
 
 /obj/item/weapon/gun/projectile/shotgun/doublebarrel/flare
 	name = "signal shotgun"
 	desc = "A double-barreled shotgun meant to fire signal flash shells."
 	ammo_type = /obj/item/ammo_casing/shotgun/flash
-
-/obj/item/weapon/gun/projectile/shotgun/doublebarrel/unload_ammo(user, allow_dump)
-	..(user, allow_dump=1)
 
 //this is largely hacky and bad :(	-Pete
 /obj/item/weapon/gun/projectile/shotgun/doublebarrel/attackby(var/obj/item/A as obj, mob/user as mob)
@@ -96,9 +85,8 @@
 			return
 		if(do_after(user, 30))	//SHIT IS STEALTHY EYYYYY
 			icon_state = "sawnshotgun"
-			item_state = "sawnshotgun"
 			w_class = 3
-			force = 5
+			item_state = "gun"
 			slot_flags &= ~SLOT_BACK	//you can't sling it on your back
 			slot_flags |= (SLOT_BELT|SLOT_HOLSTER) //but you can wear it on your belt (poorly concealed under a trenchcoat, ideally) - or in a holster, why not.
 			name = "sawn-off shotgun"
@@ -106,13 +94,3 @@
 			user << "<span class='warning'>You shorten the barrel of \the [src]!</span>"
 	else
 		..()
-
-/obj/item/weapon/gun/projectile/shotgun/doublebarrel/sawn
-	name = "sawn-off shotgun"
-	desc = "Omar's coming!"
-	icon_state = "sawnshotgun"
-	item_state = "sawnshotgun"
-	slot_flags = SLOT_BELT|SLOT_HOLSTER
-	ammo_type = /obj/item/ammo_casing/shotgun/pellet
-	w_class = 3
-	force = 5

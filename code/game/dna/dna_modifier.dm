@@ -19,6 +19,7 @@
 	var/languages=null
 	var/list/flavor=null
 
+
 /datum/dna2/record/proc/GetData()
 	var/list/ser=list("data" = null, "owner" = null, "label" = null, "type" = null, "ue" = 0)
 	if(dna)
@@ -99,7 +100,7 @@
 
 	if (usr.stat != 0)
 		return
-	if (!ishuman(usr) && !issmall(usr)) //Make sure they're a mob that has dna
+	if (!ishuman(usr) && !ismonkey(usr)) //Make sure they're a mob that has dna
 		usr << "\blue Try as you might, you can not climb up into the scanner."
 		return
 	if (src.occupant)
@@ -141,7 +142,7 @@
 		return
 	put_in(G.affecting)
 	src.add_fingerprint(user)
-	qdel(G)
+	del(G)
 	return
 
 /obj/machinery/dna_scannernew/proc/put_in(var/mob/M)
@@ -184,7 +185,7 @@
 				ex_act(severity)
 				//Foreach goto(35)
 			//SN src = null
-			qdel(src)
+			del(src)
 			return
 		if(2.0)
 			if (prob(50))
@@ -193,7 +194,7 @@
 					ex_act(severity)
 					//Foreach goto(108)
 				//SN src = null
-				qdel(src)
+				del(src)
 				return
 		if(3.0)
 			if (prob(25))
@@ -202,7 +203,7 @@
 					ex_act(severity)
 					//Foreach goto(181)
 				//SN src = null
-				qdel(src)
+				del(src)
 				return
 		else
 	return
@@ -212,7 +213,7 @@
 	if(prob(75))
 		for(var/atom/movable/A as mob|obj in src)
 			A.loc = src.loc
-		qdel(src)
+		del(src)
 
 /obj/machinery/computer/scan_consolenew
 	name = "DNA Modifier Access Console"
@@ -259,12 +260,12 @@
 	switch(severity)
 		if(1.0)
 			//SN src = null
-			qdel(src)
+			del(src)
 			return
 		if(2.0)
 			if (prob(50))
 				//SN src = null
-				qdel(src)
+				del(src)
 				return
 		else
 	return
@@ -272,7 +273,7 @@
 /obj/machinery/computer/scan_consolenew/blob_act()
 
 	if(prob(75))
-		qdel(src)
+		del(src)
 
 /obj/machinery/computer/scan_consolenew/power_change()
 	..()
@@ -595,7 +596,8 @@
 			inject_amount = 0
 		if (inject_amount > 50)
 			inject_amount = 50
-		connected.beaker.reagents.trans_to_mob(connected.occupant, inject_amount, CHEM_BLOOD)
+		connected.beaker.reagents.trans_to(connected.occupant, inject_amount)
+		connected.beaker.reagents.reaction(connected.occupant)
 		return 1 // return 1 forces an update to all Nano uis attached to src
 
 	////////////////////////////////////////////////////////
@@ -733,7 +735,7 @@
 
 		if (bufferOption == "changeLabel")
 			var/datum/dna2/record/buf = src.buffers[bufferId]
-			var/text = sanitize(input(usr, "New Label:", "Edit Label", buf.name) as text|null, MAX_NAME_LEN)
+			var/text = sanitize(copytext(input(usr, "New Label:", "Edit Label", buf.name) as text|null, 1, MAX_NAME_LEN))
 			buf.name = text
 			src.buffers[bufferId] = buf
 			return 1

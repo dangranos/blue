@@ -279,7 +279,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/scanning_goggles
 	display_name = "scanning goggles"
-	path = /obj/item/clothing/glasses/regular/scanners
+	path = /obj/item/clothing/glasses/fluff/uzenwa_sissra_1
 	cost = 1
 	slot = slot_glasses
 
@@ -304,18 +304,17 @@ var/global/list/gear_datums = list()
 	allowed_roles = list("Chief Medical Officer","Medical Doctor","Paramedic")
 
 /datum/gear/thugshades
-	display_name = "Sunglasses, Fat"
+	display_name = "Sunglasses, Fat (Security)"
 	path = /obj/item/clothing/glasses/sunglasses/big
 	cost = 1
 	slot = slot_glasses
-	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent","Quartermaster","Head of Personnel","Captain")
+	allowed_roles = list("Security Officer","Head of Security","Warden")
 
 /datum/gear/prescriptionsun
 	display_name = "sunglasses, presciption"
 	path = /obj/item/clothing/glasses/sunglasses/prescription
 	cost = 2
 	slot = slot_glasses
-	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent","Quartermaster","Head of Personnel","Captain")
 
 // Mask
 
@@ -903,14 +902,14 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/gloves/latex
 	cost = 2
 	slot = slot_gloves
-/*
+
 /datum/gear/latex_gloves
 	display_name = "gloves, latex, tajaran"
 	path = /obj/item/clothing/gloves/fluff/murad_hassim_1
 	cost = 3
 	slot = slot_gloves
 	whitelisted = "Tajara"
-*/
+
 /datum/gear/orange_gloves
 	display_name = "gloves, orange"
 	path = /obj/item/clothing/gloves/orange
@@ -951,13 +950,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/toeless_jackboots
 	display_name = "toe-less jackboots"
-	path = /obj/item/clothing/shoes/jackboots/unathi
-	cost = 1
-	slot = slot_shoes
-
-/datum/gear/workboots
-	display_name = "workboots"
-	path = /obj/item/clothing/shoes/workboots
+	path = /obj/item/clothing/shoes/jackboots/fluff/kecer_eldraran
 	cost = 1
 	slot = slot_shoes
 
@@ -1099,7 +1092,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/ashtray
 	display_name = "ashtray, plastic"
-	path = /obj/item/weapon/material/ashtray/plastic
+	path = /obj/item/ashtray/plastic
 	sort_category = "misc"
 	cost = 1
 

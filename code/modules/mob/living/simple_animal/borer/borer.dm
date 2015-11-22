@@ -1,3 +1,5 @@
+/datum/game_mode/var/list/borers = list()
+
 /mob/living/simple_animal/borer
 	name = "cortical borer"
 	real_name = "cortical borer"
@@ -11,7 +13,7 @@
 	icon_living = "brainslug"
 	icon_dead = "brainslug_dead"
 	speed = 5
-	a_intent = I_HURT
+	a_intent = "harm"
 	stop_automated_movement = 1
 	status_flags = CANPUSH
 	attacktext = "nipped"
@@ -33,11 +35,6 @@
 
 /mob/living/simple_animal/borer/roundstart
 	roundstart = 1
-
-/mob/living/simple_animal/borer/Login()
-	..()
-	if(mind)
-		borers.add_antagonist(mind)
 
 /mob/living/simple_animal/borer/New()
 	..()
@@ -105,7 +102,7 @@
 
 	if(istype(host,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = host
-		var/obj/item/organ/external/head = H.get_organ("head")
+		var/datum/organ/external/head = H.get_organ("head")
 		head.implants -= src
 
 	controlling = 0
@@ -148,14 +145,18 @@
 		if(!host.lastKnownIP)
 			host.lastKnownIP = b2h_ip
 
-	qdel(host_brain)
+	del(host_brain)
 
 /mob/living/simple_animal/borer/proc/leave_host()
 
 	if(!host) return
 
 	if(host.mind)
-		borers.remove_antagonist(host.mind)
+		//If they're not a proper traitor, reset their antag status.
+		if(host.mind.special_role == "Borer Thrall")
+			host << "<span class ='danger'>You are no longer an antagonist.</span>"
+			ticker.mode.borers -= host.mind
+			host.mind.special_role = null
 
 	src.loc = get_turf(host)
 
@@ -208,5 +209,5 @@
 	your host and your eventual spawn safe and warm."
 	src << "You can speak to your victim with <b>say</b>, to other borers with <b>say :x</b>, and use your Abilities tab to access powers."
 
-/mob/living/simple_animal/borer/cannot_use_vents()
+/mob/living/simple_animal/borer/can_use_vents()
 	return

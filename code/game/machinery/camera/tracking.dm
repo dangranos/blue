@@ -15,6 +15,7 @@
 	cameranet.process_sort()
 
 	var/list/T = list()
+	T["Cancel"] = "Cancel"
 	for (var/obj/machinery/camera/C in cameranet.cameras)
 		var/list/tempnetwork = C.network&src.network
 		if (tempnetwork.len)
@@ -29,10 +30,11 @@
 	set category = "AI Commands"
 	set name = "Show Camera List"
 
-	if(check_unable())
+	if(src.stat == 2)
+		src << "You can't list the cameras because you are dead!"
 		return
 
-	if (!camera)
+	if (!camera || camera == "Cancel")
 		return 0
 
 	var/obj/machinery/camera/C = track.cameras[camera]
@@ -45,7 +47,7 @@
 	set name = "Store Camera Location"
 	set desc = "Stores your current camera location by the given name"
 
-	loc = sanitize(loc)
+	loc = sanitize(copytext(loc, 1, MAX_MESSAGE_LEN))
 	if(!loc)
 		src << "\red Must supply a location name"
 		return
@@ -211,7 +213,7 @@
 mob/living/proc/near_camera()
 	if (!isturf(loc))
 		return 0
-	else if(!cameranet.checkVis(src))
+	else if(!cameranet.checkCameraVis(src))
 		return 0
 	return 1
 

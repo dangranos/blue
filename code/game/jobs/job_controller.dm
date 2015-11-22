@@ -22,10 +22,9 @@ var/global/datum/controller/occupations/job_master
 		for(var/J in all_jobs)
 			var/datum/job/job = new J()
 			if(!job)	continue
+			if(job.title == "MODE") continue
 			if(job.faction != faction)	continue
 			occupations += job
-
-
 		return 1
 
 
@@ -41,6 +40,7 @@ var/global/datum/controller/occupations/job_master
 			if(!J)	continue
 			if(J.title == rank)	return J
 		return null
+
 
 	proc/GetPlayerAltTitle(mob/new_player/player, rank)
 		return player.client.prefs.GetPlayerAltTitle(GetJob(rank))
@@ -233,11 +233,10 @@ var/global/datum/controller/occupations/job_master
 		SetupOccupations()
 
 		//Holder for Triumvirate is stored in the ticker, this just processes it
-		if(ticker && ticker.triai)
-			for(var/datum/job/A in occupations)
-				if(A.title == "AI")
+		if(ticker)
+			for(var/datum/job/ai/A in occupations)
+				if(ticker.triai)
 					A.spawn_positions = 3
-					break
 
 		//Get the players who are ready
 		for(var/mob/new_player/player in player_list)
@@ -250,11 +249,9 @@ var/global/datum/controller/occupations/job_master
 		//Shuffle players and jobs
 		unassigned = shuffle(unassigned)
 
-		HandleFeedbackGathering()
-
 		//People who wants to be assistants, sure, go on.
 		Debug("DO, Running Assistant Check 1")
-		var/datum/job/assist = new DEFAULT_JOB_TYPE ()
+		var/datum/job/assist = new /datum/job/assistant()
 		var/list/assistant_candidates = FindOccupationCandidates(assist, 3)
 		Debug("AC1, Candidates: [assistant_candidates.len]")
 		for(var/mob/new_player/player in assistant_candidates)
@@ -360,6 +357,7 @@ var/global/datum/controller/occupations/job_master
 
 
 	proc/EquipRank(var/mob/living/carbon/human/H, var/rank, var/joined_late = 0)
+
 		if(!H)	return null
 
 		var/datum/job/job = GetJob(rank)
@@ -405,6 +403,10 @@ var/global/datum/controller/occupations/job_master
 			//Equip job items.
 			job.equip(H)
 			job.apply_fingerprints(H)
+			if(!joined_late)
+				if(rank == "Bartender")
+					var/mob/living/carbon/monkey/Pun = locate("Pun Pun")
+					if(Pun) Pun.setMaster(H)
 
 			//If some custom items could not be equipped before, try again now.
 			for(var/thing in custom_equip_leftovers)
@@ -478,28 +480,40 @@ var/global/datum/controller/occupations/job_master
 					return H.Robotize()
 				if("AI")
 					return H
-				if("Captain")
-					var/sound/announce_sound = (ticker.current_state <= GAME_STATE_SETTING_UP)? null : sound('sound/misc/boatswain.ogg', volume=20)
-					captain_announcement.Announce("All hands, Captain [H.real_name] on deck!", new_sound=announce_sound)
-
-			//Deferred item spawning.
-			if(spawn_in_storage && spawn_in_storage.len)
-				var/obj/item/weapon/storage/B
-				for(var/obj/item/weapon/storage/S in H.contents)
-					B = S
-					break
-
-				if(!isnull(B))
-					for(var/thing in spawn_in_storage)
-						H << "\blue Placing [thing] in your [B]!"
-						var/datum/gear/G = gear_datums[thing]
-						new G.path(B)
+				if("Clown")	//don't need bag preference stuff!
 				else
-					H << "\red Failed to locate a storage object on your mob, either you spawned with no arms and no backpack or this is a bug."
+					//Deferred item spawning.
+					if(spawn_in_storage && spawn_in_storage.len)
+						var/obj/item/weapon/storage/B
+						for(var/obj/item/weapon/storage/S in H.contents)
+							B = S
+							break
+
+						if(!isnull(B))
+							for(var/thing in spawn_in_storage)
+								H << "\blue Placing [thing] in your [B]!"
+								var/datum/gear/G = gear_datums[thing]
+								new G.path(B)
+						else
+							H << "\red Failed to locate a storage object on your mob, either you spawned with no arms and no backpack or this is a bug."
+
+		//TODO: Generalize this by-species
+		if(H.species)
+			if(H.species.name == "Tajara" || H.species.name == "Unathi")
+				H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes,1)
+			else if(H.species.name == "Vox")
+				H.equip_to_slot_or_del(new /obj/item/clothing/mask/breath(H), slot_wear_mask)
+				if(!H.r_hand)
+					H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_r_hand)
+					H.internal = H.r_hand
+				else if (!H.l_hand)
+					H.equip_to_slot_or_del(new /obj/item/weapon/tank/nitrogen(H), slot_l_hand)
+					H.internal = H.l_hand
+				H.internals.icon_state = "internal1"
 
 		if(istype(H)) //give humans wheelchairs, if they need them.
-			var/obj/item/organ/external/l_foot = H.get_organ("l_foot")
-			var/obj/item/organ/external/r_foot = H.get_organ("r_foot")
+			var/datum/organ/external/l_foot = H.get_organ("l_foot")
+			var/datum/organ/external/r_foot = H.get_organ("r_foot")
 			if((!l_foot || l_foot.status & ORGAN_DESTROYED) && (!r_foot || r_foot.status & ORGAN_DESTROYED))
 				var/obj/structure/bed/chair/wheelchair/W = new /obj/structure/bed/chair/wheelchair(H.loc)
 				H.buckled = W
@@ -508,18 +522,14 @@ var/global/datum/controller/occupations/job_master
 				W.buckled_mob = H
 				W.add_fingerprint(H)
 
-		H << "<B>You are [job.total_positions == 1 ? "the" : "a"] [alt_title ? alt_title : rank].</B>"
-
-		if(job.supervisors)
-			H << "<b>As the [alt_title ? alt_title : rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>"
-
-		if(job.idtype)
-			spawnId(H, rank, alt_title)
-			H.equip_to_slot_or_del(new /obj/item/device/radio/headset(H), slot_l_ear)
-			H << "<b>To speak on your department's radio channel use :h. For the use of other channels, examine your headset.</b>"
-
+		H << "<B>You are the [alt_title ? alt_title : rank].</B>"
+		H << "<b>As the [alt_title ? alt_title : rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>"
+		H << "<b>To speak on your department's radio channel use :h. For the use of other channels, examine your headset.</b>"
 		if(job.req_admin_notify)
 			H << "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>"
+
+		spawnId(H, rank, alt_title)
+		H.equip_to_slot_or_del(new /obj/item/device/radio/headset(H), slot_l_ear)
 
 		//Gives glasses to the vision impaired
 		if(H.disabilities & NEARSIGHTED)
@@ -527,6 +537,7 @@ var/global/datum/controller/occupations/job_master
 			if(equipped != 1)
 				var/obj/item/clothing/glasses/G = H.glasses
 				G.prescription = 1
+//		H.update_icons()
 
 		BITSET(H.hud_updateflag, ID_HUD)
 		BITSET(H.hud_updateflag, IMPLOYAL_HUD)
@@ -538,11 +549,7 @@ var/global/datum/controller/occupations/job_master
 		if(!H)	return 0
 		var/obj/item/weapon/card/id/C = null
 
-		var/datum/job/job = null
-		for(var/datum/job/J in occupations)
-			if(J.title == rank)
-				job = J
-				break
+		var/datum/job/job = GetJob(rank)
 
 		if(job)
 			if(job.title == "Cyborg")
@@ -607,33 +614,3 @@ var/global/datum/controller/occupations/job_master
 					J.total_positions = 0
 
 		return 1
-
-
-	proc/HandleFeedbackGathering()
-		for(var/datum/job/job in occupations)
-			var/tmp_str = "|[job.title]|"
-
-			var/level1 = 0 //high
-			var/level2 = 0 //medium
-			var/level3 = 0 //low
-			var/level4 = 0 //never
-			var/level5 = 0 //banned
-			var/level6 = 0 //account too young
-			for(var/mob/new_player/player in player_list)
-				if(!(player.ready && player.mind && !player.mind.assigned_role))
-					continue //This player is not ready
-				if(jobban_isbanned(player, job.title))
-					level5++
-					continue
-				if(!job.player_old_enough(player.client))
-					level6++
-					continue
-				if(player.client.prefs.GetJobDepartment(job, 1) & job.flag)
-					level1++
-				else if(player.client.prefs.GetJobDepartment(job, 2) & job.flag)
-					level2++
-				else if(player.client.prefs.GetJobDepartment(job, 3) & job.flag)
-					level3++
-				else level4++ //not selected
-
-			tmp_str += "HIGH=[level1]|MEDIUM=[level2]|LOW=[level3]|NEVER=[level4]|BANNED=[level5]|YOUNG=[level6]|-"

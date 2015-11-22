@@ -309,7 +309,7 @@
 		gender = FEMALE
 
 	kagami
-		name = "Pigtails"
+		name = "Kagami Hair"
 		icon_state = "hair_kagami"
 		gender = FEMALE
 
@@ -474,11 +474,6 @@
 	icp_screen_monoeye
 		name = "monoeye IPC screen"
 		icon_state = "ipc_monoeye"
-		species_allowed = list("Machine")
-
-	icp_screen_kitty
-		name = "kitty IPC screen"
-		icon_state = "ipc_kitty"
 		species_allowed = list("Machine")
 
 	icp_screen_nature

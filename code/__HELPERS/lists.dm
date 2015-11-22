@@ -30,13 +30,6 @@
 
 		return "[output][and_text][input[index]]"
 
-
-/proc/ConvertReqString2List(var/list/source_list)
-	var/list/temp_list = params2list(source_list)
-	for(var/O in temp_list)
-		temp_list[O] = text2num(temp_list[O])
-	return temp_list
-
 //Returns list element or null. Should prevent "index out of bounds" error.
 proc/listgetindex(var/list/list,index)
 	if(istype(list) && list.len)
@@ -71,17 +64,11 @@ proc/isemptylist(list/list)
 			return 1
 	return 0
 
-/proc/instances_of_type_in_list(var/atom/A, var/list/L)
-	var/instances = 0
-	for(var/type in L)
-		if(istype(A, type))
-			instances++
-	return instances
-
-//Empties the list by .Cut(). Setting lenght = 0 has been confirmed to leak references.
-proc/clearlist(var/list/L)
-	if(islist(L))
-		L.Cut()
+//Empties the list by setting the length to 0. Hopefully the elements get garbage collected
+proc/clearlist(list/list)
+	if(istype(list))
+		list.len = 0
+	return
 
 //Removes any null entries from the list
 proc/listclearnulls(list/list)
@@ -188,9 +175,11 @@ proc/listclearnulls(list/list)
 
 //Return a list with no duplicate entries
 /proc/uniquelist(var/list/L)
-	. = list()
-	for(var/i in L)
-		. |= i
+	var/list/K = list()
+	for(var/item in L)
+		if(!(item in K))
+			K += item
+	return K
 
 //Mergesort: divides up the list into halves to begin the sort
 /proc/sortKey(var/list/client/L, var/order = 1)
@@ -604,18 +593,11 @@ datum/proc/dd_SortValue()
 	return "[src]"
 
 /obj/machinery/dd_SortValue()
-	return "[sanitize_old(name)]"
+	return "[sanitize(name)]"
 
 /obj/machinery/camera/dd_SortValue()
 	return "[c_tag]"
 
 /datum/alarm/dd_SortValue()
-	return "[sanitize_old(last_name)]"
+	return "[sanitize(last_name)]"
 
-//creates every subtype of prototype (excluding prototype) and adds it to list L.
-//if no list/L is provided, one is created.
-/proc/init_subtypes(prototype, list/L)
-	if(!istype(L))	L = list()
-	for(var/path in (typesof(prototype) - prototype))
-		L += new path()
-	return L

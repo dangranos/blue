@@ -3,7 +3,7 @@
 /obj/machinery/bot
 	icon = 'icons/obj/aibots.dmi'
 	layer = MOB_LAYER
-	light_range = 3
+	luminosity = 3
 	use_power = 0
 	var/obj/item/weapon/card/id/botcard			// the ID card that the bot "holds"
 	var/on = 1
@@ -15,18 +15,19 @@
 	var/locked = 1
 	//var/emagged = 0 //Urist: Moving that var to the general /bot tree as it's used by most bots
 
+
 /obj/machinery/bot/proc/turn_on()
 	if(stat)	return 0
 	on = 1
-	set_light(initial(light_range))
+	SetLuminosity(initial(luminosity))
 	return 1
 
 /obj/machinery/bot/proc/turn_off()
 	on = 0
-	set_light(0)
+	SetLuminosity(0)
 
 /obj/machinery/bot/proc/explode()
-	qdel(src)
+	del(src)
 
 /obj/machinery/bot/proc/healthcheck()
 	if (src.health <= 0)
@@ -116,7 +117,7 @@
 /obj/machinery/bot/emp_act(severity)
 	var/was_on = on
 	stat |= EMPED
-	var/obj/effect/overlay/pulse2 = PoolOrNew(/obj/effect/overlay, src.loc )
+	var/obj/effect/overlay/pulse2 = new/obj/effect/overlay ( src.loc )
 	pulse2.icon = 'icons/effects/effects.dmi'
 	pulse2.icon_state = "empdisable"
 	pulse2.name = "emp sparks"
@@ -124,7 +125,7 @@
 	pulse2.set_dir(pick(cardinal))
 
 	spawn(10)
-		qdel(pulse2)
+		pulse2.delete()
 	if (on)
 		turn_off()
 	spawn(severity*300)

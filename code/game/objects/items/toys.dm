@@ -8,6 +8,7 @@
  *		Toy swords
  *		Toy bosun's whistle
  *      Toy mechs
+ *		Crayons
  *		Snap pops
  *		Water flower
  *      Therapy dolls
@@ -47,7 +48,7 @@
 /obj/item/toy/balloon/afterattack(atom/A as mob|obj, mob/user as mob, proximity)
 	if(!proximity) return
 	if (istype(A, /obj/structure/reagent_dispensers/watertank) && get_dist(src,A) <= 1)
-		A.reagents.trans_to_obj(src, 10)
+		A.reagents.trans_to(src, 10)
 		user << "\blue You fill the balloon with the contents of [A]."
 		src.desc = "A translucent balloon with some form of liquid sloshing around in it."
 		src.update_icon()
@@ -61,25 +62,25 @@
 			else if(O.reagents.total_volume >= 1)
 				if(O.reagents.has_reagent("pacid", 1))
 					user << "The acid chews through the balloon!"
-					O.reagents.splash(user, reagents.total_volume)
-					qdel(src)
+					O.reagents.reaction(user)
+					del(src)
 				else
 					src.desc = "A translucent balloon with some form of liquid sloshing around in it."
 					user << "\blue You fill the balloon with the contents of [O]."
-					O.reagents.trans_to_obj(src, 10)
+					O.reagents.trans_to(src, 10)
 	src.update_icon()
 	return
 
 /obj/item/toy/balloon/throw_impact(atom/hit_atom)
 	if(src.reagents.total_volume >= 1)
 		src.visible_message("\red The [src] bursts!","You hear a pop and a splash.")
-		src.reagents.touch_turf(get_turf(hit_atom))
+		src.reagents.reaction(get_turf(hit_atom))
 		for(var/atom/A in get_turf(hit_atom))
-			src.reagents.touch(A)
+			src.reagents.reaction(A)
 		src.icon_state = "burst"
 		spawn(5)
 			if(src)
-				qdel(src)
+				del(src)
 	return
 
 /obj/item/toy/balloon/update_icon()
@@ -150,7 +151,7 @@
 	slot_flags = SLOT_BELT|SLOT_HOLSTER
 	w_class = 3.0
 
-	matter = list("glass" = 10,DEFAULT_WALL_MATERIAL = 10)
+	matter = list("glass" = 10,"metal" = 10)
 
 	attack_verb = list("struck", "pistol whipped", "hit", "bashed")
 	var/bullets = 7.0
@@ -205,7 +206,7 @@
 	flags = CONDUCT
 	w_class = 1.0
 
-	matter = list(DEFAULT_WALL_MATERIAL = 10,"glass" = 10)
+	matter = list("metal" = 10,"glass" = 10)
 
 	var/amount_left = 7.0
 
@@ -240,7 +241,7 @@
 		if(istype(I, /obj/item/toy/ammo/crossbow))
 			if(bullets <= 4)
 				user.drop_item()
-				qdel(I)
+				del(I)
 				bullets++
 				user << "\blue You load the foam dart into the crossbow."
 			else
@@ -272,21 +273,21 @@
 						for(var/mob/O in viewers(world.view, D))
 							O.show_message(text("\red [] was hit by the foam dart!", M), 1)
 						new /obj/item/toy/ammo/crossbow(M.loc)
-						qdel(D)
+						del(D)
 						return
 
 					for(var/atom/A in D.loc)
 						if(A == user) continue
 						if(A.density)
 							new /obj/item/toy/ammo/crossbow(A.loc)
-							qdel(D)
+							del(D)
 
 				sleep(1)
 
 			spawn(10)
 				if(D)
 					new /obj/item/toy/ammo/crossbow(D.loc)
-					qdel(D)
+					del(D)
 
 			return
 		else if (bullets == 0)
@@ -322,7 +323,6 @@
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "foamdart"
 	w_class = 1.0
-	slot_flags = SLOT_EARS
 
 /obj/effect/foam_dart_dummy
 	name = ""
@@ -384,6 +384,31 @@
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced")
 
 /*
+ * Crayons
+ */
+
+/obj/item/toy/crayon
+	name = "crayon"
+	desc = "A colourful crayon. Please refrain from eating it or putting it in your nose."
+	icon = 'icons/obj/crayons.dmi'
+	icon_state = "crayonred"
+	w_class = 1.0
+	attack_verb = list("attacked", "coloured")
+	var/colour = "#FF0000" //RGB
+	var/shadeColour = "#220000" //RGB
+	var/uses = 30 //0 for unlimited uses
+	var/instant = 0
+	var/colourName = "red" //for updateIcon purposes
+
+	suicide_act(mob/user)
+		viewers(user) << "\red <b>[user] is jamming the [src.name] up \his nose and into \his brain. It looks like \he's trying to commit suicide.</b>"
+		return (BRUTELOSS|OXYLOSS)
+
+	New()
+		name = "[colourName] crayon"
+		..()
+
+/*
  * Snap pops
  */
 /obj/item/toy/snappop
@@ -401,7 +426,7 @@
 		new /obj/effect/decal/cleanable/ash(src.loc)
 		src.visible_message("\red The [src.name] explodes!","\red You hear a snap!")
 		playsound(src, 'sound/effects/snap.ogg', 50, 1)
-		qdel(src)
+		del(src)
 
 /obj/item/toy/snappop/Crossed(H as mob|obj)
 	if((ishuman(H))) //i guess carp and shit shouldn't set them off
@@ -415,7 +440,7 @@
 			new /obj/effect/decal/cleanable/ash(src.loc)
 			src.visible_message("\red The [src.name] explodes!","\red You hear a snap!")
 			playsound(src, 'sound/effects/snap.ogg', 50, 1)
-			qdel(src)
+			del(src)
 
 /*
  * Water flower
@@ -423,7 +448,7 @@
 /obj/item/toy/waterflower
 	name = "water flower"
 	desc = "A seemingly innocent sunflower...with a twist."
-	icon = 'icons/obj/device.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "sunflower"
 	item_state = "sunflower"
 	var/empty = 0
@@ -465,19 +490,19 @@
 		D.icon = 'icons/obj/chemical.dmi'
 		D.icon_state = "chempuff"
 		D.create_reagents(5)
-		src.reagents.trans_to_obj(D, 1)
+		src.reagents.trans_to(D, 1)
 		playsound(src.loc, 'sound/effects/spray3.ogg', 50, 1, -6)
 
 		spawn(0)
 			for(var/i=0, i<1, i++)
 				step_towards(D,A)
-				D.reagents.touch_turf(get_turf(D))
+				D.reagents.reaction(get_turf(D))
 				for(var/atom/T in get_turf(D))
-					D.reagents.touch(T)
+					D.reagents.reaction(T)
 					if(ismob(T) && T:client)
 						T:client << "\red [user] has sprayed you with water!"
 				sleep(4)
-			qdel(D)
+			del(D)
 
 		return
 
@@ -495,8 +520,6 @@
  	icon = 'icons/obj/toy.dmi'
  	icon_state = "bosunwhistle"
  	var/cooldown = 0
-	w_class = 1
-	slot_flags = SLOT_EARS
 
 /obj/item/toy/bosunwhistle/attack_self(mob/user as mob)
 	if(cooldown < world.time - 35)
@@ -858,11 +881,11 @@
 	var/phrase = "I don't want to exist anymore!"
 
 /obj/structure/plushie/attack_hand(mob/user)
-	if(user.a_intent == I_HELP)
+	if(user.a_intent == "help")
 		user.visible_message("<span class='notice'><b>[user]</b> hugs [src]!</span>","<span class='notice'>You hug [src]!</span>")
-	else if (user.a_intent == I_HURT)
+	else if (user.a_intent == "hurt")
 		user.visible_message("<span class='warning'><b>[user]</b> punches [src]!</span>","<span class='warning'>You punch [src]!</span>")
-	else if (user.a_intent == I_GRAB)
+	else if (user.a_intent == "grab")
 		user.visible_message("<span class='warning'><b>[user]</b> attempts to strangle [src]!</span>","<span class='warning'>You attempt to strangle [src]!</span>")
 	else
 		user.visible_message("<span class='notice'><b>[user]</b> pokes the [src].</span>","<span class='notice'>You poke the [src].</span>")
@@ -900,11 +923,11 @@
 	icon_state = "nymphplushie"
 
 /obj/item/toy/plushie/attack_self(mob/user as mob)
-	if(user.a_intent == I_HELP)
+	if(user.a_intent == "help")
 		user.visible_message("<span class='notice'><b>[user]</b> hugs [src]!</span>","<span class='notice'>You hug [src]!</span>")
-	else if (user.a_intent == I_HURT)
+	else if (user.a_intent == "hurt")
 		user.visible_message("<span class='warning'><b>[user]</b> punches [src]!</span>","<span class='warning'>You punch [src]!</span>")
-	else if (user.a_intent == I_GRAB)
+	else if (user.a_intent == "grab")
 		user.visible_message("<span class='warning'><b>[user]</b> attempts to strangle [src]!</span>","<span class='warning'>You attempt to strangle [src]!</span>")
 	else
 		user.visible_message("<span class='notice'><b>[user]</b> pokes the [src].</span>","<span class='notice'>You poke the [src].</span>")
@@ -933,11 +956,6 @@
 	name = "spider plush"
 	desc = "A plushie of a fuzzy spider! It has eight legs - all the better to hug you with."
 	icon_state = "spiderplushie"
-
-/obj/item/toy/plushie/farwa
-	name = "farwa plush"
-	desc = "A farwa plush doll. It's soft and comforting!"
-	icon_state = "farwaplushie"
 
 //Toy cult sword
 /obj/item/toy/cultsword

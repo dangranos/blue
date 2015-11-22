@@ -37,10 +37,10 @@
 
 /obj/item/radio/integrated/beepsky
 	var/list/botlist = null		// list of bots
-	var/mob/living/bot/secbot/active 	// the active bot; if null, show bot list
+	var/obj/machinery/bot/secbot/active 	// the active bot; if null, show bot list
 	var/list/botstatus			// the status signal sent by the bot
 
-	var/control_freq = BOT_FREQ
+	var/control_freq = AI_FREQ
 
 	// create a new QM cartridge, and register to receive bot control & beacon message
 	New()
@@ -99,12 +99,6 @@
 				post_signal(control_freq, "command", "summon", "active", active, "target", get_turf(PDA) , s_filter = RADIO_SECBOT)
 				post_signal(control_freq, "command", "bot_status", "active", active, s_filter = RADIO_SECBOT)
 
-
-/obj/item/radio/integrated/beepsky/Destroy()
-	if(radio_controller)
-		radio_controller.remove_object(src, control_freq)
-	..()
-
 /obj/item/radio/integrated/mule
 	var/list/botlist = null		// list of bots
 	var/obj/machinery/bot/mulebot/active 	// the active bot; if null, show bot list
@@ -112,7 +106,7 @@
 	var/list/beacons
 
 	var/beacon_freq = 1400
-	var/control_freq = BOT_FREQ
+	var/control_freq = AI_FREQ
 
 	// create a new QM cartridge, and register to receive bot control & beacon message
 	New()
@@ -217,10 +211,12 @@
 	var/last_transmission
 	var/datum/radio_frequency/radio_connection
 
-	initialize()
-		if(!radio_controller)
-			return
+	New()
+		..()
+		if(radio_controller)
+			initialize()
 
+	initialize()
 		if (src.frequency < 1441 || src.frequency > 1489)
 			src.frequency = sanitize_frequency(src.frequency)
 
@@ -249,8 +245,3 @@
 		radio_connection.post_signal(src, signal)
 
 		return
-
-/obj/item/radio/integrated/signal/Destroy()
-	if(radio_controller)
-		radio_controller.remove_object(src, frequency)
-	..()

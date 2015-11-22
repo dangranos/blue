@@ -2,8 +2,7 @@
 
 var/cultwords = list()
 var/runedec = 0
-var/global/list/engwords = list("travel", "blood", "join", "hell", "destroy", "technology", "self", "see", "other", "hide")
-var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","mgar","balaq", "karazet", "geeri")
+var/engwords = list("travel", "blood", "join", "hell", "destroy", "technology", "self", "see", "other", "hide")
 
 /client/proc/check_words() // -- Urist
 	set category = "Special Verbs"
@@ -15,7 +14,7 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 		usr << "[cultwords[word]] is [word]"
 
 /proc/runerandom() //randomizes word meaning
-	var/list/runewords=rnwords
+	var/list/runewords=list("ire","ego","nahlizet","certum","veri","jatkaa","mgar","balaq", "karazet", "geeri") ///"orkan" and "allaq" removed.
 	for (var/word in engwords)
 		cultwords[word] = pick(runewords)
 		runewords-=cultwords[word]
@@ -33,9 +32,8 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 	var/word1
 	var/word2
 	var/word3
-	var/image/blood_image
 	var/list/converting = list()
-
+	
 // Places these combos are mentioned: this file - twice in the rune code, once in imbued tome, once in tome's HTML runes.dm - in the imbue rune code. If you change a combination - dont forget to change it everywhere.
 
 // travel self [word] - Teleport to random [rune with word destination matching]
@@ -67,21 +65,10 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 // join hide technology - stun rune. Rune color: bright pink.
 	New()
 		..()
-		blood_image = image(loc = src)
-		blood_image.override = 1
+		var/image/blood = image(loc = src)
+		blood.override = 1
 		for(var/mob/living/silicon/ai/AI in player_list)
-			if(AI.client)
-				AI.client.images += blood_image
-		rune_list.Add(src)
-
-	Destroy()
-		for(var/mob/living/silicon/ai/AI in player_list)
-			if(AI.client)
-				AI.client.images -= blood_image
-		qdel(blood_image)
-		blood_image = null
-		rune_list.Remove(src)
-		..()
+			AI.client.images += blood
 
 	examine(mob/user)
 		..()
@@ -92,11 +79,11 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 	attackby(I as obj, user as mob)
 		if(istype(I, /obj/item/weapon/book/tome) && iscultist(user))
 			user << "You retrace your steps, carefully undoing the lines of the rune."
-			qdel(src)
+			del(src)
 			return
 		else if(istype(I, /obj/item/weapon/nullrod))
 			user << "\blue You disrupt the vile magic with the deadening field of the null rod!"
-			qdel(src)
+			del(src)
 			return
 		return
 
@@ -339,7 +326,7 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 
 	attack(mob/living/M as mob, mob/living/user as mob)
 
-		M.attack_log += text("\[[time_stamp()]\] <font color='orange'>Has had the [name] used on them by [user.name] ([user.ckey])</font>")
+		M.attack_log += text("\[[time_stamp()]\] <font color='orange'>Has had the [name] used on him by [user.name] ([user.ckey])</font>")
 		user.attack_log += text("\[[time_stamp()]\] <font color='red'>Used [name] on [M.name] ([M.ckey])</font>")
 		msg_admin_attack("[user.name] ([user.ckey]) used [name] on [M.name] ([M.ckey]) (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[user.x];Y=[user.y];Z=[user.z]'>JMP</a>)")
 
@@ -374,7 +361,10 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 				user << "\red You do not have enough space to write a proper rune."
 				return
 
-			if (C>=26 + runedec + cult.current_antagonists.len) //including the useless rune at the secret room, shouldn't count against the limit of 25 runes - Urist
+
+
+
+			if (C>=26+runedec+ticker.mode.cult.len) //including the useless rune at the secret room, shouldn't count against the limit of 25 runes - Urist
 				alert("The cloth of reality can't take that much of a strain. Remove some runes first!")
 				return
 			else
@@ -510,9 +500,6 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 		else
 			user << "The scriptures of Nar-Sie, The One Who Sees, The Geometer of Blood. Contains the details of every ritual his followers could think of. Most of these are useless, though."
 
-/obj/item/weapon/book/tome/cultify()
-	return
-
 /obj/item/weapon/book/tome/imbued //admin tome, spawns working runes without waiting
 	w_class = 2.0
 	var/cultistsonly = 1
@@ -527,11 +514,7 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 				user << "\red You do not have enough space to write a proper rune."
 			var/list/runes = list("teleport", "itemport", "tome", "armor", "convert", "tear in reality", "emp", "drain", "seer", "raise", "obscure", "reveal", "astral journey", "manifest", "imbue talisman", "sacrifice", "wall", "freedom", "cultsummon", "deafen", "blind", "bloodboil", "communicate", "stun")
 			r = input("Choose a rune to scribe", "Rune Scribing") in runes //not cancellable.
-			if(locate(/obj/effect/rune) in user.loc)
-				user << "<span class='warning'>There is already a rune in this location.</span>"
-				return
-
-			var/obj/effect/rune/R = new /obj/effect/rune(user.loc)
+			var/obj/effect/rune/R = new /obj/effect/rune
 			if(istype(user, /mob/living/carbon/human))
 				var/mob/living/carbon/human/H = user
 				R.blood_DNA = list()

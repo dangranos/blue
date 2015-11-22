@@ -2,9 +2,9 @@
 	name = "flash"
 	desc = "Used for blinding and being an asshole."
 	icon_state = "flash"
-	item_state = "flashtool"
+	item_state = "flash"
 	throwforce = 5
-	w_class = 2
+	w_class = 2.0
 	throw_speed = 4
 	throw_range = 10
 	flags = CONDUCT
@@ -63,14 +63,14 @@
 	playsound(src.loc, 'sound/weapons/flash.ogg', 100, 1)
 	var/flashfail = 0
 
-	if(iscarbon(M))
+	if(istype(M, /mob/living/carbon))
 		var/safety = M:eyecheck()
 		if(safety <= 0)
 			M.Weaken(10)
 			flick("e_flash", M.flash)
 
 			if(ishuman(M) && ishuman(user) && M.stat!=DEAD)
-				if(user.mind && user.mind in revs.current_antagonists)
+				if(user.mind && user.mind in ticker.mode.head_revolutionaries && ticker.mode.name == "revolution")
 					var/revsafe = 0
 					for(var/obj/item/weapon/implant/loyalty/L in M)
 						if(L && L.implanted)
@@ -81,7 +81,7 @@
 						revsafe = 2
 					if(!revsafe)
 						M.mind.has_been_rev = 1
-						revs.add_antagonist(M.mind)
+						ticker.mode.add_revolutionary(M.mind)
 					else if(revsafe == 1)
 						user << "<span class='warning'>Something seems to be blocking the flash!</span>"
 					else
@@ -90,6 +90,7 @@
 			flashfail = 1
 
 	else if(issilicon(M))
+		user << "Not carbon"
 		M.Weaken(rand(5,10))
 	else
 		flashfail = 1
@@ -103,7 +104,7 @@
 			animation.master = user
 			flick("blspell", animation)
 			sleep(5)
-			qdel(animation)
+			del(animation)
 
 	if(!flashfail)
 		flick("flash2", src)
@@ -154,7 +155,7 @@
 			animation.master = user
 			flick("blspell", animation)
 			sleep(5)
-			qdel(animation)
+			del(animation)
 
 	for(var/mob/living/carbon/M in oviewers(3, null))
 		if(prob(50))
@@ -194,7 +195,7 @@
 	desc = "When a problem arises, SCIENCE is the solution."
 	icon_state = "sflash"
 	origin_tech = "magnets=2;combat=1"
-	var/construction_cost = list(DEFAULT_WALL_MATERIAL=750,"glass"=750)
+	var/construction_cost = list("metal"=750,"glass"=750)
 	var/construction_time=100
 
 /obj/item/device/flash/synthetic/attack(mob/living/M as mob, mob/user as mob)

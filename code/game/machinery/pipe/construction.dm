@@ -78,10 +78,8 @@ Buildable meters
 			is_bent = 1
 		if     (istype(make_from, /obj/machinery/atmospherics/pipe/simple/heat_exchanging/junction))
 			src.pipe_type = PIPE_JUNCTION
-			connect_types = CONNECT_TYPE_REGULAR|CONNECT_TYPE_HE
 		else if(istype(make_from, /obj/machinery/atmospherics/pipe/simple/heat_exchanging))
 			src.pipe_type = PIPE_HE_STRAIGHT + is_bent
-			connect_types = CONNECT_TYPE_HE
 		else if(istype(make_from, /obj/machinery/atmospherics/pipe/simple/insulated))
 			src.pipe_type = PIPE_INSULATED_STRAIGHT + is_bent
 		else if(istype(make_from, /obj/machinery/atmospherics/pipe/simple/visible/supply) || istype(make_from, /obj/machinery/atmospherics/pipe/simple/hidden/supply))
@@ -192,10 +190,6 @@ Buildable meters
 		else if (pipe_type == 31 || pipe_type == 32 || pipe_type == 34 || pipe_type == 36 || pipe_type == 38 || pipe_type == 40 || pipe_type == 42)
 			connect_types = CONNECT_TYPE_SCRUBBER
 			src.color = PIPE_COLOR_RED
-		else if (pipe_type == 2 || pipe_type == 3)
-			connect_types = CONNECT_TYPE_HE
-		else if (pipe_type == 6)
-			connect_types = CONNECT_TYPE_REGULAR|CONNECT_TYPE_HE
 		else if (pipe_type == 28)
 			connect_types = CONNECT_TYPE_REGULAR|CONNECT_TYPE_SUPPLY|CONNECT_TYPE_SCRUBBER
 	//src.pipe_dir = get_pipe_dir()
@@ -463,7 +457,7 @@ Buildable meters
 			var/turf/T = P.loc
 			P.level = T.intact ? 2 : 1
 			P.initialize()
-			if (deleted(P))
+			if (!P)
 				usr << pipefailtext
 				return 1
 			P.build_network()
@@ -482,7 +476,7 @@ Buildable meters
 			var/turf/T = P.loc
 			P.level = T.intact ? 2 : 1
 			P.initialize()
-			if (deleted(P))
+			if (!P)
 				usr << pipefailtext
 				return 1
 			P.build_network()
@@ -501,7 +495,7 @@ Buildable meters
 			var/turf/T = P.loc
 			P.level = T.intact ? 2 : 1
 			P.initialize()
-			if (deleted(P))
+			if (!P)
 				usr << pipefailtext
 				return 1
 			P.build_network()
@@ -520,7 +514,7 @@ Buildable meters
 			var/turf/T = P.loc
 			P.level = T.intact ? 2 : 1
 			P.initialize()
-			if (deleted(P))
+			if (!P)
 				usr << pipefailtext
 				return 1
 			P.build_network()
@@ -539,7 +533,7 @@ Buildable meters
 			//var/turf/T = P.loc
 			//P.level = T.intact ? 2 : 1
 			P.initialize()
-			if (deleted(P))
+			if (!P)
 				usr << pipefailtext
 				return 1
 			P.build_network()
@@ -574,7 +568,7 @@ Buildable meters
 			var/turf/T = M.loc
 			M.level = T.intact ? 2 : 1
 			M.initialize()
-			if (deleted(M))
+			if (!M)
 				usr << pipefailtext
 				return 1
 			M.build_network()
@@ -643,7 +637,7 @@ Buildable meters
 			var/turf/T = M.loc
 			M.level = T.intact ? 2 : 1
 			M.initialize()
-			if (deleted(M))
+			if (!M)
 				usr << pipefailtext
 				return 1
 			M.build_network()
@@ -722,7 +716,7 @@ Buildable meters
 			//var/turf/T = P.loc
 			//P.level = T.intact ? 2 : 1
 			P.initialize()
-			if (deleted(P))
+			if (!P)
 				usr << pipefailtext //"There's nothing to connect this pipe to! (with how the pipe code works, at least one end needs to be connected to something, otherwise the game deletes the segment)"
 				return 1
 			P.build_network()
@@ -905,7 +899,7 @@ Buildable meters
 			var/turf/T = P.loc
 			P.level = T.intact ? 2 : 1
 			P.initialize()
-			if (deleted(P))
+			if (!P)
 				usr << pipefailtext
 				return 1
 			P.build_network()
@@ -1149,7 +1143,7 @@ Buildable meters
 		"[user] fastens the [src].", \
 		"\blue You have fastened the [src].", \
 		"You hear ratchet.")
-	qdel(src)	// remove the pipe item
+	del(src)	// remove the pipe item
 
 	return
 	 //TODO: DEFERRED
@@ -1177,7 +1171,7 @@ Buildable meters
 	new/obj/machinery/meter( src.loc )
 	playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 	user << "\blue You have fastened the meter to the pipe"
-	qdel(src)
+	del(src)
 //not sure why these are necessary
 #undef PIPE_SIMPLE_STRAIGHT
 #undef PIPE_SIMPLE_BENT
