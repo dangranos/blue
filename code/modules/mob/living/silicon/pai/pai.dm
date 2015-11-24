@@ -121,6 +121,17 @@
 		for(var/obj/effect/proc_holder/P in proc_holder_list)
 			statpanel("[P.panel]","",P)
 
+/mob/living/silicon/pai/examinate(atom/A as mob|obj|turf in view(get_turf(src)))
+	set name = "Examine"
+	set category = "IC"
+
+	if(is_blind(host) || usr.stat)
+		src << "<span class='notice'>Something is there but you can't see it.</span>"
+		return 1
+
+	face_atom(A)
+	A.examine(src)
+
 /mob/living/silicon/pai/check_eye(var/mob/user as mob)
 	if (!src.current)
 		return -1

@@ -550,10 +550,11 @@
 #define BE_CULTIST    256
 #define BE_MONKEY     512
 #define BE_NINJA      1024
-#define BE_RAIDER     2048
-#define BE_PLANT      4096
-#define BE_MUTINEER   8192
-#define BE_PAI        16384
+#define BE_MEME	      2048
+#define BE_RAIDER     4096
+#define BE_PLANT      8192
+#define BE_MUTINEER   16384
+#define BE_PAI        32768
 
 var/list/be_special_flags = list(
 	"Traitor"          = BE_TRAITOR,
@@ -567,6 +568,7 @@ var/list/be_special_flags = list(
 	"Cultist"          = BE_CULTIST,
 	"Monkey"           = BE_MONKEY,
 	"Ninja"            = BE_NINJA,
+	"Meme"             = BE_MEME,
 	"Raider"           = BE_RAIDER,
 	"Diona"            = BE_PLANT,
 	"Mutineer"         = BE_MUTINEER,

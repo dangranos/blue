@@ -8,6 +8,7 @@
 	required_players = 3
 	required_players_secret = 10
 	restricted_jobs = list("AI", "Cyborg")
+	required_enemies = 2
 	recommended_enemies = 2 // need at least a meme and a host
 	votable = 0 // temporarily disable this mode for voting
 
@@ -15,23 +16,6 @@
 
 	var/var/list/datum/mind/first_hosts = list()
 	var/var/list/assigned_hosts = list()
-
-	var/const/prob_int_murder_target = 50 // intercept names the assassination target half the time
-	var/const/prob_right_murder_target_l = 25 // lower bound on probability of naming right assassination target
-	var/const/prob_right_murder_target_h = 50 // upper bound on probability of naimg the right assassination target
-
-	var/const/prob_int_item = 50 // intercept names the theft target half the time
-	var/const/prob_right_item_l = 25 // lower bound on probability of naming right theft target
-	var/const/prob_right_item_h = 50 // upper bound on probability of naming the right theft target
-
-	var/const/prob_int_sab_target = 50 // intercept names the sabotage target half the time
-	var/const/prob_right_sab_target_l = 25 // lower bound on probability of naming right sabotage target
-	var/const/prob_right_sab_target_h = 50 // upper bound on probability of naming right sabotage target
-
-	var/const/prob_right_killer_l = 25 //lower bound on probability of naming the right operative
-	var/const/prob_right_killer_h = 50 //upper bound on probability of naming the right operative
-	var/const/prob_right_objective_l = 25 //lower bound on probability of determining the objective correctly
-	var/const/prob_right_objective_h = 50 //upper bound on probability of determining the objective correctly
 
 	var/const/waittime_l = 600 //lower bound on time before intercept arrives (in tenths of seconds)
 	var/const/waittime_h = 1800 //upper bound on time before intercept arrives (in tenths of seconds)
@@ -46,11 +30,11 @@
 
 	// for every 10 players, get 1 meme, and for each meme, get a host
 	// also make sure that there's at least one meme and one host
-	recommended_enemies = max(src.num_players() / 20 * 2, 2)
+	recommended_enemies = max(src.num_players() / 10, 2)
 
 	var/list/datum/mind/possible_memes = get_players_for_role(BE_MEME)
 
-	if(possible_memes.len < 2)
+	if(possible_memes.len < required_enemies)
 		log_admin("MODE FAILURE: MEME. NOT ENOUGH MEME CANDIDATES.")
 		return 0 // not enough candidates for meme
 
@@ -94,7 +78,7 @@
 		if(!first_host)
 			first_host = pick(first_hosts)
 			first_hosts.Remove(first_host)
-		M.enter_host(first_host.current)
+		M.switch_host(first_host.current)
 		forge_meme_objectives(meme, first_host)
 
 		del original
@@ -118,11 +102,7 @@
 	meme.objectives += attune_objective
 
 	// generate some random objectives, use standard traitor objectives
-	var/job = first_host.assigned_role
-
-	for(var/datum/objective/o in SelectObjectives(job, meme))
-		o.owner = meme
-		meme.objectives += o
+	return (ticker.mode.forge_traitor_objectives(meme))
 
 	greet_meme(meme)
 
@@ -161,10 +141,8 @@
 			for(var/datum/objective/objective in meme.objectives)
 				if(objective.check_completion())
 					world << "<B>Objective #[count]</B>: [objective.explanation_text] \green <B>Success</B>"
-					feedback_add_details("meme_objective","[objective.type]|SUCCESS")
 				else
 					world << "<B>Objective #[count]</B>: [objective.explanation_text] \red Failed"
-					feedback_add_details("meme_objective","[objective.type]|FAIL")
 					memewin = 0
 				count++
 
@@ -173,8 +151,6 @@
 
 		if(memewin)
 			world << "<B>The meme was successful!<B>"
-			feedback_add_details("meme_success","SUCCESS")
 		else
 			world << "<B>The meme has failed!<B>"
-			feedback_add_details("meme_success","FAIL")
 	return 1

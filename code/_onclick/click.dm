@@ -261,8 +261,9 @@
 /mob/proc/ShiftClickOn(var/atom/A)
 	A.ShiftClick(src)
 	return
+
 /atom/proc/ShiftClick(var/mob/user)
-	if(user.client && user.client.eye == user)
+	if( user.client && (user.client.eye==user || istype(user, /mob/living/parasite) || istype(user, /mob/living/silicon/pai)) )
 		user.examinate(src)
 	return
 
