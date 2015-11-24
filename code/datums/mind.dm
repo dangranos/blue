@@ -123,6 +123,7 @@ datum/mind
 			"traitor", // "traitorchan",
 			"monkey",
 			"malfunction",
+			"meme",
 		)
 		var/text = ""
 		var/mob/living/carbon/human/H = current
@@ -299,6 +300,24 @@ datum/mind
 				text += "<br>[n_e_robots] of [ai.connected_robots.len] slaved cyborgs are emagged. <a href='?src=\ref[src];silicon=unemagcyborgs'>Unemag</a>"
 			sections["malfunction"] = text
 
+
+		/** MEME ***/
+
+		text = "meme"
+		if (ticker.mode.config_tag=="meme")
+			text = uppertext(text)
+		text = "<i><b>[text]</b></i>: "
+		if (src in ticker.mode.memes)
+			text += "<b>YES</b>|<a href='?src=\ref[src];meme=clear'>no</a>"
+			if (objectives.len==0)
+				text += "<br>Objectives are empty! <a href='?src=\ref[src];meme=autoobjectives;simplemake=meme'>Randomize!</a>"
+			text += "<br><a href='?src=\ref[src];meme=move'>Move to selected human.</a>"
+		else
+			text += "<a href='?src=\ref[src];meme=meme'>yes</a>|<b>NO</b>"
+		sections["meme"] = text
+
+
+
 		if (ticker.mode.config_tag == "traitorchan")
 			if (sections["traitor"])
 				out += sections["traitor"]+"<br>"
@@ -382,7 +401,7 @@ datum/mind
 				if(!def_value)//If it's a custom objective, it will be an empty string.
 					def_value = "custom"
 
-			var/new_obj_type = input("Select objective type:", "Objective type", def_value) as null|anything in list("assassinate", "debrain", "protect", "prevent", "harm", "brig", "hijack", "escape", "survive", "steal", "download", "mercenary", "capture", "absorb", "custom")
+			var/new_obj_type = input("Select objective type:", "Objective type", def_value) as null|anything in list("assassinate", "debrain", "protect", "prevent", "harm", "brig", "hijack", "escape", "survive", "steal", "download", "mercenary", "capture", "absorb", "meme_attune", "custom")
 			if (!new_obj_type) return
 
 			var/datum/objective/new_objective = null
@@ -450,7 +469,7 @@ datum/mind
 					if (!steal.select_target())
 						return
 
-				if("download","capture","absorb")
+				if("download","capture","absorb","meme_attune")
 					var/def_num
 					if(objective&&objective.type==text2path("/datum/objective/[new_obj_type]"))
 						def_num = objective.target_amount
@@ -469,6 +488,9 @@ datum/mind
 						if("absorb")
 							new_objective = new /datum/objective/absorb
 							new_objective.explanation_text = "Absorb [target_number] compatible genomes."
+						if("meme_attune")
+							new_objective = new /datum/objective/meme_attune
+							new_objective.explanation_text = "Attune [target_number] humans."
 					new_objective.owner = src
 					new_objective.target_amount = target_number
 
@@ -747,6 +769,65 @@ datum/mind
 						current.real_name = current.dna.real_name
 						current.UpdateAppearance()
 						domutcheck(current, null)
+
+		else if (href_list["meme"])
+			var/list/allowed_mob = list()
+			switch(href_list["meme"])
+				if("clear")
+					if(src in ticker.mode.memes)
+						ticker.mode.memes -= src
+						special_role = null
+						if(istype(current, /mob/living/parasite/meme))
+							current:exit_host()
+							current << "<FONT color='red' size = 3><B>You grow weak and lose your powers! You are no longer a meme!</B></FONT>"
+							log_admin("[key_name_admin(usr)] has de-meme'ed [current].")
+							message_admins("[key_name_admin(usr)] has de-meme'ed [current].")
+							current.ghostize()
+
+				if("meme")
+					if(!(src in ticker.mode.memes))
+						if(!istype(current, /mob/living/parasite/meme))
+							for (var/mob/living/carbon/human/H in mob_list)
+								//if(H.client && istype(H) && !H.parasites.len)
+								if(H != current)
+									allowed_mob += H
+							if(!allowed_mob.len)
+								message_admins("Not enougth humans for spawn meme")
+								return
+							else
+								var/mob/living/parasite/meme/M = new(pick(allowed_mob))
+								transfer_to(M)
+
+						ticker.mode.memes += src
+						special_role = "Meme"
+						current << "<B><font color='red'>You are a meme now!</font></B>"
+						log_admin("[key_name_admin(usr)] has meme'ed [current].")
+						message_admins("[key_name_admin(usr)] has meme'ed [current].")
+
+				if("autoobjectives")
+					ticker.mode.forge_meme_objectives(src)
+					usr << "\blue The objectives for meme [key] have been generated. You can edit them and anounce manually."
+					message_admins("[key_name_admin(usr)] generate random objectives for [current] (meme).")
+
+				if("move")
+					var/mob/living/parasite/meme/player = current
+					if(!istype(player))
+						usr << "\red [current] isn't meme!"
+						return
+
+					for (var/mob/living/carbon/human/H in mob_list)
+						if(H.client && istype(H) && !H.parasites.len)
+							allowed_mob += H
+
+					if(allowed_mob.len == 0)
+						usr << "\red There is no hosts available now!"
+					else
+						allowed_mob += "Cancel"
+						var/new_host = input ("Select new host for meme ([player]).", "New host", null) in allowed_mob
+						if (new_host != "Cancel")
+							player.switch_host(new_host)
+							message_admins("[key_name(player)] (meme) moved to [key_name(player.host)]")
+							log_admin("[key_name(player)] (meme) moved to [key_name(player.host)]")
 
 		else if (href_list["mercenary"])
 			var/mob/living/carbon/human/H = current
@@ -1289,3 +1370,8 @@ datum/mind
 	..()
 	mind.assigned_role = "Juggernaut"
 	mind.special_role = "Cultist"
+
+/mob/living/parasite/meme/mind_initialize()
+	..()
+	mind.assigned_role = "Meme"
+	mind.current.real_name = "Meme"

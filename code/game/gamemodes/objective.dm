@@ -25,6 +25,10 @@ datum/objective
 		for(var/datum/mind/possible_target in ticker.minds)
 			if(possible_target != owner && ishuman(possible_target.current) && (possible_target.current.stat != 2))
 				possible_targets += possible_target
+
+		for (var/datum/objective/O in owner.objectives)
+			possible_targets -= O.target
+
 		if(possible_targets.len > 0)
 			target = pick(possible_targets)
 
@@ -283,6 +287,9 @@ datum/objective/hijack
 	explanation_text = "Hijack the emergency shuttle by escaping alone."
 
 	check_completion()
+		if(istype(owner.current, /mob/living/parasite/meme))
+			if(!owner.current:host || owner.current:host.stat)
+				return 0
 		if(!owner.current || owner.current.stat)
 			return 0
 		if(!emergency_shuttle.returned())
@@ -363,6 +370,10 @@ datum/objective/escape
 				var/mob/living/carbon/C = owner.current
 				if (!C.handcuffed)
 					return 1
+			if(istype(owner.current:host, /mob/living/carbon))
+				var/mob/living/carbon/C = owner.current:host
+				if (!C.handcuffed)
+					return 1
 			return 0
 
 		var/area/check_area = location.loc
@@ -385,6 +396,9 @@ datum/objective/survive
 	explanation_text = "Stay alive until the end."
 
 	check_completion()
+		if(istype(owner.current, /mob/living/parasite/meme))
+			if(owner.current:host.stat == DEAD)
+				return 0
 		if(!owner.current || owner.current.stat == DEAD || isbrain(owner.current))
 			return 0		//Brains no longer win survive objectives. --NEO
 		if(issilicon(owner.current) && owner.current != owner.original)
@@ -598,6 +612,19 @@ datum/objective/steal
 						return 1
 		return 0
 
+
+datum/objective/meme_attune
+	proc/gen_amount_goal(var/lowbound = 4, var/highbound = 6)
+		target_amount = rand (lowbound,highbound)
+
+		explanation_text = "Attune [target_amount] humanoid brains."
+		return target_amount
+
+	check_completion()
+		if(owner && owner.current && istype(owner.current,/mob/living/parasite/meme) && (owner.current:indoctrinated.len >= target_amount))
+			return 1
+		else
+			return 0
 
 
 datum/objective/download
