@@ -20,7 +20,7 @@
 /obj/item/clothing/under/rank/security
 	name = "security officer's jumpsuit"
 	desc = "It's made of a slightly sturdier material than standard jumpsuits, to allow for robust protection."
-	icon_state = "secred"
+	icon_state = "security"
 	item_state = "r_suit"
 	worn_state = "secred"
 	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
@@ -113,9 +113,9 @@
 /obj/item/clothing/under/rank/head_of_security
 	desc = "It's a jumpsuit worn by those few with the dedication to achieve the position of \"Head of Security\". It has additional armor to protect the wearer."
 	name = "head of security's jumpsuit"
-	icon_state = "hosred"
-	item_state = "r_suit"
-	worn_state = "hosred"
+	icon_state = "hos"
+	item_state = "hos"
+	worn_state = "hos"
 	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
 	siemens_coefficient = 0.8
 
