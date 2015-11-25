@@ -36,7 +36,7 @@
 	var/state = STATE_DEFAULT
 	var/aistate = STATE_DEFAULT
 	var/message_cooldown = 0
-	var/centcom_message_cooldown = 0
+	var/centcomm_message_cooldown = 0
 	var/tmp_alertlevel = 0
 
 	var/status_display_freq = "1435"
@@ -173,38 +173,46 @@
 					post_status(href_list["statdisp"])
 
 		if("setmsg1" in href_list)
-			stat_msg1 = reject_bad_text(trim(sanitize(copytext(input("Line 1", "Enter Message Text", stat_msg1) as text|null, 1, 40)), 40))
+			stat_msg1 = reject_bad_text(sanitize(input("Line 1", "Enter Message Text", stat_msg1) as text|null, 40), 40)
 			computer.updateDialog()
 		if("setmsg2" in href_list)
-			stat_msg2 = reject_bad_text(trim(sanitize(copytext(input("Line 2", "Enter Message Text", stat_msg2) as text|null, 1, 40)), 40))
+			stat_msg2 = reject_bad_text(sanitize(input("Line 2", "Enter Message Text", stat_msg2) as text|null, 40), 40)
 			computer.updateDialog()
 
 		// OMG CENTCOMM LETTERHEAD
-		if("MessageCentcomm")
-			if(src.authenticated==2)
-				if(centcom_message_cooldown)
-					usr << "Establishing a connection. Please stand by."
+		if("MessageCentcomm" in href_list)
+			if(!computer.radio.subspace)
+				return
+			if(authenticated==2)
+				if(centcomm_message_cooldown)
+					usr << "Arrays recycling.  Please stand by."
 					return
-				var/input = stripped_input(usr, "Please choose a message to transmit to Centcom via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response.", "To abort, send an empty message.", "")
-				if(!input || !(usr in view(1,src)))
+				var/input = sanitize(input("Please choose a message to transmit to Centcomm via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response.", "To abort, send an empty message.", ""))
+				if(!input || !interactable())
 					return
-				usr << "Message transmition interrupted. Hyperspace fluctuation detected. Trying to establish a connection..."
-				log_say("[key_name(usr)] has failed to made a Centcom announcement: [input]")
-				centcom_message_cooldown = 1
+				Centcomm_announce(input, usr)
+				usr << "Message transmitted."
+				log_say("[key_name(usr)] has made a Centcomm announcement: [input]")
+				centcomm_message_cooldown = 1
+				spawn(600)//10 minute cooldown
+					centcomm_message_cooldown = 0
 
 
 		// OMG SYNDICATE ...LETTERHEAD
-		if("MessageSyndicate")
-			if(src.authenticated==2)
-				if(centcom_message_cooldown)
-					usr << "Establishing a connection. Please stand by."
+		if("MessageSyndicate" in href_list)
+			if((authenticated==2) && (computer.emagged))
+				if(centcomm_message_cooldown)
+					usr << "Arrays recycling.  Please stand by."
 					return
-				var/input = stripped_input(usr, "Please choose a message to transmit to \[ABNORMAL ROUTING COORDINATES\] via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination. Transmission does not guarantee a response.", "Send a message to /??????/.", "")
-				if(!input || !(usr in view(1,src)))
+				var/input = sanitize(input(usr, "Please choose a message to transmit to \[ABNORMAL ROUTING CORDINATES\] via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination. Transmission does not guarantee a response.", "To abort, send an empty message.", ""))
+				if(!input || !interactable())
 					return
-				usr << "Message transmition interrupted. Hyperspace fluctuation detected. Trying to establish a connection..."
-				log_say("[key_name(usr)] has failed to made a Syndicate announcement: [input]")
-				centcom_message_cooldown = 1
+				Syndicate_announce(input, usr)
+				usr << "Message transmitted."
+				log_say("[key_name(usr)] has made an illegal announcement: [input]")
+				centcomm_message_cooldown = 1
+				spawn(600)//10 minute cooldown
+					centcomm_message_cooldown = 0
 
 		if("RestoreBackup" in href_list)
 			usr << "Backup routing data restored!"

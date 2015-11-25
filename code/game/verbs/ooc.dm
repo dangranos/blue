@@ -3,9 +3,16 @@
 	set name = "OOC"
 	set category = "OOC"
 
-	if(!mob)	return
+	if(say_disabled)	//This is here to try to identify lag problems
+		usr << "\red Speech is currently admin-disabled."
+		return
 
-	msg = trim(sanitize(copytext(msg, 1, MAX_MESSAGE_LEN)))
+	if(!mob)	return
+	if(IsGuestKey(key))
+		src << "Guests may not use OOC."
+		return
+
+	msg = sanitize(msg)
 	if(!msg)	return
 
 	if(!(prefs.toggles & CHAT_OOC))
@@ -23,6 +30,11 @@
 			src << "<span class='danger'>You cannot use OOC (muted).</span>"
 			return
 		if(handle_spam_prevention(msg,MUTE_OOC))
+			return
+		if(findtext(msg, "byond://"))
+			src << "<B>Advertising other servers is not allowed.</B>"
+			log_admin("[key_name(src)] has attempted to advertise in OOC: [msg]")
+			message_admins("[key_name_admin(src)] has attempted to advertise in OOC: [msg]")
 			return
 
 	log_ooc("[key]/[mob.name] : [msg]")
@@ -47,18 +59,25 @@
 					else
 						display_name = holder.fakekey
 			if(holder && !holder.fakekey && (holder.rights & R_ADMIN) && config.allow_admin_ooccolor && (src.prefs.ooccolor != initial(src.prefs.ooccolor))) // keeping this for the badmins
-				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'><span class='prefix'>OOC:</span> <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></font>"
+				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></font>"
 			else
-				target << "<span class='ooc'><span class='[ooc_style]'><span class='prefix'>OOC:</span> <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
+				target << "<span class='ooc'><span class='[ooc_style]'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
 
 /client/verb/looc(msg as text)
 	set name = "LOOC"
 	set desc = "Local OOC, seen only by those in view."
 	set category = "OOC"
 
-	if(!mob)	return
+	if(say_disabled)	//This is here to try to identify lag problems
+		usr << "\red Speech is currently admin-disabled."
+		return
 
-	msg = trim(sanitize(copytext(msg, 1, MAX_MESSAGE_LEN)))
+	if(!mob)	return
+	if(IsGuestKey(key))
+		src << "Guests may not use OOC."
+		return
+
+	msg = sanitize(msg)
 	if(!msg)	return
 
 	if(!(prefs.toggles & CHAT_LOOC))
@@ -66,8 +85,8 @@
 		return
 
 	if(!holder)
-		if(!config.ooc_allowed)
-			src << "<span class='danger'>OOC is globally muted.</span>"
+		if(!config.looc_allowed)
+			src << "<span class='danger'>LOOC is globally muted.</span>"
 			return
 		if(!config.dooc_allowed && (mob.stat == DEAD))
 			usr << "<span class='danger'>OOC for dead mobs has been turned off.</span>"
@@ -77,7 +96,11 @@
 			return
 		if(handle_spam_prevention(msg,MUTE_OOC))
 			return
-
+		if(findtext(msg, "byond://"))
+			src << "<B>Advertising other servers is not allowed.</B>"
+			log_admin("[key_name(src)] has attempted to advertise in OOC: [msg]")
+			message_admins("[key_name_admin(src)] has attempted to advertise in OOC: [msg]")
+			return
 
 	log_ooc("(LOCAL) [mob.name]/[key] : [msg]")
 
@@ -103,4 +126,4 @@
 			if(target.mob in heard)
 				prefix = ""
 			if((target.mob in heard) || (target in admins))
-				target << "<span class='ooc'><span class='looc'>LOOC: <span class='prefix'>[prefix]</span><EM>[display_name][admin_stuff]:</EM> <span class='message'>[msg]</span></span></span>"
+				target << "<span class='ooc'><span class='looc'>" + create_text_tag("looc", "LOOC:", target) + " <span class='prefix'>[prefix]</span><EM>[display_name][admin_stuff]:</EM> <span class='message'>[msg]</span></span></span>"

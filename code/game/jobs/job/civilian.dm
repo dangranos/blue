@@ -2,6 +2,7 @@
 /datum/job/bartender
 	title = "Bartender"
 	flag = BARTENDER
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
@@ -15,23 +16,27 @@
 	pda = /obj/item/device/pda/bar
 	ear = /obj/item/device/radio/headset/headset_service
 
-	put_in_backpack = list()
-
 	equip(var/mob/living/carbon/human/H)
 		if(!..())	return 0
-		if(H.backbag == 1)
-			var/obj/item/weapon/storage/box/survival/Barpack = new /obj/item/weapon/storage/box/survival(H)
-			H.equip_to_slot_or_del(Barpack, slot_r_hand)
+		var/obj/item/weapon/storage/box/survival/Barpack = null
+		if(H.back)
+			Barpack = locate() in H.back
+			if(!Barpack)
+				Barpack = new(H)
+				H.equip_to_slot_or_del(Barpack, slot_in_backpack)
+
+		if(!Barpack)
+			if(!H.r_hand)
+				Barpack = new /obj/item/weapon/storage/box/survival(H)
+				H.equip_to_slot_or_del(Barpack, slot_r_hand)
+			else if(istype(H.r_hand, /obj/item/weapon/storage/box))
+				Barpack = H.r_hand
+
+		if(Barpack)
 			new /obj/item/ammo_casing/shotgun/beanbag(Barpack)
 			new /obj/item/ammo_casing/shotgun/beanbag(Barpack)
 			new /obj/item/ammo_casing/shotgun/beanbag(Barpack)
 			new /obj/item/ammo_casing/shotgun/beanbag(Barpack)
-		else
-			H.equip_to_slot_or_del(new /obj/item/weapon/storage/box/survival(H), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
-			H.equip_to_slot_or_del(new /obj/item/ammo_casing/shotgun/beanbag(H), slot_in_backpack)
 
 		return 1
 
@@ -40,6 +45,7 @@
 /datum/job/chef
 	title = "Chef"
 	flag = CHEF
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
@@ -60,6 +66,7 @@
 /datum/job/hydro
 	title = "Gardener"
 	flag = BOTANIST
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
@@ -83,7 +90,6 @@
 		)
 
 	put_in_backpack = list(\
-		/obj/item/weapon/storage/box/survival,\
 		/obj/item/device/analyzer/plant_analyzer
 		)
 
@@ -92,6 +98,7 @@
 /datum/job/qm
 	title = "Quartermaster"
 	flag = QUARTERMASTER
+	department = "Cargo"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
@@ -114,6 +121,7 @@
 /datum/job/cargo_tech
 	title = "Cargo Technician"
 	flag = CARGOTECH
+	department = "Cargo"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
@@ -131,6 +139,7 @@
 /datum/job/mining
 	title = "Shaft Miner"
 	flag = MINER
+	department = "Cargo"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 3
@@ -146,22 +155,19 @@
 	ear = /obj/item/device/radio/headset/headset_cargo
 
 	put_in_backpack = list(\
-		/obj/item/weapon/storage/box/engineer,\
 		/obj/item/weapon/crowbar,\
 		/obj/item/weapon/storage/bag/ore
 		)
 
 
-
-//Griff //BS12 EDIT
 /*
 /datum/job/clown
 	title = "Clown"
 	flag = CLOWN
 	department_flag = CIVILIAN
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 0
+	spawn_positions = 0
 	supervisors = "the head of personnel"
 	selection_color = "#dddddd"
 	access = list(access_clown, access_theatre, access_maint_tunnels)
@@ -172,9 +178,9 @@
 	pda = /obj/item/device/pda/clown
 	mask = /obj/item/clothing/mask/gas/clown_hat
 	hand = /obj/item/weapon/stamp/clown
+	ear = /obj/item/device/radio/headset/headset_service
 
 	put_in_backpack = list(\
-		/obj/item/weapon/storage/box/survival,\
 		/obj/item/weapon/reagent_containers/food/snacks/grown/banana,\
 		/obj/item/weapon/bikehorn,\
 		/obj/item/toy/crayon/rainbow,\
@@ -185,7 +191,6 @@
 		/obj/item/weapon/storage/backpack/clown,\
 		/obj/item/weapon/storage/backpack/satchel_norm,\
 		/obj/item/weapon/storage/backpack/satchel
-		/obj/item/toy/waterflower
 		)
 
 	equip(var/mob/living/carbon/human/H)
@@ -200,8 +205,8 @@
 	flag = MIME
 	department_flag = CIVILIAN
 	faction = "Station"
-	total_positions = 1
-	spawn_positions = 1
+	total_positions = 0
+	spawn_positions = 0
 	supervisors = "the head of personnel"
 	selection_color = "#dddddd"
 	access = list(access_mime, access_theatre, access_maint_tunnels)
@@ -213,15 +218,12 @@
 	suit = /obj/item/clothing/suit/suspenders
 	gloves = /obj/item/clothing/gloves/white
 	mask = /obj/item/clothing/mask/gas/mime
-	belt =
-	ear =
+	ear = /obj/item/device/radio/headset/headset_service
 	hand = /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing
-	glasses =
 
-	put_in_backpack = list(\
-		/obj/item/weapon/storage/box/survival,\
-		/obj/item/toy/crayon/mime
-		)
+//	put_in_backpack = list(\
+//		/obj/item/pen/crayon/mime
+//		)
 
 	backpacks = list(
 		/obj/item/weapon/storage/backpack,\
@@ -236,21 +238,21 @@
 		H.mind.special_verbs += /client/proc/mimespeak
 		H.mind.special_verbs += /client/proc/mimewall
 		H.miming = 1
-		return 1
-*/
+		return 1*/
 
 
 /datum/job/janitor
 	title = "Janitor"
 	flag = JANITOR
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of personnel"
 	selection_color = "#dddddd"
-	access = list(access_janitor, access_maint_tunnels)
-	minimal_access = list(access_janitor, access_maint_tunnels)
+	access = list(access_janitor, access_maint_tunnels, access_engine, access_research, access_sec_doors, access_medical)
+	minimal_access = list(access_janitor, access_maint_tunnels, access_engine, access_research, access_sec_doors, access_medical)
 
 	uniform = /obj/item/clothing/under/rank/janitor
 	pda = /obj/item/device/pda/janitor
@@ -262,6 +264,7 @@
 /datum/job/librarian
 	title = "Librarian"
 	flag = LIBRARIAN
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
@@ -282,14 +285,15 @@
 /datum/job/lawyer
 	title = "Internal Affairs Agent"
 	flag = LAWYER
+	department = "Civilian"
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
-	supervisors = "the captain"
+	supervisors = "Nanotrasen officials and Corporate Regulations"
 	selection_color = "#dddddd"
-	access = list(access_lawyer, access_court, access_sec_doors, access_maint_tunnels)
-	minimal_access = list(access_lawyer, access_court, access_sec_doors)
+	access = list(access_lawyer, access_court, access_sec_doors, access_maint_tunnels, access_heads)
+	minimal_access = list(access_lawyer, access_court, access_sec_doors, access_heads)
 
 	implanted = 1
 	uniform = /obj/item/clothing/under/rank/internalaffairs
