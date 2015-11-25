@@ -159,6 +159,7 @@ var/global/list/robot_modules = list(
 	sprites = list(	"Basic" = "robot_old",
 					"Android" = "droid",
 					"Default" = "robot",
+					"ED" = "ED-standard",
 					"Drone" = "drone-standard"
 				  )
 
@@ -187,6 +188,7 @@ var/global/list/robot_modules = list(
 					"Standard" = "surgeon",
 					"Advanced Droid" = "droid-medical",
 					"Needles" = "medicalrobot",
+					"ED" = "ED-medical",
 					"Drone" = "drone-surgery"
 					)
 
@@ -238,6 +240,7 @@ var/global/list/robot_modules = list(
 					"Standard" = "surgeon",
 					"Advanced Droid" = "droid-medical",
 					"Needles" = "medicalrobot",
+					"ED" = "ED-crisis",
 					"Drone - Medical" = "drone-medical",
 					"Drone - Chemistry" = "drone-chemistry"
 					)
@@ -305,6 +308,7 @@ var/global/list/robot_modules = list(
 					"Retro" = "Engineer",
 					"Landmate" = "landmate",
 					"Landmate - Treaded" = "engiborg+tread",
+					"ED" = "ED-engineering",
 					"Drone" = "drone-engineer"
 					)
 
@@ -420,6 +424,7 @@ var/global/list/robot_modules = list(
 					"Retro (red)" = "Security3",
 					"Bloodhound" = "bloodhound",
 					"Bloodhound - Treaded" = "secborg+tread",
+					"ED" = "ED-security",
 					"Drone" = "drone-sec"
 				)
 
@@ -454,6 +459,7 @@ var/global/list/robot_modules = list(
 					"Antique" = "JanBot",
 					"Mopbot"  = "janitorrobot",
 					"Mop Gear Rex" = "mopgearrex",
+					"ED" = "ED-janitor",
 					"Drone" = "drone-janitor"
 					)
 
@@ -497,6 +503,7 @@ var/global/list/robot_modules = list(
 					"Bro" = "Brobot",
 					"Rich" = "maximillion",
 					"Default" = "Service2",
+					"ED" = "ED-service",
 					"Drone - Service" = "drone-service",
 					"Drone - Hydro" = "drone-hydro"
 				  	)
@@ -541,6 +548,7 @@ var/global/list/robot_modules = list(
 					"Bro" = "Brobot",
 					"Rich" = "maximillion",
 					"Default" = "Service2",
+					"ED" = "ED-service",
 					"Drone" = "drone-service"
 					)
 
@@ -569,6 +577,7 @@ var/global/list/robot_modules = list(
 					"Basic" = "Miner_old",
 					"Advanced Droid" = "droid-miner",
 					"Treadhead" = "Miner",
+					"ED" = "ED-miner",
 					"Drone" = "drone-miner"
 				)
 	supported_upgrades = list(/obj/item/borg/upgrade/jetpack)
@@ -592,6 +601,7 @@ var/global/list/robot_modules = list(
 	name = "research module"
 	channels = list("Science" = 1)
 	sprites = list(
+					"ED" = "ED-research",
 					"Droid" = "droid-science",
 					"Drone" = "drone-science"
 					)
