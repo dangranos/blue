@@ -300,7 +300,7 @@ datum/objective/hijack
 		var/list/protected_mobs = list(/mob/living/silicon/ai, /mob/living/silicon/pai)
 		for(var/mob/living/player in player_list)
 			if(player.type in protected_mobs)	continue
-			if (player.mind && (player.mind != owner))
+			if (player.mind && (player.mind != owner) && (player != owner.current:host))
 				if(player.stat != DEAD)			//they're not dead!
 					if(get_turf(player) in shuttle)
 						return 0
@@ -564,6 +564,8 @@ datum/objective/steal
 		if(!steal_target || !owner.current)	return 0
 		if(!isliving(owner.current))	return 0
 		var/list/all_items = owner.current.get_contents()
+		if(istype(owner, /mob/living/parasite/meme))
+			all_items = owner.current:host.get_contents()
 		switch (target_name)
 			if("28 moles of phoron (full tank)","10 diamonds","50 gold bars","25 refined uranium bars")
 				var/target_amount = text2num(target_name)//Non-numbers are ignored.
