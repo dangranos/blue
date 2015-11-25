@@ -41,22 +41,24 @@
 
 	if(!istype(C,/client))
 		if(holder)	src << "<font color='red'>Error: Private-Message: Client not found.</font>"
-		else		adminhelp(msg)	//admin we are replying to left. adminhelp instead
+		else		src << "<font color='red'>Error: Private-Message: Client not found. They may have lost connection, so try using an adminhelp!</font>"
 		return
 
 	//get message text, limit it's length.and clean/escape html
 	if(!msg)
 		msg = input(src,"Message:", "Private message to [key_name(C, 0, holder ? 1 : 0)]") as text|null
-		msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
 
 		if(!msg)	return
 		if(!C)
 			if(holder)	src << "<font color='red'>Error: Admin-PM: Client not found.</font>"
-			else		adminhelp(msg)	//admin we are replying to has vanished, adminhelp instead
+			else		src << "<font color='red'>Error: Private-Message: Client not found. They may have lost connection, so try using an adminhelp!</font>"
 			return
 
 	if (src.handle_spam_prevention(msg,MUTE_ADMINHELP))
 		return
+
+	msg = sanitize(msg)
+	if(!msg)	return
 
 	var/recieve_pm_type = "Player"
 	if(holder)
@@ -69,7 +71,7 @@
 				recieve_pm_type = holder.rank
 
 	else if(!C.holder)
-		src << "<font color='red'>Something went wrong.</font>"
+		src << "<font color='red'>Error: Admin-PM: Non-admin to non-admin PM communication is forbidden.</font>"
 		return
 
 	var/recieve_message
@@ -80,8 +82,20 @@
 			C << recieve_message
 			C.adminhelped = 0
 
-	src << "<span class='pm'><span class='out'>PM to <span class='name'>[get_options_bar(C, holder ? 1 : 0, holder ? 1 : 0, 1)]</span>: <span class='message'>[msg]</span></span></span>"
-	C << "<span class='pm'><span class='in'><b>[recieve_pm_type] PM</b> from <span class='name'>[get_options_bar(src, C.holder ? 1 : 0, C.holder ? 1 : 0, 1)]</span>: <span class='message'>[msg]</span></span></span>"
+		//AdminPM popup for ApocStation and anybody else who wants to use it. Set it with POPUP_ADMIN_PM in config.txt ~Carn
+		if(config.popup_admin_pm)
+			spawn(0)	//so we don't hold the caller proc up
+				var/sender = src
+				var/sendername = key
+				var/reply = sanitize(input(C, msg,"[recieve_pm_type] PM from [sendername]", "") as text|null)		//show message and await a reply
+				if(C && reply)
+					if(sender)
+						C.cmd_admin_pm(sender,reply)										//sender is still about, let's reply to them
+					else
+						adminhelp(reply)													//sender has left, adminhelp instead
+				return
+	src << "<span class='pm'><span class='out'>" + create_text_tag("pm_out_alt", "PM", src) + " to <span class='name'>[get_options_bar(C, holder ? 1 : 0, holder ? 1 : 0, 1)]</span>: <span class='message'>[msg]</span></span></span>"
+	C << "<span class='pm'><span class='in'>" + create_text_tag("pm_in", "", C) + " <b>\[[recieve_pm_type] PM\]</b> <span class='name'>[get_options_bar(src, C.holder ? 1 : 0, C.holder ? 1 : 0, 1)]</span>: <span class='message'>[msg]</span></span></span>"
 
 	//play the recieving admin the adminhelp sound (if they have them enabled)
 	//non-admins shouldn't be able to disable this
@@ -95,4 +109,32 @@
 		//check client/X is an admin and isn't the sender or recipient
 		if(X == C || X == src)
 			continue
-		X << "<span class='pm'><span class='other'>PM: <span class='name'>[key_name(src, X, 0)]</span>-&gt;<span class='name'>[key_name(C, X, 0)]</span>: <span class='message'>[msg]</span></span></span>"
+		if(X.key != key && X.key != C.key && (X.holder.rights & R_ADMIN|R_MOD|R_MENTOR))
+			X << "<span class='pm'><span class='other'>" + create_text_tag("pm_other", "PM:", X) + " <span class='name'>[key_name(src, X, 0)]</span> to <span class='name'>[key_name(C, X, 0)]</span>: <span class='message'>[msg]</span></span></span>"
+
+/client/proc/cmd_admin_irc_pm(sender)
+	if(prefs.muted & MUTE_ADMINHELP)
+		src << "<font color='red'>Error: Private-Message: You are unable to use PM-s (muted).</font>"
+		return
+
+	var/msg = input(src,"Message:", "Reply private message to [sender] on IRC / 400 character limit") as text|null
+
+	if(!msg)
+		return
+
+	sanitize(msg)
+
+	// Handled on Bot32's end, unsure about other bots
+//	if(length(msg) > 400) // TODO: if message length is over 400, divide it up into seperate messages, the message length restriction is based on IRC limitations.  Probably easier to do this on the bots ends.
+//		src << "<span class='warning'>Your message was not sent because it was more then 400 characters find your message below for ease of copy/pasting</span>"
+//		src << "\blue [msg]</span>"
+//		return
+
+	src << "<span class='pm'><span class='out'>" + create_text_tag("pm_out_alt", "", src) + " to <span class='name'>IRC-[sender]</span>: <span class='message'>[msg]</span></span></span>"
+
+	log_admin("PM: [key_name(src)]->IRC-[sender]: [msg]")
+	for(var/client/X in admins)
+		if(X == src)
+			continue
+		if(X.holder.rights & R_ADMIN|R_MOD)
+			X << "<span class='pm'><span class='other'>" + create_text_tag("pm_other", "PM:", X) + " <span class='name'>[key_name(src, X, 0)]</span> to <span class='name'>IRC-[sender]</span>: <span class='message'>[msg]</span></span></span>"

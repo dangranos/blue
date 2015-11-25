@@ -1,4 +1,8 @@
 
+var/global/BSACooldown = 0
+var/global/floorIsLava = 0
+
+
 ////////////////////////////////
 /proc/message_admins(var/msg)
 	msg = "<span class=\"log_message\"><span class=\"prefix\">ADMIN LOG:</span> <span class=\"message\">[msg]</span></span>"
@@ -16,6 +20,10 @@
 				var/msg = rendered
 				C << msg
 
+proc/admin_notice(var/message, var/rights)
+	for(var/mob/M in mob_list)
+		if(check_rights(rights, 0, M))
+			M << message
 
 ///////////////////////////////////////////////////////////////////////////////////////////////Panels
 
@@ -88,7 +96,7 @@
 			body += "<br>"
 
 			//Monkey
-			if(ismonkey(M))
+			if(issmall(M))
 				body += "<B>Monkeyized</B> | "
 			else
 				body += "<A href='?src=\ref[src];monkeyone=\ref[M]'>Monkeyize</A> | "
@@ -271,6 +279,13 @@
 		return
 	var/dat = "<html><head><title>Info on [key]</title></head>"
 	dat += "<body>"
+
+	var/p_age = "unknown"
+	for(var/client/C in clients)
+		if(C.ckey == key)
+			p_age = C.player_age
+			break
+	dat +="<span style='color:#000000; font-weight: bold'>Player age: [p_age]</span><br>"
 
 	var/savefile/info = new("data/player_saves/[copytext(key, 1, 2)]/[key]/info.sav")
 	var/list/infos
@@ -596,7 +611,7 @@
 			<A href='?src=\ref[src];secretsadmin=list_bombers'>Bombing List</A><BR>
 			<A href='?src=\ref[src];secretsadmin=check_antagonist'>Show current traitors and objectives</A><BR>
 			<A href='?src=\ref[src];secretsadmin=list_signalers'>Show last [length(lastsignalers)] signalers</A><BR>
-			<A href='?src=\ref[src];secretsadmin=list_lawchanges'>Show last [length(lawchanges)] law changes</A><BR>
+			<A href='?src=\ref[src];secretsadmin=list_lawchanges'>Show last [lawchanges.len] law change\s</A><BR>
 			<A href='?src=\ref[src];secretsadmin=showailaws'>Show AI Laws</A><BR>
 			<A href='?src=\ref[src];secretsadmin=showgm'>Show Game Mode</A><BR>
 			<A href='?src=\ref[src];secretsadmin=manifest'>Show Crew Manifest</A><BR>
@@ -662,6 +677,21 @@
 			<A href='?src=\ref[src];secretsfun=floorlava'>The floor is lava! (DANGEROUS: extremely lame)</A><BR>
 			"}
 
+	if(check_rights(R_SERVER,0))
+		dat += "<A href='?src=\ref[src];secretsfun=togglebombcap'>Toggle bomb cap</A><BR>"
+
+	if(check_rights(R_SERVER|R_FUN,0))
+		dat += {"
+			<BR>
+			<B>Final Solutions</B><BR>
+			<I>(Warning, these will end the round!)</I><BR>
+			<BR>
+			<A href='?src=\ref[src];secretsfun=hellonearth'>Summon Nar-Sie</A><BR>
+			<A href='?src=\ref[src];secretsfun=supermattercascade'>Start a Supermatter Cascade</A><BR>
+			"}
+
+	dat += "<BR>"
+
 	if(check_rights(R_DEBUG,0))
 		dat += {"
 			<B>Security Level Elevated</B><BR>
@@ -674,7 +704,6 @@
 			<BR>
 			<A href='?src=\ref[src];secretsadmin=list_job_debug'>Show Job Debug</A><BR>
 			<A href='?src=\ref[src];secretscoder=spawn_objects'>Admin Log</A><BR>
-			<A href='?src=\ref[src];secretsfun=togglebombcap'>Toggle bomb cap</A><BR>
 			<BR>
 			"}
 
@@ -713,27 +742,50 @@
 	var/message = russian_to_cp1251(input("Global message to send:", "Admin Announce", null, null)  as message)
 	if(message)
 		if(!check_rights(R_SERVER,0))
-			message = adminscrub(message,500)
-		world << "\blue <b>[usr.client.holder.fakekey ? "Administrator" : usr.key] Announces:</b>\n \t [message]"
+			message = sanitize(message, 500, extra = 0)
+		message = replacetext(message, "\n", "<br>") // required since we're putting it in a <p> tag
+		world << "<span class=notice><b>[usr.client.holder.fakekey ? "Administrator" : usr.key] Announces:</b><p style='text-indent: 50px'>[message]</p></span>"
 		log_admin("Announce: [key_name(usr)] : [message]")
 
 /datum/admins/proc/toggleooc()
 	set category = "Server"
 	set desc="Globally Toggles OOC"
 	set name="Toggle OOC"
+
+	if(!check_rights(R_ADMIN))
+		return
+
 	config.ooc_allowed = !(config.ooc_allowed)
 	if (config.ooc_allowed)
 		world << "<B>The OOC channel has been globally enabled!</B>"
 	else
 		world << "<B>The OOC channel has been globally disabled!</B>"
-	log_admin("[key_name(usr)] toggled OOC.")
-	message_admins("[key_name_admin(usr)] toggled OOC.", 1)
+	log_and_message_admins("toggled OOC.")
+
+/datum/admins/proc/togglelooc()
+	set category = "Server"
+	set desc="Globally Toggles LOOC"
+	set name="Toggle LOOC"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	config.looc_allowed = !(config.looc_allowed)
+	if (config.looc_allowed)
+		world << "<B>The LOOC channel has been globally enabled!</B>"
+	else
+		world << "<B>The LOOC channel has been globally disabled!</B>"
+	log_and_message_admins("toggled LOOC.")
 
 
 /datum/admins/proc/toggledsay()
 	set category = "Server"
 	set desc="Globally Toggles DSAY"
 	set name="Toggle DSAY"
+
+	if(!check_rights(R_ADMIN))
+		return
+
 	config.dsay_allowed = !(config.dsay_allowed)
 	if (config.dsay_allowed)
 		world << "<B>Deadchat has been globally enabled!</B>"
@@ -746,6 +798,10 @@
 	set category = "Server"
 	set desc="Toggle Dead OOC."
 	set name="Toggle Dead OOC"
+
+	if(!check_rights(R_ADMIN))
+		return
+
 	config.dooc_allowed = !( config.dooc_allowed )
 	log_admin("[key_name(usr)] toggled Dead OOC.")
 	message_admins("[key_name_admin(usr)] toggled Dead OOC.", 1)
@@ -880,6 +936,19 @@
 
 	world.Reboot()
 
+/datum/admins/proc/unprison(var/mob/M in mob_list)
+	set category = "Admin"
+	set name = "Unprison"
+	if (M.z == 2)
+		if (config.allow_admin_jump)
+			M.loc = pick(latejoin)
+			message_admins("[key_name_admin(usr)] has unprisoned [key_name_admin(M)]", 1)
+			log_admin("[key_name(usr)] has unprisoned [key_name(M)]")
+		else
+			alert("Admin jumping disabled")
+	else
+		alert("[M.name] is not prisoned.")
+
 ////////////////////////////////////////////////////////////////////////////////////////////////ADMIN HELPER PROCS
 
 /proc/is_special_character(mob/M as mob) // returns 1 for specail characters and 2 for heroes of gamemode
@@ -887,69 +956,86 @@
 		return 0
 	if (!istype(M))
 		return 0
-	if((M.mind in ticker.mode.head_revolutionaries) || (M.mind in ticker.mode.revolutionaries))
-		if (ticker.mode.config_tag == "revolution")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.cult)
-		if (ticker.mode.config_tag == "cult")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.malf_ai)
-		if (ticker.mode.config_tag == "malfunction")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.syndicates)
-		if (ticker.mode.config_tag == "mercenary")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.wizards)
-		if (ticker.mode.config_tag == "wizard")
-			return 2
-		return 1
-	if(M.mind in ticker.mode.changelings)
-		if (ticker.mode.config_tag == "changeling")
-			return 2
-		return 1
 
-	for(var/datum/disease/D in M.viruses)
-		if(istype(D, /datum/disease/jungle_fever))
-			if (ticker.mode.config_tag == "monkey")
-				return 2
+	if(M.mind)
+		if(ticker.mode.antag_templates && ticker.mode.antag_templates.len)
+			for(var/datum/antagonist/antag in ticker.mode.antag_templates)
+				if(antag.is_antagonist(M.mind))
+					return 2
+		else if(M.mind.special_role)
 			return 1
+
 	if(isrobot(M))
 		var/mob/living/silicon/robot/R = M
 		if(R.emagged)
 			return 1
-	if(M.mind&&M.mind.special_role)//If they have a mind and special role, they are some type of traitor or antagonist.
-		return 1
 
 	return 0
 
-/datum/admins/proc/spawn_fruit()
+/datum/admins/proc/spawn_fruit(seedtype in plant_controller.seeds)
 	set category = "Debug"
 	set desc = "Spawn the product of a seed."
 	set name = "Spawn Fruit"
 
 	if(!check_rights(R_SPAWN))	return
 
-	var/seedtype = input("Select a seed type", "Spawn Fruit") as null|anything in plant_controller.seeds
 	if(!seedtype || !plant_controller.seeds[seedtype])
 		return
 	var/datum/seed/S = plant_controller.seeds[seedtype]
 	S.harvest(usr,0,0,1)
+	log_admin("[key_name(usr)] spawned [seedtype] fruit at ([usr.x],[usr.y],[usr.z])")
 
-/datum/admins/proc/spawn_plant()
+/datum/admins/proc/spawn_custom_item()
+	set category = "Debug"
+	set desc = "Spawn a custom item."
+	set name = "Spawn Custom Item"
+
+	if(!check_rights(R_SPAWN))	return
+
+	var/owner = input("Select a ckey.", "Spawn Custom Item") as null|anything in custom_items
+	if(!owner|| !custom_items[owner])
+		return
+
+	var/list/possible_items = custom_items[owner]
+	var/datum/custom_item/item_to_spawn = input("Select an item to spawn.", "Spawn Custom Item") as null|anything in possible_items
+	if(!item_to_spawn)
+		return
+
+	item_to_spawn.spawn_item(get_turf(usr))
+
+/datum/admins/proc/check_custom_items()
+
+	set category = "Debug"
+	set desc = "Check the custom item list."
+	set name = "Check Custom Items"
+
+	if(!check_rights(R_SPAWN))	return
+
+	if(!custom_items)
+		usr << "Custom item list is null."
+		return
+
+	if(!custom_items.len)
+		usr << "Custom item list not populated."
+		return
+
+	for(var/assoc_key in custom_items)
+		usr << "[assoc_key] has:"
+		var/list/current_items = custom_items[assoc_key]
+		for(var/datum/custom_item/item in current_items)
+			usr << "- name: [item.name] icon: [item.item_icon] path: [item.item_path] desc: [item.item_desc]"
+
+/datum/admins/proc/spawn_plant(seedtype in plant_controller.seeds)
 	set category = "Debug"
 	set desc = "Spawn a spreading plant effect."
 	set name = "Spawn Plant"
 
 	if(!check_rights(R_SPAWN))	return
 
-	var/seedtype = input("Select a seed type", "Spawn Plant") as null|anything in plant_controller.seeds
 	if(!seedtype || !plant_controller.seeds[seedtype])
 		return
 	new /obj/effect/plant(get_turf(usr), plant_controller.seeds[seedtype])
+	log_admin("[key_name(usr)] spawned [seedtype] vines at ([usr.x],[usr.y],[usr.z])")
 
 /datum/admins/proc/spawn_atom(var/object as text)
 	set category = "Debug"
@@ -999,11 +1085,83 @@
 
 	M.mind.edit_memory()
 
+/datum/admins/proc/show_game_mode()
+	set category = "Admin"
+	set desc = "Show the current round configuration."
+	set name = "Show Game Mode"
+
+	if(!ticker || !ticker.mode)
+		alert("Not before roundstart!", "Alert")
+		return
+
+	var/out = "<font size=3><b>Current mode: [ticker.mode.name] (<a href='?src=\ref[ticker.mode];debug_antag=self'>[ticker.mode.config_tag]</a>)</b></font><br/>"
+	out += "<hr>"
+
+	if(ticker.mode.ert_disabled)
+		out += "<b>Emergency Response Teams:</b> <a href='?src=\ref[ticker.mode];toggle=ert'>disabled</a>"
+	else
+		out += "<b>Emergency Response Teams:</b> <a href='?src=\ref[ticker.mode];toggle=ert'>enabled</a>"
+	out += "<br/>"
+
+	if(ticker.mode.deny_respawn)
+		out += "<b>Respawning:</b> <a href='?src=\ref[ticker.mode];toggle=respawn'>disallowed</a>"
+	else
+		out += "<b>Respawning:</b> <a href='?src=\ref[ticker.mode];toggle=respawn'>allowed</a>"
+	out += "<br/>"
+
+	out += "<b>Shuttle delay multiplier:</b> <a href='?src=\ref[ticker.mode];set=shuttle_delay'>[ticker.mode.shuttle_delay]</a><br/>"
+
+	if(ticker.mode.auto_recall_shuttle)
+		out += "<b>Shuttle auto-recall:</b> <a href='?src=\ref[ticker.mode];toggle=shuttle_recall'>enabled</a>"
+	else
+		out += "<b>Shuttle auto-recall:</b> <a href='?src=\ref[ticker.mode];toggle=shuttle_recall'>disabled</a>"
+	out += "<br/><br/>"
+
+	if(ticker.mode.event_delay_mod_moderate)
+		out += "<b>Moderate event time modifier:</b> <a href='?src=\ref[ticker.mode];set=event_modifier_moderate'>[ticker.mode.event_delay_mod_moderate]</a><br/>"
+	else
+		out += "<b>Moderate event time modifier:</b> <a href='?src=\ref[ticker.mode];set=event_modifier_moderate'>unset</a><br/>"
+
+	if(ticker.mode.event_delay_mod_major)
+		out += "<b>Major event time modifier:</b> <a href='?src=\ref[ticker.mode];set=event_modifier_severe'>[ticker.mode.event_delay_mod_major]</a><br/>"
+	else
+		out += "<b>Major event time modifier:</b> <a href='?src=\ref[ticker.mode];set=event_modifier_severe'>unset</a><br/>"
+
+	out += "<hr>"
+
+	if(ticker.mode.antag_tags && ticker.mode.antag_tags.len)
+		out += "<b>Core antag templates:</b></br>"
+		for(var/antag_tag in ticker.mode.antag_tags)
+			out += "<a href='?src=\ref[ticker.mode];debug_antag=[antag_tag]'>[antag_tag]</a>.</br>"
+
+	if(ticker.mode.round_autoantag)
+		out += "<b>Autotraitor <a href='?src=\ref[ticker.mode];toggle=autotraitor'>enabled</a></b>."
+		if(ticker.mode.antag_scaling_coeff > 0)
+			out += " (scaling with <a href='?src=\ref[ticker.mode];set=antag_scaling'>[ticker.mode.antag_scaling_coeff]</a>)"
+		else
+			out += " (not currently scaling, <a href='?src=\ref[ticker.mode];set=antag_scaling'>set a coefficient</a>)"
+		out += "<br/>"
+	else
+		out += "<b>Autotraitor <a href='?src=\ref[ticker.mode];toggle=autotraitor'>disabled</a></b>.<br/>"
+
+	out += "<b>All antag ids:</b>"
+	if(ticker.mode.antag_templates && ticker.mode.antag_templates.len).
+		for(var/datum/antagonist/antag in ticker.mode.antag_templates)
+			antag.update_current_antag_max()
+			out += " <a href='?src=\ref[ticker.mode];debug_antag=[antag.id]'>[antag.id]</a>"
+			out += " ([antag.get_antag_count()]/[antag.cur_max]) "
+			out += " <a href='?src=\ref[ticker.mode];remove_antag_type=[antag.id]'>\[-\]</a><br/>"
+	else
+		out += " None."
+	out += " <a href='?src=\ref[ticker.mode];add_antag_type=1'>\[+\]</a><br/>"
+
+	usr << browse(out, "window=edit_mode[src]")
+
 
 /datum/admins/proc/toggletintedweldhelmets()
 	set category = "Debug"
 	set desc="Reduces view range when wearing welding helmets"
-	set name="Toggle tinted welding helmes"
+	set name="Toggle tinted welding helmets."
 	config.welder_vision = !( config.welder_vision )
 	if (config.welder_vision)
 		world << "<B>Reduced welder vision has been enabled!</B>"
@@ -1072,7 +1230,7 @@
 		M = whom
 		C = M.client
 	else
-		return "<b>(*not a mob*)</b>"
+		return "<b>(*not an mob*)</b>"
 	switch(detail)
 		if(0)
 			return "<b>[key_name(C, link, name, highlight_special)]</b>"
@@ -1112,3 +1270,73 @@
 //ALL DONE
 //*********************************************************************************************************
 //
+
+//Returns 1 to let the dragdrop code know we are trapping this event
+//Returns 0 if we don't plan to trap the event
+/datum/admins/proc/cmd_ghost_drag(var/mob/dead/observer/frommob, var/mob/living/tomob)
+	if(!istype(frommob))
+		return //Extra sanity check to make sure only observers are shoved into things
+
+	//Same as assume-direct-control perm requirements.
+	if (!check_rights(R_VAREDIT,0) || !check_rights(R_ADMIN|R_DEBUG,0))
+		return 0
+	if (!frommob.ckey)
+		return 0
+	var/question = ""
+	if (tomob.ckey)
+		question = "This mob already has a user ([tomob.key]) in control of it! "
+	question += "Are you sure you want to place [frommob.name]([frommob.key]) in control of [tomob.name]?"
+	var/ask = alert(question, "Place ghost in control of mob?", "Yes", "No")
+	if (ask != "Yes")
+		return 1
+	if (!frommob || !tomob) //make sure the mobs don't go away while we waited for a response
+		return 1
+	if(tomob.client) //No need to ghostize if there is no client
+		tomob.ghostize(0)
+	message_admins("<span class='adminnotice'>[key_name_admin(usr)] has put [frommob.ckey] in control of [tomob.name].</span>")
+	log_admin("[key_name(usr)] stuffed [frommob.ckey] into [tomob.name].")
+	tomob.ckey = frommob.ckey
+	qdel(frommob)
+	return 1
+
+/datum/admins/proc/force_antag_latespawn()
+	set category = "Admin"
+	set name = "Force Template Spawn"
+	set desc = "Force an antagonist template to spawn."
+
+	if (!istype(src,/datum/admins))
+		src = usr.client.holder
+	if (!istype(src,/datum/admins))
+		usr << "Error: you are not an admin!"
+		return
+
+	if(!ticker || !ticker.mode)
+		usr << "Mode has not started."
+		return
+
+	var/antag_type = input("Choose a template.","Force Latespawn") as null|anything in all_antag_types
+	if(!antag_type || !all_antag_types[antag_type])
+		usr << "Aborting."
+		return
+
+	var/datum/antagonist/antag = all_antag_types[antag_type]
+	message_admins("[key_name(usr)] attempting to force latespawn with template [antag.id].")
+	antag.attempt_auto_spawn()
+
+/datum/admins/proc/force_mode_latespawn()
+	set category = "Admin"
+	set name = "Force Mode Spawn"
+	set desc = "Force autotraitor to proc."
+
+	if (!istype(src,/datum/admins))
+		src = usr.client.holder
+	if (!istype(src,/datum/admins))
+		usr << "Error: you are not an admin!"
+		return
+
+	if(!ticker || !ticker.mode)
+		usr << "Mode has not started."
+		return
+
+	message_admins("[key_name(usr)] attempting to force mode autospawn.")
+	ticker.mode.process_autoantag()
