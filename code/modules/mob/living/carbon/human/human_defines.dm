@@ -86,5 +86,6 @@
 
 	var/list/flavor_texts = list()
 
-	//var/mob/living/pet = null
-	var/mob/living/carbon/monkey/pet = null // just monkey for begining
+	mob_bump_flag = HUMAN
+	mob_push_flags = ~HEAVY
+	mob_swap_flags = ~HEAVY
