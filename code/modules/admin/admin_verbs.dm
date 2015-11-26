@@ -9,6 +9,7 @@ var/list/admin_verbs_default = list(
 	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
 //	/client/proc/check_antagonists,		/*shows all antags*/
 	/client/proc/cmd_mentor_check_new_players,
+	/client/proc/cmd_admin_say,
 	/client/proc/checkAccount
 //	/client/proc/deadchat				/*toggles deadchat on/off*/
 	)
@@ -64,9 +65,7 @@ var/list/admin_verbs_admin = list(
 	/datum/admins/proc/toggleoocdead,	/*toggles ooc on/off for everyone who is dead*/
 	/datum/admins/proc/toggledsay,		/*toggles dsay on/off for everyone*/
 	/client/proc/game_panel,			/*game panel, allows to change game-mode etc*/
-	/client/proc/cmd_admin_say,			/*admin-only ooc chat*/
 	/datum/admins/proc/PlayerNotes,
-//	/client/proc/cmd_mod_say,
 	/datum/admins/proc/show_player_info,
 	/client/proc/free_slot,			/*frees slot for chosen job*/
 	/client/proc/cmd_admin_change_custom_event,
@@ -150,6 +149,8 @@ var/list/admin_verbs_server = list(
 	/datum/admins/proc/adjump,
 	/datum/admins/proc/toggle_aliens,
 	/datum/admins/proc/toggle_space_ninja,
+	/client/proc/time_to_respawn,
+	/client/proc/toggle_dead_vote,
 	/client/proc/toggle_random_events,
 	/client/proc/check_customitem_activity,
 	/client/proc/nanomapgen_DumpImage
@@ -269,6 +270,8 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/air_report,
 	/client/proc/enable_debug_verbs,
 	/client/proc/roll_dices,
+	/client/proc/time_to_respawn,
+	/client/proc/toggle_dead_vote,
 	/proc/possess,
 	/proc/release
 	)
@@ -279,8 +282,6 @@ var/list/admin_verbs_mod = list(
 	/client/proc/toggledebuglogs,
 	/datum/admins/proc/PlayerNotes,
 	/client/proc/admin_ghost,			/*allows us to ghost/reenter body at will*/
-	/client/proc/cmd_admin_say,
-//	/client/proc/cmd_mod_say,
 	/datum/admins/proc/show_player_info,
 	/client/proc/player_panel_new,
 	/client/proc/dsay,
@@ -295,8 +296,6 @@ var/list/admin_verbs_mentor = list(
 	/client/proc/cmd_admin_pm_panel,
 	/datum/admins/proc/PlayerNotes,
 	/client/proc/admin_ghost,
-	/client/proc/cmd_admin_say,
-//	/client/proc/cmd_mod_say,
 	/datum/admins/proc/show_player_info,
 //	/client/proc/dsay,
 	/client/proc/cmd_admin_subtle_message
@@ -457,6 +456,36 @@ var/list/admin_verbs_mentor = list(
 			message_admins("\blue[usr.client.ckey] has banned [ban_key] (not in game).\nReason: [reason]\nThis is a permanent ban.")
 		if("Cancel")
 			return
+
+/client/proc/time_to_respawn()
+	set category = "Server"
+	set name = "Edit time to respawn"
+
+	if(!check_rights(R_SERVER))	return
+
+	var/temp = 0
+	switch(alert("Which type of respawn we going to edit?","Edit time to respawn","Human","Mouse","Cancel"))
+		if ("Human")
+			temp = input(usr,"Set time (in minutes)","Time to respawn",initial(config.respawn_time)) as num|null
+			if (temp >= 0)
+				config.respawn_time = temp
+				log_admin("[key_name(usr)] edit humans respawn time to [config.respawn_time]")
+				message_admins("[key_name(usr)] edit humans respawn time to [config.respawn_time]", 1)
+		if ("Mouse")
+			temp = input(usr,"Set time (in minutes)?","Time to respawn",initial(config.respawn_time_mouse)) as num|null
+			if (temp >= 0)
+				config.respawn_time_mouse = temp
+				log_admin("[key_name(usr)] edit mice respawn time to [config.respawn_time_mouse]")
+				message_admins("[key_name(usr)] edit mice respawn time to [config.respawn_time_mouse]", 1)
+		if ("Cancel")
+			return
+
+/client/proc/toggle_dead_vote()
+	set category = "Server"
+	set name = "Toggle Dead Vote"
+	if(!check_rights(R_SERVER))	return
+	config.vote_no_dead = !config.vote_no_dead
+	message_admins("[key_name(usr)] [config.vote_no_dead?"allow":"disallow"] dead voting", 1)
 
 /client/proc/player_panel()
 	set name = "Player Panel"

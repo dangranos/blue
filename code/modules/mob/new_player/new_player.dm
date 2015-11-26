@@ -92,7 +92,7 @@
 
 		if(href_list["observe"])
 
-			if(alert(src,"Are you sure you wish to observe? You will have to wait 30 minutes before being able to respawn!","Player Setup","Yes","No") == "Yes")
+			if(alert(src,"Are you sure you wish to observe? You will have to wait [config.respawn_time] minutes before being able to respawn!","Player Setup","Yes","No") == "Yes")
 				if(!client)	return 1
 				var/mob/dead/observer/observer = new()
 
@@ -168,44 +168,6 @@
 
 			AttemptLateSpawn(href_list["SelectedJob"],client.prefs.spawnpoint)
 			return
-
-		if(href_list["privacy_poll"])
-			establish_db_connection()
-			if(!dbcon.IsConnected())
-				return
-			var/voted = 0
-
-			//First check if the person has not voted yet.
-			var/DBQuery/query = dbcon.NewQuery("SELECT * FROM erro_privacy WHERE ckey='[src.ckey]'")
-			query.Execute()
-			while(query.NextRow())
-				voted = 1
-				break
-
-			//This is a safety switch, so only valid options pass through
-			var/option = "UNKNOWN"
-			switch(href_list["privacy_poll"])
-				if("signed")
-					option = "SIGNED"
-				if("anonymous")
-					option = "ANONYMOUS"
-				if("nostats")
-					option = "NOSTATS"
-				if("later")
-					usr << browse(null,"window=privacypoll")
-					return
-				if("abstain")
-					option = "ABSTAIN"
-
-			if(option == "UNKNOWN")
-				return
-
-			if(!voted)
-				var/sql = "INSERT INTO erro_privacy VALUES (null, Now(), '[src.ckey]', '[option]')"
-				var/DBQuery/query_insert = dbcon.NewQuery(sql)
-				query_insert.Execute()
-				usr << "<b>Thank you for your vote!</b>"
-				usr << browse(null,"window=privacypoll")
 
 		if(!ready && href_list["preference"])
 			if(client)
