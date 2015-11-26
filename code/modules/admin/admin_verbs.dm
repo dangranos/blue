@@ -9,6 +9,7 @@ var/list/admin_verbs_default = list(
 	/client/proc/debug_variables,		/*allows us to -see- the variables of any instance in the game. +VAREDIT needed to modify*/
 //	/client/proc/check_antagonists,		/*shows all antags*/
 	/client/proc/cmd_mentor_check_new_players,
+	/client/proc/cmd_admin_say,
 	/client/proc/checkAccount
 //	/client/proc/deadchat				/*toggles deadchat on/off*/
 	)
@@ -64,9 +65,7 @@ var/list/admin_verbs_admin = list(
 	/datum/admins/proc/toggleoocdead,	/*toggles ooc on/off for everyone who is dead*/
 	/datum/admins/proc/toggledsay,		/*toggles dsay on/off for everyone*/
 	/client/proc/game_panel,			/*game panel, allows to change game-mode etc*/
-	/client/proc/cmd_admin_say,			/*admin-only ooc chat*/
 	/datum/admins/proc/PlayerNotes,
-//	/client/proc/cmd_mod_say,
 	/datum/admins/proc/show_player_info,
 	/client/proc/free_slot,			/*frees slot for chosen job*/
 	/client/proc/cmd_admin_change_custom_event,
@@ -279,8 +278,6 @@ var/list/admin_verbs_mod = list(
 	/client/proc/toggledebuglogs,
 	/datum/admins/proc/PlayerNotes,
 	/client/proc/admin_ghost,			/*allows us to ghost/reenter body at will*/
-	/client/proc/cmd_admin_say,
-//	/client/proc/cmd_mod_say,
 	/datum/admins/proc/show_player_info,
 	/client/proc/player_panel_new,
 	/client/proc/dsay,
@@ -295,8 +292,6 @@ var/list/admin_verbs_mentor = list(
 	/client/proc/cmd_admin_pm_panel,
 	/datum/admins/proc/PlayerNotes,
 	/client/proc/admin_ghost,
-	/client/proc/cmd_admin_say,
-//	/client/proc/cmd_mod_say,
 	/datum/admins/proc/show_player_info,
 //	/client/proc/dsay,
 	/client/proc/cmd_admin_subtle_message
