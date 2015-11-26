@@ -17,3 +17,14 @@
 		msg += "\nIt is [pose]"
 
 	user << msg
+
+/mob/living/silicon/pai/examinate(atom/A as mob|obj|turf in view(get_turf(src)))
+	set name = "Examine"
+	set category = "IC"
+
+	if(is_blind(src) || usr.stat)
+		src << "<span class='notice'>Something is there but you can't see it.</span>"
+		return 1
+
+	face_atom(A)
+	A.examine(src)
