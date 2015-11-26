@@ -372,12 +372,12 @@
 		var/deathtimeseconds = round((deathtime - deathtimeminutes * 600) / 10,1)
 		usr << "You have been dead for[pluralcheck] [deathtimeseconds] seconds."
 
-		if (deathtime < 18000)
+		if (deathtime < config.respawn_time*600)
 			if(is_admin)
-				if(alert("Normal players must wait at least 30 minutes to respawn! Would you?","Warning", "Ok", "No") == "Ok")
+				if(alert("Normal players must wait at least [config.respawn_time] minutes to respawn! Would you?","Warning", "Ok", "No") == "Ok")
 					return
 			else
-				usr << "You must wait 30 minutes to respawn!"
+				usr << "You must wait [config.respawn_time] minutes to respawn!"
 				return
 		else
 			usr << "You can respawn now, enjoy your new life!"
