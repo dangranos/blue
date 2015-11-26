@@ -150,6 +150,7 @@ var/list/admin_verbs_server = list(
 	/datum/admins/proc/toggle_aliens,
 	/datum/admins/proc/toggle_space_ninja,
 	/client/proc/time_to_respawn,
+	/client/proc/toggle_dead_vote,
 	/client/proc/toggle_random_events,
 	/client/proc/check_customitem_activity,
 	/client/proc/nanomapgen_DumpImage
@@ -270,6 +271,7 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/enable_debug_verbs,
 	/client/proc/roll_dices,
 	/client/proc/time_to_respawn,
+	/client/proc/toggle_dead_vote,
 	/proc/possess,
 	/proc/release
 	)
@@ -477,6 +479,13 @@ var/list/admin_verbs_mentor = list(
 				message_admins("[key_name(usr)] edit mice respawn time to [config.respawn_time_mouse]", 1)
 		if ("Cancel")
 			return
+
+/client/proc/toggle_dead_vote()
+	set category = "Server"
+	set name = "Toggle Dead Vote"
+	if(!check_rights(R_SERVER))	return
+	config.vote_no_dead = !config.vote_no_dead
+	message_admins("[key_name(usr)] [config.vote_no_dead?"allow":"disallow"] dead voting", 1)
 
 /client/proc/player_panel()
 	set name = "Player Panel"
