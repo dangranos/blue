@@ -143,7 +143,7 @@ var/list/mechtoys = list(
 	New()
 		ordernum = rand(1,9000)
 
-		for(var/typepath in (typesof(/datum/supply_packs) - /datum/supply_packs))
+		for(var/typepath in (typesof(/datum/supply_packs) - /datum/supply_packs - /datum/supply_packs/custom))
 			var/datum/supply_packs/P = new typepath()
 			supply_packs[P.name] = P
 
