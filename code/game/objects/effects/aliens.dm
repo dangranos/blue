@@ -356,7 +356,7 @@ Alien plants should do something if theres a lot of poison
 
 	var/mob/living/carbon/M = user
 	if(!istype(M) || !(locate(/obj/item/organ/xenos/hivenode) in M.internal_organs))
-		return attack_hand(user)
+		return
 
 	switch(status)
 		if(BURST)

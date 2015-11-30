@@ -1,6 +1,8 @@
 var/datum/controller/process/garbage_collector/garbage_collector
 var/list/delayed_garbage = list()
 
+#undef GC_DEBUG
+
 /datum/controller/process/garbage_collector
 	var/garbage_collect = 1			// Whether or not to actually do work
 	var/collection_timeout = 300	//deciseconds to wait to let running procs finish before we just say fuck it and force del() the object
@@ -81,7 +83,7 @@ var/list/delayed_garbage = list()
 	return ..()+"([garbage_collector.destroyed.len]/[garbage_collector.dels]/[garbage_collector.hard_dels])"
 
 // Tests if an atom has been deleted.
-/proc/deleted(atom/A) 
+/proc/deleted(atom/A)
 	return !A || !isnull(A.gcDestroyed)
 
 // Should be treated as a replacement for the 'del' keyword.

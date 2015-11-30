@@ -394,19 +394,21 @@ var/global/datum/controller/occupations/job_master
 							// This is a miserable way to fix the loadout overwrite bug, but the alternative requires
 							// adding an arg to a bunch of different procs. Will look into it after this merge. ~ Z
 							if(G.slot == slot_wear_mask || G.slot == slot_wear_suit || G.slot == slot_head)
-								custom_equip_leftovers += thing
+								//custom_equip_leftovers += thing
+								spawn_in_storage.Add(thing)
 							else if(H.equip_to_slot_or_del(new G.path(H), G.slot))
 								H << "\blue Equipping you with [thing]!"
 								custom_equip_slots.Add(G.slot)
 							else
-								custom_equip_leftovers.Add(thing)
+//								custom_equip_leftovers.Add(thing)
+								spawn_in_storage.Add(thing)
 						else
 							spawn_in_storage += thing
 			//Equip job items.
 			job.equip(H)
 			job.apply_fingerprints(H)
 
-			//If some custom items could not be equipped before, try again now.
+/*			//If some custom items could not be equipped before, try again now.
 			for(var/thing in custom_equip_leftovers)
 				var/datum/gear/G = gear_datums[thing]
 				if(G.slot in custom_equip_slots)
@@ -416,7 +418,7 @@ var/global/datum/controller/occupations/job_master
 						H << "\blue Equipping you with [thing]!"
 						custom_equip_slots.Add(G.slot)
 					else
-						spawn_in_storage += thing
+						spawn_in_storage += thing*/
 		else
 			H << "Your job is [rank] and the game just can't handle it! Please report this bug to an administrator."
 
