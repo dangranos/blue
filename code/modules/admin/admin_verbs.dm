@@ -93,7 +93,7 @@ var/list/admin_verbs_admin = list(
 )
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
-	/client/proc/jobbans,
+//	/client/proc/jobbans,
 	/client/proc/late_ban
 	)
 var/list/admin_verbs_sounds = list(
@@ -287,7 +287,7 @@ var/list/admin_verbs_mod = list(
 	/client/proc/dsay,
 //	/datum/admins/proc/show_player_panel,
 	/client/proc/check_antagonists,
-	/client/proc/jobbans,
+//	/client/proc/jobbans,
 	/client/proc/cmd_admin_subtle_message 	/*send an message to somebody as a 'voice in their head'*/
 )
 
@@ -508,7 +508,7 @@ var/list/admin_verbs_mentor = list(
 		holder.check_antagonists()
 		log_admin("[key_name(usr)] checked antagonists.")	//for tsar~
 	return
-
+/*
 /client/proc/jobbans()
 	set name = "Display Job bans"
 	set category = "Admin"
@@ -518,7 +518,7 @@ var/list/admin_verbs_mentor = list(
 		else
 			holder.DB_ban_panel()
 	return
-
+*/
 /client/proc/unban_panel()
 	set name = "Unban Panel"
 	set category = "Admin"
