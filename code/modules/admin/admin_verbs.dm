@@ -485,7 +485,7 @@ var/list/admin_verbs_mentor = list(
 	set name = "Toggle Dead Vote"
 	if(!check_rights(R_SERVER))	return
 	config.vote_no_dead = !config.vote_no_dead
-	message_admins("[key_name(usr)] [config.vote_no_dead?"allow":"disallow"] dead voting", 1)
+	message_admins("[key_name(usr)] [config.vote_no_dead?"disallow":"	allow"] dead voting", 1)
 
 /client/proc/player_panel()
 	set name = "Player Panel"
