@@ -1,6 +1,6 @@
 //admin verb groups - They can overlap if you so wish. Only one of each verb will exist in the verbs list regardless
 var/list/admin_verbs_default = list(
-	/datum/admins/proc/show_player_panel,	/*shows an interface for individual players, with various links (links require additional flags*/
+//	/datum/admins/proc/show_player_panel,	/*shows an interface for individual players, with various links (links require additional flags*/
 	/client/proc/player_panel,
 	/client/proc/toggleadminhelpsound,	/*toggles whether we hear a sound when adminhelps/PMs are used*/
 	/client/proc/deadmin_self,			/*destroys our own admin datum so we can play as a regular player*/
@@ -93,7 +93,7 @@ var/list/admin_verbs_admin = list(
 )
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
-	/client/proc/jobbans,
+//	/client/proc/jobbans,
 	/client/proc/late_ban
 	)
 var/list/admin_verbs_sounds = list(
@@ -285,9 +285,9 @@ var/list/admin_verbs_mod = list(
 	/datum/admins/proc/show_player_info,
 	/client/proc/player_panel_new,
 	/client/proc/dsay,
-	/datum/admins/proc/show_player_panel,
+//	/datum/admins/proc/show_player_panel,
 	/client/proc/check_antagonists,
-	/client/proc/jobbans,
+//	/client/proc/jobbans,
 	/client/proc/cmd_admin_subtle_message 	/*send an message to somebody as a 'voice in their head'*/
 )
 
@@ -485,7 +485,7 @@ var/list/admin_verbs_mentor = list(
 	set name = "Toggle Dead Vote"
 	if(!check_rights(R_SERVER))	return
 	config.vote_no_dead = !config.vote_no_dead
-	message_admins("[key_name(usr)] [config.vote_no_dead?"allow":"disallow"] dead voting", 1)
+	message_admins("[key_name(usr)] [config.vote_no_dead?"disallow":"	allow"] dead voting", 1)
 
 /client/proc/player_panel()
 	set name = "Player Panel"
@@ -508,7 +508,7 @@ var/list/admin_verbs_mentor = list(
 		holder.check_antagonists()
 		log_admin("[key_name(usr)] checked antagonists.")	//for tsar~
 	return
-
+/*
 /client/proc/jobbans()
 	set name = "Display Job bans"
 	set category = "Admin"
@@ -518,7 +518,7 @@ var/list/admin_verbs_mentor = list(
 		else
 			holder.DB_ban_panel()
 	return
-
+*/
 /client/proc/unban_panel()
 	set name = "Unban Panel"
 	set category = "Admin"
@@ -1073,6 +1073,7 @@ var/list/admin_verbs_mentor = list(
 
 	T << "<span class='notice'><b><font size=3>Man up and deal with it.</font></b></span>"
 	T << "<span class='notice'>Move on.</span>"
+	T << 'sound/voice/ManUp1.ogg'
 
 	log_admin("[key_name(usr)] told [key_name(T)] to man up and deal with it.")
 	message_admins("\blue [key_name_admin(usr)] told [key_name(T)] to man up and deal with it.", 1)
