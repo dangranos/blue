@@ -15,6 +15,7 @@ datum/controller/vote
 	var/list/current_votes = list()
 	var/list/additional_text = list()
 	var/auto_muted = 0
+	var/dead_allow_forced = 0
 
 	New()
 		if(vote != src)
@@ -66,6 +67,7 @@ datum/controller/vote
 		voting.Cut()
 		current_votes.Cut()
 		additional_text.Cut()
+		dead_allow_forced = 0
 
 	proc/get_result()
 		//get the highest number of votes
@@ -184,7 +186,7 @@ datum/controller/vote
 
 	proc/submit_vote(var/ckey, var/vote)
 		if(mode)
-			if(config.vote_no_dead && usr.stat == DEAD && !usr.client.holder)
+			if(!dead_allow_forced && config.vote_no_dead && usr.stat == DEAD && !usr.client.holder)
 				return 0
 			if(vote && vote >= 1 && vote <= choices.len)
 				if(current_votes[ckey])
@@ -203,6 +205,7 @@ datum/controller/vote
 					return 0
 
 			reset()
+			dead_allow_forced = automatic && !(admins && admins.len)
 			switch(vote_type)
 				if("restart")
 					choices.Add("Restart Round","Continue Playing")
