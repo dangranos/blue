@@ -1,6 +1,6 @@
 /client/proc/spawn_chemdisp_cartridge(size in list("small", "medium", "large"), reagent in chemical_reagents_list)
-	set name = "Spawn Chemical Dispenser Cartridge"
-	set category = "Admin"
+	set name = "Spawn Chem. Cartridge"
+	set category = "Debug"
 
 	var/obj/item/weapon/reagent_containers/chem_disp_cartridge/C
 	switch(size)
