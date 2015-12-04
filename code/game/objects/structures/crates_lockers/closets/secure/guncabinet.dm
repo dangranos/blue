@@ -31,23 +31,24 @@
 				shottas++
 		if (lazors || shottas)
 			for (var/i = 0 to 2)
-				var/image/gun = image(icon(src.icon))
+				var/image/gun = null
 
 				if (lazors > 0 && (shottas <= 0 || prob(50)))
 					lazors--
-					gun.icon_state = "laser"
+					gun = new/image("icon" = src.icon, "icon_state" = "laser")
 				else if (shottas > 0)
 					shottas--
-					gun.icon_state = "projectile"
+					gun = new/image("icon" = src.icon, "icon_state" = "projectile")
 
-				gun.pixel_x = i*4
-				overlays += gun
+				if(gun)
+					gun.pixel_x = i*4
+					overlays += gun
 
-		overlays += icon(src.icon,"door")
+		overlays += image("icon" = src.icon, "icon_state" = "door")
 
 		if(broken)
-			overlays += icon(src.icon,"broken")
+			overlays += image("icon" = src.icon, "icon_state" = "broken")
 		else if (locked)
-			overlays += icon(src.icon,"locked")
+			overlays += image("icon" = src.icon, "icon_state" = "locked")
 		else
-			overlays += icon(src.icon,"open")
+			overlays += image("icon" = src.icon, "icon_state" = "open")
