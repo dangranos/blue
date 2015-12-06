@@ -67,8 +67,8 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
-		if (H.mind.role_alt_title)
-			switch(H.mind.role_alt_title)
+		if (H.mind && H.mind.role_alt_title)
+			switch(H.mind && H.mind.role_alt_title)
 				if("Emergency Physician")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical(H), slot_w_uniform)
 					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/fr_jacket(H), slot_wear_suit)
@@ -191,7 +191,7 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
-		if (H.mind.role_alt_title)
+		if (H.mind && H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Psychologist")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/psych/turtleneck(H), slot_w_uniform)
@@ -230,7 +230,7 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
-		if (H.mind.role_alt_title)
+		if (H.mind && H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Emergency Medical Technician")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/paramedic(H), slot_w_uniform)

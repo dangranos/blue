@@ -70,6 +70,18 @@
 		/obj/item/weapon/storage/backpack/satchel
 		)
 
+	equip(var/mob/living/carbon/human/H)
+		if(!H)	return 0
+		if (H.mind && H.mind.role_alt_title)
+			switch(H.mind.role_alt_title)
+				if("Maintenance Technician")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/maintenance_tech(H), slot_w_uniform)
+				if("Engine Technician")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/engine_tech(H), slot_w_uniform)
+				if("Electrician")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/electrician(H), slot_w_uniform)
+		return ..()
+
 
 
 /datum/job/atmos
