@@ -524,7 +524,7 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	message_admins("[key_name_admin(src)] has created a command report", 1)
 
 /client/proc/cmd_admin_delete(atom/O as obj|mob|turf in view())
-	set category = "Admin"
+	set category = null
 	set name = "Delete"
 
 	if (!holder)
@@ -862,3 +862,19 @@ Traitors and the like can also be revived with the previous role mostly intact.
 		config.allow_random_events = 0
 		usr << "Random events disabled"
 		message_admins("Admin [key_name_admin(usr)] has disabled random events.", 1)
+
+/client/proc/spawn_special()
+	set category = "Debug"
+	set name = "Spawn Special"
+	set desc = "Spawn special items"
+
+	if(!check_rights(R_SPAWN))	return
+	var/list/specials = list("Fax", "None")
+	var/select = input("Select item for spawning", "Select item", "None") in specials
+	if(!select || select == "None") return
+
+	switch(select)
+		if("Fax")
+			var/new_department = input("Type in new department", "New department", "Unknown")
+			if(!new_department) return
+			new/obj/machinery/photocopier/faxmachine(get_turf(src.mob), new_department)
