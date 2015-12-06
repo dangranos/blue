@@ -29,6 +29,7 @@
 				var/turf/T = locate(x+i,y-j,z)
 				var/mob/living/carbon/human/H = new(T)
 				job.equip(H)
+				H.equip_to_slot_or_del(new /obj/item/weapon/material/twohanded/spear(H), slot_r_hand)
 				if(j == 6)
 					make_negro(H)
 
@@ -39,6 +40,7 @@
 				var/turf/T = locate(x+i,y-j,z)
 				var/mob/living/carbon/human/H = new(T)
 				job.equip(H)
+				H.equip_to_slot_or_del(new /obj/item/weapon/melee/baton(H), slot_r_hand)
 				if(j == 7)
 					make_negro(H)
 
@@ -49,6 +51,7 @@
 				var/turf/T = locate(x+i,y-j,z)
 				var/mob/living/carbon/human/H = new(T)
 				job.equip(H)
+				H.equip_to_slot_or_del(new /obj/item/weapon/crowbar(H), slot_r_hand)
 				if(j == 7)
 					make_negro(H)
 
@@ -59,6 +62,7 @@
 				var/turf/T = locate(x+i,y-j,z)
 				var/mob/living/carbon/human/H = new(T)
 				job.equip(H)
+				H.equip_to_slot_or_del(new /obj/item/weapon/material/twohanded/baseballbat/metal(H), slot_r_hand)
 				if(j == 7)
 					make_negro(H)
 
@@ -66,10 +70,12 @@
 	if(job)
 		var/turf/T = locate(x+3,y-0,z)
 		var/mob/living/carbon/human/H = new(T)
+		H.equip_to_slot_or_del(new /obj/item/weapon/melee/chainofcommand(H), slot_r_hand)
 		job.equip(H)
 	if(job)
 		var/turf/T = locate(x+4,y-7,z)
 		var/mob/living/carbon/human/H = new(T)
+		H.equip_to_slot_or_del(new /obj/item/weapon/melee/chainofcommand(H), slot_r_hand)
 		job.equip(H)
 		make_negro(H)
 
@@ -79,10 +85,12 @@
 		var/turf/T = locate(x+4,y-0,z)
 		var/mob/living/carbon/human/H = new(T)
 		job.equip(H)
+		H.equip_to_slot_or_del(new /obj/item/weapon/material/twohanded/baseballbat/diamond(H), slot_r_hand)
 	if(job)
 		var/turf/T = locate(x+3,y-7,z)
 		var/mob/living/carbon/human/H = new(T)
 		job.equip(H)
+		H.equip_to_slot_or_del(new /obj/item/weapon/material/twohanded/baseballbat/diamond(H), slot_r_hand)
 		make_negro(H)
 	spawn(0)
 		del(src)
