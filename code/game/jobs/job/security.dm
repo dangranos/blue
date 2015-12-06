@@ -110,7 +110,7 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!..())	return 0
-		if(H.mind.role_alt_title && H.mind.role_alt_title == "Forensic Technician")
+		if(H.mind && H.mind.role_alt_title == "Forensic Technician")
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/forensics/blue(H), slot_wear_suit)
 		else
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/det_suit(H), slot_wear_suit)
