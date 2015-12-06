@@ -64,6 +64,20 @@
 		/obj/item/weapon/storage/backpack/satchel
 		)
 
+	equip(var/mob/living/carbon/human/H)
+		if(!H)	return 0
+		if (H.mind && H.mind.role_alt_title)
+			switch(H.mind.role_alt_title)
+				if("Xenoarcheologist")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/xenoarch(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/science)
+				if("Anomalist")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/anomalist(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/science)
+				if("Phoron Researcher")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/plasmares(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/science)
+		return ..()
 
 
 /datum/job/xenobiologist
@@ -82,7 +96,7 @@
 
 	minimal_player_age = 14
 
-	uniform = /obj/item/clothing/under/rank/scientist
+	uniform = /obj/item/clothing/under/rank/xenobio
 	pda = /obj/item/device/pda/science
 	ear = /obj/item/device/radio/headset/headset_sci
 	shoes = /obj/item/clothing/shoes/white
@@ -117,3 +131,15 @@
 	ear = /obj/item/device/radio/headset/headset_sci
 	suit = /obj/item/clothing/suit/storage/toggle/labcoat
 	hand = /obj/item/weapon/storage/toolbox/mechanical
+
+	equip(var/mob/living/carbon/human/H)
+		if(!H)	return 0
+		if (H.mind && H.mind.role_alt_title)
+			switch(H.mind.role_alt_title)
+				if("Biomechanical Engineer")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/biomechanical(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/science)
+				if("Mechatronic Engineer")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/mechatronic(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/science)
+		return ..()
