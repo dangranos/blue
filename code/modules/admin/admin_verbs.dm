@@ -129,7 +129,8 @@ var/list/admin_verbs_spawn = list(
 	/client/proc/ChangeIcarusPosition,
 	/client/proc/virus2_editor,
 	/client/proc/add_supply_pack,
-	/client/proc/spawn_chemdisp_cartridge
+	/client/proc/spawn_chemdisp_cartridge,
+	/client/proc/spawn_special
 	)
 var/list/admin_verbs_server = list(
 	/client/proc/Set_Holiday,

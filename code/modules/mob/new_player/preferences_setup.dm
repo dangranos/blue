@@ -114,7 +114,8 @@ datum/preferences
 		var/g = "m"
 		if(gender == FEMALE)
 			g = "f"
-		g+="[body_build]"
+		var/b="[body_build]"
+		g+=b
 
 		var/icon/icobase
 		var/datum/species/current_species = all_species[species]
@@ -139,8 +140,8 @@ datum/preferences
 			preview_icon.Blend(new /icon(icobase, "[name]_[g]"), ICON_OVERLAY)
 			var/tattoo = tattoo_data[name]
 			var/tattoo2 = tattoo_data["[name]2"]
-			if(tattoo)  preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo]_[body_build]"), ICON_OVERLAY)
-			if(tattoo2) preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]2_[tattoo2]_[body_build]"), ICON_OVERLAY)
+			if(tattoo)  preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo]_[b]"), ICON_OVERLAY)
+			if(tattoo2) preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]2_[tattoo2]_[b]"), ICON_OVERLAY)
 
 		//Tail
 		if(current_species && (current_species.tail))
