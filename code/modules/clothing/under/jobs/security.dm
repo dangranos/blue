@@ -106,6 +106,23 @@
 /obj/item/clothing/head/det_hat/black
 	icon_state = "detective2"
 
+/obj/item/clothing/under/rank/forentech
+	name = "red forensic technician suit"
+	desc = "Someone who wears this means business."
+	icon_state = "forentech"
+	item_state = "forentech"
+	worn_state = "forentech"
+	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	siemens_coefficient = 0.9
+
+/obj/item/clothing/under/rank/forentech2
+	name = "blue forensic technician suit"
+	desc = "Someone who wears this means business."
+	icon_state = "forentech2"
+	item_state = "forentech2"
+	worn_state = "forentech2"
+	armor = list(melee = 10, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 0)
+	siemens_coefficient = 0.9
 
 /*
  * Head of Security
