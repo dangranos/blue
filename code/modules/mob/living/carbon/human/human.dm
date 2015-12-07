@@ -1396,3 +1396,36 @@
 		get_scooped(H)
 		return
 	return ..()
+
+/mob/living/carbon/human/proc/get_uniform_sprite(state = "", body_build = 0)
+	return image(species.get_uniform_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_suit_sprite(state = "", body_build = 0)
+	return image(species.get_suit_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_gloves_sprite(state = "", body_build = 0)
+	return image(species.get_gloves_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_shoes_sprite(state = "", body_build = 0)
+	return image(species.get_shoes_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_head_sprite(state = "", body_build = 0)
+	return image(species.get_head_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_glasses_sprite(state = "", body_build = 0)
+	return image(species.get_glasses_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_belt_sprite(state = "", body_build = 0)
+	return image(species.get_belt_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_ears_sprite(state = "", body_build = 0)
+	return image(species.get_ears_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_back_sprite(state = "", body_build = 0)
+	return image(species.get_back_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_mask_sprite(state = "", body_build = 0)
+	return image(species.get_mask_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_store_sprite(state = "", body_build = 0)
+	return image(species.get_store_sprite(state, body_build), icon_state = state)

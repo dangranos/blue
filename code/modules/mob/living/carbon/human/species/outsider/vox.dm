@@ -7,6 +7,8 @@
 	language = "Galactic Common"
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick,  /datum/unarmed_attack/claws/strong, /datum/unarmed_attack/bite/strong)
 	rarity_value = 4
+	gluttonous = 1
+
 	blurb = "The Vox are the broken remnants of a once-proud race, now reduced to little more than \
 	scavenging vermin who prey on isolated stations, ships or planets to keep their own ancient arkships \
 	alive. They are four to five feet tall, reptillian, beaked, tailed and quilled; human crews often \
@@ -55,6 +57,34 @@
 					"Atmospheric Technician","Medical Doctor","Geneticist","Psychiatrist","Chemist","Paramedic",\
 					"Scientist", "Roboticist", "Xenobiologist", "Bartender", "Gardener", "Chef", "Librarian",\
 					"Quartermaster", "Lawyer", "Internal Affairs Agent", "Chaplain")
+
+	get_uniform_sprite(state = "")
+		if(state in icon_states('icons/mob/species/vox/uniform.dmi'))
+			return 'icons/mob/species/vox/uniform.dmi'
+		else return ..()
+
+	get_suit_sprite(state = "")
+		if(state in icon_states('icons/mob/species/vox/suit.dmi'))
+			return 'icons/mob/species/vox/suit.dmi'
+		else return ..()
+
+	get_head_sprite(state = "")
+		if(state in icon_states('icons/mob/species/vox/head.dmi'))
+			return 'icons/mob/species/vox/head.dmi'
+		else return ..()
+
+	get_gloves_sprite(state = "")
+		return 'icons/mob/species/vox/gloves.dmi'
+
+	get_shoes_sprite(state = "")
+		if(state in icon_states('icons/mob/species/vox/shoes.dmi'))
+			return 'icons/mob/species/vox/shoes.dmi'
+		else return ..()
+
+	get_mask_sprite(state = "")
+		if(state in icon_states('icons/mob/species/vox/masks.dmi'))
+			return  'icons/mob/species/vox/masks.dmi'
+		else return ..()
 
 /datum/species/vox/get_random_name(var/gender)
 	var/datum/language/species_language = all_languages[default_language]

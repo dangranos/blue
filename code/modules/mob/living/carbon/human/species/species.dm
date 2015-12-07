@@ -138,11 +138,48 @@
 	var/push_flags = ~HEAVY	// What can we push?
 	var/swap_flags = ~HEAVY	// What can we swap place with?
 
-	//Misc
+	// Misc
 	var/list/restricted_jobs = list()
 	var/list/accent = list()
 	var/list/accentFL = list()
 	var/allow_slim_fem = 0
+
+	// Srites
+	proc/get_uniform_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/uniform.dmi'
+
+	proc/get_suit_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/suit.dmi'
+
+	proc/get_head_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/head.dmi'
+
+	proc/get_gloves_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/hands.dmi'
+
+	proc/get_shoes_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/feet.dmi'
+
+	proc/get_glasses_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/eyes.dmi'
+
+//	proc/get_l_hand_sprite(state = "", var/body_build = 0)
+//	proc/get_r_hand_sprite(state = "", var/body_build = 0)
+
+	proc/get_belt_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/belt.dmi'
+
+	proc/get_ears_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/ears.dmi'
+
+	proc/get_back_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/back.dmi'
+
+	proc/get_mask_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/mask.dmi'
+
+	proc/get_store_sprite(state = "", var/body_build = 0)
+		return 'icons/mob/belt_mirror.dmi'
 
 
 /datum/species/New()

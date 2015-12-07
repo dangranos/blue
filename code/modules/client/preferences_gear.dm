@@ -900,7 +900,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/latex_gloves
 	display_name = "gloves, latex"
-	path = /obj/item/clothing/gloves/latex
+	path = /obj/item/clothing/gloves/white/latex
 	cost = 2
 	slot = slot_gloves
 /*
