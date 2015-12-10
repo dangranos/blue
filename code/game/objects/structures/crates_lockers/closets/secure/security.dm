@@ -280,6 +280,44 @@
 		else
 			icon_state = icon_opened
 
+/obj/structure/closet/secure_closet/forentech
+	name = "forensic technician's cabinet"
+	req_access = list(access_forensics_lockers)
+	icon_state = "cabinetdetective_locked"
+	icon_closed = "cabinetdetective"
+	icon_locked = "cabinetdetective_locked"
+	icon_opened = "cabinetdetective_open"
+	icon_broken = "cabinetdetective_broken"
+	icon_off = "cabinetdetective_broken"
+
+	New()
+		..()
+		new /obj/item/clothing/under/rank/forentech(src)
+		new /obj/item/clothing/under/rank/forentech(src)
+		new /obj/item/clothing/under/rank/forentech2(src)
+		new /obj/item/clothing/under/rank/forentech2(src)
+		new	/obj/item/clothing/suit/storage/toggle/labcoat/forensic(src)
+		new	/obj/item/clothing/suit/storage/toggle/labcoat/forensic(src)
+		new /obj/item/clothing/gloves/black(src)
+		new /obj/item/clothing/shoes/brown(src)
+		new /obj/item/weapon/storage/box/evidence(src)
+		new /obj/item/device/radio/headset/headset_sec(src)
+		new /obj/item/device/detective_scanner(src)
+		new /obj/item/taperoll/police(src)
+		return
+
+/obj/structure/closet/secure_closet/detective/update_icon()
+	if(broken)
+		icon_state = icon_broken
+	else
+		if(!opened)
+			if(locked)
+				icon_state = icon_locked
+			else
+				icon_state = icon_closed
+		else
+			icon_state = icon_opened
+
 /obj/structure/closet/secure_closet/injection
 	name = "lethal injections locker"
 	req_access = list(access_captain)

@@ -96,6 +96,16 @@
 	gas_transfer_coefficient = 0.90
 	siemens_coefficient = 0
 
+// For Terti with love <3.
+/obj/item/clothing/mask/arafatka
+	name = "shemagh"
+	desc = "Traditional Middle Eastern headdress fashioned from a square scarf."
+	icon_state = "arafatka"
+	item_state = "arafatka"
+	flags = MASKCOVERSMOUTH
+	w_class = 2
+	gas_transfer_coefficient = 0.90
+
 /obj/item/clothing/mask/pig
 	name = "pig mask"
 	desc = "A rubber pig mask."
