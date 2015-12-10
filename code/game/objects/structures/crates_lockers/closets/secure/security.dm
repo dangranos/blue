@@ -81,7 +81,8 @@
 		new /obj/item/clothing/shoes/black(src)
 		new /obj/item/clothing/shoes/leather(src)
 		new /obj/item/clothing/shoes/white(src)
-		new /obj/item/clothing/under/rank/head_of_personnel_whimsy(src)
+		new /obj/item/clothing/under/rank/head_of_personnel/whimsy(src)
+		new /obj/item/clothing/under/rank/head_of_personnel/dark(src)
 		new /obj/item/clothing/head/helmet/hop(src)
 		return
 
