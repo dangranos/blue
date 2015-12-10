@@ -103,8 +103,17 @@
 	icon_state = "arafatka"
 	item_state = "arafatka"
 	flags = MASKCOVERSMOUTH
+	slot_flags = SLOT_HEAD|SLOT_MASK
 	w_class = 2
 	gas_transfer_coefficient = 0.90
+
+/obj/item/clothing/mask/arafatka/equipped(mob/living/carbon/human/H, var/slot)
+	if(slot == slot_wear_mask)
+		flags |= MASKCOVERSMOUTH
+		body_parts_covered = FACE|EYES
+	else
+		flags &= ~(MASKCOVERSMOUTH | AIRTIGHT)
+		body_parts_covered = HEAD
 
 /obj/item/clothing/mask/pig
 	name = "pig mask"
