@@ -88,6 +88,14 @@
 	icon_open = "labcoat_chem_open"
 	icon_closed = "labcoat_chem"
 
+/obj/item/clothing/suit/storage/toggle/labcoat/forensic
+	name = "Forensic Technician labcoat"
+	desc = "A suit that protects against minor chemical spills. Has an red stripe on the shoulder."
+	icon_state = "labcoat_foren_open"
+	icon_open = "labcoat_foren_open"
+	icon_closed = "labcoat_foren"
+	armor = list(melee = 10, bullet = 10, laser = 15, energy = 10, bomb = 0, bio = 0, rad = 0)
+
 /obj/item/clothing/suit/storage/toggle/labcoat/virologist
 	name = "Virologist labcoat"
 	desc = "A suit that protects against minor chemical spills. Offers slightly more protection against biohazards than the standard model. Has a green stripe on the shoulder."
