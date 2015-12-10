@@ -21,12 +21,13 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	var/group = "Operations"
 
 /datum/supply_packs/New()
-	manifest += "<ul>"
-	for(var/path in contains)
-		if(!path)	continue
-		var/obj/element = path
-		manifest += "<li>[initial(element.name)]</li>"
-	manifest += "</ul>"
+	if(!manifest)
+		manifest += "<ul>"
+		for(var/path in contains)
+			if(!path)	continue
+			var/obj/element = path
+			manifest += "<li>[initial(element.name)]</li>"
+		manifest += "</ul>"
 
 /datum/supply_packs/specialops
 	name = "Special Ops supplies"
@@ -258,9 +259,9 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 
 /datum/supply_packs/lisa
 	name = "Corgi Crate"
-	contains = list()
+	contains = list(/mob/living/simple_animal/corgi)
 	cost = 50
-	containertype = /obj/structure/largecrate/animal/corgi
+	containertype = /obj/structure/largecrate/animal
 	containername = "Corgi Crate"
 	group = "Hydroponics"
 
@@ -290,7 +291,8 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 /datum/supply_packs/cow
 	name = "Cow crate"
 	cost = 30
-	containertype = /obj/structure/largecrate/animal/cow
+	contains = list(/mob/living/simple_animal/cow)
+	containertype = /obj/structure/largecrate/animal
 	containername = "Cow crate"
 	access = access_hydroponics
 	group = "Hydroponics"
@@ -298,7 +300,8 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 /datum/supply_packs/goat
 	name = "Goat crate"
 	cost = 25
-	containertype = /obj/structure/largecrate/animal/goat
+	contains = list(/mob/living/simple_animal/hostile/retaliate/goat)
+	containertype = /obj/structure/largecrate/animal
 	containername = "Goat crate"
 	access = access_hydroponics
 	group = "Hydroponics"
@@ -306,7 +309,9 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 /datum/supply_packs/chicken
 	name = "Chicken crate"
 	cost = 20
-	containertype = /obj/structure/largecrate/animal/chick
+	amount = 5
+	contains = list(/mob/living/simple_animal/chick)
+	containertype = /obj/structure/largecrate/animal
 	containername = "Chicken crate"
 	access = access_hydroponics
 	group = "Hydroponics"
@@ -661,6 +666,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	containertype = /obj/structure/largecrate/hoverpod
 	containername = "Hoverpod Crate"
 	group = "Operations"
+	manifest = "<ul><li>Hover Pod</li></ul>"
 
 /datum/supply_packs/robotics
 	name = "Robotics assembly crate"

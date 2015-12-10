@@ -81,7 +81,7 @@
 		/obj/item/device/flashlight/pen,
 		/obj/item/clothing/mask/surgical,
 		/obj/item/clothing/head/surgery,
-		/obj/item/clothing/gloves/latex,
+		/obj/item/clothing/gloves/white/latex,
 		/obj/item/weapon/reagent_containers/hypospray,
 		/obj/item/weapon/syringe_cartridge,
 		/obj/item/clothing/glasses/hud/health,
