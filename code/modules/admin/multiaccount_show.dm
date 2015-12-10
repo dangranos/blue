@@ -2,17 +2,30 @@
 	set name = "Check multiaccounts"
 	set category = "Admin"
 
-	var/target = input(usr, "Напечатайте ckey, который нужно проверить.", "Ckey") as text|null
-	if(!target) //Cancel теперь работает
-		return
-	showAccounts(src, target)
+	if(!holder) return
+	switch(alert("Chose checktype",,"All","Select player","Type ckey","Cancel"))
+		if("All")
+			holder.checkAllAccounts()
+		if("Select player")
+			var/targets = list()
+			var/list/mobs = sortmobs()
+			for(var/mob/M in mobs)
+				if(M.ckey) targets += "[M.ckey]"
+			holder.showAccounts(input("Select ckey", "Ckey") in targets)
+		if("Type ckey")
+			var/target = ckey(input(usr, "Напечатайте ckey, который нужно проверить.", "Ckey") as text|null)
+			if(!target) //Cancel теперь работает
+				return
+			holder.showAccounts(target)
 
-/proc/showAccounts(var/mob/user, var/targetkey)
+/datum/admins/proc/showAccounts(var/targetkey)
+	var/size = 0
 	var/output = "<center><table border='1'> <caption>Совпадение по computerID</caption><tr> <th width='100px' >ckey</th><th width='100px'>firstseen</th><th width='100px'>lastseen</th><th width='100px'>ip</th><th width='100px'>computerid </th></tr>"
 
 	var/DBQuery/query = dbcon.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM erro_player WHERE computerid IN (SELECT DISTINCT computerid FROM erro_player WHERE ckey LIKE '[targetkey]')")
 	query.Execute()
 	while(query.NextRow())
+		size += 1
 		output+="<tr><td>[query.item[1]]</td>"
 		output+="<td>[query.item[2]]</td>"
 		output+="<td>[query.item[3]]</td>"
@@ -26,6 +39,7 @@
 	query = dbcon.NewQuery("SELECT ckey,firstseen,lastseen,ip,computerid FROM erro_player WHERE ip IN (SELECT DISTINCT ip FROM erro_player WHERE computerid IN (SELECT DISTINCT computerid FROM erro_player WHERE ckey LIKE '[targetkey]'))")
 	query.Execute()
 	while(query.NextRow())
+		size += 1
 		output+="<tr><td>[query.item[1]]</td>"
 		output+="<td>[query.item[2]]</td>"
 		output+="<td>[query.item[3]]</td>"
@@ -34,12 +48,9 @@
 
 	output+="</table></center>"
 
-	user << browse(output, "window=accaunts;size=600x400")
+	usr << browse(output, "window=accaunts;size=600x[size*50+100]")
 
-/client/proc/checkAllAccounts()
-	set name = "Check multiaccounts(All)"
-	set category = "Admin"
-
+/datum/admins/proc/checkAllAccounts()
 	var/DBQuery/query
 	var/t1 = ""
 	var/output = "<B>Совпадение по IP</B><BR><BR>"

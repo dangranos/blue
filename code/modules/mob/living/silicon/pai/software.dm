@@ -7,13 +7,18 @@ var/list/pai_emotions = list(
 		"Off" = 6,
 		"Sad" = 7,
 		"Angry" = 8,
-		"What" = 9
+		"What" = 9,
+		"Neutral" = 10,
+		"Silly" = 11,
+		"Nose" = 12,
+		"Smirk" = 13,
+		"Exclamation Points" = 14,
+		"Question Mark" = 15
 	)
 
 
 var/global/list/pai_software_by_key = list()
 var/global/list/default_pai_software = list()
-
 /hook/startup/proc/populate_pai_software_list()
 	var/r = 1 // I would use ., but it'd sacrifice runtime detection
 	for(var/type in typesof(/datum/pai_software) - /datum/pai_software)

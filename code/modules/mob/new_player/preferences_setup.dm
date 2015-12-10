@@ -107,14 +107,15 @@ datum/preferences
 		skin_b = colors["blue"]
 
 	proc/update_preview_icon()		//seriously. This is horrendous.
-		del(preview_icon_front)
-		del(preview_icon_side)
-		del(preview_icon)
+		qdel(preview_icon_front)
+		qdel(preview_icon_side)
+		qdel(preview_icon)
 
 		var/g = "m"
 		if(gender == FEMALE)
 			g = "f"
-			if(body_build) g+="[body_build]"
+		var/b="[body_build]"
+		g+=b
 
 		var/icon/icobase
 		var/datum/species/current_species = all_species[species]
@@ -124,24 +125,23 @@ datum/preferences
 		else
 			icobase = 'icons/mob/human_races/r_human.dmi'
 
-		preview_icon = new /icon(icobase, "torso_[g]")
-		preview_icon.Blend(new /icon(icobase, "groin_[g]"), ICON_OVERLAY)
-		preview_icon.Blend(new /icon(icobase, "head_[g]"), ICON_OVERLAY)
+		preview_icon = new /icon('icons/mob/human.dmi', "blank")
+//		preview_icon.Blend(new /icon(icobase, "groin_[g]"), ICON_OVERLAY)
+//		preview_icon.Blend(new /icon(icobase, "head_[g]"), ICON_OVERLAY)
 
-		for(var/name in list("chest", "head", "groin", "r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
+		for(var/name in list("chest","groin","head","r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
 			if(organ_data[name] == "amputated") continue
-
-			var/icon/temp = null
-			var/icon/tattoo = null
 			if(organ_data[name] == "cyborg")
-				temp = new /icon('icons/mob/human_races/robotic.dmi', "[name]_[g]")
-			else
-				temp = new /icon(icobase, "[name]_[g]")
-				// Tattoo
-				tattoo = new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo_data[name]]_[body_build]")
-
-			preview_icon.Blend(temp, ICON_OVERLAY)
-			if(tattoo) preview_icon.Blend(tattoo, ICON_OVERLAY)
+				var/datum/robolimb/R
+				if(rlimb_data[name]) R = all_robolimbs[rlimb_data[name]]
+				if(!R) R = basic_robolimb
+				preview_icon.Blend(icon(R.icon, "[name]_[g]"), ICON_OVERLAY) // This doesn't check gendered_icon. Not an issue while only limbs can be robotic.
+				continue
+			preview_icon.Blend(new /icon(icobase, "[name]_[g]"), ICON_OVERLAY)
+			var/tattoo = tattoo_data[name]
+			var/tattoo2 = tattoo_data["[name]2"]
+			if(tattoo)  preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo]_[b]"), ICON_OVERLAY)
+			if(tattoo2) preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]2_[tattoo2]_[b]"), ICON_OVERLAY)
 
 		//Tail
 		if(current_species && (current_species.tail))
@@ -203,7 +203,15 @@ datum/preferences
 			if(J)//I hate how this looks, but there's no reason to go through this switch if it's empty
 
 				var/obj/item/clothing/under/UF = J.uniform
-				clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[initial(UF.item_color)]_s")
+
+
+				var/under_state
+				if(initial(UF.icon_state))
+					under_state = initial(UF.icon_state)
+				else
+					under_state = initial(UF.item_state)
+
+				clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[under_state]_s")
 
 				var/obj/item/clothing/shoes/SH = J.shoes
 				clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)
@@ -237,7 +245,7 @@ datum/preferences
 		preview_icon_front = new(preview_icon, dir = SOUTH)
 		preview_icon_side = new(preview_icon, dir = WEST)
 
-		del(eyes_s)
-		del(underwear_s)
-		del(undershirt_s)
-		del(clothes_s)
+		qdel(eyes_s)
+		qdel(underwear_s)
+		qdel(undershirt_s)
+		qdel(clothes_s)
