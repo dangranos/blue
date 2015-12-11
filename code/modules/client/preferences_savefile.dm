@@ -107,6 +107,9 @@
 	S["body_build"]			>> body_build
 	S["age"]				>> age
 	S["species"]			>> species
+	current_species = all_species[species]
+	if(!current_species)
+		current_species = all_species["Human"]
 	S["language"]			>> language
 	S["spawnpoint"]			>> spawnpoint
 
