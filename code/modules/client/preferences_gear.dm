@@ -20,6 +20,10 @@ var/global/list/gear_datums = list()
 	for(var/type in typesof(/datum/gear)-/datum/gear)
 		var/datum/gear/G = new type()
 
+		if(G.display_name == "basic")
+			del(G)
+			continue
+
 		var/category = (G.sort_category in sort_categories)? G.sort_category : "unknown"
 		sort_categories[category][G.display_name] = G
 
@@ -196,6 +200,28 @@ var/global/list/gear_datums = list()
 /datum/gear/yhardhat
 	display_name = "hardhat, yellow"
 	path = /obj/item/clothing/head/hardhat
+	cost = 2
+	slot = slot_head
+
+/datum/gear/welding
+	display_name = "basic"
+	allowed_roles = list("Chief Engineer", "Station Engineer", "Roboticist")
+
+/datum/gear/welding/flame
+	display_name = "welding helmet, flame"
+	path = /obj/item/clothing/head/welding/flame
+	cost = 2
+	slot = slot_head
+
+/datum/gear/welding/white
+	display_name = "welding helmet, white"
+	path = /obj/item/clothing/head/welding/white
+	cost = 2
+	slot = slot_head
+
+/datum/gear/welding/blue
+	display_name = "welding helmet, blue"
+	path = /obj/item/clothing/head/welding/blue
 	cost = 2
 	slot = slot_head
 
