@@ -202,17 +202,11 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 		var/obj/item/clothing/under/UF = J.uniform
 		var/obj/item/clothing/shoes/SH = J.shoes
 
-		var/under_state
-		if(initial(UF.icon_state))
-			under_state = initial(UF.icon_state)
-		else
-			under_state = initial(UF.item_state)
-
-		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[under_state]_s")
-		clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)
+		clothes_s = new /icon(H.species.get_uniform_sprite(initial(UF.icon_state), H.body_build), initial(UF.icon_state))
+		clothes_s.Blend(new /icon(H.species.get_uniform_sprite(initial(SH.icon_state), H.body_build), initial(SH.item_state)), ICON_UNDERLAY)
 	else
-		clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "grey_s")
-		clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', "black"), ICON_UNDERLAY)
+		clothes_s = new /icon(H.species.get_uniform_sprite("grey_s", H.body_build), "grey_s")
+		clothes_s.Blend(new /icon(H.species.get_uniform_sprite("black", H.body_build), "black"), ICON_UNDERLAY)
 
 
 	preview_icon.Blend(eyes, ICON_OVERLAY)

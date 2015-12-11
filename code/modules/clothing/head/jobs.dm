@@ -87,6 +87,18 @@
 	desc = "A white beret adorned with the shield—a silver kite shield with an engraved sword—of the NanoTrasen security forces."
 	icon_state = "centcomcaptain"
 
+//Detective
+/obj/item/clothing/head/det_hat
+	name = "hat"
+	desc = "Someone who wears this will look very smart."
+	icon_state = "detective"
+	allowed = list(/obj/item/weapon/reagent_containers/food/snacks/candy_corn, /obj/item/weapon/pen)
+	armor = list(melee = 50, bullet = 5, laser = 25,energy = 10, bomb = 0, bio = 0, rad = 0)
+	siemens_coefficient = 0.9
+	body_parts_covered = 0
+/obj/item/clothing/head/det_hat/black
+	icon_state = "detective2"
+
 //Medical
 /obj/item/clothing/head/surgery
 	name = "surgical cap"

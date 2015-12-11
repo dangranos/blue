@@ -363,10 +363,6 @@ BLIND     // can't see anything
 //Under clothing
 /obj/item/clothing/under
 	icon = 'icons/obj/clothing/uniforms.dmi'
-	item_icons = list(
-		slot_l_hand_str = 'icons/mob/items/lefthand_uniforms.dmi',
-		slot_r_hand_str = 'icons/mob/items/righthand_uniforms.dmi',
-		)
 	name = "under"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	permeability_coefficient = 0.90
@@ -385,36 +381,15 @@ BLIND     // can't see anything
 	var/rolled_down = -1 //0 = unrolled, 1 = rolled, -1 = cannot be toggled
 	sprite_sheets = list("Vox" = 'icons/mob/species/vox/uniform.dmi')
 
-	//convenience var for defining the icon state for the overlay used when the clothing is worn.
-	//Also used by rolling/unrolling.
-	var/worn_state = null
-
-/obj/item/clothing/under/New()
-	if(worn_state)
-		if(!item_state_slots)
-			item_state_slots = list()
-		item_state_slots[slot_w_uniform_str] = worn_state
-	else
-		worn_state = icon_state
-
 /obj/item/clothing/under/proc/update_rolldown_status()
 
 	var/mob/living/carbon/human/H
 	if(istype(src.loc, /mob/living/carbon/human))
 		H = src.loc
 
-	var/icon/under_icon
-	if(icon_override)
-		under_icon = icon_override
-	else if(H && sprite_sheets && sprite_sheets[H.species.get_bodytype()])
-		under_icon = sprite_sheets[H.species.get_bodytype()]
-	else if(item_icons && item_icons[slot_w_uniform_str])
-		under_icon = item_icons[slot_w_uniform_str]
-	else
-		under_icon = INV_W_UNIFORM_DEF_ICON
+	var/icon/under_icon = H.species.get_uniform_sprite(H)
 
-	// The _s is because the icon update procs append it.
-	if(("[worn_state]_d_s") in icon_states(under_icon))
+	if(("[icon_state]_d") in icon_states(under_icon))
 		if(rolled_down != 1)
 			rolled_down = 0
 	else
@@ -570,10 +545,10 @@ BLIND     // can't see anything
 	rolled_down = !rolled_down
 	if(rolled_down)
 		body_parts_covered &= LOWER_TORSO|LEGS|FEET
-		item_state_slots[slot_w_uniform_str] = "[worn_state]_d"
+//		item_state_slots[slot_w_uniform_str] = "[worn_state]_d"
 	else
 		body_parts_covered = initial(body_parts_covered)
-		item_state_slots[slot_w_uniform_str] = "[worn_state]"
+//		item_state_slots[slot_w_uniform_str] = "[worn_state]"
 	update_clothing_icon()
 
 /obj/item/clothing/under/proc/remove_accessory(mob/user, obj/item/clothing/accessory/A)
