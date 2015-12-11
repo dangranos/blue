@@ -142,7 +142,6 @@ datum/preferences
 			load_path(C.ckey)
 			if(load_preferences())
 				if(load_character())
-					current_species = all_species[species]
 					return
 	gender = pick(MALE, FEMALE)
 	real_name = random_name(gender,species)
@@ -1514,7 +1513,7 @@ datum/preferences
 						body_build = 0
 
 				if("build")
-					if(body_build == BODY_DEFAULT)
+					if(body_build == BODY_DEFAULT && current_species.allow_slim_fem)
 						body_build = BODY_SLIM
 					else
 						body_build = BODY_DEFAULT
