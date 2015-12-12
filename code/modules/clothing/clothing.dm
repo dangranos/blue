@@ -178,7 +178,6 @@ BLIND     // can't see anything
 	var/vision_flags = 0
 	var/darkness_view = 0//Base human is 2
 	var/see_invisible = -1
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/eyes.dmi')
 
 /obj/item/clothing/glasses/update_clothing_icon()
 	if (ismob(src.loc))
@@ -200,7 +199,6 @@ BLIND     // can't see anything
 	slot_flags = SLOT_GLOVES
 	attack_verb = list("challenged")
 	species_restricted = list("exclude","Unathi","Tajara")
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/gloves.dmi')
 
 /obj/item/clothing/gloves/update_clothing_icon()
 	if (ismob(src.loc))
@@ -304,7 +302,6 @@ BLIND     // can't see anything
 	body_parts_covered = HEAD
 	slot_flags = SLOT_MASK
 	body_parts_covered = FACE|EYES
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/masks.dmi')
 
 /obj/item/clothing/mask/update_clothing_icon()
 	if (ismob(src.loc))
@@ -330,7 +327,6 @@ BLIND     // can't see anything
 	force = 2
 	var/overshoes = 0
 	species_restricted = list("exclude","Unathi","Tajara")
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/shoes.dmi')
 
 /obj/item/clothing/shoes/proc/handle_movement(var/turf/walking, var/running)
 	return
@@ -379,7 +375,6 @@ BLIND     // can't see anything
 	var/list/accessories = list()
 	var/displays_id = 1
 	var/rolled_down = -1 //0 = unrolled, 1 = rolled, -1 = cannot be toggled
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/uniform.dmi')
 
 /obj/item/clothing/under/proc/update_rolldown_status()
 
