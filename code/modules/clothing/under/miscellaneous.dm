@@ -1,4 +1,4 @@
- /obj/item/clothing/under/pj/red
+/obj/item/clothing/under/pj/red
 	name = "red pj's"
 	desc = "Sleepwear."
 	icon_state = "red_pyjamas"

@@ -40,5 +40,6 @@
 			else
 				X << msg
 
+	log_admin("HELP: [key_name(src)]: [original_msg]")
 	return
 
