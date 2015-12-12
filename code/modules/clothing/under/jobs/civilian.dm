@@ -14,7 +14,7 @@
 	item_state = "b_suit"
 
 
-/obj/item/clothing/under/rank/cargo
+/obj/item/clothing/under/rank/qm
 	name = "quartermaster's jumpsuit"
 	desc = "It's a jumpsuit worn by the quartermaster. It's specially designed to prevent back injuries caused by pushing paper."
 	icon_state = "qm"
@@ -24,10 +24,12 @@
 /obj/item/clothing/under/rank/cargotech
 	name = "cargo technician's jumpsuit"
 	desc = "Shooooorts! They're comfy and easy to wear!"
-	icon_state = "cargotech"
+	icon_state = "cargo"
 	item_state = "lb_suit"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
 
+/obj/item/clothing/under/rank/cargotech/alt
+	icon_state = "cargo_alt"
 
 /obj/item/clothing/under/rank/chaplain
 	desc = "It's a black jumpsuit, often worn by religious folk."
