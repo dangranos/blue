@@ -48,7 +48,6 @@
 	siemens_coefficient = 0.6
 	flags = HEADCOVERSEYES|STOPPRESSUREDAMAGE
 	species_restricted = list("Vox")
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/head.dmi')
 
 /obj/item/clothing/head/helmet/space/vox/pressure
 	name = "alien helmet"
@@ -123,15 +122,13 @@
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
 	species_restricted = list("Vox")
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/gloves.dmi')
-/obj/item/clothing/shoes/magboots/vox
 
+/obj/item/clothing/shoes/magboots/vox
 	desc = "A pair of heavy, jagged armoured foot pieces, seemingly suitable for a velociraptor."
 	name = "vox magclaws"
 	item_state = "boots-vox"
 	icon_state = "boots-vox"
 	species_restricted = list("Vox")
-
 	action_button_name = "Toggle the magclaws"
 
 /obj/item/clothing/shoes/magboots/vox/attack_self(mob/user)
