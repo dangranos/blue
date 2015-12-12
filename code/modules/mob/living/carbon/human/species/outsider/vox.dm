@@ -81,6 +81,11 @@
 			return 'icons/mob/species/vox/shoes.dmi'
 		else return ..()
 
+	get_glasses_sprite(state = "", var/body_build = 0)
+		if(state in icon_states('icons/mob/species/vox/eyes.dmi'))
+			return 'icons/mob/species/vox/eyes.dmi'
+		else return ..()
+
 	get_mask_sprite(state = "")
 		return  'icons/mob/species/vox/masks.dmi'
 
