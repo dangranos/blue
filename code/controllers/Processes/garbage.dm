@@ -58,8 +58,8 @@ var/list/delayed_garbage = list()
 		#endif
 		if(A && A.gcDestroyed == GCd_at_time) // So if something else coincidently gets the same ref, it's not deleted by mistake
 			// Something's still referring to the qdel'd object.  Kill it.
-			testing("GC: -- \ref[A] | [A.type] was unable to be GC'd and was deleted --")
-			logging["[A.type]"]++
+			//testing("GC: -- \ref[A] | [A.type] was unable to be GC'd and was deleted --")
+			//logging["[A.type]"]++
 			del(A)
 			++dels
 			++hard_dels
