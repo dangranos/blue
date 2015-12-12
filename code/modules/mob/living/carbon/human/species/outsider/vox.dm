@@ -82,9 +82,7 @@
 		else return ..()
 
 	get_mask_sprite(state = "")
-		if(state in icon_states('icons/mob/species/vox/masks.dmi'))
-			return  'icons/mob/species/vox/masks.dmi'
-		else return ..()
+		return  'icons/mob/species/vox/masks.dmi'
 
 /datum/species/vox/get_random_name(var/gender)
 	var/datum/language/species_language = all_languages[default_language]

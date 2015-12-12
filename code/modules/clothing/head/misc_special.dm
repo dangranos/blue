@@ -53,6 +53,23 @@
 			usr << "You push the [src] up out of your face."
 		update_clothing_icon()	//so our mob-overlays update
 
+/obj/item/clothing/head/welding/flame
+	name = "flame welding helmet"
+	desc = "A head-mounted face cover designed to protect the wearer completely from space-arc eye with style."
+	icon_state = "welding_flame"
+	item_state = "welding_flame"
+
+/obj/item/clothing/head/welding/white
+	name = "white welding helmet"
+	desc = "A head-mounted face cover designed to protect the wearer completely from space-arc eye with style."
+	icon_state = "welding_white"
+	item_state = "welding_white"
+
+obj/item/clothing/head/welding/blue
+	name = "blue welding helmet"
+	desc = "A head-mounted face cover designed to protect the wearer completely from space-arc eye with style."
+	icon_state = "welding_blue"
+	item_state = "welding_blue"
 
 /*
  * Cakehat

@@ -126,6 +126,11 @@
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
 
+	get_mask_sprite(state = "")
+		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
+			return 'icons/mob/species/unathi/mask.dmi'
+		else return ..()
+
 /datum/species/unathi/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes)
@@ -176,6 +181,11 @@
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ð" = "ðð", "Ð" = "Ðð")
+
+	get_mask_sprite(state = "")
+		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
+			return 'icons/mob/species/tajaran/mask.dmi'
+		else return ..()
 
 /datum/species/tajaran/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
