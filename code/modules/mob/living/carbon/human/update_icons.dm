@@ -553,7 +553,7 @@ var/global/list/damage_icon_parts = list()
 			t_type = "[t_type]_l"
 			overlays_standing[EAR_L] = image("icon" = l_ear.icon_override, "icon_state" = t_type)
 		else
-			overlays_standing[EAR_L] = get_glasses_sprite(t_type, body_build)
+			overlays_standing[EAR_L] = get_ears_sprite(t_type, body_build)
 	else
 		overlays_standing[EAR_L] = null
 
@@ -563,7 +563,7 @@ var/global/list/damage_icon_parts = list()
 			t_type = "[t_type]_r"
 			overlays_standing[EAR_R] = image("icon" = r_ear.icon_override, "icon_state" = t_type)
 		else
-			overlays_standing[EAR_R] = get_glasses_sprite(t_type, body_build)
+			overlays_standing[EAR_R] = get_ears_sprite(t_type, body_build)
 	else
 		overlays_standing[EAR_R] = null
 
