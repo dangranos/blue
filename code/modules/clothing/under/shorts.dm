@@ -7,24 +7,24 @@
 /obj/item/clothing/under/shorts/red
 	name = "red athletic shorts"
 	icon_state = "redshorts"
-	item_color = "redshorts"
+	item_state = "r_suit"
 
 /obj/item/clothing/under/shorts/green
 	name = "green athletic shorts"
 	icon_state = "greenshorts"
-	item_color = "greenshorts"
+	item_state = "g_suit"
 
 /obj/item/clothing/under/shorts/blue
 	name = "blue athletic shorts"
 	icon_state = "blueshorts"
-	item_color = "blueshorts"
+	item_state = "b_suit"
 
 /obj/item/clothing/under/shorts/black
 	name = "black athletic shorts"
 	icon_state = "blackshorts"
-	item_color = "blackshorts"
+	item_state = "bl_suit"
 
 /obj/item/clothing/under/shorts/grey
 	name = "grey athletic shorts"
 	icon_state = "greyshorts"
-	item_color = "greyshorts"
+	item_state = "gy_suit"

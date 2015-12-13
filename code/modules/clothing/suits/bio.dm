@@ -90,4 +90,3 @@
 	icon_state = "plaguedoctor"
 	item_state = "bio_suit"
 	flags_inv = HIDEGLOVES|HIDEJUMPSUIT|HIDETAIL
-	flags = BODY_SLIM

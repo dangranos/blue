@@ -81,7 +81,8 @@
 		new /obj/item/clothing/shoes/black(src)
 		new /obj/item/clothing/shoes/leather(src)
 		new /obj/item/clothing/shoes/white(src)
-		new /obj/item/clothing/under/rank/head_of_personnel_whimsy(src)
+		new /obj/item/clothing/under/rank/head_of_personnel/whimsy(src)
+		new /obj/item/clothing/under/rank/head_of_personnel/dark(src)
 		new /obj/item/clothing/head/helmet/hop(src)
 		return
 
@@ -123,7 +124,6 @@
 		new /obj/item/clothing/accessory/holster/waist(src)
 		new /obj/item/weapon/melee/telebaton(src)
 		new /obj/item/clothing/head/beret/sec/hos(src)
-		new /obj/item/clothing/suit/security/navyhos(src)
 		return
 
 
@@ -161,14 +161,13 @@
 		new /obj/item/weapon/gun/energy/gun(src)
 		new /obj/item/weapon/storage/box/holobadge(src)
 		new /obj/item/clothing/head/beret/sec/warden(src)
-		new /obj/item/clothing/suit/security/navywarden(src)
 		return
 
 
 
 /obj/structure/closet/secure_closet/security
 	name = "security officer's locker"
-	req_access = list(access_security)
+	req_access = list(access_brig)
 	icon_state = "sec1"
 	icon_closed = "sec"
 	icon_locked = "sec1"
@@ -281,6 +280,44 @@
 		else
 			icon_state = icon_opened
 
+/obj/structure/closet/secure_closet/forentech
+	name = "forensic technician's cabinet"
+	req_access = list(access_forensics_lockers)
+	icon_state = "cabinetdetective_locked"
+	icon_closed = "cabinetdetective"
+	icon_locked = "cabinetdetective_locked"
+	icon_opened = "cabinetdetective_open"
+	icon_broken = "cabinetdetective_broken"
+	icon_off = "cabinetdetective_broken"
+
+	New()
+		..()
+		new /obj/item/clothing/under/rank/forentech(src)
+		new /obj/item/clothing/under/rank/forentech(src)
+		new /obj/item/clothing/under/rank/forentech2(src)
+		new /obj/item/clothing/under/rank/forentech2(src)
+		new	/obj/item/clothing/suit/storage/toggle/labcoat/forensic(src)
+		new	/obj/item/clothing/suit/storage/toggle/labcoat/forensic(src)
+		new /obj/item/clothing/gloves/black(src)
+		new /obj/item/clothing/shoes/brown(src)
+		new /obj/item/weapon/storage/box/evidence(src)
+		new /obj/item/device/radio/headset/headset_sec(src)
+		new /obj/item/device/detective_scanner(src)
+		new /obj/item/taperoll/police(src)
+		return
+
+/obj/structure/closet/secure_closet/detective/update_icon()
+	if(broken)
+		icon_state = icon_broken
+	else
+		if(!opened)
+			if(locked)
+				icon_state = icon_locked
+			else
+				icon_state = icon_closed
+		else
+			icon_state = icon_opened
+
 /obj/structure/closet/secure_closet/injection
 	name = "lethal injections locker"
 	req_access = list(access_captain)
@@ -288,8 +325,8 @@
 
 	New()
 		..()
-		new /obj/item/weapon/reagent_containers/ld50_syringe/choral(src)
-		new /obj/item/weapon/reagent_containers/ld50_syringe/choral(src)
+		new /obj/item/weapon/reagent_containers/syringe/ld50_syringe/choral(src)
+		new /obj/item/weapon/reagent_containers/syringe/ld50_syringe/choral(src)
 		return
 
 

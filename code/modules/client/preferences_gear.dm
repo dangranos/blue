@@ -20,6 +20,10 @@ var/global/list/gear_datums = list()
 	for(var/type in typesof(/datum/gear)-/datum/gear)
 		var/datum/gear/G = new type()
 
+		if(G.display_name == "basic")
+			del(G)
+			continue
+
 		var/category = (G.sort_category in sort_categories)? G.sort_category : "unknown"
 		sort_categories[category][G.display_name] = G
 
@@ -199,6 +203,28 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_head
 
+/datum/gear/welding
+	display_name = "basic"
+	allowed_roles = list("Chief Engineer", "Station Engineer", "Roboticist")
+
+/datum/gear/welding/flame
+	display_name = "welding helmet, flame"
+	path = /obj/item/clothing/head/welding/flame
+	cost = 2
+	slot = slot_head
+
+/datum/gear/welding/white
+	display_name = "welding helmet, white"
+	path = /obj/item/clothing/head/welding/white
+	cost = 2
+	slot = slot_head
+
+/datum/gear/welding/blue
+	display_name = "welding helmet, blue"
+	path = /obj/item/clothing/head/welding/blue
+	cost = 2
+	slot = slot_head
+
 /datum/gear/boater
 	display_name = "hat, boatsman"
 	path = /obj/item/clothing/head/boaterhat
@@ -279,7 +305,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/scanning_goggles
 	display_name = "scanning goggles"
-	path = /obj/item/clothing/glasses/fluff/uzenwa_sissra_1
+	path = /obj/item/clothing/glasses/regular/scanners
 	cost = 1
 	slot = slot_glasses
 
@@ -296,24 +322,56 @@ var/global/list/gear_datums = list()
 	slot = slot_glasses
 	allowed_roles = list("Security Officer","Head of Security","Warden")
 
+/datum/gear/medical_hud
+	display_name = "Medical HUD (prescription)"
+	path = /obj/item/clothing/glasses/hud/health/prescription
+	cost = 1
+	slot = slot_glasses
+	allowed_roles = list("Chief Medical Officer","Medical Doctor","Paramedic")
+
 /datum/gear/thugshades
-	display_name = "Sunglasses, Fat (Security)"
+	display_name = "Sunglasses, Fat"
 	path = /obj/item/clothing/glasses/sunglasses/big
 	cost = 1
 	slot = slot_glasses
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent","Quartermaster","Head of Personnel","Captain")
 
 /datum/gear/prescriptionsun
 	display_name = "sunglasses, presciption"
 	path = /obj/item/clothing/glasses/sunglasses/prescription
 	cost = 2
 	slot = slot_glasses
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent","Quartermaster","Head of Personnel","Captain")
 
 // Mask
 
 /datum/gear/sterilemask
 	display_name = "sterile mask"
 	path = /obj/item/clothing/mask/surgical
+	slot = slot_wear_mask
+	cost = 2
+
+/datum/gear/redscarf
+	display_name = "scarf, red"
+	path = /obj/item/clothing/mask/redscarf
+	slot = slot_wear_mask
+	cost = 2
+
+/datum/gear/greenscarf
+	display_name = "scarf, green"
+	path = /obj/item/clothing/mask/greenscarf
+	slot = slot_wear_mask
+	cost = 2
+
+/datum/gear/bluescarf
+	display_name = "scarf, blue"
+	path = /obj/item/clothing/mask/bluescarf
+	slot = slot_wear_mask
+	cost = 2
+
+/datum/gear/arafatka
+	display_name = "scarf, shemagh"
+	path = /obj/item/clothing/mask/arafatka
 	slot = slot_wear_mask
 	cost = 2
 
@@ -828,6 +886,12 @@ var/global/list/gear_datums = list()
 	slot = slot_wear_suit
 	whitelisted = "Tajara" // You do have a monopoly on a fur suit tho
 
+/datum/gear/ianshirt
+	display_name = "Worn shirt"
+	path = /obj/item/clothing/suit/ianshirt
+	cost = 4
+	slot = slot_wear_suit
+
 // Gloves
 
 /datum/gear/black_gloves
@@ -868,16 +932,17 @@ var/global/list/gear_datums = list()
 
 /datum/gear/latex_gloves
 	display_name = "gloves, latex"
-	path = /obj/item/clothing/gloves/latex
+	path = /obj/item/clothing/gloves/white/latex
 	cost = 2
 	slot = slot_gloves
-
+/*
 /datum/gear/latex_gloves
 	display_name = "gloves, latex, tajaran"
 	path = /obj/item/clothing/gloves/fluff/murad_hassim_1
 	cost = 3
 	slot = slot_gloves
-
+	whitelisted = "Tajara"
+*/
 /datum/gear/orange_gloves
 	display_name = "gloves, orange"
 	path = /obj/item/clothing/gloves/orange
@@ -918,7 +983,13 @@ var/global/list/gear_datums = list()
 
 /datum/gear/toeless_jackboots
 	display_name = "toe-less jackboots"
-	path = /obj/item/clothing/shoes/jackboots/fluff/kecer_eldraran
+	path = /obj/item/clothing/shoes/jackboots/unathi
+	cost = 1
+	slot = slot_shoes
+
+/datum/gear/workboots
+	display_name = "workboots"
+	path = /obj/item/clothing/shoes/workboots
 	cost = 1
 	slot = slot_shoes
 
@@ -1060,7 +1131,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/ashtray
 	display_name = "ashtray, plastic"
-	path = /obj/item/ashtray/plastic
+	path = /obj/item/weapon/material/ashtray/plastic
 	sort_category = "misc"
 	cost = 1
 

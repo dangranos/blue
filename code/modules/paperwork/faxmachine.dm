@@ -26,8 +26,9 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 
 	pass_flags = PASSTABLE
 
-/obj/machinery/photocopier/faxmachine/New()
-	..()
+/obj/machinery/photocopier/faxmachine/New(new_loc, new_department)
+	if(new_department && istext(new_department)) department = new_department
+	..(new_loc)
 	allfaxes += src
 
 	if( !(("[department]" in alldepartments) || ("[department]" in admin_departments)) )
@@ -192,7 +193,7 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 	else if (istype(copyitem, /obj/item/weapon/photo))
 		rcvdcopy = photocopy(copyitem)
 	else if (istype(copyitem, /obj/item/weapon/paper_bundle))
-		rcvdcopy = bundlecopy(copyitem)
+		rcvdcopy = bundlecopy(copyitem, 0)
 	else
 		visible_message("[src] beeps, \"Error transmitting message.\"")
 		return

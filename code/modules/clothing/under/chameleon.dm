@@ -11,10 +11,9 @@ var/global/list/chameleons = list(
 )
 
 /obj/item/proc/initialize_chameleon_list(var/style_list = "", var/basic_type, var/list/blocked = list())
-	//world << "Try rebuild [style_list] list"
 	var/list/check = chameleons[style_list]
 	if(check && check.len) return
-	//world << "Rebuild [style_list] list"
+	src.permeability_coefficient = 0.90
 	chameleons[style_list] = list("protect")
 	var/list/styles = list()
 	for(var/T in typesof(basic_type) - blocked - type)
@@ -30,7 +29,7 @@ var/global/list/chameleons = list(
 	icon = initial(new_type.icon)
 	icon_state = initial(new_type.icon_state)
 	item_state = initial(new_type.item_state)
-	item_color = initial(new_type.item_color)
+	item_state_slots = initial(new_type.item_state_slots)
 	body_parts_covered = initial(new_type.body_parts_covered)
 	//flags = initial(new_type.flags)
 	flags_inv = initial(new_type.flags_inv)
@@ -50,21 +49,18 @@ var/global/list/chameleons = list(
 	name = "black jumpsuit"
 	icon_state = "black"
 	item_state = "bl_suit"
-	item_color = "black"
 	desc = "It's a plain jumpsuit. It seems to have a small dial on the wrist."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	var/style_list = "under"
 	New()
 		..()
-		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/under/cloud,\
-									/obj/item/clothing/under/gimmick))
+		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/under/gimmick))
 
 /obj/item/clothing/under/chameleon/emp_act(severity)
 	name = "psychedelic"
 	desc = "Groovy!"
 	icon_state = "psyche"
-	item_color = "psyche"
+	item_state_slots[slot_w_uniform_str] = "psyche"
 	update_icon()
 	update_clothing_icon()
 
@@ -88,9 +84,7 @@ var/global/list/chameleons = list(
 	name = "grey cap"
 	icon_state = "greysoft"
 	item_state = "greysoft"
-	item_color = "grey"
 	desc = "It looks like a plain hat, but upon closer inspection, there's an advanced holographic array installed inside. It seems to have a small dial inside."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	body_parts_covered = 0
 	var/style_list = "head"
@@ -102,7 +96,6 @@ var/global/list/chameleons = list(
 	name = "grey cap"
 	desc = "It's a baseball hat in a tasteful grey colour."
 	icon_state = "greysoft"
-	item_color = "grey"
 	update_icon()
 	update_clothing_icon()
 
@@ -127,7 +120,6 @@ var/global/list/chameleons = list(
 	icon_state = "armor"
 	item_state = "armor"
 	desc = "It appears to be a vest of standard armor, except this is embedded with a hidden holographic cloaker, allowing it to change it's appearance, but offering no protection.. It seems to have a small dial inside."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	var/style_list = "suit"
 	New()
@@ -139,7 +131,6 @@ var/global/list/chameleons = list(
 	name = "armor"
 	desc = "An armored vest that protects against some damage."
 	icon_state = "armor"
-	item_color = "armor"
 	update_icon()
 	update_clothing_icon()
 
@@ -161,9 +152,7 @@ var/global/list/chameleons = list(
 	name = "black shoes"
 	icon_state = "black"
 	item_state = "black"
-	item_color = "black"
 	desc = "They're comfy black shoes, with clever cloaking technology built in. It seems to have a small dial on the back of each shoe."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	var/style_list = "shoes"
 	New()
@@ -176,7 +165,6 @@ var/global/list/chameleons = list(
 	desc = "A pair of black shoes."
 	icon_state = "black"
 	item_state = "black"
-	item_color = "black"
 	update_icon()
 	update_clothing_icon()
 
@@ -199,7 +187,6 @@ var/global/list/chameleons = list(
 	icon_state = "backpack"
 	item_state = "backpack"
 	desc = "A backpack outfitted with cloaking tech. It seems to have a small dial inside, kept away from the storage."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	var/style_list = "backpack"
 	New()
@@ -236,9 +223,7 @@ var/global/list/chameleons = list(
 	name = "black gloves"
 	icon_state = "black"
 	item_state = "bgloves"
-	item_color = "brown"
 	desc = "It looks like a pair of gloves, but it seems to have a small dial inside."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	var/style_list = "gloves"
 	New()
@@ -249,7 +234,6 @@ var/global/list/chameleons = list(
 	name = "black gloves"
 	desc = "It looks like a pair of gloves, but it seems to have a small dial inside."
 	icon_state = "black"
-	item_color = "brown"
 	update_icon()
 	update_clothing_icon()
 
@@ -273,7 +257,6 @@ var/global/list/chameleons = list(
 	icon_state = "gas_alt"
 	item_state = "gas_alt"
 	desc = "It looks like a plain gask mask, but on closer inspection, it seems to have a small dial inside."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	var/style_list = "mask"
 	New()
@@ -307,7 +290,6 @@ var/global/list/chameleons = list(
 	icon_state = "meson"
 	item_state = "glasses"
 	desc = "It looks like a plain set of mesons, but on closer inspection, it seems to have a small dial inside."
-	permeability_coefficient = 0.90
 	origin_tech = "syndicate=3"
 	var/style_list = "glasses"
 	New()
@@ -345,7 +327,6 @@ var/global/list/chameleons = list(
 	origin_tech = "combat=2;materials=2;syndicate=8"
 	ammo_type = "/obj/item/ammo_casing/chameleon"
 	matter = list()
-	permeability_coefficient = 0.90
 	var/style_list = "projectile"
 	New()
 		..()

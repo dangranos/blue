@@ -2,10 +2,16 @@
 	set category = "Admin"
 	set name = "Adminhelp"
 
+	if(say_disabled)	//This is here to try to identify lag problems
+		usr << "\red Speech is currently admin-disabled."
+		return
+
 	//handle muting and automuting
 	if(prefs.muted & MUTE_ADMINHELP)
 		src << "<font color='red'>Error: Admin-PM: You cannot send adminhelps (Muted).</font>"
 		return
+
+	adminhelped = 1 //Determines if they get the message to reply by clicking the name.
 
 	if(src.handle_spam_prevention(msg,MUTE_ADMINHELP))
 		return
@@ -13,13 +19,16 @@
 	//clean the input msg
 	if(!msg)
 		return
-	msg = sanitize(copytext(msg,1,MAX_MESSAGE_LEN))
+	msg = sanitize(msg)
 	if(!msg)
 		return
-	var/original_msg = msg
 
-			//Options bar:  mob, details ( admin = 2, dev = 3, mentor = 4, character name (0 = just ckey, 1 = ckey and character name), link? (0 no don't make it a link, 1 do so),
-			//		highlight special roles (0 = everyone has same looking name, 1 = antags / special roles get a golden name)
+	if(!mob) //this doesn't happen
+		return
+
+	//show it to the person adminhelping too
+	src << "<font color='blue'>PM to-<b>Staff </b>: [msg]</font>"
+	log_admin("HELP: [key_name(src)]: [msg]")
 
 	var/mentor_msg = "\blue <b><font color=red>Request for Help: </font>[get_options_bar(mob, 4, 1, 1, 0)]:</b> [msg]"
 	msg = "\blue <b><font color=red>Request for Help:: </font>[get_options_bar(mob, 2, 1, 1)]:</b> [msg]"
@@ -33,8 +42,5 @@
 			else
 				X << msg
 
-	//show it to the person adminhelping too
-	src << "<font color='blue'>PM to-<b>Staff </b>: [original_msg]</font>"
-
-	log_admin("HELP: [key_name(src)]: [original_msg] - heard by [admins.len] admins.")
 	return
+

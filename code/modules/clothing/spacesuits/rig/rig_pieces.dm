@@ -10,7 +10,6 @@
 	heat_protection =    HEAD|FACE|EYES
 	cold_protection =    HEAD|FACE|EYES
 	brightness_on = 4
-	sprite_sheets = list("Tajara" = 'icons/mob/species/tajaran/helmet.dmi',"Skrell" = 'icons/mob/species/skrell/helmet.dmi',"Unathi" = 'icons/mob/species/unathi/helmet.dmi')
 	species_restricted = null
 
 /obj/item/clothing/gloves/rig
@@ -24,6 +23,7 @@
 
 /obj/item/clothing/shoes/magboots/rig
 	name = "boots"
+	body_parts_covered = FEET
 	cold_protection = FEET
 	heat_protection = FEET
 	species_restricted = null
@@ -43,7 +43,6 @@
 	breach_threshold = 38
 	resilience = 0.2
 	can_breach = 1
-	sprite_sheets = list("Tajara" = 'icons/mob/species/tajaran/suit.dmi',"Unathi" = 'icons/mob/species/unathi/suit.dmi')
 	supporting_limbs = list()
 
 //TODO: move this to modules
@@ -69,3 +68,38 @@
 				return 1
 
 	return 0
+
+//Rig pieces for non-spacesuit based rigs
+
+/obj/item/clothing/head/lightrig
+	name = "mask"
+	body_parts_covered = HEAD|FACE|EYES
+	heat_protection =    HEAD|FACE|EYES
+	cold_protection =    HEAD|FACE|EYES
+	flags =              THICKMATERIAL|AIRTIGHT
+
+/obj/item/clothing/suit/lightrig
+	name = "suit"
+	allowed = list(/obj/item/device/flashlight)
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+	heat_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+	cold_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+	flags_inv =          HIDEJUMPSUIT
+	flags =              THICKMATERIAL
+
+/obj/item/clothing/shoes/lightrig
+	name = "boots"
+	body_parts_covered = FEET
+	cold_protection = FEET
+	heat_protection = FEET
+	species_restricted = null
+	gender = PLURAL
+
+/obj/item/clothing/gloves/lightrig
+	name = "gloves"
+	flags = THICKMATERIAL
+	body_parts_covered = HANDS
+	heat_protection =    HANDS
+	cold_protection =    HANDS
+	species_restricted = null
+	gender = PLURAL

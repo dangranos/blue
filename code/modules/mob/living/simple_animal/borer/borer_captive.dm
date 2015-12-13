@@ -14,7 +14,7 @@
 
 	if(istype(src.loc,/mob/living/simple_animal/borer))
 
-		message = trim_strip_html_properly(message)
+		message = sanitize(message)
 		if (!message)
 			return
 		log_say("[key_name(src)] : [message]")
@@ -33,9 +33,6 @@
 
 /mob/living/captive_brain/emote(var/message)
 	return
-
-/mob/living/captive_brain/can_resist()
-	return !(stat || next_move > world.time)
 
 /mob/living/captive_brain/process_resist()
 	//Resisting control by an alien mind.

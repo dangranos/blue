@@ -3,6 +3,8 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 /datum/job/captain
 	title = "Captain"
 	flag = CAPTAIN
+	department = "Command"
+	head_position = 1
 	department_flag = ENGSEC
 	faction = "Station"
 	total_positions = 1
@@ -30,7 +32,6 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 		)
 
 	put_in_backpack = list(
-		/obj/item/weapon/storage/box/survival, \
 		/obj/item/weapon/storage/box/ids \
 		)
 
@@ -40,10 +41,6 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 			var/obj/item/clothing/under/U = H.w_uniform
 			if(istype(U)) U.accessories += new /obj/item/clothing/accessory/medal/gold/captain(U)
 
-		var/sound/announce_sound = (ticker.current_state <= GAME_STATE_SETTING_UP)? null : sound('sound/misc/boatswain.ogg', volume=20)
-		captain_announcement.Announce("All hands, Captain [H.real_name] on deck!", new_sound=announce_sound)
-		return 1
-
 	get_access()
 		return get_all_accesses()
 
@@ -51,6 +48,8 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 /datum/job/hop
 	title = "Head of Personnel"
 	flag = HOP
+	department = "Civilian"
+	head_position = 1
 	department_flag = CIVILIAN
 	faction = "Station"
 	total_positions = 1
@@ -69,7 +68,6 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 
 
 	put_in_backpack = list(
-		/obj/item/weapon/storage/box/survival, \
 		/obj/item/weapon/storage/box/ids \
 		)
 

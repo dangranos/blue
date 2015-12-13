@@ -16,6 +16,11 @@
 	icon_state = "healthhud"
 	body_parts_covered = 0
 
+/obj/item/clothing/glasses/hud/health/prescription
+	name = "Prescription Medical HUD Glasses"
+	desc = "Medical HUD glasses with prescription lenses."
+	icon_state = "glasseshealth"
+	prescription = 1
 
 /obj/item/clothing/glasses/hud/health/process_hud(var/mob/M)
 	process_med_hud(M, 1)
@@ -33,7 +38,7 @@
 	icon_state = "jensenshades"
 	item_state = "jensenshades"
 	vision_flags = SEE_MOBS
-	see_invisible = SEE_INVISIBLE_MINIMUM
+	see_invisible = SEE_INVISIBLE_OBSERVER_NOLIGHTING
 
 /obj/item/clothing/glasses/hud/security/process_hud(var/mob/M)
 	process_sec_hud(M, 1)

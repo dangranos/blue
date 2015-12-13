@@ -107,6 +107,9 @@
 	S["body_build"]			>> body_build
 	S["age"]				>> age
 	S["species"]			>> species
+	current_species = all_species[species]
+	if(!current_species)
+		current_species = all_species["Human"]
 	S["language"]			>> language
 	S["spawnpoint"]			>> spawnpoint
 
@@ -172,6 +175,8 @@
 	S["disabilities"]		>> disabilities
 	S["player_alt_titles"]	>> player_alt_titles
 	S["organ_data"]			>> organ_data
+	S["rlimb_data"]			>> rlimb_data
+	S["tattoo_data"]		>> tattoo_data
 	S["gear"]				>> gear
 	S["home_system"] 		>> home_system
 	S["citizenship"] 		>> citizenship
@@ -188,7 +193,7 @@
 	S["UI_style_alpha"]		<< UI_style_alpha
 
 	//Sanitize
-	real_name		= reject_bad_name(real_name)
+	real_name		= sanitizeName(real_name)
 
 	if(isnull(species) || !(species in playable_species))
 		species = "Human"
@@ -243,6 +248,8 @@
 	if(isnull(disabilities)) disabilities = 0
 	if(!player_alt_titles) player_alt_titles = new()
 	if(!organ_data) src.organ_data = list()
+	if(!rlimb_data) src.rlimb_data = list()
+	if(!tattoo_data) src.tattoo_data = list()
 	if(!gear) src.gear = list()
 	//if(!skin_style) skin_style = "Default"
 
@@ -329,6 +336,8 @@
 	S["be_special"]			<< be_special
 	S["disabilities"]		<< disabilities
 	S["organ_data"]			<< organ_data
+	S["rlimb_data"]			<< rlimb_data
+	S["tattoo_data"]		<< tattoo_data
 	S["gear"]				<< gear
 	S["home_system"] 		<< home_system
 	S["citizenship"] 		<< citizenship

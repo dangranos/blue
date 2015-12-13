@@ -55,11 +55,12 @@ var/intercom_range_display_status = 0
 
 
 	for(var/obj/effect/debugging/camera_range/C in world)
-		del(C)
+		qdel(C)
 
 	if(camera_range_display_status)
 		for(var/obj/machinery/camera/C in cameranet.cameras)
 			new/obj/effect/debugging/camera_range(C.loc)
+
 
 
 /client/proc/sec_camera_report()
@@ -111,14 +112,14 @@ var/intercom_range_display_status = 0
 		intercom_range_display_status = 1
 
 	for(var/obj/effect/debugging/marker/M in world)
-		del(M)
+		qdel(M)
 
 	if(intercom_range_display_status)
 		for(var/obj/item/device/radio/intercom/I in world)
 			for(var/turf/T in orange(7,I))
 				var/obj/effect/debugging/marker/F = new/obj/effect/debugging/marker(T)
 				if (!(F in view(7,I.loc)))
-					del(F)
+					qdel(F)
 
 var/list/debug_verbs = list (
         /client/proc/do_not_use_these
@@ -131,6 +132,7 @@ var/list/debug_verbs = list (
         ,/client/proc/count_objects_on_z_level
         ,/client/proc/count_objects_all
         ,/client/proc/cmd_assume_direct_control
+        ,/client/proc/jump_to_dead_group
         ,/client/proc/startSinglo
         ,/client/proc/ticklag
         ,/client/proc/cmd_admin_grantfullaccess
@@ -142,6 +144,12 @@ var/list/debug_verbs = list (
         ,/client/proc/print_jobban_old
         ,/client/proc/print_jobban_old_filter
         ,/client/proc/forceEvent
+        ,/client/proc/break_all_air_groups
+        ,/client/proc/regroup_all_air_groups
+        ,/client/proc/kill_pipe_processing
+        ,/client/proc/kill_air_processing
+        ,/client/proc/disable_communication
+        ,/client/proc/disable_movement
         ,/client/proc/Zone_Info
         ,/client/proc/Test_ZAS_Connection
         ,/client/proc/ZoneTick
@@ -151,6 +159,7 @@ var/list/debug_verbs = list (
         ,/client/proc/testZAScolors_remove
         ,/client/proc/setup_supermatter_engine
 		,/client/proc/atmos_toggle_debug
+		,/client/proc/spawn_tanktransferbomb
 	)
 
 
@@ -162,6 +171,7 @@ var/list/debug_verbs = list (
 
 	verbs += debug_verbs
 
+
 /client/proc/hide_debug_verbs()
 	set category = "Debug"
 	set name = "Hide Debug verbs"
@@ -169,6 +179,7 @@ var/list/debug_verbs = list (
 	if(!check_rights(R_DEBUG)) return
 
 	verbs -= debug_verbs
+
 
 
 /client/var/list/testZAScolors_turfs = list()
@@ -261,7 +272,7 @@ var/list/debug_verbs = list (
 		var/datum/controller/air_system/old_air = air_master
 		for(var/zone/zone in old_air.zones)
 			zone.c_invalidate()
-		del old_air
+		qdel(old_air)
 		air_master = new
 		air_master.Setup()
 		spawn air_master.Start()
@@ -334,3 +345,80 @@ var/list/debug_verbs = list (
 		world << line*/
 
 	world << "There are [count] objects of type [type_path] in the game world"
+
+
+var/global/prevent_airgroup_regroup = 0
+
+/client/proc/break_all_air_groups()
+	set category = "Mapping"
+	set name = "Break All Airgroups"
+
+	/*prevent_airgroup_regroup = 1
+	for(var/datum/air_group/AG in air_master.air_groups)
+		AG.suspend_group_processing()
+	message_admins("[src.ckey] used 'Break All Airgroups'")*/
+
+/client/proc/regroup_all_air_groups()
+	set category = "Mapping"
+	set name = "Regroup All Airgroups Attempt"
+
+	usr << "\red Proc disabled."
+
+	/*prevent_airgroup_regroup = 0
+	for(var/datum/air_group/AG in air_master.air_groups)
+		AG.check_regroup()
+	message_admins("[src.ckey] used 'Regroup All Airgroups Attempt'")*/
+
+/client/proc/kill_pipe_processing()
+	set category = "Mapping"
+	set name = "Kill pipe processing"
+
+	usr << "\red Proc disabled."
+
+	/*pipe_processing_killed = !pipe_processing_killed
+	if(pipe_processing_killed)
+		message_admins("[src.ckey] used 'kill pipe processing', stopping all pipe processing.")
+	else
+		message_admins("[src.ckey] used 'kill pipe processing', restoring all pipe processing.")*/
+
+/client/proc/kill_air_processing()
+	set category = "Mapping"
+	set name = "Kill air processing"
+
+	usr << "\red Proc disabled."
+
+	/*air_processing_killed = !air_processing_killed
+	if(air_processing_killed)
+		message_admins("[src.ckey] used 'kill air processing', stopping all air processing.")
+	else
+		message_admins("[src.ckey] used 'kill air processing', restoring all air processing.")*/
+
+//This proc is intended to detect lag problems relating to communication procs
+var/global/say_disabled = 0
+/client/proc/disable_communication()
+	set category = "Mapping"
+	set name = "Disable all communication verbs"
+
+	usr << "\red Proc disabled."
+
+	/*say_disabled = !say_disabled
+	if(say_disabled)
+		message_admins("[src.ckey] used 'Disable all communication verbs', killing all communication methods.")
+	else
+		message_admins("[src.ckey] used 'Disable all communication verbs', restoring all communication methods.")*/
+
+//This proc is intended to detect lag problems relating to movement
+var/global/movement_disabled = 0
+var/global/movement_disabled_exception //This is the client that calls the proc, so he can continue to run around to gauge any change to lag.
+/client/proc/disable_movement()
+	set category = "Mapping"
+	set name = "Disable all movement"
+
+	usr << "\red Proc disabled."
+
+	/*movement_disabled = !movement_disabled
+	if(movement_disabled)
+		message_admins("[src.ckey] used 'Disable all movement', killing all movement.")
+		movement_disabled_exception = usr.ckey
+	else
+		message_admins("[src.ckey] used 'Disable all movement', restoring all movement.")*/
