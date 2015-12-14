@@ -190,12 +190,12 @@ datum/preferences
 
 		var/icon/clothes_s = null
 		if(job_civilian_low & ASSISTANT)//This gives the preview icon clothes depending on which job(if any) is set to 'high'
-			clothes_s = new /icon(current_species.get_uniform_sprite("grey_s", body_build), "grey_s")
+			clothes_s = new /icon(current_species.get_uniform_sprite("grey", body_build), "grey")
 			clothes_s.Blend(new /icon(current_species.get_shoes_sprite("black", body_build), "black"), ICON_UNDERLAY)
 			if(backbag == 2)
-				clothes_s.Blend(new /icon(current_species.get_belt_sprite("backpack", body_build), "backpack"), ICON_OVERLAY)
+				clothes_s.Blend(new /icon(current_species.get_uniform_sprite("backpack", body_build), "backpack"), ICON_OVERLAY)
 			else if(backbag == 3 || backbag == 4)
-				clothes_s.Blend(new /icon(current_species.get_belt_sprite("satchel", body_build), "satchel"), ICON_OVERLAY)
+				clothes_s.Blend(new /icon(current_species.get_shoes_sprite("satchel", body_build), "satchel"), ICON_OVERLAY)
 
 		else
 			var/datum/job/J = job_master.GetJob(high_job_title)
