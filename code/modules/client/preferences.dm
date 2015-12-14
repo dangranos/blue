@@ -1709,6 +1709,8 @@ datum/preferences
 			message_admins("[character] ([character.ckey]) has spawned with their gender as plural or neuter. Please notify coders.")
 			character.gender = MALE
 
+	character.force_update_limbs()
+
 /datum/preferences/proc/open_load_dialog(mob/user)
 	var/dat = "<body>"
 	dat += "<tt><center>"
