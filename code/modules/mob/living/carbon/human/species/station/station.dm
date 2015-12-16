@@ -196,7 +196,7 @@
 	name_plural = "Skrell"
 	icobase = 'icons/mob/human_races/r_skrell.dmi'
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
-	eyes = "skrell_eyes_s"
+	eyes = "skrell_eyes"
 	language = "Skrellian"
 	primitive_form = "Neaera"
 	unarmed_types = list(/datum/unarmed_attack/punch)
