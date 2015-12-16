@@ -308,7 +308,7 @@
 	else
 		usr << "<span class='danger>This weapon is ineffective, it does no damage.</span>"
 
-	visible_message("<span class='danger'>\The [src] has been attacked with the [O] by [user].</span>")
+	visible_message("<span class='danger'>[user] attacked [src] with the [O].</span>")
 	user.do_attack_animation(src)
 
 /mob/living/simple_animal/movement_delay()

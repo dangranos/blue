@@ -7,7 +7,7 @@
 	language = "Galactic Common"
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick,  /datum/unarmed_attack/claws/strong, /datum/unarmed_attack/bite/strong)
 	rarity_value = 4
-	gluttonous = 1
+	gluttonous = 2
 
 	blurb = "The Vox are the broken remnants of a once-proud race, now reduced to little more than \
 	scavenging vermin who prey on isolated stations, ships or planets to keep their own ancient arkships \
@@ -81,10 +81,13 @@
 			return 'icons/mob/species/vox/shoes.dmi'
 		else return ..()
 
-	get_mask_sprite(state = "")
-		if(state in icon_states('icons/mob/species/vox/masks.dmi'))
-			return  'icons/mob/species/vox/masks.dmi'
+	get_glasses_sprite(state = "", var/body_build = 0)
+		if(state in icon_states('icons/mob/species/vox/eyes.dmi'))
+			return 'icons/mob/species/vox/eyes.dmi'
 		else return ..()
+
+	get_mask_sprite(state = "")
+		return  'icons/mob/species/vox/masks.dmi'
 
 /datum/species/vox/get_random_name(var/gender)
 	var/datum/language/species_language = all_languages[default_language]

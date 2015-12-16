@@ -550,6 +550,8 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		"syndicate commando",
 		"phantom of the station",
 		"special ops officer",
+		"special ops agent",
+		"blue code equpment",
 		"blue wizard",
 		"red wizard",
 		"marisa wizard",
@@ -819,7 +821,6 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-
 		if("nanotrasen captain")
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(M), slot_w_uniform)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(M), slot_shoes)
@@ -881,6 +882,79 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			W.access = get_all_accesses()
 			W.access += get_all_centcom_access()
 			W.assignment = "Special Operations Officer"
+			W.registered_name = M.real_name
+			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("special ops agent")
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_sec(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/beret/sec/alt(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/syndicate/PMC(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/security/tactical(M), slot_belt)
+			M.equip_to_slot_or_del(new /obj/item/device/flashlight/seclite(M), slot_r_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency_oxygen/double(M), slot_l_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/sec(M), slot_s_store)
+			new /obj/item/clothing/mask/gas/voice(M.back)
+			new /obj/item/weapon/storage/firstaid/regular(M.back)
+			new /obj/item/weapon/reagent_containers/food/snacks/liquidfood(M.back)
+			new /obj/item/weapon/melee/classic_baton(M.belt)
+			new /obj/item/weapon/handcuffs(M.belt)
+			new /obj/item/ammo_magazine/c45m(M.belt)
+			new /obj/item/ammo_magazine/c45m(M.belt)
+			new /obj/item/ammo_magazine/c45m(M.belt)
+			new /obj/item/ammo_magazine/c45m/flash(M.belt)
+			new /obj/item/ammo_magazine/c45m/rubber(M.belt)
+			new /obj/item/device/flashlight/flare(M.belt)
+			var/obj/item/clothing/accessory/storage/black_vest/V = new
+			M.equip_to_slot_or_del(V, slot_tie)
+			if(V)
+				new /obj/item/weapon/material/hatchet/tacknife(V.hold)
+				new /obj/item/weapon/crowbar/red(V.hold)
+				new /obj/item/device/radio/off(V.hold)
+
+			var/obj/item/weapon/card/id/syndicate/W = new(M)
+			W.name = "[M.real_name]'s ID Card"
+			W.assignment = "Special Operations Agent"
+			W.registered_name = M.real_name
+			M.equip_to_slot_or_del(W, slot_wear_id)
+
+		if("blue code equpment")
+			M.equip_to_slot_or_del(new /obj/item/clothing/under/syndicate/PMC(M), slot_w_uniform)
+			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(M), slot_shoes)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_sec(M), slot_back)
+			M.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/security/tactical(M), slot_belt)
+			M.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency_oxygen/double(M), slot_r_store)
+			M.equip_to_slot_or_del(new /obj/item/weapon/melee/baton/loaded(M), slot_s_store)
+			M.equip_to_slot_or_del(new /obj/item/clothing/accessory/armband(M), slot_l_store)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/riot(M), slot_wear_suit)
+			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas(M), slot_wear_mask)
+			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/riot(M), slot_head)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/shotgun/pump/combat(M), slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/shield/riot(M), slot_l_hand)
+
+			new /obj/item/weapon/storage/box/shotgunammo(M.back)
+			new /obj/item/device/flashlight/seclite(M.back)
+			new /obj/item/device/flashlight/flare(M.back)
+			new /obj/item/device/flashlight/seclite(M.back)
+			new /obj/item/weapon/handcuffs(M.belt)
+			new /obj/item/weapon/handcuffs(M.belt)
+			new /obj/item/weapon/grenade/flashbang(M.belt)
+			new /obj/item/device/flash(M.belt)
+
+			var/obj/item/clothing/accessory/storage/black_vest/V = new
+			M.equip_to_slot_or_del(V, slot_tie)
+			if(V)
+				new /obj/item/weapon/material/hatchet/tacknife(V.hold)
+				new /obj/item/weapon/material/hatchet/tacknife(V.hold)
+				new /obj/item/weapon/crowbar/red(V.hold)
+				new /obj/item/device/radio/off(V.hold)
+
+			var/obj/item/weapon/card/id/syndicate/W = new(M)
+			W.name = "[M.real_name]'s ID Card"
+			W.assignment = "Special Operations Agent"
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
