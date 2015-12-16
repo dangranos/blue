@@ -613,15 +613,13 @@ datum/preferences
 	return
 
 /datum/preferences/proc/SetFlavorText(mob/user)
-	var/list/flavs = list("General"="general", "Body"="torso", "Head"="head", "Face"="face", "Eyes"="eyes",\
-					"Mechanical eyes"="mech_eyes", "Arms"="arms", "Hands"="hands", "Legs"="legs", "Feet"="feet")
 	var/HTML = "<body>"
 	HTML += "<tt><center>"
 	HTML += "<b>Set Flavour Text</b> <hr />"
 	HTML += "<br></center>"
-	for(var/flavor in flavs)
-		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavs[flavor]]'>[flavor]:</a> "
-		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavs[flavor]]))
+	for(var/flavor in flavs_list)
+		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavor]'>[flavs_list[flavor]]:</a> "
+		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavor]))
 		HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[user];preference=flavor_text;task=done'>\[Done\]</a>"
