@@ -80,7 +80,7 @@
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
 	primitive_form = "Stok"
 	darksight = 3
-	gluttonous = 1
+	gluttonous = 2
 
 	blurb = "A heavily reptillian species, Unathi (or 'Sinta as they call themselves) hail from the \
 	Uuosa-Eso system, which roughly translates to 'burning mother'.<br/><br/>Coming from a harsh, radioactive \
@@ -125,6 +125,11 @@
 						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
+
+	get_mask_sprite(state = "")
+		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
+			return 'icons/mob/species/unathi/mask.dmi'
+		else return ..()
 
 /datum/species/unathi/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
@@ -177,6 +182,11 @@
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ð" = "ðð", "Ð" = "Ðð")
 
+	get_mask_sprite(state = "")
+		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
+			return 'icons/mob/species/tajaran/mask.dmi'
+		else return ..()
+
 /datum/species/tajaran/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes)
@@ -186,7 +196,7 @@
 	name_plural = "Skrell"
 	icobase = 'icons/mob/human_races/r_skrell.dmi'
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
-	eyes = "skrell_eyes_s"
+	eyes = "skrell_eyes"
 	language = "Skrellian"
 	primitive_form = "Neaera"
 	unarmed_types = list(/datum/unarmed_attack/punch)

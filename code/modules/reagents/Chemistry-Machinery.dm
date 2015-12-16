@@ -158,6 +158,7 @@
 				beaker = null
 				reagents.clear_reagents()
 				icon_state = "mixer0"
+
 		else if (href_list["createpill"] || href_list["createpill_multiple"])
 			var/count = 1
 
@@ -165,7 +166,9 @@
 				return
 
 			if (href_list["createpill_multiple"])
-				count = Clamp(isgoodnumber(input("Select the number of pills to make.", 10, pillamount) as num),1,max_pill_count)
+				count = input("Select the number of pills to make.", 10, pillamount) as num
+			if( count < 1 || count > max_pill_count)
+				return
 
 			if(reagents.total_volume/count < 1) //Sanity checking.
 				return

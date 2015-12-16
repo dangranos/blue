@@ -40,7 +40,7 @@ var/global/list/limb_icon_cache = list()
 	if(owner.species.has_organ["eyes"])
 		var/obj/item/organ/eyes/eyes = owner.internal_organs_by_name["eyes"]
 		if(owner.species.eyes)
-			var/icon/eyes_icon = new/icon('icons/mob/human_face.dmi', owner.species.eyes)
+			var/icon/eyes_icon = new/icon('icons/mob/human_face.dmi', "[owner.species.eyes][owner.body_build]")
 			if(eyes)
 				eyes_icon.Blend(rgb(eyes.eye_colour[1], eyes.eye_colour[2], eyes.eye_colour[3]), ICON_ADD)
 			else

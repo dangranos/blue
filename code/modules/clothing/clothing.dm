@@ -5,9 +5,7 @@
 
 	/*
 		Sprites used when the clothing item is refit. This is done by setting icon_override.
-		For best results, if this is set then sprite_sheets should be null and vice versa, but that is by no means necessary.
 		Ideally, sprite_sheets_refit should be used for "hard" clothing items that can't change shape very well to fit the wearer (e.g. helmets, hardsuits),
-		while sprite_sheets should be used for "flexible" clothing items that do not need to be refitted (e.g. vox wearing jumpsuits).
 	*/
 	var/list/sprite_sheets_refit = null
 
@@ -178,7 +176,6 @@ BLIND     // can't see anything
 	var/vision_flags = 0
 	var/darkness_view = 0//Base human is 2
 	var/see_invisible = -1
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/eyes.dmi')
 
 /obj/item/clothing/glasses/update_clothing_icon()
 	if (ismob(src.loc))
@@ -200,7 +197,6 @@ BLIND     // can't see anything
 	slot_flags = SLOT_GLOVES
 	attack_verb = list("challenged")
 	species_restricted = list("exclude","Unathi","Tajara")
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/gloves.dmi')
 
 /obj/item/clothing/gloves/update_clothing_icon()
 	if (ismob(src.loc))
@@ -304,7 +300,6 @@ BLIND     // can't see anything
 	body_parts_covered = HEAD
 	slot_flags = SLOT_MASK
 	body_parts_covered = FACE|EYES
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/masks.dmi')
 
 /obj/item/clothing/mask/update_clothing_icon()
 	if (ismob(src.loc))
@@ -330,7 +325,6 @@ BLIND     // can't see anything
 	force = 2
 	var/overshoes = 0
 	species_restricted = list("exclude","Unathi","Tajara")
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/shoes.dmi')
 
 /obj/item/clothing/shoes/proc/handle_movement(var/turf/walking, var/running)
 	return
@@ -379,7 +373,6 @@ BLIND     // can't see anything
 	var/list/accessories = list()
 	var/displays_id = 1
 	var/rolled_down = -1 //0 = unrolled, 1 = rolled, -1 = cannot be toggled
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/uniform.dmi')
 
 /obj/item/clothing/under/proc/update_rolldown_status()
 
