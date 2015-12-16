@@ -675,7 +675,7 @@
 						continue
 					statpanel(listed_turf.name, null, A)
 
-	sleep(4) //Prevent updating the stat panel for the next .4 seconds, prevents clientside latency from updates
+//	sleep(4) //Prevent updating the stat panel for the next .4 seconds, prevents clientside latency from updates
 
 // facing verbs
 /mob/proc/canface()
