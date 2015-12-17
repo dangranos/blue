@@ -188,7 +188,7 @@
 	else if(W.damtype == BRUTE || W.damtype == BURN) //bashing cameras
 		if (W.force >= src.toughness)
 			user.do_attack_animation(src)
-			visible_message("<span class='warning'><b>[src] has been [pick(W.attack_verb)] with [W] by [user]!</b></span>")
+			visible_message("<span class='warning'><b>[user] [pick(W.attack_verb)] [src] with [W]!</b></span>")
 			if (istype(W, /obj/item)) //is it even possible to get into attackby() with non-items?
 				var/obj/item/I = W
 				if (I.hitsound)
