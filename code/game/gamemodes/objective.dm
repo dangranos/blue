@@ -57,6 +57,8 @@ datum/objective/assassinate
 
 
 	check_completion()
+		if(!target)//If it's a free objective.
+			return 1
 		if(target && target.current)
 			if(target.current.stat == DEAD || issilicon(target.current) || isbrain(target.current) || target.current.z > 6 || !target.current.ckey) //Borgs/brains/AIs count as dead for traitor objectives. --NeoFite
 				return 1
@@ -83,6 +85,8 @@ datum/objective/anti_revolution/execute
 		return target
 
 	check_completion()
+		if(!target)//If it's a free objective.
+			return 1
 		if(target && target.current)
 			if(target.current.stat == DEAD || !ishuman(target.current))
 				return 1
@@ -110,9 +114,10 @@ datum/objective/anti_revolution/brig
 		return target
 
 	check_completion()
+		if(!target)//If it's a free objective.
+			return 1
 		if(already_completed)
 			return 1
-
 		if(target && target.current)
 			if(target.current.stat == DEAD)
 				return 0
@@ -140,6 +145,8 @@ datum/objective/anti_revolution/demote
 		return target
 
 	check_completion()
+		if(!target)//If it's a free objective.
+			return 1
 		if(target && target.current && istype(target,/mob/living/carbon/human))
 			var/obj/item/weapon/card/id/I = target.current:wear_id
 			if(istype(I, /obj/item/device/pda))
@@ -206,7 +213,7 @@ datum/objective/protect//The opposite of killing a dude.
 		return target
 
 	check_completion()
-		if(!target)			//If it's a free objective.
+		if(!target)//If it's a free objective.
 			return 1
 		if(target.current)
 			if(target.current.stat == DEAD || issilicon(target.current) || isbrain(target.current))
@@ -349,6 +356,8 @@ datum/objective/brig
 		return target
 
 	check_completion()
+		if(!target)//If it's a free objective.
+			return 1
 		if(already_completed)
 			return 1
 
@@ -384,6 +393,8 @@ datum/objective/harm
 		return target
 
 	check_completion()
+		if(!target)//If it's a free objective.
+			return 1
 		if(already_completed)
 			return 1
 
@@ -659,6 +670,8 @@ datum/objective/heist/kidnap
 		return target
 
 	check_completion()
+		if(!target)//If it's a free objective.
+			return 1
 		if(target && target.current)
 			if (target.current.stat == 2)
 				return 0 // They're dead. Fail.
