@@ -173,7 +173,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	if(H.species && H.species.flags & HAS_SKIN_COLOR)
 		preview_icon.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
 
-	var/icon/eyes = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? H.species.eyes : "eyes_s")
+	var/icon/eyes = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? H.species.eyes : "eyes")
 
 	if (H.species.flags & HAS_EYE_COLOR)
 		var/obj/item/organ/eyes/E = H.internal_organs_by_name["eyes"]
