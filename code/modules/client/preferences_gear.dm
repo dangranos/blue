@@ -72,7 +72,7 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/head/beret/sec/alt
 	cost = 1
 	slot = slot_head
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective")
 
 /datum/gear/eng_beret
 	display_name = "beret, engie-orange"
@@ -98,7 +98,7 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/head/beret/sec
 	cost = 1
 	slot = slot_head
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective")
 
 /datum/gear/bcap
 	display_name = "cap, blue"
@@ -205,7 +205,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/welding
 	display_name = "basic"
-	allowed_roles = list("Chief Engineer", "Station Engineer", "Roboticist")
+	allowed_roles = list("Chief Engineer","Station Engineer","Roboticist","Atmospheric Technician")
 
 /datum/gear/welding/flame
 	display_name = "welding helmet, flame"
@@ -318,9 +318,9 @@ var/global/list/gear_datums = list()
 /datum/gear/security
 	display_name = "Security HUD"
 	path = /obj/item/clothing/glasses/hud/security
-	cost = 1
+	cost = 2
 	slot = slot_glasses
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent")
 
 /datum/gear/medical_hud
 	display_name = "Medical HUD (prescription)"
@@ -1019,12 +1019,6 @@ var/global/list/gear_datums = list()
 
 /datum/gear/laceyshoes
 	display_name = "shoes, classy"
-	path = /obj/item/clothing/shoes/laceup
-	cost = 1
-	slot = slot_shoes
-
-/datum/gear/dress_shoes
-	display_name = "shoes, dress"
 	path = /obj/item/clothing/shoes/laceup
 	cost = 1
 	slot = slot_shoes
