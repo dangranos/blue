@@ -165,6 +165,8 @@
 
 /obj/item/weapon/rig/medical/equipped
 
+	req_access = list(access_cmo)
+
 	initial_modules = list(
 		/obj/item/rig_module/chem_dispenser/injector,
 		/obj/item/rig_module/maneuvering_jets,
@@ -191,6 +193,8 @@
 
 
 /obj/item/weapon/rig/hazard/equipped
+
+	req_access = list(access_hos)
 
 	initial_modules = list(
 		/obj/item/rig_module/vision/sechud,
