@@ -9,4 +9,5 @@ baystation12.dme.rej
 *.backup
 data/
 config/
+tools/
 
