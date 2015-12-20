@@ -57,6 +57,7 @@
 #define FILE_DIR "sound/effects/wind"
 #define FILE_DIR "sound/hallucinations"
 #define FILE_DIR "sound/items"
+#define FILE_DIR "sound/jukebox"
 #define FILE_DIR "sound/machines"
 #define FILE_DIR "sound/mecha"
 #define FILE_DIR "sound/misc"
