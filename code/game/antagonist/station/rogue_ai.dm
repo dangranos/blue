@@ -97,3 +97,8 @@ var/datum/antagonist/rogue_ai/malf
 	if (newname)
 		player.SetName(newname)
 	if(player.mind) player.mind.name = player.name
+
+/datum/antagonist/rogue_ai/place_mob(var/mob/living/mob)
+	..()
+	for(var/mob/living/silicon/ai/AI in mob.loc)
+		if(istype(AI) && AI != src) del(AI)
