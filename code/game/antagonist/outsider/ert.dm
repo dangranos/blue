@@ -40,6 +40,8 @@ var/datum/antagonist/ert/ert
 	player.equip_to_slot_or_del(new /obj/item/clothing/gloves/black/swat(src), slot_gloves)
 	player.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(src), slot_glasses)
 
+	player.equip_survival_gear()
+
 	var/obj/item/weapon/card/id/centcom/ERT/W = new(src)
 	W.registered_name = player.real_name
 	W.name = "[player.real_name]'s ID Card ([W.assignment])"
