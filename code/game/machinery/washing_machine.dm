@@ -20,7 +20,7 @@
 	//0 = not hacked
 	//1 = hacked
 	var/gibs_ready = 0
-	var/obj/crayon
+	var/obj/item/weapon/pen/crayon/crayon
 
 /obj/machinery/washing_machine/verb/start()
 	set name = "Start Washing"
@@ -42,6 +42,8 @@
 	sleep(200)
 	for(var/atom/A in contents)
 		A.clean_blood()
+		if(istype(A, /obj/item/clothing))
+			A.color = crayon.colour
 
 	for(var/obj/item/I in contents)
 		I.decontaminate()
