@@ -173,11 +173,12 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	if(H.species && H.species.flags & HAS_SKIN_COLOR)
 		preview_icon.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
 
-	var/icon/eyes = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? H.species.eyes : "eyes")
+	var/icon/eyes
 
 	if (H.species.flags & HAS_EYE_COLOR)
 		var/obj/item/organ/eyes/E = H.internal_organs_by_name["eyes"]
 		if( E )
+			eyes = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? "[H.species.eyes][H.body_build]" : "eyes")
 			if( E.robotic >= 2 )
 				eyes.Blend(rgb(H.mech_eyes_r, H.mech_eyes_g, H.mech_eyes_b), ICON_ADD)
 			else
@@ -203,7 +204,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 		var/obj/item/clothing/shoes/SH = J.shoes
 
 		clothes_s = new /icon(H.species.get_uniform_sprite(initial(UF.icon_state), H.body_build), initial(UF.icon_state))
-		clothes_s.Blend(new /icon(H.species.get_uniform_sprite(initial(SH.icon_state), H.body_build), initial(SH.item_state)), ICON_UNDERLAY)
+		clothes_s.Blend(new /icon(H.species.get_uniform_sprite(initial(SH.icon_state), H.body_build), initial(SH.icon_state)), ICON_UNDERLAY)
 	else
 		clothes_s = new /icon(H.species.get_uniform_sprite("grey_s", H.body_build), "grey_s")
 		clothes_s.Blend(new /icon(H.species.get_uniform_sprite("black", H.body_build), "black"), ICON_UNDERLAY)
