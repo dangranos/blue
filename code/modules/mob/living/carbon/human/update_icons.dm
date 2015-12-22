@@ -468,7 +468,7 @@ var/global/list/damage_icon_parts = list()
 		w_uniform.screen_loc = ui_iclothing
 
 		var/image/standing = get_uniform_sprite("[w_uniform.icon_state][w_uniform:rolled_down>0?"_d":""]", body_build)
-
+		if(w_uniform.color) standing.color = w_uniform.color
 		//apply blood overlay
 		if(w_uniform.blood_DNA)
 			var/image/bloodsies	= image(icon = species.blood_mask, "icon_state" = "uniformblood[body_build == BODY_SLIM?"_f":""]")
@@ -514,6 +514,8 @@ var/global/list/damage_icon_parts = list()
 		else
 			standing = get_gloves_sprite(t_state, body_build)
 
+		if(gloves.color) standing.color = gloves.color
+
 		if(gloves.blood_DNA)
 			var/image/bloodsies	= image("icon" = species.blood_mask, "icon_state" = "bloodyhands[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color = gloves.blood_color
@@ -537,9 +539,9 @@ var/global/list/damage_icon_parts = list()
 			overlays_standing[GLASSES_LAYER] = image("icon" = glasses.icon_override, "icon_state" = "[glasses.icon_state]")
 		else
 			overlays_standing[GLASSES_LAYER]= get_glasses_sprite(glasses.icon_state, body_build)
-
 	else
 		overlays_standing[GLASSES_LAYER]	= null
+
 	if(update_icons)   update_icons()
 
 /mob/living/carbon/human/update_inv_ears(var/update_icons=1)
@@ -577,6 +579,8 @@ var/global/list/damage_icon_parts = list()
 			standing = image("icon" = shoes.icon_override, "icon_state" = "[shoes.icon_state]")
 		else
 			standing = get_shoes_sprite(shoes.icon_state, body_build)
+
+		if(shoes.color) standing.color = shoes.color
 
 		if(shoes.blood_DNA)
 			var/image/bloodsies = image("icon" = species.blood_mask, "icon_state" = "shoeblood[body_build == BODY_SLIM?"_f":""]")
@@ -620,6 +624,8 @@ var/global/list/damage_icon_parts = list()
 			standing = image(icon = head.icon_override, icon_state = t_state)
 		else
 			standing = get_head_sprite(t_state, body_build)
+
+		if(head.color) standing.color = head.color
 
 		if(head.blood_DNA)
 			var/image/bloodsies = image("icon" = species.blood_mask, "icon_state" = "helmetblood")
@@ -677,6 +683,8 @@ var/global/list/damage_icon_parts = list()
 			drop_l_hand()
 			drop_r_hand()
 
+		if(wear_suit.color) standing.color = wear_suit.color
+
 		if(wear_suit.blood_DNA)
 			var/obj/item/clothing/suit/S = wear_suit
 			var/image/bloodsies = image("icon" = species.blood_mask, "icon_state" = "[S.blood_overlay_type]blood[body_build == BODY_SLIM?"_f":""]")
@@ -711,6 +719,8 @@ var/global/list/damage_icon_parts = list()
 		else
 			standing = get_mask_sprite(wear_mask.icon_state, body_build)
 
+		if(wear_mask.color) standing.color = wear_mask.color
+
 		if( !istype(wear_mask, /obj/item/clothing/mask/smokable/cigarette) && wear_mask.blood_DNA )
 			var/image/bloodsies = image("icon" = species.blood_mask, "icon_state" = "maskblood[body_build == BODY_SLIM?"_f":""]")
 			bloodsies.color = wear_mask.blood_color
@@ -744,6 +754,8 @@ var/global/list/damage_icon_parts = list()
 			standing = image(rig.mob_icon, icon_state = t_state)
 		else
 			standing = get_back_sprite(t_state, body_build)
+
+		if(back.color) standing.color = back.color
 
 		//create the image
 		overlays_standing[BACK_LAYER] = standing

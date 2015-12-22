@@ -29,6 +29,7 @@ var/datum/antagonist/deathsquad/mercenary/commandos
 	player.equip_to_slot_or_del(new /obj/item/ammo_magazine/c45(player), slot_in_backpack)
 	player.equip_to_slot_or_del(new /obj/item/weapon/rig/merc(player), slot_back)
 	player.equip_to_slot_or_del(new /obj/item/weapon/gun/energy/pulse_rifle(player), slot_r_hand)
+	player.equip_survival_gear()
 
 	var/obj/item/weapon/card/id/id = create_id("Commando", player)
 	id.access |= get_all_accesses()
