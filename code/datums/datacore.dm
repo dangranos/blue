@@ -186,9 +186,10 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 
 	var/datum/sprite_accessory/hair_style = hair_styles_list[H.h_style]
 	if(hair_style)
-		var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
-		hair_s.Blend(rgb(H.hair_r, H.hair_g, H.hair_b), ICON_ADD)
-		eyes.Blend(hair_s, ICON_OVERLAY)
+		var/icon/hair = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+		hair.Blend(rgb(H.hair_r, H.hair_g, H.hair_b), ICON_ADD)
+		if(eyes) eyes.Blend(hair, ICON_OVERLAY)
+		else eyes = hair
 
 	var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[H.f_style]
 	if(facial_hair_style)
