@@ -101,4 +101,4 @@ var/datum/antagonist/rogue_ai/malf
 /datum/antagonist/rogue_ai/place_mob(var/mob/living/mob)
 	..()
 	for(var/mob/living/silicon/ai/AI in mob.loc)
-		if(istype(AI) && AI != src) del(AI)
+		if(istype(AI) && AI != mob) del(AI)
