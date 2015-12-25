@@ -126,6 +126,11 @@
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
 
+	get_suit_sprite(state = "")
+		if(state in icon_states('icons/mob/species/unathi/suit.dmi'))
+			return 'icons/mob/species/unathi/suit.dmi'
+		else return .
+
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
 			return 'icons/mob/species/unathi/mask.dmi'
@@ -181,6 +186,11 @@
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ğ" = "ğğ", "Ğ" = "Ğğ")
+
+	get_suit_sprite(state = "")
+		if(state in icon_states('icons/mob/species/tajaran/suit.dmi'))
+			return 'icons/mob/species/tajaran/suit.dmi'
+		else return .
 
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
