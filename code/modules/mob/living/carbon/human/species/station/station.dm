@@ -14,6 +14,61 @@
 
 	allow_slim_fem = 1
 
+	get_uniform_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/uniform_f.dmi'
+		else
+			return 'icons/mob/uniform.dmi'
+
+	get_suit_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/suit_f.dmi'
+		else
+			return 'icons/mob/suit.dmi'
+
+	get_gloves_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/hands_f.dmi'
+		else
+			return 'icons/mob/hands.dmi'
+
+	get_shoes_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/feet_f.dmi'
+		else
+			return 'icons/mob/feet.dmi'
+
+	get_glasses_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/eyes_f.dmi'
+		else
+			return 'icons/mob/eyes.dmi'
+
+	get_belt_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/belt_f.dmi'
+		else
+			return 'icons/mob/belt.dmi'
+
+	get_ears_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/ears_f.dmi'
+		else
+			return 'icons/mob/ears.dmi'
+
+	get_back_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/back_f.dmi'
+		else
+			return 'icons/mob/back.dmi'
+
+	get_mask_sprite(state = "", body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/mask_f.dmi'
+		else
+			return 'icons/mob/mask.dmi'
+
+
 /datum/species/unathi
 	name = "Unathi"
 	name_plural = "Unathi"
@@ -25,7 +80,7 @@
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
 	primitive_form = "Stok"
 	darksight = 3
-	gluttonous = 1
+	gluttonous = 2
 
 	blurb = "A heavily reptillian species, Unathi (or 'Sinta as they call themselves) hail from the \
 	Uuosa-Eso system, which roughly translates to 'burning mother'.<br/><br/>Coming from a harsh, radioactive \
@@ -70,6 +125,11 @@
 						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
+
+	get_mask_sprite(state = "")
+		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
+			return 'icons/mob/species/unathi/mask.dmi'
+		else return ..()
 
 /datum/species/unathi/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
@@ -122,16 +182,21 @@
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ð" = "ðð", "Ð" = "Ðð")
 
+	get_mask_sprite(state = "")
+		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
+			return 'icons/mob/species/tajaran/mask.dmi'
+		else return ..()
+
 /datum/species/tajaran/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes)
 
-/datum/species/skrell
+/datum/species/human/skrell
 	name = "Skrell"
 	name_plural = "Skrell"
 	icobase = 'icons/mob/human_races/r_skrell.dmi'
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
-	eyes = "skrell_eyes_s"
+	eyes = "skrell_eyes"
 	language = "Skrellian"
 	primitive_form = "Neaera"
 	unarmed_types = list(/datum/unarmed_attack/punch)
@@ -151,6 +216,11 @@
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Warden",\
 						"Detective", "Security Officer", "Station Engineer", "Atmospheric Technician",\
 						"Quartermaster", "Cargo Technician", "Shaft Miner")
+
+	get_head_sprite(state = "", var/body_build = 0)
+		if(state in icon_states('icons/mob/species/skrell/helmet.dmi'))
+			return 'icons/mob/species/skrell/helmet.dmi'
+		else return ..()
 
 /datum/species/diona
 	name = "Diona"

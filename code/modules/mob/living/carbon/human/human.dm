@@ -667,12 +667,12 @@
 				src << browse(null, "window=flavor_changes")
 				return
 			if("general")
-				var/msg = sanitize(input(usr,"Update the general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(flavor_texts[href_list["flavor_change"]])) as message, extra = 0)
-				flavor_texts[href_list["flavor_change"]] = msg
+				var/msg = input(usr,"Update the general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts["general"]))) as message
+				flavor_texts[href_list["flavor_change"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 				return
 			else
-				var/msg = sanitize(input(usr,"Update the flavor text for your [href_list["flavor_change"]].","Flavor Text",rhtml_decode(flavor_texts[href_list["flavor_change"]])) as message, extra = 0)
-				flavor_texts[href_list["flavor_change"]] = msg
+				var/msg = input(usr,"Update the flavor text for your [href_list["flavor_change"]].","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts[href_list["flavor_change"]]))) as message
+				flavor_texts[href_list["flavor_change"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 				set_flavor()
 				return
 	..()
@@ -1392,7 +1392,40 @@
 
 /mob/living/carbon/human/MouseDrop(var/atom/over_object)
 	var/mob/living/carbon/human/H = over_object
-	if(holder_type && a_intent == "help" && H.a_intent == "help" && istype(H) && !issmall(H) && Adjacent(H))
+	if(holder_type && a_intent == "help" && istype(H) && H.a_intent == "help" && !issmall(H) && Adjacent(H))
 		get_scooped(H)
 		return
 	return ..()
+
+/mob/living/carbon/human/proc/get_uniform_sprite(state = "", body_build = 0)
+	return image(species.get_uniform_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_suit_sprite(state = "", body_build = 0)
+	return image(species.get_suit_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_gloves_sprite(state = "", body_build = 0)
+	return image(species.get_gloves_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_shoes_sprite(state = "", body_build = 0)
+	return image(species.get_shoes_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_head_sprite(state = "", body_build = 0)
+	return image(species.get_head_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_glasses_sprite(state = "", body_build = 0)
+	return image(species.get_glasses_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_belt_sprite(state = "", body_build = 0)
+	return image(species.get_belt_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_ears_sprite(state = "", body_build = 0)
+	return image(species.get_ears_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_back_sprite(state = "", body_build = 0)
+	return image(species.get_back_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_mask_sprite(state = "", body_build = 0)
+	return image(species.get_mask_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_store_sprite(state = "", body_build = 0)
+	return image(species.get_store_sprite(state, body_build), icon_state = state)

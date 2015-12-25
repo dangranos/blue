@@ -30,10 +30,6 @@ var/global/list/chameleons = list(
 	icon_state = initial(new_type.icon_state)
 	item_state = initial(new_type.item_state)
 	item_state_slots = initial(new_type.item_state_slots)
-	if(istype(src, /obj/item/clothing/under))
-		var/obj/item/clothing/under/U = src
-		var/obj/item/clothing/under/NT = new_type
-		U.worn_state = initial(NT.worn_state)
 	body_parts_covered = initial(new_type.body_parts_covered)
 	//flags = initial(new_type.flags)
 	flags_inv = initial(new_type.flags_inv)
@@ -53,14 +49,12 @@ var/global/list/chameleons = list(
 	name = "black jumpsuit"
 	icon_state = "black"
 	item_state = "bl_suit"
-	worn_state = "black"
 	desc = "It's a plain jumpsuit. It seems to have a small dial on the wrist."
 	origin_tech = "syndicate=3"
 	var/style_list = "under"
 	New()
 		..()
-		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/under/cloud,\
-									/obj/item/clothing/under/gimmick))
+		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/under/gimmick))
 
 /obj/item/clothing/under/chameleon/emp_act(severity)
 	name = "psychedelic"

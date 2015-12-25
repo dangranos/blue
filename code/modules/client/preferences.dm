@@ -77,9 +77,8 @@ datum/preferences
 	var/mech_eyes_r = 0					//Mechanical eye color
 	var/mech_eyes_g = 0					//Mechanical eye color
 	var/mech_eyes_b = 0					//Mechanical eye color
-	var/species = "Human"               //Species datum to use.
-	var/species_flags = CAN_JOIN | HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR
-	var/allow_slim_fem = 1
+	var/species = "Human"				//Species name for save file
+	var/datum/species/current_species = null	//Species datum to use
 	var/species_preview                 //Used for the species selection window.
 	var/language = "None"				//Secondary language
 	var/list/gear						//Custom/fluff item loadout.
@@ -146,9 +145,7 @@ datum/preferences
 					return
 	gender = pick(MALE, FEMALE)
 	real_name = random_name(gender,species)
-	var/datum/species/current_species = all_species["Human"]
-	species_flags = current_species.flags
-	allow_slim_fem = current_species.allow_slim_fem
+	current_species = all_species["Human"]
 	h_style = random_hair_style(gender, species)
 	gear = list()
 
@@ -185,7 +182,7 @@ datum/preferences
 	dat += "<br>"
 
 	dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'><b>[gender == MALE ? "Male" : "Female"]</b></a><br>"
-	if(gender == FEMALE && allow_slim_fem)
+	if(gender == FEMALE && current_species.allow_slim_fem)
 		dat += "<b>Body build:</b> <a href='?_src_=prefs;preference=build'><b>[body_build == BODY_DEFAULT ? "Default" : "Slim"]</b></a><br>"
 	dat += "<b>Age:</b> <a href='?_src_=prefs;preference=age;task=input'>[age]</a><br>"
 	dat += "<b>Spawn Point</b>: <a href='byond://?src=\ref[user];preference=spawnpoint;task=input'>[spawnpoint]</a>"
@@ -232,11 +229,11 @@ datum/preferences
 	dat += "Species: <a href='?src=\ref[user];preference=species;task=change'>[species]</a><br>"
 	dat += "Secondary Language:<br><a href='byond://?src=\ref[user];preference=language;task=input'>[language]</a><br>"
 	dat += "Blood Type: <a href='byond://?src=\ref[user];preference=b_type;task=input'>[b_type]</a><br>"
-	if(species_flags & HAS_SKIN_TONE)
+	if(current_species.flags & HAS_SKIN_TONE)
 		dat += "Skin Tone: <a href='?_src_=prefs;preference=s_tone;task=input'>[-s_tone + 35]/220<br></a>"
 	dat += "Needs Glasses: <a href='?_src_=prefs;preference=disabilities'><b>[disabilities == 0 ? "No" : "Yes"]</b></a><br>"
 	dat += "Tattoo: <a href='byond://?src=\ref[user];preference=tattoo;task=open'>Set</a><br>"
-	if( !(species_flags & (IS_PLANT | IS_SYNTHETIC)) )
+	if( !(current_species.flags & (IS_PLANT|IS_SYNTHETIC)) )
 		dat += "Limbs: <a href='byond://?src=\ref[user];preference=limbs;task=open'>Adjust</a><br>"
 		dat += "Internal Organs: <a href='byond://?src=\ref[user];preference=organs;task=input'>Adjust</a><br>"
 
@@ -348,7 +345,7 @@ datum/preferences
 		dat += "<br><b>Mechanical eyes</b><br>"
 		dat += "<a href='?_src_=prefs;preference=mech_eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(mech_eyes_r, 2)][num2hex(mech_eyes_g, 2)][num2hex(mech_eyes_b, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(mech_eyes_r, 2)][num2hex(mech_eyes_g, 2)][num2hex(mech_eyes_b)]'><tr><td>__</td></tr></table></font><br>"
 
-	if(species_flags & HAS_SKIN_COLOR)
+	if(current_species.flags & HAS_SKIN_COLOR)
 		dat += "<br><b>Body Color</b><br>"
 		dat += "<a href='?_src_=prefs;preference=skin;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(skin_r, 2)][num2hex(skin_g, 2)][num2hex(skin_b, 2)]'><table style='display:inline;' bgcolor='#[num2hex(skin_r, 2)][num2hex(skin_g, 2)][num2hex(skin_b)]'><tr><td>__</td></tr></table></font>"
 
@@ -616,15 +613,13 @@ datum/preferences
 	return
 
 /datum/preferences/proc/SetFlavorText(mob/user)
-	var/list/flavs = list("General"="general", "Body"="torso", "Head"="head", "Face"="face", "Eyes"="eyes",\
-					"Mechanical eyes"="mech_eyes", "Arms"="arms", "Hands"="hands", "Legs"="legs", "Feet"="feet")
 	var/HTML = "<body>"
 	HTML += "<tt><center>"
 	HTML += "<b>Set Flavour Text</b> <hr />"
 	HTML += "<br></center>"
-	for(var/flavor in flavs)
-		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavs[flavor]]'>[flavor]:</a> "
-		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavs[flavor]]))
+	for(var/flavor in flavs_list)
+		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavor]'>[flavs_list[flavor]]:</a> "
+		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavor]))
 		HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[user];preference=flavor_text;task=done'>\[Done\]</a>"
@@ -925,11 +920,11 @@ datum/preferences
 				ShowChoices(user)
 				return
 			if("general")
-				var/msg = sanitize(input(usr,"Give a general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(flavor_texts[href_list["task"]])) as message, extra = 0)
-				flavor_texts[href_list["task"]] = msg
+				var/msg = input(usr,"Give a general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts["general"]))) as message
+				flavor_texts[href_list["task"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 			else
-				var/msg = sanitize(input(usr,"Set the flavor text for your [href_list["task"]].","Flavor Text",rhtml_decode(flavor_texts[href_list["task"]])) as message, extra = 0)
-				flavor_texts[href_list["task"]] = msg
+				var/msg = input(usr,"Set the flavor text for your [href_list["task"]].","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts[href_list["task"]]))) as message
+				flavor_texts[href_list["task"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 		SetFlavorText(user)
 		return
 
@@ -943,11 +938,11 @@ datum/preferences
 				ShowChoices(user)
 				return
 			if("Default")
-				var/msg = sanitize(input(usr,"Set the default flavour text for your robot. It will be used for any module without individual setting.","Flavour Text",rhtml_decode(flavour_texts_robot["Default"])) as message, extra = 0)
-				flavour_texts_robot[href_list["task"]] = msg
+				var/msg = input(usr,"Set the default flavour text for your robot. It will be used for any module without individual setting.","Flavour Text",rhtml_decode(flavour_texts_robot["Default"])) as message
+				flavour_texts_robot[href_list["task"]] = post_edit_utf8(sanitize(msg, extra = 0))
 			else
-				var/msg = sanitize(input(usr,"Set the flavour text for your robot with [href_list["task"]] module. If you leave this empty, default flavour text will be used for this module.","Flavour Text",rhtml_decode(flavour_texts_robot[href_list["task"]])) as message, extra = 0)
-				flavour_texts_robot[href_list["task"]] = msg
+				var/msg = input(usr,"Set the flavour text for your robot with [href_list["task"]] module. If you leave this empty, default flavour text will be used for this module.","Flavour Text",rhtml_decode(flavour_texts_robot[href_list["task"]])) as message
+				flavour_texts_robot[href_list["task"]] = post_edit_utf8(sanitize(msg, extra = 0))
 		SetFlavourTextRobot(user)
 		return
 
@@ -962,24 +957,24 @@ datum/preferences
 		else
 			user << browse(null, "window=records")
 		if(href_list["task"] == "med_record")
-			var/medmsg = cp1251_to_utf8(sanitize(input(usr,"Set your medical notes here.","Medical Records",rhtml_decode(med_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/medmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set your medical notes here.","Medical Records",rhtml_decode(edit_utf8(med_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(medmsg != null)
 				med_record = medmsg
 				SetRecords(user)
 
 		if(href_list["task"] == "sec_record")
-			var/secmsg = cp1251_to_utf8(sanitize(input(usr,"Set your security notes here.","Security Records",rhtml_decode(sec_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/secmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set your security notes here.","Security Records",rhtml_decode(edit_utf8(sec_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(secmsg != null)
 				sec_record = secmsg
 				SetRecords(user)
 		if(href_list["task"] == "gen_record")
-			var/genmsg = cp1251_to_utf8(sanitize(input(usr,"Set your employment notes here.","Employment Records",rhtml_decode(gen_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/genmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set your employment notes here.","Employment Records",rhtml_decode(edit_utf8(gen_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(genmsg != null)
 				gen_record = genmsg
 				SetRecords(user)
 
 		if(href_list["task"] == "exploitable_record")
-			var/exploitmsg = cp1251_to_utf8(sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",rhtml_decode(exploit_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/exploitmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",rhtml_decode(edit_utf8(exploit_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(exploitmsg != null)
 				exploit_record = exploitmsg
 				SetAntagoptions(user)
@@ -1128,10 +1123,8 @@ datum/preferences
 					var/prev_species = species
 					species = href_list["newspecies"]
 					if(prev_species != species)
-						var/datum/species/current_species = all_species[species_preview]
-						species_flags = current_species.flags
-						allow_slim_fem = current_species.allow_slim_fem
-						if(!allow_slim_fem) body_build = BODY_DEFAULT
+						current_species = all_species[species_preview]
+						if(!current_species.allow_slim_fem) body_build = BODY_DEFAULT
 
 						//grab one of the valid hair styles for the newly chosen species
 						var/list/valid_hairstyles = list()
@@ -1179,14 +1172,13 @@ datum/preferences
 
 				if("language")
 					var/list/new_languages = list("None")
-					var/datum/species/S = all_species[species]
 
 					for(var/L in all_languages)
 						var/datum/language/lang = all_languages[L]
 						if((lang.flags & PUBLIC))
 							new_languages += lang.name
 
-					for(var/L in S.secondary_langs)
+					for(var/L in current_species.secondary_langs)
 						new_languages += L
 
 					if(!(new_languages.len))
@@ -1281,13 +1273,13 @@ datum/preferences
 						mech_eyes_b = hex2num(copytext(new_eyes, 6, 8))
 
 				if("s_tone")
-					if(species_flags & HAS_SKIN_TONE)
+					if(current_species.flags & HAS_SKIN_TONE)
 						var/new_s_tone = input(user, "Choose your character's skin-tone:\n(Light 1 - 220 Dark)", "Character Preference")  as num|null
 						if(new_s_tone)
 							s_tone = 35 - max(min( round(new_s_tone), 220),1)
 
 				if("skin")
-					if(species_flags & HAS_SKIN_COLOR)
+					if(current_species.flags & HAS_SKIN_COLOR)
 						var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", rgb(skin_r, skin_g, skin_b)) as color|null
 						if(new_skin)
 							skin_r = hex2num(copytext(new_skin, 2, 4))
@@ -1342,7 +1334,7 @@ datum/preferences
 					return
 
 				if("limbs")
-					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
+					if(current_species.flags & (IS_PLANT|IS_SYNTHETIC) )
 						return
 
 					var/limb_name = href_list["limb"]
@@ -1409,7 +1401,7 @@ datum/preferences
 					return
 
 				if("organs")
-					if(species_flags & IS_PLANT || species_flags & IS_SYNTHETIC)
+					if( current_species.flags & (IS_PLANT|IS_SYNTHETIC) )
 						return
 					var/organ_name = input(user, "Which internal function do you want to change?") as null|anything in list("Heart", "Eyes")
 					if(!organ_name) return
@@ -1519,7 +1511,7 @@ datum/preferences
 						body_build = 0
 
 				if("build")
-					if(body_build == BODY_DEFAULT)
+					if(body_build == BODY_DEFAULT && current_species.allow_slim_fem)
 						body_build = BODY_SLIM
 					else
 						body_build = BODY_DEFAULT
@@ -1633,7 +1625,7 @@ datum/preferences
 	character.exploit_record = exploit_record
 
 	character.gender = gender
-	character.body_build = (allow_slim_fem && gender == FEMALE) ? body_build : 0
+	character.body_build = (current_species.allow_slim_fem && gender == FEMALE) ? body_build : 0
 	character.age = age
 	character.b_type = b_type
 
@@ -1714,6 +1706,8 @@ datum/preferences
 		if(isliving(src)) //Ghosts get neuter by default
 			message_admins("[character] ([character.ckey]) has spawned with their gender as plural or neuter. Please notify coders.")
 			character.gender = MALE
+
+	character.force_update_limbs()
 
 /datum/preferences/proc/open_load_dialog(mob/user)
 	var/dat = "<body>"

@@ -113,8 +113,8 @@
 /obj/machinery/power/apc/connect_to_network()
 	//Override because the APC does not directly connect to the network; it goes through a terminal.
 	//The terminal is what the power computer looks for anyway.
-	if(!terminal)
-		make_terminal()
+//	if(!terminal)
+//		make_terminal()
 	if(terminal)
 		terminal.connect_to_network()
 
@@ -191,6 +191,7 @@
 	terminal = new/obj/machinery/power/terminal(src.loc)
 	terminal.set_dir(tdir)
 	terminal.master = src
+	terminal.connect_to_network()
 
 /obj/machinery/power/apc/proc/init()
 	has_electronics = 2 //installed and secured
@@ -547,7 +548,7 @@
 					"<span class='warning'>[user.name] has added cables to the APC frame!</span>",\
 					"You add cables to the APC frame.")
 				make_terminal()
-				terminal.connect_to_network()
+				operating = 0
 	else if (istype(W, /obj/item/weapon/wirecutters) && terminal && opened && has_electronics!=2)
 		if (src.loc:intact)
 			user << "<span class='warning'>You must remove the floor plating in front of the APC first.</span>"

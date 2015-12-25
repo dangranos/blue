@@ -20,6 +20,10 @@ var/global/list/gear_datums = list()
 	for(var/type in typesof(/datum/gear)-/datum/gear)
 		var/datum/gear/G = new type()
 
+		if(G.display_name == "basic")
+			del(G)
+			continue
+
 		var/category = (G.sort_category in sort_categories)? G.sort_category : "unknown"
 		sort_categories[category][G.display_name] = G
 
@@ -68,7 +72,7 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/head/beret/sec/alt
 	cost = 1
 	slot = slot_head
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective")
 
 /datum/gear/eng_beret
 	display_name = "beret, engie-orange"
@@ -94,7 +98,7 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/head/beret/sec
 	cost = 1
 	slot = slot_head
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective")
 
 /datum/gear/bcap
 	display_name = "cap, blue"
@@ -199,6 +203,28 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_head
 
+/datum/gear/welding
+	display_name = "basic"
+	allowed_roles = list("Chief Engineer","Station Engineer","Roboticist","Atmospheric Technician")
+
+/datum/gear/welding/flame
+	display_name = "welding helmet, flame"
+	path = /obj/item/clothing/head/welding/flame
+	cost = 2
+	slot = slot_head
+
+/datum/gear/welding/white
+	display_name = "welding helmet, white"
+	path = /obj/item/clothing/head/welding/white
+	cost = 2
+	slot = slot_head
+
+/datum/gear/welding/blue
+	display_name = "welding helmet, blue"
+	path = /obj/item/clothing/head/welding/blue
+	cost = 2
+	slot = slot_head
+
 /datum/gear/boater
 	display_name = "hat, boatsman"
 	path = /obj/item/clothing/head/boaterhat
@@ -292,9 +318,9 @@ var/global/list/gear_datums = list()
 /datum/gear/security
 	display_name = "Security HUD"
 	path = /obj/item/clothing/glasses/hud/security
-	cost = 1
+	cost = 2
 	slot = slot_glasses
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent")
 
 /datum/gear/medical_hud
 	display_name = "Medical HUD (prescription)"
@@ -340,6 +366,12 @@ var/global/list/gear_datums = list()
 /datum/gear/bluescarf
 	display_name = "scarf, blue"
 	path = /obj/item/clothing/mask/bluescarf
+	slot = slot_wear_mask
+	cost = 2
+
+/datum/gear/arafatka
+	display_name = "scarf, shemagh"
+	path = /obj/item/clothing/mask/arafatka
 	slot = slot_wear_mask
 	cost = 2
 
@@ -900,7 +932,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/latex_gloves
 	display_name = "gloves, latex"
-	path = /obj/item/clothing/gloves/latex
+	path = /obj/item/clothing/gloves/white/latex
 	cost = 2
 	slot = slot_gloves
 /*
@@ -987,12 +1019,6 @@ var/global/list/gear_datums = list()
 
 /datum/gear/laceyshoes
 	display_name = "shoes, classy"
-	path = /obj/item/clothing/shoes/laceup
-	cost = 1
-	slot = slot_shoes
-
-/datum/gear/dress_shoes
-	display_name = "shoes, dress"
 	path = /obj/item/clothing/shoes/laceup
 	cost = 1
 	slot = slot_shoes

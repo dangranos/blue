@@ -9,7 +9,6 @@
 	body_parts_covered = UPPER_TORSO|ARMS
 	allowed = list(/obj/item/device/analyzer,/obj/item/stack/medical,/obj/item/weapon/dnainjector,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/syringe,/obj/item/weapon/reagent_containers/hypospray,/obj/item/device/healthanalyzer,/obj/item/device/flashlight/pen,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/reagent_containers/glass/beaker,/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/storage/pill_bottle,/obj/item/weapon/paper)
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 50, rad = 0)
-	sprite_sheets = list("Vox" = 'icons/mob/species/vox/suit.dmi')
 
 /obj/item/clothing/suit/storage/toggle/labcoat/red
 	name = "red labcoat"
@@ -87,6 +86,14 @@
 	icon_state = "labcoat_chem_open"
 	icon_open = "labcoat_chem_open"
 	icon_closed = "labcoat_chem"
+
+/obj/item/clothing/suit/storage/toggle/labcoat/forensic
+	name = "Forensic Technician labcoat"
+	desc = "A suit that protects against minor chemical spills. Has an red stripe on the shoulder."
+	icon_state = "labcoat_foren_open"
+	icon_open = "labcoat_foren_open"
+	icon_closed = "labcoat_foren"
+	armor = list(melee = 10, bullet = 10, laser = 15, energy = 10, bomb = 0, bio = 0, rad = 0)
 
 /obj/item/clothing/suit/storage/toggle/labcoat/virologist
 	name = "Virologist labcoat"

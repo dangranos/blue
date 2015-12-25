@@ -114,7 +114,8 @@ datum/preferences
 		var/g = "m"
 		if(gender == FEMALE)
 			g = "f"
-		g+="[body_build]"
+		var/b="[body_build]"
+		g+=b
 
 		var/icon/icobase
 		var/datum/species/current_species = all_species[species]
@@ -139,8 +140,8 @@ datum/preferences
 			preview_icon.Blend(new /icon(icobase, "[name]_[g]"), ICON_OVERLAY)
 			var/tattoo = tattoo_data[name]
 			var/tattoo2 = tattoo_data["[name]2"]
-			if(tattoo)  preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo]_[body_build]"), ICON_OVERLAY)
-			if(tattoo2) preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]2_[tattoo2]_[body_build]"), ICON_OVERLAY)
+			if(tattoo)  preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]_[tattoo]_[b]"), ICON_OVERLAY)
+			if(tattoo2) preview_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[name]2_[tattoo2]_[b]"), ICON_OVERLAY)
 
 		//Tail
 		if(current_species && (current_species.tail))
@@ -159,7 +160,7 @@ datum/preferences
 				preview_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
 
 		// Eyes color
-		var/icon/eyes_s = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = current_species ? current_species.eyes : "eyes_s")
+		var/icon/eyes_s = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = current_species ? "[current_species.eyes][body_build]" : "eyes0")
 		if ((current_species && (current_species.flags & HAS_EYE_COLOR)))
 			if( organ_data["eyes"] == "mechanical" )
 				eyes_s.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)
@@ -188,48 +189,39 @@ datum/preferences
 			undershirt_s = new/icon("icon" = 'icons/mob/human.dmi', "icon_state" = "[undershirt]_[g]")
 
 		var/icon/clothes_s = null
-		if(job_civilian_low & ASSISTANT)//This gives the preview icon clothes depending on which job(if any) is set to 'high'
-			clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "grey_s")
-			clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', "black"), ICON_UNDERLAY)
+		if(job_civilian_low & ASSISTANT || !job_master)//This gives the preview icon clothes depending on which job(if any) is set to 'high'
+			clothes_s = new /icon(current_species.get_uniform_sprite("grey", body_build), "grey")
+			clothes_s.Blend(new /icon(current_species.get_shoes_sprite("black", body_build), "black"), ICON_UNDERLAY)
 			if(backbag == 2)
-				clothes_s.Blend(new /icon((g == "f1")?'icons/mob/back_f.dmi':'icons/mob/back.dmi', "backpack"), ICON_OVERLAY)
+				clothes_s.Blend(new /icon(current_species.get_uniform_sprite("backpack", body_build), "backpack"), ICON_OVERLAY)
 			else if(backbag == 3 || backbag == 4)
-				clothes_s.Blend(new /icon((g == "f1")?'icons/mob/back_f.dmi':'icons/mob/back.dmi', "satchel"), ICON_OVERLAY)
-
+				clothes_s.Blend(new /icon(current_species.get_shoes_sprite("satchel", body_build), "satchel"), ICON_OVERLAY)
 
 		else
 			var/datum/job/J = job_master.GetJob(high_job_title)
 			if(J)//I hate how this looks, but there's no reason to go through this switch if it's empty
 
 				var/obj/item/clothing/under/UF = J.uniform
-
-
-				var/under_state
-				if(initial(UF.icon_state))
-					under_state = initial(UF.icon_state)
-				else
-					under_state = initial(UF.item_state)
-
-				clothes_s = new /icon((g == "f1")?'icons/mob/uniform_f.dmi':'icons/mob/uniform.dmi', "[under_state]_s")
+				clothes_s = new /icon(current_species.get_uniform_sprite(initial(UF.icon_state), body_build), initial(UF.icon_state))
 
 				var/obj/item/clothing/shoes/SH = J.shoes
-				clothes_s.Blend(new /icon((g == "f1")?'icons/mob/feet_f.dmi':'icons/mob/feet.dmi', initial(SH.item_state)), ICON_UNDERLAY)
+				clothes_s.Blend(new /icon(current_species.get_shoes_sprite(initial(SH.icon_state), body_build), initial(SH.icon_state)), ICON_UNDERLAY)
 
 				var/obj/item/clothing/gloves/GL = J.gloves
-				if(GL) clothes_s.Blend(new /icon((g == "f1")?'icons/mob/hands_f.dmi':'icons/mob/hands.dmi', initial(GL.item_state)), ICON_UNDERLAY)
+				if(GL) clothes_s.Blend(new /icon(current_species.get_gloves_sprite(initial(GL.icon_state), body_build), initial(GL.icon_state)), ICON_UNDERLAY)
 
 				var/obj/item/weapon/storage/belt/BT = J.belt
-				if(BT) clothes_s.Blend(new /icon((g == "f1")?'icons/mob/belt_f.dmi':'icons/mob/belt.dmi', initial(BT.item_state)), ICON_OVERLAY)
+				if(BT) clothes_s.Blend(new /icon(current_species.get_belt_sprite(initial(BT.icon_state), body_build), initial(BT.icon_state)), ICON_OVERLAY)
 
 				var/obj/item/clothing/suit/ST = J.suit
-				if(ST) clothes_s.Blend(new /icon((g == "f1")?'icons/mob/suit_f.dmi':'icons/mob/suit.dmi', initial(ST.item_state)), ICON_OVERLAY)
+				if(ST) clothes_s.Blend(new /icon(current_species.get_suit_sprite(initial(ST.icon_state), body_build), initial(ST.icon_state)), ICON_OVERLAY)
 
 				var/obj/item/clothing/head/HT = J.hat
-				if(HT) clothes_s.Blend(new /icon('icons/mob/head.dmi', initial(HT.item_state)), ICON_OVERLAY)
+				if(HT) clothes_s.Blend(new /icon(current_species.get_head_sprite(initial(HT.icon_state), body_build), initial(HT.icon_state)), ICON_OVERLAY)
 
 				if( backbag > 1 )
 					var/obj/item/weapon/storage/backpack/BP = J.backpacks[backbag-1]
-					clothes_s.Blend(new /icon((g == "f1")?'icons/mob/back_f.dmi':'icons/mob/back.dmi', initial(BP.icon_state)), ICON_OVERLAY)
+					clothes_s.Blend(new /icon(current_species.get_back_sprite(initial(BP.icon_state), body_build), initial(BP.icon_state)), ICON_OVERLAY)
 
 		if(disabilities & NEARSIGHTED)
 			preview_icon.Blend(new /icon((g == "f1")?'icons/mob/eyes_f.dmi':'icons/mob/eyes.dmi', "glasses"), ICON_OVERLAY)

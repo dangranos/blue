@@ -369,7 +369,7 @@ var/global/datum/controller/occupations/job_master
 
 			//Equip custom gear loadout.
 			var/list/custom_equip_slots = list() //If more than one item takes the same slot, all after the first one spawn in storage.
-			var/list/custom_equip_leftovers = list()
+//			var/list/custom_equip_leftovers = list()
 			if(H.client.prefs.gear && H.client.prefs.gear.len && job.title != "Cyborg" && job.title != "AI")
 
 				for(var/thing in H.client.prefs.gear)
@@ -394,7 +394,8 @@ var/global/datum/controller/occupations/job_master
 							// This is a miserable way to fix the loadout overwrite bug, but the alternative requires
 							// adding an arg to a bunch of different procs. Will look into it after this merge. ~ Z
 							if(G.slot == slot_wear_mask || G.slot == slot_wear_suit || G.slot == slot_head)
-								custom_equip_leftovers += thing
+								//custom_equip_leftovers += thing
+								spawn_in_storage.Add(thing)
 							else if(H.equip_to_slot_or_del(new G.path(H), G.slot))
 								H << "\blue Equipping you with [thing]!"
 								custom_equip_slots.Add(G.slot)

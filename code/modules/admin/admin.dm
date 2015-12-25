@@ -8,8 +8,7 @@ var/global/floorIsLava = 0
 	msg = "<span class=\"log_message\"><span class=\"prefix\">ADMIN LOG:</span> <span class=\"message\">[msg]</span></span>"
 	log_adminwarn(msg)
 	for(var/client/C in admins)
-		if(R_ADMIN & C.holder.rights)
-			C << msg
+		C << msg
 
 /proc/msg_admin_attack(var/text) //Toggleable Attack Messages
 	log_attack(text)
@@ -28,7 +27,7 @@ proc/admin_notice(var/message, var/rights)
 ///////////////////////////////////////////////////////////////////////////////////////////////Panels
 
 /datum/admins/proc/show_player_panel(var/mob/M in mob_list)
-	set category = "Admin"
+	set category = null
 	set name = "Show Player Panel"
 	set desc="Edit player (respawn, ban, heal, etc)"
 
@@ -562,7 +561,7 @@ proc/admin_notice(var/message, var/rights)
 	onclose(usr, "admincaster_main")
 
 
-
+/*
 /datum/admins/proc/Jobbans()
 	if(!check_rights(R_BAN))	return
 
@@ -573,7 +572,7 @@ proc/admin_notice(var/message, var/rights)
 			r = copytext( r, 1, findtext(r,"##") )//removes the description
 		dat += text("<tr><td>[t] (<A href='?src=\ref[src];removejobban=[r]'>unban</A>)</td></tr>")
 	dat += "</table>"
-	usr << browse(dat, "window=ban;size=400x400")
+	usr << browse(dat, "window=ban;size=400x400")*/
 
 /datum/admins/proc/Game()
 	if(!check_rights(0))	return

@@ -67,7 +67,7 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
-		if (H.mind.role_alt_title)
+		if (H.mind && H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Emergency Physician")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical(H), slot_w_uniform)
@@ -129,6 +129,14 @@
 		/obj/item/weapon/storage/backpack/satchel
 		)
 
+	equip(var/mob/living/carbon/human/H)
+		if(!H)	return 0
+		if (H.mind && H.mind.role_alt_title)
+			switch(H.mind.role_alt_title)
+				if("Pharmacist")
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/pharma(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/fr_jacket(H), slot_wear_suit)
+		return ..()
 
 
 /datum/job/geneticist
@@ -191,7 +199,7 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
-		if (H.mind.role_alt_title)
+		if (H.mind && H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Psychologist")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/psych/turtleneck(H), slot_w_uniform)
@@ -210,7 +218,7 @@
 	supervisors = "the chief medical officer"
 	selection_color = "#ffeef0"
 	access = list(access_medical, access_medical_equip, access_morgue, access_surgery, access_chemistry, access_virology, access_eva, access_maint_tunnels, access_external_airlocks, access_psychiatrist)
-	minimal_access = list(access_medical, access_medical_equip, access_eva, access_maint_tunnels, access_external_airlocks)
+	minimal_access = list(access_medical, access_medical_equip, access_eva, access_maint_tunnels, access_external_airlocks, access_morgue)
 	alt_titles = list("Emergency Medical Technician")
 
 	uniform = /obj/item/clothing/under/rank/medical/black
@@ -230,7 +238,7 @@
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
-		if (H.mind.role_alt_title)
+		if (H.mind && H.mind.role_alt_title)
 			switch(H.mind.role_alt_title)
 				if("Emergency Medical Technician")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/paramedic(H), slot_w_uniform)

@@ -35,7 +35,7 @@
 	else
 		return null
 
-//return flags that should be added to the viewer's sight var. 
+//return flags that should be added to the viewer's sight var.
 //Otherwise return a negative number to indicate that the view should be cancelled.
 /atom/proc/check_eye(user as mob)
 	if (istype(user, /mob/living/silicon/ai)) // WHYYYY
@@ -290,9 +290,9 @@ its easier to just keep the beam vertical.
 		//Deal with gloves the pass finger/palm prints.
 		if(!ignoregloves)
 			if(H.gloves && H.gloves != src && !H.gloves:clipped)
-				if(prob(75) && istype(H.gloves, /obj/item/clothing/gloves/latex))
+				if(prob(75) && istype(H.gloves, /obj/item/clothing/gloves/white/latex))
 					return 0
-				else if(H.gloves && !istype(H.gloves, /obj/item/clothing/gloves/latex))
+				else if(H.gloves && !istype(H.gloves, /obj/item/clothing/gloves/white/latex))
 					return 0
 
 		//More adminstuffz

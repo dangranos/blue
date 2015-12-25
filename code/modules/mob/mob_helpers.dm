@@ -193,17 +193,17 @@ proc/getsensorlevel(A)
 
 //The base miss chance for the different defence zones
 var/list/global/base_miss_chance = list(
-	"head" = 40,
-	"chest" = 10,
-	"groin" = 20,
-	"l_leg" = 20,
-	"r_leg" = 20,
-	"l_arm" = 20,
-	"r_arm" = 20,
-	"l_hand" = 50,
-	"r_hand" = 50,
-	"l_foot" = 50,
-	"r_foot" = 50,
+	"head" = 30,
+	"chest" = 0,
+	"groin" = 10,
+	"l_leg" = 10,
+	"r_leg" = 10,
+	"l_arm" = 10,
+	"r_arm" = 10,
+	"l_hand" = 40,
+	"r_hand" = 40,
+	"l_foot" = 40,
+	"r_foot" = 40,
 )
 
 //Used to weight organs when an organ is hit randomly (i.e. not a directed, aimed attack).
@@ -220,6 +220,20 @@ var/list/global/organ_rel_size = list(
 	"r_hand" = 10,
 	"l_foot" = 10,
 	"r_foot" = 10,
+)
+
+var/list/global/nearest_part = list(
+	"head" = list("head", "chest"),
+	"chest" = list("chest", "head", "groin", "r_arm", "l_arm"),
+	"groin" = list("groin", "l_leg", "r_leg", "chest"),
+	"l_leg" = list("l_leg", "l_foot", "groin"),
+	"r_leg" = list("r_leg", "r_foot", "groin"),
+	"l_arm" = list("l_arm", "chest", "l_hand"),
+	"r_arm" = list("r_arm", "chest", "r_hand"),
+	"l_hand" = list("l_hand", "l_arm"),
+	"r_hand" = list("r_hand", "r_arm"),
+	"l_foot" = list("l_foot", "l_leg"),
+	"r_foot" = list("r_foot", "r_leg"),
 )
 
 /proc/check_zone(zone)
@@ -280,7 +294,7 @@ var/list/global/organ_rel_size = list(
 	if(prob(miss_chance))
 		if(prob(70))
 			return null
-		return pick(base_miss_chance)
+		return pick(nearest_part[zone])
 	return zone
 
 
@@ -642,7 +656,7 @@ proc/is_blind(A)
 	// A proper	CentCom id is hard currency.
 	else if(id && istype(id, /obj/item/weapon/card/id/centcom))
 		return SAFE_PERP
-	
+
 	if(check_access && !access_obj.allowed(src))
 		threatcount += 4
 
