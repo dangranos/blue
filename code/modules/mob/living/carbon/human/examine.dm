@@ -32,6 +32,7 @@
 	var/t_has = "have"
 	var/t_is = "are"
 	var/t_does = "do"
+	var/t_sex = ""
 
 	var/msg = "<span class='info'>*---------*\nThis is "
 
@@ -48,6 +49,7 @@
 				t_has = "has"
 				t_is = "is"
 				t_does = "does"
+				t_sex = "man"
 			if(FEMALE)
 				t_He = "She"
 				t_he = "she"
@@ -56,6 +58,7 @@
 				t_has = "has"
 				t_is = "is"
 				t_does = "does"
+				t_sex = "woman"
 			if(NEUTER)
 				t_He = "It"
 				t_he = "it"
@@ -66,8 +69,31 @@
 				t_does = "does"
 
 	msg += "<EM>[src.name]</EM>"
-	if(species.name != "Human")
+	if(species.name == "Human" && age < 26)
+		msg += ", a young [t_sex]"
+	else
+		if (species.name == "Human" && age < 46)
+			msg += ", a [t_sex]"
+		else
+			if (species.name == "Human" && age < 76)
+				msg += ", an old [t_sex]"
+			else
+				if (species.name == "Human" && age >= 76)
+					msg += ", a very old [t_sex]"
+	if (species.name == "Machine")
 		msg += ", a <b><font color='[species.flesh_color]'>[species.name]</font></b>"
+	else
+		if (species.name != "Human" && age < 26)
+			msg += ", a young <b><font color='[species.flesh_color]'>[species.name]</font></b>"
+		else
+			if (species.name != "Human" && age < 46)
+				msg += ", a <b><font color='[species.flesh_color]'>[species.name]</font></b>"
+			else
+				if (species.name != "Human" && age < 76)
+					msg += ", an old <b><font color='[species.flesh_color]'>[species.name]</font></b>"
+				else
+					if (species.name != "Human" && age >= 76)
+						msg += ", a very old <b><font color='[species.flesh_color]'>[species.name]</font></b>"
 	msg += "!\n"
 
 	//uniform
