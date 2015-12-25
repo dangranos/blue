@@ -1333,7 +1333,7 @@
 	usr.next_move = world.time + 20
 
 	if(usr.stat > 0)
-		usr << "You are unconcious and cannot do that!"
+		usr << "You are unconscious and cannot do that!"
 		return
 
 	if(usr.restrained())
