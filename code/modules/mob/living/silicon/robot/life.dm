@@ -251,18 +251,18 @@
 		else
 			src.cells.icon_state = "charge-empty"
 
-	if(bodytemp)
-		switch(src.bodytemperature) //310.055 optimal body temp
-			if(335 to INFINITY)
-				src.bodytemp.icon_state = "temp2"
-			if(320 to 335)
-				src.bodytemp.icon_state = "temp1"
-			if(300 to 320)
-				src.bodytemp.icon_state = "temp0"
-			if(260 to 300)
-				src.bodytemp.icon_state = "temp-1"
-			else
-				src.bodytemp.icon_state = "temp-2"
+//	if(bodytemp)
+//		switch(src.bodytemperature) //310.055 optimal body temp
+//			if(335 to INFINITY)
+//				src.bodytemp.icon_state = "temp2"
+//			if(320 to 335)
+//				src.bodytemp.icon_state = "temp1"
+//			if(300 to 320)
+//				src.bodytemp.icon_state = "temp0"
+//			if(260 to 300)
+//				src.bodytemp.icon_state = "temp-1"
+//			else
+//				src.bodytemp.icon_state = "temp-2"
 
 //Oxygen and fire does nothing yet!!
 //	if (src.oxygen) src.oxygen.icon_state = "oxy[src.oxygen_alert ? 1 : 0]"
