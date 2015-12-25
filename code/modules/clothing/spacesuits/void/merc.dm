@@ -11,7 +11,7 @@
 	light_overlay = "helmet_light_green" //todo: species-specific light overlays
 
 /obj/item/clothing/suit/space/void/merc
-	icon_state = "rig-syndie"
+	icon_state = "rig-syndie_void"
 	name = "blood-red voidsuit"
 	desc = "An advanced suit that protects against injuries during special operations. Property of Gorlex Marauders."
 	item_state = "syndie_voidsuit"

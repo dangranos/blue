@@ -172,7 +172,8 @@ proc/get_radio_key_from_channel(var/channel)
 		if(!(speaking == all_languages[H.species.language] || (speaking.flags&(NO_STUTTER|HIVEMIND)) || speaking == all_languages["Noise"]))
 			message = H.species.handle_accent(message)
 
-	message = capitalize_cp1251(message)
+	if(speaking != all_languages["Noise"])
+		message = capitalize_cp1251(message)
 
 	if (speaking)
 		// This is broadcast to all mobs with the language,

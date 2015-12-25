@@ -439,6 +439,21 @@
 			if(istype(usr, /mob/living/silicon/robot))
 				usr:toggle_module(3)
 
+		if("toggle_lights")
+			if(isrobot(usr))
+				var/mob/living/silicon/robot/R = usr
+				R.toggle_lights()
+
+		if("state_laws")
+			if(isrobot(usr))
+				var/mob/living/silicon/robot/R = usr
+				R.robot_checklaws()
+
+		if("send_message")
+			if(isrobot(usr))
+				var/mob/living/silicon/robot/R = usr
+				R.rbPDA.cmd_send_pdamesg()
+
 		if("Allow Walking", "Disallow Walking")
 			if(gun_click_time > world.time - 30)	//give them 3 seconds between mode changes.
 				return

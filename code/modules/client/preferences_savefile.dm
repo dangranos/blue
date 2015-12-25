@@ -152,7 +152,7 @@
 
 	//Flavour Text
 	for(var/flavor in flavs_list)
-		S["flavor_texts_[flavs_list[flavor]]"]	>> flavor_texts[flavor]
+		S["flavor_texts_[flavor]"]	>> flavor_texts[flavor]
 
 	//Flavour text for robots.
 	S["flavour_texts_robot_Default"] >> flavour_texts_robot["Default"]
@@ -305,7 +305,7 @@
 
 	//Flavour Text
 	for(var/flavor in flavs_list)
-		S["flavor_texts_[flavs_list[flavor]]"]	<< flavor_texts[flavor]
+		S["flavor_texts_[flavor]"]	<< flavor_texts[flavor]
 
 	//Flavour text for robots.
 	S["flavour_texts_robot_Default"] << flavour_texts_robot["Default"]

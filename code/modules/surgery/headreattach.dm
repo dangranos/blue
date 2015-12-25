@@ -24,6 +24,7 @@
 		head.loc = target
 		head.status = 0
 		target.update_body()
+		target.update_hair()
 		target.updatehealth()
 		target.UpdateDamageIcon()
 
