@@ -129,7 +129,7 @@
 	get_suit_sprite(state = "")
 		if(state in icon_states('icons/mob/species/unathi/suit.dmi'))
 			return 'icons/mob/species/unathi/suit.dmi'
-		else return .
+		else return ..()
 
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
@@ -190,7 +190,7 @@
 	get_suit_sprite(state = "")
 		if(state in icon_states('icons/mob/species/tajaran/suit.dmi'))
 			return 'icons/mob/species/tajaran/suit.dmi'
-		else return .
+		else return ..()
 
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
@@ -306,6 +306,16 @@
 						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
 						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist", "Paramedic",\
 						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
+
+	get_suit_sprite(state = "")
+		if(state in icon_states('icons/mob/species/diona/suit.dmi'))
+			return 'icons/mob/species/diona/suit.dmi'
+		else return ..()
+
+	get_head_sprite(state = "")
+		if(state in icon_states('icons/mob/species/diona/head.dmi'))
+			return 'icons/mob/species/diona/head.dmi'
+		else return ..()
 
 /datum/species/diona/can_understand(var/mob/other)
 	var/mob/living/carbon/alien/diona/D = other
