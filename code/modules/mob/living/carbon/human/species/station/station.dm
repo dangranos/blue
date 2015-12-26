@@ -129,7 +129,7 @@
 	get_suit_sprite(state = "")
 		if(state in icon_states('icons/mob/species/unathi/suit.dmi'))
 			return 'icons/mob/species/unathi/suit.dmi'
-		else return .
+		else return ..()
 
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
@@ -190,7 +190,7 @@
 	get_suit_sprite(state = "")
 		if(state in icon_states('icons/mob/species/tajaran/suit.dmi'))
 			return 'icons/mob/species/tajaran/suit.dmi'
-		else return .
+		else return ..()
 
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
