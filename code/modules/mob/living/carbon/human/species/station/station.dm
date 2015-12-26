@@ -80,7 +80,7 @@
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
 	primitive_form = "Stok"
 	darksight = 3
-	gluttonous = 2
+	gluttonous = 1
 
 	blurb = "A heavily reptillian species, Unathi (or 'Sinta as they call themselves) hail from the \
 	Uuosa-Eso system, which roughly translates to 'burning mother'.<br/><br/>Coming from a harsh, radioactive \
@@ -125,6 +125,11 @@
 						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
+
+	get_suit_sprite(state = "")
+		if(state in icon_states('icons/mob/species/unathi/suit.dmi'))
+			return 'icons/mob/species/unathi/suit.dmi'
+		else return ..()
 
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
@@ -181,6 +186,11 @@
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ð" = "ðð", "Ð" = "Ðð")
+
+	get_suit_sprite(state = "")
+		if(state in icon_states('icons/mob/species/tajaran/suit.dmi'))
+			return 'icons/mob/species/tajaran/suit.dmi'
+		else return ..()
 
 	get_mask_sprite(state = "")
 		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
