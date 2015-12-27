@@ -24,6 +24,18 @@
 	item_state = "mining_helm"
 	armor = list(melee = 50, bullet = 5, laser = 20,energy = 5, bomb = 55, bio = 100, rad = 20)
 	light_overlay = "helmet_light_dual"
+	sprite_sheets_refit = list(
+		"Unathi" = 'icons/mob/species/unathi/helmet.dmi',
+		"Tajara" = 'icons/mob/species/tajaran/helmet.dmi',
+		"Skrell" = 'icons/mob/species/skrell/helmet.dmi',
+		"Vox"    = 'icons/mob/species/vox/head.dmi'
+		)
+	sprite_sheets_obj = list(
+		"Unathi" = 'icons/obj/clothing/species/unathi/hats.dmi',
+		"Tajara" = 'icons/obj/clothing/species/tajaran/hats.dmi',
+		"Skrell" = 'icons/obj/clothing/species/skrell/hats.dmi',
+		"Vox"    = 'icons/obj/clothing/hats.dmi'
+		)
 
 /obj/item/clothing/suit/space/void/mining
 	icon_state = "rig-mining"
@@ -31,6 +43,16 @@
 	desc = "A special suit that protects against hazardous, low pressure environments. Has reinforced plating."
 	item_state = "mining_voidsuit"
 	armor = list(melee = 50, bullet = 5, laser = 20,energy = 5, bomb = 55, bio = 100, rad = 20)
+	sprite_sheets_refit = list(
+		"Unathi" = 'icons/mob/species/unathi/suit.dmi',
+		"Tajara" = 'icons/mob/species/tajaran/suit.dmi',
+		"Skrell" = 'icons/mob/species/skrell/suit.dmi',
+		)
+	sprite_sheets_obj = list(
+		"Unathi" = 'icons/obj/clothing/species/unathi/suits.dmi',
+		"Tajara" = 'icons/obj/clothing/species/tajaran/suits.dmi',
+		"Skrell" = 'icons/obj/clothing/species/skrell/suits.dmi',
+		)
 
 //Medical Rig
 /obj/item/clothing/head/helmet/space/void/medical

@@ -1424,6 +1424,13 @@
 /mob/living/carbon/human/proc/get_back_sprite(state = "", body_build = 0)
 	return image(species.get_back_sprite(state, body_build), icon_state = state)
 
+/mob/living/carbon/human/proc/get_back_u_sprite(state = "", body_build = 0)
+	var/image/back = species.get_back_u_sprite(state, body_build)
+	if(back)
+		return image(back, icon_state = state)
+	else
+		return null
+
 /mob/living/carbon/human/proc/get_mask_sprite(state = "", body_build = 0)
 	return image(species.get_mask_sprite(state, body_build), icon_state = state)
 

@@ -449,3 +449,15 @@
 	name = "stylish red vest"
 	icon_state = "phantom"
 	item_state = "r_suit"
+
+/obj/item/clothing/under/russobluecamooutfit
+	name = "russian blue camo"
+	desc = "Drop and give me dvadtsat!"
+	icon_state = "russobluecamo"
+	item_state = "b_suit"
+
+/obj/item/clothing/under/batmansuit
+	name = "batsuit"
+	desc = "You are the night."
+	icon_state = "bmuniform"
+	item_state = "bl_suit"
