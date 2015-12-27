@@ -386,3 +386,22 @@
 				icon_state = icon_closed
 		else
 			icon_state = icon_opened
+
+/obj/structure/closet/secure_closet/wall/batman
+    name = "head of personnel's emergency suit"
+    desc = "It's a secure wall-mounted storage unit for justice."
+    icon_state = "batman_wall_locked"
+    icon_closed = "batman_wall_unlocked"
+    icon_locked = "batman_wall_locked"
+    icon_opened = "batman_wall_open"
+    icon_broken = "batman_wall_spark"
+    icon_off = "batman_wall_off"
+    anchored = 1
+    density = 0
+    wall_mounted = 1
+    req_access = list(access_hop)
+
+    New()
+        ..()
+        new /obj/item/clothing/under/batman(src)
+        return
