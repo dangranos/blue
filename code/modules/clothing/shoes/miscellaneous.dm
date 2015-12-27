@@ -123,3 +123,7 @@
 	flags = NOSLIP
 	slowdown = SHOES_SLOWDOWN+1
 	species_restricted = null
+
+/obj/item/clothing/shoes/swat/batman
+	name = "batman boots"
+	icon_state = "batman"
