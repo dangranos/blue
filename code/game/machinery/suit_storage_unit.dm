@@ -631,7 +631,7 @@
 	model_text = "Mining"
 	req_access = list(access_mining)
 	departments = list("Mining")
-	species = list("Human","Tajara","Skrell","Unathi")
+	species = list("Human","Tajara","Skrell","Unathi", "Vox")
 
 /obj/machinery/suit_cycler/security
 	name = "Security suit cycler"
