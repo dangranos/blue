@@ -97,3 +97,12 @@ var/datum/antagonist/rogue_ai/malf
 	if (newname)
 		player.SetName(newname)
 	if(player.mind) player.mind.name = player.name
+
+/datum/antagonist/rogue_ai/place_mob(var/mob/living/mob)
+	if(empty_playable_ai_cores && empty_playable_ai_cores.len)
+		var/obj/structure/AIcore/C = empty_playable_ai_cores[1]
+		empty_playable_ai_cores -= C
+		mob.forceMove(C.loc)
+		qdel(C)
+	else
+		..()
