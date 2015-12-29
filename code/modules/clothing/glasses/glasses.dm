@@ -1,4 +1,3 @@
-
 /obj/item/clothing/glasses
 	name = "glasses"
 	icon = 'icons/obj/clothing/glasses.dmi'
@@ -108,7 +107,7 @@
 	item_state = "glasses"
 	prescription = 1
 	body_parts_covered = 0
-	
+
 /obj/item/clothing/glasses/regular/scanners
 	name = "Scanning Goggles"
 	desc = "A very oddly shaped pair of goggles with bits of wire poking out the sides. A soft humming sound emanates from it."
@@ -140,6 +139,12 @@
 	icon_state = "sun"
 	item_state = "sunglasses"
 	darkness_view = -1
+
+/obj/item/clothing/glasses/sunglasses/red
+	name = "crimson glasses"
+	desc = "They make you look like an elite agent."
+	icon_state = "red"
+	item_state = "red"
 
 /obj/item/clothing/glasses/welding
 	name = "welding goggles"

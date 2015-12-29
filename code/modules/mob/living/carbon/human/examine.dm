@@ -32,6 +32,7 @@
 	var/t_has = "have"
 	var/t_is = "are"
 	var/t_does = "do"
+	var/t_appeal = species.name
 
 	var/msg = "<span class='info'>*---------*\nThis is "
 
@@ -65,9 +66,22 @@
 				t_is = "is"
 				t_does = "does"
 
+	if(species.name != "Human") t_appeal = "<b><font color='[species.flesh_color]'>[species.name]</font></b>"
+	else						t_appeal = gender==FEMALE?"woman":"man"
+
 	msg += "<EM>[src.name]</EM>"
-	if(species.name != "Human")
-		msg += ", a <b><font color='[species.flesh_color]'>[species.name]</font></b>"
+
+	if (species.name == "Machine")
+		msg += ", a [t_appeal]"
+	else switch(age)
+		if(1 to 25)
+			msg += ", a young [t_appeal]"
+		if(26 to 45)
+			msg += ", a [t_appeal]"
+		if(46 to 75)
+			msg += ", an old [t_appeal]"
+		else
+			msg += ", a very old [t_appeal]"
 	msg += "!\n"
 
 	//uniform

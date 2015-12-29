@@ -33,6 +33,14 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("Part A", 'sound/misc/TestLoop1.ogg'),
 		new/datum/track("Scratch", 'sound/music/title1.ogg'),
 		new/datum/track("Trai`Tor", 'sound/music/traitor.ogg'),
+		new/datum/track("Callista-Omega", 'sound/jukebox/club_afterlife-callista_omega.ogg'),
+		new/datum/track("Disco Planet", 'sound/jukebox/disco_planet.ogg'),
+		new/datum/track("Magic Fly", 'sound/jukebox/magic_fly.ogg'),
+		new/datum/track("A Kiss To Build A Dream On", 'sound/jukebox/a_kiss_to_build_the_dream_on.ogg'),
+		new/datum/track("Rickroll", 'sound/jukebox/rickroll.ogg'),
+		new/datum/track("THUNDERDROME", 'sound/music/THUNDERDOME.ogg'),
+		new/datum/track("Let It Snow", 'sound/jukebox/let_it_snow.ogg'),
+		new/datum/track("Staying Alive", 'sound/jukebox/staying_alive.ogg'),
 	)
 
 
