@@ -449,3 +449,22 @@
 	name = "stylish red vest"
 	icon_state = "phantom"
 	item_state = "r_suit"
+
+/obj/item/clothing/under/russobluecamooutfit
+	name = "russian blue camo"
+	desc = "Drop and give me dvadtsat!"
+	icon_state = "russobluecamo"
+	item_state = "b_suit"
+
+/obj/item/clothing/under/batman
+	name = "batman uniform"
+	desc = "You are the night."
+	icon_state = "batman"
+	item_state = "bl_suit"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+	armor = list(melee = 20, bullet = 10, laser = 0,energy = 5, bomb = 10, bio = 0, rad = 0)
+
+/obj/item/clothing/under/batman/hop
+	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
+	icon_state = "bmuniform"
+

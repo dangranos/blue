@@ -613,15 +613,13 @@ datum/preferences
 	return
 
 /datum/preferences/proc/SetFlavorText(mob/user)
-	var/list/flavs = list("General"="general", "Body"="torso", "Head"="head", "Face"="face", "Eyes"="eyes",\
-					"Mechanical eyes"="mech_eyes", "Arms"="arms", "Hands"="hands", "Legs"="legs", "Feet"="feet")
 	var/HTML = "<body>"
 	HTML += "<tt><center>"
 	HTML += "<b>Set Flavour Text</b> <hr />"
 	HTML += "<br></center>"
-	for(var/flavor in flavs)
-		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavs[flavor]]'>[flavor]:</a> "
-		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavs[flavor]]))
+	for(var/flavor in flavs_list)
+		HTML += "<a href='byond://?src=\ref[user];preference=flavor_text;task=[flavor]'>[flavs_list[flavor]]:</a> "
+		HTML += TextPreview(cp1251_to_utf8(flavor_texts[flavor]))
 		HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[user];preference=flavor_text;task=done'>\[Done\]</a>"
@@ -922,11 +920,11 @@ datum/preferences
 				ShowChoices(user)
 				return
 			if("general")
-				var/msg = sanitize(input(usr,"Give a general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(flavor_texts[href_list["task"]])) as message, extra = 0)
-				flavor_texts[href_list["task"]] = msg
+				var/msg = input(usr,"Give a general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts["general"]))) as message
+				flavor_texts[href_list["task"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 			else
-				var/msg = sanitize(input(usr,"Set the flavor text for your [href_list["task"]].","Flavor Text",rhtml_decode(flavor_texts[href_list["task"]])) as message, extra = 0)
-				flavor_texts[href_list["task"]] = msg
+				var/msg = input(usr,"Set the flavor text for your [href_list["task"]].","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts[href_list["task"]]))) as message
+				flavor_texts[href_list["task"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 		SetFlavorText(user)
 		return
 
@@ -940,11 +938,11 @@ datum/preferences
 				ShowChoices(user)
 				return
 			if("Default")
-				var/msg = sanitize(input(usr,"Set the default flavour text for your robot. It will be used for any module without individual setting.","Flavour Text",rhtml_decode(flavour_texts_robot["Default"])) as message, extra = 0)
-				flavour_texts_robot[href_list["task"]] = msg
+				var/msg = input(usr,"Set the default flavour text for your robot. It will be used for any module without individual setting.","Flavour Text",rhtml_decode(flavour_texts_robot["Default"])) as message
+				flavour_texts_robot[href_list["task"]] = post_edit_utf8(sanitize(msg, extra = 0))
 			else
-				var/msg = sanitize(input(usr,"Set the flavour text for your robot with [href_list["task"]] module. If you leave this empty, default flavour text will be used for this module.","Flavour Text",rhtml_decode(flavour_texts_robot[href_list["task"]])) as message, extra = 0)
-				flavour_texts_robot[href_list["task"]] = msg
+				var/msg = input(usr,"Set the flavour text for your robot with [href_list["task"]] module. If you leave this empty, default flavour text will be used for this module.","Flavour Text",rhtml_decode(flavour_texts_robot[href_list["task"]])) as message
+				flavour_texts_robot[href_list["task"]] = post_edit_utf8(sanitize(msg, extra = 0))
 		SetFlavourTextRobot(user)
 		return
 
@@ -959,24 +957,24 @@ datum/preferences
 		else
 			user << browse(null, "window=records")
 		if(href_list["task"] == "med_record")
-			var/medmsg = cp1251_to_utf8(sanitize(input(usr,"Set your medical notes here.","Medical Records",rhtml_decode(med_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/medmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set your medical notes here.","Medical Records",rhtml_decode(edit_utf8(med_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(medmsg != null)
 				med_record = medmsg
 				SetRecords(user)
 
 		if(href_list["task"] == "sec_record")
-			var/secmsg = cp1251_to_utf8(sanitize(input(usr,"Set your security notes here.","Security Records",rhtml_decode(sec_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/secmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set your security notes here.","Security Records",rhtml_decode(edit_utf8(sec_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(secmsg != null)
 				sec_record = secmsg
 				SetRecords(user)
 		if(href_list["task"] == "gen_record")
-			var/genmsg = cp1251_to_utf8(sanitize(input(usr,"Set your employment notes here.","Employment Records",rhtml_decode(gen_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/genmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set your employment notes here.","Employment Records",rhtml_decode(edit_utf8(gen_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(genmsg != null)
 				gen_record = genmsg
 				SetRecords(user)
 
 		if(href_list["task"] == "exploitable_record")
-			var/exploitmsg = cp1251_to_utf8(sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",rhtml_decode(exploit_record)) as message, MAX_PAPER_MESSAGE_LEN, extra = 0))
+			var/exploitmsg = cp1251_to_utf8(post_edit_utf8(sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",rhtml_decode(edit_utf8(exploit_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)))
 			if(exploitmsg != null)
 				exploit_record = exploitmsg
 				SetAntagoptions(user)

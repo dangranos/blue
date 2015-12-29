@@ -550,8 +550,8 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 		"syndicate commando",
 		"phantom of the station",
 		"special ops officer",
-		"special ops agent",
-		"blue code equpment",
+		"red code agent",
+		"blue code agent",
 		"blue wizard",
 		"red wizard",
 		"marisa wizard",
@@ -885,7 +885,7 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-		if("special ops agent")
+		if("red code agent")
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_sec(M), slot_back)
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/beret/sec/alt(M), slot_head)
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/syndicate/PMC(M), slot_w_uniform)
@@ -916,29 +916,28 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 
 			var/obj/item/weapon/card/id/syndicate/W = new(M)
 			W.name = "[M.real_name]'s ID Card"
-			W.assignment = "Special Operations Agent"
+			W.assignment = "red code agent"
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
-		if("blue code equpment")
+		if("blue code agent")
 			M.equip_to_slot_or_del(new /obj/item/clothing/under/syndicate/PMC(M), slot_w_uniform)
 			M.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(M), slot_gloves)
+			M.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/riot(M), slot_wear_suit)
 			M.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(M), slot_shoes)
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel_sec(M), slot_back)
 			M.equip_to_slot_or_del(new /obj/item/weapon/storage/belt/security/tactical(M), slot_belt)
 			M.equip_to_slot_or_del(new /obj/item/weapon/tank/emergency_oxygen/double(M), slot_r_store)
-			M.equip_to_slot_or_del(new /obj/item/weapon/melee/baton/loaded(M), slot_s_store)
-			M.equip_to_slot_or_del(new /obj/item/clothing/accessory/armband(M), slot_l_store)
-			M.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/riot(M), slot_wear_suit)
 			M.equip_to_slot_or_del(new /obj/item/clothing/mask/gas(M), slot_wear_mask)
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/helmet/riot(M), slot_head)
-			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/shotgun/pump/combat(M), slot_r_hand)
+			M.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/shotgun/pump/combat(M), slot_s_store)
 			M.equip_to_slot_or_del(new /obj/item/weapon/shield/riot(M), slot_l_hand)
 
 			new /obj/item/weapon/storage/box/shotgunammo(M.back)
 			new /obj/item/device/flashlight/seclite(M.back)
 			new /obj/item/device/flashlight/flare(M.back)
-			new /obj/item/device/flashlight/seclite(M.back)
+			new /obj/item/weapon/melee/baton/loaded(M.back)
+			new /obj/item/clothing/accessory/armband(M.back)
 			new /obj/item/weapon/handcuffs(M.belt)
 			new /obj/item/weapon/handcuffs(M.belt)
 			new /obj/item/weapon/grenade/flashbang(M.belt)

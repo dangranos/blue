@@ -218,7 +218,7 @@
 	supervisors = "the chief medical officer"
 	selection_color = "#ffeef0"
 	access = list(access_medical, access_medical_equip, access_morgue, access_surgery, access_chemistry, access_virology, access_eva, access_maint_tunnels, access_external_airlocks, access_psychiatrist)
-	minimal_access = list(access_medical, access_medical_equip, access_eva, access_maint_tunnels, access_external_airlocks)
+	minimal_access = list(access_medical, access_medical_equip, access_eva, access_maint_tunnels, access_external_airlocks, access_morgue)
 	alt_titles = list("Emergency Medical Technician")
 
 	uniform = /obj/item/clothing/under/rank/medical/black

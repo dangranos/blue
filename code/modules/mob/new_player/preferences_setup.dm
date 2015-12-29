@@ -189,7 +189,7 @@ datum/preferences
 			undershirt_s = new/icon("icon" = 'icons/mob/human.dmi', "icon_state" = "[undershirt]_[g]")
 
 		var/icon/clothes_s = null
-		if(job_civilian_low & ASSISTANT)//This gives the preview icon clothes depending on which job(if any) is set to 'high'
+		if(job_civilian_low & ASSISTANT || !job_master)//This gives the preview icon clothes depending on which job(if any) is set to 'high'
 			clothes_s = new /icon(current_species.get_uniform_sprite("grey", body_build), "grey")
 			clothes_s.Blend(new /icon(current_species.get_shoes_sprite("black", body_build), "black"), ICON_UNDERLAY)
 			if(backbag == 2)

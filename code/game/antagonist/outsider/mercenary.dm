@@ -50,6 +50,7 @@ var/datum/antagonist/mercenary/mercs
 		U.hidden_uplink.uses = 40
 		player.put_in_hands(U)
 
+	player.equip_survival_gear()
 	player.update_icons()
 
 	create_id("Mercenary", player)

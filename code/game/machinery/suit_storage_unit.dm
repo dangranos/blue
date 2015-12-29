@@ -631,7 +631,7 @@
 	model_text = "Mining"
 	req_access = list(access_mining)
 	departments = list("Mining")
-	species = list("Human","Tajara","Skrell","Unathi")
+	species = list("Human","Tajara","Skrell","Unathi", "Vox")
 
 /obj/machinery/suit_cycler/security
 	name = "Security suit cycler"
@@ -1043,7 +1043,7 @@
 			if(suit)
 				suit.name = "blood-red voidsuit"
 				suit.item_state = "syndie_voidsuit"
-				suit.icon_state = "rig-syndie"
+				suit.icon_state = "rig-syndie_void"
 
 	if(helmet) helmet.name = "refitted [helmet.name]"
 	if(suit) suit.name = "refitted [suit.name]"

@@ -128,6 +128,9 @@ var/list/global_huds = list(
 	var/obj/screen/l_hand_hud_object
 	var/obj/screen/action_intent
 	var/obj/screen/move_intent
+	var/obj/screen/toggle_lights
+	var/obj/screen/state_laws
+	var/obj/screen/send_message
 
 	var/list/adding
 	var/list/other
