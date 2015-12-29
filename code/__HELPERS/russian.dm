@@ -59,12 +59,22 @@ sanitize_simple(var/t,var/list/repl_chars = list("\n"="#","\t"="#","ÿ"="&#255;",
 	return list2text(text2list(msg, "ÿ"), "&#1103;")
 
 /proc/utf8_to_cp1251(msg)
-    return list2text(text2list(msg, "&#1103;"), "&#255;")
+	return list2text(text2list(msg, "&#1103;"), "&#255;")
 
 /proc/cp1251_to_utf8(msg)
-    return list2text(text2list(msg, "&#255;"), "&#1103;")
+	return list2text(text2list(msg, "&#255;"), "&#1103;")
 
+/proc/edit_cp1251(msg)
+	return list2text(text2list(msg, "&#255;"), "\\ß")
 
+/proc/edit_utf8(msg)
+	return list2text(text2list(msg, "&#1103;"), "\\ß")
+
+/proc/post_edit_cp1251(msg)
+	return list2text(text2list(msg, "\\ß"), "&#255;")
+
+/proc/post_edit_utf8(msg)
+	return list2text(text2list(msg, "\\ß"), "&#1103;")
 
 //TEXT MODS RUS
 /proc/capitalize_cp1251(var/t as text)

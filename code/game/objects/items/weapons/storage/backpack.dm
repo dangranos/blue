@@ -76,7 +76,7 @@
 			return
 			*/
 		..()
-	
+
 	//Please don't clutter the parent storage item with stupid hacks.
 	can_be_inserted(obj/item/W as obj, stop_messages = 0)
 		if(istype(W, /obj/item/weapon/storage/backpack/holding))
@@ -128,6 +128,11 @@
 	desc = "It's a very robust backpack."
 	icon_state = "securitypack"
 	item_state_slots = null
+
+/obj/item/weapon/storage/backpack/security/batman
+	name = "batman cape"
+	icon_state = "batman"
+	item_state = "batman"
 
 /obj/item/weapon/storage/backpack/captain
 	name = "captain's backpack"

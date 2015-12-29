@@ -43,3 +43,7 @@
 	item_state = "leather"
 	permeability_coefficient = 0.05
 	siemens_coefficient = 0.50 //thick work gloves
+
+/obj/item/clothing/gloves/black/batman
+	name = "batman gloves"
+	icon_state = "batman"
