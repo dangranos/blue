@@ -69,10 +69,6 @@
 		name = "Shoulder-length Hair"
 		icon_state = "hair_b"
 
-	longalt
-		name = "Shoulder-length Hair Alt"
-		icon_state = "hair_longfringe"
-
 	/*longish
 		name = "Longer Hair"
 		icon_state = "hair_b2"*/
@@ -122,6 +118,10 @@
 		name = "Ponytail 4"
 		icon_state = "hair_ponytail4"
 		gender = FEMALE
+
+	ponytail5
+		name = "Ponytail 5"
+		icon_state = "hair_ponytail5"
 
 	sideponytail
 		name = "Side Ponytail"
@@ -231,6 +231,10 @@
 		name = "Big Afro"
 		icon_state = "hair_bigafro"
 		gender = MALE
+
+	blackswordsman
+		name = "Mercenary"
+		icon_state = "hair_blackswordsman"
 
 	sargeant
 		name = "Flat Top"
@@ -426,6 +430,16 @@
 		name = "Joestar"
 		icon_state = "hair_joestar"
 		gender = MALE
+
+	pixie
+		name = "Pixie"
+		icon_state = "hair_pixie"
+		gender = FEMALE
+
+	highpony
+		name = "High Ponytail"
+		icon_state = "hair_highponytail"
+		gender = FEMALE
 
 	bald
 		name = "Bald"
