@@ -123,6 +123,10 @@
 		icon_state = "hair_ponytail4"
 		gender = FEMALE
 
+	ponytail5
+		name = "Ponytail 5"
+		icon_state = "hair_ponytail5"
+
 	sideponytail
 		name = "Side Ponytail"
 		icon_state = "hair_stail"
@@ -231,6 +235,10 @@
 		name = "Big Afro"
 		icon_state = "hair_bigafro"
 		gender = MALE
+
+	blackswordsman
+		name = "Mercenary"
+		icon_state = "hair_blackswordsman"
 
 	sargeant
 		name = "Flat Top"
@@ -426,6 +434,16 @@
 		name = "Joestar"
 		icon_state = "hair_joestar"
 		gender = MALE
+
+	pixie
+		name = "Pixie"
+		icon_state = "hair_pixie"
+		gender = FEMALE
+
+	highpony
+		name = "High Ponytail"
+		icon_state = "hair_highponytail"
+		gender = FEMALE
 
 	bald
 		name = "Bald"
