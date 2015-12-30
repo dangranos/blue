@@ -42,6 +42,8 @@ var/global/datum/controller/gameticker/ticker
 	'sound/music/traitor.ogg',\
 	'sound/music/title2.ogg',\
 	'sound/music/clouds.s3m',\
+	'sound/music/david_bowie-space_oddity_original.ogg',\
+	'sound/music/faunts-das_malefitz.ogg',\
 	'sound/music/First_rendez-vous.ogg',\
 	'sound/music/undertale.ogg',\
 	'sound/music/space_oddity.ogg') //Ground Control to Major Tom, this song is cool, what's going on?
