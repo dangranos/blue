@@ -168,7 +168,7 @@ obj/item/clothing/head/welding/blue
 		var/icon/earbit = new/icon("icon" = 'icons/mob/head.dmi', "icon_state" = "kittyinner")
 		ears.Blend(earbit, ICON_OVERLAY)
 
-		item_icons[icon_head] = ears
+		user.overlays_standing[18] = ears
 
 /obj/item/clothing/head/richard
 	name = "chicken mask"
