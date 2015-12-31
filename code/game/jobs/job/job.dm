@@ -69,6 +69,9 @@
 		)
 	*/
 
+/datum/job/New()
+	put_in_backpack += /obj/item/weapon/gift/new_year
+
 
 /datum/job/proc/equip(var/mob/living/carbon/human/H)
 	if(!H)	return 0
@@ -113,6 +116,10 @@
 				if( H.equip_to_slot_if_possible(I, slot, 0, 1, 0) )
 					slots -= slot
 					break
+			if(istype(H.r_hand,/obj/item/weapon/storage))
+				new path(H.r_hand)
+			else if(istype(H.l_hand, /obj/item/weapon/storage))
+				new path(H.l_hand)
 
 	//Loyalty implant
 	if(implanted) H.implant_loyalty(H)
