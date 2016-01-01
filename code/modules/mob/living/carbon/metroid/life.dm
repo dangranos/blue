@@ -161,6 +161,10 @@
 	if (src.druggy > 0)
 		src.druggy = 0
 
+	//for aphrodisiac
+	if (src.horny > 0)
+		src.horny = 0
+
 	return 1
 
 /mob/living/carbon/slime/proc/handle_nutrition()
