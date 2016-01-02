@@ -76,6 +76,7 @@
 	var/bhunger = 0			//Carbon
 	var/ajourn = 0
 	var/druggy = 0			//Carbon
+	var/horny = 0			//Carbon //for aphrodisiac
 	var/confused = 0		//Carbon
 	var/antitoxs = null
 	var/phoron = null
