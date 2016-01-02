@@ -46,6 +46,13 @@
 
 	wizard_garb = 1
 
+//ZONE-tan Loadout
+/obj/item/clothing/shoes/zone
+	name = "zone boots"
+	desc = "Nice to kick some butts."
+	icon_state = "zone"
+	body_parts_covered = FEET
+
 /obj/item/clothing/shoes/sandal/marisa
 	desc = "A pair of magic, black shoes."
 	name = "magic shoes"
