@@ -254,6 +254,16 @@
 		icon_state = "hair_emolong"
 		gender = FEMALE
 
+	zone
+		name = "Zone Braid"
+		icon_state = "hair_zone"
+		gender = FEMALE
+
+	bun
+		name = "Bun"
+		icon_state = "hair_bun"
+		gender = FEMALE
+
 	shortovereye
 		name = "Overeye Short"
 		icon_state = "hair_shortovereye"
