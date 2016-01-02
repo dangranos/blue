@@ -67,7 +67,7 @@
 	item_state = "welding"
 	body_parts_covered = HEAD|FACE|EYES
 
-/obj/item/clothing/head/collectable/slime
+/obj/item/clothing/head/collectable/slime2
 	name = "collectable slime hat"
 	desc = "Just like a real Brain Slug!"
 	icon_state = "headslime"
@@ -129,3 +129,50 @@
 	desc = "Now you can be in the Deathsquad too!"
 	icon_state = "swat"
 	item_state = "swat"
+
+/obj/item/clothing/head/collectable/crown
+	name = "The great Crown of the Great King"
+	desc = "The great Crown of the Great King son of the Great King's father and brother of the Great King's brother."
+	icon_state = "crown"
+	item_state = "crown"
+
+/obj/item/clothing/head/collectable/amp
+	name = "psychic amplifier"
+	desc = "A crown-of-thorns psychic amplifier. Kind of looks like a tiara having sex with an industrial robot."
+	icon_state = "amp"
+	item_state = "amp"
+
+/obj/item/clothing/head/collectable/marisa
+	name = "Witch Hat"
+	desc = "Strange-looking hat-wear, makes you want to cast fireballs."
+	icon_state = "marisa"
+
+/obj/item/clothing/head/collectable/suzumiyarabbitears
+	name = "Rabbit ears"
+	desc = "A Collectable Hat that'll make you look just like a real rabbit!"
+	icon_state = "suzumiyarabbitears"
+	item_state = "suzumiyarabbitears"
+
+/obj/item/clothing/head/collectable/mikururabbitears
+	name = "Rabbit ears"
+	desc = "A Collectable Hat that'll make you look just like a real rabbit!"
+	icon_state = "mikururabbitears"
+	item_state = "mikururabbitears"
+
+/obj/item/clothing/head/collectable/metroid
+	name = "metroid Hat"
+	desc = "Strage creature from the past. Now cool hat."
+	icon_state = "metroid"
+	item_state = "metroid"
+
+/obj/item/clothing/head/collectable/women_blue_hat
+	name = "blue hat"
+	desc = "blue hat."
+	icon_state = "blue_hat"
+	item_state = "blue_hat"
+
+/obj/item/clothing/head/collectable/secelitetop
+	name = "security elite top hat"
+	desc = "security elite top hat."
+	icon_state = "secelitetop"
+	item_state = "secelitetop"
