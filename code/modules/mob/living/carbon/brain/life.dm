@@ -234,7 +234,7 @@
 				healths.icon_state = "health7"
 
 		if (client)
-			client.screen.Remove(global_hud.blurry,global_hud.druggy,global_hud.vimpaired)
+			client.screen.Remove(global_hud.blurry,global_hud.druggy,global_hud.vimpaired,global_hud.horny) //add aphrodisiac
 
 		if ((blind && stat != 2))
 			if ((blinded))
@@ -250,6 +250,10 @@
 
 				if (druggy)
 					client.screen += global_hud.druggy
+
+				//for aphrodisiac
+				if (horny)
+					client.screen += global_hud.horny
 
 		if (stat != 2)
 			if (machine)
