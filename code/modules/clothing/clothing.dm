@@ -73,9 +73,17 @@
 			species_restricted = list("exclude","Unathi","Tajara","Diona","Vox", "Xenomorph")
 		if("Human")
 			species_restricted = list("exclude","Skrell","Unathi","Tajara","Diona","Vox", "Xenomorph")
-
 		else
 			species_restricted = list(target_species)
+
+	if(target_species == "Vox")
+		src.flags &= ~BLOCKHAIR
+		src.flags &= ~BLOCKHEADHAIR
+	else
+		if(initial(src.flags)&BLOCKHAIR)
+			flags |= BLOCKHAIR
+		if(initial(src.flags)&BLOCKHEADHAIR)
+			flags |= BLOCKHEADHAIR
 
 	//Set icon
 	if (sprite_sheets_refit && (target_species in sprite_sheets_refit))
