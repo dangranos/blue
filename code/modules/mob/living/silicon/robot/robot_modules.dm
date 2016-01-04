@@ -699,6 +699,7 @@ var/global/list/robot_modules = list(
 	src.modules += new /obj/item/device/lightreplacer(src)
 	src.modules += new /obj/item/weapon/gripper(src)
 	src.modules += new /obj/item/weapon/soap(src)
+	src.modules += new /obj/item/device/t_scanner(src)
 	src.emag = new /obj/item/weapon/pickaxe/plasmacutter(src)
 	src.emag.name = "Plasma Cutter"
 
