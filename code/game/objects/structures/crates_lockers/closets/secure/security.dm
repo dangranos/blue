@@ -48,7 +48,7 @@
 		..()
 		new /obj/item/clothing/glasses/sunglasses(src)
 		new /obj/item/clothing/suit/storage/vest(src)
-		new /obj/item/clothing/head/helmet(src)
+		new /obj/item/clothing/head/helmet/security(src)
 		new /obj/item/weapon/cartridge/hop(src)
 		new /obj/item/device/radio/headset/heads/hop(src)
 		new /obj/item/weapon/storage/box/ids(src)
@@ -161,6 +161,7 @@
 		new /obj/item/weapon/gun/energy/gun(src)
 		new /obj/item/weapon/storage/box/holobadge(src)
 		new /obj/item/clothing/head/beret/sec/warden(src)
+		new /obj/item/clothing/head/helmet/warden/drill(src)
 		return
 
 
@@ -182,7 +183,7 @@
 		else
 			new /obj/item/weapon/storage/backpack/satchel_sec(src)
 		new /obj/item/clothing/suit/storage/vest/officer(src)
-		new /obj/item/clothing/head/helmet(src)
+		new /obj/item/clothing/head/helmet/security(src)
 //		new /obj/item/weapon/cartridge/security(src)
 		new /obj/item/device/radio/headset/headset_sec(src)
 		new /obj/item/weapon/storage/belt/security(src)
@@ -198,6 +199,7 @@
 		new /obj/item/clothing/under/rank/security/corp(src)
 		new /obj/item/ammo_magazine/c45m/rubber(src)
 		new /obj/item/weapon/gun/energy/taser(src)
+		new /obj/item/clothing/gloves/black(src)
 		return
 
 
