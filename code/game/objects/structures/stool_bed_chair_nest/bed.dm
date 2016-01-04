@@ -142,6 +142,8 @@
 	else if(istype(W, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = W
 		var/mob/living/affecting = G.affecting
+		if(!get_dist(src,affecting)<2)
+			return
 		user.visible_message("<span class='notice'>[user] attempts to buckle [affecting] into \the [src]!</span>")
 		if(do_after(user, 20))
 			affecting.loc = loc
