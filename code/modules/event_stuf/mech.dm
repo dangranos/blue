@@ -1,24 +1,21 @@
 /obj/structure/tree_mech
 	name = "New Year Tree"
+	desc = "Totally what you think it is"
 	icon = 'icons/mech.dmi'
 	icon_state = "base"
 	density = 1
-	anchored = 1
-	pixel_y = -32
+	anchored = 0
+	layer = 4
 	pixel_x = -32
-	var/locked = 1
-	var/broken = 0
+	var/locked = 0
+	var/broken = 1
 	var/santa_protect = 1
 	var/mob/living/carbon/human/occupant = null
-
-/obj/structure/tree_mech/New()
-	for(var/turf/T in orange(1))
-		new/obj/structure/tree_mech_part(T)
 
 /obj/structure/tree_mech/verb/move_inside()
 	set category = "Object"
 	set name = "Enter Exosuit"
-	set src in oview(2)
+	set src in oview(1)
 	if (usr.stat || !ishuman(usr))
 		return
 	if(locked)
@@ -56,7 +53,7 @@
 	return 1
 
 /obj/structure/tree_mech/proc/moved_inside(var/mob/living/carbon/human/H as mob)
-	if(H && H.client && H in range(2))
+	if(H && H.client && H in range(1))
 		if(santa_protect && H.species.name != "Santa")
 			usr << "\red You are not Santa!"
 			return 0
@@ -69,8 +66,6 @@
 		return 1
 	else
 		return 0
-
-
 
 /obj/structure/tree_mech/verb/eject()
 	set name = "Eject"
@@ -86,7 +81,7 @@
 
 /obj/structure/tree_mech/proc/go_out()
 	if(!src.occupant) return
-	if(occupant.forceMove(get_step(src.loc, SOUTH)))
+	if(occupant.forceMove(src.loc))
 		occupant.reset_view()
 		src.occupant = null
 

@@ -108,7 +108,7 @@
 
 	var/obj/item/weapon/grab/G = I
 	if(istype(G))	// handle grabbed mob
-		if(ismob(G.affecting))
+		if(ismob(G.affecting) && get_dist(src,G.affecting)<2)
 			var/mob/GM = G.affecting
 			for (var/mob/V in viewers(usr))
 				V.show_message("[usr] starts putting [GM.name] into the disposal.", 3)

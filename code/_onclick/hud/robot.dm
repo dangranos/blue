@@ -68,7 +68,7 @@ var/obj/screen/robot_inventory
 	using.name = "toggle_lights"
 	using.set_dir(SOUTHWEST)
 	using.icon = 'icons/mob/screen1_robot.dmi'
-	using.icon_state = "light"
+	using.icon_state = "light_off"
 	using.screen_loc = ui_borg_light
 	using.layer = 20
 	src.adding += using

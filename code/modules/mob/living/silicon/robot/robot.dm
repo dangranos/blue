@@ -350,8 +350,10 @@
 	usr << "You [lights_on ? "enable" : "disable"] your integrated light."
 	if(lights_on)
 		set_light(integrated_light_power) // 1.5x luminosity of flashlight
+		usr.hud_used.toggle_lights.icon_state="light_on"
 	else
 		set_light(0)
+		usr.hud_used.toggle_lights.icon_state="light_off"
 
 /mob/living/silicon/robot/verb/self_diagnosis_verb()
 	set category = "Robot Commands"

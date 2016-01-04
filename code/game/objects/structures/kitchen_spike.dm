@@ -13,7 +13,7 @@
 	var/victim_name = "corpse"
 
 /obj/structure/kitchenspike/attackby(obj/item/weapon/grab/G as obj, mob/user as mob)
-	if(!istype(G, /obj/item/weapon/grab) || !G.affecting)
+	if( !(istype(G) && G.affecting && get_dist(src,G.affecting)<2) )
 		return
 	if(occupied)
 		user << "<span class = 'danger'>The spike already has something on it, finish collecting its meat first!</span>"
