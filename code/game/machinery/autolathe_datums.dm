@@ -326,8 +326,8 @@
 	category = "Arms and Ammunition"
 
 /datum/autolathe/recipe/carbine_px6
-	name = "ammunition (.45, carbine)"
-	path = /obj/item/ammo_magazine/car
+	name = "ammunition (.40, carbine)"
+	path = /obj/item/ammo_magazine/carbine
 	hidden = 1
 	category = "Arms and Ammunition"
 
