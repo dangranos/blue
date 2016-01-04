@@ -152,6 +152,7 @@
 	darksight = 8
 	slowdown = -1
 	brute_mod = 1.2
+	gluttonous = 1
 
 	blurb = "The Tajaran race is a species of feline-like bipeds hailing from the planet of Ahdomai in the \
 	S'randarr system. They have been brought up into the space age by the Humans and Skrell, and have been \

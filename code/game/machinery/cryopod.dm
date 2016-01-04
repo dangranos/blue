@@ -397,22 +397,23 @@
 	set_occupant(null)
 
 
-/obj/machinery/cryopod/attackby(var/obj/item/weapon/G as obj, var/mob/user as mob)
+/obj/machinery/cryopod/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
 
-	if(istype(G, /obj/item/weapon/grab))
+	var/obj/item/weapon/grab/G = W
+	if(istype(G))
 
 		if(occupant)
 			user << "<span class='notice'>\The [src] is in use.</span>"
 			return
 
-		if(!ismob(G:affecting))
+		if( !(ismob(G.affecting) && get_dist(src,G.affecting)<2))
 			return
 
-		if(!check_occupant_allowed(G:affecting))
+		if(!check_occupant_allowed(G.affecting))
 			return
 
 		var/willing = null //We don't want to allow people to be forced into despawning.
-		var/mob/M = G:affecting
+		var/mob/M = G.affecting
 
 		if(M.client)
 			if(alert(M,"Would you like to enter long-term storage?",,"Yes","No") == "Yes")
@@ -426,7 +427,7 @@
 			visible_message("[user] starts putting [G:affecting:name] into \the [src].", 3)
 
 			if(do_after(user, 20))
-				if(!M || !G || !G:affecting) return
+				if(!M || !G || !G.affecting) return
 
 				M.loc = src
 

@@ -65,7 +65,7 @@ var/obj/screen/robot_inventory
 
 //lights
 	using = new /obj/screen()
-	using.name = "toggle_lights"
+	using.name = "light_off"
 	using.set_dir(SOUTHWEST)
 	using.icon = 'icons/mob/screen1_robot.dmi'
 	using.icon_state = "light"
