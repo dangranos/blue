@@ -166,8 +166,8 @@ datum/controller/process/proc/handleHung()
 		run_start -= 864000
 
 	var/msg = "[name] process hung at tick #[ticks]. Process was unresponsive for [(world.timeofday - run_start) / 10] seconds and was restarted. Last task: [last_task]. Last Object Type: [lastObjType]"
-	logTheThing("debug", null, null, msg)
-	logTheThing("diary", null, null, msg, "debug")
+//	logTheThing("debug", null, null, msg)
+//	logTheThing("diary", null, null, msg, "debug")
 	message_admins(msg)
 
 	main.restartProcess(src.name)

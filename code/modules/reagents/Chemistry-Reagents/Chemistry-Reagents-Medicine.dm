@@ -460,6 +460,7 @@
 		if(world.time > data + ANTIDEPRESSANT_MESSAGE_DELAY)
 			data = world.time
 			M << "<span class='notice'>Your mind feels stable... a little stable.</span>"
+		holder.remove_reagent("kurovasicin", 5*REM)
 
 /datum/reagent/paroxetine
 	name = "Paroxetine"

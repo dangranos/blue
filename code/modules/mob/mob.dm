@@ -965,6 +965,7 @@ mob/proc/yank_out_object()
 	handle_stuttering()
 	handle_silent()
 	handle_drugged()
+	handle_horny() //for aphrodisiac
 	handle_slurring()
 
 /mob/living/proc/handle_stunned()
@@ -991,6 +992,12 @@ mob/proc/yank_out_object()
 	if(druggy)
 		druggy = max(druggy-1, 0)
 	return druggy
+
+//for aphrodisiac
+/mob/living/proc/handle_horny()
+	if(horny)
+		horny = max(horny-1, 0)
+	return horny
 
 /mob/living/proc/handle_slurring()
 	if(slurring)
