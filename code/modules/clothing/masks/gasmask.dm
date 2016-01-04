@@ -46,7 +46,7 @@
 /obj/item/clothing/mask/gas/swat/vox
 	name = "\improper alien mask"
 	desc = "Clearly not designed for a human face."
-	body_parts_covered = 0 //Hack to allow vox to eat while wearing this mask. 
+	body_parts_covered = 0 //Hack to allow vox to eat while wearing this mask.
 	species_restricted = list("Vox")
 
 /obj/item/clothing/mask/gas/syndicate
@@ -101,3 +101,13 @@
 	name = "owl mask"
 	desc = "Twoooo!"
 	icon_state = "owl"
+
+/obj/item/clothing/mask/gas/security
+	name = "security gas mask"
+	desc = "A face-covering mask that can be connected to an air supply. Filters harmful gases from the air."
+	icon_state = "security"
+	flags = MASKCOVERSMOUTH | BLOCK_GAS_SMOKE_EFFECT | AIRTIGHT
+	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE
+	body_parts_covered = FACE|EYES
+	w_class = 3.0
+	item_state = "security"

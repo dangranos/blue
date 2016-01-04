@@ -290,6 +290,17 @@
 	icon_badge = "officerwebvest_badge"
 	icon_nobadge = "officerwebvest_nobadge"
 
+/obj/item/clothing/suit/storage/vest/heavy/security
+	name = "heavy plate carrier"
+	desc = "A very heavy plate carrier belonging to Nanotrasen with webbing and groin armor plate attached. This one has a security holobadge clipped to the chest."
+	icon_state = "secheavyvest_nobadge"
+	item_state = "secheavyvest_nobadge"
+	icon_badge = "secheavyvest_badge"
+	icon_nobadge = "secheavyvest_nobadge"
+	armor = list(melee = 60, bullet = 50, laser = 50, energy = 80, bomb = 40, bio = 0, rad = 0)
+	slowdown = 2
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+
 /obj/item/clothing/suit/storage/vest/heavy/warden
 	name = "warden heavy armor vest"
 	desc = "A heavy kevlar plate carrier belonging to Nanotrasen with webbing attached. This one has a silver badge clipped to the chest."
