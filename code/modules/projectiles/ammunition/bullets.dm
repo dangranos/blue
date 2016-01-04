@@ -13,6 +13,17 @@
 	caliber = "75"
 	projectile_type = /obj/item/projectile/bullet/gyro
 
+/obj/item/ammo_casing/c40
+	desc = "A .40 bullet casing."
+	caliber = ".40"
+	projectile_type = /obj/item/projectile/bullet/pistol/medium
+
+/obj/item/ammo_casing/c40/practice
+	desc = "A .40 practice bullet casing."
+	caliber = ".40"
+	projectile_type = /obj/item/projectile/bullet/pistol/practice
+
+
 /obj/item/ammo_casing/c38
 	desc = "A .38 bullet casing."
 	caliber = "38"
