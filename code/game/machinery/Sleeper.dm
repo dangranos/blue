@@ -202,40 +202,41 @@
 			qdel(src)
 		return
 
-	attackby(var/obj/item/weapon/G as obj, var/mob/user as mob)
-		if(istype(G, /obj/item/weapon/reagent_containers/glass))
+	attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
+		if(istype(W, /obj/item/weapon/reagent_containers/glass))
 			if(!beaker)
-				beaker = G
+				beaker = W
 				user.drop_item()
-				G.loc = src
-				user.visible_message("[user] adds \a [G] to \the [src]!", "You add \a [G] to \the [src]!")
+				beaker.loc = src
+				user.visible_message("[user] adds \a [beaker] to \the [src]!", "You add \a [beaker] to \the [src]!")
 				src.updateUsrDialog()
 				return
 			else
 				user << "\red The sleeper has a beaker already."
 				return
 
-		else if(istype(G, /obj/item/weapon/grab))
-			if(!ismob(G:affecting))
+		else if(istype(W, /obj/item/weapon/grab))
+			var/obj/item/weapon/grab/G = W
+			if(!(ismob(G.affecting) && get_dist(src,G.affecting)<2))
 				return
 
 			if(src.occupant)
 				user << "\blue <B>The sleeper is already occupied!</B>"
 				return
 
-			for(var/mob/living/carbon/slime/M in range(1,G:affecting))
-				if(M.Victim == G:affecting)
+			for(var/mob/living/carbon/slime/M in range(1,G.affecting))
+				if(M.Victim == G.affecting)
 					usr << "[G:affecting.name] will not fit into the sleeper because they have a slime latched onto their head."
 					return
 
-			visible_message("[user] starts putting [G:affecting:name] into the sleeper.", 3)
+			visible_message("[user] starts putting [G.affecting:name] into the sleeper.", 3)
 
 			if(do_after(user, 20))
 				if(src.occupant)
 					user << "\blue <B>The sleeper is already occupied!</B>"
 					return
-				if(!G || !G:affecting) return
-				var/mob/M = G:affecting
+				if(!G || !G.affecting) return
+				var/mob/M = G.affecting
 				if(M.client)
 					M.client.perspective = EYE_PERSPECTIVE
 					M.client.eye = src
