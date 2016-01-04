@@ -39,7 +39,7 @@
 		new /obj/item/robot_parts/r_leg(Tsec)
 	if(prob(50))
 		if(prob(50))
-			new /obj/item/clothing/head/helmet(Tsec)
+			new /obj/item/clothing/head/helmet/security(Tsec)
 		else
 			new /obj/item/clothing/suit/armor/vest(Tsec)
 
@@ -131,7 +131,7 @@
 					name = "shielded frame assembly"
 					user << "<span class='notice'>You welded the vest to [src].</span>"
 		if(4)
-			if(istype(W, /obj/item/clothing/head/helmet))
+			if(istype(W, /obj/item/clothing/head/helmet/security))
 				user.drop_item()
 				qdel(W)
 				build_step++

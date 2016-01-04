@@ -102,7 +102,7 @@
 	icon = 'icons/obj/lighting.dmi'
 	icon_state = "heavyduty"
 	item_state = "heavyduty"
-	brightness_on = 5
+	brightness_on = 6
 
 /obj/item/device/flashlight/seclite
 	name = "security flashlight"
