@@ -175,6 +175,11 @@
 	proc/get_back_sprite(state = "", var/body_build = 0)
 		return 'icons/mob/back.dmi'
 
+	proc/get_back_u_sprite(state = "", var/body_build = 0)
+		if(state in icon_states('icons/mob/back.dmi'))
+			return 'icons/mob/back.dmi'
+		else return null
+
 	proc/get_mask_sprite(state = "", var/body_build = 0)
 		return 'icons/mob/mask.dmi'
 

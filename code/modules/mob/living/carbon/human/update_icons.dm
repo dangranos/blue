@@ -105,6 +105,10 @@ If you have any questions/constructive-comments/bugs-to-report/or have a massivl
 Please contact me on #coderbus IRC. ~Carn x
 */
 
+//Human Underlays Indexes////////
+#define BACK_UNDERLAY			1
+#define TOTAL_UNDERLAYS			1
+
 //Human Overlays Indexes/////////
 #define MUTATIONS_LAYER			1
 #define DAMAGE_LAYER			2
@@ -136,6 +140,7 @@ Please contact me on #coderbus IRC. ~Carn x
 
 /mob/living/carbon/human
 	var/list/overlays_standing[TOTAL_LAYERS]
+	var/list/underlays_standing[TOTAL_UNDERLAYS]
 	var/previous_damage_appearance // store what the body last looked like, so we only have to update it if something changed
 
 //UPDATES OVERLAYS FROM OVERLAYS_LYING/OVERLAYS_STANDING
@@ -145,6 +150,7 @@ Please contact me on #coderbus IRC. ~Carn x
 	lying_prev = lying	//so we don't update overlays for lying/standing unless our stance changes again
 	update_hud()		//TODO: remove the need for this
 	overlays.Cut()
+	underlays.Cut()
 
 	var/stealth = 0
 	//cloaking devices. //TODO: get rid of this :<
@@ -163,6 +169,8 @@ Please contact me on #coderbus IRC. ~Carn x
 		icon = stand_icon
 		for(var/image/I in overlays_standing)
 			overlays += I
+		for(var/image/I in underlays_standing)
+			underlays += I
 
 	if(lying && !species.prone_icon) //Only rotate them if we're not drawing a specific icon for being prone.
 		var/matrix/M = matrix()
@@ -746,21 +754,28 @@ var/global/list/damage_icon_parts = list()
 
 		//determine the icon to use
 		var/image/standing
+		var/image/underlay
 		if(back.icon_override)
 			standing = image(back.icon_override, icon_state = t_state)
+			underlay = image(back.icon_override, icon_state = "[t_state]_u")
 		else if(istype(back, /obj/item/weapon/rig))
 			//If this is a rig and a mob_icon is set, it will take species into account in the rig update_icon() proc.
 			var/obj/item/weapon/rig/rig = back
 			standing = image(rig.mob_icon, icon_state = t_state)
 		else
 			standing = get_back_sprite(t_state, body_build)
+			underlay = get_back_u_sprite("[t_state]_u", body_build)
 
-		if(back.color) standing.color = back.color
+		if(back.color)
+			standing.color = back.color
+			underlay.color = back.color
 
 		//create the image
 		overlays_standing[BACK_LAYER] = standing
+		underlays_standing[BACK_UNDERLAY] = underlay
 	else
 		overlays_standing[BACK_LAYER] = null
+		underlays_standing[BACK_UNDERLAY] = null
 
 	if(update_icons)
 		update_icons()
@@ -819,7 +834,9 @@ var/global/list/damage_icon_parts = list()
 		else
 			t_icon = INV_R_HAND_DEF_ICON
 
-		overlays_standing[R_HAND_LAYER] = image(icon = t_icon, icon_state = t_state)
+		var/image/standing = image(icon = t_icon, icon_state = t_state)
+		if(species.name == "Santa") standing.pixel_y = -5
+		overlays_standing[R_HAND_LAYER] = standing
 
 		if (handcuffed) drop_r_hand() //this should be moved out of icon code
 	else
@@ -851,7 +868,9 @@ var/global/list/damage_icon_parts = list()
 		else
 			t_icon = INV_L_HAND_DEF_ICON
 
-		overlays_standing[L_HAND_LAYER] = image(icon = t_icon, icon_state = t_state)
+		var/image/standing = image(icon = t_icon, icon_state = t_state)
+		if(species.name == "Santa") standing.pixel_y = -5
+		overlays_standing[L_HAND_LAYER] = standing
 
 		if (handcuffed) drop_l_hand() //This probably should not be here
 	else

@@ -5,6 +5,7 @@
 var/datum/global_hud/global_hud = new()
 var/list/global_huds = list(
 		global_hud.druggy,
+		global_hud.horny, //Stolaire stuff
 		global_hud.blurry,
 		global_hud.vimpaired,
 		global_hud.darkMask,
@@ -20,6 +21,7 @@ var/list/global_huds = list(
 
 /datum/global_hud
 	var/obj/screen/druggy
+	var/obj/screen/horny //Stolaire stuff
 	var/obj/screen/blurry
 	var/list/vimpaired
 	var/list/darkMask
@@ -35,7 +37,6 @@ var/list/global_huds = list(
 	screen.icon_state = icon_state
 	screen.layer = SCREEN_LAYER
 	screen.mouse_opacity = 0
-
 	return screen
 
 /datum/global_hud/New()
@@ -45,6 +46,13 @@ var/list/global_huds = list(
 	druggy.icon_state = "druggy"
 	druggy.layer = 17
 	druggy.mouse_opacity = 0
+
+	//Stolaire stuff
+	horny = new /obj/screen()
+	horny.screen_loc = "WEST,SOUTH to EAST,NORTH"
+	horny.icon_state = "horny"
+	horny.layer = 17
+	horny.mouse_opacity = 0
 
 	//that white blurry effect you get when you eyes are damaged
 	blurry = new /obj/screen()
@@ -128,6 +136,9 @@ var/list/global_huds = list(
 	var/obj/screen/l_hand_hud_object
 	var/obj/screen/action_intent
 	var/obj/screen/move_intent
+	var/obj/screen/toggle_lights
+	var/obj/screen/state_laws
+	var/obj/screen/send_message
 
 	var/list/adding
 	var/list/other
