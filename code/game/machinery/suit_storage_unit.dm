@@ -486,7 +486,7 @@
 		return
 	if ( istype(I, /obj/item/weapon/grab) )
 		var/obj/item/weapon/grab/G = I
-		if( !(ismob(G.affecting)) )
+		if( !(ismob(G.affecting) && get_dist(src,G.affecting)<2) )
 			return
 		if (!src.isopen)
 			usr << "<font color='red'>The unit's doors are shut.</font>"
@@ -673,7 +673,7 @@
 	if(istype(I, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = I
 
-		if(!(ismob(G.affecting)))
+		if(!(ismob(G.affecting) && get_dist(src,G.affecting)<2))
 			return
 
 		if(locked)
