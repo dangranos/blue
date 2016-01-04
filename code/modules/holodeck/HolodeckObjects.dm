@@ -65,7 +65,7 @@
 	if(!istype(W)) return//I really wish I did not need this
 	if (istype(W, /obj/item/weapon/grab) && get_dist(src,user)<2)
 		var/obj/item/weapon/grab/G = W
-		if(istype(G.affecting,/mob/living))
+		if(istype(G.affecting,/mob/living) && get_dist(src,G.affecting)<2)
 			var/mob/living/M = G.affecting
 			var/state = G.state
 			qdel(W)	//gotta delete it here because if window breaks, it won't get deleted
@@ -243,6 +243,8 @@
 /obj/structure/holohoop/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if (istype(W, /obj/item/weapon/grab) && get_dist(src,user)<2)
 		var/obj/item/weapon/grab/G = W
+		if(get_dist(src,G.affecting)>=2)
+			return
 		if(G.state<2)
 			user << "<span class='warning'>You need a better grip to do that!</span>"
 			return

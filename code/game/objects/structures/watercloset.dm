@@ -55,7 +55,7 @@
 	if(istype(I, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = I
 
-		if(isliving(G.affecting))
+		if(isliving(G.affecting) && get_dist(src,G.affecting)<2)
 			var/mob/living/GM = G.affecting
 
 			if(G.state>1)
@@ -102,7 +102,7 @@
 /obj/structure/urinal/attackby(obj/item/I as obj, mob/user as mob)
 	if(istype(I, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = I
-		if(isliving(G.affecting))
+		if(isliving(G.affecting) && get_dist(src,G.affecting)<2)
 			var/mob/living/GM = G.affecting
 			if(G.state>1)
 				if(!GM.loc == get_turf(src))
@@ -316,11 +316,11 @@
 
 /obj/machinery/shower/proc/process_heat(mob/living/M)
 	if(!on || !istype(M)) return
-	
+
 	var/temperature = temperature_settings[watertemp]
 	var/temp_adj = between(BODYTEMP_COOLING_MAX, temperature - M.bodytemperature, BODYTEMP_HEATING_MAX)
 	M.bodytemperature += temp_adj
-	
+
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		if(temperature >= H.species.heat_level_1)
