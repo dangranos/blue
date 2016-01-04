@@ -10,10 +10,16 @@
 	var/broken = 0
 	var/santa_protect = 1
 	var/mob/living/carbon/human/occupant = null
+	var/list/elements = list()
 
 /obj/structure/tree_mech/New()
 	for(var/turf/T in orange(1))
-		new/obj/structure/tree_mech_part(T)
+		var/obj/structure/tree_mech_part/P = new(T)
+		elements += P
+
+/obj/structure/tree_mech/Del()
+	for(var/obj/structure/tree_mech_part/P in elements)
+		del(P)
 
 /obj/structure/tree_mech/verb/move_inside()
 	set category = "Object"
