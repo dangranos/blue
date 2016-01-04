@@ -33,12 +33,18 @@
 	var/t_is = "are"
 	var/t_does = "do"
 
+
 	var/msg = "<span class='info'>*---------*\nThis is "
 
-	//big suits/masks/helmets make it hard to tell their gender
+	msg += "<EM>[src.name]</EM>"
+
+	//big suits/masks/helmets make it hard to tell their gender and age
 	if(!skipjumpsuit || !skipface)
+
 		if(icon)
 			msg += "\icon[icon] " //fucking BYOND: this should stop dreamseeker crashing if we -somehow- examine somebody before their icon is generated
+
+		var/t_appeal = "<b><font color='[species.flesh_color]'>[species.name]</font></b>"
 		switch(gender)
 			if(MALE)
 				t_He = "He"
@@ -48,6 +54,7 @@
 				t_has = "has"
 				t_is = "is"
 				t_does = "does"
+				if(species.name == "Human") t_appeal = "man"
 			if(FEMALE)
 				t_He = "She"
 				t_he = "she"
@@ -56,6 +63,7 @@
 				t_has = "has"
 				t_is = "is"
 				t_does = "does"
+				if(species.name == "Human") t_appeal = "woman"
 			if(NEUTER)
 				t_He = "It"
 				t_he = "it"
@@ -65,9 +73,18 @@
 				t_is = "is"
 				t_does = "does"
 
-	msg += "<EM>[src.name]</EM>"
-	if(species.name != "Human")
-		msg += ", a <b><font color='[species.flesh_color]'>[species.name]</font></b>"
+		if (species.name == "Machine")
+			msg += ", a [t_appeal]"
+		else switch(age)
+			if(1 to 25)
+				msg += ", a young [t_appeal]"
+			if(26 to 45)
+				msg += ", a [t_appeal]"
+			if(46 to 75)
+				msg += ", an old [t_appeal]"
+			else
+				msg += ", a very old [t_appeal]"
+
 	msg += "!\n"
 
 	//uniform

@@ -74,7 +74,7 @@
 	return
 
 /obj/machinery/bodyscanner/attackby(obj/item/weapon/grab/G as obj, user as mob)
-	if ((!( istype(G, /obj/item/weapon/grab) ) || !( ismob(G.affecting) )))
+	if ( !(istype(G, /obj/item/weapon/grab) && ismob(G.affecting) && get_dist(src,G.affecting)<2) )
 		return
 	if (src.occupant)
 		user << "\blue <B>The scanner is already occupied!</B>"
