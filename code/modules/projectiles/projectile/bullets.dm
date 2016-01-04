@@ -112,7 +112,7 @@
 	name = "rubber bullet"
 	check_armour = "melee"
 	damage = 10
-	agony = 40
+	agony = 70
 	embed = 0
 	sharp = 0
 

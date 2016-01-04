@@ -1,6 +1,6 @@
 /obj/item/weapon/gun/projectile/automatic //Hopefully someone will find a way to make these fire in bursts or something. --Superxpdude
-	name = "submachine gun"
-	desc = "A lightweight, fast firing gun. Uses 9mm rounds."
+	name = "prototype SMG"
+	desc = "A protoype lightweight, fast firing gun. Uses 9mm rounds."
 	icon_state = "saber"	//ugly
 	w_class = 3
 	load_method = SPEEDLOADER //yup. until someone sprites a magazine for it.
@@ -10,7 +10,7 @@
 	slot_flags = SLOT_BELT
 	ammo_type = /obj/item/ammo_casing/c9mm
 	multi_aim = 1
-	
+
 	firemodes = list(
 		list(name="semiauto", burst=1, fire_delay=0),
 		list(name="3-round bursts", burst=3, move_delay=4, accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.0, 0.6, 1.0)),
@@ -28,9 +28,25 @@
 	origin_tech = "combat=5;materials=2;syndicate=8"
 	ammo_type = /obj/item/ammo_casing/c45
 
+/obj/item/weapon/gun/projectile/pistol/carbine
+	desc = "A PX6, Ward-Takahashi made semiautomatic light carbine. Used by NT security forces. Uses .45 rounds."
+	name = "light carbine"
+	icon_state = "px6"
+	item_state = "z8carbine"
+	magazine_type = /obj/item/ammo_magazine/car
+	caliber = ".45"
+	max_shells = 20
+	w_class = 4
+	slot_flags = SLOT_BACK
+
+/obj/item/weapon/gun/projectile/pistol/carbine/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "px6" : "px6-empty"
+	update_held_icon()
+
 /obj/item/weapon/gun/projectile/automatic/c20r
-	name = "\improper C-20r SMG"
-	desc = "A lightweight, fast firing gun, for when you REALLY need someone dead. Uses 12mm pistol rounds. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp"
+	name = "submachine gun"
+	desc = "The C-20r is a lightweight, fast firing gun, for when you REALLY need someone dead. Uses 12mm pistol rounds. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp"
 	icon_state = "c20r"
 	item_state = "c20r"
 	w_class = 3
@@ -53,8 +69,8 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/sts35
-	name = "\improper STS-35 automatic rifle"
-	desc = "A durable, rugged looking automatic weapon of a make popular on the frontier worlds. Uses 7.62mm rounds. It is unmarked."
+	name = "\improper assault rifle"
+	desc = "A rugged STS-35 is a durable, rugged looking automatic weapon of a make popular on the frontier worlds. Uses 7.62mm rounds. It is unmarked."
 	icon_state = "arifle"
 	item_state = null
 	w_class = 4
@@ -64,7 +80,7 @@
 	slot_flags = SLOT_BACK
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/c762
-	
+
 	firemodes = list(
 		list(name="semiauto", burst=1, fire_delay=0),
 		list(name="3-round bursts", burst=3, move_delay=6, accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.0, 0.6, 0.6)),
@@ -77,8 +93,8 @@
 	update_held_icon()
 
 /obj/item/weapon/gun/projectile/automatic/wt550
-	name = "\improper W-T 550 Saber"
-	desc = "A cheap, mass produced Ward-Takahashi PDW. Uses 9mm rounds."
+	name = "\improper submachine gun"
+	desc = "A W-T 550 Saber is a cheap, mass produced Ward-Takahashi PDW. Uses 9mm rounds."
 	icon_state = "wt550"
 	item_state = "wt550"
 	w_class = 3
@@ -102,8 +118,8 @@
 	var/use_launcher = 0
 
 /obj/item/weapon/gun/projectile/automatic/z8
-	name = "\improper Z8 Bulldog"
-	desc = "An older model bullpup carbine, made by the now defunct Zendai Foundries. Uses armor piercing 5.56mm rounds. Makes you feel like a space marine when you hold it."
+	name = "bullpup assault rifle"
+	desc = "The Z8 Bulldog is a model bullpup carbine, made by the now defunct Zendai Foundries. Uses armor piercing 5.56mm rounds. Makes you feel like a space marine when you hold it."
 	icon_state = "carbine"
 	item_state = "z8carbine"
 	w_class = 4
@@ -117,7 +133,7 @@
 	magazine_type = /obj/item/ammo_magazine/a556
 	auto_eject = 1
 	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
-	
+
 	burst_delay = 4
 	firemode_type = /datum/firemode/z8
 	firemodes = list(
@@ -125,7 +141,7 @@
 		list(name="3-round bursts", burst=3, move_delay=6, accuracy = list(0,-1,-1), dispersion = list(0.0, 0.6, 0.6)),
 		list(name="fire grenades", use_launcher=1)
 		)
-	
+
 	var/obj/item/weapon/gun/launcher/grenade/underslung/launcher
 
 /obj/item/weapon/gun/projectile/automatic/z8/New()
@@ -170,8 +186,8 @@
 		user << "\The [launcher] is empty."
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw
-	name = "\improper L6 SAW"
-	desc = "A rather traditionally made light machine gun with a pleasantly lacquered wooden pistol grip. Has 'Aussec Armoury- 2531' engraved on the reciever"
+	name = "light machine gun"
+	desc = "A rather traditionally made L6 SAW with a pleasantly lacquered wooden pistol grip. Has 'Aussec Armoury- 2531' engraved on the reciever"
 	icon_state = "l6closed100"
 	item_state = "l6closedmag"
 	w_class = 4
@@ -185,12 +201,12 @@
 	fire_sound = 'sound/weapons/Gunshot_light.ogg'
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/a762
-	
+
 	firemodes = list(
 		list(name="short bursts",	burst=5, move_delay=6, accuracy = list(0,-1,-1,-2,-2,-2,-3,-3), dispersion = list(0.6, 1.0, 1.0, 1.0, 1.2)),
 		list(name="long bursts",	burst=8, move_delay=8, accuracy = list(0,-1,-1,-2,-2,-2,-3,-3), dispersion = list(1.0, 1.0, 1.0, 1.0, 1.2)),
 		)
-	
+
 	var/cover_open = 0
 
 /obj/item/weapon/gun/projectile/automatic/l6_saw/special_check(mob/user)

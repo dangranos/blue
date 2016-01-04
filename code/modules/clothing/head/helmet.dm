@@ -1,6 +1,6 @@
 /obj/item/clothing/head/helmet
 	name = "helmet"
-	desc = "Standard Security gear. Protects the head from impacts."
+	desc = "Standard defence gear. Protects the head from impacts."
 	icon_state = "helmet"
 	flags = HEADCOVERSEYES | THICKMATERIAL
 	item_state = "helmet"
@@ -12,6 +12,42 @@
 	max_heat_protection_temperature = HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.7
 	w_class = 3
+
+/obj/item/clothing/head/helmet/security
+	name = "security helmet"
+	desc = "Standard Security gear. Protects the head from impacts."
+	var/glassesup = 0
+
+	dropped()
+		src.icon_state = initial(icon_state)
+		src.glassesup=0
+		..()
+
+	verb/glasses()
+		set category = "Object"
+		set name = "Raise glasses up/down"
+		set src in usr
+		if(usr.canmove && !usr.stat && !usr.restrained())
+			src.glassesup = !src.glassesup
+			if(src.glassesup)
+				icon_state = "[icon_state]_glassesup"
+				usr << "You raise your helmet glasses up."
+				flags_inv = HIDEEARS
+				flags = THICKMATERIAL
+			else
+				src.icon_state = initial(icon_state)
+				usr << "You place your glasses into the normal position."
+			update_clothing_icon()	//so our mob-overlays update
+
+/obj/item/clothing/head/helmet/heavy
+	name = "heavy security helmet"
+	desc = "Heavy defencive gear. Protects the head from impacts, but doesn't have glasses."
+	armor = list(melee = 60, bullet = 30, laser = 60,energy = 10, bomb = 25, bio = 0, rad = 0)
+	icon_state = "helmet_heavy"
+	item_state = "helmet_heavy"
+	flags_inv = HIDEEARS
+	flags = THICKMATERIAL
+
 
 /obj/item/clothing/head/helmet/HoS
 	name = "Head of Security Hat"
@@ -34,6 +70,13 @@
 	name = "warden's hat"
 	desc = "It's a special helmet issued to the Warden of a securiy force. Protects the head from impacts."
 	icon_state = "policehelm"
+	flags_inv = 0
+	body_parts_covered = 0
+
+/obj/item/clothing/head/helmet/warden/drill
+	name = "warden's drill hat"
+	desc = "You've definitely have seen that hat before."
+	icon_state = "wardendrill"
 	flags_inv = 0
 	body_parts_covered = 0
 
