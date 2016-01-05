@@ -76,6 +76,13 @@
 	Topic(href, href_list[])
 		if(!client)	return 0
 
+		//Determines Relevent Population Cap
+		var/relevant_cap
+		if(config.hard_popcap && config.extreme_popcap)
+			relevant_cap = min(config.hard_popcap, config.extreme_popcap)
+		else
+			relevant_cap = max(config.hard_popcap, config.extreme_popcap)
+
 		if(href_list["show_preferences"])
 			client.prefs.ShowChoices(src)
 			return 1
@@ -130,6 +137,19 @@
 
 			if(!ticker || ticker.current_state != GAME_STATE_PLAYING)
 				usr << "\red The round is either not ready, or has already finished..."
+				return
+
+			if(ticker.queued_players.len || (relevant_cap && living_player_count() >= relevant_cap && !(ckey(key) in admin_datums)))
+				usr << "<span class='danger'>[config.hard_popcap_message]</span>"
+
+				var/queue_position = ticker.queued_players.Find(usr)
+				if(queue_position == 1)
+					usr << "<span class='notice'>You are next in line to join the game. You will be notified when a slot opens up.</span>"
+				else if(queue_position)
+					usr << "<span class='notice'>There are [queue_position-1] players in front of you in the queue to join the game.</span>"
+				else
+					ticker.queued_players += usr
+					usr << "<span class='notice'>You have been added to the queue to join the game. Your position in queue is [ticker.queued_players.len].</span>"
 				return
 
 			if(client.prefs.species != "Human" && !check_rights(R_ADMIN, 0))
