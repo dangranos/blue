@@ -161,6 +161,7 @@
 /obj/item/weapon/storage/box/blanks
 	name = "box of blank shells"
 	desc = "It has a picture of a gun and several warning symbols on the front."
+	icon_state = "practiceshot_box"
 
 	New()
 		..()
