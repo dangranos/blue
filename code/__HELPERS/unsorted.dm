@@ -1313,3 +1313,11 @@ var/mob/dview/dview_mob = new
 // call to generate a stack trace and print to runtime logs
 /proc/crash_with(msg)
 	CRASH(msg)
+
+//// Player-cap ////
+/proc/living_player_count()
+	var/living_player_count = 0
+	for(var/mob in player_list)
+		if(mob in living_mob_list)
+			living_player_count += 1
+	return living_player_count
