@@ -1043,7 +1043,7 @@
 			if(suit)
 				suit.name = "blood-red voidsuit"
 				suit.item_state = "syndie_voidsuit"
-				suit.icon_state = "rig-syndie_void"
+				suit.icon_state = "rig-syndie"
 
 	if(helmet) helmet.name = "refitted [helmet.name]"
 	if(suit) suit.name = "refitted [suit.name]"
