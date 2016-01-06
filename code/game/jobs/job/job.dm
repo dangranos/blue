@@ -69,10 +69,6 @@
 		)
 	*/
 
-/datum/job/New()
-	put_in_backpack += /obj/item/weapon/gift/new_year
-
-
 /datum/job/proc/equip(var/mob/living/carbon/human/H)
 	if(!H)	return 0
 
