@@ -3,6 +3,9 @@
 	if(join_motd)
 		src << "<div class=\"motd\">[join_motd]</div>"
 
+	if(config.soft_popcap && living_player_count() >= config.soft_popcap)
+		src << "<span class='notice'><b>Server Notice:</b>\n \t [config.soft_popcap_message]</span>"
+
 	if(!mind)
 		mind = new /datum/mind(key)
 		mind.active = 1

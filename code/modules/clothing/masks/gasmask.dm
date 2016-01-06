@@ -120,7 +120,7 @@
 			gas_transfer_coefficient = 1 //gas is now escaping to the turf and vice versa
 			flags &= ~(MASKCOVERSMOUTH | BLOCK_GAS_SMOKE_EFFECT | AIRTIGHT)
 			body_parts_covered = 0
-			icon_state = "breathdown"
+			icon_state = "security_up"
 			user << "Your mask is now hanging on your neck."
 
 		else
@@ -128,7 +128,7 @@
 			gas_transfer_coefficient = initial(gas_transfer_coefficient)
 			flags |= MASKCOVERSMOUTH | BLOCK_GAS_SMOKE_EFFECT | AIRTIGHT
 			body_parts_covered = initial(body_parts_covered)
-			icon_state = "breath"
+			icon_state = "security"
 			user << "You pull the mask up to cover your face."
 		update_clothing_icon()
 
