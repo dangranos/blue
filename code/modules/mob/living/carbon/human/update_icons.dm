@@ -834,9 +834,7 @@ var/global/list/damage_icon_parts = list()
 		else
 			t_icon = INV_R_HAND_DEF_ICON
 
-		var/image/standing = image(icon = t_icon, icon_state = t_state)
-		if(species.name == "Santa") standing.pixel_y = -5
-		overlays_standing[R_HAND_LAYER] = standing
+		overlays_standing[R_HAND_LAYER] = image(icon = t_icon, icon_state = t_state)
 
 		if (handcuffed) drop_r_hand() //this should be moved out of icon code
 	else
@@ -868,9 +866,7 @@ var/global/list/damage_icon_parts = list()
 		else
 			t_icon = INV_L_HAND_DEF_ICON
 
-		var/image/standing = image(icon = t_icon, icon_state = t_state)
-		if(species.name == "Santa") standing.pixel_y = -5
-		overlays_standing[L_HAND_LAYER] = standing
+		overlays_standing[L_HAND_LAYER] = image(icon = t_icon, icon_state = t_state)
 
 		if (handcuffed) drop_l_hand() //This probably should not be here
 	else

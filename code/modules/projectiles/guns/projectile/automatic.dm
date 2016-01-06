@@ -29,15 +29,16 @@
 	ammo_type = /obj/item/ammo_casing/c45
 
 /obj/item/weapon/gun/projectile/pistol/carbine
-	desc = "A PX6, Ward-Takahashi made semiautomatic light carbine. Used by NT security forces. Uses .45 rounds."
+	desc = "A PX6, Ward-Takahashi made semiautomatic light carbine. Used by NT security forces. Uses .40 rounds."
 	name = "light carbine"
 	icon_state = "px6"
 	item_state = "z8carbine"
-	magazine_type = /obj/item/ammo_magazine/car
-	caliber = ".45"
-	max_shells = 20
+	magazine_type = /obj/item/ammo_magazine/carbine
+	caliber = ".40"
+	max_shells = 15
 	w_class = 4
 	slot_flags = SLOT_BACK
+	fire_delay = 10
 
 /obj/item/weapon/gun/projectile/pistol/carbine/update_icon()
 	..()

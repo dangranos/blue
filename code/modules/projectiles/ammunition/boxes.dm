@@ -48,14 +48,19 @@
 	name = "magazine (.45 flash)"
 	ammo_type = "/obj/item/ammo_casing/c45f"
 
-/obj/item/ammo_magazine/car
-	name = "carbine magazine (.45)"
+/obj/item/ammo_magazine/carbine
+	name = "carbine magazine (.40)"
 	icon_state = "45car"
 	mag_type = MAGAZINE
-	ammo_type = /obj/item/ammo_casing/c45
-	caliber = ".45"
-	max_ammo = 20
+	ammo_type = /obj/item/ammo_casing/c40
+	caliber = ".40"
+	max_ammo = 15
 	multiple_sprites = 1
+
+/obj/item/ammo_magazine/carbine/practice
+	name = "carbine magazine (.40 practice)"
+	ammo_type = /obj/item/ammo_casing/c40/practice
+
 
 /obj/item/ammo_magazine/mc9mm
 	name = "magazine (9mm)"
