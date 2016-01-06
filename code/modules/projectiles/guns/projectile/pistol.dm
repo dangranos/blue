@@ -41,12 +41,12 @@
 	load_method = MAGAZINE
 
 /obj/item/weapon/gun/projectile/sec/flash
-	name = "\improper NT Mk58 signal pistol"
+	name = ".45 signal pistol"
 	magazine_type = /obj/item/ammo_magazine/c45m/flash
 
 /obj/item/weapon/gun/projectile/sec/wood
-	desc = "he NT Mk58 is a designed sidearm, this one has a sweet wooden grip. Uses .45 rounds."
-	name = "\improper Custom NT Mk58"
+	desc = "The NT Mk58 is a designed sidearm, this one has a sweet wooden grip. Uses .45 rounds."
+	name = " custom .45 pistol"
 	icon_state = "secgundark"
 
 /obj/item/weapon/gun/projectile/silenced
