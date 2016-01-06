@@ -39,15 +39,6 @@
 				usr << "You place your glasses into the normal position."
 			update_clothing_icon()	//so our mob-overlays update
 
-/obj/item/clothing/head/helmet/heavy
-	name = "heavy security helmet"
-	desc = "Heavy defencive gear. Protects the head from impacts, but doesn't have glasses."
-	armor = list(melee = 60, bullet = 30, laser = 60,energy = 10, bomb = 25, bio = 0, rad = 0)
-	icon_state = "helmet_heavy"
-	item_state = "helmet_heavy"
-	flags_inv = HIDEEARS
-	flags = THICKMATERIAL
-
 
 /obj/item/clothing/head/helmet/HoS
 	name = "Head of Security Hat"
@@ -103,6 +94,28 @@
 	armor = list(melee = 82, bullet = 15, laser = 5,energy = 5, bomb = 5, bio = 2, rad = 0)
 	flags_inv = HIDEEARS
 	siemens_coefficient = 0.7
+	var/glassesup = 0
+
+	dropped()
+		src.icon_state = initial(icon_state)
+		src.glassesup=0
+		..()
+
+	verb/glasses()
+		set category = "Object"
+		set name = "Raise glasses up/down"
+		set src in usr
+		if(usr.canmove && !usr.stat && !usr.restrained())
+			src.glassesup = !src.glassesup
+			if(src.glassesup)
+				icon_state = "[icon_state]_glassesup"
+				usr << "You raise your helmet glasses up."
+				flags_inv = HIDEEARS
+				flags = THICKMATERIAL
+			else
+				src.icon_state = initial(icon_state)
+				usr << "You place your glasses into the normal position."
+			update_clothing_icon()	//so our mob-overlays update
 
 /obj/item/clothing/head/helmet/swat
 	name = "\improper SWAT helmet"
