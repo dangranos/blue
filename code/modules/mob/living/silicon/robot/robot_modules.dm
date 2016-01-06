@@ -687,6 +687,7 @@ var/global/list/robot_modules = list(
 	name = "drone module"
 	no_slip = 1
 	networks = list(NETWORK_ENGINEERING)
+	channels = list("Engineering" = 1)
 
 /obj/item/weapon/robot_module/drone/New()
 	..()
@@ -700,6 +701,7 @@ var/global/list/robot_modules = list(
 	src.modules += new /obj/item/weapon/gripper(src)
 	src.modules += new /obj/item/weapon/soap(src)
 	src.modules += new /obj/item/device/t_scanner(src)
+	src.modules += new /obj/item/weapon/rpd/borg(src)
 	src.emag = new /obj/item/weapon/pickaxe/plasmacutter(src)
 	src.emag.name = "Plasma Cutter"
 
@@ -759,7 +761,7 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/drone/construction
 	name = "construction drone module"
-	channels = list("Engineering" = 1)
+	//channels = list("Engineering" = 1)
 	languages = list()
 
 /obj/item/weapon/robot_module/drone/construction/New()
