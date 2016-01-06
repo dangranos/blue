@@ -195,6 +195,14 @@ var/list/gamemode_cache = list()
 
 	var/aggressive_changelog = 0
 
+	//Population cap vars
+	var/soft_popcap				= 0
+	var/hard_popcap				= 0
+	var/extreme_popcap			= 0
+	var/soft_popcap_message		= "Be warned that the server is currently serving a high number of users, consider using alternative game servers."
+	var/hard_popcap_message		= "The server is currently serving a high number of users, You cannot currently join. You may wait for the number of living crew to decline, observe, or find alternative servers."
+	var/extreme_popcap_message	= "The server is currently serving a high number of users, find alternative servers."
+
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
 	for (var/T in L)
@@ -514,6 +522,27 @@ var/list/gamemode_cache = list()
 
 				if("automute_on")
 					automute_on = 1
+
+				////BEGIN Plyaer-cap BEGIN////
+				if("soft_popcap")
+					config.soft_popcap = text2num(value)
+
+				if("hard_popcap")
+					config.hard_popcap = text2num(value)
+
+				if("extreme_popcap")
+					config.extreme_popcap = text2num(value)
+
+				if("soft_popcap_message")
+					config.soft_popcap_message = value
+
+				if("hard_popcap_message")
+					config.hard_popcap_message = value
+
+				if("extreme_popcap_message")
+					config.extreme_popcap_message = value
+				////END Plyaer-cap END////
+
 
 				if("usealienwhitelist")
 					usealienwhitelist = 1
