@@ -11,6 +11,8 @@ var/global/datum/controller/occupations/job_master
 	var/list/unassigned = list()
 		//Debug info
 	var/list/job_debug = list()
+	 	//used for checking against population caps
+	var/initial_players_to_assign = 0
 
 
 	proc/SetupOccupations(var/faction = "Station")
@@ -289,6 +291,8 @@ var/global/datum/controller/occupations/job_master
 
 			// Loop through all unassigned players
 			for(var/mob/new_player/player in unassigned)
+				if(PopcapReached())
+					RejectPlayer(player)
 
 				// Loop through all jobs
 				for(var/datum/job/job in shuffledoccupations) // SHUFFLE ME BABY
@@ -639,3 +643,20 @@ var/global/datum/controller/occupations/job_master
 				else level4++ //not selected
 
 			tmp_str += "HIGH=[level1]|MEDIUM=[level2]|LOW=[level3]|NEVER=[level4]|BANNED=[level5]|YOUNG=[level6]|-"
+
+
+	proc/PopcapReached()
+		if(config.hard_popcap || config.extreme_popcap)
+			var/relevent_cap = max(config.hard_popcap, config.extreme_popcap)
+			if((initial_players_to_assign - unassigned.len) >= relevent_cap)
+				return 1
+		return 0
+
+
+	proc/RejectPlayer(mob/new_player/player)
+		if(player.mind && player.mind.special_role)
+			return
+		Debug("Popcap overflow Check observer located, Player: [player]")
+		player << "<b>You have failed to qualify for any job you desired.</b>"
+		unassigned -= player
+		player.ready = 0

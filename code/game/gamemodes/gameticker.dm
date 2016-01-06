@@ -33,16 +33,13 @@ var/global/datum/controller/gameticker/ticker
 
 	var/round_end_announced = 0 // Spam Prevention. Announce round end only once.
 
+	var/queue_delay = 0
+	var/list/queued_players = list()		//used for join queues when the server exceeds the hard population cap
+
+
 /datum/controller/gameticker/proc/pregame()
 	login_music = pick(\
-	//New Year-New Year!
-	'sound/music/new_year/Christmas Is All Around Us.ogg',
-	'sound/music/new_year/Driving Home For Christmas.ogg',
-	'sound/music/new_year/Jingle Bell Rock.ogg',
-	'sound/music/new_year/Last Christmas.ogg',
-	'sound/music/new_year/Let It Snow.ogg',
-	'sound/music/new_year/Magic Moments.ogg')
-/*	/*'sound/music/halloween/skeletons.ogg',\
+	/*'sound/music/halloween/skeletons.ogg',\
 	'sound/music/halloween/halloween.ogg',\
 	'sound/music/halloween/ghosts.ogg'*/
 	'sound/music/space.ogg',\
@@ -54,7 +51,7 @@ var/global/datum/controller/gameticker/ticker
 	'sound/music/First_rendez-vous.ogg',\
 	'sound/music/undertale.ogg',\
 	'sound/music/space_oddity.ogg') //Ground Control to Major Tom, this song is cool, what's going on?
-*/
+
 	do
 		pregame_timeleft = 180
 		world << "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>"
@@ -305,11 +302,34 @@ var/global/datum/controller/gameticker/ticker
 					M << "Captainship not forced on anyone."
 
 
+	proc/check_queue()
+		if(!queued_players.len || !config.hard_popcap)
+			return
+
+		queue_delay++
+		var/mob/new_player/next_in_line = queued_players[1]
+
+		switch(queue_delay)
+			if(5) //every 5 ticks check if there is a slot available
+				if(living_player_count() < config.hard_popcap)
+					if(next_in_line && next_in_line.client)
+						next_in_line << "<span class='userdanger'>A slot has opened! You have approximately 20 seconds to join. <a href='?src=\ref[next_in_line];late_join=override'>\>\>Join Game\<\<</a></span>"
+						next_in_line << sound('sound/misc/notice1.ogg')
+						next_in_line.LateChoices()
+						return
+					queued_players -= next_in_line //Client disconnected, remove he
+				queue_delay = 0 //No vacancy: restart timer
+			if(25 to INFINITY)  //No response from the next in line when a vacancy exists, remove he
+				next_in_line << "<span class='danger'>No response recieved. You have been removed from the line.</span>"
+				queued_players -= next_in_line
+				queue_delay = 0
+
 	proc/process()
 		if(current_state != GAME_STATE_PLAYING)
 			return 0
 
 		mode.process()
+		check_queue()
 
 //		emergency_shuttle.process() //handled in scheduler
 
