@@ -42,7 +42,7 @@
 	if(!skipjumpsuit || !skipface)
 
 		if(icon)
-			msg += "\icon[icon] " //fucking BYOND: this should stop dreamseeker crashing if we -somehow- examine somebody before their icon is generated
+			msg += "\icon[icon]" //fucking BYOND: this should stop dreamseeker crashing if we -somehow- examine somebody before their icon is generated
 
 		var/t_appeal = "<b><font color='[species.flesh_color]'>[species.name]</font></b>"
 		switch(gender)
