@@ -302,12 +302,19 @@
 	return 0
 
 /obj/machinery/alarm/update_icon()
-	if(wiresexposed)
+	if(buildstage == 0)//air alarm on a wall
+		icon_state = "alarm_b0"
+		return
+	if(buildstage == 1)//air alar witch circuit
+		icon_state = "alarm_b1"
+		return
+	if(wiresexposed)//air alarm witch wire
 		icon_state = "alarmx"
 		return
-	if((stat & (NOPOWER|BROKEN)) || shorted)
+	if((stat & (NOPOWER|BROKEN)) || shorted)//air alarm not working
 		icon_state = "alarmp"
 		return
+
 
 	var/icon_level = danger_level
 	if (alarm_area.atmosalm)
@@ -848,9 +855,9 @@ Just a object used in constructing air alarms
 	w_class = 2.0
 	matter = list(DEFAULT_WALL_MATERIAL = 50, "glass" = 50)
 
-/*
+/*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 FIRE ALARM
-*/
+*////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /obj/machinery/firealarm
 	name = "fire alarm"
 	desc = "<i>\"Pull this in case of emergency\"</i>. Thus, keep pulling it forever."
@@ -879,7 +886,6 @@ FIRE ALARM
 				icon_state="fire_b1"
 			if(0)
 				icon_state="fire_b0"
-
 		return
 
 	if(stat & BROKEN)
@@ -913,6 +919,7 @@ FIRE ALARM
 
 	if (istype(W, /obj/item/weapon/screwdriver) && buildstage == 2)
 		wiresexposed = !wiresexposed
+		user << "The wires have been [wiresexposed ? "exposed" : "unexposed"]"
 		update_icon()
 		return
 
