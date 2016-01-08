@@ -101,7 +101,7 @@
 									T.set_dir(10)
 					if("Tome")
 						B.icon_state = "tome"
-						B.item_state = "syringe_kit"
+						B.item_state = "tome"
 					if("The King in Yellow")
 						B.icon_state = "kingyellow"
 						B.item_state = "kingyellow"
