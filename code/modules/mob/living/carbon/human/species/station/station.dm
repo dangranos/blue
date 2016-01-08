@@ -308,6 +308,11 @@
 						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist", "Paramedic",\
 						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
 
+	get_uniform_sprite(state = "")
+		if(state in icon_states('icons/mob/species/diona/uniform.dmi'))
+			return 'icons/mob/species/diona/uniform.dmi'
+		else return ..()
+
 	get_suit_sprite(state = "")
 		if(state in icon_states('icons/mob/species/diona/suit.dmi'))
 			return 'icons/mob/species/diona/suit.dmi'
