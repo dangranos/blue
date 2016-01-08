@@ -43,9 +43,9 @@
 		new /obj/item/weapon/tank/anesthetic(src)
 		new /obj/item/weapon/tank/anesthetic(src)
 		new /obj/item/weapon/tank/anesthetic(src)
-		new /obj/item/clothing/mask/breath/medical(src)
-		new /obj/item/clothing/mask/breath/medical(src)
-		new /obj/item/clothing/mask/breath/medical(src)
+		new /obj/item/clothing/mask/breath/toggleable/medical(src)
+		new /obj/item/clothing/mask/breath/toggleable/medical(src)
+		new /obj/item/clothing/mask/breath/toggleable/medical(src)
 		return
 
 
