@@ -1031,7 +1031,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 	name = "Surgery crate"
 	contains = list(/obj/item/weapon/cautery,
 					/obj/item/weapon/surgicaldrill,
-					/obj/item/clothing/mask/breath/medical,
+					/obj/item/clothing/mask/breath/toggleable/medical,
 					/obj/item/weapon/tank/anesthetic,
 					/obj/item/weapon/FixOVein,
 					/obj/item/weapon/hemostat,

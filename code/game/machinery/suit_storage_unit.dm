@@ -32,7 +32,7 @@
 /obj/machinery/suit_storage_unit/standard_unit
 	SUIT_TYPE = /obj/item/clothing/suit/space
 	HELMET_TYPE = /obj/item/clothing/head/helmet/space
-	MASK_TYPE = /obj/item/clothing/mask/breath
+	MASK_TYPE = /obj/item/clothing/mask/breath/toggleable
 
 
 /obj/machinery/suit_storage_unit/New()
