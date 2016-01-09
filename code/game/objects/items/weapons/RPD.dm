@@ -176,11 +176,13 @@ RPD
 
 /obj/item/weapon/rpd/proc/alter_turf(var/turf/T,var/mob/user,var/deconstruct)
 
+/*
 	var/build_cost = 5
 	var/build_type = "pipe"
 	var/build_turf
 	var/build_delay = 10
 	var/build_other
+*/
 	user << "<span class='pt [p_type], dir [p_dir]</span>"
 	var/obj/item/pipe/P = new (usr.loc /*src.loc*/, pipe_type=p_type, dir=p_dir)
 	P.update()
