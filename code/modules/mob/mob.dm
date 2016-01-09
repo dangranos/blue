@@ -325,7 +325,8 @@
 
 /mob/proc/print_flavor_text()
 	if (flavor_text && flavor_text != "")
-		var/msg = replacetext(flavor_text, "\n", " ")
+		var/msg = trim(replacetext(flavor_text, "\n", " "))
+		if(!msg) return ""
 		if(lentext(msg) <= 40)
 			return "\blue [msg]"
 		else
