@@ -18,11 +18,6 @@
 	desc = "Standard Security gear. Protects the head from impacts."
 	var/glassesup = 0
 
-	dropped()
-		src.icon_state = initial(icon_state)
-		src.glassesup=0
-		..()
-
 	verb/glasses()
 		set category = "Object"
 		set name = "Raise glasses up/down"
@@ -95,11 +90,6 @@
 	flags_inv = HIDEEARS
 	siemens_coefficient = 0.7
 	var/glassesup = 0
-
-	dropped()
-		src.icon_state = initial(icon_state)
-		src.glassesup=0
-		..()
 
 	verb/glasses()
 		set category = "Object"
