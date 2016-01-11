@@ -42,7 +42,7 @@
 	sleep(200)
 	for(var/atom/A in contents)
 		A.clean_blood()
-		if(istype(A, /obj/item/clothing))
+		if(crayon && istype(A, /obj/item/clothing))
 			A.color = crayon.colour
 
 	for(var/obj/item/I in contents)
@@ -91,7 +91,7 @@
 	else if(istype(W,/obj/item/weapon/grab))
 		if( (state == 1) && hacked)
 			var/obj/item/weapon/grab/G = W
-			if(ishuman(G.assailant) && iscorgi(G.affecting))
+			if(ishuman(G.assailant) && iscorgi(G.affecting) && get_dist(src,G.affecting)<2)
 				G.affecting.loc = src
 				qdel(G)
 				state = 3

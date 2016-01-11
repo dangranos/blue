@@ -667,12 +667,12 @@
 				src << browse(null, "window=flavor_changes")
 				return
 			if("general")
-				var/msg = sanitize(input(usr,"Update the general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(flavor_texts[href_list["flavor_change"]])) as message, extra = 0)
-				flavor_texts[href_list["flavor_change"]] = msg
+				var/msg = input(usr,"Update the general description of your character. This will be shown regardless of clothing, and may include OOC notes and preferences.","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts["general"]))) as message
+				flavor_texts[href_list["flavor_change"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 				return
 			else
-				var/msg = sanitize(input(usr,"Update the flavor text for your [href_list["flavor_change"]].","Flavor Text",rhtml_decode(flavor_texts[href_list["flavor_change"]])) as message, extra = 0)
-				flavor_texts[href_list["flavor_change"]] = msg
+				var/msg = input(usr,"Update the flavor text for your [href_list["flavor_change"]].","Flavor Text",rhtml_decode(edit_cp1251(flavor_texts[href_list["flavor_change"]]))) as message
+				flavor_texts[href_list["flavor_change"]] = post_edit_cp1251(sanitize(msg, extra = 0))
 				set_flavor()
 				return
 	..()
@@ -1333,7 +1333,7 @@
 	usr.next_move = world.time + 20
 
 	if(usr.stat > 0)
-		usr << "You are unconcious and cannot do that!"
+		usr << "You are unconscious and cannot do that!"
 		return
 
 	if(usr.restrained())
@@ -1423,6 +1423,13 @@
 
 /mob/living/carbon/human/proc/get_back_sprite(state = "", body_build = 0)
 	return image(species.get_back_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_back_u_sprite(state = "", body_build = 0)
+	var/image/back = species.get_back_u_sprite(state, body_build)
+	if(back)
+		return image(back, icon_state = state)
+	else
+		return null
 
 /mob/living/carbon/human/proc/get_mask_sprite(state = "", body_build = 0)
 	return image(species.get_mask_sprite(state, body_build), icon_state = state)

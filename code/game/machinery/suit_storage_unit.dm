@@ -32,7 +32,7 @@
 /obj/machinery/suit_storage_unit/standard_unit
 	SUIT_TYPE = /obj/item/clothing/suit/space
 	HELMET_TYPE = /obj/item/clothing/head/helmet/space
-	MASK_TYPE = /obj/item/clothing/mask/breath
+	MASK_TYPE = /obj/item/clothing/mask/breath/toggleable
 
 
 /obj/machinery/suit_storage_unit/New()
@@ -486,7 +486,7 @@
 		return
 	if ( istype(I, /obj/item/weapon/grab) )
 		var/obj/item/weapon/grab/G = I
-		if( !(ismob(G.affecting)) )
+		if( !(ismob(G.affecting) && get_dist(src,G.affecting)<2) )
 			return
 		if (!src.isopen)
 			usr << "<font color='red'>The unit's doors are shut.</font>"
@@ -631,7 +631,7 @@
 	model_text = "Mining"
 	req_access = list(access_mining)
 	departments = list("Mining")
-	species = list("Human","Tajara","Skrell","Unathi")
+	species = list("Human","Tajara","Skrell","Unathi", "Vox")
 
 /obj/machinery/suit_cycler/security
 	name = "Security suit cycler"
@@ -673,7 +673,7 @@
 	if(istype(I, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = I
 
-		if(!(ismob(G.affecting)))
+		if(!(ismob(G.affecting) && get_dist(src,G.affecting)<2))
 			return
 
 		if(locked)
@@ -1043,7 +1043,7 @@
 			if(suit)
 				suit.name = "blood-red voidsuit"
 				suit.item_state = "syndie_voidsuit"
-				suit.icon_state = "rig-syndie_void"
+				suit.icon_state = "rig-syndie"
 
 	if(helmet) helmet.name = "refitted [helmet.name]"
 	if(suit) suit.name = "refitted [suit.name]"

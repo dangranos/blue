@@ -87,6 +87,7 @@
 		if(loaded_pill_bottle)
 			loaded_pill_bottle.loc = src.loc
 			loaded_pill_bottle = null
+
 	else if(href_list["close"])
 		usr << browse(null, "window=chemmaster")
 		usr.unset_machine()
@@ -167,7 +168,13 @@
 
 			if (href_list["createpill_multiple"])
 				count = input("Select the number of pills to make.", 10, pillamount) as num
+
 			if( count < 1 || count > max_pill_count)
+				return
+
+			var/turf/src_turf = get_turf(src)
+			if( !src_turf.Adjacent(usr) )
+				usr.unset_machine()
 				return
 
 			if(reagents.total_volume/count < 1) //Sanity checking.
@@ -754,6 +761,10 @@
 	// Reset the machine.
 	spawn(60)
 		inuse = 0
+		var/turf/src_turf = get_turf(src)
+		if( !src_turf.Adjacent(usr) )
+			usr.unset_machine()
+			return
 		interact(usr)
 
 	// Process.

@@ -63,6 +63,39 @@ var/obj/screen/robot_inventory
 	src.adding += using
 	action_intent = using
 
+//lights
+	using = new /obj/screen()
+	using.name = "toggle_lights"
+	using.set_dir(SOUTHWEST)
+	using.icon = 'icons/mob/screen1_robot.dmi'
+	using.icon_state = "light_off"
+	using.screen_loc = ui_borg_light
+	using.layer = 20
+	src.adding += using
+	toggle_lights = using
+
+//State Laws
+	using = new /obj/screen()
+	using.name = "state_laws"
+	using.set_dir(SOUTHWEST)
+	using.icon = 'icons/mob/screen1_robot.dmi'
+	using.icon_state = "law"
+	using.screen_loc = ui_fire
+	using.layer = 20
+	src.adding += using
+	state_laws = using
+
+//message
+	using = new /obj/screen()
+	using.name = "send_message"
+	using.set_dir(SOUTHWEST)
+	using.icon = 'icons/mob/screen1_robot.dmi'
+	using.icon_state = "message"
+	using.screen_loc = ui_oxygen
+	using.layer = 20
+	src.adding += using
+	send_message = using
+
 //Cell
 	mymob:cells = new /obj/screen()
 	mymob:cells.icon = 'icons/mob/screen1_robot.dmi'
@@ -108,23 +141,24 @@ var/obj/screen/robot_inventory
 	robot_inventory.screen_loc = ui_borg_inventory
 
 //Temp
-	mymob.bodytemp = new /obj/screen()
-	mymob.bodytemp.icon_state = "temp0"
-	mymob.bodytemp.name = "body temperature"
-	mymob.bodytemp.screen_loc = ui_temp
+//	mymob.bodytemp = new /obj/screen()
+//	mymob.bodytemp.icon_state = "temp0"
+//	mymob.bodytemp.name = "body temperature"
+//	mymob.bodytemp.screen_loc = ui_temp
 
+//remove because no need
+	//mymob.oxygen = new /obj/screen()
+	//mymob.oxygen.icon = 'icons/mob/screen1_robot.dmi'
+	//mymob.oxygen.icon_state = "oxy0"
+	//mymob.oxygen.name = "oxygen"
+	//mymob.oxygen.screen_loc = ui_oxygen
 
-	mymob.oxygen = new /obj/screen()
-	mymob.oxygen.icon = 'icons/mob/screen1_robot.dmi'
-	mymob.oxygen.icon_state = "oxy0"
-	mymob.oxygen.name = "oxygen"
-	mymob.oxygen.screen_loc = ui_oxygen
-
-	mymob.fire = new /obj/screen()
-	mymob.fire.icon = 'icons/mob/screen1_robot.dmi'
-	mymob.fire.icon_state = "fire0"
-	mymob.fire.name = "fire"
-	mymob.fire.screen_loc = ui_fire
+//remove because no need
+	//mymob.fire = new /obj/screen()
+	//mymob.fire.icon = 'icons/mob/screen1_robot.dmi'
+	//mymob.fire.icon_state = "fire0"
+	//mymob.fire.name = "fire"
+	//mymob.fire.screen_loc = ui_fire
 
 	mymob.pullin = new /obj/screen()
 	mymob.pullin.icon = 'icons/mob/screen1_robot.dmi'
@@ -177,7 +211,7 @@ var/obj/screen/robot_inventory
 
 	mymob.client.screen = null
 
-	mymob.client.screen += list( mymob.throw_icon, mymob.zone_sel, mymob.oxygen, mymob.fire, mymob.hands, mymob.healths, mymob:cells, mymob.pullin, mymob.blind, mymob.flash, mymob.gun_setting_icon, robot_inventory) //, mymob.rest, mymob.sleep, mymob.mach )
+	mymob.client.screen += list( mymob.throw_icon, mymob.zone_sel, mymob.hands, mymob.healths, mymob:cells, mymob.pullin, mymob.blind, mymob.flash, mymob.gun_setting_icon, robot_inventory) //mymob.oxygen, mymob.fire , mymob.rest, mymob.sleep, mymob.mach )
 	mymob.client.screen += src.adding + src.other
 
 	return
