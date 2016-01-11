@@ -251,6 +251,7 @@
 	path = /obj/item/ammo_magazine/mc9mmt/rubber
 	category = "Arms and Ammunition"
 
+
 /datum/autolathe/recipe/consolescreen
 	name = "console screen"
 	path = /obj/item/weapon/stock_parts/console_screen
@@ -321,6 +322,12 @@
 /datum/autolathe/recipe/magazine_revolver_2
 	name = "ammunition (.45)"
 	path = /obj/item/ammo_magazine/c45m
+	hidden = 1
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/carbine_px6
+	name = "ammunition (.40, carbine)"
+	path = /obj/item/ammo_magazine/carbine
 	hidden = 1
 	category = "Arms and Ammunition"
 

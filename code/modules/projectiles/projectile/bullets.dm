@@ -100,10 +100,12 @@
 /* short-casing projectiles, like the kind used in pistols or SMGs */
 
 /obj/item/projectile/bullet/pistol
-	damage = 20
+	damage = 30
+	sharp = 0
 
 /obj/item/projectile/bullet/pistol/medium
-	damage = 25
+	damage = 40
+	sharp = 0
 
 /obj/item/projectile/bullet/pistol/strong //revolvers and matebas
 	damage = 60
@@ -112,7 +114,7 @@
 	name = "rubber bullet"
 	check_armour = "melee"
 	damage = 10
-	agony = 40
+	agony = 70
 	embed = 0
 	sharp = 0
 
@@ -142,8 +144,9 @@
 /* "Rifle" rounds */
 
 /obj/item/projectile/bullet/rifle/a762
-	damage = 30
+	damage = 40
 	penetrating = 1
+	sharp = 0
 
 /obj/item/projectile/bullet/rifle/a145
 	damage = 80
@@ -153,8 +156,9 @@
 	hitscan = 1 //so the PTR isn't useless as a sniper weapon
 
 /obj/item/projectile/bullet/rifle/a556
-	damage = 40
+	damage = 45
 	penetrating = 1
+	sharp = 0
 
 /* Miscellaneous */
 

@@ -99,6 +99,9 @@
 	if(!istype(G))
 		return ..()
 
+	if(get_dist(src,G.affecting)>=2)
+		return
+
 	if(G.state < 2)
 		user << "<span class='danger'>You need a better grip to do that!</span>"
 		return

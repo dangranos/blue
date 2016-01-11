@@ -211,19 +211,19 @@
 
 
 /mob/proc/ret_grab(obj/effect/list_container/mobl/L as obj, flag)
-	if ((!( istype(l_hand, /obj/item/weapon/grab) ) && !( istype(r_hand, /obj/item/weapon/grab) )))
-		if (!( L ))
+	if ( !(istype(l_hand, /obj/item/weapon/grab)||istype(r_hand, /obj/item/weapon/grab)) )
+		if (!L)
 			return null
 		else
 			return L.container
 	else
-		if (!( L ))
+		if (!L)
 			L = new /obj/effect/list_container/mobl( null )
 			L.container += src
 			L.master = src
 		if (istype(l_hand, /obj/item/weapon/grab))
 			var/obj/item/weapon/grab/G = l_hand
-			if (!( L.container.Find(G.affecting) ))
+			if (!L.container.Find(G.affecting))
 				L.container += G.affecting
 				if (G.affecting)
 					G.affecting.ret_grab(L, 1)
@@ -233,7 +233,7 @@
 				L.container += G.affecting
 				if (G.affecting)
 					G.affecting.ret_grab(L, 1)
-		if (!( flag ))
+		if (!flag)
 			if (L.master == src)
 				var/list/temp = list(  )
 				temp += L.container
@@ -325,7 +325,8 @@
 
 /mob/proc/print_flavor_text()
 	if (flavor_text && flavor_text != "")
-		var/msg = replacetext(flavor_text, "\n", " ")
+		var/msg = trim(replacetext(flavor_text, "\n", " "))
+		if(!msg) return ""
 		if(lentext(msg) <= 40)
 			return "\blue [msg]"
 		else
@@ -532,8 +533,9 @@
 		src << browse(null, t1)
 
 	if(href_list["flavor_more"])
-		usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", name, cp1251_to_utf8(replacetext(flavor_text, "\n", "<BR>"))), text("window=[];size=500x200", name))
-		onclose(usr, "[name]")
+		if(src in view(usr))
+			usr << browse(text("<HTML><HEAD><TITLE>[]</TITLE></HEAD><BODY><TT>[]</TT></BODY></HTML>", name, cp1251_to_utf8(replacetext(flavor_text, "\n", "<BR>"))), text("window=[];size=500x200", name))
+			onclose(usr, "[name]")
 	if(href_list["flavor_change"])
 		update_flavor_text()
 //	..()
@@ -964,6 +966,7 @@ mob/proc/yank_out_object()
 	handle_stuttering()
 	handle_silent()
 	handle_drugged()
+	handle_horny() //for aphrodisiac
 	handle_slurring()
 
 /mob/living/proc/handle_stunned()
@@ -990,6 +993,12 @@ mob/proc/yank_out_object()
 	if(druggy)
 		druggy = max(druggy-1, 0)
 	return druggy
+
+//for aphrodisiac
+/mob/living/proc/handle_horny()
+	if(horny)
+		horny = max(horny-1, 0)
+	return horny
 
 /mob/living/proc/handle_slurring()
 	if(slurring)

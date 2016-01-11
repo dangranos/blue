@@ -128,21 +128,21 @@
 		item.loc = src
 		user.visible_message("[user] adds \a [item] to \the [src]!", "You add \a [item] to \the [src]!")
 		return
-	else if (!istype(item, /obj/item/weapon/grab))
+	else if(istype(item, /obj/item/weapon/grab))
+		var/obj/item/weapon/grab/G = item
+		if (!ismob(G.affecting) || get_dist(src,G.affecting)>=2)
+			return
+		if (src.occupant)
+			user << "\blue <B>The scanner is already occupied!</B>"
+			return
+		if (G.affecting.abiotic())
+			user << "\blue <B>Subject cannot have abiotic items on.</B>"
+			return
+		put_in(G.affecting)
+		src.add_fingerprint(user)
+		qdel(G)
 		return
-	var/obj/item/weapon/grab/G = item
-	if (!ismob(G.affecting))
-		return
-	if (src.occupant)
-		user << "\blue <B>The scanner is already occupied!</B>"
-		return
-	if (G.affecting.abiotic())
-		user << "\blue <B>Subject cannot have abiotic items on.</B>"
-		return
-	put_in(G.affecting)
-	src.add_fingerprint(user)
-	qdel(G)
-	return
+	..()
 
 /obj/machinery/dna_scannernew/proc/put_in(var/mob/M)
 	if(M.client)

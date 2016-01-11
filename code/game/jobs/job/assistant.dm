@@ -10,7 +10,7 @@
 	selection_color = "#dddddd"
 	access = list()			//See /datum/job/assistant/get_access()
 	minimal_access = list()	//See /datum/job/assistant/get_access()
-	alt_titles = list("Technical Assistant","Medical Intern","Research Assistant","Visitor")
+	alt_titles = list("Security Cadet","Technical Assistant","Medical Intern","Research Assistant","Visitor")
 
 	uniform = /obj/item/clothing/under/color/grey
 	pda = /obj/item/device/pda

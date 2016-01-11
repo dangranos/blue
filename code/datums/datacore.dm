@@ -186,9 +186,10 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 
 	var/datum/sprite_accessory/hair_style = hair_styles_list[H.h_style]
 	if(hair_style)
-		var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
-		hair_s.Blend(rgb(H.hair_r, H.hair_g, H.hair_b), ICON_ADD)
-		eyes.Blend(hair_s, ICON_OVERLAY)
+		var/icon/hair = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+		hair.Blend(rgb(H.hair_r, H.hair_g, H.hair_b), ICON_ADD)
+		if(eyes) eyes.Blend(hair, ICON_OVERLAY)
+		else eyes = hair
 
 	var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[H.f_style]
 	if(facial_hair_style)
@@ -196,24 +197,24 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 		facial_s.Blend(rgb(H.facial_r, H.facial_g, H.facial_b), ICON_ADD)
 		eyes.Blend(facial_s, ICON_OVERLAY)
 
-	var/icon/clothes_s = null
+	var/icon/clothes = null
 
 	var/datum/job/J = job_master.GetJob(H.mind.assigned_role)
 	if(J)
 		var/obj/item/clothing/under/UF = J.uniform
 		var/obj/item/clothing/shoes/SH = J.shoes
 
-		clothes_s = new /icon(H.species.get_uniform_sprite(initial(UF.icon_state), H.body_build), initial(UF.icon_state))
-		clothes_s.Blend(new /icon(H.species.get_uniform_sprite(initial(SH.icon_state), H.body_build), initial(SH.icon_state)), ICON_UNDERLAY)
+		clothes = new /icon(H.species.get_uniform_sprite(initial(UF.icon_state), H.body_build), initial(UF.icon_state))
+		clothes.Blend(new /icon(H.species.get_shoes_sprite(initial(SH.icon_state), H.body_build), initial(SH.icon_state)), ICON_OVERLAY)
 	else
-		clothes_s = new /icon(H.species.get_uniform_sprite("grey_s", H.body_build), "grey_s")
-		clothes_s.Blend(new /icon(H.species.get_uniform_sprite("black", H.body_build), "black"), ICON_UNDERLAY)
+		clothes = new /icon(H.species.get_uniform_sprite("grey", H.body_build), "grey")
+		clothes.Blend(new /icon(H.species.get_shoes_sprite("black", H.body_build), "black"), ICON_OVERLAY)
 
 
 	preview_icon.Blend(eyes, ICON_OVERLAY)
-	if(clothes_s)
-		preview_icon.Blend(clothes_s, ICON_OVERLAY)
+	if(clothes)
+		preview_icon.Blend(clothes, ICON_OVERLAY)
 	qdel(eyes)
-	qdel(clothes_s)
+	qdel(clothes)
 
 	return preview_icon
