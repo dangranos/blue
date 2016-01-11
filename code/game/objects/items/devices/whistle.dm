@@ -6,6 +6,7 @@
 	w_class = 1.0
 	flags = CONDUCT
 	slot_flags = SLOT_EARS
+	icon_action_button = "action_hailer"
 
 	var/use_message = "Halt! Security!"
 	var/spamcheck = 0
