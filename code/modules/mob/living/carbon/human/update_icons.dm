@@ -477,7 +477,7 @@ var/global/list/damage_icon_parts = list()
 	if(w_uniform)
 		w_uniform.screen_loc = ui_iclothing
 
-		var/image/standing = get_uniform_sprite("[w_uniform.icon_state][w_uniform:rolled_down>0?"_d":""]", body_build)
+		var/image/standing = get_uniform_sprite("[w_uniform.icon_state][w_uniform:rolled_down>0?"_d":""]")
 		if(w_uniform.color) standing.color = w_uniform.color
 		//apply blood overlay
 		if(w_uniform.blood_DNA)
@@ -522,7 +522,7 @@ var/global/list/damage_icon_parts = list()
 		if(gloves.icon_override)
 			standing = image("icon" = gloves.icon_override, "icon_state" = "[t_state]")
 		else
-			standing = get_gloves_sprite(t_state, body_build)
+			standing = get_gloves_sprite(t_state)
 
 		if(gloves.color) standing.color = gloves.color
 
@@ -548,7 +548,7 @@ var/global/list/damage_icon_parts = list()
 		if(glasses.icon_override)
 			overlays_standing[GLASSES_LAYER] = image("icon" = glasses.icon_override, "icon_state" = "[glasses.icon_state]")
 		else
-			overlays_standing[GLASSES_LAYER]= get_glasses_sprite(glasses.icon_state, body_build)
+			overlays_standing[GLASSES_LAYER]= get_glasses_sprite(glasses.icon_state)
 	else
 		overlays_standing[GLASSES_LAYER]	= null
 
@@ -565,7 +565,7 @@ var/global/list/damage_icon_parts = list()
 			t_type = "[t_type]_l"
 			overlays_standing[EAR_L] = image("icon" = l_ear.icon_override, "icon_state" = t_type)
 		else
-			overlays_standing[EAR_L] = get_ears_sprite(t_type, body_build)
+			overlays_standing[EAR_L] = get_ears_sprite(t_type)
 	else
 		overlays_standing[EAR_L] = null
 
@@ -575,7 +575,7 @@ var/global/list/damage_icon_parts = list()
 			t_type = "[t_type]_r"
 			overlays_standing[EAR_R] = image("icon" = r_ear.icon_override, "icon_state" = t_type)
 		else
-			overlays_standing[EAR_R] = get_ears_sprite(t_type, body_build)
+			overlays_standing[EAR_R] = get_ears_sprite(t_type)
 	else
 		overlays_standing[EAR_R] = null
 
@@ -588,7 +588,7 @@ var/global/list/damage_icon_parts = list()
 		if(shoes.icon_override)
 			standing = image("icon" = shoes.icon_override, "icon_state" = "[shoes.icon_state]")
 		else
-			standing = get_shoes_sprite(shoes.icon_state, body_build)
+			standing = get_shoes_sprite(shoes.icon_state)
 
 		if(shoes.color) standing.color = shoes.color
 
@@ -610,7 +610,7 @@ var/global/list/damage_icon_parts = list()
 	if(s_store)
 		var/t_state = s_store.item_state
 		if(!t_state)	t_state = s_store.icon_state
-		overlays_standing[SUIT_STORE_LAYER]	= get_store_sprite(t_state, body_build)
+		overlays_standing[SUIT_STORE_LAYER]	= get_store_sprite(t_state)
 		s_store.screen_loc = ui_sstore1		//TODO
 	else
 		overlays_standing[SUIT_STORE_LAYER]	= null
@@ -633,7 +633,7 @@ var/global/list/damage_icon_parts = list()
 		if(head.icon_override)
 			standing = image(icon = head.icon_override, icon_state = t_state)
 		else
-			standing = get_head_sprite(t_state, body_build)
+			standing = get_head_sprite(t_state)
 
 		if(head.color) standing.color = head.color
 
@@ -663,7 +663,7 @@ var/global/list/damage_icon_parts = list()
 		if(belt.icon_override)
 			standing = image(icon = belt.icon_override, icon_state = "[t_state]")
 		else
-			standing = get_belt_sprite(t_state, body_build)
+			standing = get_belt_sprite(t_state)
 
 		if(belt.contents.len && istype(belt, /obj/item/weapon/storage/belt))
 			for(var/obj/item/i in belt.contents)
@@ -686,7 +686,7 @@ var/global/list/damage_icon_parts = list()
 		if(wear_suit.icon_override)
 			standing = image(icon = wear_suit.icon_override, icon_state = "[wear_suit.icon_state]")
 		else
-			standing = get_suit_sprite(wear_suit.icon_state, body_build)
+			standing = get_suit_sprite(wear_suit.icon_state)
 
 		if( istype(wear_suit, /obj/item/clothing/suit/straight_jacket) )
 			drop_from_inventory(handcuffed)
@@ -727,7 +727,7 @@ var/global/list/damage_icon_parts = list()
 		if(wear_mask.icon_override)
 			standing = image("icon" = wear_mask.icon_override, "icon_state" = "[wear_mask.icon_state]")
 		else
-			standing = get_mask_sprite(wear_mask.icon_state, body_build)
+			standing = get_mask_sprite(wear_mask.icon_state)
 
 		if(wear_mask.color) standing.color = wear_mask.color
 
@@ -765,8 +765,8 @@ var/global/list/damage_icon_parts = list()
 			var/obj/item/weapon/rig/rig = back
 			standing = image(rig.mob_icon, icon_state = t_state)
 		else
-			standing = get_back_sprite(t_state, body_build)
-			underlay = get_back_u_sprite("[t_state]_u", body_build)
+			standing = get_back_sprite(t_state)
+			underlay = get_back_u_sprite("[t_state]_u")
 
 		if(back.color)
 			standing.color = back.color
@@ -787,10 +787,10 @@ var/global/list/damage_icon_parts = list()
 		overlays_standing[UNDERWEAR_LAYER] = null
 		return
 
-	var/image/standing = new/image(icon = 'icons/mob/hidden.dmi', icon_state = "blank")
+	var/image/standing = new/image(icon = 'icons/mob/mob.dmi', icon_state = "blank")
 	for( var/obj/item/clothing/hidden/C in list(h_socks, h_underwear, h_undershirt) )
 		if(!C) continue
-		var/icon/item = icon(icon = 'icons/mob/hidden.dmi', icon_state = "[C.item_state]_[body_build]")
+		var/icon/item = get_hidden_slot_sprite(C.item_state)
 		//if(C.color) item.color = C.color
 		standing.overlays += item
 

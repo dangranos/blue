@@ -9,6 +9,11 @@
 		if(!ishuman(M)) return 0
 
 		var/mob/living/carbon/human/H = M
+
+		var/mob/_user = disable_warning? null : H
+		if(!H.slot_is_accessible(slot, src, _user))
+			return 0
+
 		if(H.get_equipped_item(wear_slot)) return 0
 		return 1
 	return ..()
