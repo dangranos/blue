@@ -2,7 +2,7 @@
 	var/wear_slot = 0
 	var/slot_name = ""
 	desc = "Totally what you think it is"
-
+/*
 /obj/item/clothing/hidden/mob_can_equip(M as mob, slot, disable_warning = 0)
 	if(slot == slot_socks)
 		if(!M) return 0
@@ -16,9 +16,8 @@
 			return 0
 
 		if(H.get_equipped_item(wear_slot)) return 0
-		return 1
 	return ..()
-
+*/
 /obj/item/clothing/hidden/attack_self(mob/living/carbon/human/user)
 	if(!istype(user)) return
 	if(user.equip_to_slot_if_possible(src, wear_slot))
