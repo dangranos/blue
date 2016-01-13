@@ -344,21 +344,6 @@ var/list/global/slot_flags_enumeration = list(
 				if (!disable_warning)
 					H << "<span class='warning'>You already have an accessory of this type attached to your [uniform].</span>"
 				return 0
-		if(slot_socks)
-			if(H.h_socks)
-				if (!disable_warning)
-					H << "<span class='warning'>You already have item in socks slot!.</span>"
-				return 0
-		if(slot_underwear)
-			if(H.h_underwear)
-				if (!disable_warning)
-					H << "<span class='warning'>You already have item in underwear slot!.</span>"
-				return 0
-		if(slot_undershirt)
-			if(H.h_undershirt)
-				if (!disable_warning)
-					H << "<span class='warning'>You already have item in undershirt slot!.</span>"
-				return 0
 	return 1
 
 /obj/item/proc/mob_can_unequip(mob/M, slot, disable_warning = 0)

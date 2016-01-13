@@ -186,6 +186,8 @@
 	proc/get_store_sprite(state = "", var/body_build = 0)
 		return 'icons/mob/belt_mirror.dmi'
 
+	proc/get_hidden_slot_sprite(state = "", var/body_build)
+		return 'icons/mob/hidden.dmi'
 
 /datum/species/New()
 	if(hud_type)
