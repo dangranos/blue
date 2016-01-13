@@ -356,6 +356,10 @@ This saves us from having to call add_fingerprint() any time something is put in
 			check_flags = HEADCOVERSEYES
 		if(slot_gloves, slot_w_uniform)
 			covering = src.wear_suit
+		if(slot_socks)
+			covering = src.shoes
+		if(slot_underwear, slot_undershirt)
+			covering = src.w_uniform
 
 	if(covering)
 		if((covering.body_parts_covered & I.body_parts_covered) || (covering.flags & check_flags))
