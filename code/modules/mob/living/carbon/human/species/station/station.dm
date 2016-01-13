@@ -68,6 +68,11 @@
 		else
 			return 'icons/mob/mask.dmi'
 
+	get_hidden_slot_sprite(state = "", var/body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/hidden_f.dmi'
+		else
+			return 'icons/mob/hidden.dmi'
 
 /datum/species/unathi
 	name = "Unathi"
@@ -136,6 +141,9 @@
 			return 'icons/mob/species/unathi/mask.dmi'
 		else return ..()
 
+	get_hidden_slot_sprite(state = "")
+		return 'icons/mob/species/unathi/hidden.dmi'
+
 /datum/species/unathi/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
 	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/sandal(H),slot_shoes)
@@ -197,6 +205,9 @@
 		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
 			return 'icons/mob/species/tajaran/mask.dmi'
 		else return ..()
+
+	get_hidden_slot_sprite(state = "")
+		return 'icons/mob/species/tajaran/hidden.dmi'
 
 /datum/species/tajaran/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
