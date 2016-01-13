@@ -265,11 +265,12 @@ var/list/global/slot_flags_enumeration = list(
 
 	var/mob/living/carbon/human/H = M
 	var/list/mob_equip = list()
-	if(H.species.hud && H.species.hud.equip_slots)
-		mob_equip = H.species.hud.equip_slots
+	if(!istype(src, /obj/item/clothing/hidden))
+		if(H.species.hud && H.species.hud.equip_slots)
+			mob_equip = H.species.hud.equip_slots
 
-	if(H.species && !(slot in mob_equip))
-		return 0
+		if(H.species && !(slot in mob_equip))
+			return 0
 
 	//First check if the item can be equipped to the desired slot.
 	if("[slot]" in slot_flags_enumeration)
@@ -342,6 +343,21 @@ var/list/global/slot_flags_enumeration = list(
 			if(uniform.accessories.len && !uniform.can_attach_accessory(src))
 				if (!disable_warning)
 					H << "<span class='warning'>You already have an accessory of this type attached to your [uniform].</span>"
+				return 0
+		if(slot_socks)
+			if(H.h_socks)
+				if (!disable_warning)
+					H << "<span class='warning'>You already have item in socks slot!.</span>"
+				return 0
+		if(slot_underwear)
+			if(H.h_underwear)
+				if (!disable_warning)
+					H << "<span class='warning'>You already have item in underwear slot!.</span>"
+				return 0
+		if(slot_undershirt)
+			if(H.h_undershirt)
+				if (!disable_warning)
+					H << "<span class='warning'>You already have item in undershirt slot!.</span>"
 				return 0
 	return 1
 
