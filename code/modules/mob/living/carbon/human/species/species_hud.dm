@@ -34,7 +34,7 @@
 		"belt" =         list("loc" = ui_belt,      "name" = "Belt",         "slot" = slot_belt,      "state" = "belt"),
 		"socks" =        list("loc" = null,         "name" = "Socks",        "slot" = slot_socks,     "state" = ""),
 		"underwear" =    list("loc" = null,         "name" = "Underwear",    "slot" = slot_underwear, "state" = ""),
-		"belt" =         list("loc" = null,         "name" = "Undershirt",   "slot" = slot_undershirt,"state" = "")
+		"undershirt" =   list("loc" = null,         "name" = "Undershirt",   "slot" = slot_undershirt,"state" = "")
 		)
 
 /datum/hud_data/New()
