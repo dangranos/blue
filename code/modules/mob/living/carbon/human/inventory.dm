@@ -84,6 +84,12 @@ This saves us from having to call add_fingerprint() any time something is put in
 			return has_organ("chest")
 		if(slot_s_store)
 			return has_organ("chest")
+		if(slot_socks)
+			return has_organ("r_foot") || has_organ("l_foot")
+		if(slot_undershirt)
+			return has_organ("chest")
+		if(slot_underwear)
+			return has_organ("chest")
 		if(slot_in_backpack)
 			return 1
 		if(slot_tie)
@@ -181,6 +187,15 @@ This saves us from having to call add_fingerprint() any time something is put in
 	else if (W == l_hand)
 		l_hand = null
 		update_inv_l_hand()
+	else if (W == h_socks)
+		h_socks = null
+		update_inv_underwear()
+	else if (W == h_underwear)
+		h_underwear = null
+		update_inv_underwear()
+	else if (W == h_undershirt)
+		h_undershirt = null
+		update_inv_underwear()
 	else
 		return 0
 
@@ -196,7 +211,7 @@ This saves us from having to call add_fingerprint() any time something is put in
 	if(!slot) return
 	if(!istype(W)) return
 	if(!has_organ_for_slot(slot)) return
-	if(!species || !species.hud || !(slot in species.hud.equip_slots)) return
+	if(slot!=slot_socks && (!species || !species.hud || !(slot in species.hud.equip_slots))) return
 	W.loc = src
 	switch(slot)
 		if(slot_back)
@@ -265,8 +280,6 @@ This saves us from having to call add_fingerprint() any time something is put in
 				update_hair(redraw_mob)	//rebuild hair
 				update_inv_ears(0)
 				update_inv_wear_mask(0)
-			if(istype(W,/obj/item/clothing/head/kitty))
-				W.update_icon(src)
 			W.equipped(src, slot)
 			update_inv_head(redraw_mob)
 		if(slot_shoes)
@@ -302,6 +315,18 @@ This saves us from having to call add_fingerprint() any time something is put in
 		if(slot_tie)
 			var/obj/item/clothing/under/uniform = src.w_uniform
 			uniform.attackby(W,src)
+		if(slot_socks)
+			h_socks = W
+			W.equipped(src, slot)
+			update_inv_underwear(redraw_mob)
+		if(slot_underwear)
+			h_underwear = W
+			W.equipped(src, slot)
+			update_inv_underwear(redraw_mob)
+		if(slot_undershirt)
+			h_undershirt = W
+			W.equipped(src, slot)
+			update_inv_underwear(redraw_mob)
 		else
 			src << "\red You are trying to eqip this item to an unsupported inventory slot. How the heck did you manage that? Stop it..."
 			return
@@ -359,4 +384,7 @@ This saves us from having to call add_fingerprint() any time something is put in
 		if(slot_s_store)    return s_store
 		if(slot_l_ear)      return l_ear
 		if(slot_r_ear)      return r_ear
+		if(slot_socks)      return h_socks
+		if(slot_underwear)  return h_underwear
+		if(slot_undershirt) return h_undershirt
 	return ..()
