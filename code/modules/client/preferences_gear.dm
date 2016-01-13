@@ -656,6 +656,12 @@ var/global/list/gear_datums = list()
 	cost = 1
 	allowed_roles = list("Captain", "Head of Personnel", "Security Officer", "Warden", "Head of Security", "Detective")
 
+/datum/gear/suspenders
+	display_name = "suspenders"
+	path = /obj/item/clothing/accessory/suspenders
+	slot = slot_tie
+	cost = 1
+
 /datum/gear/tie_blue
 	display_name = "tie, blue"
 	path = /obj/item/clothing/accessory/blue
@@ -865,12 +871,6 @@ var/global/list/gear_datums = list()
 	display_name = "suit jacket, purple"
 	path = /obj/item/clothing/suit/storage/lawyer/purpjacket
 	cost = 2
-	slot = slot_wear_suit
-
-/datum/gear/suspenders
-	display_name = "suspenders"
-	path = /obj/item/clothing/suit/suspenders
-	cost = 1
 	slot = slot_wear_suit
 
 /datum/gear/wcoat
@@ -1254,6 +1254,7 @@ var/global/list/gear_datums = list()
 	whitelisted = "Skrell"
 
 /datum/gear/socks
+	display_name = "basic"
 	slot = slot_socks
 	cost = 1
 
@@ -1308,4 +1309,3 @@ var/global/list/gear_datums = list()
 /datum/gear/socks/thin_thigh
 	display_name = "Socks, Thin Thigh"
 	path = /obj/item/clothing/hidden/socks/thin_thigh
-
