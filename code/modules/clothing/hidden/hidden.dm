@@ -1,6 +1,7 @@
 /obj/item/clothing/hidden
 	var/wear_slot = 0
 	var/slot_name = ""
+	desc = "Totally what you think it is"
 
 /obj/item/clothing/hidden/mob_can_equip(M as mob, slot, disable_warning = 0)
 	if(slot == slot_socks)
