@@ -13,6 +13,7 @@
 		clipped = 1
 		name = "modified [name]"
 		desc = "[desc]<br>They have had the fingertips cut off of them."
+		species_restricted = list("Unathi","Tajara")
 		return
 	..()
 
