@@ -1375,6 +1375,26 @@
 		S << "<span class='danger'>[U] pops your [current_limb.joint] back in!</span>"
 	current_limb.undislocate()
 
+/mob/living/carbon/human/verb/manage_hidden_slost()
+	set category = "Object"
+	set name = "Hidden slots"
+	set desc = "Manage hidden slots."
+
+	var/list/hidden_slots = list()
+	if(h_socks) 		hidden_slots["Socks"] = h_socks
+	if(h_underwear)		hidden_slots["Underwear"] = h_underwear
+	if(h_undershirt)	hidden_slots["Undershirt"] = h_undershirt
+
+	if(!hidden_slots || !hidden_slots.len)
+		src << "<span class = 'warnning'>You have no item in hidden slots</span>"
+		return
+
+	var/slot = input("Select slot for manipulate", "Select slot") in hidden_slots+list("Cancel")
+	if(slot == "Cancel") return
+
+	u_equip(hidden_slots[slot])
+	put_in_hands(hidden_slots[slot])
+
 /mob/living/carbon/human/drop_from_inventory(var/obj/item/W, var/atom/Target = null)
 	if(W in organs)
 		return
