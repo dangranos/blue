@@ -127,7 +127,7 @@
 	accentFL = list("ã" = "õ", "Ã" = "Õ")
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
+						"Research Director", "Chief Medical Officer", "Detective",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
 
@@ -192,7 +192,7 @@
 	cold_discomfort_level = 275
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
 						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
-						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
+						"Medical Doctor", "Geneticist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ð" = "ðð", "Ð" = "Ðð")
 
@@ -371,7 +371,7 @@
 
 	icobase = 'icons/mob/human_races/r_machine.dmi'
 	deform = 'icons/mob/human_races/r_machine.dmi'
-	language = "Tradeband"
+	language = "EAL"
 	unarmed_types = list(/datum/unarmed_attack/punch)
 	rarity_value = 2
 
