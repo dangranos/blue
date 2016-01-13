@@ -16,7 +16,7 @@
 	if(!inv_overlay)
 		if(!mob_overlay)
 			get_mob_overlay()
-		
+
 		var/tmp_icon_state = "[overlay_state? "[overlay_state]" : "[icon_state]"]"
 		if(icon_override)
 			if("[tmp_icon_state]_tie" in icon_states(icon_override))
@@ -76,6 +76,12 @@
 	name = "horrible tie"
 	desc = "A neosilk clip-on tie. This one is disgusting."
 	icon_state = "horribletie"
+
+/obj/item/clothing/accessory/suspenders
+	name = "suspenders"
+	desc = "They suspend the illusion of the mime's play."
+	icon = 'icons/obj/clothing/belts.dmi'
+	icon_state = "suspenders"
 
 /obj/item/clothing/accessory/stethoscope
 	name = "stethoscope"
