@@ -3,6 +3,18 @@
 	wear_slot = slot_socks
 	slot_name = "socks"
 	species_restricted = list("Human", "Skrell")
+	var/clipped = 0
+
+/obj/item/clothing/hidden/socks/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	if( !clipped && (istype(W, /obj/item/weapon/wirecutters) || istype(W, /obj/item/weapon/scalpel)) )
+		playsound(src.loc, 'sound/items/Wirecutter.ogg', 100, 1)
+		user.visible_message("\red [user] cuts the fingertips off of the [src].","\red You cut the fingertips off of the [src].")
+
+		clipped = 1
+		name = "modified [name]"
+		desc = "[desc]<br>They have had the fingertips cut off of them."
+		return
+	..()
 
 /obj/item/clothing/hidden/socks/white_norm
 	name = "White socks"
