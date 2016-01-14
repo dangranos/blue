@@ -31,10 +31,7 @@
 		"id" =           list("loc" = ui_id,        "name" = "ID",           "slot" = slot_wear_id,   "state" = "id",     "dir" = NORTH),
 		"storage1" =     list("loc" = ui_storage1,  "name" = "Left Pocket",  "slot" = slot_l_store,   "state" = "pocket"),
 		"storage2" =     list("loc" = ui_storage2,  "name" = "Right Pocket", "slot" = slot_r_store,   "state" = "pocket"),
-		"belt" =         list("loc" = ui_belt,      "name" = "Belt",         "slot" = slot_belt,      "state" = "belt"),
-		"socks" =        list("loc" = null,         "name" = "Socks",        "slot" = slot_socks,     "state" = ""),
-		"underwear" =    list("loc" = null,         "name" = "Underwear",    "slot" = slot_underwear, "state" = ""),
-		"undershirt" =   list("loc" = null,         "name" = "Undershirt",   "slot" = slot_undershirt,"state" = "")
+		"belt" =         list("loc" = ui_belt,      "name" = "Belt",         "slot" = slot_belt,      "state" = "belt")
 		)
 
 /datum/hud_data/New()
