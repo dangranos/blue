@@ -82,8 +82,10 @@
 
 /obj/item/clothing/hidden/socks/striped_knee
 	name = "Knee-length striped socks"
+	icon_state = "socks_striped"
 	item_state = "striped_knee"
 
 /obj/item/clothing/hidden/socks/striped_thigh
 	name = "Thigh striped socks"
+	icon_state = "socks_striped"
 	item_state = "striped_thigh"
