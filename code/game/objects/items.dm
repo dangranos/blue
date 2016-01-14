@@ -265,7 +265,10 @@ var/list/global/slot_flags_enumeration = list(
 
 	var/mob/living/carbon/human/H = M
 	var/list/mob_equip = list()
-	if(!istype(src, /obj/item/clothing/hidden))
+	if(slot in list(slot_socks, slot_underwear, slot_undershirt))
+		if(!istype(src, /obj/item/clothing/hidden))
+			return 0
+	else
 		if(H.species.hud && H.species.hud.equip_slots)
 			mob_equip = H.species.hud.equip_slots
 
