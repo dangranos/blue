@@ -63,6 +63,10 @@
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
 	var/obj/item/s_store = null
+	var/obj/item/h_underwear = null
+	var/obj/item/h_socks = null
+	var/obj/item/h_undershirt = null
+//	var/obj/item/h_neck = null
 
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
