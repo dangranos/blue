@@ -215,7 +215,6 @@
 	uniform = /obj/item/clothing/under/mime
 	pda = /obj/item/device/pda/mime
 	hat = /obj/item/clothing/head/beret
-	suit = /obj/item/clothing/suit/suspenders
 	gloves = /obj/item/clothing/gloves/white
 	mask = /obj/item/clothing/mask/gas/mime
 	ear = /obj/item/device/radio/headset/headset_service
