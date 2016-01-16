@@ -93,6 +93,8 @@ h1.alert, h2.alert		{color: #000000;}
 .vox					{color: #AA00AA;}
 .rough					{font-family: "Trebuchet MS", cursive, sans-serif;}
 .say_quote				{font-family: Georgia, Verdana, sans-serif;}
+.slav					{color: #8B1A1A;}
+.tajaran_mas			{color: #FF4040;}
 
 .interface				{color: #330033;}
 
