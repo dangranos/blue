@@ -59,6 +59,7 @@
 	hat = /obj/item/clothing/head/hardhat
 	belt = /obj/item/weapon/storage/belt/utility/full
 	ear = /obj/item/device/radio/headset/headset_eng
+	custom_survival_gear = /obj/item/weapon/storage/box/engineer
 
 	put_in_backpack = list(\
 		/obj/item/device/t_scanner

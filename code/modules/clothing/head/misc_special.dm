@@ -160,15 +160,18 @@ obj/item/clothing/head/welding/blue
 	siemens_coefficient = 1.5
 	item_icons = list()
 
-	update_icon(var/mob/living/carbon/human/user)
-		if(!istype(user)) return
+	equipped(var/mob/living/carbon/human/user, var/slot)
+		if(!istype(user) || slot!=slot_head) return
 		var/icon/ears = new/icon("icon" = 'icons/mob/head.dmi', "icon_state" = "kitty")
 		ears.Blend(rgb(user.hair_r, user.hair_g, user.hair_b), ICON_ADD)
 
 		var/icon/earbit = new/icon("icon" = 'icons/mob/head.dmi', "icon_state" = "kittyinner")
 		ears.Blend(earbit, ICON_OVERLAY)
 
-		user.overlays_standing[18] = ears
+		icon_override = ears
+
+	dropped()
+		icon_override = null
 
 /obj/item/clothing/head/richard
 	name = "chicken mask"

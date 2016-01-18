@@ -224,8 +224,22 @@
 	center_of_mass = list("x"=15, "y"=4)
 
 /obj/item/weapon/reagent_containers/food/drinks/britcup
-	name = "cup"
+	name = "British cup"
 	desc = "A cup with the British flag emblazoned on it."
 	icon_state = "britcup"
+	volume = 30
+	center_of_mass = list("x"=15, "y"=13)
+
+/obj/item/weapon/reagent_containers/food/drinks/irecup
+	name = "Irish cup"
+	desc = "A cup with the Irish flag emblazoned on it."
+	icon_state = "irecup"
+	volume = 30
+	center_of_mass = list("x"=15, "y"=13)
+
+/obj/item/weapon/reagent_containers/food/drinks/ntcup
+	name = "NT cup"
+	desc = "A cup with the NT logo emblazoned on it."
+	icon_state = "nt"
 	volume = 30
 	center_of_mass = list("x"=15, "y"=13)
