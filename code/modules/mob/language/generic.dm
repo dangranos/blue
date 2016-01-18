@@ -61,7 +61,7 @@
 	speech_verb = "mrowls"
 	ask_verb = "mrowls"
 	exclaim_verb = "yowls"
-	colour = "cult"
+	colour = "tajaran_mas"
 	key = "z"
 	rkey = "ÿ"
 	flags = PUBLIC
@@ -75,6 +75,7 @@
 	name = "Surzhyk"
 	desc = "A very old slavanian language. Refers to a range of mixed sociolects of Ukrainian and Russian languages used in certain colonies"
 	speech_verb = "says"
+	colour = "slav"
 	key = "r"
 	rkey = "ê"
 	flags = PUBLIC
@@ -83,9 +84,10 @@
 					 "suka", "sol", "vodka", "eb", "hui",
 					 "samoj", "vadit", "mat", "prareb", "budet", "ty", "igrje", "pindosi", "salo", "gorilka", "da", "nyet",
 					 "horosho", "pjos", "vsjo", "je", "stobi", "reptiloidi", "amerikosi", "pidor", "skalen", "sut", "takov",
-					 "eki", "pravo", "moskal", "krop", "zmii", "bliny", "ushanka", "beru", "idi", "na", "v", "poshel", "edin",
-					 "sel", "vosem", "ruki", "memi",
-					 "vsjo", "sot", "holodno", "moja", "mertvi", "hotet", "vidat", "vosjem", "ya", "uzje", "stancia", "cosmos")
+					 "eki", "pravo", "moskal", "krop", "zmii", "bliny", "ushanka", "beru", "idi", "na", "v", "poshel", "na", "edin",
+					 "sel", "vosem", "ruki", "memi", "chto", "on", "it", "iv", "ov",
+					 "vsjo", "sot", "holodno", "moja", "li", "mertvi",
+					 "hotet", "vidat", "vosjem", "ya", "uzje", "stancia", "vi")
 
 // Criminal language.
 /datum/language/gutter

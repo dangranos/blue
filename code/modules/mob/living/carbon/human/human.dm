@@ -1375,6 +1375,26 @@
 		S << "<span class='danger'>[U] pops your [current_limb.joint] back in!</span>"
 	current_limb.undislocate()
 
+/mob/living/carbon/human/verb/manage_hidden_slost()
+	set category = "Object"
+	set name = "Hidden slots"
+	set desc = "Manage hidden slots."
+
+	var/list/hidden_slots = list()
+	if(h_socks) 		hidden_slots["Socks"] = h_socks
+	if(h_underwear)		hidden_slots["Underwear"] = h_underwear
+	if(h_undershirt)	hidden_slots["Undershirt"] = h_undershirt
+
+	if(!hidden_slots || !hidden_slots.len)
+		src << "<span class = 'warnning'>You have no item in hidden slots</span>"
+		return
+
+	var/slot = input("Select slot for manipulate", "Select slot") in hidden_slots+list("Cancel")
+	if(slot == "Cancel") return
+
+	u_equip(hidden_slots[slot])
+	put_in_hands(hidden_slots[slot])
+
 /mob/living/carbon/human/drop_from_inventory(var/obj/item/W, var/atom/Target = null)
 	if(W in organs)
 		return
@@ -1397,42 +1417,45 @@
 		return
 	return ..()
 
-/mob/living/carbon/human/proc/get_uniform_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_uniform_sprite(state = "")
 	return image(species.get_uniform_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_suit_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_suit_sprite(state = "")
 	return image(species.get_suit_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_gloves_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_gloves_sprite(state = "")
 	return image(species.get_gloves_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_shoes_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_shoes_sprite(state = "")
 	return image(species.get_shoes_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_head_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_head_sprite(state = "")
 	return image(species.get_head_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_glasses_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_glasses_sprite(state = "")
 	return image(species.get_glasses_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_belt_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_belt_sprite(state = "")
 	return image(species.get_belt_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_ears_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_ears_sprite(state = "")
 	return image(species.get_ears_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_back_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_back_sprite(state = "")
 	return image(species.get_back_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_back_u_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_back_u_sprite(state = "")
 	var/image/back = species.get_back_u_sprite(state, body_build)
 	if(back)
 		return image(back, icon_state = state)
 	else
 		return null
 
-/mob/living/carbon/human/proc/get_mask_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_mask_sprite(state = "")
 	return image(species.get_mask_sprite(state, body_build), icon_state = state)
 
-/mob/living/carbon/human/proc/get_store_sprite(state = "", body_build = 0)
+/mob/living/carbon/human/proc/get_store_sprite(state = "")
 	return image(species.get_store_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_hidden_slot_sprite(state = "")
+	return image(species.get_hidden_slot_sprite(state, body_build), icon_state = state)

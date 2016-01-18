@@ -266,6 +266,10 @@
 #define slot_r_ear       20
 #define slot_legs        21
 #define slot_tie         22
+#define slot_socks       23
+#define slot_underwear   24
+#define slot_undershirt  25
+
 
 // Inventory slot strings.
 // since numbers cannot be used as associative list keys.

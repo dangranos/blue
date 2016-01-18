@@ -265,11 +265,15 @@ var/list/global/slot_flags_enumeration = list(
 
 	var/mob/living/carbon/human/H = M
 	var/list/mob_equip = list()
-	if(H.species.hud && H.species.hud.equip_slots)
-		mob_equip = H.species.hud.equip_slots
+	if(slot in list(slot_socks, slot_underwear, slot_undershirt))
+		if(!istype(src, /obj/item/clothing/hidden))
+			return 0
+	else
+		if(H.species.hud && H.species.hud.equip_slots)
+			mob_equip = H.species.hud.equip_slots
 
-	if(H.species && !(slot in mob_equip))
-		return 0
+		if(H.species && !(slot in mob_equip))
+			return 0
 
 	//First check if the item can be equipped to the desired slot.
 	if("[slot]" in slot_flags_enumeration)
