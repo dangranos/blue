@@ -48,6 +48,13 @@
 		equip_slots |= slot_in_backpack
 
 	if(slot_w_uniform in equip_slots)
+		equip_slots |= slot_underwear
+		equip_slots |= slot_undershirt
+
+	if(slot_shoes in equip_slots)
+		equip_slots |= slot_socks
+
+	if(slot_w_uniform in equip_slots)
 		equip_slots |= slot_tie
 
 	equip_slots |= slot_legcuffed
