@@ -59,8 +59,9 @@
 			icon_state = "stickyweb2"
 
 /obj/effect/spider/stickyweb/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
+	mover << "\red You [istype(mover, /mob/living/carbon/human/arachna)]"
 	if(air_group || (height==0)) return 1
-	if(istype(mover, /mob/living/simple_animal/hostile/giant_spider))
+	if(istype(mover, /mob/living/simple_animal/hostile/giant_spider) || mover:species.name == "Arachna")
 		return 1
 	else if(istype(mover, /mob/living))
 		if(prob(50))

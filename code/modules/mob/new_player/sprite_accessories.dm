@@ -51,7 +51,7 @@
 		name = "Bald"
 		icon_state = "bald"
 		gender = MALE
-		species_allowed = list("Human","Unathi")
+		species_allowed = list("Human","Unathi","Arachna")
 
 	short
 		name = "Short Hair"	  // try to capatilize the names please~
@@ -538,6 +538,25 @@
 		name = "yellow IPC screen"
 		icon_state = "ipc_yellow"
 		species_allowed = list("Machine")
+
+	arachna_longer
+		name = "Arachna Long Hair"
+		icon_state = "hair_vlong"
+		icon = "code/modules/mob/living/carbon/arachna/arachna_face.dmi"
+		gender = FEMALE
+		species_allowed = list("Arachna")
+
+
+/datum/sprite_accessory/hair/arachna
+
+	icon = "code/modules/mob/living/carbon/arachna/arachna_face.dmi"
+	gender = FEMALE
+	species_allowed = list("Arachna")
+
+	pixie
+		name = "Pixie"
+		icon_state = "hair_pixie"
+
 
 /*
 ///////////////////////////////////
