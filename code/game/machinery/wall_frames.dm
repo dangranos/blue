@@ -54,11 +54,15 @@
 /obj/item/frame/fire_alarm
 	name = "fire alarm frame"
 	desc = "Used for building fire alarms."
+	icon = 'icons/obj/monitors.dmi'
+	icon_state = "fire_bitem"
 	build_machine_type = /obj/machinery/firealarm
 
 /obj/item/frame/air_alarm
 	name = "air alarm frame"
 	desc = "Used for building air alarms."
+	icon = 'icons/obj/monitors.dmi'
+	icon_state = "alarm_bitem"
 	build_machine_type = /obj/machinery/alarm
 
 /obj/item/frame/light

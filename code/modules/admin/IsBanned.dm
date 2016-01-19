@@ -17,22 +17,22 @@ world/IsBanned(key,address,computer_id)
 		AddBan(ckey(key), computer_id, "Use of ToR", "Automated Ban", 0, 0)
 		return list("reason"="Using ToR", "desc"="\nReason: The network you are using to connect has been banned.\nIf you believe this is a mistake, please request help at [config.banappeals]")
 
+	//Population Cap Checking
+	if(config.extreme_popcap && living_player_count() >= config.extreme_popcap)		//admin check at func top
+		log_access("Failed Login: [key] - Population cap reached")
+		return list("reason"="popcap", "desc"= "\nReason: [config.extreme_popcap_message]")
 
 	if(config.ban_legacy_system)
-
 		//Ban Checking
 		. = CheckBan( ckey(key), computer_id, address )
 		if(.)
 			log_access("Failed Login: [key] [computer_id] [address] - Banned [.["reason"]]")
 			message_admins("\blue Failed Login: [key] id:[computer_id] ip:[address] - Banned [.["reason"]]")
 			return .
-
 		return ..()	//default pager ban stuff
 
 	else
-
 		var/ckeytext = ckey(key)
-
 		if(!establish_db_connection())
 			error("Ban database connection failure. Key [ckeytext] not checked")
 			log_misc("Ban database connection failure. Key [ckeytext] not checked")

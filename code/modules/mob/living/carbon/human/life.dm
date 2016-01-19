@@ -366,14 +366,14 @@
 
 	get_breath_from_environment(var/volume_needed=BREATH_VOLUME)
 		var/datum/gas_mixture/breath = ..()
-	
+
 		if(breath)
 			//exposure to extreme pressures can rupture lungs
 			var/check_pressure = breath.return_pressure()
 			if(check_pressure < ONE_ATMOSPHERE / 5 || check_pressure > ONE_ATMOSPHERE * 5)
 				if(!is_lung_ruptured() && prob(5))
 					rupture_lung()
-		
+
 		return breath
 
 	handle_breath(datum/gas_mixture/breath)
@@ -1138,7 +1138,7 @@
 			if(copytext(hud.icon_state,1,4) == "hud") //ugly, but icon comparison is worse, I believe
 				client.images.Remove(hud)
 
-		client.screen.Remove(global_hud.blurry, global_hud.druggy, global_hud.vimpaired, global_hud.darkMask, global_hud.nvg, global_hud.thermal, global_hud.meson, global_hud.science)
+		client.screen.Remove(global_hud.blurry, global_hud.druggy, global_hud.vimpaired, global_hud.darkMask, global_hud.nvg, global_hud.thermal, global_hud.meson, global_hud.science, global_hud.horny) //add aphrodisiac
 
 		update_action_buttons()
 
@@ -1361,6 +1361,7 @@
 
 			if(eye_blurry)			client.screen += global_hud.blurry
 			if(druggy)				client.screen += global_hud.druggy
+			if(horny)				client.screen += global_hud.horny //for aphrodisiac
 
 			if(config.welder_vision)
 				var/found_welder

@@ -77,6 +77,18 @@
 		reagents.add_reagent("toxin", 60)
 		update_icon()
 
+//for aphrodisiac
+/obj/item/weapon/reagent_containers/glass/bottle/kurovasicin
+	name = "kurovasicin bottle"
+	desc = "Not safe for work."
+	icon = 'icons/obj/chemical.dmi'
+	icon_state = "bottle-3"
+
+	New()
+		..()
+		reagents.add_reagent("kurovasicin", 60)
+		update_icon()
+
 /obj/item/weapon/reagent_containers/glass/bottle/cyanide
 	name = "cyanide bottle"
 	desc = "A small bottle of cyanide. Bitter almonds?"

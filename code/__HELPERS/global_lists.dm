@@ -26,7 +26,6 @@ var/global/list/turfs = list()						//list of all turfs
 //Languages/species/whitelist.
 var/global/list/all_species[0]
 var/global/list/all_languages[0]
-var/global/list/language_keys[0]					// Table of say codes for all languages
 var/global/list/whitelisted_species = list("Human") // Species that require a whitelist check.
 var/global/list/playable_species = list("Human")    // A list of ALL playable species, whitelisted, latejoin or otherwise.
 
@@ -61,6 +60,10 @@ var/global/list/underwear_m = list("White" = "1", "Grey" = "2", "Green" = "3", "
 var/global/list/underwear_f = list("Red" = "1", "White" = "2", "Yellow" = "3", "Blue" = "4", "Black" = "5", "Thong" = "6", "Black Sports" = "7", "White Sports" = "8", "None")
 	//undershirt
 var/global/list/undershirt_t = list("White Tank top" = "u1", "Black Tank top" = "u2", "Black shirt" = "u3", "White shirt" = "u4", "None")
+var/global/list/socks = list("white_norm", "white_short", "white_knee", "white_thigh",\
+							 "black_norm", "black_short", "black_knee", "black_thigh",\
+							 "thin_knee", "thin_thigh", "rainbow_knee", "rainbow_thigh",\
+							 "pantyhose", "striped_knee", "striped_thigh")
 	//Backpacks
 var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Satchel Alt")
 var/global/list/exclude_jobs = list(/datum/job/ai,/datum/job/cyborg)
@@ -83,6 +86,8 @@ var/global/list/tattoo_list = list(
 
 var/global/list/flavs_list = list("general"="General", "torso"="Body", "head"="Head", "face"="Face", "eyes"="Eyes",\
 				"mech_eyes"="Mechanical eyes", "arms"="Arms", "hands"="Hands", "legs"="Legs", "feet"="Feet")
+
+var/global/list/default_lang_keys = list("2", "3", "4", "5", "6", "7", "8", "9")
 
 
 // Visual nets
@@ -145,17 +150,6 @@ var/global/list/endgame_safespawns = list()
 	for(var/T in paths)
 		var/datum/language/L = new T
 		all_languages[L.name] = L
-
-	for (var/language_name in all_languages)
-		var/datum/language/L = all_languages[language_name]
-		if(!(L.flags & NONGLOBAL))
-			language_keys[":[lowertext(L.key)]"] = L
-			language_keys[".[lowertext(L.key)]"] = L
-			language_keys["#[lowertext(L.key)]"] = L
-			if(L.rkey != "")
-				language_keys[":[rlowertext(L.rkey)]"] = L
-				language_keys[".[rlowertext(L.rkey)]"] = L
-				language_keys["#[rlowertext(L.rkey)]"] = L
 
 	var/rkey = 0
 	paths = typesof(/datum/species)-/datum/species

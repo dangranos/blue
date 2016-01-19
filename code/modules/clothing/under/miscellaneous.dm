@@ -226,6 +226,14 @@
 	item_state = "ba_suit"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO
 
+//ZONE-tan Loadout
+/obj/item/clothing/under/zone
+	name = "zone dress"
+	desc = "A pleasant to touch indigo dress. It smells like seafood."
+	icon_state = "zone"
+	item_state = "p_suit"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+
 /obj/item/clothing/under/gladiator
 	name = "gladiator uniform"
 	desc = "Are you not entertained? Is that not why you are here?"

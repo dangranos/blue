@@ -53,19 +53,19 @@
 /obj/item/weapon/storage/box/survival
 	New()
 		..()
-		new /obj/item/clothing/mask/breath( src )
+		new /obj/item/clothing/mask/breath/toggleable( src )
 		new /obj/item/weapon/tank/emergency_oxygen( src )
 
 /obj/item/weapon/storage/box/vox
 	New()
 		..()
-		new /obj/item/clothing/mask/breath( src )
+		new /obj/item/clothing/mask/breath/toggleable( src )
 		new /obj/item/weapon/tank/emergency_nitrogen( src )
 
 /obj/item/weapon/storage/box/engineer
 	New()
 		..()
-		new /obj/item/clothing/mask/breath( src )
+		new /obj/item/clothing/mask/breath/toggleable( src )
 		new /obj/item/weapon/tank/emergency_oxygen/engi( src )
 
 /obj/item/weapon/storage/box/gloves
@@ -161,6 +161,7 @@
 /obj/item/weapon/storage/box/blanks
 	name = "box of blank shells"
 	desc = "It has a picture of a gun and several warning symbols on the front."
+	icon_state = "practiceshot_box"
 
 	New()
 		..()
@@ -175,6 +176,7 @@
 /obj/item/weapon/storage/box/beanbags
 	name = "box of beanbag shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "rubbershot_box"
 
 	New()
 		..()
@@ -189,6 +191,7 @@
 /obj/item/weapon/storage/box/shotgunammo
 	name = "box of shotgun slugs"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "slugshot_box"
 
 	New()
 		..()
@@ -203,6 +206,7 @@
 /obj/item/weapon/storage/box/shotgunshells
 	name = "box of shotgun shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "lethalshot_box"
 
 	New()
 		..()
@@ -217,6 +221,7 @@
 /obj/item/weapon/storage/box/flashshells
 	name = "box of illumination shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "flashshot_box"
 
 	New()
 		..()
@@ -231,6 +236,7 @@
 /obj/item/weapon/storage/box/stunshells
 	name = "box of stun shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "stunshot_box"
 
 	New()
 		..()
@@ -242,9 +248,11 @@
 		new /obj/item/ammo_casing/shotgun/stunshell(src)
 		new /obj/item/ammo_casing/shotgun/stunshell(src)
 
+
 /obj/item/weapon/storage/box/practiceshells
 	name = "box of practice shells"
 	desc = "It has a picture of a gun and several warning symbols on the front.<br>WARNING: Live ammunition. Misuse may result in serious injury or death."
+	icon_state = "practiceshot_box"
 
 	New()
 		..()
@@ -284,6 +292,36 @@
 		new /obj/item/weapon/grenade/flashbang(src)
 		new /obj/item/weapon/grenade/flashbang(src)
 		new /obj/item/weapon/grenade/flashbang(src)
+
+/obj/item/weapon/storage/box/teargas
+	name = "box of teargas grenades (WARNING)"
+	desc = "<B>WARNING: These devices are extremely dangerous and can cause blindness in repeated use.</B>"
+	icon_state = "flashbang"
+
+	New()
+		..()
+		new /obj/item/weapon/grenade/chem_grenade/teargas(src)
+		new /obj/item/weapon/grenade/chem_grenade/teargas(src)
+		new /obj/item/weapon/grenade/chem_grenade/teargas(src)
+		new /obj/item/weapon/grenade/chem_grenade/teargas(src)
+		new /obj/item/weapon/grenade/chem_grenade/teargas(src)
+		new /obj/item/weapon/grenade/chem_grenade/teargas(src)
+		new /obj/item/weapon/grenade/chem_grenade/teargas(src)
+
+/obj/item/weapon/storage/box/smoke
+	name = "box of smoke grenades (WARNING)"
+	desc = "<B>WARNING: These devices are extremely dangerous and can cause blindness in repeated use.</B>"
+	icon_state = "flashbang"
+
+	New()
+		..()
+		new /obj/item/weapon/grenade/smokebomb(src)
+		new /obj/item/weapon/grenade/smokebomb(src)
+		new /obj/item/weapon/grenade/smokebomb(src)
+		new /obj/item/weapon/grenade/smokebomb(src)
+		new /obj/item/weapon/grenade/smokebomb(src)
+		new /obj/item/weapon/grenade/smokebomb(src)
+		new /obj/item/weapon/grenade/smokebomb(src)
 
 /obj/item/weapon/storage/box/emps
 	name = "box of emp grenades"

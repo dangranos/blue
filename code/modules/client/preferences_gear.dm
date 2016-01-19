@@ -656,6 +656,12 @@ var/global/list/gear_datums = list()
 	cost = 1
 	allowed_roles = list("Captain", "Head of Personnel", "Security Officer", "Warden", "Head of Security", "Detective")
 
+/datum/gear/suspenders
+	display_name = "suspenders"
+	path = /obj/item/clothing/accessory/suspenders
+	slot = slot_tie
+	cost = 1
+
 /datum/gear/tie_blue
 	display_name = "tie, blue"
 	path = /obj/item/clothing/accessory/blue
@@ -865,12 +871,6 @@ var/global/list/gear_datums = list()
 	display_name = "suit jacket, purple"
 	path = /obj/item/clothing/suit/storage/lawyer/purpjacket
 	cost = 2
-	slot = slot_wear_suit
-
-/datum/gear/suspenders
-	display_name = "suspenders"
-	path = /obj/item/clothing/suit/suspenders
-	cost = 1
 	slot = slot_wear_suit
 
 /datum/gear/wcoat
@@ -1252,3 +1252,60 @@ var/global/list/gear_datums = list()
 	cost = 1
 	sort_category = "ears"
 	whitelisted = "Skrell"
+
+/datum/gear/socks
+	display_name = "basic"
+	slot = slot_socks
+	cost = 1
+
+/datum/gear/socks/black_norm
+	display_name = "Socks, Black"
+	path = /obj/item/clothing/hidden/socks/black_norm
+
+/datum/gear/socks/black_short
+	display_name = "Socks, Black Short"
+	path = /obj/item/clothing/hidden/socks/black_short
+
+/datum/gear/socks/black_knee
+	display_name = "Socks, Black Knee-length"
+	path = /obj/item/clothing/hidden/socks/black_knee
+
+/datum/gear/socks/black_thigh
+	display_name = "Socks, Black Thigh"
+	path = /obj/item/clothing/hidden/socks/black_thigh
+
+/datum/gear/socks/white_norm
+	display_name = "Socks, White"
+	path = /obj/item/clothing/hidden/socks/white_norm
+
+/datum/gear/socks/white_short
+	display_name = "Socks, White short"
+	path = /obj/item/clothing/hidden/socks/white_short
+
+/datum/gear/socks/white_knee
+	display_name = "Socks, White Knee-length"
+	path = /obj/item/clothing/hidden/socks/white_knee
+
+/datum/gear/socks/white_thigh
+	display_name = "Socks, White Thigh"
+	path = /obj/item/clothing/hidden/socks/white_thigh
+
+/datum/gear/socks/pantyhose
+	display_name = "Socks, Pantyhose"
+	path = /obj/item/clothing/hidden/socks/pantyhose
+
+/datum/gear/socks/striped_knee
+	display_name = "Socks, Striped Knee-length"
+	path = /obj/item/clothing/hidden/socks/striped_knee
+
+/datum/gear/socks/striped_thigh
+	display_name = "Socks, Striped Thigh"
+	path = /obj/item/clothing/hidden/socks/striped_thigh
+
+/datum/gear/socks/thin_knee
+	display_name = "Socks, Thin Knee-length"
+	path = /obj/item/clothing/hidden/socks/thin_knee
+
+/datum/gear/socks/thin_thigh
+	display_name = "Socks, Thin Thigh"
+	path = /obj/item/clothing/hidden/socks/thin_thigh

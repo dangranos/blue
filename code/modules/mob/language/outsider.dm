@@ -16,7 +16,7 @@
 	exclaim_verb = "hisses"
 	colour = "alien"
 	key = "a"
-	rkey = "ô"
+//	rkey = "ô"
 	flags = HIVEMIND
 
 /datum/language/xenos/check_special_condition(var/mob/other)
@@ -35,7 +35,7 @@
 	speech_verb = "says"
 	colour = "changeling"
 	key = "g"
-	rkey = "ï"
+//	rkey = "ï"
 	flags = HIVEMIND
 
 /datum/language/ling/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
@@ -53,7 +53,7 @@
 	exclaim_verb = "sings"
 	colour = "alien"
 	key = "x"
-	rkey = "÷"
+//	rkey = "÷"
 	flags = HIVEMIND
 
 /datum/language/corticalborer/broadcast(var/mob/living/speaker,var/message,var/speaker_mask)
@@ -93,7 +93,7 @@
 	exclaim_verb = "chants"
 	colour = "cult"
 	key = "f"
-	rkey = "à"
+//	rkey = "à"
 	space_chance = 100
 	syllables = list("ire","ego","nahlizet","certum","veri","jatkaa","mgar","balaq", "karazet", "geeri", \
 		"orkan", "allaq", "sas'so", "c'arta", "forbici", "tarem", "n'ath", "reth", "sh'yro", "eth", "d'raggathnor", \
@@ -111,5 +111,5 @@
 	exclaim_verb = "chants"
 	colour = "cult"
 	key = "y"
-	rkey = "í"
+//	rkey = "í"
 	flags = HIVEMIND

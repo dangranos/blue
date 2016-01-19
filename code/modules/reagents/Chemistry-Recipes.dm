@@ -100,6 +100,15 @@
 	required_reagents = list("mercury" = 1, "sugar" = 1, "lithium" = 1)
 	result_amount = 3
 
+//for aphrodisiac
+
+/datum/chemical_reaction/kurovasicin
+	name = "Kurovasicin"
+	id = "kurovasicin"
+	result = "kurovasicin"
+	required_reagents = list("cryptobiolin" = 1, "psilocybin" = 1, "sugar" = 1)
+	result_amount = 3
+
 /datum/chemical_reaction/lube
 	name = "Space Lube"
 	id = "lube"
