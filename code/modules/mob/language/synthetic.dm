@@ -6,7 +6,6 @@
 	ask_verb = "queries"
 	exclaim_verb = "declares"
 	key = "b"
-	rkey = "è"
 	flags = HIVEMIND
 	var/drone_only
 
@@ -58,6 +57,5 @@
 	exclaim_verb = "transmits"
 	colour = "say_quote"
 	key = "d"
-	rkey = "â"
 	flags = HIVEMIND
 	drone_only = 1
