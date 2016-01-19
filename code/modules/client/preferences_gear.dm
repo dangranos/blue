@@ -1253,6 +1253,13 @@ var/global/list/gear_datums = list()
 	sort_category = "ears"
 	whitelisted = "Skrell"
 
+/datum/gear/skrell_xilobeads
+	display_name = "skrell xilobeads"
+	path = "/obj/item/clothing/ears/skrell/xilobeads"
+	cost = 2
+	sort_category = "ears"
+	whitelisted = "Skrell"
+
 /datum/gear/socks
 	display_name = "basic"
 	slot = slot_socks
