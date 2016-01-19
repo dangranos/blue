@@ -69,6 +69,10 @@
 		name = "Shoulder-length Hair"
 		icon_state = "hair_b"
 
+	longalt
+		name = "Shoulder-length Hair Alt"
+		icon_state = "hair_longfringe"
+
 	/*longish
 		name = "Longer Hair"
 		icon_state = "hair_b2"*/
@@ -122,6 +126,10 @@
 	ponytail5
 		name = "Ponytail 5"
 		icon_state = "hair_ponytail5"
+
+	ponytail6
+		name = "Ponytail 6"
+		icon_state = "hair_ponytail6"
 
 	sideponytail
 		name = "Side Ponytail"
@@ -248,6 +256,16 @@
 	longemo
 		name = "Long Emo"
 		icon_state = "hair_emolong"
+		gender = FEMALE
+
+	zone
+		name = "Zone Braid"
+		icon_state = "hair_zone"
+		gender = FEMALE
+
+	bun
+		name = "Bun"
+		icon_state = "hair_bun"
 		gender = FEMALE
 
 	shortovereye

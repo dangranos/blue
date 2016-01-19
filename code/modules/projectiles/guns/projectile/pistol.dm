@@ -1,6 +1,6 @@
 /obj/item/weapon/gun/projectile/colt
-	name = "\improper Colt M1911"
-	desc = "A cheap Martian knock-off of a Colt M1911."
+	name = "vintage .45 pistol"
+	desc = "A cheap Martian knock-off of a Colt M1911. Uses .45 rounds."
 	magazine_type = /obj/item/ammo_magazine/c45m
 	icon_state = "colt"
 	caliber = ".45"
@@ -31,8 +31,8 @@
 		return 1
 
 /obj/item/weapon/gun/projectile/sec
-	desc = "A NanoTrasen designed sidearm, found pretty much everywhere humans are. Uses .45 rounds."
-	name = "\improper NT Mk58"
+	desc = "The NT Mk58 is a NanoTrasen designed sidearm, found pretty much everywhere humans are. Uses .45 rounds."
+	name = ".45 pistol"
 	icon_state = "secguncomp"
 	magazine_type = /obj/item/ammo_magazine/c45m/rubber
 	caliber = ".45"
@@ -41,12 +41,12 @@
 	load_method = MAGAZINE
 
 /obj/item/weapon/gun/projectile/sec/flash
-	name = "\improper NT Mk58 signal pistol"
+	name = ".45 signal pistol"
 	magazine_type = /obj/item/ammo_magazine/c45m/flash
 
 /obj/item/weapon/gun/projectile/sec/wood
-	desc = "A Nanotrasen designed sidearm, this one has a sweet wooden grip. Uses .45 rounds."
-	name = "\improper Custom NT Mk58"
+	desc = "The NT Mk58 is a designed sidearm, this one has a sweet wooden grip. Uses .45 rounds."
+	name = " custom .45 pistol"
 	icon_state = "secgundark"
 
 /obj/item/weapon/gun/projectile/silenced
@@ -106,8 +106,8 @@
 		icon_state = "gyropistol"
 
 /obj/item/weapon/gun/projectile/pistol
-	name = "\improper Stechtkin pistol"
-	desc = "A small, easily concealable gun. Uses 9mm rounds."
+	name = "\improper holdout pistol"
+	desc = "The Lumoco Arms P3 Whisper. small, easily concealable gun. Uses 9mm rounds."
 	icon_state = "pistol"
 	item_state = null
 	w_class = 2
@@ -173,7 +173,7 @@
 	handle_casings = CYCLE_CASINGS //player has to take the old casing out manually before reloading
 	load_method = SINGLE_CASING
 	max_shells = 1 //literally just a barrel
-	
+
 	var/global/list/ammo_types = list(
 		/obj/item/ammo_casing/a357              = ".357",
 		/obj/item/ammo_casing/c9mmf             = "9mm",
@@ -194,7 +194,7 @@
 /obj/item/weapon/gun/projectile/pirate/New()
 	ammo_type = pick(ammo_types)
 	desc += " Uses [ammo_types[ammo_type]] rounds."
-	
+
 	var/obj/item/ammo_casing/ammo = ammo_type
 	caliber = initial(ammo.caliber)
 	..()

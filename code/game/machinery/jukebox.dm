@@ -41,6 +41,9 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("THUNDERDROME", 'sound/music/THUNDERDOME.ogg'),
 		new/datum/track("Let It Snow", 'sound/jukebox/let_it_snow.ogg'),
 		new/datum/track("Staying Alive", 'sound/jukebox/staying_alive.ogg'),
+		new/datum/track("Space Oddity", 'sound/music/david_bowie-space_oddity_original.ogg'),
+		new/datum/track("Light Up The Night", 'sound/jukebox/Light_Up_The_Night.ogg'),
+		new/datum/track("Rasputin", 'sound/jukebox/Rasputin.ogg'),
 	)
 
 

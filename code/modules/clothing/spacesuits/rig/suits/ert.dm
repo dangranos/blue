@@ -70,7 +70,8 @@
 	desc = "A heavy suit worn by the highest level of Nanotrasen Asset Protection, don't mess with the person wearing this. Armoured and space ready."
 	suit_type = "heavy asset protection"
 	icon_state = "asset_protection_rig"
-	armor = list(melee = 60, bullet = 50, laser = 50,energy = 40, bomb = 40, bio = 100, rad = 100)
+	armor = list(melee = 70, bullet = 60, laser = 60, energy = 50, bomb = 50, bio = 100, rad = 100)
+	max_heat_protection_temperature = FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 
 	initial_modules = list(
 		/obj/item/rig_module/ai_container,

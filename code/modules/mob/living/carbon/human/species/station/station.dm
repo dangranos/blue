@@ -68,6 +68,11 @@
 		else
 			return 'icons/mob/mask.dmi'
 
+	get_hidden_slot_sprite(state = "", var/body_build = 0)
+		if(body_build==BODY_SLIM)
+			return 'icons/mob/hidden_f.dmi'
+		else
+			return 'icons/mob/hidden.dmi'
 
 /datum/species/unathi
 	name = "Unathi"
@@ -122,7 +127,7 @@
 	accentFL = list("ã" = "õ", "Ã" = "Õ")
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
+						"Research Director", "Chief Medical Officer", "Detective",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
 
@@ -135,6 +140,9 @@
 		if(state in icon_states('icons/mob/species/unathi/mask.dmi'))
 			return 'icons/mob/species/unathi/mask.dmi'
 		else return ..()
+
+	get_hidden_slot_sprite(state = "")
+		return 'icons/mob/species/unathi/hidden.dmi'
 
 /datum/species/unathi/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
@@ -152,6 +160,7 @@
 	darksight = 8
 	slowdown = -1
 	brute_mod = 1.2
+	gluttonous = 1
 
 	blurb = "The Tajaran race is a species of feline-like bipeds hailing from the planet of Ahdomai in the \
 	S'randarr system. They have been brought up into the space age by the Humans and Skrell, and have been \
@@ -183,7 +192,7 @@
 	cold_discomfort_level = 275
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
 						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
-						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist", "Xenobiologist",\
+						"Medical Doctor", "Geneticist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
 	accent = list("ð" = "ðð", "Ð" = "Ðð")
 
@@ -196,6 +205,9 @@
 		if(state in icon_states('icons/mob/species/tajaran/mask.dmi'))
 			return 'icons/mob/species/tajaran/mask.dmi'
 		else return ..()
+
+	get_hidden_slot_sprite(state = "")
+		return 'icons/mob/species/tajaran/hidden.dmi'
 
 /datum/species/tajaran/equip_survival_gear(var/mob/living/carbon/human/H)
 	..()
@@ -307,6 +319,11 @@
 						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist", "Paramedic",\
 						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
 
+	get_uniform_sprite(state = "")
+		if(state in icon_states('icons/mob/species/diona/uniform.dmi'))
+			return 'icons/mob/species/diona/uniform.dmi'
+		else return ..()
+
 	get_suit_sprite(state = "")
 		if(state in icon_states('icons/mob/species/diona/suit.dmi'))
 			return 'icons/mob/species/diona/suit.dmi'
@@ -354,7 +371,7 @@
 
 	icobase = 'icons/mob/human_races/r_machine.dmi'
 	deform = 'icons/mob/human_races/r_machine.dmi'
-	language = "Tradeband"
+	language = "EAL"
 	unarmed_types = list(/datum/unarmed_attack/punch)
 	rarity_value = 2
 

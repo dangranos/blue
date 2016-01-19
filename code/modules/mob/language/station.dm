@@ -6,7 +6,6 @@
 	exclaim_verb = "rustles"
 	colour = "soghun"
 	key = "q"
-	rkey = "é"
 	syllables = list("hs","zt","kr","st","sh")
 
 /datum/language/diona/get_random_name()
@@ -22,7 +21,6 @@
 	exclaim_verb = "roars"
 	colour = "soghun"
 	key = "o"
-	rkey = "ù"
 	flags = WHITELISTED
 	syllables = list("ss","ss","ss","ss","skak","seeki","resh","las","esi","kor","sh")
 
@@ -41,7 +39,6 @@
 	exclaim_verb = "yowls"
 	colour = "tajaran"
 	key = "j"
-	rkey = "î"
 	signlang_verb = list("lightly touches a chin with a paw", "waves their tail", "twitches the end of their tail",\
 						 "pins back their ears")
 	flags = WHITELISTED | NONVERBAL
@@ -67,7 +64,6 @@
 	exclaim_verb = "warbles"
 	colour = "skrell"
 	key = "k"
-	rkey = "ë"
 	flags = WHITELISTED
 	syllables = list("qr","qrr","xuq","qil","quum","xuqm","vol","xrim","zaoo","qu-uu","qix","qoo","zix","*","!")
 
@@ -78,6 +74,22 @@
 	whisper_verb = "whispers"
 	colour = "solcom"
 	key = "1"
+
+/datum/language/machine
+	name = "EAL"
+	desc = "A language of encoded tones that allow for IPCs to communicate auditorily between each other in a manner that allows for easier transfer of information."
+	speech_verb = "beeps"
+	ask_verb = "beeps"
+	exclaim_verb = "loudly beeps"
+	colour = "say_quote"
+	key = "6"
+	flags = WHITELISTED
+	syllables = list("beep","beep","beep","beep","beep","boop","boop","boop","bop","bop","dee","dee","doo","doo","hiss","hss","buzz","buzz","bzz","ksssh","keey","wurr","wahh","tzzz")
+
+/datum/language/machine/get_random_name()
+	if(prob(70))
+		return "[pick(list("PBU","HIU","SINA","ARMA","OSI"))]-[rand(100, 999)]"
+	return pick(ai_names)
 
 	//syllables are at the bottom of the file
 

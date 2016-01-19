@@ -37,8 +37,7 @@
 	desc = "Polarized bioneural eyewear, designed to augment your vision."
 	icon_state = "jensenshades"
 	item_state = "jensenshades"
-	vision_flags = SEE_MOBS
-	see_invisible = SEE_INVISIBLE_OBSERVER_NOLIGHTING
+	darkness_view = -1
 
 /obj/item/clothing/glasses/hud/security/process_hud(var/mob/M)
 	process_sec_hud(M, 1)

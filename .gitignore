@@ -12,3 +12,6 @@ data/
 config/
 tools/
 
+/.gitattributes
+/.gitignore
+/.gitconfig
