@@ -63,7 +63,6 @@
 	exclaim_verb = "yowls"
 	colour = "cult"
 	key = "z"
-	rkey = "ÿ"
 	flags = PUBLIC
 	syllables = list("mrr","rr","tajr","kir","raj","kii","mir","kra","ahk","nal","vah","khaz","jri","ran","darr",
 				 	 "mi","jri","dynh","manq","rhe","zar","rrhaz","kal","chur","eech","thaa","dra","jurl","mah","sanu","dra","ii'r",
@@ -76,7 +75,6 @@
 	desc = "A very old slavanian language. Refers to a range of mixed sociolects of Ukrainian and Russian languages used in certain colonies"
 	speech_verb = "says"
 	key = "r"
-	rkey = "ê"
 	flags = PUBLIC
 	space_chance = 100
 	syllables = list("pjat", "strimjatsa", "virast", "mjezdu", "tjolstoj", "blyat",
@@ -97,11 +95,12 @@
 	flags = PUBLIC
 	syllables = list ("gra","ba","ba","breh","bra","rah","dur","ra","ro","gro","go","ber","bar","geh","heh", "gra")
 
+/*
 // Soldier language
 /datum/language/kellai
 	name = "Kellai"
 	desc = "Maintained by the various trading cartels in major systems, this elegant, structured language is used for bartering and bargaining."
-	speech_verb = "articulate"
+	speech_verb = "rapped"
 	colour = "say_quote"
 	key = "4"
 	flags = PUBLIC
@@ -113,4 +112,4 @@
 					 "voluptate", "velit", "esse", "cillum", "dolore", "eu", "fugiat", "nulla",
 					 "pariatur", "excepteur", "sint", "occaecat", "cupidatat", "non", "proident", "sunt",
 					 "in", "culpa", "qui", "officia", "deserunt", "mollit", "anim", "id", "est", "laborum")
-
+*/
