@@ -193,8 +193,10 @@
 
 	for(var/datum/language/L in languages)
 		if(!(L.flags & NONGLOBAL))
-			var/key = get_key_by_value(language_keys, L)
-			dat += "<b>[L.name] (<a href='byond://?src=\ref[src];set_key=\ref[L]'>[key?":[key]":"no key"]</a>)</b>"
+			var/key = russian_to_utf8(get_key_by_value(language_keys, L))
+			if(!key) key = "no key"
+			else key = ":[key]"
+			dat += "<b>[L.name] (<a href='byond://?src=\ref[src];set_key=\ref[L]'>[key]</a>)</b>"
 			if(L == default_language)
 				dat += " - default - <a href='byond://?src=\ref[src];default_lang=reset'>reset</a><br/>[L.desc]<br/><br/>"
 			else
@@ -222,6 +224,8 @@
 				if(new_key == " ") drop_language_key(L)
 				else if(set_language_key(L, new_key))
 					usr << "<span class = 'notice'>New key for \"[L.name]\" is \"[new_key]\"</span>"
+		check_languages()
+		return 1
 	else
 		return ..()
 
