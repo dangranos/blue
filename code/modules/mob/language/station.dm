@@ -6,7 +6,6 @@
 	exclaim_verb = "rustles"
 	colour = "soghun"
 	key = "q"
-	rkey = "é"
 	syllables = list("hs","zt","kr","st","sh")
 
 /datum/language/diona/get_random_name()
@@ -22,7 +21,6 @@
 	exclaim_verb = "roars"
 	colour = "soghun"
 	key = "o"
-	rkey = "ù"
 	flags = WHITELISTED
 	syllables = list("ss","ss","ss","ss","skak","seeki","resh","las","esi","kor","sh")
 
@@ -41,7 +39,6 @@
 	exclaim_verb = "yowls"
 	colour = "tajaran"
 	key = "j"
-	rkey = "î"
 	signlang_verb = list("lightly touches a chin with a paw", "waves their tail", "twitches the end of their tail",\
 						 "pins back their ears")
 	flags = WHITELISTED | NONVERBAL
@@ -67,7 +64,6 @@
 	exclaim_verb = "warbles"
 	colour = "skrell"
 	key = "k"
-	rkey = "ë"
 	flags = WHITELISTED
 	syllables = list("qr","qrr","xuq","qil","quum","xuqm","vol","xrim","zaoo","qu-uu","qix","qoo","zix","*","!")
 
