@@ -284,6 +284,10 @@
 		name = "Feather"
 		icon_state = "hair_feather"
 
+	smessy
+		name = "Messy Hair"
+		icon_state = "hair_smessy"
+
 	hitop
 		name = "Hitop"
 		icon_state = "hair_hitop"
