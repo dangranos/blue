@@ -283,3 +283,32 @@
 	name = "emergency response team medical backpack"
 	desc = "A spacious backpack with lots of pockets, worn by medical members of a Nanotrasen Emergency Response Team."
 	icon_state = "ert_medical"
+
+//dufflebags
+
+/obj/item/weapon/storage/backpack/duffle
+	name = "dufflebag"
+	desc = "It's a large dufflebag which able to carry different stuff."
+	icon_state = "duffle"
+
+/obj/item/weapon/storage/backpack/duffle/security
+	name = "security dufflebag"
+	desc = "It's a large tactical dufflebag which able to carry different stuff."
+	icon_state = "duffle-sec"
+
+/obj/item/weapon/storage/backpack/duffle/cap
+	name = "captains dufflebag"
+	desc = "It's a large blue dufflebag which able to carry different stuff."
+	icon_state = "duffle-captain"
+
+/obj/item/weapon/storage/backpack/duffle/med
+	name = "medical dufflebag"
+	desc = "It's a large white dufflebag with a green cross which able to carry different stuff."
+	icon_state = "duffle-med"
+
+/obj/item/weapon/storage/backpack/duffle/engie
+	name = "industrial dufflebag"
+	desc = "It's a large industrial dufflebag with a green cross which able to carry different stuff."
+	icon_state = "duffle-eng"
+
+

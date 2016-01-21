@@ -20,6 +20,7 @@
 		else
 			new /obj/item/clothing/accessory/storage/webbing(src)
 		new /obj/item/blueprints(src)
+		new /obj/item/weapon/storage/backpack/duffle/engie (src)
 		new /obj/item/clothing/under/rank/chief_engineer(src)
 		new /obj/item/clothing/head/hardhat/white(src)
 		new /obj/item/clothing/head/welding(src)
@@ -141,6 +142,7 @@
 			new /obj/item/clothing/accessory/storage/brown_vest(src)
 		else
 			new /obj/item/clothing/accessory/storage/webbing(src)
+		new /obj/item/weapon/storage/backpack/duffle/engie(src)
 		new /obj/item/clothing/suit/fire/firefighter(src)
 		new /obj/item/device/flashlight(src)
 		new /obj/item/weapon/extinguisher(src)
