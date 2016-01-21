@@ -127,6 +127,10 @@
 		name = "Ponytail 5"
 		icon_state = "hair_ponytail5"
 
+	ponytail6
+		name = "Ponytail 6"
+		icon_state = "hair_ponytail6"
+
 	sideponytail
 		name = "Side Ponytail"
 		icon_state = "hair_stail"
@@ -279,6 +283,10 @@
 	feather
 		name = "Feather"
 		icon_state = "hair_feather"
+
+	smessy
+		name = "Messy Hair"
+		icon_state = "hair_smessy"
 
 	hitop
 		name = "Hitop"
