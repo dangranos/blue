@@ -66,6 +66,7 @@
 			new /obj/item/weapon/storage/backpack/medic(src)
 		else
 			new /obj/item/weapon/storage/backpack/satchel_med(src)
+		new /obj/item/weapon/storage/backpack/duffle/med (src)
 		new /obj/item/clothing/under/rank/nursesuit (src)
 		new /obj/item/clothing/head/nursehat (src)
 		switch(pick("blue", "green", "purple"))
@@ -129,6 +130,7 @@
 			if ("purple")
 				new /obj/item/clothing/under/rank/medical/purple(src)
 				new /obj/item/clothing/head/surgery/purple(src)
+		new /obj/item/weapon/storage/backpack/duffle/med(src)
 		new /obj/item/clothing/under/rank/chief_medical_officer(src)
 		new /obj/item/clothing/suit/storage/toggle/labcoat/cmo(src)
 		new /obj/item/clothing/suit/storage/toggle/labcoat/cmoalt(src)
