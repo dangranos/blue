@@ -14,7 +14,6 @@
 	var/signlang_verb = list()       // list of emotes that might be displayed if this language has NONVERBAL or SIGNLANG flags
 	var/colour = "body"              // CSS style to use for strings in this language.
 	var/key = "x"                    // Character used to speak in language eg. :o for Unathi.
-	var/rkey = ""
 	var/flags = 0                    // Various language flags.
 	var/native                       // If set, non-native speakers will have trouble speaking.
 	var/list/syllables               // Used when scrambling text for a non-speaker.
@@ -128,12 +127,37 @@
 		return 0
 
 	languages.Add(new_language)
+	set_language_key(new_language, new_language.key)
 	return 1
+
+/mob/proc/set_language_key(var/datum/language/language, var/key = "")
+	// We don't know that language!
+	if(!language in languages || length(key)>1) return 0
+
+	if(!key)
+		for(var/n_key in default_lang_keys)
+			if(!n_key in language_keys)
+				key = n_key
+				break
+	drop_language_key(language)
+	language_keys[key] = language
+	return 1
+
+/mob/living/carbon/human/set_language_key(var/datum/language/language, var/key = "")
+	if(!key && species && species.language == language.name)
+		..(language, "1")
+	..()
+
+/mob/proc/drop_language_key(var/datum/language/language)
+	for(var/key in language_keys)
+		if(language_keys[key] == language)
+			language_keys.Remove(key)
 
 /mob/proc/remove_language(var/rem_language)
 	var/datum/language/L = all_languages[rem_language]
 	. = (L in languages)
 	languages.Remove(L)
+	drop_language_key(L)
 
 /mob/living/remove_language(rem_language)
 	var/datum/language/L = all_languages[rem_language]
@@ -169,10 +193,14 @@
 
 	for(var/datum/language/L in languages)
 		if(!(L.flags & NONGLOBAL))
+			var/key = russian_to_utf8(get_key_by_value(language_keys, L))
+			if(!key) key = "no key"
+			else key = ":[key]"
+			dat += "<b>[L.name] (<a href='byond://?src=\ref[src];set_key=\ref[L]'>[key]</a>)</b>"
 			if(L == default_language)
-				dat += "<b>[L.name] (:[L.key])</b> - default - <a href='byond://?src=\ref[src];default_lang=reset'>reset</a><br/>[L.desc]<br/><br/>"
+				dat += " - default - <a href='byond://?src=\ref[src];default_lang=reset'>reset</a><br/>[L.desc]<br/><br/>"
 			else
-				dat += "<b>[L.name] (:[L.key])</b> - <a href='byond://?src=\ref[src];default_lang=\ref[L]'>set default</a><br/>[L.desc]<br/><br/>"
+				dat += " - <a href='byond://?src=\ref[src];default_lang=\ref[L]'>set default</a><br/>[L.desc]<br/><br/>"
 
 	src << browse(dat, "window=checklanguage")
 
@@ -184,6 +212,18 @@
 			var/datum/language/L = locate(href_list["default_lang"])
 			if(L && (L in languages))
 				set_default_language(L)
+		check_languages()
+		return 1
+	else if(href_list["set_key"])
+		var/datum/language/L = locate(href_list["set_key"])
+		if(L && (L in languages))
+			var/new_key = "  "
+			while(length(new_key) > 1)
+				new_key = rkey2key(rlowertext(input("Specify new key for [L.name]. Space for dropkey. Empty for exit.", "New key for [L.name]") as text))
+			if(new_key)
+				if(new_key == " ") drop_language_key(L)
+				else if(set_language_key(L, new_key))
+					usr << "<span class = 'notice'>New key for \"[L.name]\" is \"[new_key]\"</span>"
 		check_languages()
 		return 1
 	else
