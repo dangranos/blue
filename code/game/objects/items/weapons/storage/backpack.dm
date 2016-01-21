@@ -290,6 +290,9 @@
 	name = "dufflebag"
 	desc = "It's a large dufflebag which able to carry different stuff."
 	icon_state = "duffle"
+	storage_slots = 9
+	max_storage_space = 34
+	slowdown = 1
 
 /obj/item/weapon/storage/backpack/duffle/security
 	name = "security dufflebag"

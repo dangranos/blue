@@ -351,6 +351,20 @@
 	icon_state = "blueponcho"
 	item_state = "blueponcho"
 
+/obj/item/clothing/suit/storage/varsityred
+	name = "red varsity jacket"
+	icon_state = "varsity_red"
+	item_state = "varsity_red"
+	body_parts_covered = UPPER_TORSO|ARMS
+	cold_protection = UPPER_TORSO|ARMS
+
+/obj/item/clothing/suit/storage/varsityblue
+	name = "blue varsity jacket"
+	icon_state = "varsity_blue"
+	item_state = "varsity_blue"
+	body_parts_covered = UPPER_TORSO|ARMS
+	cold_protection = UPPER_TORSO|ARMS
+
 /obj/item/clothing/suit/storage/toggle/bomber
 	name = "bomber jacket"
 	desc = "A thick, well-worn WW2 leather bomber jacket."
@@ -362,6 +376,7 @@
 	cold_protection = UPPER_TORSO|ARMS
 	min_cold_protection_temperature = T0C - 20
 	siemens_coefficient = 0.7
+
 
 /obj/item/clothing/suit/storage/leather_jacket
 	name = "leather jacket"
