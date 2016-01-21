@@ -54,3 +54,4 @@ effective or pretty fucking useless.
 	times_used += 1
 	if(times_used >= max_uses)
 		icon_state = "battererburnt"
+
