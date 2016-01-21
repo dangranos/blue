@@ -972,7 +972,7 @@
 "sJ" = (/obj/structure/shuttle/engine/propulsion{icon_state = "propulsion_r"},/turf/space,/area/syndicate_station/start)
 "sK" = (/obj/structure/table/standard,/turf/unsimulated/floor{dir = 9; icon_state = "carpetside"},/area/centcom/living)
 "sL" = (/turf/unsimulated/floor{dir = 1; icon_state = "carpetside"},/area/centcom/living)
-"sM" = (/obj/machinery/sleeper,/turf/unsimulated/floor{dir = 5; icon_state = "carpetside"},/area/centcom/living)
+"sM" = (/obj/machinery/cryopod/spawner,/turf/unsimulated/floor{dir = 5; icon_state = "carpetside"},/area/centcom/living)
 "sN" = (/obj/structure/mirror{pixel_y = 28},/turf/unsimulated/floor{dir = 8; icon_state = "wood"},/area/centcom/living)
 "sO" = (/turf/unsimulated/floor{dir = 8; icon_state = "wood"},/area/centcom/living)
 "sP" = (/obj/machinery/computer/card/centcom,/turf/unsimulated/floor{dir = 8; icon_state = "wood"},/area/centcom/living)
@@ -2315,3 +2315,4 @@ aNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaN
 aNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaN
 aNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaNaN
 "}
+
