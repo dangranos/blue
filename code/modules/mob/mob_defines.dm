@@ -49,6 +49,7 @@
 	var/damageoverlaytemp = 0
 	var/computer_id = null
 	var/already_placed = 0.0
+	var/birth = 0
 	var/obj/machinery/machine = null
 	var/other_mobs = null
 	var/memory = ""
