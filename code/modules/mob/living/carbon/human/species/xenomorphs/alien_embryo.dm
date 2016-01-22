@@ -8,113 +8,183 @@
 	icon_state = "larva0_dead"
 	var/mob/living/affected_mob
 	var/stage = 0
+	var/stage_age = 0
+	var/protect = 0
 
 /obj/item/alien_embryo/New()
+	..()
+	process_larva()
 	if(istype(loc, /mob/living))
 		affected_mob = loc
-		processing_objects.Add(src)
 		spawn(0)
 			AddInfectionImages(affected_mob)
 	else
-		qdel(src)
+		del(src)
 
-/obj/item/alien_embryo/Destroy()
+/obj/item/alien_embryo/Del()
 	if(affected_mob)
 		affected_mob.status_flags &= ~(XENO_HOST)
 		spawn(0)
 			RemoveInfectionImages(affected_mob)
 	..()
 
-/obj/item/alien_embryo/process()
-	if(!affected_mob)	return
-	if(loc != affected_mob)
-		affected_mob.status_flags &= ~(XENO_HOST)
-		processing_objects.Remove(src)
-		spawn(0)
+/obj/item/alien_embryo/proc/process_larva()
+	spawn while(1)
+		if(!affected_mob)	return
+		if(loc != affected_mob)
+			affected_mob.status_flags &= ~(XENO_HOST)
 			RemoveInfectionImages(affected_mob)
 			affected_mob = null
-		return
+			return
+	/*
+		if(affected_mob.stat == DEAD && !protect) //If the host of the xeno baby dies and the protect var = 0, kill the baby with them.
+			affected_mob.status_flags &= ~(XENO_HOST)
+			processing_objects.Remove(src)
+			spawn(0)
+				RemoveInfectionImages(affected_mob)
+				affected_mob = null
+			return*/
+		stage_age++
+		if(stage < 5 && stage_age > 60)
+			stage++
+			stage_age = 0
+			spawn(0)
+				RefreshInfectionImage(affected_mob)
+		switch(stage)
+			if(1)
+				if(prob(5))
+					affected_mob << "\red You taste blood in your mouth."
+				if(prob(1))
+					affected_mob << "\red You feel cold."
+					affected_mob.emote("shiver")
+			if(2)
+				if(prob(1))
+					affected_mob.emote("sneeze")
+				if(prob(1))
+					affected_mob.emote("cough")
+				if(prob(5))
+					affected_mob << "\red Your throat feels sore."
 
-	if(stage < 5 && prob(3))
-		stage++
-		spawn(0)
-			RefreshInfectionImage(affected_mob)
+			if(3)
+				if(prob(10))
+					affected_mob << "\red Mucous runs down the back of your throat."
+				if(prob(5))
+					affected_mob << "\red Your chest feels tight."
+				if(prob(3))
+					affected_mob << "\red Your chest aches."
+					if(istype(affected_mob, /mob/living/carbon/human))
+						affected_mob.take_organ_damage(5)
+				if(prob(10))
+					affected_mob << "\red You feel hungry."
+					affected_mob.nutrition -= 20
+				if(prob(25) && affected_mob.paralysis == 0)
+					affected_mob << "\red <b>You black out.</b>"
+					affected_mob.paralysis = 5
+			if(4)
+				if(prob(10))
+					affected_mob.emote("sneeze")
+				if(prob(10))
+					affected_mob.emote("cough")
+				if(prob(30))
+					affected_mob << "\red Your chest hurts."
+					if(prob(50))
+						if(istype(affected_mob, /mob/living/carbon/human))
+							affected_mob.take_organ_damage(10)
+				if(prob(20))
+					affected_mob << "\red Your stomach hurts."
+					if(prob(50))
+						if(istype(affected_mob, /mob/living/carbon/human))
+							affected_mob.adjustToxLoss(1)
+							affected_mob.updatehealth()
+			if(5)
+				if(istype(affected_mob, /mob/living/carbon/human))
+					affected_mob.adjustToxLoss(2)
 
-	switch(stage)
-		if(2, 3)
-			if(prob(1))
-				affected_mob.emote("sneeze")
-			if(prob(1))
-				affected_mob.emote("cough")
-			if(prob(1))
-				affected_mob << "\red Your throat feels sore."
-			if(prob(1))
-				affected_mob << "\red Mucous runs down the back of your throat."
-		if(4)
-			if(prob(1))
-				affected_mob.emote("sneeze")
-			if(prob(1))
-				affected_mob.emote("cough")
-			if(prob(2))
-				affected_mob << "\red Your muscles ache."
-				if(prob(20))
-					affected_mob.take_organ_damage(1)
-			if(prob(2))
-				affected_mob << "\red Your stomach hurts."
-				if(prob(20))
-					affected_mob.adjustToxLoss(1)
-					affected_mob.updatehealth()
-		if(5)
-			affected_mob << "\red You feel something tearing its way out of your stomach..."
-			affected_mob.adjustToxLoss(10)
-			affected_mob.updatehealth()
-			if(prob(50))
+				affected_mob << "\red You feel something tearing its way out of your stomach..."
 				AttemptGrow()
+				stage = 6
+				if(prob(70))
+					if(istype(affected_mob, /mob/living/carbon/human))
+						affected_mob.adjustBruteLoss(5)
+						affected_mob.updatehealth()
+			if(6)
+				stage = 4
+				stage_age = 57
+		sleep(20)
+
 
 /obj/item/alien_embryo/proc/AttemptGrow(var/gib_on_success = 1)
-	var/list/candidates = get_alien_candidates()
-	var/picked = null
 
-	// To stop clientless larva, we will check that our host has a client
-	// if we find no ghosts to become the alien. If the host has a client
-	// he will become the alien but if he doesn't then we will set the stage
-	// to 2, so we don't do a process heavy check everytime.
+	affected_mob.emote("scream")
 
-	if(candidates.len)
-		picked = pick(candidates)
-	else if(affected_mob.client)
-		picked = affected_mob.key
-	else
-		stage = 4 // Let's try again later.
-		return
+	spawn(20)
+		var/list/candidates = list()
+		var/picked
+		if(!affected_mob)//hopefully fix a runtime error
+			return
 
-	if(affected_mob.lying)
-		affected_mob.overlays += image('icons/mob/alien.dmi', loc = affected_mob, icon_state = "burst_lie")
-	else
-		affected_mob.overlays += image('icons/mob/alien.dmi', loc = affected_mob, icon_state = "burst_stand")
-	spawn(6)
-		var/mob/living/carbon/alien/larva/new_xeno = new(affected_mob.loc)
+		if(istype(affected_mob, /mob/living/carbon/human) && affected_mob.stat == DEAD)
+			return
+		for(var/mob/dead/observer/G in player_list)
+			if(G)
+				if(G.client)
+					if(G.client.prefs.be_special & BE_ALIEN)
+						candidates += G.key
+
+		// To stop clientless larva, we will check that our host has a client
+		// if we find no ghosts to become the alien. If the host has a client
+		// he will become the alien but if he doesn't then we will set the stage
+		// to 4, so we don't do a process heavy check everytime.
+
+		if(candidates.len)
+			picked = pick(candidates)
+		else if(affected_mob.client)
+			picked = affected_mob.key
+		if(!picked)
+			stage = 4 // Let's try again later.
+			stage_age = 35
+			return
+
+		affected_mob.death()
+		affected_mob.stat = DEAD
+		src.protect = 1
+		var/turf/T = affected_mob.loc
+		var/mob/living/carbon/alien/larva/new_xeno = new(T)
+
+		//Pulling the larva out if it spawns in a sleeper, cryotube, another alien, etc. Leaving the larva in if it spawns inside a bodybag or a closet.
+		if (!isturf(new_xeno.loc) && !istype(new_xeno.loc,/obj/structure/closet/))  //Remember that bodybags /obj/structure/closet/.
+			new_xeno.loc = get_turf(new_xeno)
+		//If you're a really unlucky larva, you may spawn inside a body bag which is inside a morgue tray, and you could get trapped.
+		if(istype(new_xeno.loc.loc, /obj/structure/morgue))
+			new_xeno.loc = get_turf(new_xeno)
+
+		affected_mob.birth = 1
+
+
 		new_xeno.key = picked
 		new_xeno << sound('sound/voice/hiss5.ogg',0,0,0,100)	//To get the player's attention
-		if(gib_on_success)
-			affected_mob.gib()
-		qdel(src)
+
+		affected_mob.death()
+		affected_mob.stat = DEAD
+		src.protect = 1
+
+		for(var/mob/L in range(src, 10))
+			L << "\red <b>[new_xeno] crawls out of [affected_mob]!</b>"
+		affected_mob.overlays += image('icons/mob/alien.dmi', loc = affected_mob, icon_state = "bursted_stand")
+	//	if(gib_on_success)
+		//	affected_mob.gib()
+		del(src)
 
 /*----------------------------------------
 Proc: RefreshInfectionImage()
 Des: Removes all infection images from aliens and places an infection image on all infected mobs for aliens.
 ----------------------------------------*/
 /obj/item/alien_embryo/proc/RefreshInfectionImage()
-
-	for(var/mob/living/carbon/alien in player_list)
-
-		if(!locate(/obj/item/organ/xenos/hivenode) in alien.internal_organs)
-			continue
-
+	for(var/mob/living/carbon/alien/alien in player_list)
 		if(alien.client)
 			for(var/image/I in alien.client.images)
 				if(dd_hasprefix_case(I.icon_state, "infected"))
-					qdel(I)
+					del(I)
 			for(var/mob/living/L in mob_list)
 				if(iscorgi(L) || iscarbon(L))
 					if(L.status_flags & XENO_HOST)
@@ -127,12 +197,7 @@ Des: Checks if the passed mob (C) is infected with the alien egg, then gives eac
 ----------------------------------------*/
 /obj/item/alien_embryo/proc/AddInfectionImages(var/mob/living/C)
 	if(C)
-
-		for(var/mob/living/carbon/alien in player_list)
-
-			if(!locate(/obj/item/organ/xenos/hivenode) in alien.internal_organs)
-				continue
-
+		for(var/mob/living/carbon/alien/alien in player_list)
 			if(alien.client)
 				if(C.status_flags & XENO_HOST)
 					var/I = image('icons/mob/alien.dmi', loc = C, icon_state = "infected[stage]")
@@ -144,16 +209,10 @@ Des: Removes the alien infection image from all aliens in the world located in p
 ----------------------------------------*/
 
 /obj/item/alien_embryo/proc/RemoveInfectionImages(var/mob/living/C)
-
 	if(C)
-
-		for(var/mob/living/carbon/alien in player_list)
-
-			if(!locate(/obj/item/organ/xenos/hivenode) in alien.internal_organs)
-				continue
-
+		for(var/mob/living/carbon/alien/alien in player_list)
 			if(alien.client)
 				for(var/image/I in alien.client.images)
 					if(I.loc == C)
 						if(dd_hasprefix_case(I.icon_state, "infected"))
-							qdel(I)
+							del(I)
