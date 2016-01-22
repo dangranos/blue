@@ -246,6 +246,69 @@
 
 	find_control_computer()
 
+/obj/machinery/cryopod/spawner/attack_ghost(mob/dead/observer/user as mob)
+	var/mob/living/carbon/human/new_character
+	if(!user || !check_rights()) return
+	if(occupant)
+		user << "<span class = 'warning'>Cryopod already occupied!</span>"
+		return
+
+	if(alert("Would you like to spawn?",,"Yes","No") == "No") return
+
+	var/client/client = user.client
+
+	if(client.prefs.species)
+		new_character = new(loc, all_species[client.prefs.species])
+
+	if(!new_character)
+		new_character = new(loc)
+
+	set_occupant(new_character)
+
+	new_character.lastarea = get_area(loc)
+
+	var/datum/language/chosen_language
+	if(client.prefs.language)
+		chosen_language = all_languages["[client.prefs.language]"]
+		if(chosen_language)
+			new_character.add_language("[client.prefs.language]")
+
+	client.prefs.copy_to(new_character)
+
+	new_character.name = client.prefs.real_name
+	new_character.dna.ready_dna(new_character)
+	new_character.dna.b_type = client.prefs.b_type
+
+	// Do the initial caching of the player's body icons.
+	new_character.force_update_limbs()
+	new_character.update_eyes()
+	new_character.regenerate_icons()
+
+	new_character.key = user.key
+
+	new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(new_character), slot_w_uniform)
+	new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
+	new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
+	new_character.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(new_character), slot_l_ear)
+	new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/captain(new_character), slot_head)
+
+	var/obj/item/device/pda/heads/pda = new(new_character)
+	pda.owner = new_character.real_name
+	pda.ownjob = "NanoTrasen Navy Captain"
+	pda.name = "PDA-[new_character.real_name] ([pda.ownjob])"
+
+	new_character.equip_to_slot_or_del(pda, slot_r_store)
+	new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
+	new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
+
+	var/obj/item/weapon/card/id/centcom/W = new(new_character)
+	W.name = "[new_character.real_name]'s ID Card"
+	W.access = get_all_accesses()
+	W.access += get_all_centcom_access()
+	W.assignment = "NanoTrasen Navy Captain"
+	W.registered_name = new_character.real_name
+	new_character.equip_to_slot_or_del(W, slot_wear_id)
+
 /obj/machinery/cryopod/proc/find_control_computer(urgent=0)
 	control_computer = locate(/obj/machinery/computer/cryopod) in src.loc.loc
 
@@ -373,10 +436,7 @@
 		if ((G.fields["name"] == occupant.real_name))
 			qdel(G)
 
-	if(orient_right)
-		icon_state = "[base_icon_state]-r"
-	else
-		icon_state = base_icon_state
+	update_icon()
 
 	//TODO: Check objectives/mode, update new targets if this mob is the target, spawn new antags?
 
@@ -428,30 +488,21 @@
 
 			if(do_after(user, 20))
 				if(!M || !G || !G.affecting) return
+				var/turf/src_turf = get_turf(src)
+				if( !src_turf.Adjacent(M) ) return
 
-				M.loc = src
-
-				if(M.client)
-					M.client.perspective = EYE_PERSPECTIVE
-					M.client.eye = src
-
-			if(orient_right)
-				icon_state = "[occupied_icon_state]-r"
-			else
-				icon_state = occupied_icon_state
-
+			set_occupant(M)
 			M << "<span class='notice'>[on_enter_occupant_message]</span>"
 			M << "<span class='notice'><b>If you ghost, log out or close your client now, your character will shortly be permanently removed from the round.</b></span>"
-			set_occupant(M)
-			time_entered = world.time
 
 			// Book keeping!
 			var/turf/location = get_turf(src)
-			log_admin("[key_name_admin(M)] has entered a stasis pod. (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>JMP</a>)")
-			message_admins("<span class='notice'>[key_name_admin(M)] has entered a stasis pod.</span>")
+			log_admin("[key_name_admin(user)] put [key_name_admin(M)] in stasis pod. (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[location.x];Y=[location.y];Z=[location.z]'>JMP</a>)")
+			message_admins("<span class='notice'>[key_name_admin(user)] put [key_name_admin(M)] in stasis pod.</span>")
 
 			//Despawning occurs when process() is called with an occupant without a client.
 			src.add_fingerprint(M)
+			src.add_fingerprint(user)
 
 /obj/machinery/cryopod/verb/eject()
 	set name = "Eject Pod"
@@ -508,24 +559,26 @@
 			return
 
 		usr.stop_pulling()
-		usr.client.perspective = EYE_PERSPECTIVE
-		usr.client.eye = src
-		usr.loc = src
 		set_occupant(usr)
-
-		if(orient_right)
-			icon_state = "[occupied_icon_state]-r"
-		else
-			icon_state = occupied_icon_state
 
 		usr << "<span class='notice'>[on_enter_occupant_message]</span>"
 		usr << "<span class='notice'><b>If you ghost, log out or close your client now, your character will shortly be permanently removed from the round.</b></span>"
 
-		time_entered = world.time
-
 		src.add_fingerprint(usr)
 
 	return
+
+/obj/machinery/cryopod/update_icon()
+	if(occupant)
+		if(orient_right)
+			icon_state = "[occupied_icon_state]-r"
+		else
+			icon_state = occupied_icon_state
+	else
+		if(orient_right)
+			icon_state = "[base_icon_state]-r"
+		else
+			icon_state = base_icon_state
 
 /obj/machinery/cryopod/proc/go_out()
 
@@ -539,18 +592,20 @@
 	occupant.loc = get_turf(src)
 	set_occupant(null)
 
-	if(orient_right)
-		icon_state = "[base_icon_state]-r"
-	else
-		icon_state = base_icon_state
-
 	return
 
-/obj/machinery/cryopod/proc/set_occupant(var/occupant)
-	src.occupant = occupant
+/obj/machinery/cryopod/proc/set_occupant(var/mob/occupant)
 	name = initial(name)
 	if(occupant)
+		occupant.client.perspective = EYE_PERSPECTIVE
+		occupant.client.eye = src
+		occupant.loc = src
+		time_entered = world.time
 		name = "[name] ([occupant])"
+
+	src.occupant = occupant
+	update_icon()
+	return 1
 
 
 //Attacks/effects.
