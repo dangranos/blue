@@ -13,6 +13,12 @@
 	icon_state = "redwizard"
 	siemens_coefficient = 0.8
 
+/obj/item/clothing/head/wizard/green
+	name = "green wizard hat"
+	desc = "Strange-looking, green, hat-wear that most certainly belongs to a real magic user."
+	icon_state = "greenwizard"
+	siemens_coefficient = 0.8
+
 /obj/item/clothing/head/wizard/fake
 	name = "wizard hat"
 	desc = "It has WIZZARD written across it in sequins. Comes with a cool beard."
@@ -64,6 +70,11 @@
 	icon_state = "redwizard"
 	item_state = "redwizrobe"
 
+/obj/item/clothing/suit/wizrobe/green
+	name = "green wizard robe"
+	desc = "A magnificant, green robe that seems to radiate power."
+	icon_state = "greenwizrobe"
+	item_state = "greenwizrobe"
 
 /obj/item/clothing/suit/wizrobe/marisa
 	name = "Witch Robe"
