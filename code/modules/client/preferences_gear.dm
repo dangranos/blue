@@ -1318,45 +1318,45 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/hidden/socks/thin_thigh
 
 /datum/gear/pants
-	display_name = "classic jeans"
+	display_name = "Pants, classic jeans"
 	path = /obj/item/clothing/under/pants/classicjeans
 	cost = 1
 	slot = slot_w_uniform
 
 /datum/gear/pants/blackjeans
-	display_name = "black jeans"
+	display_name = "Pants, black"
 	path = /obj/item/clothing/under/pants/blackjeans
 
 /datum/gear/pants/white
-	display_name = "white pants"
+	display_name = "Pants, white"
 	path = /obj/item/clothing/under/pants/white
 
 /datum/gear/pants/red
-	display_name = "red pants"
+	display_name = "Pants, red"
 	path = /obj/item/clothing/under/pants/red
 
 /datum/gear/pants/black
-	display_name = "black pants"
+	display_name = "Pants, black"
 	path = /obj/item/clothing/under/pants/black
 
 /datum/gear/pants/track
-	display_name = "track pants"
+	display_name = "Pants, track"
 	path = /obj/item/clothing/under/pants/track
 
 /datum/gear/pants/tan
-	display_name = "tan pants"
+	display_name = "Pants, tan"
 	path = /obj/item/clothing/under/pants/tan
 
 /datum/gear/pants/jeans
-	display_name = "jeans"
+	display_name = "Pants, jeans"
 	path = /obj/item/clothing/under/pants/jeans
 
 /datum/gear/pants/khaki
-	display_name = "khaki pants"
+	display_name = "Pants, khaki"
 	path = /obj/item/clothing/under/pants/khaki
 
 /datum/gear/pants/camo
-	display_name = "camo pants"
+	display_name = "Pants, camo"
 	path = /obj/item/clothing/under/pants/camo
 
 /datum/gear/aviator
@@ -1364,6 +1364,18 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/glasses/sunglasses/aviator
 	cost = 2
 	slot = slot_glasses
+
+/datum/gear/varsityred
+	display_name = "Varsity jacket, red"
+	path = /obj/item/clothing/suit/storage/varsityred
+	cost = 2
+	slot = slot_wear_suit
+
+/datum/gear/varsityblue
+	display_name = "Varsity jacket, blue"
+	path = /obj/item/clothing/suit/storage/varsityblue
+	cost = 2
+	slot = slot_wear_suit
 
 
 
