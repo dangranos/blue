@@ -117,7 +117,7 @@
 
 	hbangsalt
 		name = "Combed Hair Alt"
-		icon_state = "hair_hbangsalt"
+		icon_state = "hair_hbangs_alt"
 
 	halfbang
 		name = "Half-banged Hair"
