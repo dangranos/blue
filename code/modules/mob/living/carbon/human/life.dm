@@ -114,6 +114,12 @@
 
 	//Check if we're on fire
 	handle_fire()
+	
+	if(src.lying && src.birth)
+		src.overlays += image('icons/mob/alien.dmi', loc = src, icon_state = "bursted_lie")
+	else if(!src.lying && src.birth)
+		src.overlays += image('icons/mob/alien.dmi', loc = src, icon_state = "bursted_stand")
+
 
 	//Status updates, death etc.
 	handle_regular_status_updates()		//Optimized a bit
