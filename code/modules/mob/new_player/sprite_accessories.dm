@@ -393,7 +393,7 @@
 
 	himecutalt
 		name = "Hime Cut Alt"
-		icon_state = "hair_himecutalt"
+		icon_state = "hair_himecut_alt"
 		gender = FEMALE
 
 	braid
