@@ -1253,6 +1253,13 @@ var/global/list/gear_datums = list()
 	sort_category = "ears"
 	whitelisted = "Skrell"
 
+/datum/gear/skrell_xilobeads
+	display_name = "skrell xilobeads"
+	path = "/obj/item/clothing/ears/skrell/xilobeads"
+	cost = 2
+	sort_category = "ears"
+	whitelisted = "Skrell"
+
 /datum/gear/socks
 	display_name = "basic"
 	slot = slot_socks
@@ -1309,3 +1316,71 @@ var/global/list/gear_datums = list()
 /datum/gear/socks/thin_thigh
 	display_name = "Socks, Thin Thigh"
 	path = /obj/item/clothing/hidden/socks/thin_thigh
+
+/datum/gear/pants
+	display_name = "Pants, classic jeans"
+	path = /obj/item/clothing/under/pants/classicjeans
+	cost = 1
+	slot = slot_w_uniform
+
+/datum/gear/pants/blackjeans
+	display_name = "Pants, black"
+	path = /obj/item/clothing/under/pants/blackjeans
+
+/datum/gear/pants/white
+	display_name = "Pants, white"
+	path = /obj/item/clothing/under/pants/white
+
+/datum/gear/pants/red
+	display_name = "Pants, red"
+	path = /obj/item/clothing/under/pants/red
+
+/datum/gear/pants/black
+	display_name = "Pants, black"
+	path = /obj/item/clothing/under/pants/black
+
+/datum/gear/pants/track
+	display_name = "Pants, track"
+	path = /obj/item/clothing/under/pants/track
+
+/datum/gear/pants/tan
+	display_name = "Pants, tan"
+	path = /obj/item/clothing/under/pants/tan
+
+/datum/gear/pants/jeans
+	display_name = "Pants, jeans"
+	path = /obj/item/clothing/under/pants/jeans
+
+/datum/gear/pants/khaki
+	display_name = "Pants, khaki"
+	path = /obj/item/clothing/under/pants/khaki
+
+/datum/gear/pants/camo
+	display_name = "Pants, camo"
+	path = /obj/item/clothing/under/pants/camo
+
+/datum/gear/aviator
+	display_name = "Glasses, aviator"
+	path = /obj/item/clothing/glasses/sunglasses/aviator
+	cost = 2
+	slot = slot_glasses
+
+/datum/gear/varsityred
+	display_name = "Varsity jacket, red"
+	path = /obj/item/clothing/suit/storage/varsityred
+	cost = 2
+	slot = slot_wear_suit
+
+/datum/gear/varsityblue
+	display_name = "Varsity jacket, blue"
+	path = /obj/item/clothing/suit/storage/varsityblue
+	cost = 2
+	slot = slot_wear_suit
+
+
+
+
+
+
+
+
