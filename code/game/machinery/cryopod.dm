@@ -286,6 +286,8 @@
 
 	new_character.key = user.key
 
+	log_admin("[key_name(new_character)] have been spawned with cryospawner at ([x], [y], [z])")
+
 	new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(new_character), slot_w_uniform)
 	new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
 	new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
@@ -597,8 +599,9 @@
 /obj/machinery/cryopod/proc/set_occupant(var/mob/occupant)
 	name = initial(name)
 	if(occupant)
-		occupant.client.perspective = EYE_PERSPECTIVE
-		occupant.client.eye = src
+		if(occupant.client)
+			occupant.client.perspective = EYE_PERSPECTIVE
+			occupant.client.eye = src
 		occupant.loc = src
 		time_entered = world.time
 		name = "[name] ([occupant])"
