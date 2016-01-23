@@ -69,8 +69,8 @@
 		else return ..()
 
 	get_head_sprite(state = "")
-		if(state in icon_states('icons/mob/species/vox/head.dmi'))
-			return 'icons/mob/species/vox/head.dmi'
+		if(state in icon_states('icons/mob/species/vox/helmet.dmi'))
+			return 'icons/mob/species/vox/helmet.dmi'
 		else return ..()
 
 	get_gloves_sprite(state = "")
