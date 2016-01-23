@@ -49,6 +49,7 @@
 	var/damageoverlaytemp = 0
 	var/computer_id = null
 	var/already_placed = 0.0
+	var/birth = 0
 	var/obj/machinery/machine = null
 	var/other_mobs = null
 	var/memory = ""
@@ -93,6 +94,7 @@
 	var/list/pinned = list()            // List of things pinning this creature to walls (see living_defense.dm)
 	var/list/embedded = list()          // Embedded items, since simple mobs don't have organs.
 	var/list/languages = list()         // For speaking/listening.
+	var/list/language_keys = list()     // For access to languages.
 	var/list/speak_emote = list("says") // Verbs used when speaking. Defaults to 'say' if speak_emote is null.
 	var/emote_type = 1		// Define emote default type, 1 for seen emotes, 2 for heard emotes
 	var/facing_dir = null   // Used for the ancient art of moonwalking.

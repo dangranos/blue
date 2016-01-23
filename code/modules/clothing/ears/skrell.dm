@@ -33,3 +33,9 @@
 	desc = "A cloth band worn by male skrell around their head tails."
 	icon_state = "skrell_cloth_male"
 	item_state = "skrell_cloth_male"
+
+/obj/item/clothing/ears/skrell/xilobeads
+	name = "skrell royal headtail cloth"
+	desc = "Skrellian royal headtail to show a high level in society."
+	icon_state = "xilobeads"
+	item_state = "xilobeads"

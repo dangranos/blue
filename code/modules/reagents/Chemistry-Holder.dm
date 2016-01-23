@@ -299,8 +299,9 @@
 
 	if(ismob(target))
 		return splash_mob(target, amount, copy)
-	if(isturf(target))
-		return trans_to_turf(target, amount, multiplier, copy)
+//	trans_to_turf just call touch() once again
+//	if(isturf(target))
+//		return trans_to_turf(target, amount, multiplier, copy)
 	if(isobj(target))
 		return trans_to_obj(target, amount, multiplier, copy)
 	return 0

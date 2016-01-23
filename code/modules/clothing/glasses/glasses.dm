@@ -140,6 +140,12 @@
 	item_state = "sunglasses"
 	darkness_view = -1
 
+/obj/item/clothing/glasses/sunglasses/aviator
+	desc = "Strangely ancient technology used to help provide rudimentary eye cover. Enhanced shielding blocks many flashes."
+	name = "aviator sunglasses"
+	icon_state = "aviator"
+	item_state = "aviator"
+
 /obj/item/clothing/glasses/sunglasses/red
 	name = "crimson glasses"
 	desc = "They make you look like an elite agent."

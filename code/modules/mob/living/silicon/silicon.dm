@@ -223,8 +223,12 @@
 			else
 				default_str = " - <a href='byond://?src=\ref[src];default_lang=\ref[L]'>set default</a>"
 
+			var/key = russian_to_utf8(get_key_by_value(language_keys, L))
+			if(!key) key = "no key"
+			else key = ":[key]"
+
 			var/synth = (L in speech_synthesizer_langs)
-			dat += "<b>[L.name] (:[L.key])</b>[synth ? default_str : null]<br/>Speech Synthesizer: <i>[synth ? "YES" : "NOT SUPPORTED"]</i><br/>[L.desc]<br/><br/>"
+			dat += "<b>[L.name] (<a href='byond://?src=\ref[src];set_key=\ref[L]'>[key]</a>)</b>[synth ? default_str : null]<br/>Speech Synthesizer: <i>[synth ? "YES" : "NOT SUPPORTED"]</i><br/>[L.desc]<br/><br/>"
 
 	src << browse(dat, "window=checklanguage")
 	return

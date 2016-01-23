@@ -305,9 +305,13 @@ datum/preferences
 
 	var/list/undies = gender == MALE ? underwear_m : underwear_f
 
-	dat += "Underwear: <a href ='?_src_=prefs;preference=underwear;task=input'><b>[get_key_by_value(undies,underwear,undies.len)]</b></a><br>"
+	var/undies_key = get_key_by_value(undies,underwear)
+	if(!undies_key) undies_key = undies[undies.len]
+	dat += "Underwear: <a href ='?_src_=prefs;preference=underwear;task=input'><b>[undies_key]</b></a><br>"
 
-	dat += "Undershirt: <a href='?_src_=prefs;preference=undershirt;task=input'><b>[get_key_by_value(undershirt_t,undershirt,undershirt_t.len)]</b></a><br>"
+	var/undershirt_key = get_key_by_value(undershirt_t,undershirt)
+	if(!undershirt_key) undershirt_key = undershirt_t[undershirt_t.len]
+	dat += "Undershirt: <a href='?_src_=prefs;preference=undershirt;task=input'><b>[undershirt_key]</b></a><br>"
 
 	dat += "Backpack Type:<br><a href ='?_src_=prefs;preference=bag;task=input'><b>[backbaglist[backbag]]</b></a><br>"
 

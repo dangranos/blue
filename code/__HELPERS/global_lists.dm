@@ -26,7 +26,6 @@ var/global/list/turfs = list()						//list of all turfs
 //Languages/species/whitelist.
 var/global/list/all_species[0]
 var/global/list/all_languages[0]
-var/global/list/language_keys[0]					// Table of say codes for all languages
 var/global/list/whitelisted_species = list("Human") // Species that require a whitelist check.
 var/global/list/playable_species = list("Human")    // A list of ALL playable species, whitelisted, latejoin or otherwise.
 
@@ -87,6 +86,8 @@ var/global/list/tattoo_list = list(
 
 var/global/list/flavs_list = list("general"="General", "torso"="Body", "head"="Head", "face"="Face", "eyes"="Eyes",\
 				"mech_eyes"="Mechanical eyes", "arms"="Arms", "hands"="Hands", "legs"="Legs", "feet"="Feet")
+
+var/global/list/default_lang_keys = list("2", "3", "4", "5", "6", "7", "8", "9")
 
 
 // Visual nets
@@ -149,17 +150,6 @@ var/global/list/endgame_safespawns = list()
 	for(var/T in paths)
 		var/datum/language/L = new T
 		all_languages[L.name] = L
-
-	for (var/language_name in all_languages)
-		var/datum/language/L = all_languages[language_name]
-		if(!(L.flags & NONGLOBAL))
-			language_keys[":[lowertext(L.key)]"] = L
-			language_keys[".[lowertext(L.key)]"] = L
-			language_keys["#[lowertext(L.key)]"] = L
-			if(L.rkey != "")
-				language_keys[":[rlowertext(L.rkey)]"] = L
-				language_keys[".[rlowertext(L.rkey)]"] = L
-				language_keys["#[rlowertext(L.rkey)]"] = L
 
 	var/rkey = 0
 	paths = typesof(/datum/species)-/datum/species
