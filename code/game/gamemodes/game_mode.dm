@@ -39,7 +39,7 @@ var/global/list/additional_antag_types = list()
 	var/list/datum/uplink_item/uplink_items = list(
 		"Ammunition" = list(
 			new/datum/uplink_item(/obj/item/ammo_magazine/a357, 2, ".357", "RA"),
-			new/datum/uplink_item(/obj/item/ammo_magazine/mc9mm, 2, "9mm", "R9"),
+			new/datum/uplink_item(/obj/item/ammo_magazine/mc9mm, 1, "9mm", "R9"),
 			new/datum/uplink_item(/obj/item/ammo_magazine/chemdart, 2, "Darts", "AD"),
 			new/datum/uplink_item(/obj/item/weapon/storage/box/sniperammo, 2, "14.5mm", "SA")
 			),
@@ -52,7 +52,9 @@ var/global/list/additional_antag_types = list()
 			 new/datum/uplink_item(/obj/item/mecha_parts/mecha_equipment/weapon/energy/riggedlaser, 6, "Exosuit Rigged Laser", "RL"),
 			 new/datum/uplink_item(/obj/item/weapon/gun/projectile/revolver, 6, "Revolver", "RE"),
 			 new/datum/uplink_item(/obj/item/weapon/storage/box/syndicate, 10, "Mercenary Bundle", "BU"),
-			 new/datum/uplink_item(/obj/item/weapon/gun/projectile/heavysniper, 12, "Anti-materiel Rifle", "AMR")
+			 new/datum/uplink_item(/obj/item/weapon/gun/projectile/heavysniper, 12, "Anti-materiel Rifle", "AMR"),
+			 new/datum/uplink_item(/obj/item/weapon/syndie/c4explosive, 3, "Small explosives package", "SE"),
+			 new/datum/uplink_item(/obj/item/weapon/syndie/c4explosive/heavy, 5, "Big explosives package", "BE")
 			),
 		"Stealthy and Inconspicuous Weapons" = list(
 			new/datum/uplink_item(/obj/item/weapon/soap/syndie, 1, "Subversive Soap", "SP"),
@@ -73,7 +75,7 @@ var/global/list/additional_antag_types = list()
 			),
 		"Devices and Tools" = list(
 			new/datum/uplink_item(/obj/item/weapon/storage/toolbox/syndicate, 1, "Fully Loaded Toolbox", "ST"),
-			new/datum/uplink_item(/obj/item/weapon/plastique, 2, "C-4 (Destroys walls)", "C4"),
+			new/datum/uplink_item(/obj/item/weapon/plastique, 1, "C-4 (Destroys walls)", "C4"),
 			new/datum/uplink_item(/obj/item/device/encryptionkey/syndicate, 2, "Encrypted Radio Channel Key", "ER"),
 			new/datum/uplink_item(/obj/item/device/encryptionkey/binary, 3, "Binary Translator Key", "BT"),
 			new/datum/uplink_item(/obj/item/weapon/card/emag, 3, "Cryptographic Sequencer", "EC"),

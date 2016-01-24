@@ -76,6 +76,21 @@ sanitize_simple(var/t,var/list/repl_chars = list("\n"="#","\t"="#","ÿ"="&#255;",
 /proc/post_edit_utf8(msg)
 	return list2text(text2list(msg, "\\ß"), "&#1103;")
 
+var/global/list/rkeys = list(
+	"à" = "f", "â" = "d", "ã" = "u", "ä" = "l",
+	"å" = "t", "ç" = "p", "è" = "b", "é" = "q",
+	"ê" = "r", "ë" = "k", "ì" = "v", "í" = "y",
+	"î" = "j", "ï" = "g", "ð" = "h", "ñ" = "c",
+	"ò" = "n", "ó" = "e", "ô" = "a", "ö" = "w",
+	"÷" = "x", "ø" = "i", "ù" = "o", "û" = "s",
+	"ü" = "m", "ÿ" = "z"
+)
+
+//RKEY2KEY
+/proc/rkey2key(t)
+	if(t in rkeys) return rkeys[t]
+	return (t)
+
 //TEXT MODS RUS
 /proc/capitalize_cp1251(var/t as text)
 	var/s = 2

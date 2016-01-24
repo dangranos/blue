@@ -57,6 +57,10 @@
 		name = "Short Hair"	  // try to capatilize the names please~
 		icon_state = "hair_a" // you do not need to define _s or _l sub-states, game automatically does this for you
 
+	shortalt
+		name = "Short Hair Alt"
+		icon_state = "hair_short_alt"
+
 	cut
 		name = "Cut Hair"
 		icon_state = "hair_c"
@@ -97,6 +101,24 @@
 		name = "Longer Fringe"
 		icon_state = "hair_vlongfringe"
 
+	wife
+		name = "Wife"
+		icon_state = "hair_wife"
+		gender = FEMALE
+
+	victory
+		name = "Victory"
+		icon_state = "hair_victory"
+		gender = FEMALE
+
+	hbangs
+		name = "Combed Hair"
+		icon_state = "hair_hbangs"
+
+	hbangsalt
+		name = "Combed Hair Alt"
+		icon_state = "hair_hbangs_alt"
+
 	halfbang
 		name = "Half-banged Hair"
 		icon_state = "hair_halfbang"
@@ -127,9 +149,18 @@
 		name = "Ponytail 5"
 		icon_state = "hair_ponytail5"
 
+	ponytail6
+		name = "Ponytail 6"
+		icon_state = "hair_ponytail6"
+
 	sideponytail
 		name = "Side Ponytail"
 		icon_state = "hair_stail"
+		gender = FEMALE
+
+	wisp
+		name = "Wisp"
+		icon_state = "hair_wisp"
 		gender = FEMALE
 
 	parted
@@ -264,6 +295,11 @@
 		icon_state = "hair_bun"
 		gender = FEMALE
 
+	bunalt
+		name = "Bun Alt"
+		icon_state = "hair_bunalt"
+		gender = FEMALE
+
 	shortovereye
 		name = "Overeye Short"
 		icon_state = "hair_shortovereye"
@@ -279,6 +315,10 @@
 	feather
 		name = "Feather"
 		icon_state = "hair_feather"
+
+	smessy
+		name = "Messy Hair"
+		icon_state = "hair_smessy"
 
 	hitop
 		name = "Hitop"
@@ -349,6 +389,11 @@
 	himecut
 		name = "Hime Cut"
 		icon_state = "hair_himecut"
+		gender = FEMALE
+
+	himecutalt
+		name = "Hime Cut Alt"
+		icon_state = "hair_himecut_alt"
 		gender = FEMALE
 
 	braid
@@ -423,12 +468,10 @@
 	cia
 		name = "CIA"
 		icon_state = "hair_cia"
-		gender = MALE
 
 	mulder
 		name = "Mulder"
 		icon_state = "hair_mulder"
-		gender = MALE
 
 	scully
 		name = "Scully"
@@ -539,6 +582,30 @@
 		icon_state = "ipc_yellow"
 		species_allowed = list("Machine")
 
+	icp_screen_go_glider
+		name = "glider IPC screen"
+		icon_state = "ipc_go_glider"
+		species_allowed = list("Machine")
+
+	icp_screen_rainbow
+		name = "rainbow IPC screen"
+		icon_state = "ipc_rainbow"
+		species_allowed = list("Machine")
+
+	icp_pc_console
+		name = "console IPC screen"
+		icon_state = "ipc_pc_console"
+		species_allowed = list("Machine")
+
+	icp_scroll
+		name = "scroll IPC screen"
+		icon_state = "ipc_scroll"
+		species_allowed = list("Machine")
+
+	icp_screen_rgb
+		name = "RGB IPC screen"
+		icon_state = "ipc_rgb"
+		species_allowed = list("Machine")
 
 ///datum/sprite_accessory/hair/arachna
 
