@@ -87,18 +87,6 @@
 	update_body()
 	return 1
 
-/*/mob/living/carbon/human/proc/change_lips_color(var/red, var/green, var/blue)
-	if(red == lips_r && blue == lips_b && green == lips_g)
-		return
-
-	eyes_r = red
-	eyes_g = green
-	eyes_b = blue
-
-	update_eyes()
-	update_body()
-	return 1*/
-
 /mob/living/carbon/human/proc/change_hair_color(var/red, var/green, var/blue)
 	if(red == hair_r && green == hair_g && blue == hair_b)
 		return
