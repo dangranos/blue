@@ -39,14 +39,13 @@ var/global/list/limb_icon_cache = list()
 		return
 	if(owner.species.has_organ["eyes"])
 		var/obj/item/organ/eyes/eyes = owner.internal_organs_by_name["eyes"]
-		if(owner.species.eyes)
-			var/icon/eyes_icon = new/icon(owner.species.icobase, "eyes_[owner.body_build]")
-			if(eyes)
-				eyes_icon.Blend(rgb(eyes.eye_colour[1], eyes.eye_colour[2], eyes.eye_colour[3]), ICON_ADD)
-			else
-				eyes_icon.Blend(rgb(128,0,0), ICON_ADD)
-			mob_icon.Blend(eyes_icon, ICON_OVERLAY)
-			overlays |= eyes_icon
+		var/icon/eyes_icon = new/icon(owner.species.icobase, "eyes_[owner.body_build]")
+		if(eyes)
+			eyes_icon.Blend(rgb(eyes.eye_colour[1], eyes.eye_colour[2], eyes.eye_colour[3]), ICON_ADD)
+		else
+			eyes_icon.Blend(rgb(128,0,0), ICON_ADD)
+		mob_icon.Blend(eyes_icon, ICON_OVERLAY)
+		overlays |= eyes_icon
 
 	if(owner.lip_style && (owner.species && (owner.species.flags & HAS_LIPS)))
 		var/icon/lip_icon = new/icon('icons/mob/human_face.dmi', "lips_[owner.lip_style]_s")

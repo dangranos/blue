@@ -178,7 +178,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	if (H.species.flags & HAS_EYE_COLOR)
 		var/obj/item/organ/eyes/E = H.internal_organs_by_name["eyes"]
 		if( E )
-			eyes = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = H.species ? "[H.species.eyes][H.body_build]" : "eyes")
+			eyes = new/icon("icon" = icobase, "icon_state" = "eyes_[H.body_build]")
 			if( E.robotic >= 2 )
 				eyes.Blend(rgb(H.mech_eyes_r, H.mech_eyes_g, H.mech_eyes_b), ICON_ADD)
 			else
