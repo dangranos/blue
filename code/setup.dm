@@ -660,11 +660,6 @@ var/list/be_special_flags = list(
 #define IS_RESTRICTED     32768 // Is not a core/normally playable species. (castes, mutantraces)
 #define REGENERATES_LIMBS 65536 // Attempts to regenerate unamputated limbs.
 
-//Species size
-#define SMALL  1 //mouse
-#define MEDIUM 2 // human
-#define LARGE  4 //2 humans )
-
 // Language flags.
 #define WHITELISTED 1   // Language is available if the speaker is whitelisted.
 #define PUBLIC      2   // Language can be accquired by anybody without restriction.
@@ -742,7 +737,6 @@ var/list/be_special_flags = list(
 #define IS_SKRELL 3
 #define IS_UNATHI 4
 #define IS_XENOS  5
-#define IS_ARACHNA 6
 
 #define MAX_GEAR_COST 5 // Used in chargen for accessory loadout limit.
 
