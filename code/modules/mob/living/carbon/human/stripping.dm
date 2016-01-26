@@ -72,7 +72,8 @@
 	else
 		visible_message("<span class='danger'>\The [user] is trying to put \a [held] on \the [src]!</span>")
 
-	if(!do_after(user,HUMAN_STRIP_DELAY))
+	var/turf/T = src.loc
+	if(!do_after(user,HUMAN_STRIP_DELAY) || T!=src.loc)
 		return
 
 	if(!stripping && user.get_active_hand() != held)
