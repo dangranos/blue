@@ -26,8 +26,6 @@
 	cold_level_2 = 50
 	cold_level_3 = 0
 
-	eyes = "vox_eyes"
-
 	breath_type = "nitrogen"
 	poison_type = "oxygen"
 	siemens_coefficient = 0.2
