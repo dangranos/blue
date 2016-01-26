@@ -160,7 +160,7 @@ datum/preferences
 				preview_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
 
 		// Eyes color
-		var/icon/eyes_s = new/icon("icon" = 'icons/mob/human_face.dmi', "icon_state" = current_species ? "[current_species.eyes][body_build]" : "eyes0")
+		var/icon/eyes_s = new/icon("icon" = icobase, "icon_state" = "eyes_[body_build]")
 		if ((current_species && (current_species.flags & HAS_EYE_COLOR)))
 			if( organ_data["eyes"] == "mechanical" )
 				eyes_s.Blend(rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b), ICON_ADD)

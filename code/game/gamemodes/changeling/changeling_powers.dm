@@ -305,7 +305,7 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 	src.flavor_text = ""
 	src.UpdateAppearance()
 	var/mob/living/carbon/human/H = src
-	if(old_body_build != src:body_build && istype(H))
+	if(istype(H) && old_body_build != src:body_build)
 		update_inv_wear_suit(0)
 		update_inv_gloves(0)
 		update_inv_shoes(0)
@@ -344,6 +344,7 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 
 	changeling.chem_charges--
 	H.remove_changeling_powers()
+	H.verbs += /mob/proc/changeling_lesser_transform
 	H.visible_message("<span class='warning'>[H] transforms!</span>")
 	changeling.geneticdamage = 30
 	H << "<span class='warning'>Our genes cry out!</span>"
@@ -351,6 +352,8 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 	for(var/obj/item/weapon/implant/W in H)
 		implants += W
 	H.monkeyize()
+	H.real_name = H.species.get_random_name(gender)
+	H.name = H.real_name
 	return 1
 
 //Transform into a human
