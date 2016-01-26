@@ -606,6 +606,7 @@
 		name = "RGB IPC screen"
 		icon_state = "ipc_rgb"
 		species_allowed = list("Machine")
+
 /*
 ///////////////////////////////////
 /  =---------------------------=  /
