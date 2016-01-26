@@ -73,6 +73,10 @@
 	if(!player || !istype(player.mob,/mob/dead))
 		return
 
+	if(jobban_isbanned(player, "Drone"))
+		player<<"<span class='warning'>You can't join game as drone!</span>"
+		return
+
 	announce_ghost_joinleave(player, 0, "They have taken control over a maintenance drone.")
 	visible_message("\The [src] churns and grinds as it lurches into motion, disgorging a shiny new drone after a few moments.")
 	flick("h_lathe_leave",src)
@@ -108,7 +112,7 @@
 	if(jobban_isbanned(src,"Cyborg"))
 		usr << "<span class='danger'>You are banned from playing synthetics and cannot spawn as a drone.</span>"
 		return
-		
+
 	if(!MayRespawn(1))
 		return
 
