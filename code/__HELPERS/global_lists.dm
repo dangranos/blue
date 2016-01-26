@@ -111,6 +111,9 @@ var/global/list/endgame_safespawns = list()
 	paths = typesof(/datum/sprite_accessory/hair) - /datum/sprite_accessory/hair
 	for(var/path in paths)
 		var/datum/sprite_accessory/hair/H = new path()
+		if(!H.name)// if name empty then delete (for base type)
+			del(H)
+			continue
 		hair_styles_list[H.name] = H
 		switch(H.gender)
 			if(MALE)	hair_styles_male_list += H.name
@@ -123,6 +126,9 @@ var/global/list/endgame_safespawns = list()
 	paths = typesof(/datum/sprite_accessory/facial_hair) - /datum/sprite_accessory/facial_hair
 	for(var/path in paths)
 		var/datum/sprite_accessory/facial_hair/H = new path()
+		if(!H.name) // if name empty then delete (for base type)
+			del(H)
+			continue
 		facial_hair_styles_list[H.name] = H
 		switch(H.gender)
 			if(MALE)	facial_hair_styles_male_list += H.name
