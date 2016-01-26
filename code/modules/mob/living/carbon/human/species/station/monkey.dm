@@ -15,8 +15,6 @@
 	has_fine_manipulation = 0
 	show_ssd = null
 
-	eyes = "blank_eyes"
-
 	gibbed_anim = "gibbed-m"
 	dusted_anim = "dust-m"
 	death_message = "lets out a faint chimper as it collapses and stops moving..."
