@@ -218,7 +218,6 @@
 	name_plural = "Skrell"
 	icobase = 'icons/mob/human_races/r_skrell.dmi'
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
-	eyes = "skrell_eyes"
 	language = "Skrellian"
 	primitive_form = "Neaera"
 	unarmed_types = list(/datum/unarmed_attack/punch)
@@ -256,7 +255,6 @@
 	rarity_value = 3
 	hud_type = /datum/hud_data/diona
 	siemens_coefficient = 0.3
-	eyes = "blank_eyes"
 	show_ssd = "completely quiescent"
 
 
@@ -375,7 +373,6 @@
 	unarmed_types = list(/datum/unarmed_attack/punch)
 	rarity_value = 2
 
-	eyes = "blank_eyes"
 	brute_mod = 0.5
 	burn_mod = 1
 	show_ssd = "flashing a 'system offline' glyph on their monitor"
