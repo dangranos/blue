@@ -55,16 +55,13 @@
 		if (( usr.restrained() ) || ( usr.stat ))
 			return
 
-		if ((src.loc == usr) && !usr.unEquip(src))
-			return
-
 		switch(over_object.name)
 			if("r_hand")
-				usr.u_equip(src)
-				usr.put_in_r_hand(src)
+				if((src.loc != usr) || usr.unEquip(src))
+					usr.put_in_r_hand(src)
 			if("l_hand")
-				usr.u_equip(src)
-				usr.put_in_l_hand(src)
+				if((src.loc != usr) || usr.unEquip(src))
+					usr.put_in_l_hand(src)
 		src.add_fingerprint(usr)
 
 
