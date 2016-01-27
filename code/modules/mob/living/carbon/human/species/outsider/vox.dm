@@ -26,8 +26,6 @@
 	cold_level_2 = 50
 	cold_level_3 = 0
 
-	eyes = "vox_eyes"
-
 	breath_type = "nitrogen"
 	poison_type = "oxygen"
 	siemens_coefficient = 0.2
@@ -69,8 +67,8 @@
 		else return ..()
 
 	get_head_sprite(state = "")
-		if(state in icon_states('icons/mob/species/vox/head.dmi'))
-			return 'icons/mob/species/vox/head.dmi'
+		if(state in icon_states('icons/mob/species/vox/helmet.dmi'))
+			return 'icons/mob/species/vox/helmet.dmi'
 		else return ..()
 
 	get_gloves_sprite(state = "")

@@ -63,6 +63,9 @@
 	if(istype(mover, /mob/living/simple_animal/hostile/giant_spider))
 		return 1
 	else if(istype(mover, /mob/living))
+		var/mob/living/carbon/human/H = mover
+		if(istype(H) && H.species.name == "Arachna")
+			return 1
 		if(prob(50))
 			mover << "\red You get stuck in \the [src] for a moment."
 			return 0
