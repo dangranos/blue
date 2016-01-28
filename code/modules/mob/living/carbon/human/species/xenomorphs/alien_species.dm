@@ -13,8 +13,6 @@
 	siemens_coefficient = 0
 	gluttonous = 2
 
-	eyes = "blank_eyes"
-
 	brute_mod = 0.5 // Hardened carapace.
 	burn_mod = 2    // Weak to fire.
 
