@@ -3,7 +3,7 @@
 	name_plural = "Arachnas"
 	language = "Sol Common"
 	primitive_form = "Monkey"
-	eyes = "arachna_eyes"
+//	eyes = "arachna_eyes"
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/punch, /datum/unarmed_attack/bite)
 	gluttonous = 1
 	blurb = "Arachna history here"

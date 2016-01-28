@@ -17,6 +17,7 @@
 	var/temperature_resistance = 1000 + T0C
 	volume = 1000
 	use_power = 0
+	interact_offline = 1
 	var/release_log = ""
 	var/update_flag = 0
 

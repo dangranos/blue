@@ -644,6 +644,7 @@
 					joblist += temp.title
 			if("nonhumandept")
 				joblist += "pAI"
+				joblist += "Drone"
 				for(var/jobPos in nonhuman_positions)
 					if(!jobPos)	continue
 					var/datum/job/temp = job_master.GetJob(jobPos)
