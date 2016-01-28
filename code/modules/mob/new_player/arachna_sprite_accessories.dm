@@ -1,5 +1,5 @@
 /datum/sprite_accessory/hair/arachna
-	icon = "code/modules/mob/living/carbon/arachna/arachna_face.dmi"
+	icon = 'code/modules/mob/living/carbon/arachna/arachna_face.dmi'
 	gender = FEMALE
 	species_allowed = list("Arachna")
 
