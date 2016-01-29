@@ -249,21 +249,16 @@
 /obj/machinery/cryopod/spawner/attack_ghost(mob/dead/observer/user as mob)
 	var/mob/living/carbon/human/new_character
 	if(!user || !check_rights()) return
-	if(occupant)
-		user << "<span class = 'warning'>Cryopod already occupied!</span>"
-		return
 
 	if(alert("Would you like to spawn?",,"Yes","No") == "No") return
 
 	var/client/client = user.client
 
 	if(client.prefs.species)
-		new_character = new(loc, all_species[client.prefs.species])
+		new_character = new(loc, client.prefs.species)
 
 	if(!new_character)
 		new_character = new(loc)
-
-	set_occupant(new_character)
 
 	new_character.lastarea = get_area(loc)
 

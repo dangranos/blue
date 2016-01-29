@@ -284,7 +284,7 @@
 		/obj/item/clothing/head/pirate,
 		/obj/item/clothing/head/collectable/rabbitears,
 		/obj/item/clothing/head/collectable/kitty,
-		/obj/item/clothing/head/collectable/slime,
+//		/obj/item/clothing/head/collectable/slime,
 		/obj/item/clothing/head/collectable/slime2,
 		/obj/item/clothing/head/collectable/tophat,
 		/obj/item/clothing/head/collectable/amp,
