@@ -9,12 +9,16 @@
 	name = "ultra rare hat"
 	desc = "an ultra rare hat. It commands a certain respect."
 	icon_state = "petehat"
+/*
+Pure spriteless slime
+It's not your time
 
 /obj/item/clothing/head/collectable/slime
 	name = "collectable slime cap!"
 	desc = "It just latches right in place!"
 	icon_state = "slime"
 	body_parts_covered = 0
+*/
 
 /obj/item/clothing/head/collectable/xenom
 	name = "collectable xenomorph helmet!"
