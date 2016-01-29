@@ -398,8 +398,8 @@
 	has_organ = list() //TODO: Positronic brain.
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Warden", "Detective", "Security Officer",\
-						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist",\
+						"Research Director", "Chief Medical Officer", "Warden", "Detective",\
+						"Security Officer", "Medical Doctor", "Geneticist",\
 						"Psychiatrist", "Paramedic", "Quartermaster", "Shaft Miner", "Internal Affairs Agent")
 
 /datum/species/machine/equip_survival_gear(var/mob/living/carbon/human/H)
