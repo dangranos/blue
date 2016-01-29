@@ -10,6 +10,7 @@
 	var/obj/item/clothing/under/has_suit = null		//the suit the tie may be attached to
 	var/image/inv_overlay = null	//overlay used when attached to clothing.
 	var/image/mob_overlay = null
+	var/image/slim_overlay = null
 	var/overlay_state = null
 
 /obj/item/clothing/accessory/proc/get_inv_overlay()
@@ -24,16 +25,25 @@
 		inv_overlay = image(icon = mob_overlay.icon, icon_state = tmp_icon_state, dir = SOUTH)
 	return inv_overlay
 
-/obj/item/clothing/accessory/proc/get_mob_overlay()
-	if(!mob_overlay)
+/obj/item/clothing/accessory/proc/get_mob_overlay(var/body_build = 0)
+	var/image/tmp_overlay = body_build ? slim_overlay : mob_overlay
+	if(!tmp_overlay)
 		var/tmp_icon_state = "[overlay_state? "[overlay_state]" : "[icon_state]"]"
 		if(icon_override)
 			if("[tmp_icon_state]_mob" in icon_states(icon_override))
 				tmp_icon_state = "[tmp_icon_state]_mob"
-			mob_overlay = image("icon" = icon_override, "icon_state" = "[tmp_icon_state]")
+			tmp_overlay = image("icon" = icon_override, "icon_state" = "[tmp_icon_state]")
 		else
-			mob_overlay = image("icon" = INV_ACCESSORIES_DEF_ICON, "icon_state" = "[tmp_icon_state]")
-	return mob_overlay
+			if(body_build)
+				tmp_overlay = image("icon" = INV_ACCESSORIES_SLIM_ICON, "icon_state" = "[tmp_icon_state]")
+			else
+				tmp_overlay = image("icon" = INV_ACCESSORIES_DEF_ICON, "icon_state" = "[tmp_icon_state]")
+
+		if(body_build)
+			mob_overlay = tmp_overlay
+		else
+			slim_overlay = tmp_overlay
+	return tmp_overlay
 
 //when user attached an accessory to S
 /obj/item/clothing/accessory/proc/on_attached(obj/item/clothing/under/S, mob/user as mob)
