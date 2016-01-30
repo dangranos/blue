@@ -121,8 +121,9 @@
 
 	if(istype(speaker, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = speaker
-		if(H.voice)
-			speaker_name = H.voice
+		var/voice = H.GetVoice()
+		if(voice)
+			speaker_name = voice
 
 	if(hard_to_hear)
 		speaker_name = "unknown"
