@@ -20,6 +20,35 @@ mob/living/carbon/human/arachna/proc/prepare_bite(mob/living/carbon/human/M as m
 	visible_message("<span class='warning'>[src] bite [M]!</span>", "<span class='alium'>You bite a [M].</span>")
 	return
 
+/*mob/living/carbon/human/arachna/proc/prepare_bite()
+	set name = "Prepare Bite"
+	set desc = "Prepare to bite for poising someone"
+	set category = "Abilities"
+	var/obj/item/organ/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
+	if(stat || paralysis || stunned || weakened || lying || restrained() || buckled || !I.reagents  || !I.poisons.len)
+		src << "You cannot bite in your current state."
+		return
+
+	if (I.bite_ready)
+		I.bite_ready = 1
+		src << "You prepare a bite."
+	else
+		I.bite_ready = 0
+		src << "You not want bite anyone now."
+
+	return*/
+
+/*/mob/living/carbon/human/arachna/UnarmedAttack(mob/living/carbon/human/M as mob)
+	var/obj/item/organ/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
+	if (src.bite_ready)
+		msg_admin_attack("[key_name_admin(src)] bite and poison [key_name_admin(M)] with [I.reagents.get_reagents()] (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>JMP</a>)")
+		I.reagents.trans_to_mob(M, I.reagents.total_volume, CHEM_BLOOD)
+		visible_message("<span class='warning'>[src] bite [M]!</span>", "<span class='alium'>You bite a [M].</span>")
+		I.bite_ready = 0
+	else
+		..()*/
+
+
 var/list/venom_list = list(
 	"inaprovaline",
 	"stoxin",
