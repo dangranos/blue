@@ -35,13 +35,13 @@ RPD
 /obj/item/weapon/rpd/proc/build_pipe(user as mob)
 	var/dirname
 	switch(get_dir)
-		if(1)
+		if(NORTH)
 			dirname = "NORTH"
-		if(2)
+		if(SOUTH)
 			dirname = "SOUTH"
-		if(4)
+		if(EAST)
 			dirname = "EAST"
-		if(8)
+		if(WEST)
 			dirname = "WEST"
 
 	var/dat = {"

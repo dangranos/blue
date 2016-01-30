@@ -39,6 +39,7 @@
 	parent_organ = "head"
 	var/list/poisons = list()
 	var/delay = 0
+	var/bite_ready = 0
 
 /*/obj/item/organ/arachna/poison_gland/New()
 	..()
