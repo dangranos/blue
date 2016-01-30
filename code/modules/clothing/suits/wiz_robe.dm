@@ -19,6 +19,12 @@
 	icon_state = "greenwizard"
 	siemens_coefficient = 0.8
 
+/obj/item/clothing/head/wizard/necrohood
+	name = "Necromancer Hood"
+	desc = "Strange-looking hood-wear, makes you want to revive the dead."
+	icon_state = "necrohood"
+	siemens_coefficient = 0.8
+
 /obj/item/clothing/head/wizard/fake
 	name = "wizard hat"
 	desc = "It has WIZZARD written across it in sequins. Comes with a cool beard."
@@ -95,6 +101,12 @@
 	icon_state = "magusred"
 	item_state = "magusred"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|HANDS|LEGS|FEET
+
+/obj/item/clothing/suit/wizrobe/necromancer
+	name = "Necromancer Robe"
+	desc = "A set of elegant robes that seem to radiate a dark power"
+	icon_state = "necrorobe"
+	item_state = "necrorobe"
 
 /obj/item/clothing/suit/wizrobe/psypurple
 	name = "purple robes"

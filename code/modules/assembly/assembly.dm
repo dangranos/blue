@@ -133,9 +133,13 @@
 		interact(user)
 		return 1
 
-
 	interact(mob/user as mob)
 		return //HTML MENU FOR WIRES GOES HERE
+
+	nano_host()
+		if(holder)
+			return holder
+		return src
 
 /*
 	var/small_icon_state = null//If this obj will go inside the assembly use this for icons
