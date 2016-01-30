@@ -250,6 +250,13 @@
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "broom"
 
+/obj/item/weapon/staff/necrostaff
+	name = "necromancers staff"
+	desc = "Edgy-looking staff with a evil-looking skull on top of it. Jeez."
+	icon = 'icons/obj/wizard.dmi'
+	icon_state = "necro"
+	item_state = "necro"
+
 /obj/item/weapon/staff/gentcane
 	name = "Gentlemans Cane"
 	desc = "An ebony can with an ivory tip."
