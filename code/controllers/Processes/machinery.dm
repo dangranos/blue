@@ -2,7 +2,7 @@
 
 /datum/controller/process/machinery/setup()
 	name = "machinery"
-	schedule_interval = 30 // every 3 seconds
+	schedule_interval = 20 // every 2 seconds
 
 /datum/controller/process/machinery/doWork()
 	internal_sort()
