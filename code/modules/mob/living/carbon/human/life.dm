@@ -114,7 +114,7 @@
 
 	//Check if we're on fire
 	handle_fire()
-	
+
 	if(src.lying && src.birth)
 		src.overlays += image('icons/mob/alien.dmi', loc = src, icon_state = "bursted_lie")
 	else if(!src.lying && src.birth)
@@ -1449,7 +1449,7 @@
 				if(M.loc != src)
 					stomach_contents.Remove(M)
 					continue
-				if(istype(M, /mob/living/carbon) && stat != 2)
+				if(istype(M, /mob/living) && stat != 2)
 					if(M.stat == 2)
 						M.death(1)
 						stomach_contents.Remove(M)
