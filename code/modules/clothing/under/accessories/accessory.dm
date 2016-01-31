@@ -40,9 +40,9 @@
 				tmp_overlay = image("icon" = INV_ACCESSORIES_DEF_ICON, "icon_state" = "[tmp_icon_state]")
 
 		if(body_build)
-			mob_overlay = tmp_overlay
-		else
 			slim_overlay = tmp_overlay
+		else
+			mob_overlay = tmp_overlay
 	return tmp_overlay
 
 //when user attached an accessory to S
