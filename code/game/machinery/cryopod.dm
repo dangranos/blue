@@ -246,11 +246,21 @@
 
 	find_control_computer()
 
+
+/obj/machinery/cryopod/spawner
+	var/player_spawn = 0
+
 /obj/machinery/cryopod/spawner/attack_ghost(mob/dead/observer/user as mob)
 	var/mob/living/carbon/human/new_character
-	if(!user || !check_rights()) return
+	if(!user) return
 
 	if(alert("Would you like to spawn?",,"Yes","No") == "No") return
+
+	if(!player_spawn)
+		if(!check_rights()) return
+	else
+		if(player_spawn> 0)
+			player_spawn -= 1
 
 	var/client/client = user.client
 
@@ -283,28 +293,52 @@
 
 	log_admin("[key_name(new_character)] have been spawned with cryospawner at ([x], [y], [z])")
 
-	new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(new_character), slot_w_uniform)
-	new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
-	new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
-	new_character.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(new_character), slot_l_ear)
-	new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/captain(new_character), slot_head)
+	if(check_rights(show_msg = 0))
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(new_character), slot_w_uniform)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
+		new_character.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(new_character), slot_l_ear)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/captain(new_character), slot_head)
 
-	var/obj/item/device/pda/heads/pda = new(new_character)
-	pda.owner = new_character.real_name
-	pda.ownjob = "NanoTrasen Navy Captain"
-	pda.name = "PDA-[new_character.real_name] ([pda.ownjob])"
+		var/obj/item/device/pda/heads/pda = new(new_character)
+		pda.owner = new_character.real_name
+		pda.ownjob = "NanoTrasen Navy Captain"
+		pda.name = "PDA-[new_character.real_name] ([pda.ownjob])"
 
-	new_character.equip_to_slot_or_del(pda, slot_r_store)
-	new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
-	new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
+		new_character.equip_to_slot_or_del(pda, slot_r_store)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
+		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
 
-	var/obj/item/weapon/card/id/centcom/W = new(new_character)
-	W.name = "[new_character.real_name]'s ID Card"
-	W.access = get_all_accesses()
-	W.access += get_all_centcom_access()
-	W.assignment = "NanoTrasen Navy Captain"
-	W.registered_name = new_character.real_name
-	new_character.equip_to_slot_or_del(W, slot_wear_id)
+		var/obj/item/weapon/card/id/centcom/W = new(new_character)
+		W.name = "[new_character.real_name]'s ID Card"
+		W.access = get_all_accesses()
+		W.access += get_all_centcom_access()
+		W.assignment = "NanoTrasen Navy Captain"
+		W.registered_name = new_character.real_name
+		new_character.equip_to_slot_or_del(W, slot_wear_id)
+	else
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_officer(new_character), slot_w_uniform)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
+		new_character.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(new_character), slot_l_ear)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/officer(new_character), slot_head)
+
+		var/obj/item/device/pda/heads/pda = new(new_character)
+		pda.owner = new_character.real_name
+		pda.ownjob = "NanoTrasen Navy Officer"
+		pda.name = "PDA-[new_character.real_name] ([pda.ownjob])"
+
+		new_character.equip_to_slot_or_del(pda, slot_r_store)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
+		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
+
+		var/obj/item/weapon/card/id/centcom/W = new(new_character)
+		W.name = "[new_character.real_name]'s ID Card"
+		W.access = get_all_accesses()
+		W.access += get_all_centcom_access()
+		W.assignment = "NanoTrasen Navy Officer"
+		W.registered_name = new_character.real_name
+		new_character.equip_to_slot_or_del(W, slot_wear_id)
 
 /obj/machinery/cryopod/proc/find_control_computer(urgent=0)
 	control_computer = locate(/obj/machinery/computer/cryopod) in src.loc.loc
