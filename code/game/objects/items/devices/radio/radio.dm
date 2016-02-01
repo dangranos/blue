@@ -495,6 +495,22 @@
 		channels[ch_name] = 0
 	..()
 
+/obj/item/device/radio/off
+	listening = 0
+
+
+/obj/item/device/radio/proc/config(op)
+	if(radio_controller)
+		for (var/ch_name in channels)
+			radio_controller.remove_object(src, radiochannels[ch_name])
+	secure_radio_connections = new
+	channels = op
+	if(radio_controller)
+		for (var/ch_name in op)
+			secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
+	return
+
+
 ///////////////////////////////
 //////////Borg Radios//////////
 ///////////////////////////////
@@ -612,6 +628,7 @@
 
 	..()
 
+
 /obj/item/device/radio/borg/interact(mob/user as mob)
 	if(!on)
 		return
@@ -637,16 +654,94 @@
 	onclose(user, "radio")
 	return
 
-/obj/item/device/radio/proc/config(op)
-	if(radio_controller)
-		for (var/ch_name in channels)
-			radio_controller.remove_object(src, radiochannels[ch_name])
-	secure_radio_connections = new
-	channels = op
-	if(radio_controller)
-		for (var/ch_name in op)
-			secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
+/obj/item/device/radio/drone //SPECIAL FOR DRONES!
+	var/mob/living/silicon/robot/myborg = null // Cyborg which owns this radio. Used for power checks
+	var/obj/item/device/encryptionkey/keyslot = null//Borg radios can handle a single encryption key
+	icon = 'icons/obj/robot_component.dmi' // Cyborgs radio icons should look like the component.
+	icon_state = "radio"
+	canhear_range = 0
+	subspace_transmission = 1
+
+
+/obj/item/device/radio/drone/proc/recalculateChannels()
+	src.channels = list()
+	src.syndie = 0
+
+	var/mob/living/silicon/robot/D = src.loc
+	if(D.module)
+		for(var/ch_name in D.module.channels)
+			if(ch_name in src.channels)
+				continue
+			src.channels += ch_name
+			src.channels[ch_name] += D.module.channels[ch_name]
+	if(keyslot)
+		for(var/ch_name in keyslot.channels)
+			if(ch_name in src.channels)
+				continue
+			src.channels += ch_name
+			src.channels[ch_name] += keyslot.channels[ch_name]
+
+		if(keyslot.syndie)
+			src.syndie = 1
+
+	for (var/ch_name in src.channels)
+		if(!radio_controller)
+			sleep(30) // Waiting for the radio_controller to be created.
+		if(!radio_controller)
+			src.name = "broken radio"
+			return
+
+		secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
+
 	return
 
-/obj/item/device/radio/off
-	listening = 0
+
+/obj/item/device/radio/drone/interact(mob/user as mob)
+	if(!on)
+		return
+
+	var/dat = "<html><head><title>[src]</title></head><body><TT>"
+	dat += {"
+				Speaker: [listening ? "<A href='byond://?src=\ref[src];listen=0'>Engaged</A>" : "<A href='byond://?src=\ref[src];listen=1'>Disengaged</A>"]<BR>
+				Frequency:
+				<A href='byond://?src=\ref[src];freq=-10'>-</A>
+				<A href='byond://?src=\ref[src];freq=-2'>-</A>
+				[format_frequency(frequency)]
+				<A href='byond://?src=\ref[src];freq=2'>+</A>
+				<A href='byond://?src=\ref[src];freq=10'>+</A><BR>
+				<A href='byond://?src=\ref[src];mode=1'>Toggle Broadcast Mode</A><BR>
+				"}
+
+	if(subspace_transmission)//Don't even bother if subspace isn't turned on
+		for (var/ch_name in channels)
+			dat+=text_sec_channel(ch_name, channels[ch_name])
+	dat+={"[text_wires()]</TT></body></html>"}
+	user << browse(dat, "window=radio")
+	onclose(user, "radio")
+	return
+
+/obj/item/device/radio/drone/Topic(href, href_list)
+	if(usr.stat || !on)
+		return
+	if (href_list["mode"])
+		if(subspace_transmission != 1)
+			subspace_transmission = 1
+			usr << "Subspace Transmission is enabled"
+		else
+			subspace_transmission = 0
+			usr << "Subspace Transmission is disabled"
+		if(subspace_transmission == 0)//Simple as fuck, clears the channel list to prevent talking/listening over them if subspace transmission is disabled
+			channels = list()
+		else
+			recalculateChannels()
+
+	..()
+
+
+
+/obj/item/device/radio/drone/talk_into()
+	. = ..()
+	if (isrobot(src.loc))
+		var/mob/living/silicon/robot/R = src.loc
+		var/datum/robot_component/C = R.components["radio"]
+		R.cell_use_power(C.active_usage)
