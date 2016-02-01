@@ -7,7 +7,7 @@
 	icon_state = "robot"
 	light_color = "#a97faa"
 	req_access = list(access_robotics)
-	circuit = "/obj/item/weapon/circuitboard/robotics"
+	circuit = /obj/item/weapon/circuitboard/robotics
 
 	var/id = 0.0
 	var/temp = null
