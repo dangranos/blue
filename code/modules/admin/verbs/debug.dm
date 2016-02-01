@@ -829,7 +829,6 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			M.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/captain(M), slot_head)
 
 			var/obj/item/device/pda/heads/pda = new(M)
-			pda.toff = 1
 			pda.owner = M.real_name
 			pda.ownjob = "NanoTrasen Navy Captain"
 			pda.name = "PDA-[M.real_name] ([pda.ownjob])"
@@ -1012,6 +1011,8 @@ But you can call procs that are of type /mob/living/carbon/human/proc/ for that 
 			W.registered_name = M.real_name
 			M.equip_to_slot_or_del(W, slot_wear_id)
 
+	var/obj/item/device/pda/P = locate(/obj/item/device/pda) in M
+	if(P) P.toff = 1
 	M.regenerate_icons()
 
 	log_admin("[key_name(usr)] changed the equipment of [key_name(M)] to [dresscode].")
