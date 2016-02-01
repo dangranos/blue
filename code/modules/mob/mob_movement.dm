@@ -112,6 +112,10 @@
 
 //This proc should never be overridden elsewhere at /atom/movable to keep directions sane.
 /atom/movable/Move(newloc, direct)
+	if(isobj(loc) || ismob(loc))//Inside an object, tell it we moved
+		var/atom/O = loc
+		return O.relaymove(src, direct)
+
 	if (direct & (direct - 1))
 		if (direct & 1)
 			if (direct & 4)
