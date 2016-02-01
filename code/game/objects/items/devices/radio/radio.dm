@@ -495,6 +495,22 @@
 		channels[ch_name] = 0
 	..()
 
+/obj/item/device/radio/off
+	listening = 0
+
+
+/obj/item/device/radio/proc/config(op)
+	if(radio_controller)
+		for (var/ch_name in channels)
+			radio_controller.remove_object(src, radiochannels[ch_name])
+	secure_radio_connections = new
+	channels = op
+	if(radio_controller)
+		for (var/ch_name in op)
+			secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
+	return
+
+
 ///////////////////////////////
 //////////Borg Radios//////////
 ///////////////////////////////
@@ -612,6 +628,7 @@
 
 	..()
 
+
 /obj/item/device/radio/borg/interact(mob/user as mob)
 	if(!on)
 		return
@@ -637,22 +654,6 @@
 	onclose(user, "radio")
 	return
 
-/obj/item/device/radio/proc/config(op)
-	if(radio_controller)
-		for (var/ch_name in channels)
-			radio_controller.remove_object(src, radiochannels[ch_name])
-	secure_radio_connections = new
-	channels = op
-	if(radio_controller)
-		for (var/ch_name in op)
-			secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
-	return
-
-/obj/item/device/radio/off
-	listening = 0
-
-
-
 /obj/item/device/radio/drone //SPECIAL FOR DRONES!
 	var/mob/living/silicon/robot/myborg = null // Cyborg which owns this radio. Used for power checks
 	var/obj/item/device/encryptionkey/keyslot = null//Borg radios can handle a single encryption key
@@ -660,6 +661,40 @@
 	icon_state = "radio"
 	canhear_range = 0
 	subspace_transmission = 1
+
+
+/obj/item/device/radio/drone/proc/recalculateChannels()
+	src.channels = list()
+	src.syndie = 0
+
+	var/mob/living/silicon/robot/D = src.loc
+	if(D.module)
+		for(var/ch_name in D.module.channels)
+			if(ch_name in src.channels)
+				continue
+			src.channels += ch_name
+			src.channels[ch_name] += D.module.channels[ch_name]
+	if(keyslot)
+		for(var/ch_name in keyslot.channels)
+			if(ch_name in src.channels)
+				continue
+			src.channels += ch_name
+			src.channels[ch_name] += keyslot.channels[ch_name]
+
+		if(keyslot.syndie)
+			src.syndie = 1
+
+	for (var/ch_name in src.channels)
+		if(!radio_controller)
+			sleep(30) // Waiting for the radio_controller to be created.
+		if(!radio_controller)
+			src.name = "broken radio"
+			return
+
+		secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
+
+	return
+
 
 /obj/item/device/radio/drone/interact(mob/user as mob)
 	if(!on)
@@ -702,37 +737,7 @@
 
 	..()
 
-/obj/item/device/radio/drone/proc/recalculateChannels()
-	src.channels = list()
-	src.syndie = 0
 
-	var/mob/living/silicon/robot/D = src.loc
-	if(D.module)
-		for(var/ch_name in D.module.channels)
-			if(ch_name in src.channels)
-				continue
-			src.channels += ch_name
-			src.channels[ch_name] += D.module.channels[ch_name]
-	if(keyslot)
-		for(var/ch_name in keyslot.channels)
-			if(ch_name in src.channels)
-				continue
-			src.channels += ch_name
-			src.channels[ch_name] += keyslot.channels[ch_name]
-
-		if(keyslot.syndie)
-			src.syndie = 1
-
-	for (var/ch_name in src.channels)
-		if(!radio_controller)
-			sleep(30) // Waiting for the radio_controller to be created.
-		if(!radio_controller)
-			src.name = "broken radio"
-			return
-
-		secure_radio_connections[ch_name] = radio_controller.add_object(src, radiochannels[ch_name],  RADIO_CHAT)
-
-	return
 
 /obj/item/device/radio/drone/talk_into()
 	. = ..()
