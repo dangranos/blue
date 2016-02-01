@@ -127,7 +127,7 @@ var/global/datum/controller/processScheduler/processScheduler
 
 	// init recordkeeping vars
 	last_start.Add(process)
-	last_start[process] = 0
+	last_start[process] = last_start.len - 1
 	last_run_time.Add(process)
 	last_run_time[process] = 0
 	last_twenty_run_times.Add(process)
