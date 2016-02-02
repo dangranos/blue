@@ -30,10 +30,23 @@ RPD
 	var/p_type = 0
 	var/p_dir = 1
 	var/wait = 0
+	var/get_dir = NORTH
 
 /obj/item/weapon/rpd/proc/build_pipe(user as mob)
-///// Z-Level stuff
+	var/dirname
+	switch(get_dir)
+		if(NORTH)
+			dirname = "NORTH"
+		if(SOUTH)
+			dirname = "SOUTH"
+		if(EAST)
+			dirname = "EAST"
+		if(WEST)
+			dirname = "WEST"
+
 	var/dat = {"
+<b>Direction: [dirname]</b><BR>
+<A href='?src=\ref[src];get_dir=[NORTH]'>NORTH</A> <A href='?src=\ref[src];get_dir=[SOUTH]'>SOUTH</A> <A href='?src=\ref[src];get_dir=[EAST]'>EAST</A> <A href='?src=\ref[src];get_dir=[WEST]'>WEST</A><BR>
 <b>Regular pipes:</b><BR>
 <A href='?src=\ref[src];make=0;dir=1'>Pipe</A><BR>
 <A href='?src=\ref[src];make=1;dir=5'>Bent Pipe</A><BR>
@@ -100,6 +113,8 @@ RPD
 		return
 	usr.set_machine(src)
 	src.add_fingerprint(usr)
+	if(href_list["get_dir"])
+		get_dir = text2num(href_list["get_dir"])
 	if(href_list["make"])
 		if(!wait)
 			p_type = text2num(href_list["make"])
@@ -143,6 +158,7 @@ RPD
 
 /obj/item/weapon/rpd/afterattack(atom/A, mob/user as mob, proximity)
 	var/build_cost = 5
+	var/spawn_dir = get_dir
 	if(!proximity) return
 
 	if(istype(user,/mob/living/silicon/robot))
@@ -156,15 +172,18 @@ RPD
 
 	if(!istype(A, /obj/structure/table) && !istype(A, /turf/simulated/floor))
 		return
-	playsound(src.loc, 'sound/machines/click.ogg', 10, 1)
 
 	if(!useResource(build_cost, user))
 		user << "Insufficient resources."
 		return 0
 
+	playsound(src.loc, 'sound/machines/click.ogg', 10, 1)
 	//var/obj/product
 	if(p_type>=0)
-		var/obj/item/pipe/P = new (/*usr.loc*/ get_turf(A), pipe_type=p_type, dir=p_dir)
+		if(p_dir == 5)
+			spawn_dir = get_dir + turn(get_dir, 90)
+		//	var/obj/item/pipe/P = new (/*usr.loc*/ get_turf(A), pipe_type=p_type, dir=get_dir + (turn(get_dir, 90)))
+		var/obj/item/pipe/P = new (/*usr.loc*/ get_turf(A), pipe_type=p_type, dir=spawn_dir)
 		P.update()
 		P.add_fingerprint(usr)
 	else
@@ -174,7 +193,7 @@ RPD
 /obj/item/weapon/rpd/proc/can_use(var/mob/user,var/turf/T)
 	return (user.Adjacent(T) && user.get_active_hand() == src && !user.stat && !user.restrained())
 
-/obj/item/weapon/rpd/proc/alter_turf(var/turf/T,var/mob/user,var/deconstruct)
+/*/obj/item/weapon/rpd/proc/alter_turf(var/turf/T,var/mob/user,var/deconstruct)
 
 /*
 	var/build_cost = 5
@@ -189,7 +208,7 @@ RPD
 	P.add_fingerprint(usr)
 	//spawn(10)
 	return 1
-
+*/
 
 /*/obj/item/weapon/rpd/examine()
 	..()
