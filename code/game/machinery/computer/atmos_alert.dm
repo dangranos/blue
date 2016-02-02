@@ -7,7 +7,7 @@ var/global/list/minor_air_alarms = list()
 /obj/machinery/computer/atmos_alert
 	name = "atmospheric alert computer"
 	desc = "Used to access the station's atmospheric sensors."
-	circuit = "/obj/item/weapon/circuitboard/atmos_alert"
+	circuit = /obj/item/weapon/circuitboard/atmos_alert
 	icon_state = "alert:0"
 	light_color = "#e6ffff"
 
