@@ -152,6 +152,18 @@
 	icon_state = "red"
 	item_state = "red"
 
+/obj/item/clothing/glasses/orange
+	name = "orange glasses"
+	desc = "A sweet pair of orange shades."
+	icon_state = "orangeglasses"
+	item_state = "orangeglasses"
+
+/obj/item/clothing/glasses/red
+	name = "red glasses"
+	desc = "A sweet pair of red shades."
+	icon_state = "redglasses"
+	item_state = "redglasses"
+
 /obj/item/clothing/glasses/welding
 	name = "welding goggles"
 	desc = "Protects the eyes from welders, approved by the mad scientist association."
