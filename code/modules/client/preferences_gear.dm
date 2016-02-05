@@ -597,11 +597,48 @@ var/global/list/gear_datums = list()
 	allowed_roles = list("Head of Personnel")
 
 /datum/gear/navysecsuit
-	display_name = "uniform, navyblue (Security)"
-	path = /obj/item/clothing/under/rank/security/navyblue
+    display_name = "uniform, navyblue (Security Officer)"
+    path = /obj/item/clothing/under/rank/security/navyblue
+    cost = 1
+    slot = slot_w_uniform
+    allowed_roles = list("Security Officer")
+
+/datum/gear/navywarsuit
+	display_name = "uniform, navyblue (Warden)"
+	path = /obj/item/clothing/under/rank/warden/navyblue
 	cost = 1
 	slot = slot_w_uniform
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Warden")
+
+/datum/gear/navyhossuit
+	display_name = "uniform, navyblue (Head of Security)"
+	path = /obj/item/clothing/under/rank/head_of_security/navyblue
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Head of Security")
+
+/datum/gear/dnavysecsuit
+	display_name = "uniform, deep navy (Security Officer)"
+	path = /obj/item/clothing/under/rank/security/dnavy
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Security Officer")
+
+/datum/gear/dnavywarsuit
+	display_name = "uniform, deep navy (Warden)"
+	path = /obj/item/clothing/under/rank/warden/dnavy
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Warden")
+
+/datum/gear/dnavyhossuit
+	display_name = "uniform, deep navy (Head of Security)"
+	path = /obj/item/clothing/under/rank/head_of_security/dnavy
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Head of Security")
+
+
 
 // Attachments
 
