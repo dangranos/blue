@@ -253,7 +253,7 @@
 /obj/machinery/cryopod/spawner/attack_ghost(mob/dead/observer/user as mob)
 	var/mob/living/carbon/human/new_character
 	if(!user) return
-	var/is_admin = check_rights(show_message = player_spawn)
+	var/is_admin = check_rights(show_msg = player_spawn)
 
 	if((!is_admin && !player_spawn) || alert("Would you like to spawn?",,"Yes","No") == "No") return
 
