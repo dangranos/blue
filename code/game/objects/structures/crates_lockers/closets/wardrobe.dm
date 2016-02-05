@@ -14,9 +14,6 @@
 	new /obj/item/clothing/under/rank/security(src)
 	new /obj/item/clothing/under/rank/security(src)
 	new /obj/item/clothing/under/rank/security(src)
-	new /obj/item/clothing/under/rank/security2(src)
-	new /obj/item/clothing/under/rank/security2(src)
-	new /obj/item/clothing/under/rank/security2(src)
 	new /obj/item/clothing/shoes/jackboots(src)
 	new /obj/item/clothing/shoes/jackboots(src)
 	new /obj/item/clothing/shoes/jackboots(src)
@@ -26,9 +23,40 @@
 	new /obj/item/clothing/head/beret/sec(src)
 	new /obj/item/clothing/head/beret/sec(src)
 	new /obj/item/clothing/head/beret/sec(src)
+	new /obj/item/clothing/accessory/armband
+	new /obj/item/clothing/accessory/armband
+	new /obj/item/clothing/accessory/armband
+	new /obj/item/clothing/accessory/holster/armpit
+	new /obj/item/clothing/accessory/holster/armpit
+	new /obj/item/clothing/accessory/holster/armpit
+	new /obj/item/clothing/accessory/holster/waist
+	new /obj/item/clothing/accessory/holster/hip
+	return
+
+/obj/structure/closet/wardrobe/redalt
+	name = "alternative security wardrobe"
+	desc = "It's a storage unit for not-so-standard-issue Nanotrasen attire. Still allowed though."
+	icon_state = "red"
+	icon_closed = "red"
+
+/obj/structure/closet/wardrobe/redalt/New()
+	..()
+	new /obj/item/clothing/under/rank/security2(src)
+	new /obj/item/clothing/under/rank/security2(src)
+	new /obj/item/clothing/under/rank/security2(src)
+	new /obj/item/clothing/under/rank/dispatch
+	new /obj/item/clothing/under/rank/dispatch
+	new /obj/item/clothing/under/rank/dispatch
 	new /obj/item/clothing/head/beret/sec/alt(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
+	new /obj/item/clothing/under/rank/security/navyblue
+	new /obj/item/clothing/under/rank/security/navyblue
+	new /obj/item/clothing/under/rank/security/navyblue
+	new /obj/item/clothing/under/rank/security/dnavy
+	new /obj/item/clothing/under/rank/security/dnavy
+	new /obj/item/clothing/under/rank/security/dnavy
+	new /obj/item/clothing/under/rank/vice
 	return
 
 
