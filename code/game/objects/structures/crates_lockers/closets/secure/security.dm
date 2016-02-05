@@ -126,6 +126,7 @@
 		new /obj/item/clothing/accessory/holster/waist(src)
 		new /obj/item/weapon/melee/telebaton(src)
 		new /obj/item/clothing/head/beret/sec/hos(src)
+		new /obj/item/clothing/under/rank/head_of_security/dnavy
 		return
 
 
@@ -151,6 +152,7 @@
 		new /obj/item/weapon/storage/backpack/duffle/security (src)
 		new /obj/item/clothing/under/rank/warden(src)
 		new /obj/item/clothing/under/rank/warden/corp(src)
+		new /obj/item/clothing/under/rank/warden/dnavy
 		new /obj/item/clothing/suit/armor/vest/warden(src)
 		new /obj/item/clothing/head/helmet/warden(src)
 		new /obj/item/weapon/cartridge/security(src)
@@ -165,6 +167,7 @@
 		new /obj/item/weapon/storage/box/holobadge(src)
 		new /obj/item/clothing/head/beret/sec/warden(src)
 		new /obj/item/clothing/head/helmet/warden/drill(src)
+		new /obj/item/clothing/accessory/storage/black_vest(src)
 		return
 
 
@@ -204,6 +207,7 @@
 		new /obj/item/ammo_magazine/c45m/rubber(src)
 		new /obj/item/weapon/gun/energy/taser(src)
 		new /obj/item/clothing/gloves/black(src)
+		new /obj/item/clothing/under/rank/security/dnavy
 		return
 
 
