@@ -34,6 +34,39 @@
 				usr << "You place your glasses into the normal position."
 			update_clothing_icon()	//so our mob-overlays update
 
+/obj/item/clothing/head/helmet/heavy
+	name = "combat helmet"
+	desc = "That's the tactical helmet with multiple attachments. Protects the head from impacts."
+	icon_state = "combathelmet"
+	flags = HEADCOVERSEYES | THICKMATERIAL
+	item_state = "combathelmet"
+	armor = list(melee = 60, bullet = 50, laser = 55,energy = 45, bomb = 45, bio = 0, rad = 0)
+	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE
+	siemens_coefficient = 0.4
+	light_overlay = "helmet_light"
+	var/glassesup = 0
+
+	verb/glasses()
+		set category = "Object"
+		set name = "Raise glasses up/down"
+		set src in usr
+		if(usr.canmove && !usr.stat && !usr.restrained())
+			src.glassesup = !src.glassesup
+			if(src.glassesup)
+				icon_state = "[icon_state]_glassesup"
+				usr << "You raise your helmet visor up."
+				siemens_coefficient = 0.7
+				armor = list(melee = 40, bullet = 40, laser = 40,energy = 35, bomb = 35, bio = 0, rad = 0)
+				flags_inv = HIDEEARS
+				flags = THICKMATERIAL
+				playsound(loc, 'sound/mecha/mechmove03.ogg', 50, 1, -1)
+			else
+				src.icon_state = initial(icon_state)
+				usr << "You place your glasses into the normal position."
+				playsound(loc, 'sound/mecha/mechmove03.ogg', 50, 1, -1)
+			update_clothing_icon()	//so our mob-overlays update
+
+
 
 /obj/item/clothing/head/helmet/HoS
 	name = "Head of Security Hat"
