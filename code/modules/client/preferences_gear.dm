@@ -297,6 +297,18 @@ var/global/list/gear_datums = list()
 	cost = 1
 	slot = slot_glasses
 
+/datum/gear/orange
+	path = /obj/item/clothing/glasses/orange
+	display_name = "Glasses, orange"
+	cost = 1
+	slot = slot_glasses
+
+/datum/gear/red
+	path = /obj/item/clothing/glasses/red
+	display_name = "Glasses, red"
+	cost = 1
+	slot = slot_glasses
+
 /datum/gear/monocle
 	display_name = "Monocle"
 	path = /obj/item/clothing/glasses/monocle
@@ -352,25 +364,25 @@ var/global/list/gear_datums = list()
 	cost = 2
 
 /datum/gear/redscarf
-	display_name = "scarf, red"
+	display_name = "facescarf, red"
 	path = /obj/item/clothing/mask/redscarf
 	slot = slot_wear_mask
 	cost = 2
 
 /datum/gear/greenscarf
-	display_name = "scarf, green"
+	display_name = "facescarf, green"
 	path = /obj/item/clothing/mask/greenscarf
 	slot = slot_wear_mask
 	cost = 2
 
 /datum/gear/bluescarf
-	display_name = "scarf, blue"
+	display_name = "facescarf, blue"
 	path = /obj/item/clothing/mask/bluescarf
 	slot = slot_wear_mask
 	cost = 2
 
 /datum/gear/arafatka
-	display_name = "scarf, shemagh"
+	display_name = "facescarf, shemagh"
 	path = /obj/item/clothing/mask/arafatka
 	slot = slot_wear_mask
 	cost = 2
@@ -585,11 +597,48 @@ var/global/list/gear_datums = list()
 	allowed_roles = list("Head of Personnel")
 
 /datum/gear/navysecsuit
-	display_name = "uniform, navyblue (Security)"
-	path = /obj/item/clothing/under/rank/security/navyblue
+    display_name = "uniform, navyblue (Security Officer)"
+    path = /obj/item/clothing/under/rank/security/navyblue
+    cost = 1
+    slot = slot_w_uniform
+    allowed_roles = list("Security Officer")
+
+/datum/gear/navywarsuit
+	display_name = "uniform, navyblue (Warden)"
+	path = /obj/item/clothing/under/rank/warden/navyblue
 	cost = 1
 	slot = slot_w_uniform
-	allowed_roles = list("Security Officer","Head of Security","Warden")
+	allowed_roles = list("Warden")
+
+/datum/gear/navyhossuit
+	display_name = "uniform, navyblue (Head of Security)"
+	path = /obj/item/clothing/under/rank/head_of_security/navyblue
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Head of Security")
+
+/datum/gear/dnavysecsuit
+	display_name = "uniform, deep navy (Security Officer)"
+	path = /obj/item/clothing/under/rank/security/dnavy
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Security Officer")
+
+/datum/gear/dnavywarsuit
+	display_name = "uniform, deep navy (Warden)"
+	path = /obj/item/clothing/under/rank/warden/dnavy
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Warden")
+
+/datum/gear/dnavyhossuit
+	display_name = "uniform, deep navy (Head of Security)"
+	path = /obj/item/clothing/under/rank/head_of_security/dnavy
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Head of Security")
+
+
 
 // Attachments
 
@@ -677,6 +726,79 @@ var/global/list/gear_datums = list()
 /datum/gear/tie_horrible
 	display_name = "tie, socially disgraceful"
 	path = /obj/item/clothing/accessory/horrible
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/black
+	display_name = "scarf, black"
+	path = /obj/item/clothing/accessory/scarf/black
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/red
+	display_name = "scarf, red"
+	path = /obj/item/clothing/accessory/scarf/red
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/white
+	display_name = "scarf, white"
+	path = /obj/item/clothing/accessory/scarf/white
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/green
+	display_name = "scarf, green"
+	path = /obj/item/clothing/accessory/scarf/green
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/darkblue
+	display_name = "scarf, darkblue"
+	path = /obj/item/clothing/accessory/scarf/darkblue
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/purple
+	display_name = "scarf, purple"
+	path = /obj/item/clothing/accessory/scarf/purple
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/yellow
+	display_name = "scarf, yellow"
+	path = /obj/item/clothing/accessory/scarf/yellow
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/orange
+	display_name = "scarf, orange"
+	path = /obj/item/clothing/accessory/scarf/orange
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/lightblue
+	display_name = "scarf, lightblue"
+	path = /obj/item/clothing/accessory/scarf/lightblue
+	slot = slot_tie
+	cost = 1
+
+
+/datum/gear/scarf/stripedredscarf
+	display_name = "scarf, striped red"
+	path = /obj/item/clothing/accessory/stripedredscarf
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/stripedgreenscarf
+	display_name = "scarf, striped green"
+	path = /obj/item/clothing/accessory/stripedgreenscarf
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/scarf/stripedbluescarf
+	display_name = "scarf, striped blue"
+	path = /obj/item/clothing/accessory/stripedbluescarf
 	slot = slot_tie
 	cost = 1
 
@@ -1379,8 +1501,24 @@ var/global/list/gear_datums = list()
 
 
 
+// Belt
 
+/datum/gear/fannypack
+	display_name = "fannypack, leather"
+	path = /obj/item/weapon/storage/belt/fannypack
+	cost = 2
 
+/datum/gear/fannypack/red
+	display_name = "fannypack, red"
+	path = /obj/item/weapon/storage/belt/fannypack/red
+	cost = 2
 
+/datum/gear/fannypack/white
+	display_name = "fannypack, white"
+	path = /obj/item/weapon/storage/belt/fannypack/white
+	cost = 2
 
-
+/datum/gear/fannypack/black
+	display_name = "fannypack, black"
+	path = /obj/item/weapon/storage/belt/fannypack/black
+	cost = 2
