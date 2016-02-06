@@ -44,8 +44,9 @@
 
 /obj/item/weapon/gun/projectile/sec/update_icon()
 	..()
-	icon_state = (ammo_magazine)? "[icon_state]" : "[icon_state]-empty"
+	icon_state = (ammo_magazine)? "secguncomp" : "secguncomp-empty"
 	update_held_icon()
+
 
 /obj/item/weapon/gun/projectile/sec/flash
 	name = ".45 signal pistol"
@@ -58,6 +59,11 @@
 	recoil = 0
 	fire_delay = 3
 
+/obj/item/weapon/gun/projectile/sec/wood/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "secgunlight" : "secgunlight-empty"
+	update_held_icon()
+
 /obj/item/weapon/gun/projectile/sec/longbarrel
 	desc = "The NT Mk58 is a designed sidearm, this one has a long barrel. Uses .45 rounds."
 	name = " custom .45 pistol"
@@ -66,6 +72,11 @@
 	fire_delay = 4
 	accuracy = 2
 	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+
+/obj/item/weapon/gun/projectile/sec/longbarrel/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "secgunlongbarrel" : "secgunlongbarrel-empty"
+	update_held_icon()
 
 /obj/item/weapon/gun/projectile/sec/shortbarrel
 	desc = "The NT Mk58 is a designed sidearm, this one has a shortened barrel. Uses .45 rounds."
@@ -76,6 +87,11 @@
 	accuracy = 0
 	w_class = 2
 
+/obj/item/weapon/gun/projectile/sec/shortbarrel/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "secgunshortbarrel" : "secgunshortbarrel-empty"
+	update_held_icon()
+
 /obj/item/weapon/gun/projectile/sec/tactical
 	desc = "The NT Mk58 is a designed sidearm, this one has a multiple attachments. Uses .45 rounds."
 	name = " custom .45 pistol"
@@ -85,6 +101,10 @@
 	accuracy = 2
 	auto_eject = 1
 
+/obj/item/weapon/gun/projectile/sec/tactical/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "secguntactical" : "secguntactical-empty"
+	update_held_icon()
 
 
 /obj/item/weapon/gun/projectile/silenced
