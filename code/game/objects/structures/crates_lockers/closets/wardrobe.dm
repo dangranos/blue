@@ -23,14 +23,14 @@
 	new /obj/item/clothing/head/beret/sec(src)
 	new /obj/item/clothing/head/beret/sec(src)
 	new /obj/item/clothing/head/beret/sec(src)
-	new /obj/item/clothing/accessory/armband
-	new /obj/item/clothing/accessory/armband
-	new /obj/item/clothing/accessory/armband
-	new /obj/item/clothing/accessory/holster/armpit
-	new /obj/item/clothing/accessory/holster/armpit
-	new /obj/item/clothing/accessory/holster/armpit
-	new /obj/item/clothing/accessory/holster/waist
-	new /obj/item/clothing/accessory/holster/hip
+	new /obj/item/clothing/accessory/armband(src)
+	new /obj/item/clothing/accessory/armband(src)
+	new /obj/item/clothing/accessory/armband(src)
+	new /obj/item/clothing/accessory/holster/armpit(src)
+	new /obj/item/clothing/accessory/holster/armpit(src)
+	new /obj/item/clothing/accessory/holster/armpit(src)
+	new /obj/item/clothing/accessory/holster/waist(src)
+	new /obj/item/clothing/accessory/holster/hip(src)
 	return
 
 /obj/structure/closet/wardrobe/redalt
@@ -44,19 +44,15 @@
 	new /obj/item/clothing/under/rank/security2(src)
 	new /obj/item/clothing/under/rank/security2(src)
 	new /obj/item/clothing/under/rank/security2(src)
-	new /obj/item/clothing/under/rank/dispatch
-	new /obj/item/clothing/under/rank/dispatch
-	new /obj/item/clothing/under/rank/dispatch
+	new /obj/item/clothing/under/rank/dispatch(src)
+	new /obj/item/clothing/under/rank/dispatch(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
-	new /obj/item/clothing/under/rank/security/navyblue
-	new /obj/item/clothing/under/rank/security/navyblue
-	new /obj/item/clothing/under/rank/security/navyblue
-	new /obj/item/clothing/under/rank/security/dnavy
-	new /obj/item/clothing/under/rank/security/dnavy
-	new /obj/item/clothing/under/rank/security/dnavy
-	new /obj/item/clothing/under/rank/vice
+	new /obj/item/clothing/under/rank/security/navyblue(src)
+	new /obj/item/clothing/under/rank/security/navyblue(src)
+	new /obj/item/clothing/under/rank/security/dnavy(src)
+	new /obj/item/clothing/under/rank/security/dnavy(src)
 	return
 
 
