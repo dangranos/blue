@@ -38,10 +38,10 @@
 	name = "combat helmet"
 	desc = "That's the tactical helmet with multiple attachments. Protects the head from impacts."
 	icon_state = "combathelmet"
-	flags = HEADCOVERSEYES | THICKMATERIAL
+	flags = HEADCOVERSEYES | THICKMATERIAL | HEADCOVERSMOUTH
 	item_state = "combathelmet"
 	armor = list(melee = 60, bullet = 50, laser = 55,energy = 45, bomb = 45, bio = 0, rad = 0)
-	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
 	siemens_coefficient = 0.4
 	light_overlay = "helmet_light"
 	brightness_on = 4
