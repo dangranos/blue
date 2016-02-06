@@ -44,6 +44,7 @@
 	flags_inv = HIDEEARS|HIDEEYES|HIDEFACE
 	siemens_coefficient = 0.4
 	light_overlay = "helmet_light"
+	brightness_on = 4
 	var/glassesup = 0
 
 	verb/glasses()

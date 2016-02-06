@@ -5,7 +5,7 @@
 	icon_state = "colt"
 	caliber = ".45"
 	origin_tech = "combat=2;materials=2"
-	fire_sound = 'sound/weapons/Gunshot_light.ogg'
+	fire_sound = 'sound/weapons/gunshotpistol.ogg'
 	load_method = MAGAZINE
 
 /obj/item/weapon/gun/projectile/colt/detective
@@ -37,17 +37,55 @@
 	magazine_type = /obj/item/ammo_magazine/c45m/rubber
 	caliber = ".45"
 	origin_tech = "combat=2;materials=2"
-	fire_sound = 'sound/weapons/Gunshot_light.ogg'
+	fire_sound = 'sound/weapons/gunshotpistol.ogg'
 	load_method = MAGAZINE
+	fire_delay = 2
+	accuracy = 1
+
+/obj/item/weapon/gun/projectile/sec/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "[icon_state]" : "[icon_state]-empty"
+	update_held_icon()
 
 /obj/item/weapon/gun/projectile/sec/flash
 	name = ".45 signal pistol"
 	magazine_type = /obj/item/ammo_magazine/c45m/flash
 
 /obj/item/weapon/gun/projectile/sec/wood
-	desc = "The NT Mk58 is a designed sidearm, this one has a sweet wooden grip. Uses .45 rounds."
+	desc = "The NT Mk58 is a designed sidearm, this one is made of light materials and not has a recoil. Uses .45 rounds."
 	name = " custom .45 pistol"
-	icon_state = "secgundark"
+	icon_state = "secgunlight"
+	recoil = 0
+	fire_delay = 3
+
+/obj/item/weapon/gun/projectile/sec/longbarrel
+	desc = "The NT Mk58 is a designed sidearm, this one has a long barrel. Uses .45 rounds."
+	name = " custom .45 pistol"
+	icon_state = "secgunlongbarrel"
+	recoil = 2
+	fire_delay = 4
+	accuracy = 2
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+
+/obj/item/weapon/gun/projectile/sec/shortbarrel
+	desc = "The NT Mk58 is a designed sidearm, this one has a shortened barrel. Uses .45 rounds."
+	name = " custom .45 pistol"
+	icon_state = "secgunshortbarrel"
+	recoil = 1
+	fire_delay = 2
+	accuracy = 0
+	w_class = 2
+
+/obj/item/weapon/gun/projectile/sec/tactical
+	desc = "The NT Mk58 is a designed sidearm, this one has a multiple attachments. Uses .45 rounds."
+	name = " custom .45 pistol"
+	icon_state = "secguntactical"
+	recoil = 2
+	fire_delay = 5
+	accuracy = 2
+	auto_eject = 1
+
+
 
 /obj/item/weapon/gun/projectile/silenced
 	name = "silenced pistol"
