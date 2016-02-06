@@ -152,6 +152,16 @@
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.5
 
+/obj/item/clothing/head/helmet/merc
+	name = "combat helmet"
+	desc = "That's a military-grade tan helmet. Protects the head from impacts"
+	icon_state = "helmet_merc"
+	flags = THICKMATERIAL
+	item_state = "helmet_merc"
+	armor = list(melee = 65, bullet = 45, laser = 60,energy = 10, bomb = 45, bio = 0, rad = 0)
+	flags_inv = HIDEEARS
+
+
 /obj/item/clothing/head/helmet/thunderdome
 	name = "\improper Thunderdome helmet"
 	desc = "<i>'Let the battle commence!'</i>"
