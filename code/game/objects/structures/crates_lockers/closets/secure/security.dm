@@ -276,6 +276,7 @@
 		new /obj/item/taperoll/police(src)
 		new /obj/item/weapon/gun/projectile/colt/detective(src)
 		new /obj/item/clothing/accessory/holster/armpit(src)
+		new /obj/item/clothing/glasses/hud/security(src)
 		return
 
 /obj/structure/closet/secure_closet/detective/update_icon()
@@ -314,6 +315,7 @@
 		new /obj/item/device/radio/headset/headset_sec(src)
 		new /obj/item/device/detective_scanner(src)
 		new /obj/item/taperoll/police(src)
+		new /obj/item/clothing/glasses/hud/security(src)
 		return
 
 /obj/structure/closet/secure_closet/detective/update_icon()
