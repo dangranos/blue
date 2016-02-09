@@ -320,7 +320,7 @@
 	icon_state = "plaid_purple"
 	item_state = "ba_suit"
 
-/obj/item/clothing/under/dress/plaid_purple
+/obj/item/clothing/under/dress/plaid_black
 	name = "black purple skirt"
 	desc = "A preppy black skirt with a white blouse."
 	icon_state = "plaid_black"
