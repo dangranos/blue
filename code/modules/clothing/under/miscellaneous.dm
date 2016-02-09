@@ -320,6 +320,12 @@
 	icon_state = "plaid_purple"
 	item_state = "ba_suit"
 
+/obj/item/clothing/under/dress/plaid_purple
+	name = "black purple skirt"
+	desc = "A preppy black skirt with a white blouse."
+	icon_state = "plaid_black"
+	item_state = "ba_suit"
+
 //wedding stuff
 /obj/item/clothing/under/wedding/
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
