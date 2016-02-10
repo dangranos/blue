@@ -17,7 +17,6 @@
 	var/brute_mod = 1
 	var/burn_mod = 1
 
-	var/icon_name = null
 	var/body_part = null
 	var/icon_position = 0
 	var/model
