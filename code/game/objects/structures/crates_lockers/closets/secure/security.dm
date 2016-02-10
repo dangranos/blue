@@ -126,6 +126,7 @@
 		new /obj/item/clothing/accessory/holster/waist(src)
 		new /obj/item/weapon/melee/telebaton(src)
 		new /obj/item/clothing/head/beret/sec/hos(src)
+		new /obj/item/clothing/under/rank/head_of_security/dnavy(src)
 		return
 
 
@@ -151,6 +152,7 @@
 		new /obj/item/weapon/storage/backpack/duffle/security (src)
 		new /obj/item/clothing/under/rank/warden(src)
 		new /obj/item/clothing/under/rank/warden/corp(src)
+		new /obj/item/clothing/under/rank/warden/dnavy(src)
 		new /obj/item/clothing/suit/armor/vest/warden(src)
 		new /obj/item/clothing/head/helmet/warden(src)
 		new /obj/item/weapon/cartridge/security(src)
@@ -165,6 +167,7 @@
 		new /obj/item/weapon/storage/box/holobadge(src)
 		new /obj/item/clothing/head/beret/sec/warden(src)
 		new /obj/item/clothing/head/helmet/warden/drill(src)
+		new /obj/item/clothing/accessory/storage/black_vest(src)
 		return
 
 
@@ -204,6 +207,7 @@
 		new /obj/item/ammo_magazine/c45m/rubber(src)
 		new /obj/item/weapon/gun/energy/taser(src)
 		new /obj/item/clothing/gloves/black(src)
+		new /obj/item/clothing/under/rank/security/dnavy(src)
 		return
 
 
@@ -272,6 +276,7 @@
 		new /obj/item/taperoll/police(src)
 		new /obj/item/weapon/gun/projectile/colt/detective(src)
 		new /obj/item/clothing/accessory/holster/armpit(src)
+		new /obj/item/clothing/glasses/hud/security(src)
 		return
 
 /obj/structure/closet/secure_closet/detective/update_icon()
@@ -310,6 +315,7 @@
 		new /obj/item/device/radio/headset/headset_sec(src)
 		new /obj/item/device/detective_scanner(src)
 		new /obj/item/taperoll/police(src)
+		new /obj/item/clothing/glasses/hud/security(src)
 		return
 
 /obj/structure/closet/secure_closet/detective/update_icon()

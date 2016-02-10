@@ -19,7 +19,7 @@
 /obj/item/clothing/under/scratch
 	name = "white suit"
 	desc = "A white suit, suitable for an excellent host"
-	icon_state = "scratch"
+	icon_state = "white_suit"
 	item_state = "scratch"
 
 /obj/item/clothing/under/sl_suit
@@ -318,6 +318,12 @@
 	name = "blue purple skirt"
 	desc = "A preppy purple skirt with a white blouse."
 	icon_state = "plaid_purple"
+	item_state = "ba_suit"
+
+/obj/item/clothing/under/dress/plaid_black
+	name = "black purple skirt"
+	desc = "A preppy black skirt with a white blouse."
+	icon_state = "plaid_black"
 	item_state = "ba_suit"
 
 //wedding stuff

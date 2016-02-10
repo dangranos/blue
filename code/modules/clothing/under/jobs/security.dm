@@ -116,7 +116,7 @@
 	siemens_coefficient = 0.6
 
 /*
- * Navy uniforms
+ * Blue uniforms
  */
 
 /obj/item/clothing/under/rank/security/navyblue
@@ -135,5 +135,27 @@
 	desc = "The insignia on this uniform tells you that this uniform belongs to the Warden."
 	name = "warden's uniform"
 	icon_state = "wardenblueclothes"
+	item_state = "ba_suit"
+
+/*
+ * Navy uniforms
+ */
+
+/obj/item/clothing/under/rank/security/dnavy
+	name = "security officer's uniform"
+	desc = "Dark, navy and stylish. Enough to be the perfect piece of clothing."
+	icon_state = "officerdnavyclothes"
+	item_state = "ba_suit"
+
+/obj/item/clothing/under/rank/head_of_security/dnavy
+	desc = "The insignia on this uniform tells you that this uniform belongs to the Head of Security."
+	name = "head of security's uniform"
+	icon_state = "hosdnavyclothes"
+	item_state = "ba_suit"
+
+/obj/item/clothing/under/rank/warden/dnavy
+	desc = "Dark. Navy. Sexy."
+	name = "warden's uniform"
+	icon_state = "wardendnavyclothes"
 	item_state = "ba_suit"
 

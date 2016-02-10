@@ -687,7 +687,7 @@ var/global/list/robot_modules = list(
 	name = "drone module"
 	no_slip = 1
 	networks = list(NETWORK_ENGINEERING)
-	channels = list("Engineering" = 1)
+	channels = list("Engineering" = 0)
 
 /obj/item/weapon/robot_module/drone/New()
 	..()
