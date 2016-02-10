@@ -87,6 +87,12 @@
 	icon_state = "internalaffairs"
 	item_state = "ba_suit"
 
+/obj/item/clothing/under/rank/internalaffairsdress
+	desc = "The plain, professional attire of an Internal Affairs Agent. The collar is <i>immaculately</i> starched."
+	name = "Internal Affairs uniform"
+	icon_state = "black_dress"
+	item_state = "ba_suit"
+
 
 /obj/item/clothing/under/rank/janitor
 	desc = "It's the official uniform of the station's janitor. It has minor protection from biohazards."
