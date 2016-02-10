@@ -3,7 +3,7 @@
 /obj/structure/bed/nest/arachna_nest
 	name = "arachna nest"
 	desc = "It's a gruesome pile of thick, sticky web shaped like a nest."
-	icon = 'icons/mob/alien.dmi'
+	icon = 'code/modules/mob/living/carbon/arachna/arachna_stuff.dmi'
 	icon_state = "nest"
 
 /obj/structure/bed/nest/arachna_nest/user_unbuckle_mob(mob/user as mob)

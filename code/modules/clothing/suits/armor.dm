@@ -297,9 +297,22 @@
 	item_state = "secheavyvest_nobadge"
 	icon_badge = "secheavyvest_badge"
 	icon_nobadge = "secheavyvest_nobadge"
-	armor = list(melee = 60, bullet = 50, laser = 50, energy = 80, bomb = 40, bio = 0, rad = 0)
+	armor = list(melee = 65, bullet = 55, laser = 60, energy = 50, bomb = 55, bio = 0, rad = 0)
 	slowdown = 2
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	w_class = 4
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
+
+/obj/item/clothing/suit/storage/vest/securitymedium
+	name = "plate carrier"
+	desc = "A medium-armoured plate carrier belonging to Nanotrasen with webbing and groin armor plate attached. This one has a security holobadge clipped to the chest."
+	icon_state = "secmediumvest_nobadge"
+	item_state = "secmediumvest_nobadge"
+	icon_badge = "secmediumvest_badge"
+	icon_nobadge = "secmediumvest_nobadge"
+	armor = list(melee = 60, bullet = 45, laser = 55, energy = 40, bomb = 40, bio = 0, rad = 0)
+	slowdown = 1
+	w_class = 4
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
 
 /obj/item/clothing/suit/storage/vest/heavy/warden
 	name = "warden heavy armor vest"

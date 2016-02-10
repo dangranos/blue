@@ -63,8 +63,6 @@
 	if(life_tick%30==15)
 		hud_updateflag = 1022
 
-	voice = GetVoice()
-
 	//No need to update all of these procs if the guy is dead.
 	if(stat != DEAD && !in_stasis)
 		if(air_master.current_cycle%4==2 || failed_last_breath || (health <= config.health_threshold_crit)) 	//First, resolve location and get a breath

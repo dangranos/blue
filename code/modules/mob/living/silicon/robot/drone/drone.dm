@@ -36,6 +36,9 @@
 
 	..()
 
+	del(radio)
+	radio = new /obj/item/device/radio/drone(src)
+	common_radio = radio
 	verbs += /mob/living/proc/hide
 	remove_language("Robot Talk")
 	add_language("Robot Talk", 0)
