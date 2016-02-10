@@ -1127,7 +1127,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 	amputation_point = "lumbar"
 	joint = "hip"
 	dislocated = -1
-	gendered_icon = 1
 
 /obj/item/organ/external/arm
 	limb_name = "l_arm"
@@ -1228,7 +1227,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 	parent_organ = "chest"
 	joint = "jaw"
 	amputation_point = "neck"
-	gendered_icon = 1
 	encased = "skull"
 
 /obj/item/organ/external/head/removed()
