@@ -28,7 +28,6 @@
 	var/max_size = 0
 	var/last_dam = -1
 	var/icon/mob_icon
-//	var/gendered_icon = 0
 	var/limb_name
 	var/disfigured = 0
 	var/cannot_amputate
@@ -1104,7 +1103,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/chest
 	name = "upper body"
 	limb_name = "chest"
-	icon_name = "torso"
 	max_damage = 100
 	min_broken_damage = 35
 	w_class = 5
@@ -1120,7 +1118,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/groin
 	name = "lower body"
 	limb_name = "groin"
-	icon_name = "groin"
 	max_damage = 100
 	min_broken_damage = 35
 	w_class = 5
@@ -1135,7 +1132,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/arm
 	limb_name = "l_arm"
 	name = "left arm"
-	icon_name = "l_arm"
 	max_damage = 50
 	min_broken_damage = 30
 	w_class = 3
@@ -1148,7 +1144,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/arm/right
 	limb_name = "r_arm"
 	name = "right arm"
-	icon_name = "r_arm"
 	body_part = ARM_RIGHT
 	joint = "right elbow"
 	amputation_point = "right shoulder"
@@ -1156,7 +1151,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/leg
 	limb_name = "l_leg"
 	name = "left leg"
-	icon_name = "l_leg"
 	max_damage = 50
 	min_broken_damage = 30
 	w_class = 3
@@ -1170,7 +1164,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/leg/right
 	limb_name = "r_leg"
 	name = "right leg"
-	icon_name = "r_leg"
 	body_part = LEG_RIGHT
 	icon_position = RIGHT
 	joint = "right knee"
@@ -1179,7 +1172,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/foot
 	limb_name = "l_foot"
 	name = "left foot"
-	icon_name = "l_foot"
 	min_broken_damage = 15
 	w_class = 2
 	body_part = FOOT_LEFT
@@ -1196,7 +1188,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/foot/right
 	limb_name = "r_foot"
 	name = "right foot"
-	icon_name = "r_foot"
 	body_part = FOOT_RIGHT
 	icon_position = RIGHT
 	parent_organ = "r_leg"
@@ -1206,7 +1197,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/hand
 	limb_name = "l_hand"
 	name = "left hand"
-	icon_name = "l_hand"
 	min_broken_damage = 15
 	w_class = 2
 	body_part = HAND_LEFT
@@ -1222,7 +1212,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/hand/right
 	limb_name = "r_hand"
 	name = "right hand"
-	icon_name = "r_hand"
 	body_part = HAND_RIGHT
 	parent_organ = "r_arm"
 	joint = "right wrist"
@@ -1230,7 +1219,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 /obj/item/organ/external/head
 	limb_name = "head"
-	icon_name = "head"
 	name = "head"
 	max_damage = 75
 	min_broken_damage = 35
