@@ -112,7 +112,7 @@
 		if(!..())	return 0
 		if(H.mind && H.mind.role_alt_title == "Forensic Technician")
 			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/forentech(H), slot_w_uniform)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/forensic(H), slot_w_uniform)
+			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/forensics/red(H), slot_wear_suit)
 		else
 			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/det_suit(H), slot_wear_suit)
 			H.equip_to_slot_or_del(new /obj/item/clothing/head/det_hat(H), slot_head)
