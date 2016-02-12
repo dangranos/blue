@@ -9,6 +9,7 @@ var/list/organ_cache = list()
 	var/vital //Lose a vital limb, die immediately.
 	var/damage = 0 // amount of damage to the organ
 
+
 	var/min_bruised_damage = 10
 	var/min_broken_damage = 30
 	var/max_damage
@@ -160,6 +161,9 @@ var/list/organ_cache = list()
 
 /obj/item/organ/proc/is_damaged()
 	return damage > 0
+
+/obj/item/organ/proc/is_hurt()
+	return damage > 5
 
 /obj/item/organ/proc/is_bruised()
 	return damage >= min_bruised_damage
