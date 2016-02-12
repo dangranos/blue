@@ -482,6 +482,21 @@
 	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
 	icon_state = "bmuniform"
 
+/obj/item/clothing/under/bum1
+	name = "simple clothing"
+	desc = "There are a change? A pair of thalers at least ..."
+	icon_state = "bum1"
+
+/obj/item/clothing/under/bum2
+	name = "simple clothing"
+	desc = "Place your order here ."
+	icon_state = "bum2"
+
+/obj/item/clothing/under/bum3
+	name = "simple clothing"
+	desc = "Captain - a piece of shit!"
+	icon_state = "bum3"
+
 //Pants
 
 /obj/item/clothing/under/pants
