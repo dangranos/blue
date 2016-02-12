@@ -1,4 +1,4 @@
-/datum/species/slime
+/datum/species/human/slime
 	name = "Slime"
 	name_plural = "slimes"
 	is_small = 1
@@ -43,7 +43,7 @@
 		"r_foot" = list("path" = /obj/item/organ/external/foot/right/slime)
 		)
 
-/datum/species/slime/handle_death(var/mob/living/carbon/human/H)
+/datum/species/human/slime/handle_death(var/mob/living/carbon/human/H)
 	spawn(1)
 		if(H)
 			H.gib()

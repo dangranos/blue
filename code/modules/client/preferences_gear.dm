@@ -442,6 +442,12 @@ var/global/list/gear_datums = list()
 	slot = slot_w_uniform
 	cost = 1
 
+/datum/gear/skirt_black_plaid
+	display_name = "plaid skirt, black"
+	path = /obj/item/clothing/under/dress/plaid_black
+	slot = slot_w_uniform
+	cost = 1
+
 /datum/gear/skirt_black
 	display_name = "skirt, black"
 	path = /obj/item/clothing/under/blackskirt
