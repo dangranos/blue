@@ -27,7 +27,7 @@
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/lightbrown(H), slot_w_uniform)
 					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/hazardvest(H), slot_wear_suit)
 				if("Medical Intern")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/color/lightblue(H), slot_w_uniform)
+					H.equip_to_slot_or_del(new /obj/item/clothing/under/lightblue(H), slot_w_uniform)
 					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat(H), slot_wear_suit)
 				if ("Research Assistant")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist_new(H), slot_w_uniform)
