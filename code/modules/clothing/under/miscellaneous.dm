@@ -497,6 +497,10 @@
 	desc = "Captain - a piece of shit!"
 	icon_state = "bum3"
 
+/obj/item/clothing/under/SID
+	name = "SID suit"
+	icon_state = "jane_sid_suit"
+	item_state = "suit-orange"
 //Pants
 
 /obj/item/clothing/under/pants
