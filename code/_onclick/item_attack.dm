@@ -82,10 +82,7 @@ attacked_by() will handle hitting/missing/logging as it does now, and will call 
 			return 1
 		return 0
 	else
-		if(attack_verb.len)
-			user.visible_message("<span class='danger'>[M] has been [pick(attack_verb)] with [src] by [user]!</span>")
-		else
-			user.visible_message("<span class='danger'>[M] has been attacked with [src] by [user]!</span>")
+		user.visible_message("<span class='danger'>[M] has been [pick(attack_verb)] with [src] by [user]!</span>")
 
 		if (hitsound)
 			playsound(loc, hitsound, 50, 1, -1)
