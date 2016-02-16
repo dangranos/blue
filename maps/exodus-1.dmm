@@ -2444,7 +2444,7 @@
 "aUZ" = (/obj/structure/closet/secure_closet/hydroponics,/obj/machinery/light,/turf/simulated/floor,/area/hydroponics)
 "aVa" = (/obj/structure/closet/secure_closet/hydroponics,/turf/simulated/floor,/area/hydroponics)
 "aVb" = (/obj/structure/reagent_dispensers/watertank,/obj/item/weapon/reagent_containers/glass/bucket,/obj/machinery/atmospherics/unary/vent_scrubber/on{dir = 1},/turf/simulated/floor,/area/hydroponics)
-"aVc" = (/obj/machinery/light/small,/turf/simulated/floor/plating,/area/maintenance/library)
+"aVc" = (/obj/machinery/light/small,/obj/random/plushie,/turf/simulated/floor/plating,/area/maintenance/library)
 "aVd" = (/obj/structure/bookcase{name = "bookcase (Religious)"},/turf/simulated/floor/wood,/area/library)
 "aVe" = (/turf/simulated/floor/carpet,/area/library)
 "aVf" = (/obj/structure/disposalpipe/segment,/turf/simulated/floor/carpet,/area/library)
