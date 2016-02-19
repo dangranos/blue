@@ -64,7 +64,7 @@
 	icon = 'icons/obj/gun.dmi'
 	icon_state = "secguncomp"
 	item_to_spawn()
-		return pick(prob(5);/obj/item/weapon/gun/projectile/sec,\
+		return pick(prob(2);/obj/item/weapon/gun/projectile/sec,\
 					prob(2);/obj/item/weapon/gun/projectile/sec/wood,\
 					prob(2);/obj/item/weapon/gun/projectile/sec/longbarrel,\
 					prob(2);/obj/item/weapon/gun/projectile/sec/shortbarrel,\
