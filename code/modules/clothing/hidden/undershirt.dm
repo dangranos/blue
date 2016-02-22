@@ -1,4 +1,4 @@
-/obj/item/clothing/hidden/underwear
+/obj/item/clothing/hidden/undershirt
 	icon = 'icons/obj/clothing/hidden.dmi'
-	wear_slot = slot_underwear
-	slot_name = "underwear"
+	wear_slot = slot_undershirt
+	slot_name = "undershirt"
