@@ -289,24 +289,3 @@
 					/obj/item/toy/plushie/mouse,\
 					/obj/item/toy/plushie/kitten,\
 					/obj/item/toy/plushie/lizard)
-
-/obj/item/weapon/gift/new_year/New()
-	var/surprize = pick(/obj/item/clothing/head/witchwig,
-		/obj/item/clothing/head/philosopher_wig,
-		/obj/item/clothing/head/pirate,
-		/obj/item/clothing/head/collectable/rabbitears,
-		/obj/item/clothing/head/collectable/kitty,
-//		/obj/item/clothing/head/collectable/slime,
-		/obj/item/clothing/head/collectable/slime2,
-		/obj/item/clothing/head/collectable/tophat,
-		/obj/item/clothing/head/collectable/amp,
-		/obj/item/clothing/head/collectable/crown,
-		/obj/item/clothing/head/wizard/fake,
-		/obj/item/clothing/head/collectable/marisa,
-		/obj/item/clothing/head/collectable/suzumiyarabbitears,
-		/obj/item/clothing/head/collectable/mikururabbitears,
-		/obj/item/clothing/head/collectable/metroid,
-		/obj/item/clothing/head/cueball,
-		/obj/item/clothing/head/collectable/women_blue_hat,
-		/obj/item/clothing/head/collectable/secelitetop)
-	gift = new surprize
