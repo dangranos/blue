@@ -206,6 +206,38 @@
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.5
 
+/obj/item/clothing/head/helmet/knight
+	name = "medieval helmet"
+	desc = "A classic metal helmet."
+	icon_state = "knight_green"
+	flags = HEADCOVERSEYES
+	item_state = "knight_green"
+	armor = list(melee = 40, bullet = 5, laser = 2,energy = 2, bomb = 2, bio = 2, rad = 0)
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
+	siemens_coefficient = 1
+
+/obj/item/clothing/head/helmet/knight/blue
+	icon_state = "knight_blue"
+	item_state = "knight_blue"
+
+/obj/item/clothing/head/helmet/knight/yellow
+	icon_state = "knight_yellow"
+	item_state = "knight_yellow"
+
+/obj/item/clothing/head/helmet/knight/red
+	icon_state = "knight_red"
+	item_state = "knight_red"
+
+/obj/item/clothing/head/helmet/knight/green
+ 	icon_state = "knight_green"
+ 	item_state = "knight_green"
+
+/obj/item/clothing/head/helmet/knight/templar
+	name = "crusader helmet"
+	desc = "Deus Vult."
+	icon_state = "knight_templar"
+	item_state = "knight_templar"
+
 //Non-hardsuit ERT helmets.
 /obj/item/clothing/head/helmet/ert
 	name = "emergency response team helmet"
