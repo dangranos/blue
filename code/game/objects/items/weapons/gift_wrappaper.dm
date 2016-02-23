@@ -115,6 +115,45 @@
 	qdel(src)
 	return
 
+
+/obj/item/weapon/gift/new_year/New()
+	var/surprize = pick(/obj/item/clothing/head/witchwig,
+		/obj/item/clothing/head/philosopher_wig,
+		/obj/item/clothing/head/pirate,
+		/obj/item/clothing/head/collectable/rabbitears,
+		/obj/item/clothing/head/collectable/kitty,
+//		/obj/item/clothing/head/collectable/slime,
+		/obj/item/clothing/head/collectable/slime2,
+		/obj/item/clothing/head/collectable/tophat,
+		/obj/item/clothing/head/collectable/amp,
+		/obj/item/clothing/head/collectable/crown,
+		/obj/item/clothing/head/wizard/fake,
+		/obj/item/clothing/head/collectable/marisa,
+		/obj/item/clothing/head/collectable/suzumiyarabbitears,
+		/obj/item/clothing/head/collectable/mikururabbitears,
+		/obj/item/clothing/head/collectable/metroid,
+		/obj/item/clothing/head/cueball,
+		/obj/item/clothing/head/collectable/women_blue_hat,
+		/obj/item/clothing/head/collectable/secelitetop)
+	gift = new surprize
+
+/obj/item/weapon/gift/fatherland_protect/attack_self(mob/living/carbon/human/user as mob)
+	if(istype(user))
+		if(user.gender == MALE)
+			new /obj/random/pistol(src)
+			gift = locate(/obj) in src
+		else
+			var/surprize = pick(/obj/item/clothing/hidden/socks/white_norm,
+				/obj/item/clothing/hidden/socks/white_short,
+				/obj/item/clothing/hidden/socks/white_knee,
+				/obj/item/clothing/hidden/socks/black_norm,
+				/obj/item/clothing/hidden/socks/black_short,
+				/obj/item/clothing/hidden/socks/black_knee,
+				/obj/item/clothing/hidden/socks/thin_knee,
+				/obj/item/clothing/hidden/socks/striped_knee)
+			gift = new surprize
+	..()
+
 /*
  * Wrapping Paper
  */

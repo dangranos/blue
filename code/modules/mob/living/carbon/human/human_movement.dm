@@ -1,17 +1,20 @@
 /mob/living/carbon/human/movement_delay()
 
+	if (istype(loc, /turf/space)) return -1 // It's hard to be slowed down in space by... anything
+
+	if(CE_SPEEDBOOST in chem_effects)
+		return -1
+
+	if(mRun in mutations)
+		return config.human_delay
+
 	var/tally = 0
 
 	if(species.slowdown)
 		tally = species.slowdown
 
-	if (istype(loc, /turf/space)) return -1 // It's hard to be slowed down in space by... anything
-
 	if(embedded_flag)
 		handle_embedded_objects() //Moving with objects stuck in you can cause bad times.
-
-	if(CE_SPEEDBOOST in chem_effects)
-		return -1
 
 	var/health_deficiency = (100 - health)
 	if(health_deficiency >= 40) tally += (health_deficiency / 25)
@@ -24,6 +27,9 @@
 
 	if(wear_suit)
 		tally += wear_suit.slowdown
+
+	if(back)
+		tally += back.slowdown
 
 	if(istype(buckled, /obj/structure/bed/chair/wheelchair))
 		for(var/organ_name in list("l_hand","r_hand","l_arm","r_arm"))
@@ -55,9 +61,6 @@
 		tally += (283.222 - bodytemperature) / 10 * 1.75
 
 	tally += max(2 * stance_damage, 0) //damaged/missing feet or legs is slow
-
-	if(mRun in mutations)
-		tally = 0
 
 	return (tally+config.human_delay)
 
