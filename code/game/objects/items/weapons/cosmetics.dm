@@ -6,37 +6,43 @@
 	icon_state = "lipstick"
 	w_class = 1.0
 	slot_flags = SLOT_EARS
-	var/colour = "red"
+	var/colour = "#F00000"
 	var/open = 0
 
 
 /obj/item/weapon/lipstick/purple
 	name = "purple lipstick"
-	colour = "purple"
+	colour = "#D55CD0"
 
 /obj/item/weapon/lipstick/jade
 	name = "jade lipstick"
-	colour = "jade"
+	colour = "#218C17"
 
 /obj/item/weapon/lipstick/black
 	name = "black lipstick"
-	colour = "black"
+	colour = "#56352F"
 
 
 /obj/item/weapon/lipstick/random
 	name = "lipstick"
 
 /obj/item/weapon/lipstick/random/New()
-	colour = pick("red","purple","jade","black")
-	name = "[colour] lipstick"
+	var/list/colors = list("red"="#F00000","purple"="#D55CD0","jade"="#218C17","black"="#56352F")
+	var/picked_color = pick(colors)
+	name = "[picked_color] lipstick"
+	colour = colors[picked_color]
 
 
 /obj/item/weapon/lipstick/attack_self(mob/user as mob)
 	user << "<span class='notice'>You twist \the [src] [open ? "closed" : "open"].</span>"
 	open = !open
 	if(open)
-		icon_state = "[initial(icon_state)]_[colour]"
+		icon_state = "[initial(icon_state)]_open"
+		var/icon/stick = new/icon(icon = 'icons/obj/items.dmi', icon_state = "lipstick_open_color")
+		stick.Blend(colour, ICON_MULTIPLY)
+		overlays += stick
 	else
+		overlays.Cut()
 		icon_state = initial(icon_state)
 
 /obj/item/weapon/lipstick/attack(mob/M as mob, mob/user as mob)
@@ -46,13 +52,13 @@
 
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(H.lip_style)	//if they already have lipstick on
+		if(H.lip_color)	//if they already have lipstick on
 			user << "<span class='notice'>You need to wipe off the old lipstick first!</span>"
 			return
 		if(H == user)
 			user.visible_message("<span class='notice'>[user] does their lips with \the [src].</span>", \
 								 "<span class='notice'>You take a moment to apply \the [src]. Perfect!</span>")
-			H.lip_style = colour
+			H.lip_color = colour
 			H.update_body()
 		else
 			user.visible_message("<span class='warning'>[user] begins to do [H]'s lips with \the [src].</span>", \
@@ -60,7 +66,7 @@
 			if(do_after(user, 20) && do_after(H, 20, 5, 0))	//user needs to keep their active hand, H does not.
 				user.visible_message("<span class='notice'>[user] does [H]'s lips with \the [src].</span>", \
 									 "<span class='notice'>You apply \the [src].</span>")
-				H.lip_style = colour
+				H.lip_color = colour
 				H.update_body()
 	else
 		user << "<span class='notice'>Where are the lips on that?</span>"
