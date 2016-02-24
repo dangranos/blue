@@ -63,7 +63,6 @@
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.5
 
-
 /obj/item/clothing/suit/armor/bulletproof
 	name = "Bulletproof Vest"
 	desc = "A vest that excels in protecting the wearer against high-velocity solid projectiles."
@@ -81,6 +80,50 @@
 	blood_overlay_type = "armor"
 	armor = list(melee = 10, bullet = 10, laser = 80, energy = 50, bomb = 0, bio = 0, rad = 0)
 	siemens_coefficient = 0
+
+/obj/item/clothing/suit/armor/knight
+ 	name = "plate armour"
+ 	desc = "A classic suit of plate armour, highly effective at stopping melee attacks."
+ 	icon_state = "knight_green"
+ 	item_state = "knight_green"
+ 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+ 	slowdown = 1
+ 	armor = list(melee = 50, bullet = 5, laser = 5, energy = 5, bomb = 0, bio = 0, rad = 0)
+ 	flags_inv = HIDEJUMPSUIT
+
+/obj/item/clothing/suit/armor/riot
+	name = "Riot Suit"
+	desc = "A suit of armor with heavy padding to protect against melee attacks. Looks like it might impair movement."
+	icon_state = "riot"
+	item_state = "swat_suit"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+	slowdown = 1
+	armor = list(melee = 80, bullet = 10, laser = 10, energy = 10, bomb = 0, bio = 0, rad = 0)
+	flags_inv = HIDEJUMPSUIT
+	siemens_coefficient = 0.5
+
+/obj/item/clothing/suit/armor/knight/yellow
+ 	icon_state = "knight_yellow"
+ 	item_state = "knight_yellow"
+
+/obj/item/clothing/suit/armor/knight/blue
+ 	icon_state = "knight_blue"
+ 	item_state = "knight_blue"
+
+/obj/item/clothing/suit/armor/knight/red
+ 	icon_state = "knight_red"
+ 	item_state = "knight_red"
+
+/obj/item/clothing/suit/armor/knight/green
+ 	icon_state = "knight_green"
+ 	item_state = "knight_green"
+
+/obj/item/clothing/suit/armor/knight/templar
+ 	name = "crusader armour"
+ 	desc = "Deus Vult!"
+ 	icon_state = "knight_templar"
+ 	item_state = "knight_templar"
+
 
 /obj/item/clothing/suit/armor/swat
 	name = "swat suit"
