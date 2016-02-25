@@ -89,6 +89,33 @@
 	item_state = "hosbluejacket"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
 
+/obj/item/clothing/suit/storage/security/dnavyofficer
+	name = "security officer's jacket"
+	desc = "This jacket is for those special occasions when a security officer actually feels safe. Still, it's slightly armored."
+	icon_state = "officerdnavyjacket"
+	item_state = "officerdnavyjacket"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	allowed = list(/obj/item/weapon/tank/emergency_oxygen, /obj/item/device/flashlight,/obj/item/weapon/gun/energy,/obj/item/weapon/gun/projectile,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/handcuffs)
+	armor = list(melee = 20, bullet = 20, laser = 25, energy = 15, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/suit/storage/security/dnavywarden
+	name = "warden's jacket"
+	desc = "Perfectly suited for the warden that wants to leave an impression of style on those who visit the brig."
+	icon_state = "wardendnavyjacket"
+	item_state = "wardendnavyjacket"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	allowed = list(/obj/item/weapon/tank/emergency_oxygen, /obj/item/device/flashlight,/obj/item/weapon/gun/energy,/obj/item/weapon/gun/projectile,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/handcuffs)
+	armor = list(melee = 20, bullet = 20, laser = 25, energy = 15, bomb = 0, bio = 0, rad = 0)
+
+/obj/item/clothing/suit/storage/security/dnavyhos
+	name = "head of security's jacket"
+	desc = "This piece of clothing was specifically designed for asserting superior authority."
+	icon_state = "hosdnavyjacket"
+	item_state = "hosdnavyjacket"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	allowed = list(/obj/item/weapon/tank/emergency_oxygen, /obj/item/device/flashlight,/obj/item/weapon/gun/energy,/obj/item/weapon/gun/projectile,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/weapon/melee/baton,/obj/item/weapon/handcuffs)
+	armor = list(melee = 20, bullet = 20, laser = 25, energy = 15, bomb = 0, bio = 0, rad = 0)
+
 //Detective
 /obj/item/clothing/suit/storage/det_suit
 	name = "trenchcoat"
@@ -186,3 +213,11 @@
 	item_state = "ems_jacket_closed"
 	icon_open = "ems_jacket_open"
 	icon_closed = "ems_jacket_closed"
+
+/obj/item/clothing/suit/storage/paramedic
+	name = "paramedic vest"
+	desc = "A hazard vest used in the recovery of bodies."
+	icon_state = "paramedic-vest"
+	item_state = "paramedic-vest"
+	allowed = list(/obj/item/device/analyzer,/obj/item/stack/medical,/obj/item/weapon/dnainjector,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/syringe,/obj/item/weapon/reagent_containers/hypospray,/obj/item/device/healthanalyzer,/obj/item/device/flashlight/pen,/obj/item/weapon/tank/emergency_oxygen,/obj/item/device/radio)
+	armor = list(melee = 0, bullet = 0, laser = 0, energy = 0, bomb = 0, bio = 10, rad = 10)
