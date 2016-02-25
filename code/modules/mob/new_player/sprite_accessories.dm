@@ -66,7 +66,7 @@
 		icon_state = "hair_c"
 
 	femcut
-		name = "Cut Hair Fem"
+		name = "Cut Hair Alt"
 		icon_state = "hair_femc"
 
 	flair
