@@ -309,12 +309,11 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 /datum/supply_packs/chicken
 	name = "Chicken crate"
 	cost = 20
-	amount = 5
-	contains = list(/mob/living/simple_animal/chick)
-	containertype = /obj/structure/largecrate/animal
+	containertype = /obj/structure/largecrate/animal/chick
 	containername = "Chicken crate"
 	access = access_hydroponics
 	group = "Hydroponics"
+	manifest = "<ul><li>Chickens x5</li></ul>"
 
 /datum/supply_packs/seeds
 	name = "Seeds crate"
