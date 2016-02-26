@@ -65,6 +65,10 @@
 		name = "Cut Hair"
 		icon_state = "hair_c"
 
+	femcut
+		name = "Cut Hair Alt"
+		icon_state = "hair_femc"
+
 	flair
 		name = "Flaired Hair"
 		icon_state = "hair_flair"
