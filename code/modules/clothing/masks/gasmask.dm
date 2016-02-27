@@ -103,41 +103,7 @@
 	icon_state = "owl"
 
 /obj/item/clothing/mask/gas/security
-	name = "security gas mask"
-	desc = "A face-covering mask that can be connected to an air supply. Filters harmful gases from the air."
+	name = "tactical gas mask"
+	desc = "A face-covering tactical mask that can be connected to an air supply. Filters harmful gases from the air."
 	icon_state = "security"
-	flags = MASKCOVERSMOUTH | BLOCK_GAS_SMOKE_EFFECT | AIRTIGHT
-	flags_inv = HIDEFACE
-	body_parts_covered = FACE
-	w_class = 3.0
 	item_state = "security"
-	var/hanging = 0
-
-/obj/item/clothing/mask/gas/security/proc/adjust_mask(mob/user)
-	if(user.canmove && !user.stat)
-		if(!src.hanging)
-			src.hanging = !src.hanging
-			gas_transfer_coefficient = 1 //gas is now escaping to the turf and vice versa
-			flags &= ~(MASKCOVERSMOUTH | BLOCK_GAS_SMOKE_EFFECT | AIRTIGHT)
-			body_parts_covered = 0
-			icon_state = "security_up"
-			user << "Your mask is now hanging on your neck."
-
-		else
-			src.hanging = !src.hanging
-			gas_transfer_coefficient = initial(gas_transfer_coefficient)
-			flags |= MASKCOVERSMOUTH | BLOCK_GAS_SMOKE_EFFECT | AIRTIGHT
-			body_parts_covered = initial(body_parts_covered)
-			icon_state = "security"
-			user << "You pull the mask up to cover your face."
-		update_clothing_icon()
-
-/obj/item/clothing/mask/gas/security/attack_self(mob/user)
-	adjust_mask(user)
-
-/obj/item/clothing/mask/gas/security/verb/toggle()
-		set category = "Object"
-		set name = "Adjust mask"
-		set src in usr
-
-		adjust_mask(usr)
