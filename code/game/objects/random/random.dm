@@ -58,6 +58,18 @@
 					prob(2);/obj/item/device/radio,\
 					prob(5);/obj/item/device/analyzer)
 
+
+/obj/random/armor
+	name = "random plate carrier"
+	desc = "This is a random plate carrier."
+	icon = 'icons/obj/clothing/suits.dmi'
+	icon_state = "secheavyvest_badge"
+	item_to_spawn()
+		return pick(prob(3);/obj/item/clothing/suit/storage/vest/seclight,\
+					prob(3);/obj/item/clothing/suit/storage/vest/heavy/securitymedium,\
+					prob(3);/obj/item/clothing/suit/storage/vest/heavy/security)
+
+
 /obj/random/pistol
 	name = "random pistol"
 	desc = "This is a random .45 pistol."
@@ -201,6 +213,17 @@
 		return pick(prob(3);/obj/item/weapon/gun/projectile/shotgun/pump,\
 					prob(2);/obj/item/weapon/gun/projectile/automatic/wt550,\
 					prob(1);/obj/item/weapon/gun/projectile/shotgun/pump/combat)
+
+/obj/random/armory
+	name = "Random Armory Weapon"
+	desc = "This is a random security weapon."
+	icon = 'icons/obj/gun.dmi'
+	icon_state = "revolver"
+	item_to_spawn()
+		return pick(prob(1);/obj/item/weapon/gun/projectile/pistol/carbine,\
+					prob(2);/obj/item/weapon/gun/projectile/automatic/nx6,\
+					prob(2);/obj/item/weapon/gun/projectile/shotgun/pump/combat)
+
 
 /obj/random/handgun
 	name = "Random Handgun"
