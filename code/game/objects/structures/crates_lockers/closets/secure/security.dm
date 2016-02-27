@@ -217,7 +217,7 @@
 		new /obj/item/weapon/gun/energy/taser(src)
 		new /obj/item/clothing/gloves/black(src)
 		new /obj/item/clothing/under/rank/security/dnavy(src)
-		new /obj/item/clothing/suit/storage/security/dnavywarden(src)
+		new /obj/item/clothing/suit/storage/security/dnavyofficer(src)
 		return
 
 
