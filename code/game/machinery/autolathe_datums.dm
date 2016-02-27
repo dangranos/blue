@@ -325,12 +325,6 @@
 	hidden = 1
 	category = "Arms and Ammunition"
 
-/datum/autolathe/recipe/carbine_px6
-	name = "ammunition (.40, carbine)"
-	path = /obj/item/ammo_magazine/carbine
-	hidden = 1
-	category = "Arms and Ammunition"
-
 /datum/autolathe/recipe/magazine_stetchkin
 	name = "ammunition (9mm)"
 	path = /obj/item/ammo_magazine/mc9mm
@@ -352,6 +346,18 @@
 /datum/autolathe/recipe/magazine_arifle
 	name = "ammunition (7.62mm)"
 	path = /obj/item/ammo_magazine/c762
+	hidden = 1
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/magazine_smg40
+	name = "ammunition (.40 SMG)"
+	path = /obj/item/ammo_magazine/smg40
+	hidden = 1
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/magazine_car40
+	name = "ammunition (.40 carbine)"
+	path = /obj/item/ammo_magazine/carbine40
 	hidden = 1
 	category = "Arms and Ammunition"
 

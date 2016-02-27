@@ -222,7 +222,7 @@
 	alt_titles = list("Emergency Medical Technician")
 
 	uniform = /obj/item/clothing/under/rank/medical/black
-	suit = /obj/item/clothing/suit/storage/toggle/fr_jacket
+	suit = /obj/item/clothing/suit/storage/vest/ems
 	pda = /obj/item/device/pda/medical
 	ear = /obj/item/device/radio/headset/headset_med
 	shoes = /obj/item/clothing/shoes/jackboots
