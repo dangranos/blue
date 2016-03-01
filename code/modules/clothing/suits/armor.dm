@@ -293,7 +293,6 @@
 	item_state = "emsvest_nobadge"
 	icon_badge = "emsvest_badge"
 	icon_nobadge = "emsvest_nobadge"
-	slowdown = 1
 
 /obj/item/clothing/suit/storage/vest/officer
 	name = "officer armor vest"
