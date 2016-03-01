@@ -1198,7 +1198,7 @@
 "axb" = (/turf/simulated/wall/r_wall,/area/maintenance/arrivals)
 "axc" = (/turf/simulated/wall/r_wall,/area/maintenance/auxsolarport)
 "axd" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 8},/turf/simulated/floor/plating,/area/maintenance/auxsolarport)
-"axe" = (/obj/structure/cable/yellow{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/door/airlock/external{frequency = 1379; icon_state = "door_locked"; id_tag = "solar_tool_inner"; locked = 1; name = "Engineering External Access"; req_access = list(11,13)},/turf/simulated/floor/plating/airless,/area/maintenance/auxsolarport)
+"axe" = (/obj/structure/cable/yellow{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/door/airlock/external{frequency = 1379; icon_state = "door_locked"; id_tag = "solar_tool_inner"; locked = 1; name = "Engineering External Access"; req_access = list(11,13)},/obj/machinery/atmospherics/pipe/simple/visible,/turf/simulated/floor/plating/airless,/area/maintenance/auxsolarport)
 "axf" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced,/turf/simulated/floor/plating,/area/maintenance/auxsolarport)
 "axg" = (/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced,/obj/structure/grille,/turf/simulated/floor/plating,/area/maintenance/auxsolarport)
 "axh" = (/obj/machinery/atmospherics/pipe/simple/visible,/turf/simulated/floor/plating,/area/maintenance/evahallway)
