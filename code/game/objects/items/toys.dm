@@ -968,3 +968,10 @@
 	item_state = "inflatable"
 	icon = 'icons/obj/clothing/belts.dmi'
 	slot_flags = SLOT_BELT
+
+/obj/item/toy/tv
+	name = "pocket TV"
+	desc = "It seems like there is no power button. No power switch, too. Duh."
+	icon = 'icons/obj/toy.dmi'
+	icon_state = "tv"
+	item_state = "tv"
