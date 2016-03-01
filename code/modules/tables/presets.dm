@@ -28,13 +28,21 @@
 			material = get_material_by_name(DEFAULT_TABLE_MATERIAL)
 			reinforced = get_material_by_name(DEFAULT_WALL_MATERIAL)
 			..()
-	
+
 	steel_reinforced
 		icon_state = "reinf_preview"
 		color = "#666666"
 		New()
 			material = get_material_by_name(DEFAULT_WALL_MATERIAL)
 			reinforced = get_material_by_name(DEFAULT_WALL_MATERIAL)
+			..()
+
+	wooden_reinforced
+		icon_state = "reinf_wooden_preview"
+		color = "#CF570D"
+		New()
+			material = get_material_by_name("wood")
+			reinforced = get_material_by_name("wood")
 			..()
 
 	woodentable
