@@ -738,6 +738,8 @@
 					/obj/item/weapon/reagent_containers/food/snacks/sosjerky = 2,/obj/item/weapon/reagent_containers/food/snacks/no_raisin = 1,/obj/item/weapon/reagent_containers/food/snacks/spacetwinkie = 1,
 					/obj/item/weapon/reagent_containers/food/snacks/cheesiehonkers = 1, /obj/item/weapon/reagent_containers/food/snacks/tastybread = 2)
 
+/obj/machinery/vending/snack/wallmounted
+	icon_state = "snack_wall"
 
 
 /obj/machinery/vending/cola
@@ -756,6 +758,9 @@
 					/obj/item/weapon/reagent_containers/food/drinks/cans/waterbottle = 2,/obj/item/weapon/reagent_containers/food/drinks/cans/space_up = 1,
 					/obj/item/weapon/reagent_containers/food/drinks/cans/iced_tea = 1,/obj/item/weapon/reagent_containers/food/drinks/cans/grape_juice = 1)
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.
+
+/obj/machinery/vending/cola/soda
+	icon_state = "soda"
 
 //This one's from bay12
 /obj/machinery/vending/cart
@@ -781,6 +786,8 @@
 	premium = list(/obj/item/weapon/storage/fancy/cigar = 5)
 	prices = list(/obj/item/weapon/storage/fancy/cigarettes = 15,/obj/item/weapon/storage/box/matches = 1,/obj/item/weapon/flame/lighter/random = 2)
 
+/obj/machinery/vending/cigarette/wallmounted
+	icon_state = "cigs_wall"
 
 /obj/machinery/vending/medical
 	name = "NanoMed Plus"
