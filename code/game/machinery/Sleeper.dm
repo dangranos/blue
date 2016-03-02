@@ -431,7 +431,7 @@
 				icon_state = "sleeper_1-r"
 
 			for(var/obj/O in src)
-				qdel(O)
+				if(O!=beaker) O.forceMove(loc)
 			src.add_fingerprint(usr)
 			return
 		return

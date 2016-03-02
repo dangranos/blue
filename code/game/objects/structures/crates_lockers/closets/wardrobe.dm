@@ -14,9 +14,6 @@
 	new /obj/item/clothing/under/rank/security(src)
 	new /obj/item/clothing/under/rank/security(src)
 	new /obj/item/clothing/under/rank/security(src)
-	new /obj/item/clothing/under/rank/security2(src)
-	new /obj/item/clothing/under/rank/security2(src)
-	new /obj/item/clothing/under/rank/security2(src)
 	new /obj/item/clothing/shoes/jackboots(src)
 	new /obj/item/clothing/shoes/jackboots(src)
 	new /obj/item/clothing/shoes/jackboots(src)
@@ -26,9 +23,36 @@
 	new /obj/item/clothing/head/beret/sec(src)
 	new /obj/item/clothing/head/beret/sec(src)
 	new /obj/item/clothing/head/beret/sec(src)
+	new /obj/item/clothing/accessory/armband(src)
+	new /obj/item/clothing/accessory/armband(src)
+	new /obj/item/clothing/accessory/armband(src)
+	new /obj/item/clothing/accessory/holster/armpit(src)
+	new /obj/item/clothing/accessory/holster/armpit(src)
+	new /obj/item/clothing/accessory/holster/armpit(src)
+	new /obj/item/clothing/accessory/holster/waist(src)
+	new /obj/item/clothing/accessory/holster/hip(src)
+	return
+
+/obj/structure/closet/wardrobe/redalt
+	name = "alternative security wardrobe"
+	desc = "It's a storage unit for not-so-standard-issue Nanotrasen attire. Still allowed though."
+	icon_state = "red"
+	icon_closed = "red"
+
+/obj/structure/closet/wardrobe/redalt/New()
+	..()
+	new /obj/item/clothing/under/rank/security2(src)
+	new /obj/item/clothing/under/rank/security2(src)
+	new /obj/item/clothing/under/rank/security2(src)
+	new /obj/item/clothing/under/rank/dispatch(src)
+	new /obj/item/clothing/under/rank/dispatch(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
 	new /obj/item/clothing/head/beret/sec/alt(src)
+	new /obj/item/clothing/under/rank/security/navyblue(src)
+	new /obj/item/clothing/under/rank/security/navyblue(src)
+	new /obj/item/clothing/under/rank/security/dnavy(src)
+	new /obj/item/clothing/under/rank/security/dnavy(src)
 	return
 
 
@@ -383,6 +407,7 @@
 	new /obj/item/clothing/under/dress/plaid_blue(src)
 	new /obj/item/clothing/under/dress/plaid_red(src)
 	new /obj/item/clothing/under/dress/plaid_purple(src)
+	new /obj/item/clothing/under/dress/plaid_black(src)
 	new /obj/item/clothing/shoes/blue(src)
 	new /obj/item/clothing/shoes/yellow(src)
 	new /obj/item/clothing/shoes/green(src)

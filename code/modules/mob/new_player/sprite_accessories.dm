@@ -584,7 +584,7 @@
 
 	icp_screen_go_glider
 		name = "glider IPC screen"
-		icon_state = "ipc_go_glider"
+		icon_state = "ipc_gol_glider"
 		species_allowed = list("Machine")
 
 	icp_screen_rainbow
@@ -594,7 +594,7 @@
 
 	icp_pc_console
 		name = "console IPC screen"
-		icon_state = "ipc_pc_console"
+		icon_state = "ipc_console"
 		species_allowed = list("Machine")
 
 	icp_scroll
