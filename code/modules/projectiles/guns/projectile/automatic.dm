@@ -33,17 +33,41 @@
 	name = "light carbine"
 	icon_state = "px6"
 	item_state = "z8carbine"
-	magazine_type = /obj/item/ammo_magazine/carbine
+	magazine_type = /obj/item/ammo_magazine/carbine40
 	caliber = ".40"
 	max_shells = 15
 	w_class = 4
 	slot_flags = SLOT_BACK
-	fire_delay = 10
+	fire_delay = 5
 	fire_sound = 'sound/weapons/gunshotcarbine.ogg'
+	auto_eject = 1
+	accuracy = 1
 
 /obj/item/weapon/gun/projectile/pistol/carbine/update_icon()
 	..()
 	icon_state = (ammo_magazine)? "px6" : "px6-empty"
+	update_held_icon()
+
+/obj/item/weapon/gun/projectile/automatic/nx6
+	desc = "A NX6, Ward-Takahashi made full-automatic SMG. Used by NT security forces. Uses .40 rounds."
+	name = ".40 SMG"
+	icon_state = "nx6"
+	item_state = "z8carbine"
+	magazine_type = /obj/item/ammo_magazine/smg40
+	caliber = ".40"
+	max_shells = 30
+	w_class = 4
+	slot_flags = SLOT_BACK
+	fire_delay = 3
+	fire_sound = 'sound/weapons/gunshotcarbine.ogg'
+
+	firemodes = list(
+		list(name="semiauto", burst=1, fire_delay=0),
+		list(name="3-round bursts", burst=3, move_delay=4, accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.0, 0.6, 1.0)),
+		)
+/obj/item/weapon/gun/projectile/automatic/nx6/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "nx6" : "nx6-empty"
 	update_held_icon()
 
 /obj/item/weapon/gun/projectile/automatic/c20r
