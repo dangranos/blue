@@ -98,3 +98,5 @@
 	new /obj/item/clothing/suit/storage/lawyer/purpjacket(src)
 	new /obj/item/clothing/shoes/brown(src)
 	new /obj/item/clothing/shoes/black(src)
+	new /obj/item/clothing/under/rank/internalaffairs(src)
+	new /obj/item/clothing/under/rank/internalaffairsdress(src)

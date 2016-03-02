@@ -14,7 +14,7 @@
 	desc = "An interface between crew and the cryogenic storage oversight systems."
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "cellconsole"
-	circuit = "/obj/item/weapon/circuitboard/cryopodcontrol"
+	circuit = /obj/item/weapon/circuitboard/cryopodcontrol
 	density = 0
 	interact_offline = 1
 	var/mode = null
@@ -33,7 +33,7 @@
 	desc = "An interface between crew and the robotic storage systems"
 	icon = 'icons/obj/robot_storage.dmi'
 	icon_state = "console"
-	circuit = "/obj/item/weapon/circuitboard/robotstoragecontrol"
+	circuit = /obj/item/weapon/circuitboard/robotstoragecontrol
 
 	storage_type = "cyborgs"
 	storage_name = "Robotic Storage Control"
@@ -253,12 +253,11 @@
 /obj/machinery/cryopod/spawner/attack_ghost(mob/dead/observer/user as mob)
 	var/mob/living/carbon/human/new_character
 	if(!user) return
+	var/is_admin = check_rights(show_msg = player_spawn)
 
-	if(alert("Would you like to spawn?",,"Yes","No") == "No") return
+	if((!is_admin && !player_spawn) || alert("Would you like to spawn?",,"Yes","No") == "No") return
 
-	if(!player_spawn)
-		if(!check_rights()) return
-	else
+	if(!is_admin)
 		if(player_spawn> 0)
 			player_spawn -= 1
 
@@ -274,9 +273,9 @@
 
 	var/datum/language/chosen_language
 	if(client.prefs.language)
-		chosen_language = all_languages["[client.prefs.language]"]
+		chosen_language = all_languages[client.prefs.language]
 		if(chosen_language)
-			new_character.add_language("[client.prefs.language]")
+			new_character.add_language(client.prefs.language)
 
 	client.prefs.copy_to(new_character)
 
@@ -293,7 +292,7 @@
 
 	log_admin("[key_name(new_character)] have been spawned with cryospawner at ([x], [y], [z])")
 
-	if(check_rights(show_msg = 0))
+	if(is_admin)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(new_character), slot_w_uniform)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
@@ -320,15 +319,8 @@
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_officer(new_character), slot_w_uniform)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
-		new_character.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(new_character), slot_l_ear)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/officer(new_character), slot_head)
 
-		var/obj/item/device/pda/heads/pda = new(new_character)
-		pda.owner = new_character.real_name
-		pda.ownjob = "NanoTrasen Navy Officer"
-		pda.name = "PDA-[new_character.real_name] ([pda.ownjob])"
-
-		new_character.equip_to_slot_or_del(pda, slot_r_store)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
 		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
 

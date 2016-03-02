@@ -11,16 +11,18 @@
 
 	New()
 		..()
-		if(prob(50))
-			new /obj/item/weapon/storage/backpack/industrial(src)
-		else
-			new /obj/item/weapon/storage/backpack/satchel_eng(src)
+		switch(pick(1,2,3))
+			if(1)
+				new /obj/item/weapon/storage/backpack/industrial(src)
+			if(2)
+				new /obj/item/weapon/storage/backpack/satchel_eng(src)
+			if(3)
+				new /obj/item/weapon/storage/backpack/duffle/engie(src)
 		if (prob(70))
 			new /obj/item/clothing/accessory/storage/brown_vest(src)
 		else
 			new /obj/item/clothing/accessory/storage/webbing(src)
 		new /obj/item/blueprints(src)
-		new /obj/item/weapon/storage/backpack/duffle/engie (src)
 		new /obj/item/clothing/under/rank/chief_engineer(src)
 		new /obj/item/clothing/head/hardhat/white(src)
 		new /obj/item/clothing/head/welding(src)
@@ -105,10 +107,14 @@
 
 	New()
 		..()
-		if(prob(50))
-			new /obj/item/weapon/storage/backpack/industrial(src)
-		else
-			new /obj/item/weapon/storage/backpack/satchel_eng(src)
+		switch(pick(1,2,3))
+			if(1)
+				new /obj/item/weapon/storage/backpack/industrial(src)
+			if(2)
+				new /obj/item/weapon/storage/backpack/satchel_eng(src)
+			if(3)
+				new /obj/item/weapon/storage/backpack/duffle/engie(src)
+
 		if (prob(70))
 			new /obj/item/clothing/accessory/storage/brown_vest(src)
 		else
@@ -121,6 +127,7 @@
 		new /obj/item/weapon/cartridge/engineering(src)
 		new /obj/item/taperoll/engineering(src)
 		return
+
 /obj/structure/closet/secure_closet/atmos_personal
 	name = "technician's locker"
 	req_access = list(access_atmospherics)
@@ -134,15 +141,18 @@
 
 	New()
 		..()
-		if(prob(50))
-			new /obj/item/weapon/storage/backpack/industrial(src)
-		else
-			new /obj/item/weapon/storage/backpack/satchel_eng(src)
+		switch(pick(1,2,3))
+			if(1)
+				new /obj/item/weapon/storage/backpack/industrial(src)
+			if(2)
+				new /obj/item/weapon/storage/backpack/satchel_eng(src)
+			if(3)
+				new /obj/item/weapon/storage/backpack/duffle/engie(src)
+
 		if (prob(70))
 			new /obj/item/clothing/accessory/storage/brown_vest(src)
 		else
 			new /obj/item/clothing/accessory/storage/webbing(src)
-		new /obj/item/weapon/storage/backpack/duffle/engie(src)
 		new /obj/item/clothing/suit/fire/firefighter(src)
 		new /obj/item/device/flashlight(src)
 		new /obj/item/weapon/extinguisher(src)
