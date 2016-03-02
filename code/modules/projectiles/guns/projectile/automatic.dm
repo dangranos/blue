@@ -39,6 +39,7 @@
 	w_class = 4
 	slot_flags = SLOT_BACK
 	fire_delay = 10
+	fire_sound = 'sound/weapons/gunshotcarbine.ogg'
 
 /obj/item/weapon/gun/projectile/pistol/carbine/update_icon()
 	..()

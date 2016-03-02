@@ -108,3 +108,9 @@
 
 	prob_slip = round(prob_slip)
 	return(prob_slip)
+
+/mob/living/carbon/human/Move(n, direct)
+	if(isobj(loc) || ismob(loc))//Inside an object, tell it we moved
+		var/atom/O = loc
+		return O.relaymove(src, direct)
+	return ..()

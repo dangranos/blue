@@ -73,3 +73,15 @@
 		user << "<span class='notice'>It is currently loaded.</span>"
 	else
 		user << "<span class='notice'>It is spent.</span>"
+
+
+/obj/item/weapon/reagent_containers/hypospray/autoinjector/combat
+	amount_per_transfer_from_this = 10
+	volume = 10
+	name = "autoinjector (combat)"
+	desc = "Contains stimulants."
+	New()
+		..()
+		reagents.add_reagent("tramadol", 5)
+		reagents.add_reagent("hyperzine",  5)
+		update_icon()

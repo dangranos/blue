@@ -477,7 +477,11 @@ var/global/list/damage_icon_parts = list()
 	if(w_uniform)
 		w_uniform.screen_loc = ui_iclothing
 
-		var/image/standing = get_uniform_sprite("[w_uniform.icon_state][w_uniform:rolled_down>0?"_d":""]")
+		var/image/standing
+		if(w_uniform.icon_override)
+			standing = image(w_uniform.icon_override, "[w_uniform.icon_state][w_uniform:rolled_down>0?"_d":""]")
+		else
+			standing = get_uniform_sprite("[w_uniform.icon_state][w_uniform:rolled_down>0?"_d":""]")
 		if(w_uniform.color) standing.color = w_uniform.color
 		//apply blood overlay
 		if(w_uniform.blood_DNA)

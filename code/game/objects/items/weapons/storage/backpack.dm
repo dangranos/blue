@@ -293,25 +293,30 @@
 	storage_slots = 9
 	max_storage_space = 34
 	slowdown = 1
+	item_state = "duffle"
 
 /obj/item/weapon/storage/backpack/duffle/security
 	name = "security dufflebag"
 	desc = "It's a large tactical dufflebag which able to carry different stuff."
 	icon_state = "duffle-sec"
+	item_state = "duffle-sec"
 
 /obj/item/weapon/storage/backpack/duffle/cap
 	name = "captains dufflebag"
 	desc = "It's a large blue dufflebag which able to carry different stuff."
 	icon_state = "duffle-captain"
+	item_state = "duffle-captain"
 
 /obj/item/weapon/storage/backpack/duffle/med
 	name = "medical dufflebag"
 	desc = "It's a large white dufflebag with a green cross which able to carry different stuff."
 	icon_state = "duffle-med"
+	item_state = "duffle-med"
 
 /obj/item/weapon/storage/backpack/duffle/engie
 	name = "industrial dufflebag"
 	desc = "It's a large industrial dufflebag with a green cross which able to carry different stuff."
 	icon_state = "duffle-eng"
+	item_state = "duffle-eng"
 
 

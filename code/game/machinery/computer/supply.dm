@@ -2,7 +2,7 @@
 	name = "supply ordering console"
 	icon = 'icons/obj/computer.dmi'
 	icon_state = "request"
-	circuit = "/obj/item/weapon/circuitboard/ordercomp"
+	circuit = /obj/item/weapon/circuitboard/order
 	var/temp = null
 	var/head = null
 	var/reqtime = 0 //Cooldown for requisitions - Quarxink
@@ -17,14 +17,14 @@
 	icon_state = "supply"
 	light_color = "#b88b2e"
 	req_access = list(access_cargo)
-	circuit = "/obj/item/weapon/circuitboard/order/supply"
+	circuit = /obj/item/weapon/circuitboard/order/supply
 	var/hacked = 0
 	var/can_order_contraband = 0
 
 /obj/machinery/computer/order/supply/qm
 	name = "quartermaster control console"
 	req_access = list(access_qm, access_cargo)
-	circuit = "/obj/item/weapon/circuitboard/order/supply/qm"
+	circuit = /obj/item/weapon/circuitboard/order/supply/qm
 	menu_items = list("Request items"="order=categories",\
 								"View approved orders"="vieworders=1",\
 								"View requests"="viewrequests=1",\

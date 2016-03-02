@@ -82,6 +82,55 @@
 	name = "red tie"
 	icon_state = "redtie"
 
+/obj/item/clothing/accessory/scarf/black
+	name = "black scarf"
+	icon_state = "blackscarf"
+	desc = "A stylish scarf. The perfect winter accessory for those with a keen fashion sense, and those who just can't handle a cold breeze on their necks."
+
+/obj/item/clothing/accessory/scarf/red
+	name = "red scarf"
+	icon_state = "redscarf"
+
+/obj/item/clothing/accessory/scarf/green
+	name = "green scarf"
+	icon_state = "greenscarf"
+
+/obj/item/clothing/accessory/scarf/darkblue
+	name = "dark blue scarf"
+	icon_state = "darkbluescarf"
+
+/obj/item/clothing/accessory/scarf/purple
+	name = "purple scarf"
+	icon_state = "purplescarf"
+
+/obj/item/clothing/accessory/scarf/yellow
+	name = "yellow scarf"
+	icon_state = "yellowscarf"
+
+/obj/item/clothing/accessory/scarf/orange
+	name = "orange scarf"
+	icon_state = "orangescarf"
+
+/obj/item/clothing/accessory/scarf/lightblue
+	name = "light blue scarf"
+	icon_state = "lightbluescarf"
+
+/obj/item/clothing/accessory/scarf/white
+	name = "white scarf"
+	icon_state = "whitescarf"
+
+/obj/item/clothing/accessory/stripedredscarf
+	name = "striped red scarf"
+	icon_state = "stripedredscarf"
+
+/obj/item/clothing/accessory/stripedgreenscarf
+	name = "striped green scarf"
+	icon_state = "stripedgreenscarf"
+
+/obj/item/clothing/accessory/stripedbluescarf
+	name = "striped blue scarf"
+	icon_state = "stripedbluescarf"
+
 /obj/item/clothing/accessory/horrible
 	name = "horrible tie"
 	desc = "A neosilk clip-on tie. This one is disgusting."
@@ -126,7 +175,11 @@
 							if(heartbeat)
 								var/obj/item/organ/heart/heart = M.internal_organs_by_name["heart"]
 								if(heart.is_bruised() || M.getOxyLoss() > 50)
-									sound = "[pick("odd noises in","weak")] heartbeat"
+									sound = "[pick ("odd noises", "spasmodic")] heartbeat"
+								else if(heart.is_hurt())
+									sound = "gurgling in heartbeat"
+								else if(heart.is_damaged())
+									sound = "weak noises in heartbeat"
 								else
 									sound = "healthy heartbeat"
 
@@ -135,6 +188,8 @@
 								sound += " and no respiration"
 							else if(M.is_lung_ruptured() || M.getOxyLoss() > 50)
 								sound += " and [pick("wheezing","gurgling")] sounds"
+							else if(M.is_lung_ruptured())
+								sound += " and sizzling sounds"
 							else
 								sound += " and healthy respiration"
 						if("eyes","mouth")
