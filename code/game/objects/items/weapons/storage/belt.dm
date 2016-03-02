@@ -165,3 +165,27 @@
 	storage_slots = 9
 	max_w_class = 3
 	max_storage_space = 28
+
+/obj/item/weapon/storage/belt/fannypack
+	name = "fannypack"
+	desc = "A dorky fannypack for keeping small items in."
+	icon_state = "fannypack_leather"
+	item_state = "fannypack_leather"
+	storage_slots = 3
+	max_w_class = 2
+
+/obj/item/weapon/storage/belt/fannypack/black
+	name = "black fannypack"
+	icon_state = "fannypack_black"
+	item_state = "fannypack_black"
+
+/obj/item/weapon/storage/belt/fannypack/red
+	name = "red fannypack"
+	icon_state = "fannypack_red"
+	item_state = "fannypack_red"
+
+
+/obj/item/weapon/storage/belt/fannypack/white
+	name = "white fannypack"
+	icon_state = "fannypack_white"
+	item_state = "fannypack_white"

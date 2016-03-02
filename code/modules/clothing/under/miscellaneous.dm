@@ -19,7 +19,7 @@
 /obj/item/clothing/under/scratch
 	name = "white suit"
 	desc = "A white suit, suitable for an excellent host"
-	icon_state = "scratch"
+	icon_state = "white_suit"
 	item_state = "scratch"
 
 /obj/item/clothing/under/sl_suit
@@ -320,6 +320,12 @@
 	icon_state = "plaid_purple"
 	item_state = "ba_suit"
 
+/obj/item/clothing/under/dress/plaid_black
+	name = "black purple skirt"
+	desc = "A preppy black skirt with a white blouse."
+	icon_state = "plaid_black"
+	item_state = "ba_suit"
+
 //wedding stuff
 /obj/item/clothing/under/wedding/
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
@@ -476,6 +482,25 @@
 	desc = "It's a jumpsuit worn by someone who works in the position of \"Head of Personnel\"."
 	icon_state = "bmuniform"
 
+/obj/item/clothing/under/bum1
+	name = "simple clothing"
+	desc = "There are a change? A pair of thalers at least ..."
+	icon_state = "bum1"
+
+/obj/item/clothing/under/bum2
+	name = "simple clothing"
+	desc = "Place your order here ."
+	icon_state = "bum2"
+
+/obj/item/clothing/under/bum3
+	name = "simple clothing"
+	desc = "Captain - a piece of shit!"
+	icon_state = "bum3"
+
+/obj/item/clothing/under/SID
+	name = "SID suit"
+	icon_state = "jane_sid_suit"
+	item_state = "suit-orange"
 //Pants
 
 /obj/item/clothing/under/pants
