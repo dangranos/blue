@@ -470,6 +470,12 @@
 	icon_state = "russobluecamo"
 	item_state = "b_suit"
 
+/obj/item/clothing/under/squatter_outfit
+ 	name = "slav squatter tracksuit"
+ 	desc = "Cyka blyat."
+ 	icon_state = "squatteroutfit"
+ 	item_state = "squatteroutfit"
+
 /obj/item/clothing/under/batman
 	name = "batman uniform"
 	desc = "You are the night."
@@ -578,4 +584,3 @@
 	desc = "A pair of woodland camouflage pants. Probably not the best choice for a space station."
 	icon_state = "camopants"
 	item_state = "camopants"
-

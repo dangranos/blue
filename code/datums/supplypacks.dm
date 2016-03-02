@@ -309,12 +309,11 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 /datum/supply_packs/chicken
 	name = "Chicken crate"
 	cost = 20
-	amount = 5
-	contains = list(/mob/living/simple_animal/chick)
-	containertype = /obj/structure/largecrate/animal
+	containertype = /obj/structure/largecrate/animal/chick
 	containername = "Chicken crate"
 	access = access_hydroponics
 	group = "Hydroponics"
+	manifest = "<ul><li>Chickens x5</li></ul>"
 
 /datum/supply_packs/seeds
 	name = "Seeds crate"
@@ -1431,6 +1430,66 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 					/obj/item/clothing/head/ushanka)
 	group = "Miscellaneous"
 	access = access_theatre
+
+/datum/supply_packs/knight_armor/knight
+	contains = list(/obj/item/clothing/suit/armor/knight,
+					/obj/item/clothing/head/helmet/knight)
+	name = "Knight Armor Pack"
+	cost = 60
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Knight Armor"
+	access = access_theatre
+	group = "Miscellaneous"
+
+/datum/supply_packs/knight_armor/knight/blue
+	contains = list(/obj/item/clothing/suit/armor/knight/blue,
+					/obj/item/clothing/head/helmet/knight/blue)
+	name = "Knight Armor Pack, Blue"
+	cost = 60
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Knight Armor"
+	access = access_theatre
+	group = "Miscellaneous"
+
+/datum/supply_packs/knight_armor/knight/red
+	contains = list(/obj/item/clothing/suit/armor/knight/red,
+					/obj/item/clothing/head/helmet/knight/red)
+	name = "Knight Armor Pack"
+	cost = 60
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Knight Armor, Red"
+	access = access_theatre
+	group = "Miscellaneous"
+
+/datum/supply_packs/knight_armor/knight/yellow
+	contains = list(/obj/item/clothing/suit/armor/knight/yellow,
+					/obj/item/clothing/head/helmet/knight/yellow)
+	name = "Knight Armor Pack, Yellow"
+	cost = 60
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Knight Armor"
+	access = access_theatre
+	group = "Miscellaneous"
+
+/datum/supply_packs/knight_armor/knight/green
+	contains = list(/obj/item/clothing/suit/armor/knight/green,
+					/obj/item/clothing/head/helmet/knight/green)
+	name = "Knight Armor Pack,Green"
+	cost = 60
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Knight Armor"
+	access = access_theatre
+	group = "Miscellaneous"
+
+/datum/supply_packs/knight_armor/knight/templar
+	contains = list(/obj/item/clothing/suit/armor/knight/templar,
+					/obj/item/clothing/head/helmet/knight/templar)
+	name = "Knight Armor Pack, Templar"
+	cost = 60
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Knight Armor"
+	access = access_theatre
+	group = "Miscellaneous"
 
 /datum/supply_packs/randomised/webbing
 	name = "Webbing crate"

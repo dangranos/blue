@@ -58,13 +58,25 @@
 					prob(2);/obj/item/device/radio,\
 					prob(5);/obj/item/device/analyzer)
 
+
+/obj/random/armor
+	name = "random plate carrier"
+	desc = "This is a random plate carrier."
+	icon = 'icons/obj/clothing/suits.dmi'
+	icon_state = "secheavyvest_badge"
+	item_to_spawn()
+		return pick(prob(3);/obj/item/clothing/suit/storage/vest/seclight,\
+					prob(3);/obj/item/clothing/suit/storage/vest/heavy/securitymedium,\
+					prob(3);/obj/item/clothing/suit/storage/vest/heavy/security)
+
+
 /obj/random/pistol
 	name = "random pistol"
 	desc = "This is a random .45 pistol."
 	icon = 'icons/obj/gun.dmi'
 	icon_state = "secguncomp"
 	item_to_spawn()
-		return pick(prob(5);/obj/item/weapon/gun/projectile/sec,\
+		return pick(prob(2);/obj/item/weapon/gun/projectile/sec,\
 					prob(2);/obj/item/weapon/gun/projectile/sec/wood,\
 					prob(2);/obj/item/weapon/gun/projectile/sec/longbarrel,\
 					prob(2);/obj/item/weapon/gun/projectile/sec/shortbarrel,\
@@ -202,6 +214,17 @@
 					prob(2);/obj/item/weapon/gun/projectile/automatic/wt550,\
 					prob(1);/obj/item/weapon/gun/projectile/shotgun/pump/combat)
 
+/obj/random/armory
+	name = "Random Armory Weapon"
+	desc = "This is a random security weapon."
+	icon = 'icons/obj/gun.dmi'
+	icon_state = "revolver"
+	item_to_spawn()
+		return pick(prob(2);/obj/item/weapon/gun/projectile/pistol/carbine,\
+					prob(2);/obj/item/weapon/gun/projectile/automatic/nx6,\
+					prob(2);/obj/item/weapon/gun/projectile/shotgun/pump/combat)
+
+
 /obj/random/handgun
 	name = "Random Handgun"
 	desc = "This is a random security sidearm."
@@ -289,24 +312,3 @@
 					/obj/item/toy/plushie/mouse,\
 					/obj/item/toy/plushie/kitten,\
 					/obj/item/toy/plushie/lizard)
-
-/obj/item/weapon/gift/new_year/New()
-	var/surprize = pick(/obj/item/clothing/head/witchwig,
-		/obj/item/clothing/head/philosopher_wig,
-		/obj/item/clothing/head/pirate,
-		/obj/item/clothing/head/collectable/rabbitears,
-		/obj/item/clothing/head/collectable/kitty,
-//		/obj/item/clothing/head/collectable/slime,
-		/obj/item/clothing/head/collectable/slime2,
-		/obj/item/clothing/head/collectable/tophat,
-		/obj/item/clothing/head/collectable/amp,
-		/obj/item/clothing/head/collectable/crown,
-		/obj/item/clothing/head/wizard/fake,
-		/obj/item/clothing/head/collectable/marisa,
-		/obj/item/clothing/head/collectable/suzumiyarabbitears,
-		/obj/item/clothing/head/collectable/mikururabbitears,
-		/obj/item/clothing/head/collectable/metroid,
-		/obj/item/clothing/head/cueball,
-		/obj/item/clothing/head/collectable/women_blue_hat,
-		/obj/item/clothing/head/collectable/secelitetop)
-	gift = new surprize

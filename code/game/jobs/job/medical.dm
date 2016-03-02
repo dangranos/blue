@@ -145,12 +145,12 @@
 	department = "Medical"
 	department_flag = MEDSCI
 	faction = "Station"
-	total_positions = 0
-	spawn_positions = 0
+	total_positions = 2
+	spawn_positions = 2
 	supervisors = "the chief medical officer and research director"
 	selection_color = "#ffeef0"
 	access = list(access_medical, access_morgue, access_surgery, access_chemistry, access_virology, access_genetics, access_research)
-	minimal_access = list(access_medical, access_morgue, access_genetics, access_research)
+	minimal_access = list(access_medical, access_morgue, access_genetics, access_research, access_medical_equip)
 
 	uniform = /obj/item/clothing/under/rank/geneticist
 	pda = /obj/item/device/pda/geneticist
@@ -222,7 +222,7 @@
 	alt_titles = list("Emergency Medical Technician")
 
 	uniform = /obj/item/clothing/under/rank/medical/black
-	suit = /obj/item/clothing/suit/storage/toggle/fr_jacket
+	suit = /obj/item/clothing/suit/storage/vest/ems
 	pda = /obj/item/device/pda/medical
 	ear = /obj/item/device/radio/headset/headset_med
 	shoes = /obj/item/clothing/shoes/jackboots

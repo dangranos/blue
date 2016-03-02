@@ -53,8 +53,8 @@
 	magazine_type = /obj/item/ammo_magazine/c45m/flash
 
 /obj/item/weapon/gun/projectile/sec/wood
-	desc = "The NT Mk58 is a designed sidearm, this one is made of light materials and not has a recoil. Uses .45 rounds."
-	name = " custom .45 pistol"
+	desc = "The NT Mk58 is a designed sidearm, this one is made of light materials and doesn't have any recoil. Uses .45 rounds."
+	name = "custom .45 pistol (LW)"
 	icon_state = "secgunlight"
 	recoil = 0
 	fire_delay = 3
@@ -65,8 +65,8 @@
 	update_held_icon()
 
 /obj/item/weapon/gun/projectile/sec/longbarrel
-	desc = "The NT Mk58 is a designed sidearm, this one has a long barrel. Uses .45 rounds."
-	name = " custom .45 pistol"
+	desc = "The NT Mk58 is a designed sidearm, this one has a long barrel and will be more accurate. Uses .45 rounds."
+	name = "custom .45 pistol (LB)"
 	icon_state = "secgunlongbarrel"
 	recoil = 2
 	fire_delay = 4
@@ -79,8 +79,8 @@
 	update_held_icon()
 
 /obj/item/weapon/gun/projectile/sec/shortbarrel
-	desc = "The NT Mk58 is a designed sidearm, this one has a shortened barrel. Uses .45 rounds."
-	name = " custom .45 pistol"
+	desc = "The NT Mk58 is a designed sidearm, this one has a shortened barrel and must fit into a pocket. Uses .45 rounds."
+	name = "custom .45 pistol (SB)"
 	icon_state = "secgunshortbarrel"
 	recoil = 1
 	fire_delay = 2
@@ -93,12 +93,10 @@
 	update_held_icon()
 
 /obj/item/weapon/gun/projectile/sec/tactical
-	desc = "The NT Mk58 is a designed sidearm, this one has a multiple attachments. Uses .45 rounds."
-	name = " custom .45 pistol"
+	desc = "The NT Mk58 is a designed sidearm, this one has a system of automated magazine drop. Uses .45 rounds."
+	name = "custom .45 pistol (T)"
 	icon_state = "secguntactical"
-	recoil = 2
-	fire_delay = 5
-	accuracy = 2
+	fire_delay = 4
 	auto_eject = 1
 
 /obj/item/weapon/gun/projectile/sec/tactical/update_icon()
