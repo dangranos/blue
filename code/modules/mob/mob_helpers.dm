@@ -346,8 +346,7 @@ proc/slur(phrase)
 			//if(9,10)	newletter="<b>[newletter]</b>"
 			//if(11,12)	newletter="<big>[newletter]</big>"
 			//if(13)	newletter="<small>[newletter]</small>"
-		newphrase+="[newletter]"
-		counter-=1
+		newphrase+="[newletter]";counter-=1
 	return rhtml_encode(newphrase)
 
 /proc/stutter(n)

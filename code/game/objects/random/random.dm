@@ -220,7 +220,7 @@
 	icon = 'icons/obj/gun.dmi'
 	icon_state = "revolver"
 	item_to_spawn()
-		return pick(prob(1);/obj/item/weapon/gun/projectile/pistol/carbine,\
+		return pick(prob(2);/obj/item/weapon/gun/projectile/pistol/carbine,\
 					prob(2);/obj/item/weapon/gun/projectile/automatic/nx6,\
 					prob(2);/obj/item/weapon/gun/projectile/shotgun/pump/combat)
 

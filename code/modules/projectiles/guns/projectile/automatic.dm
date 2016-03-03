@@ -61,15 +61,14 @@
 	fire_delay = 3
 	fire_sound = 'sound/weapons/gunshotcarbine.ogg'
 
-/obj/item/weapon/gun/projectile/automatic/nx6/update_icon()
-	..()
-	icon_state = (ammo_magazine)? "nx6" : "nx6-empty"
-	update_held_icon()
-
 	firemodes = list(
 		list(name="semiauto", burst=1, fire_delay=0),
 		list(name="3-round bursts", burst=3, move_delay=4, accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.0, 0.6, 1.0)),
 		)
+/obj/item/weapon/gun/projectile/automatic/nx6/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "nx6" : "nx6-empty"
+	update_held_icon()
 
 /obj/item/weapon/gun/projectile/automatic/c20r
 	name = "submachine gun"
