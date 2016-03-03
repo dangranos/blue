@@ -50,7 +50,7 @@ datum/preferences
 
 	//character preferences
 	var/real_name						//our character's name
-	var/be_random_name = 0				//whether we are a random name every round
+	var/random_name = 0					//whether we are a random name every round
 	var/gender = MALE					//gender of character (well duh)
 	var/body_build = 0					//type of char body (sprite pack)
 	var/age = 30						//age of character
@@ -82,6 +82,8 @@ datum/preferences
 	var/species_preview                 //Used for the species selection window.
 	var/language = "None"				//Secondary language
 	var/list/gear						//Custom/fluff item loadout.
+	var/email = ""						//Character email adress.
+	var/email_is_public = 1				//Add or not to email-list at round join.
 
 		//Some faction information.
 	var/home_system = "Unset"           //System of birth.
@@ -178,7 +180,7 @@ datum/preferences
 	dat += "<b>Name:</b> "
 	dat += "<a href='?_src_=prefs;preference=name;task=input'><b>[real_name]</b></a><br>"
 	dat += "(<a href='?_src_=prefs;preference=name;task=random'>Random Name</A>) "
-	dat += "(<a href='?_src_=prefs;preference=name'>Always Random Name: [be_random_name ? "Yes" : "No"]</a>)"
+	dat += "(<a href='?_src_=prefs;preference=name'>Always Random Name: [random_name ? "Yes" : "No"]</a>)"
 	dat += "<br>"
 
 	dat += "<b>Gender:</b> <a href='?_src_=prefs;preference=gender'><b>[gender == MALE ? "Male" : "Female"]</b></a><br>"
@@ -383,6 +385,7 @@ datum/preferences
 	dat += "</center></body></html>"
 
 	user << browse(dat, "window=preferences;size=560x736")
+
 
 /datum/preferences/proc/SetChoices(mob/user, limit = 16, list/splitJobs = list("Chief Medical Officer"), width = 550, height = 660)
 	if(!job_master)
@@ -1552,7 +1555,7 @@ datum/preferences
 					be_special ^= (1<<num)
 
 				if("name")
-					be_random_name = !be_random_name
+					random_name = !random_name
 
 				if("hear_midis")
 					toggles ^= SOUND_MIDI
@@ -1597,7 +1600,7 @@ datum/preferences
 	return 1
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, safety = 0)
-	if(be_random_name)
+	if(random_name)
 		real_name = random_name(gender,species)
 
 	var/firstspace = findtext(real_name, " ")

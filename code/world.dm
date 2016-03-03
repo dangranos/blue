@@ -66,6 +66,8 @@ var/global/datum/global_init/init = new ()
 	// Create robolimbs for chargen.
 	populate_robolimb_list()
 
+	generate_body_modification_lists()
+
 	processScheduler = new
 	master_controller = new /datum/controller/game_controller()
 	spawn(1)
