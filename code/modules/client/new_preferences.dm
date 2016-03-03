@@ -412,7 +412,7 @@ datum/preferences
 	return dat
 
 /datum/preferences/proc/get_modification(var/organ as text)
-	if(!organ) return null
+	if(!organ) return body_modifications["nothing"]
 	return body_modifications[modifications_data[organ] ? modifications_data[organ] : "nothing"]
 
 /datum/preferences/proc/HandleLimbsTopic(mob/new_player/user, list/href_list)
