@@ -236,3 +236,18 @@
 					"You undo the bolts.", \
 					"You hear a ratchet")
 				src.anchored = 0
+
+/obj/structure/bed/chair/plastic/shuttle
+	name = "shuttle chair"
+	icon_state = "schair"
+	base_icon = "schair"
+
+/obj/structure/bed/chair/plastic/shuttle/New(var/newloc)
+  ..(newloc, "plastic", "plastic")
+
+
+/obj/structure/bed/chair/plastic/shuttle/set_dir()
+	..()
+	update_layer()
+	if(buckled_mob)
+		buckled_mob.set_dir(dir)
