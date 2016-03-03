@@ -366,7 +366,7 @@ datum/preferences
 	dat += "<table><tr><td style='width:95px; text-align:right'>"
 
 	for(var/organ in r_organs)
-		var/datum/body_modification/mod = body_modifications[organ][modifications_data[organ]]
+		var/datum/body_modification/mod = get_modification(modifications_data[organ])
 		var/disp_name = mod ? mod.short_name : "Nothing"
 		if(organ == current_organ)
 			dat += "<div><b><u>[r_organs[organ]]</u></b>"
@@ -378,7 +378,7 @@ datum/preferences
 	dat += "<td style='width:95px'>"
 
 	for(var/organ in l_organs)
-		var/datum/body_modification/mod = body_modifications[organ][modifications_data[organ]]
+		var/datum/body_modification/mod = get_modification(modifications_data[organ])
 		var/disp_name = mod ? mod.short_name : "Nothing"
 		if(organ == current_organ)
 			dat += "<div><b><u>[l_organs[organ]]</u></b>"
@@ -394,8 +394,8 @@ datum/preferences
 	for(var/organ in internal_organs)
 		if(!organ in body_modifications) continue
 
-		var/datum/body_modification/mod = body_modifications[organ][modifications_data[organ]]
-		var/disp_name = mod ? mod.short_name : "Nothing"
+		var/datum/body_modification/mod = get_modification(modifications_data[organ])
+		var/disp_name = mod.short_name
 		if(organ == current_organ)
 			dat += "<td width='33%'><b><u>[internal_organs[organ]]</u></b>"
 		else
@@ -413,24 +413,24 @@ datum/preferences
 
 /datum/preferences/proc/get_modification(var/organ as text)
 	if(!organ) return null
-	return body_modifications[organ][modifications_data[organ] ? modifications_data[organ] : "nothing"]
+	return body_modifications[modifications_data[organ] ? modifications_data[organ] : "nothing"]
 
 /datum/preferences/proc/HandleLimbsTopic(mob/new_player/user, list/href_list)
 	if(href_list["organ"])
 		current_organ = href_list["organ"]
 
 	if(href_list["body_modification"])
-		var/datum/body_modification/mod = body_modifications[current_organ][href_list["body_modification"]]
+		var/datum/body_modification/mod = body_modifications[href_list["body_modification"]]
 		if(mod && mod.is_allowed(src))
 			modifications_data[current_organ] = mod.id
 			if(current_organ in parents_list)
 				var/datum/body_modification/parent_mod = get_modification(parents_list[current_organ])
 				if(parent_mod.nature > mod.nature)
-					modifications_data[parents_list[current_organ]] = get_default_modificaton_for_nature(mod.nature)
+					modifications_data[parents_list[current_organ]] = get_default_modificaton(mod.nature)
 			else if(current_organ in children_list)
 				var/datum/body_modification/child_mod = get_modification(children_list[current_organ])
 				if(child_mod.nature < mod.nature)
-					modifications_data[children_list[current_organ]] = get_default_modificaton_for_nature(mod.nature)
+					modifications_data[children_list[current_organ]] = get_default_modificaton(mod.nature)
 
 
 /datum/preferences/proc/GetLoadOutPage()
