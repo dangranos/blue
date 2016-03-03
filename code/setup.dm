@@ -352,6 +352,7 @@
 #define COUGHING    4
 #define TOURETTES   8
 #define NERVOUS     16
+#define PARAPLEGIA  32
 
 // sdisabilities
 #define BLIND 1
