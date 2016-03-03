@@ -605,7 +605,7 @@ wink, yawn, swish, sway/wag, fastsway/qwag, stopsway/swag"}
 	HTML += "<b>Update Flavour Text</b> <hr />"
 	HTML += "<br></center>"
 	for( var/flavor in flavs_list )
-		HTML += "<a href='byond://?src=\ref[src];flavor_change=[flavor]'>[flavs_list[flavor]]:</a><br> "
+		HTML += "<a href='byond://?src=\ref[src];flavor_change=[flavor]'>[flavs_list[flavor]]</a>: [TextPreview(flavor_texts[flavor])]<br>"
 	HTML += "<br>"
 	HTML += "<hr />"
 	HTML +="<a href='?src=\ref[src];flavor_change=done'>\[Done\]</a>"
