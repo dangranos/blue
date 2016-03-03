@@ -300,7 +300,7 @@ proc/TextPreview(var/string,var/len=40)
 		else
 			return string
 	else
-		return "[copytext_preserve_html(string, 1, 37)]..."
+		return "[copytext_preserve_html(string, 1, len)]..."
 
 //alternative copytext() for encoded text, doesn't break html entities (&#34; and other)
 /proc/copytext_preserve_html(var/text, var/first, var/last)
