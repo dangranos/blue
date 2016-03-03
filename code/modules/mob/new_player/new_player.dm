@@ -27,6 +27,7 @@
 		var/output = "<div align='center'><B>New Player Options</B>"
 		output +="<hr>"
 		output += "<p><a href='byond://?src=\ref[src];show_preferences=1'>Setup Character</A></p>"
+		output += "<p><a href='byond://?src=\ref[src];show_preferences_new=1'>New Setup Character (WIP)</A></p>"
 
 		if(!ticker || ticker.current_state <= GAME_STATE_PREGAME)
 			if(ready)
@@ -83,6 +84,10 @@
 		else
 			relevant_cap = max(config.hard_popcap, config.extreme_popcap)
 
+		if(href_list["show_preferences_new"])
+			client.prefs.NewShowChoices(src)
+			return 1
+
 		if(href_list["show_preferences"])
 			client.prefs.ShowChoices(src)
 			return 1
@@ -122,7 +127,7 @@
 				observer.icon = client.prefs.preview_icon
 				observer.alpha = 127
 
-				if(client.prefs.be_random_name)
+				if(client.prefs.random_name)
 					client.prefs.real_name = random_name(client.prefs.gender)
 				observer.real_name = client.prefs.real_name
 				observer.name = observer.real_name
@@ -299,7 +304,7 @@
 			global_announcer.autosay("A new[rank ? " [rank]" : " visitor" ] [join_message ? join_message : "has arrived on the station"].", "Arrivals Announcement Computer")
 
 	proc/LateChoices()
-		var/name = client.prefs.be_random_name ? "friend" : client.prefs.real_name
+		var/name = client.prefs.random_name ? "friend" : client.prefs.real_name
 
 		var/dat = "<html><body><center>"
 		dat += "<b>Welcome, [name].<br></b>"
