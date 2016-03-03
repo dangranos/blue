@@ -23,7 +23,7 @@ datum/preferences
 		preview_icon = new /icon('icons/mob/human.dmi', "blank")
 
 		for(var/organ in list("chest","groin","head","r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
-			var/datum/body_modification/mod = body_modifications[organ][organ_data[organ]]
+			var/datum/body_modification/mod = body_modifications[organ][modifications_data[organ]]
 			if(!mod) mod = body_modifications[organ]["nothing"]
 			if(!mod.replace_limb)
 				preview_icon.Blend(new /icon(icobase, "[organ]_[g]"), ICON_OVERLAY)
