@@ -556,6 +556,7 @@ var/list/name_to_material
 	icon_colour = "#824B28"
 	integrity = 25
 	icon_base = "solid"
+	icon_reinf = "reinf_wood"
 	explosion_resistance = 2
 	shard_type = SHARD_SPLINTER
 	shard_can_repair = 0 // you can't weld splinters back into planks
