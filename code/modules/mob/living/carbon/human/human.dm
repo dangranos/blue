@@ -1250,7 +1250,6 @@
 	"head" = 1,\
 	"face" = 1,\
 	"eyes" = 1,\
-	"mech_eyes" = 1,\
 	"torso" = 1,\
 	"arms" = 1,\
 	"legs" = 1,\
