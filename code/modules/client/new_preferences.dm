@@ -277,7 +277,7 @@ datum/preferences
 		if("input")
 			var/raw_email = input(user, "Choose your character's name:", "Character Preference")  as text|null
 			if (!isnull(raw_email)) // Check to ensure that the user entered text (rather than cancel.)
-				var/new_email = replacetext(reject_bad_text(raw_email), " ")
+				var/new_email = replacetext(reject_bad_text(raw_email), " ", "")
 				if(!new_email)
 					user << "<span class = 'warning'>Your mail will be generated.</span>"
 				email = new_email
