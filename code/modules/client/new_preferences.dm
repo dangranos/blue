@@ -141,7 +141,7 @@ datum/preferences
 
 	dat += "<tr><td>Eyes:</td>"
 	dat += "<td><a href='byond://?src=\ref[src];eyes=color'>Color "
-	dat += "<span class='box' style='background-color:[eyes_color];'></span></a></td></tr></table>"
+	dat += "<span class='box' style='background-color:[eyes_color];'></span></a></td></tr>"
 
 	if(current_species.flags & HAS_SKIN_COLOR)
 		dat += "<tr><td>Skin color:</td>"
