@@ -74,7 +74,7 @@ datum/preferences
 		else dat+=GetRecordsPage() // Protection
 	dat += "</body></html>"
 
-	user << browse(dat, "window=preferences;size=544x500")
+	user << browse(dat, "window=preferences;size=544x500;can_resize=0")
 
 /datum/preferences/Topic(href, href_list)
 	var/mob/new_player/user = usr
@@ -127,6 +127,9 @@ datum/preferences
 	if(gender == FEMALE && current_species.allow_slim_fem)
 		dat += "Body build: <a href='byond://?src=\ref[src];build=switch'>[body_build == BODY_DEFAULT ? "Default" : "Slim"]</a><br>"
 
+	if(current_species.flags & HAS_SKIN_TONE)
+		dat += "Skin Tone: <a href='?src=\ref[src];s_tone=input'>[-s_tone + 35]/220<br></a>"
+
 	dat += "<table style='border-collapse:collapse'>"
 	dat += "<tr><td>Hair:</td><td><a href='byond://?src=\ref[src];hair=color'>Color "
 	dat += "<span class='box' style='background-color:[hair_color];'></span></a>"
@@ -138,11 +141,17 @@ datum/preferences
 
 	dat += "<tr><td>Eyes:</td>"
 	dat += "<td><a href='byond://?src=\ref[src];eyes=color'>Color "
-	dat += "<span class='box' style='background-color:[eyes_color];'></span></a></td></tr></table>"
+	dat += "<span class='box' style='background-color:[eyes_color];'></span></a></td></tr>"
+
+	if(current_species.flags & HAS_SKIN_COLOR)
+		dat += "<tr><td>Skin color:</td>"
+		dat += "<td><a href='byond://?src=\ref[src];skin=color'>Color "
+		dat += "<span class='box' style='background-color:[skin_color];'></span></a></td></tr>"
+	dat += "</table>"
 
 	dat += "Age: <a href='byond://?src=\ref[src];age=input'>[age]</a><br>"
 	dat += "Spawn Point: <a href='byond://?src=\ref[src];spawnpoint=input'>[spawnpoint]</a><br>"
-	dat += "Corporate mail: <a href='byond://?src=\ref[src];mail=input'>[email ? email : "\[kllkRANDOM MAIL\]"]</a>@mail.nt<br>" // TODO: sanitaze empty email in prefs load
+	dat += "Corporate mail: <a href='byond://?src=\ref[src];mail=input'>[email ? email : "\[RANDOM MAIL\]"]</a>@mail.nt<br>"
 	dat += "Add your mail to public catalogs: <a href='byond://?src=\ref[src];mail=public'>[email_is_public?"Yes":"No"]</a>"
 
 	dat += "<br><br><b>Background Information</b><br>"
@@ -154,17 +163,18 @@ datum/preferences
 
 	dat += "</td><td style='vertical-align:top'>"
 
-	dat += "<b>Preview</b><br><img src=new_previewicon[preview_dir].png height=64 width=64><img src=new_previewicon[turn(preview_dir,-90)].png height=64 width=64><br>"
+	dat += "<b>Preview</b><br><img src=new_previewicon[preview_dir].png height=64 width=64>"
+	dat += "<img src=new_previewicon[turn(preview_dir,-90)].png height=64 width=64><br>"
 
 	dat += "<br><br><b>Set Character Records</b><br>"
 	dat += "<a href='byond://?src=\ref[src];records=med'>Medical Records</a><br>"
-	dat += TextPreview(med_record,40)
+	dat += TextPreview(med_record,22)
 	dat += "<br><a href='byond://?src=\ref[src];records=gen'>Employment Records</a><br>"
-	dat += TextPreview(gen_record,40)
+	dat += TextPreview(gen_record,22)
 	dat += "<br><a href='byond://?src=\ref[src];records=sec'>Security Records</a><br>"
-	dat += TextPreview(sec_record,40)
+	dat += TextPreview(sec_record,22)
 	dat += "<br><a href='byond://?src=\ref[src];records=exp'>Exploitable Record</a><br>"
-	dat += TextPreview(exploit_record,40)
+	dat += TextPreview(exploit_record,22)
 
 	dat += "<br><br>"
 	dat += "<table style='position:relative; left:-3px'><tr><td>Need Glasses?<br>Coughing?<br>Nervousness?<br>Paraplegia?</td><td>"
@@ -279,7 +289,7 @@ datum/preferences
 			if (!isnull(raw_email)) // Check to ensure that the user entered text (rather than cancel.)
 				var/new_email = replacetext(reject_bad_text(raw_email), " ", "")
 				if(!new_email)
-					user << "<span class = 'warning'>Your mail will be generated.</span>"
+					user << "<span class = 'warning'>Your mail will be generated when you enter round.</span>"
 				email = new_email
 
 		if("public")
@@ -287,7 +297,8 @@ datum/preferences
 
 
 	else if(href_list["nt_relation"])
-		var/new_relation = input(user, "Choose your relation to NT. Note that this represents what others can find out about your character by researching your background, not what your character actually thinks.", "Character Preference")  as null|anything in list("Loyal", "Supportive", "Neutral", "Skeptical", "Opposed")
+		var/new_relation = input(user, "Choose your relation to NT. Note that this represents what others can find out about your character by researching your background,\
+ not what your character actually thinks.", "Character Preference")  as null|anything in list("Loyal", "Supportive", "Neutral", "Skeptical", "Opposed")
 		if(new_relation)
 			nanotrasen_relation = new_relation
 
@@ -412,7 +423,7 @@ datum/preferences
 	return dat
 
 /datum/preferences/proc/get_modification(var/organ as text)
-	if(!organ) return null
+	if(!organ) return body_modifications["nothing"]
 	return body_modifications[modifications_data[organ] ? modifications_data[organ] : "nothing"]
 
 /datum/preferences/proc/HandleLimbsTopic(mob/new_player/user, list/href_list)
