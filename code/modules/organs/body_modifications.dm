@@ -2,26 +2,7 @@
 # define MODIFICATION_SILICON 2
 # define MODIFICATION_REMOVED 3
 
-var/global/list/body_modifications = list(
-	"chest"  = list(),
-	"chest2" = list(),
-	"head"   = list(),
-	"groin"  = list(),
-	"l_arm"  = list(),
-	"r_arm"  = list(),
-	"l_hand" = list(),
-	"r_hand" = list(),
-	"l_leg"  = list(),
-	"r_leg"  = list(),
-	"l_foot" = list(),
-	"r_foot" = list(),
-	"heart"  = list(),
-	"lungs"  = list(),
-	"liver"  = list(),
-	"brain"  = list(),
-	"eyes"   = list()
-)
-
+var/global/list/body_modifications = list()
 var/global/list/modifications_list = list(
 	"chest" = "",  "chest2" = "", "head" = "",   "groin" = "",
 	"l_arm"  = "", "r_arm"  = "", "l_hand" = "", "r_hand" = "",
@@ -32,12 +13,12 @@ var/global/list/modifications_list = list(
 /proc/generate_body_modification_lists()
 	for(var/mod_type in typesof(/datum/body_modification))
 		var/datum/body_modification/BM = new mod_type()
-		if(!BM.name) continue	// Basic types for OOP power!
+		if(!BM.id) continue
+		body_modifications[BM.id] += BM
 		for(var/part in BM.body_parts)
-			body_modifications[part][BM.id] += BM
 			modifications_list[part] = "<div onclick=\"set('body_modification', '[BM.id]');\" class='block'><b>[BM.name]</b><br>[BM.desc]</div>" + modifications_list[part]
 
-/proc/get_default_modificaton_for_nature(var/nature = MODIFICATION_ORGANIC)
+/proc/get_default_modificaton(var/nature = MODIFICATION_ORGANIC)
 	if(nature == MODIFICATION_ORGANIC) return "nothing"
 	if(nature == MODIFICATION_SILICON) return "prosthesis_basic"
 	if(nature == MODIFICATION_REMOVED) return "amputated"
