@@ -774,7 +774,7 @@ var/global/list/damage_icon_parts = list()
 
 		if(back.color)
 			standing.color = back.color
-			underlay.color = back.color
+			if(underlay) underlay.color = back.color
 
 		//create the image
 		overlays_standing[BACK_LAYER] = standing
