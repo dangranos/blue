@@ -29,6 +29,11 @@
 /obj/item/weapon/implanter/attack(mob/M as mob, mob/user as mob)
 	if (!istype(M, /mob/living/carbon))
 		return
+	var/obj/item/organ/external/affected = H.get_organ(user.zone_sel.selecting)
+	if(!affected)
+		user << "<span class='warning'>[M] miss that body part!</span>
+		return
+
 	if (user && src.imp)
 		for (var/mob/O in viewers(M, null))
 			O.show_message("\red [user] is attemping to implant [M].", 1)
@@ -48,7 +53,6 @@
 					src.imp.implanted = 1
 					if (ishuman(M))
 						var/mob/living/carbon/human/H = M
-						var/obj/item/organ/external/affected = H.get_organ(user.zone_sel.selecting)
 						affected.implants += src.imp
 						imp.part = affected
 

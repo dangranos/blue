@@ -516,6 +516,10 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	if(istype(M,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/S = H.get_organ(user.zone_sel.selecting)
+		if(!S)
+			user << "<span class='warning'>[M] miss that body part!</span>
+			return
+
 		if(!(S.status & ORGAN_ROBOT) || user.a_intent != "help")
 			return ..()
 
