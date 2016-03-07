@@ -138,12 +138,12 @@
 	if(admin_rights & new_permission) //This admin already has this permission, so we are removing it.
 		var/DBQuery/insert_query = dbcon.NewQuery("UPDATE `erro_admin` SET flags = [admin_rights & ~new_permission] WHERE id = [admin_id]")
 		insert_query.Execute()
-		message_admins("[key_name_admin(usr)] removed the [nominal] permission of [key_name_admin(adm_ckey)]")
+		message_admins("[key_name_admin(usr)] removed the [nominal] permission of [adm_ckey]")
 		log_admin("[key_name(usr)] removed the [nominal] permission of [key_name(adm_ckey)]")
 		usr << "\blue Permission removed."
 	else //This admin doesn't have this permission, so we are adding it.
 		var/DBQuery/insert_query = dbcon.NewQuery("UPDATE `erro_admin` SET flags = '[admin_rights | new_permission]' WHERE id = [admin_id]")
 		insert_query.Execute()
-		message_admins("[key_name_admin(usr)] added the [nominal] permission of [key_name_admin(adm_ckey)]")
+		message_admins("[key_name_admin(usr)] added the [nominal] permission of [adm_ckey]")
 		log_admin("[key_name(usr)] added the [nominal] permission of [key_name(adm_ckey)]")
 		usr << "\blue Permission added."
