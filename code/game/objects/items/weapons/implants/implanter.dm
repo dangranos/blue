@@ -29,9 +29,12 @@
 /obj/item/weapon/implanter/attack(mob/M as mob, mob/user as mob)
 	if (!istype(M, /mob/living/carbon))
 		return
-	var/obj/item/organ/external/affected = H.get_organ(user.zone_sel.selecting)
+	var/obj/item/organ/external/affected = null
+	if (ishuman(M))
+		var/mob/living/carbon/human/H = M
+		affected = H.get_organ(user.zone_sel.selecting)
 	if(!affected)
-		user << "<span class='warning'>[M] miss that body part!</span>
+		user << "<span class='warning'>[M] miss that body part!</span>"
 		return
 
 	if (user && src.imp)
@@ -51,12 +54,11 @@
 					src.imp.loc = M
 					src.imp.imp_in = M
 					src.imp.implanted = 1
-					if (ishuman(M))
-						var/mob/living/carbon/human/H = M
+					if (affected)
 						affected.implants += src.imp
 						imp.part = affected
 
-						BITSET(H.hud_updateflag, IMPLOYAL_HUD)
+						BITSET(M:hud_updateflag, IMPLOYAL_HUD)
 
 				src.imp = null
 				update()

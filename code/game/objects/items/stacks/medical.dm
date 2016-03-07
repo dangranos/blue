@@ -24,7 +24,7 @@
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/affecting = H.get_organ(user.zone_sel.selecting)
 		if(!affecting)
-			user << "<span class='warning'>[M] miss that body part!</span>
+			user << "<span class='warning'>[M] miss that body part!</span>"
 			return
 
 		if(affecting.name == "head")
@@ -67,7 +67,7 @@
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/affecting = H.get_organ(user.zone_sel.selecting)
 		if(!affecting)
-			user << "<span class='warning'>[M] miss that body part!</span>
+			user << "<span class='warning'>[M] miss that body part!</span>"
 			return
 
 		if(affecting.open == 0)
@@ -113,7 +113,7 @@
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/affecting = H.get_organ(user.zone_sel.selecting)
 		if(!affecting)
-			user << "<span class='warning'>[M] miss that body part!</span>
+			user << "<span class='warning'>[M] miss that body part!</span>"
 			return
 
 		if(affecting.open == 0)
@@ -147,7 +147,7 @@
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/affecting = H.get_organ(user.zone_sel.selecting)
 		if(!affecting)
-			user << "<span class='warning'>[M] miss that body part!</span>
+			user << "<span class='warning'>[M] miss that body part!</span>"
 			return
 
 		if(affecting.open == 0)
@@ -198,7 +198,7 @@
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/affecting = H.get_organ(user.zone_sel.selecting)
 		if(!affecting)
-			user << "<span class='warning'>[M] miss that body part!</span>
+			user << "<span class='warning'>[M] miss that body part!</span>"
 			return
 
 		if(affecting.open == 0)
@@ -232,7 +232,7 @@
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/affecting = H.get_organ(user.zone_sel.selecting)
 		if(!affecting)
-			user << "<span class='warning'>[M] miss that body part!</span>
+			user << "<span class='warning'>[M] miss that body part!</span>"
 			return
 
 		var/limb = affecting.name
