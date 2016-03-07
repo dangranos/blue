@@ -1011,7 +1011,6 @@ var/list/admin_verbs_mentor = list(
 
 	var/name = "Custom supply pack"
 	var/cost = 8
-	var/price = 0
 	var/access = MD.req_access.len?MD:req_access[1]:0
 	var/containername = MD.name
 	var/containertype = MD.type
@@ -1057,7 +1056,7 @@ var/list/admin_verbs_mentor = list(
 	hide = alert( "Pack must be visiable only in hacked console?", "Hide", "No", "Yes")=="Yes" ? 1 : 0
 
 	var/datum/supply_packs/custom/CP = new( \
-		name, cost, price, access, containername, \
+		name, cost, access, containername, \
 		containertype, group, hide, contains )
 
 	if( supply_controller.supply_packs.Find(name) ) log_debug("Supply pack [name] already exist!")

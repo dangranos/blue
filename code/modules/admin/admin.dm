@@ -333,7 +333,7 @@ proc/admin_notice(var/message, var/rights)
 		if(0)
 			dat += {"Welcome to the admin newscaster.<BR> Here you can add, edit and censor every newspiece on the network.
 				<BR>Feed channels and stories entered through here will be uneditable and handled as official news by the rest of the units.
-				<BR>Note that this panel allows full freedom over the news network, there are no constrictions except the few basic ones. Don't break things!</FONT>
+				<BR>Note that this panel allows full freedom over the news network, there are no constrictions except the few basic ones. Don't break things!
 			"}
 			if(news_network.wanted_issue)
 				dat+= "<HR><A href='?src=\ref[src];ac_view_wanted=1'>Read Wanted Issue</A>"
@@ -725,7 +725,7 @@ proc/admin_notice(var/message, var/rights)
 	if(confirm == "Cancel")
 		return
 	if(confirm == "Yes")
-		world << "\red <b>Restarting world!</b> \blue Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key]!"
+		world << "<span class='danger'>Restarting world!</span> <span class='notice'>Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key]!</span>"
 		log_admin("[key_name(usr)] initiated a reboot.")
 
 		sleep(50)

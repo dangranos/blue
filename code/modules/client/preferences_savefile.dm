@@ -102,7 +102,7 @@
 
 	//Character
 	S["real_name"]			>> real_name
-	S["name_is_always_random"] >> be_random_name
+	S["name_is_always_random"] >> random_name
 	S["gender"]				>> gender
 	S["body_build"]			>> body_build
 	S["age"]				>> age
@@ -201,7 +201,7 @@
 	if(isnull(spawnpoint)) spawnpoint = "Arrivals Shuttle"
 	if(isnull(nanotrasen_relation)) nanotrasen_relation = initial(nanotrasen_relation)
 	if(!real_name) real_name = random_name(gender)
-	be_random_name	= sanitize_integer(be_random_name, 0, 1, initial(be_random_name))
+	random_name		= sanitize_integer(random_name, 0, 1, initial(random_name))
 	gender			= sanitize_gender(gender)
 	body_build 		= sanitize_integer(body_build, 0, 1, initial(body_build))
 	age				= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
@@ -260,7 +260,7 @@
 
 	//Character
 	S["real_name"]			<< real_name
-	S["name_is_always_random"] << be_random_name
+	S["name_is_always_random"] << random_name
 	S["gender"]				<< gender
 	S["body_build"]			<< body_build
 	S["age"]				<< age
