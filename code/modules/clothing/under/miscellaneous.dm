@@ -19,7 +19,7 @@
 /obj/item/clothing/under/scratch
 	name = "white suit"
 	desc = "A white suit, suitable for an excellent host"
-	icon_state = "white_suit"
+	icon_state = "scratch"
 	item_state = "scratch"
 
 /obj/item/clothing/under/sl_suit
