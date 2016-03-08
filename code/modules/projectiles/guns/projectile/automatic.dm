@@ -65,13 +65,10 @@
 		list(name="semiauto", burst=1, fire_delay=0),
 		list(name="3-round bursts", burst=3, move_delay=4, accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.0, 0.6, 1.0)),
 		)
-
 /obj/item/weapon/gun/projectile/automatic/nx6/update_icon()
 	..()
-	if(ammo_magazine)
-		icon_state = "nx6"
-	else
-		icon_state = "nx6-empty"
+	icon_state = (ammo_magazine)? "nx6" : "nx6-empty"
+	update_held_icon()
 
 /obj/item/weapon/gun/projectile/automatic/c20r
 	name = "submachine gun"
