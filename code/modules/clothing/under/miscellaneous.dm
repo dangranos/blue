@@ -459,7 +459,7 @@
 	icon_state = "nisse_dress"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO
 
-/obj/item/clothin/under/nikiss
+/obj/item/clothing/under/nikiss
 	name = "fabulous purple dress"
 	desc = "SHRIEK!"
 	icon_state = "nikiss_dress"
