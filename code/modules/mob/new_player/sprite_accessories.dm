@@ -320,6 +320,10 @@
 		name = "Feather"
 		icon_state = "hair_feather"
 
+	ramona
+		name = "Ramona"
+		icon_state = "hair_ramona"
+
 	smessy
 		name = "Messy Hair"
 		icon_state = "hair_smessy"

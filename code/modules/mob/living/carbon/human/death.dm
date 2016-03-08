@@ -39,23 +39,19 @@
 
 	//Handle brain slugs.
 	var/obj/item/organ/external/head = get_organ("head")
-	var/mob/living/simple_animal/borer/B
+	if(head)
+		var/mob/living/simple_animal/borer/B = locate() in head.implants
+		if(B)
+			if(!B.ckey && ckey && B.controlling)
+				B.ckey = ckey
+				B.controlling = 0
+			if(B.host_brain && B.host_brain.ckey)
+				ckey = B.host_brain.ckey
+				B.host_brain.ckey = null
+				B.host_brain.name = "host brain"
+				B.host_brain.real_name = "host brain"
 
-	for(var/I in head.implants)
-		if(istype(I,/mob/living/simple_animal/borer))
-			B = I
-			break
-	if(B)
-		if(!B.ckey && ckey && B.controlling)
-			B.ckey = ckey
-			B.controlling = 0
-		if(B.host_brain && B.host_brain.ckey)
-			ckey = B.host_brain.ckey
-			B.host_brain.ckey = null
-			B.host_brain.name = "host brain"
-			B.host_brain.real_name = "host brain"
-
-		verbs -= /mob/living/carbon/proc/release_control
+			verbs -= /mob/living/carbon/proc/release_control
 
 	callHook("death", list(src, gibbed))
 

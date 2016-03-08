@@ -516,13 +516,12 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	if(istype(M,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/external/S = H.get_organ(user.zone_sel.selecting)
+		if(!S)
+			user << "<span class='warning'>[M] miss that body part!</span>"
+			return
+
 		if(!(S.status & ORGAN_ROBOT) || user.a_intent != "help")
 			return ..()
-
-		if(H.species.flags & IS_SYNTHETIC)
-			if(M == user)
-				user << "\red You can't repair damage to your own body - it's against OH&S."
-				return
 
 		if(S.burn_dam > 0 && use(1))
 			S.heal_damage(0,15,0,1)
