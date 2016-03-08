@@ -149,6 +149,9 @@ var/global/list/engineering_networks = list(
 	return O
 
 /obj/machinery/camera/proc/isXRay()
+	if(!assembly)
+		world.log << "Cam without assembly! At [x],[y],[z]."
+		return null
 	var/obj/item/weapon/stock_parts/scanning_module/O = locate(/obj/item/weapon/stock_parts/scanning_module) in assembly.upgrades
 	if (O && O.rating >= 2)
 		return O
