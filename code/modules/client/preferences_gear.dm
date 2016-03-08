@@ -203,9 +203,6 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_head
 
-/datum/gear/welding
-	display_name = "basic"
-
 /datum/gear/welding/flame
 	display_name = "welding helmet, flame"
 	path = /obj/item/clothing/head/welding/flame
