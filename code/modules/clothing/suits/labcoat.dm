@@ -110,3 +110,9 @@
 	icon_state = "labcoat_tox_open"
 	icon_open = "labcoat_tox_open"
 	icon_closed = "labcoat_tox"
+
+/obj/item/clothing/suit/storage/toggle/labcoat/augmented
+	name = "augmented labcoat"
+	desc = "What a lovely diods! Blink."
+	icon_state = "labcoat_aug"
+	item_state = "labcoat_aug"
