@@ -452,6 +452,8 @@
 		if("send_message")
 			if(isrobot(usr))
 				var/mob/living/silicon/robot/R = usr
+				if(!R.rbPDA)
+					usr << "<span class='warning'>You can't send messages.</span>"
 				R.rbPDA.cmd_send_pdamesg()
 
 		if("Allow Walking", "Disallow Walking")
