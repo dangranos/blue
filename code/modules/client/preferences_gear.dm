@@ -203,10 +203,6 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_head
 
-/datum/gear/welding
-	display_name = "basic"
-	allowed_roles = list("Chief Engineer","Station Engineer","Roboticist","Atmospheric Technician")
-
 /datum/gear/welding/flame
 	display_name = "welding helmet, flame"
 	path = /obj/item/clothing/head/welding/flame
@@ -259,6 +255,12 @@ var/global/list/gear_datums = list()
 /datum/gear/ushanka
 	display_name = "ushanka"
 	path = /obj/item/clothing/head/ushanka
+	cost = 1
+	slot = slot_head
+	
+/datum/gear/sombrero
+	display_name = "sombrero"
+	path = /obj/item/clothing/head/sombrero
 	cost = 1
 	slot = slot_head
 
@@ -650,7 +652,19 @@ var/global/list/gear_datums = list()
 	cost = 1
 	slot = slot_w_uniform
 	allowed_roles = list("Head of Security")
-
+	
+/datum/gear/bluecamo
+	display_name = "russian blue camo"
+	path = /obj/item/clothing/under/russobluecamooutfit
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Warden")
+	
+/datum/gear/squatter_outfit	
+	display_name = "slav squatter tracksuit"
+	path = /obj/item/clothing/under/squatter_outfit
+	cost = 1
+	slot = slot_w_uniform
 
 
 // Attachments
