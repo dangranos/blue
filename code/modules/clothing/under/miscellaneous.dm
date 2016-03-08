@@ -453,6 +453,18 @@
 	item_state = "nursesuit"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
 
+/obj/item/clothing/under/nisse
+	name = "fabulous yellow dress"
+	desc = "What a miracle!"
+	icon_state = "nisse_dress"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+
+/obj/item/clothin/under/nikiss
+	name = "fabulous purple dress"
+	desc = "SHRIEK!"
+	icon_state = "nikiss_dress"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+
 /obj/item/clothing/under/blazer
 	name = "blue blazer"
 	desc = "A bold but yet conservative outfit, red corduroys, navy blazer and a tie."
