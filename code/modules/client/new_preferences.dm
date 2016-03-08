@@ -26,6 +26,7 @@ datum/preferences
 	var/facial_color = "#000000"
 	var/eyes_color   = "#000000"
 	var/skin_color   = "#000000"
+	var/skin_tone    = 35			//TODO: -s_tone + 35.
 	var/current_organ= "chest"
 	var/current_page = PAGE_RECORDS
 
@@ -62,7 +63,7 @@ datum/preferences
 			dat += "<b>[item]</b>"
 		else
 			dat += "<span onclick=\"set('switch_page', '[setup_pages[item]]')\">[item]</span>"
-	dat += "<hr></center>"
+	dat += "</center><hr>"
 
 	switch(current_page)
 		if(PAGE_RECORDS)	dat+=GetRecordsPage()
@@ -74,7 +75,7 @@ datum/preferences
 		else dat+=GetRecordsPage() // Protection
 	dat += "</body></html>"
 
-	user << browse(dat, "window=preferences;size=544x500;can_resize=0")
+	user << browse(dat, "window=preferences;size=550x500;can_resize=0")
 
 /datum/preferences/Topic(href, href_list)
 	var/mob/new_player/user = usr
@@ -128,7 +129,7 @@ datum/preferences
 		dat += "Body build: <a href='byond://?src=\ref[src];build=switch'>[body_build == BODY_DEFAULT ? "Default" : "Slim"]</a><br>"
 
 	if(current_species.flags & HAS_SKIN_TONE)
-		dat += "Skin Tone: <a href='?src=\ref[src];s_tone=input'>[-s_tone + 35]/220<br></a>"
+		dat += "Skin Tone: <a href='?src=\ref[src];skin_tone=input'>[skin_tone]/220<br></a>"
 
 	dat += "<table style='border-collapse:collapse'>"
 	dat += "<tr><td>Hair:</td><td><a href='byond://?src=\ref[src];hair=color'>Color "
@@ -168,13 +169,13 @@ datum/preferences
 
 	dat += "<br><br><b>Set Character Records</b><br>"
 	dat += "<a href='byond://?src=\ref[src];records=med'>Medical Records</a><br>"
-	dat += TextPreview(med_record,22)
+	dat += "<span style='white-space: nowrap;'>[TextPreview(med_record,26)]</span>"
 	dat += "<br><a href='byond://?src=\ref[src];records=gen'>Employment Records</a><br>"
-	dat += TextPreview(gen_record,22)
+	dat += "<span style='white-space: nowrap;'>[TextPreview(gen_record,26)]</span>"
 	dat += "<br><a href='byond://?src=\ref[src];records=sec'>Security Records</a><br>"
-	dat += TextPreview(sec_record,22)
+	dat += "<span style='white-space: nowrap;'>[TextPreview(sec_record,26)]</span>"
 	dat += "<br><a href='byond://?src=\ref[src];records=exp'>Exploitable Record</a><br>"
-	dat += TextPreview(exploit_record,22)
+	dat += "<span style='white-space: nowrap;'>[TextPreview(exploit_record,26)]</span>"
 
 	dat += "<br><br>"
 	dat += "<table style='position:relative; left:-3px'><tr><td>Need Glasses?<br>Coughing?<br>Nervousness?<br>Paraplegia?</td><td>"
@@ -271,6 +272,17 @@ datum/preferences
 		if(new_age)
 			age = max(min( round(text2num(new_age)), AGE_MAX),AGE_MIN)
 
+	else if(href_list["skin_tone"])
+		if(current_species.flags & HAS_SKIN_TONE)
+			var/new_skin_tone = input(user, "Choose your character's skin-tone:\n(Light 1 - 220 Dark)", "Character Preference", skin_tone)  as num|null
+			if(new_skin_tone)
+				skin_tone = max(min( round(new_skin_tone), 255),1)
+
+	else if(href_list["skin"])
+		if(current_species.flags & HAS_SKIN_COLOR)
+			var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", skin_color) as color|null
+			if(new_skin)
+				skin_color = new_skin
 
 	else if(href_list["spawnpoint"])
 		var/list/spawnkeys = list()
