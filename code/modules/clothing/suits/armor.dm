@@ -289,10 +289,10 @@
 /obj/item/clothing/suit/storage/vest/ems
 	name = "EMS armor vest"
 	desc = "That's a light plate carrier with additional pouches and EMS sign."
-	icon_state = "emsarmorvest_nobadge"
-	item_state = "emsarmorvest_nobadge"
-	icon_badge = "emsarmorvest_badge"
-	icon_nobadge = "emsarmorvest_nobadge"
+	icon_state = "emsvest_nobadge"
+	item_state = "emsvest_nobadge"
+	icon_badge = "emsvest_badge"
+	icon_nobadge = "emsvest_nobadge"
 
 /obj/item/clothing/suit/storage/vest/officer
 	name = "officer armor vest"
