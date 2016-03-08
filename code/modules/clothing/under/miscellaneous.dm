@@ -459,6 +459,13 @@
 	icon_state = "nisse_dress"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO
 
+/obj/item/clothing/under/lethal
+	name = "fabulous mazarine dress"
+	desc = "Luxurious dress."
+	icon_state = "lethal_dress"
+	item_state = "psyche"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS|HANDS
+
 /obj/item/clothing/under/nikiss
 	name = "fabulous purple dress"
 	desc = "SHRIEK!"
