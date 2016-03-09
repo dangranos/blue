@@ -293,6 +293,7 @@
 	item_state = "emsarmorvest_nobadge"
 	icon_badge = "emsarmorvest_badge"
 	icon_nobadge = "emsarmorvest_nobadge"
+	allowed = list(/obj/item/device/analyzer,/obj/item/stack/medical,/obj/item/weapon/dnainjector,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/syringe,/obj/item/weapon/reagent_containers/hypospray,/obj/item/device/healthanalyzer,/obj/item/device/flashlight/pen,/obj/item/weapon/tank/emergency_oxygen,/obj/item/device/radio)
 
 /obj/item/clothing/suit/storage/vest/officer
 	name = "officer armor vest"
