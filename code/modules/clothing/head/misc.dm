@@ -136,6 +136,13 @@
 	item_state = "detective"
 	siemens_coefficient = 0.9
 
+/obj/item/clothing/head/sombrero
+	name = "el sombrero"
+	desc = "Asistente me esta' griefing! Ayu'dame!"
+	icon_state = "sombrero"
+	item_state = "detective"
+	siemens_coefficient = 0.9
+
 /obj/item/clothing/head/pirate
 	name = "pirate hat"
 	desc = "Yarr."
