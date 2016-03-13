@@ -114,7 +114,7 @@ var/list/security_positions = list(
 var/list/nonhuman_positions = list(
 	"AI",
 	"Cyborg",
-	"pAI"
+	"Drone"
 )
 
 
