@@ -78,6 +78,7 @@
 	desc = "Advanced magnetic boots that have a lighter magnetic pull, placing less burden on the wearer."
 	name = "advanced magboots"
 	icon_state = "advmag0"
+	icon_base = "advmag"
 
 /obj/item/clothing/shoes/magboots/advanced/set_slowdown()
 	slowdown = shoes? max(SHOES_SLOWDOWN, shoes.slowdown): SHOES_SLOWDOWN	//So you can't put on magboots to make you walk faster.
@@ -88,8 +89,4 @@
 	desc = "Reverse-engineered magnetic boots that have a heavy magnetic pull. Property of Gorlex Marauders."
 	name = "blood-red magboots"
 	icon_state = "syndiemag0"
-	
-/obj/item/clothing/shoes/magboots/syndie/set_slowdown()
-	slowdown = shoes? max(SHOES_SLOWDOWN, shoes.slowdown): SHOES_SLOWDOWN	
-	if (magpulse)
-		slowdown += 3		
+	icon_base = "syndiemag"	
