@@ -21,7 +21,7 @@
 	new /obj/item/weapon/card/id/syndicate(src)
 	new /obj/item/device/multitool(src)
 	new /obj/item/weapon/shield/energy(src)
-	new /obj/item/clothing/shoes/magboots(src)
+	new /obj/item/clothing/shoes/magboots/syndie(src)
 
 
 /obj/structure/closet/syndicate/suit
@@ -30,7 +30,7 @@
 /obj/structure/closet/syndicate/suit/New()
 	..()
 	new /obj/item/weapon/tank/jetpack/oxygen(src)
-	new /obj/item/clothing/shoes/magboots(src)
+	new /obj/item/clothing/shoes/magboots/syndie(src)
 	new /obj/item/clothing/suit/space/void/merc(src)
 	new /obj/item/clothing/mask/gas/syndicate(src)
 	new /obj/item/clothing/head/helmet/space/void/merc(src)
