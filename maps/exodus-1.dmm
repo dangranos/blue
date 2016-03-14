@@ -423,7 +423,7 @@
 "aig" = (/obj/structure/table/woodentable,/obj/item/device/megaphone,/obj/item/device/radio/off,/turf/simulated/floor{icon_state = "dark"},/area/crew_quarters/heads/hos)
 "aih" = (/obj/machinery/atmospherics/unary/vent_pump/on{dir = 4},/turf/simulated/floor{icon_state = "dark"},/area/crew_quarters/heads/hos)
 "aii" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply{dir = 4},/turf/simulated/floor/carpet{icon_state = "carpetnoconnect"},/area/crew_quarters/heads/hos)
-"aij" = (/obj/structure/cable/green{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/hidden/supply{dir = 9; pixel_y = 0},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{dir = 5},/obj/structure/bed/chair,/turf/simulated/floor/carpet{icon_state = "carpetnoconnect"},/area/crew_quarters/heads/hos)
+"aij" = (/obj/structure/cable/green{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/hidden/supply{dir = 9; pixel_y = 0},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{dir = 5},/obj/structure/bed/chair,/mob/living/simple_animal/corgi/sasha,/turf/simulated/floor/carpet{icon_state = "carpetnoconnect"},/area/crew_quarters/heads/hos)
 "aik" = (/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{dir = 4},/turf/simulated/floor/carpet{icon_state = "carpetnoconnect"},/area/crew_quarters/heads/hos)
 "ail" = (/obj/machinery/atmospherics/unary/vent_scrubber/on{dir = 8},/turf/simulated/floor{icon_state = "dark"},/area/crew_quarters/heads/hos)
 "aim" = (/obj/structure/table/woodentable,/obj/machinery/keycard_auth{pixel_x = 30},/obj/machinery/photocopier/faxmachine{department = "Head of Security"},/turf/simulated/floor{icon_state = "dark"},/area/crew_quarters/heads/hos)
