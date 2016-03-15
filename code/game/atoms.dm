@@ -2,12 +2,12 @@
 	layer = 2
 	var/level = 2
 	var/flags = 0
-	var/list/fingerprints
-	var/list/fingerprintshidden
-	var/fingerprintslast = null
+	var/tmp/list/fingerprints
+	var/tmp/list/fingerprintshidden
+	var/tmp/fingerprintslast = null
 	var/list/blood_DNA
 	var/blood_color
-	var/last_bumped = 0
+	var/tmp/last_bumped = 0
 	var/pass_flags = 0
 	var/throwpass = 0
 	var/germ_level = GERM_LEVEL_AMBIENT // The higher the germ level, the more germ on the atom.
