@@ -425,5 +425,9 @@
 
     New()
         ..()
+        new /obj/item/clothing/mask/gas/batman(src)
         new /obj/item/clothing/under/batman(src)
+        new /obj/item/clothing/gloves/black/batman(src)
+        new /obj/item/clothing/shoes/swat/batman(src)
+        new /obj/item/weapon/storage/belt/security/batman(src)
         return
