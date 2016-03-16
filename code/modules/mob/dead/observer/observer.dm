@@ -419,7 +419,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(config.disable_player_mice)
 		src << "<span class='warning'>Spawning as a mouse is currently disabled.</span>"
 		return
-
+		
+	if(jobban_isbanned(src,"mouse"))
+		src << "<span class='warning'>You can't play as mouse (banned).</span>"
+		return
+	 	
 	if(!MayRespawn(1))
 		return
 
