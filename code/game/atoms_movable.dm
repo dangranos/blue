@@ -1,18 +1,18 @@
 /atom/movable
 	layer = 3
-	var/last_move = null
+	var/tmp/last_move = null
 	var/anchored = 0
 	// var/elevation = 2    - not used anywhere
 	var/move_speed = 10
 	var/l_move_time = 1
 	var/m_flag = 1
-	var/throwing = 0
-	var/thrower
-	var/turf/throw_source = null
+	var/tmp/throwing = 0
+	var/tmp/thrower
+	var/tmp/turf/throw_source = null
 	var/throw_speed = 2
 	var/throw_range = 7
 	var/moved_recently = 0
-	var/mob/pulledby = null
+	var/tmp/mob/pulledby = null
 
 	var/auto_init = 1
 

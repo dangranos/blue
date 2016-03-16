@@ -202,3 +202,26 @@
 				for(var/i in list(1,2,4,8,4,2,1,2,4,8,4,2,1,2,4,8,4,2))
 					set_dir(i)
 					sleep(1)
+
+/mob/living/simple_animal/corgi/sasha
+	name = "Sasha"
+	real_name = "Sasha"
+	gender = FEMALE
+	desc = "It's a doberman, how intimidating!"
+	icon_state = "doby"
+	icon_living = "doby"
+	icon_dead = "doby_dead"
+	response_help  = "pets"
+	response_disarm = "bops"
+	response_harm   = "kicks"
+	speak = list("YAP", "Woof!", "Bark!", "AUUUUUU")
+	speak_emote = list("barks", "woofs")
+	emote_hear = list("barks", "woofs", "yaps","pants")
+	emote_see = list("shakes its head", "shivers")
+
+//Sasha can't wear hats!
+/mob/living/simple_animal/corgi/sasha/Topic(href, href_list)
+	if(href_list["remove_inv"] || href_list["add_inv"])
+		usr << "\red You can't fit this on [src]"
+		return
+	..()

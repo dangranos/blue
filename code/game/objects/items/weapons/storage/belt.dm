@@ -166,6 +166,37 @@
 	max_w_class = 3
 	max_storage_space = 28
 
+/obj/item/weapon/storage/belt/security/batman
+	name = "batbelt"
+	desc = "For all your crime-fighting bat needs."
+	icon_state = "bmbelt"
+	item_state = "bmbelt"
+	storage_slots = 7
+	max_w_class = 3
+	max_storage_space = 28
+	can_hold = list(
+		/obj/item/weapon/grenade,
+		/obj/item/weapon/reagent_containers/spray/pepper,
+		/obj/item/weapon/handcuffs,
+		/obj/item/device/flash,
+		/obj/item/clothing/glasses,
+		/obj/item/ammo_casing/shotgun,
+		/obj/item/ammo_magazine,
+		/obj/item/weapon/reagent_containers/food/snacks/donut/,
+		/obj/item/weapon/melee/baton,
+		/obj/item/weapon/gun/energy/taser,
+		/obj/item/weapon/flame/lighter,
+		/obj/item/clothing/glasses/hud/security,
+		/obj/item/device/flashlight,
+		/obj/item/device/pda,
+		/obj/item/device/radio/headset,
+		/obj/item/device/hailer,
+		/obj/item/device/megaphone,
+		/obj/item/weapon/melee,
+		/obj/item/weapon/gun/projectile/sec,
+		/obj/item/taperoll/police
+		)
+
 /obj/item/weapon/storage/belt/fannypack
 	name = "fannypack"
 	desc = "A dorky fannypack for keeping small items in."
