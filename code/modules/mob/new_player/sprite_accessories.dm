@@ -500,11 +500,35 @@
 		name = "Pixie"
 		icon_state = "hair_pixie"
 		gender = FEMALE
-
+		
+	longeralt2
+		name = "Long Hair Alt 2"
+ 		icon_state = "hair_longeralt2"
+ 
+ 	shortbangs
+ 		name = "Short Bangs"
+ 		icon_state = "hair_shortbangs"
+ 
+ 	halfshaved
+ 		name = "Half-Shaved Emo"
+ 		icon_state = "hair_halfshaved"
+ 
+ 	bun
+ 		name = "Bun"
+ 		icon_state = "hair_bun"
+ 
+ 	doublebun
+ 		name = "Double-Bun"
+ 		icon_state = "hair_doublebun"
+ 
 	highpony
 		name = "High Ponytail"
 		icon_state = "hair_highponytail"
 		gender = FEMALE
+		
+	stylo
+		name = "Stylo"
+		icon_state = "hair_stylo"
 
 	bald
 		name = "Bald"
