@@ -528,7 +528,7 @@
 		
 	stylo
 		name = "Stylo"
-		icon_state = "hair_stylo_s"
+		icon_state = "hair_stylo"
 
 	bald
 		name = "Bald"
