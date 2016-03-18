@@ -46,6 +46,7 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("See You Tomorrow?", 'sound/jukebox/See_You_Tomorrow.ogg'),
 		new/datum/track("Lovesong", 'sound/jukebox/lovesong.ogg'),
 		new/datum/track("Judge", 'sound/jukebox/Judge_Bitch.ogg'),
+		new/datum/track("Hishmaliin", 'sound/jukebox/dvar_hishmaliin.oog'),
 	)
 
 /obj/machinery/media/jukebox/Destroy()
