@@ -83,15 +83,13 @@
 	department = "Security"
 	department_flag = ENGSEC
 	faction = "Station"
-	total_positions = 2
-	spawn_positions = 2
+	total_positions = 1
+	spawn_positions = 1
 	supervisors = "the head of security"
 	selection_color = "#ffeeee"
-	alt_titles = list("Forensic Technician")
 
 	access = list(access_security, access_sec_doors, access_forensics_lockers, access_morgue, access_maint_tunnels, access_court)
 	minimal_access = list(access_security, access_sec_doors, access_forensics_lockers, access_morgue, access_maint_tunnels, access_court)
-	alt_titles = list("Forensic Technician")
 	minimal_player_age = 3
 
 	implanted = 1
@@ -100,6 +98,8 @@
 	ear = /obj/item/device/radio/headset/headset_sec
 	shoes = /obj/item/clothing/shoes/brown
 	gloves = /obj/item/clothing/gloves/black
+	hat = /obj/item/clothing/head/det_hat
+	suit = /obj/item/clothing/suit/storage/det_suit
 
 	put_in_backpack = list(\
 		/obj/item/weapon/flame/lighter/zippo,\
@@ -108,15 +108,36 @@
 		)
 
 
-	equip(var/mob/living/carbon/human/H)
-		if(!..())	return 0
-		if(H.mind && H.mind.role_alt_title == "Forensic Technician")
-			H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/forentech(H), slot_w_uniform)
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/forensics/red(H), slot_wear_suit)
-		else
-			H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/det_suit(H), slot_wear_suit)
-			H.equip_to_slot_or_del(new /obj/item/clothing/head/det_hat(H), slot_head)
-		return 1
+
+
+/datum/job/forentech
+	title = "Forensic Technician"
+	flag = FORENTEC
+	department = "Security"
+	department_flag = ENGSEC
+	faction = "Station"
+	total_positions = 1
+	spawn_positions = 1
+	supervisors = "the head of security"
+	selection_color = "#ffeeee"
+
+	access = list(access_security, access_sec_doors, access_forensics_lockers, access_morgue, access_maint_tunnels, access_court)
+	minimal_access = list(access_security, access_sec_doors, access_forensics_lockers, access_morgue, access_maint_tunnels, access_court)
+	minimal_player_age = 3
+
+	implanted = 1
+	uniform = /obj/item/clothing/under/rank/forentech
+	pda = /obj/item/device/pda/detective
+	ear = /obj/item/device/radio/headset/headset_sec
+	shoes = /obj/item/clothing/shoes/black
+	gloves = /obj/item/clothing/gloves/black
+	suit = /obj/item/clothing/suit/storage/forensics/red
+
+	put_in_backpack = list(\
+		/obj/item/weapon/flame/lighter/zippo,\
+		/obj/item/weapon/storage/box/evidence,\
+		/obj/item/device/detective_scanner
+		)
 
 
 
