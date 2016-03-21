@@ -159,7 +159,7 @@ obj/item/clothing/head/welding/blue
 	equipped(var/mob/living/carbon/human/user, var/slot)
 		if(!istype(user) || slot!=slot_head) return
 		var/icon/ears = new/icon("icon" = 'icons/mob/head.dmi', "icon_state" = "kitty")
-		ears.Blend(rgb(user.hair_r, user.hair_g, user.hair_b), ICON_ADD)
+		ears.Blend(user.hair_color, ICON_ADD)
 
 		var/icon/earbit = new/icon("icon" = 'icons/mob/head.dmi', "icon_state" = "kittyinner")
 		ears.Blend(earbit, ICON_OVERLAY)
