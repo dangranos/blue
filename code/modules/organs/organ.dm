@@ -315,9 +315,7 @@ var/list/organ_cache = list()
 
 	// Apply our eye colour to the target.
 	if(istype(target) && eye_colour)
-		target.eyes_r = eye_colour[1]
-		target.eyes_g = eye_colour[2]
-		target.eyes_b = eye_colour[3]
+		target.eyes_color = eye_colour
 		target.update_eyes()
 	..()
 

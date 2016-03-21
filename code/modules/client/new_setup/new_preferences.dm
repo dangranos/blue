@@ -26,16 +26,18 @@ datum/preferences
 	var/facial_color = "#000000"
 	var/eyes_color   = "#000000"
 	var/skin_color   = "#000000"
-	var/skin_tone    = 35			//TODO: -s_tone + 35.
+	var/skin_tone    = 35			//LETHALGHOST: -s_tone + 35.
 	var/current_organ= "chest"
 	var/current_page = PAGE_RECORDS
+	var/req_update_icon = 1
 
 	var/list/modifications_data   = list()
 	var/list/modifications_colors = list()
 
 /datum/preferences/proc/NewShowChoices(mob/user)
 	if(!user || !user.client)	return
-	new_update_preview_icon()
+	if(req_update_icon)
+		new_update_preview_icon()
 
 	user << browse_rsc(preview_south, "new_previewicon[SOUTH].png") // TODO: return to list of dirs?
 	user << browse_rsc(preview_north, "new_previewicon[NORTH].png")
@@ -75,7 +77,7 @@ datum/preferences
 		else dat+=GetRecordsPage() // Protection
 	dat += "</body></html>"
 
-	user << browse(dat, "window=preferences;size=550x500;can_resize=0")
+	user << browse(dat, "window=preferences;size=560x510;can_resize=0")
 
 /datum/preferences/Topic(href, href_list)
 	var/mob/new_player/user = usr
@@ -209,9 +211,11 @@ datum/preferences
 		var/choice = input("Which species would you like to look at?") as null|anything in playable_species
 		if(!choice) return
 		species_preview = choice
+		req_update_icon = 1 // LETHALGHOST: Move to species select!
 		spawn() SetSpecies(user)
 
 	else if(href_list["gender"])
+		req_update_icon = 1
 		if(gender == MALE)
 			gender = FEMALE
 		else
@@ -219,6 +223,7 @@ datum/preferences
 			body_build = 0
 
 	else if(href_list["build"])
+		req_update_icon = 1
 		if(body_build == BODY_DEFAULT && current_species.allow_slim_fem)
 			body_build = BODY_SLIM
 		else
@@ -231,7 +236,8 @@ datum/preferences
 				var/datum/sprite_accessory/H = hair_styles_list[h_style]
 				if(H.do_colouration)
 					var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference", hair_color) as color|null
-					if(new_hair)
+					if(new_hair && new_hair!=hair_color)
+						req_update_icon = 1
 						hair_color = new_hair
 			if("style")
 				var/list/valid_hairstyles = gender==MALE ? hair_styles_male_list : hair_styles_female_list
@@ -240,7 +246,8 @@ datum/preferences
 					if(!(species in S.species_allowed))
 						valid_hairstyles -= hairstyle
 				var/new_h_style = input(user, "Choose your character's hair style:", "Character Preference")  as null|anything in valid_hairstyles
-				if(new_h_style)
+				if(new_h_style && new_h_style != h_style)
+					req_update_icon = 1
 					h_style = new_h_style
 
 
@@ -250,7 +257,8 @@ datum/preferences
 				var/datum/sprite_accessory/F = facial_hair_styles_list[f_style]
 				if(F.do_colouration)
 					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference", facial_color) as color|null
-					if(new_facial)
+					if(new_facial && new_facial!=facial_color)
+						req_update_icon = 1
 						facial_color = new_facial
 			if("style")
 				var/list/valid_facialhairstyles = gender==MALE ? facial_hair_styles_male_list : facial_hair_styles_female_list
@@ -259,12 +267,14 @@ datum/preferences
 					if(!(species in S.species_allowed))
 						valid_facialhairstyles -= facialhairstyle
 				var/new_f_style = input(user, "Choose your character's facial-hair style:", "Character Preference")  as null|anything in valid_facialhairstyles
-				if(new_f_style)
+				if(new_f_style && new_f_style!=f_style)
+					req_update_icon = 1
 					f_style = new_f_style
 
 	else if(href_list["eyes"])
 		var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference", eyes_color) as color|null
-		if(new_eyes)
+		if(new_eyes && new_eyes!=eyes_color)
+			req_update_icon = 1
 			eyes_color = new_eyes
 
 	else if(href_list["age"])
@@ -275,13 +285,15 @@ datum/preferences
 	else if(href_list["skin_tone"])
 		if(current_species.flags & HAS_SKIN_TONE)
 			var/new_skin_tone = input(user, "Choose your character's skin-tone:\n(Light 1 - 220 Dark)", "Character Preference", skin_tone)  as num|null
-			if(new_skin_tone)
+			if(new_skin_tone && new_skin_tone!=skin_tone)
+				req_update_icon = 1
 				skin_tone = max(min( round(new_skin_tone), 255),1)
 
 	else if(href_list["skin"])
 		if(current_species.flags & HAS_SKIN_COLOR)
 			var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", skin_color) as color|null
-			if(new_skin)
+			if(new_skin && new_skin!=skin_color)
+				req_update_icon = 1
 				skin_color = new_skin
 
 	else if(href_list["spawnpoint"])
@@ -425,7 +437,7 @@ datum/preferences
 			dat += "<td width='33%'><b>[internal_organs[organ]]</b>"
 		dat += "<br><a href='byond://?src=\ref[src];organ=[organ]'>[disp_name]</a></td>"
 
-		if(++counter >= 3) //So things dont get squiiiiished!
+		if(++counter >= 3)
 			dat += "</tr><tr align='center'>"
 			counter = 0
 	dat += "</tr></table>"
@@ -444,17 +456,25 @@ datum/preferences
 
 	if(href_list["body_modification"])
 		var/datum/body_modification/mod = body_modifications[href_list["body_modification"]]
-		if(mod && mod.is_allowed(src))
+		if(mod && mod.is_allowed(current_organ, src))
 			modifications_data[current_organ] = mod.id
+			req_update_icon = 1
+/*
 			if(current_organ in parents_list)
 				var/datum/body_modification/parent_mod = get_modification(parents_list[current_organ])
 				if(parent_mod.nature > mod.nature)
-					modifications_data[parents_list[current_organ]] = get_default_modificaton(mod.nature)
+					if(mod.is_allowed(parents_list[current_organ], src))
+						modifications_data[parents_list[current_organ]] = mod
+					else
+						modifications_data[parents_list[current_organ]] = get_default_modificaton(mod.nature)
 			else if(current_organ in children_list)
 				var/datum/body_modification/child_mod = get_modification(children_list[current_organ])
 				if(child_mod.nature < mod.nature)
-					modifications_data[children_list[current_organ]] = get_default_modificaton(mod.nature)
-
+					if(mod.is_allowed(children_list[current_organ], src))
+						modifications_data[children_list[current_organ]] = mod
+					else
+						modifications_data[children_list[current_organ]] = get_default_modificaton(mod.nature)
+*/
 
 /datum/preferences/proc/GetLoadOutPage()
 

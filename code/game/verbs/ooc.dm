@@ -15,7 +15,7 @@
 	msg = sanitize(msg)
 	if(!msg)	return
 
-	if(!(prefs.toggles & CHAT_OOC))
+	if(!(prefs.chat_toggles & CHAT_OOC))
 		src << "\red You have OOC muted."
 		return
 
@@ -50,7 +50,7 @@
 			ooc_style = "admin"
 
 	for(var/client/target in clients)
-		if(target.prefs.toggles & CHAT_OOC)
+		if(target.prefs.chat_toggles & CHAT_OOC)
 			var/display_name = src.key
 			if(holder)
 				if(holder.fakekey)
@@ -80,7 +80,7 @@
 	msg = sanitize(msg)
 	if(!msg)	return
 
-	if(!(prefs.toggles & CHAT_LOOC))
+	if(!(prefs.chat_toggles & CHAT_LOOC))
 		src << "\red You have LOOC muted."
 		return
 
@@ -91,10 +91,10 @@
 		if(!config.dooc_allowed && (mob.stat == DEAD))
 			usr << "<span class='danger'>OOC for dead mobs has been turned off.</span>"
 			return
-		if(prefs.muted & MUTE_OOC)
-			src << "<span class='danger'>You cannot use OOC (muted).</span>"
+		if(prefs.muted & MUTE_LOOC)
+			src << "<span class='danger'>You cannot use LOOC (muted).</span>"
 			return
-		if(handle_spam_prevention(msg,MUTE_OOC))
+		if(handle_spam_prevention(msg,MUTE_LOOC))
 			return
 		if(findtext(msg, "byond://"))
 			src << "<B>Advertising other servers is not allowed.</B>"
@@ -116,7 +116,7 @@
 	var/prefix
 	var/admin_stuff
 	for(var/client/target in clients)
-		if(target.prefs.toggles & CHAT_LOOC)
+		if(target.prefs.chat_toggles & CHAT_LOOC)
 			admin_stuff = ""
 			if(target in admins)
 				prefix = "(R)"
