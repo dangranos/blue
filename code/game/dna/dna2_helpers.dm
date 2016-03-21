@@ -131,21 +131,21 @@
 			src.dna.UpdateUI()
 		dna.check_integrity()
 		var/mob/living/carbon/human/H = src
-		H.hair_r   = dna.GetUIValueRange(DNA_UI_HAIR_R,    255)
-		H.hair_g   = dna.GetUIValueRange(DNA_UI_HAIR_G,    255)
-		H.hair_b   = dna.GetUIValueRange(DNA_UI_HAIR_B,    255)
+		H.hair_color = rgb (dna.GetUIValueRange(DNA_UI_HAIR_R,    255),\
+							dna.GetUIValueRange(DNA_UI_HAIR_G,    255),\
+							dna.GetUIValueRange(DNA_UI_HAIR_B,    255) )
 
-		H.facial_r = dna.GetUIValueRange(DNA_UI_BEARD_R,   255)
-		H.facial_g = dna.GetUIValueRange(DNA_UI_BEARD_G,   255)
-		H.facial_b = dna.GetUIValueRange(DNA_UI_BEARD_B,   255)
+		H.facial_color =rgb(dna.GetUIValueRange(DNA_UI_BEARD_R,   255),\
+							dna.GetUIValueRange(DNA_UI_BEARD_G,   255),\
+							dna.GetUIValueRange(DNA_UI_BEARD_B,   255) )
 
-		H.skin_r   = dna.GetUIValueRange(DNA_UI_SKIN_R,    255)
-		H.skin_g   = dna.GetUIValueRange(DNA_UI_SKIN_G,    255)
-		H.skin_b   = dna.GetUIValueRange(DNA_UI_SKIN_B,    255)
+		H.skin_color = rgb (dna.GetUIValueRange(DNA_UI_SKIN_R,    255),\
+							dna.GetUIValueRange(DNA_UI_SKIN_G,    255),\
+							dna.GetUIValueRange(DNA_UI_SKIN_B,    255) )
 
-		H.eyes_r   = dna.GetUIValueRange(DNA_UI_EYES_R,    255)
-		H.eyes_g   = dna.GetUIValueRange(DNA_UI_EYES_G,    255)
-		H.eyes_b   = dna.GetUIValueRange(DNA_UI_EYES_B,    255)
+		H.eyes_color = rgb (dna.GetUIValueRange(DNA_UI_EYES_R,    255),\
+							dna.GetUIValueRange(DNA_UI_EYES_G,    255),\
+							dna.GetUIValueRange(DNA_UI_EYES_B,    255) )
 		H.update_eyes()
 
 		H.s_tone   = 35 - dna.GetUIValueRange(DNA_UI_SKIN_TONE, 220) // Value can be negative.

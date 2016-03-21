@@ -75,69 +75,49 @@
 
 	update_hair()
 
-/mob/living/carbon/human/proc/change_eye_color(var/red, var/green, var/blue)
-	if(red == eyes_r && green == eyes_g && blue == eyes_b)
+/mob/living/carbon/human/proc/change_eye_color(var/new_color)
+	if(new_color == eyes_color)
 		return
-
-	eyes_r = red
-	eyes_g = green
-	eyes_b = blue
-
+	eyes_color = eyes_color
 	update_eyes()
 	update_body()
 	return 1
 
-/*/mob/living/carbon/human/proc/change_lips_color(var/red, var/green, var/blue)
-	if(red == lips_r && blue == lips_b && green == lips_g)
+/*/mob/living/carbon/human/proc/change_lips_color(var/new_color)
+	if(new_color == lips_color)
 		return
 
-	eyes_r = red
-	eyes_g = green
-	eyes_b = blue
+	lips_color = new_color
 
 	update_eyes()
 	update_body()
 	return 1*/
 
-/mob/living/carbon/human/proc/change_hair_color(var/red, var/green, var/blue)
-	if(red == hair_r && green == hair_g && blue == hair_b)
+/mob/living/carbon/human/proc/change_hair_color(var/new_color)
+	if(new_color == hair_color)
 		return
-
-	hair_r = red
-	hair_g = green
-	hair_b = blue
-
+	hair_color = new_color
 	update_hair()
 	return 1
 
-/mob/living/carbon/human/proc/change_facial_hair_color(var/red, var/green, var/blue)
-	if(red == facial_r && green == facial_g && blue == facial_b)
+/mob/living/carbon/human/proc/change_facial_hair_color(var/new_color)
+	if(new_color == facial_color)
 		return
-
-	facial_r = red
-	facial_g = green
-	facial_b = blue
-
+	facial_color = new_color
 	update_hair()
 	return 1
 
-/mob/living/carbon/human/proc/change_skin_color(var/red, var/green, var/blue)
-	if(red == skin_r && green == skin_g && blue == skin_b || !(species.flags & HAS_SKIN_COLOR))
+/mob/living/carbon/human/proc/change_skin_color(var/new_color)
+	if(new_color == skin_color || !(species.flags & HAS_SKIN_COLOR))
 		return
-
-	skin_r = red
-	skin_g = green
-	skin_b = blue
-
+	skin_color = new_color
 	force_update_limbs()
 	return 1
 
 /mob/living/carbon/human/proc/change_skin_tone(var/tone)
 	if(s_tone == tone || !(species.flags & HAS_SKIN_TONE))
 		return
-
 	s_tone = tone
-
 	force_update_limbs()
 	return 1
 

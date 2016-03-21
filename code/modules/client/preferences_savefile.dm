@@ -1,5 +1,5 @@
 #define SAVEFILE_VERSION_MIN	8
-#define SAVEFILE_VERSION_MAX	12
+#define SAVEFILE_VERSION_MAX	13
 
 //handles converting savefiles to new formats
 //MAKE SURE YOU KEEP THIS UP TO DATE!
@@ -109,29 +109,34 @@
 	S["species"]			>> species
 	current_species = all_species[species]
 	if(!current_species)
+		species = "Human"
 		current_species = all_species["Human"]
 	S["language"]			>> language
 	S["spawnpoint"]			>> spawnpoint
 
-	//colors to be consolidated into hex strings (requires some work with dna code)
-	S["hair_red"]			>> hair_r
-	S["hair_green"]			>> hair_g
-	S["hair_blue"]			>> hair_b
-	S["facial_red"]			>> facial_r
-	S["facial_green"]		>> facial_g
-	S["facial_blue"]		>> facial_b
+	if(!isnull(S["hair_red"]) && !isnull(S["hair_green"]) && !isnull(S["hair_blue"]))
+		hair_color = rgb(S["hair_red"], S["hair_green"], S["hair_blue"])
+	else
+		S["hair_color"]		>> hair_color
+
+	if(!isnull(S["facial_red"]) && !isnull(S["facial_green"]) && !isnull(S["facial_blue"]))
+		facial_color = rgb(S["facial_red"], S["facial_green"], S["facial_blue"])
+	else
+		S["facial_color"]		>> facial_color
+
+	if(!isnull(S["skin_red"]) && !isnull(S["skin_green"]) && !isnull(S["skin_blue"]))
+		skin_color = rgb(S["skin_red"], S["skin_green"], S["skin_blue"])
+	else
+		S["skin_color"]		>> skin_color
+
+	if(!isnull(S["eyes_red"]) && !isnull(S["eyes_green"]) && !isnull(S["eyes_blue"]))
+		eyes_color = rgb(S["eyes_red"], S["eyes_green"], S["eyes_blue"])
+	else
+		S["eyes_color"]		>> eyes_color
+
 	S["skin_tone"]			>> s_tone
-	S["skin_red"]			>> skin_r
-	S["skin_green"]			>> skin_g
-	S["skin_blue"]			>> skin_b
 	S["hair_style_name"]	>> h_style
 	S["facial_style_name"]	>> f_style
-	S["eyes_red"]			>> eyes_r
-	S["eyes_green"]			>> eyes_g
-	S["eyes_blue"]			>> eyes_b
-	S["mech_eyes_red"]		>> mech_eyes_r
-	S["mech_eyes_green"]	>> mech_eyes_g
-	S["mech_eyes_blue"]		>> mech_eyes_b
 	S["underwear"]			>> underwear
 	S["undershirt"]			>> undershirt
 	S["backbag"]			>> backbag
@@ -205,24 +210,13 @@
 	gender			= sanitize_gender(gender)
 	body_build 		= sanitize_integer(body_build, 0, 1, initial(body_build))
 	age				= sanitize_integer(age, AGE_MIN, AGE_MAX, initial(age))
-	hair_r			= sanitize_integer(hair_r, 0, 255, initial(hair_r))
-	hair_g			= sanitize_integer(hair_g, 0, 255, initial(hair_g))
-	hair_b			= sanitize_integer(hair_b, 0, 255, initial(hair_b))
-	facial_r		= sanitize_integer(facial_r, 0, 255, initial(facial_r))
-	facial_g		= sanitize_integer(facial_g, 0, 255, initial(facial_g))
-	facial_b		= sanitize_integer(facial_b, 0, 255, initial(facial_b))
+	hair_color		= sanitize_hexcolor(hair_color, initial(hair_color))
+	facial_color	= sanitize_hexcolor(facial_color, initial(facial_color))
 	s_tone			= sanitize_integer(s_tone, -185, 34, initial(s_tone))
-	skin_r			= sanitize_integer(skin_r, 0, 255, initial(skin_r))
-	skin_g			= sanitize_integer(skin_g, 0, 255, initial(skin_g))
-	skin_b			= sanitize_integer(skin_b, 0, 255, initial(skin_b))
+	skin_color		= sanitize_hexcolor(skin_color, initial(skin_color))
 	h_style			= sanitize_inlist(h_style, hair_styles_list, initial(h_style))
 	f_style			= sanitize_inlist(f_style, facial_hair_styles_list, initial(f_style))
-	eyes_r			= sanitize_integer(eyes_r, 0, 255, initial(eyes_r))
-	eyes_g			= sanitize_integer(eyes_g, 0, 255, initial(eyes_g))
-	eyes_b			= sanitize_integer(eyes_b, 0, 255, initial(eyes_b))
-	mech_eyes_r		= sanitize_integer(mech_eyes_r, 0, 255, initial(mech_eyes_r))
-	mech_eyes_g		= sanitize_integer(mech_eyes_g, 0, 255, initial(mech_eyes_g))
-	mech_eyes_b		= sanitize_integer(mech_eyes_b, 0, 255, initial(mech_eyes_b))
+	eyes_color		= sanitize_hexcolor(eyes_color, initial(eyes_color))
 	backbag			= sanitize_integer(backbag, 1, backbaglist.len, initial(backbag))
 	b_type			= sanitize_text(b_type, initial(b_type))
 
@@ -242,6 +236,8 @@
 	if(!organ_data) src.organ_data = list()
 	if(!rlimb_data) src.rlimb_data = list()
 	if(!tattoo_data) src.tattoo_data = list()
+	if(!modifications_data) src.modifications_data = list()
+	if(!modifications_colors) src.modifications_colors = list()
 	if(!gear) src.gear = list()
 	//if(!skin_style) skin_style = "Default"
 
@@ -266,24 +262,13 @@
 	S["age"]				<< age
 	S["species"]			<< species
 	S["language"]			<< language
-	S["hair_red"]			<< hair_r
-	S["hair_green"]			<< hair_g
-	S["hair_blue"]			<< hair_b
-	S["facial_red"]			<< facial_r
-	S["facial_green"]		<< facial_g
-	S["facial_blue"]		<< facial_b
+	S["hair_color"]			<< hair_color
+	S["facial_color"]		<< facial_color
 	S["skin_tone"]			<< s_tone
-	S["skin_red"]			<< skin_r
-	S["skin_green"]			<< skin_g
-	S["skin_blue"]			<< skin_b
+	S["skin_color"]			<< skin_color
 	S["hair_style_name"]	<< h_style
 	S["facial_style_name"]	<< f_style
-	S["eyes_red"]			<< eyes_r
-	S["eyes_green"]			<< eyes_g
-	S["eyes_blue"]			<< eyes_b
-	S["mech_eyes_red"]		<< mech_eyes_r
-	S["mech_eyes_green"]	<< mech_eyes_g
-	S["mech_eyes_blue"]		<< mech_eyes_b
+	S["eyes_color"]			<< eyes_color
 	S["underwear"]			<< underwear
 	S["undershirt"]			<< undershirt
 	S["backbag"]			<< backbag
