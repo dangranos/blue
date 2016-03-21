@@ -133,21 +133,37 @@ var/global/list/datum/dna/gene/dna_genes[0]
 
 	body_build = character.body_build
 
-	SetUIValueRange(DNA_UI_HAIR_R,    character.hair_r,    255,    1)
-	SetUIValueRange(DNA_UI_HAIR_G,    character.hair_g,    255,    1)
-	SetUIValueRange(DNA_UI_HAIR_B,    character.hair_b,    255,    1)
+	var/hair_r = hex2num(copytext(character.hair_color, 2, 4))
+	var/hair_g = hex2num(copytext(character.hair_color, 4, 6))
+	var/hair_b = hex2num(copytext(character.hair_color, 6, 8))
 
-	SetUIValueRange(DNA_UI_BEARD_R,   character.facial_r,  255,    1)
-	SetUIValueRange(DNA_UI_BEARD_G,   character.facial_g,  255,    1)
-	SetUIValueRange(DNA_UI_BEARD_B,   character.facial_b,  255,    1)
+	var/eyes_r = hex2num(copytext(character.eyes_color, 2, 4))
+	var/eyes_g = hex2num(copytext(character.eyes_color, 4, 6))
+	var/eyes_b = hex2num(copytext(character.eyes_color, 6, 8))
 
-	SetUIValueRange(DNA_UI_EYES_R,    character.eyes_r,    255,    1)
-	SetUIValueRange(DNA_UI_EYES_G,    character.eyes_g,    255,    1)
-	SetUIValueRange(DNA_UI_EYES_B,    character.eyes_b,    255,    1)
+	var/facial_r = hex2num(copytext(character.facial_color, 2, 4))
+	var/facial_g = hex2num(copytext(character.facial_color, 4, 6))
+	var/facial_b = hex2num(copytext(character.facial_color, 6, 8))
 
-	SetUIValueRange(DNA_UI_SKIN_R,    character.skin_r,    255,    1)
-	SetUIValueRange(DNA_UI_SKIN_G,    character.skin_g,    255,    1)
-	SetUIValueRange(DNA_UI_SKIN_B,    character.skin_b,    255,    1)
+	var/skin_r = hex2num(copytext(character.skin_color, 2, 4))
+	var/skin_g = hex2num(copytext(character.skin_color, 4, 6))
+	var/skin_b = hex2num(copytext(character.skin_color, 6, 8))
+
+	SetUIValueRange(DNA_UI_HAIR_R,    hair_r,    255,    1)
+	SetUIValueRange(DNA_UI_HAIR_G,    hair_g,    255,    1)
+	SetUIValueRange(DNA_UI_HAIR_B,    hair_b,    255,    1)
+
+	SetUIValueRange(DNA_UI_BEARD_R,   facial_r,  255,    1)
+	SetUIValueRange(DNA_UI_BEARD_G,   facial_g,  255,    1)
+	SetUIValueRange(DNA_UI_BEARD_B,   facial_b,  255,    1)
+
+	SetUIValueRange(DNA_UI_EYES_R,    eyes_r,    255,    1)
+	SetUIValueRange(DNA_UI_EYES_G,    eyes_g,    255,    1)
+	SetUIValueRange(DNA_UI_EYES_B,    eyes_b,    255,    1)
+
+	SetUIValueRange(DNA_UI_SKIN_R,    skin_r,    255,    1)
+	SetUIValueRange(DNA_UI_SKIN_G,    skin_g,    255,    1)
+	SetUIValueRange(DNA_UI_SKIN_B,    skin_b,    255,    1)
 
 	SetUIValueRange(DNA_UI_SKIN_TONE, 35-character.s_tone, 220,    1) // Value can be negative.
 

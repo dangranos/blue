@@ -36,18 +36,18 @@ datum/body_modification
 	var/mob_icon = ""
 	var/nature = MODIFICATION_ORGANIC
 
-	proc/get_mob_icon(organ, body_build = 0)	//Use in setup character only
+	proc/get_mob_icon(organ, body_build = 0, gender = MALE)	//Use in setup character only
 		return new/icon('icons/mob/human.dmi', "blank")
 
-	proc/is_allowed(datum/preferences/P)
+	proc/is_allowed(var/organ = "", datum/preferences/P)
+		if(!organ || !(organ in body_parts))
+			usr << "[name] isn't useable for [organ]"
+			return 0
+		if(!(P.species in allowed_species))
+			usr << "[name] isn't allowed for [P.species]"
+			return 0
 		if(!allowed_slim_body && (P.body_build == BODY_SLIM))
 			usr << "[name] isn't allowed for slim body"
-			return 0
-		if(!(P.current_species.name in allowed_species))
-			usr << "[name] isn't allowed for [P.current_species.name]"
-			return 0
-		if(!(P.current_organ in body_parts))
-			usr << "[name] isn't useable for [P.current_organ]"
 			return 0
 		return 1
 
@@ -76,7 +76,7 @@ datum/body_modification/tattoo
 		short_name = "T: [name]"
 		name = "Tattoo: [name]"
 
-	get_mob_icon(organ, body_build = 0)
+	get_mob_icon(organ, gender = MALE, body_build = 0)
 		return new/icon('icons/mob/tattoo.dmi', "[organ]_[mob_icon]_[body_build]")
 
 	apply_to_mob(var/mob/living/carbon/human/H, var/slot)
@@ -107,9 +107,7 @@ datum/body_modification/prosthesis/bishop
 	name = "Bishop"
 	id = "prosthesis_bishop"
 	desc = "Prosthesis with white polymer casing with blue holo-displays."
-
-	get_mob_icon(organ, body_build = 0)
-		return new/icon('icons/mob/human_races/cyberlimbs/bishop.dmi', "[organ]_f[body_build]")
+	mob_icon = "bishop"
 
 datum/body_modification/prosthesis/hesphaistos
 	name = "Hesphaistos"
@@ -142,10 +140,18 @@ datum/body_modification/mutation
 	desc = "Your limb covered with bony shell (act as shield)."
 	body_parts = list("head", "chest", "groin", "l_arm", "r_arm",\
 		"l_hand", "r_hand", "l_leg", "r_leg", "l_foot", "r_foot")
+	replace_limb = 1
+	mob_icon = "exo"
 
 	New()
 		short_name = "M: [name]"
 		name = "Mutation: [name]"
+
+	get_mob_icon(organ, gender = MALE, body_build = 0)
+		if(organ in list("head", "chest", "groin"))
+			return new/icon('icons/mob/human_races/body_modification.dmi', "[organ]_[mob_icon]_[gender==FEMALE?"f":"m"][body_build]")
+		else
+			return new/icon('icons/mob/human_races/body_modification.dmi', "[organ]_[mob_icon]_[body_build]")
 
 datum/body_modification/mutation/heterochromia
 	name = "Heterochromia"

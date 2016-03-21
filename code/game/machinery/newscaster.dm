@@ -535,11 +535,11 @@ var/list/obj/machinery/newscaster/allCasters = list() //Global list that will co
 			for(var/datum/feed_channel/F in news_network.network_channels)
 				if( (!F.locked || F.author == scanned_user) && !F.censored)
 					available_channels += F.channel_name
-			src.channel_name = cp1251_to_utf8(input(usr, "Choose receiving Feed Channel", "Network Channel Handler") in available_channels)
+			src.channel_name = input(usr, "Choose receiving Feed Channel", "Network Channel Handler") in available_channels
 			src.updateUsrDialog()
 
 		else if(href_list["set_new_message"])
-			src.msg = cp1251_to_utf8(sanitize(input(usr, "Write your Feed story", "Network Channel Handler", "")))
+			src.msg = russian_to_utf8( sanitize(input(usr, "Write your Feed story", "Network Channel Handler", "")) )
 			src.updateUsrDialog()
 
 		else if(href_list["set_attachment"])
@@ -567,6 +567,7 @@ var/list/obj/machinery/newscaster/allCasters = list() //Global list that will co
 		else if(href_list["menu_paper"])
 			src.screen=8
 			src.updateUsrDialog()
+
 		else if(href_list["print_paper"])
 			if(!src.paper_remaining)
 				src.screen=21
@@ -595,11 +596,11 @@ var/list/obj/machinery/newscaster/allCasters = list() //Global list that will co
 			src.updateUsrDialog()
 
 		else if(href_list["set_wanted_name"])
-			src.channel_name = cp1251_to_utf8(sanitizeSafe(input(usr, "Provide the name of the Wanted person", "Network Security Handler", ""), MAX_LNAME_LEN))
+			src.channel_name = russian_to_utf8(sanitizeSafe(input(usr, "Provide the name of the Wanted person", "Network Security Handler", ""), MAX_LNAME_LEN))
 			src.updateUsrDialog()
 
 		else if(href_list["set_wanted_desc"])
-			src.msg = cp1251_to_utf8(sanitize(input(usr, "Provide the a description of the Wanted person and any other details you deem important", "Network Security Handler", "")))
+			src.msg = russian_to_utf8(sanitize(input(usr, "Provide the a description of the Wanted person and any other details you deem important", "Network Security Handler", "")))
 			src.updateUsrDialog()
 
 		else if(href_list["submit_wanted"])

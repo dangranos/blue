@@ -54,7 +54,7 @@
 			src << "<span class='danger'>Deadchat is globally muted.</span>"
 			return
 
-	if(client && !(client.prefs.toggles & CHAT_DEAD))
+	if(client && !(client.prefs.chat_toggles & CHAT_DEAD))
 		usr << "<span class='danger'>You have deadchat muted.</span>"
 		return
 

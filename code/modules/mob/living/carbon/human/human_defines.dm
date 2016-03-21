@@ -1,32 +1,15 @@
 /mob/living/carbon/human
 	//Hair colour and style
-	var/hair_r = 0
-	var/hair_g = 0
-	var/hair_b = 0
+	var/hair_color = "#000000"
 	var/h_style = "Bald"
 
 	//Facial hair color and style
-	var/facial_r = 0
-	var/facial_g = 0
-	var/facial_b = 0
+	var/facial_color = "#000000"
 	var/f_style = "Shaved"
 
-	//Eye colour
-	var/eyes_r = 0
-	var/eyes_g = 0
-	var/eyes_b = 0
-
-	//Mechanical eye color
-	var/mech_eyes_r = 0
-	var/mech_eyes_g = 0
-	var/mech_eyes_b = 0
-
+	var/eyes_color = "#000000"
 	var/s_tone = 0	//Skin tone
-
-	//Skin colour
-	var/skin_r = 0
-	var/skin_g = 0
-	var/skin_b = 0
+	var/skin_color = "#000000"
 
 	var/body_build = BODY_DEFAULT // Only for fem rigth now
 
