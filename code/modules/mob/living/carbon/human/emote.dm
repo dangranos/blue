@@ -173,7 +173,7 @@
 
 		if ("drool")
 			if(russified)
-				message = "<B>[src]</B> млеет от счасть€."
+				message = "<B>[src]</B> пускает слюни."
 			else
 				message = "<B>[src]</B> drools."
 			m_type = 1
@@ -655,12 +655,12 @@
 					else
 						message = "<B>[src]</B> sneezes."
 					m_type = 2
-			else
-				if(russified)
-					message = "<B>[src]</B> издаЄт странный звук."
 				else
-					message = "<B>[src]</B> makes a strange noise."
-				m_type = 2
+					if(russified)
+						message = "<B>[src]</B> издаЄт странный звук."
+					else
+						message = "<B>[src]</B> makes a strange noise."
+					m_type = 2
 
 		if ("sniff")
 			if(russified)
@@ -689,13 +689,13 @@
 					if(russified)
 						message = "<B>[src]</B> сопит."
 					else
-						message = "<B>[src]</B> makes a noise."
+						message = "<B>[src]</B> makes a quiet noise."
 					m_type = 2
 
 		if ("whimper")
 			if (miming)
 				if(russified)
-					message = "<B>[src]</B> изображает боль."
+					message = "<B>[src]</B> выгл€дит у€звленно."
 				else
 					message = "<B>[src]</B> appears hurt."
 				m_type = 1
@@ -876,7 +876,7 @@
 				if (M == src)
 					M = null
 
-				iif (M)
+				if (M)
 					if(russified)
 						message = "<B>[src]</B> прижимает [M] к себе."
 
