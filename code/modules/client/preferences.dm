@@ -45,6 +45,7 @@ datum/preferences
 	var/be_special = 0					//Special role selection
 	var/UI_style = "Midnight"
 	var/toggles = TOGGLES_DEFAULT
+	var/chat_toggles = CHAT_TOGGLES_DEFAULT
 	var/UI_style_color = "#ffffff"
 	var/UI_style_alpha = 255
 
@@ -60,23 +61,8 @@ datum/preferences
 	var/undershirt						//undershirt type
 	var/backbag = 2						//backpack type
 	var/h_style = "Bald"				//Hair type
-	var/hair_r = 0						//Hair color
-	var/hair_g = 0						//Hair color
-	var/hair_b = 0						//Hair color
 	var/f_style = "Shaved"				//Face hair type
-	var/facial_r = 0					//Face hair color
-	var/facial_g = 0					//Face hair color
-	var/facial_b = 0					//Face hair color
 	var/s_tone = 0						//Skin tone
-	var/skin_r = 0						//Skin color
-	var/skin_g = 0						//Skin color
-	var/skin_b = 0						//Skin color
-	var/eyes_r = 0						//Eye color
-	var/eyes_g = 0						//Eye color
-	var/eyes_b = 0						//Eye color
-	var/mech_eyes_r = 0					//Mechanical eye color
-	var/mech_eyes_g = 0					//Mechanical eye color
-	var/mech_eyes_b = 0					//Mechanical eye color
 	var/species = "Human"				//Species name for save file
 	var/datum/species/current_species = null	//Species datum to use
 	var/species_preview                 //Used for the species selection window.
@@ -196,9 +182,9 @@ datum/preferences
 	dat += "-Alpha(transparency): <a href='?_src_=prefs;preference=UIalpha'><b>[UI_style_alpha]</b></a><br>"
 	dat += "<b>Play admin midis:</b> <a href='?_src_=prefs;preference=hear_midis'><b>[(toggles & SOUND_MIDI) ? "Yes" : "No"]</b></a><br>"
 	dat += "<b>Play lobby music:</b> <a href='?_src_=prefs;preference=lobby_music'><b>[(toggles & SOUND_LOBBY) ? "Yes" : "No"]</b></a><br>"
-	dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'><b>[(toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</b></a><br>"
-	dat += "<b>Ghost sight:</b> <a href='?_src_=prefs;preference=ghost_sight'><b>[(toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</b></a><br>"
-	dat += "<b>Ghost radio:</b> <a href='?_src_=prefs;preference=ghost_radio'><b>[(toggles & CHAT_GHOSTRADIO) ? "All Chatter" : "Nearest Speakers"]</b></a><br>"
+	dat += "<b>Ghost ears:</b> <a href='?_src_=prefs;preference=ghost_ears'><b>[(chat_toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</b></a><br>"
+	dat += "<b>Ghost sight:</b> <a href='?_src_=prefs;preference=ghost_sight'><b>[(chat_toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</b></a><br>"
+	dat += "<b>Ghost radio:</b> <a href='?_src_=prefs;preference=ghost_radio'><b>[(chat_toggles & CHAT_GHOSTRADIO) ? "All Chatter" : "Nearest Speakers"]</b></a><br>"
 
 	dat += "<br><b>Custom Loadout:</b> "
 	var/total_cost = 0
@@ -337,23 +323,19 @@ datum/preferences
 	dat += "<br>"
 
 	dat += "<br><b>Hair</b><br>"
-	dat += "<a href='?_src_=prefs;preference=hair;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(hair_r, 2)][num2hex(hair_g, 2)][num2hex(hair_b, 2)]'><table style='display:inline;' bgcolor='#[num2hex(hair_r, 2)][num2hex(hair_g, 2)][num2hex(hair_b)]'><tr><td>__</td></tr></table></font> "
+	dat += "<a href='?_src_=prefs;preference=hair;task=input'>Change Color</a> <font face='fixedsys' size='3' color='[hair_color]'><table style='display:inline;' bgcolor='[hair_color]'><tr><td>__</td></tr></table></font> "
 	dat += " Style: <a href='?_src_=prefs;preference=h_style;task=input'>[h_style]</a><br>"
 
 	dat += "<br><b>Facial</b><br>"
-	dat += "<a href='?_src_=prefs;preference=facial;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(facial_r, 2)][num2hex(facial_g, 2)][num2hex(facial_b, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(facial_r, 2)][num2hex(facial_g, 2)][num2hex(facial_b)]'><tr><td>__</td></tr></table></font> "
+	dat += "<a href='?_src_=prefs;preference=facial;task=input'>Change Color</a> <font face='fixedsys' size='3' color='[facial_color]'><table  style='display:inline;' bgcolor='[facial_color]'><tr><td>__</td></tr></table></font> "
 	dat += " Style: <a href='?_src_=prefs;preference=f_style;task=input'>[f_style]</a><br>"
 
 	dat += "<br><b>Eyes</b><br>"
-	dat += "<a href='?_src_=prefs;preference=eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(eyes_r, 2)][num2hex(eyes_g, 2)][num2hex(eyes_b, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(eyes_r, 2)][num2hex(eyes_g, 2)][num2hex(eyes_b)]'><tr><td>__</td></tr></table></font><br>"
-
-	if( organ_data["eyes"] == "mechanical" )
-		dat += "<br><b>Mechanical eyes</b><br>"
-		dat += "<a href='?_src_=prefs;preference=mech_eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(mech_eyes_r, 2)][num2hex(mech_eyes_g, 2)][num2hex(mech_eyes_b, 2)]'><table  style='display:inline;' bgcolor='#[num2hex(mech_eyes_r, 2)][num2hex(mech_eyes_g, 2)][num2hex(mech_eyes_b)]'><tr><td>__</td></tr></table></font><br>"
+	dat += "<a href='?_src_=prefs;preference=eyes;task=input'>Change Color</a> <font face='fixedsys' size='3' color='[eyes_color]'><table  style='display:inline;' bgcolor='[eyes_color]'><tr><td>__</td></tr></table></font><br>"
 
 	if(current_species.flags & HAS_SKIN_COLOR)
 		dat += "<br><b>Body Color</b><br>"
-		dat += "<a href='?_src_=prefs;preference=skin;task=input'>Change Color</a> <font face='fixedsys' size='3' color='#[num2hex(skin_r, 2)][num2hex(skin_g, 2)][num2hex(skin_b, 2)]'><table style='display:inline;' bgcolor='#[num2hex(skin_r, 2)][num2hex(skin_g, 2)][num2hex(skin_b)]'><tr><td>__</td></tr></table></font>"
+		dat += "<a href='?_src_=prefs;preference=skin;task=input'>Change Color</a> <font face='fixedsys' size='3' color='[skin_color]'><table style='display:inline;' bgcolor='[skin_color]'><tr><td>__</td></tr></table></font>"
 
 	dat += "<br><br><b>Background Information</b><br>"
 	dat += "<b>Home system</b>: <a href='byond://?src=\ref[user];preference=home_system;task=input'>[home_system]</a><br/>"
@@ -387,7 +369,7 @@ datum/preferences
 	user << browse(dat, "window=preferences;size=560x736")
 
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 16, list/splitJobs = list("Chief Medical Officer"), width = 550, height = 660)
+/datum/preferences/proc/SetChoices(mob/user, limit = 17, list/splitJobs = list("Chief Medical Officer"), width = 550, height = 660)
 	if(!job_master)
 		return
 
@@ -1069,15 +1051,11 @@ datum/preferences
 				if("age")
 					age = rand(AGE_MIN, AGE_MAX)
 				if("hair")
-					hair_r = rand(0,255)
-					hair_g = rand(0,255)
-					hair_b = rand(0,255)
+					hair_color = rgb(rand(0,255), rand(0,255), rand(0,255))
 				if("h_style")
 					h_style = random_hair_style(gender, species)
 				if("facial")
-					facial_r = rand(0,255)
-					facial_g = rand(0,255)
-					facial_b = rand(0,255)
+					facial_color = rgb(rand(0,255), rand(0,255), rand(0,255))
 				if("f_style")
 					f_style = random_facial_hair_style(gender, species)
 				if("underwear")
@@ -1089,19 +1067,11 @@ datum/preferences
 					undershirt = undershirt_t[r]
 					ShowChoices(user)
 				if("eyes")
-					eyes_r = rand(0,255)
-					eyes_g = rand(0,255)
-					eyes_b = rand(0,255)
-				if("mech_eyes")
-					mech_eyes_r = rand(0,255)
-					mech_eyes_g = rand(0,255)
-					mech_eyes_b = rand(0,255)
+					eyes_color = rgb(rand(0,255), rand(0,255), rand(0,255))
 				if("s_tone")
 					s_tone = random_skin_tone()
 				if("s_color")
-					skin_r = rand(0,255)
-					skin_g = rand(0,255)
-					skin_b = rand(0,255)
+					skin_color = rgb(rand(0,255), rand(0,255), rand(0,255))
 				if("bag")
 					backbag = rand(1,4)
 				/*if("skin_style")
@@ -1171,9 +1141,7 @@ datum/preferences
 							f_style = facial_hair_styles_list["Shaved"]
 
 						//reset hair colour and skin colour
-						hair_r = 0//hex2num(copytext(new_hair, 2, 4))
-						hair_g = 0//hex2num(copytext(new_hair, 4, 6))
-						hair_b = 0//hex2num(copytext(new_hair, 6, 8))
+						hair_color = initial(hair_color)
 
 						s_tone = 0
 
@@ -1201,11 +1169,9 @@ datum/preferences
 
 				if("hair")
 					if(species == "Human" || species == "Unathi" || species == "Tajara" || species == "Skrell")
-						var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference", rgb(hair_r, hair_g, hair_b)) as color|null
+						var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference", hair_color) as color|null
 						if(new_hair)
-							hair_r = hex2num(copytext(new_hair, 2, 4))
-							hair_g = hex2num(copytext(new_hair, 4, 6))
-							hair_b = hex2num(copytext(new_hair, 6, 8))
+							hair_color = new_hair
 
 				if("h_style")
 					var/list/valid_hairstyles = list()
@@ -1221,11 +1187,9 @@ datum/preferences
 						h_style = new_h_style
 
 				if("facial")
-					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference", rgb(facial_r, facial_g, facial_b)) as color|null
+					var/new_facial = input(user, "Choose your character's facial-hair colour:", "Character Preference", facial_color) as color|null
 					if(new_facial)
-						facial_r = hex2num(copytext(new_facial, 2, 4))
-						facial_g = hex2num(copytext(new_facial, 4, 6))
-						facial_b = hex2num(copytext(new_facial, 6, 8))
+						facial_color = new_facial
 
 				if("f_style")
 					var/list/valid_facialhairstyles = list()
@@ -1266,18 +1230,9 @@ datum/preferences
 					ShowChoices(user)
 
 				if("eyes")
-					var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference", rgb(eyes_r, eyes_g, eyes_b)) as color|null
+					var/new_eyes = input(user, "Choose your character's eye colour:", "Character Preference", eyes_color) as color|null
 					if(new_eyes)
-						eyes_r = hex2num(copytext(new_eyes, 2, 4))
-						eyes_g = hex2num(copytext(new_eyes, 4, 6))
-						eyes_b = hex2num(copytext(new_eyes, 6, 8))
-
-				if("mech_eyes")
-					var/new_eyes = input(user, "Choose your character's mechanical eyes colour:", "Character Preference", rgb(mech_eyes_r, mech_eyes_g, mech_eyes_b)) as color|null
-					if(new_eyes)
-						mech_eyes_r = hex2num(copytext(new_eyes, 2, 4))
-						mech_eyes_g = hex2num(copytext(new_eyes, 4, 6))
-						mech_eyes_b = hex2num(copytext(new_eyes, 6, 8))
+						eyes_color = new_eyes
 
 				if("s_tone")
 					if(current_species.flags & HAS_SKIN_TONE)
@@ -1287,11 +1242,9 @@ datum/preferences
 
 				if("skin")
 					if(current_species.flags & HAS_SKIN_COLOR)
-						var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", rgb(skin_r, skin_g, skin_b)) as color|null
+						var/new_skin = input(user, "Choose your character's skin colour: ", "Character Preference", skin_color) as color|null
 						if(new_skin)
-							skin_r = hex2num(copytext(new_skin, 2, 4))
-							skin_g = hex2num(copytext(new_skin, 4, 6))
-							skin_b = hex2num(copytext(new_skin, 6, 8))
+							skin_color = new_skin
 
 				if("ooccolor")
 					var/new_ooccolor = input(user, "Choose your OOC colour:", "Game Preference") as color|null
@@ -1430,9 +1383,6 @@ datum/preferences
 							organ_data[organ] = "assisted"
 						if("Mechanical")
 							organ_data[organ] = "mechanical"
-							mech_eyes_r = eyes_r
-							mech_eyes_g = eyes_g
-							mech_eyes_b = eyes_b
 
 				if("skin_style")
 					var/skin_style_name = input(user, "Select a new skin style") as null|anything in list("default1", "default2", "default3")
@@ -1568,13 +1518,13 @@ datum/preferences
 						user << sound(null, repeat = 0, wait = 0, volume = 85, channel = 1)
 
 				if("ghost_ears")
-					toggles ^= CHAT_GHOSTEARS
+					chat_toggles ^= CHAT_GHOSTEARS
 
 				if("ghost_sight")
-					toggles ^= CHAT_GHOSTSIGHT
+					chat_toggles ^= CHAT_GHOSTSIGHT
 
 				if("ghost_radio")
-					toggles ^= CHAT_GHOSTRADIO
+					chat_toggles ^= CHAT_GHOSTRADIO
 
 				if("save")
 					save_preferences()
@@ -1636,25 +1586,10 @@ datum/preferences
 	character.age = age
 	character.b_type = b_type
 
-	character.eyes_r = eyes_r
-	character.eyes_g = eyes_g
-	character.eyes_b = eyes_b
-
-	character.mech_eyes_r = mech_eyes_r
-	character.mech_eyes_g = mech_eyes_g
-	character.mech_eyes_b = mech_eyes_b
-
-	character.hair_r = hair_r
-	character.hair_g = hair_g
-	character.hair_b = hair_b
-
-	character.facial_r = facial_r
-	character.facial_g = facial_g
-	character.facial_b = facial_b
-
-	character.skin_r = skin_r
-	character.skin_g = skin_g
-	character.skin_b = skin_b
+	character.eyes_color = eyes_color
+	character.hair_color = hair_color
+	character.facial_color = facial_color
+	character.skin_color = skin_color
 
 	character.s_tone = s_tone
 
