@@ -863,29 +863,21 @@ var/list/admin_verbs_mentor = list(
 			return
 	var/new_facial = input("Please select facial hair color.", "Character Generation") as color
 	if(new_facial)
-		M.facial_r = hex2num(copytext(new_facial, 2, 4))
-		M.facial_g = hex2num(copytext(new_facial, 4, 6))
-		M.facial_b = hex2num(copytext(new_facial, 6, 8))
+		M.facial_color = new_facial
 
 	var/new_hair = input("Please select hair color.", "Character Generation") as color
-	if(new_facial)
-		M.hair_r = hex2num(copytext(new_hair, 2, 4))
-		M.hair_g = hex2num(copytext(new_hair, 4, 6))
-		M.hair_b = hex2num(copytext(new_hair, 6, 8))
+	if(new_hair)
+		M.hair_color = new_hair
 
 	if(S.flags & HAS_EYE_COLOR)
 		var/new_eyes = input("Please select eye color.", "Character Generation") as color
 		if(new_eyes)
-			M.eyes_r = hex2num(copytext(new_eyes, 2, 4))
-			M.eyes_g = hex2num(copytext(new_eyes, 4, 6))
-			M.eyes_b = hex2num(copytext(new_eyes, 6, 8))
+			M.eyes_color = new_eyes
 
 	if(S.flags & HAS_SKIN_COLOR)
 		var/new_skin = input("Please select body color. This is for Tajaran, Unathi, and Skrell only!", "Character Generation") as color
 		if(new_skin)
-			M.skin_r = hex2num(copytext(new_skin, 2, 4))
-			M.skin_g = hex2num(copytext(new_skin, 4, 6))
-			M.skin_b = hex2num(copytext(new_skin, 6, 8))
+			M.skin_color = new_skin
 
 	if(S.flags & HAS_SKIN_TONE)
 		var/new_tone = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation")  as text
@@ -953,8 +945,8 @@ var/list/admin_verbs_mentor = list(
 	set name = "Toggle Attack Log Messages"
 	set category = "Preferences"
 
-	prefs.toggles ^= CHAT_ATTACKLOGS
-	if (prefs.toggles & CHAT_ATTACKLOGS)
+	prefs.chat_toggles ^= CHAT_ATTACKLOGS
+	if (prefs.chat_toggles & CHAT_ATTACKLOGS)
 		usr << "You now will get attack log messages"
 	else
 		usr << "You now won't get attack log messages"
@@ -992,8 +984,8 @@ var/list/admin_verbs_mentor = list(
 	set name = "Toggle Debug Log Messages"
 	set category = "Preferences"
 
-	prefs.toggles ^= CHAT_DEBUGLOGS
-	if (prefs.toggles & CHAT_DEBUGLOGS)
+	prefs.chat_toggles ^= CHAT_DEBUGLOGS
+	if (prefs.chat_toggles & CHAT_DEBUGLOGS)
 		usr << "You now will get debug log messages"
 	else
 		usr << "You now won't get debug log messages"

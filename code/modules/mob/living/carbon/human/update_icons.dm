@@ -255,14 +255,14 @@ var/global/list/damage_icon_parts = list()
 		qdel(stand_icon)
 	stand_icon = new(species.icon_template ? species.icon_template : 'icons/mob/human.dmi',"blank")
 
-	var/icon_key = "[species.race_key][g][s_tone][skin_r][skin_g][skin_b]"
+	var/icon_key = "[species.race_key][g][s_tone][skin_color]"
 	if(lip_color)
-		icon_key += "[lip_color]"
+		icon_key += lip_color
 	else
 		icon_key += "nolips"
 	var/obj/item/organ/eyes/eyes = internal_organs_by_name["eyes"]
 	if(eyes)
-		icon_key += "[rgb(eyes.eye_colour[1], eyes.eye_colour[2], eyes.eye_colour[3])]"
+		icon_key += eyes.eye_colour
 	else
 		icon_key += "#000000"
 
@@ -275,7 +275,7 @@ var/global/list/damage_icon_parts = list()
 		else if(part.status & ORGAN_DEAD)
 			icon_key += "3"
 		else
-			icon_key += "1"
+			icon_key += "1[part.tattoo][part.tattoo2]"
 
 	icon_key = "[icon_key][husk ? 1 : 0][fat ? 1 : 0][hulk ? 1 : 0][skeleton ? 1 : 0]"
 
@@ -365,7 +365,7 @@ var/global/list/damage_icon_parts = list()
 		if(facial_hair_style && facial_hair_style.species_allowed && (src.species.get_bodytype() in facial_hair_style.species_allowed))
 			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			if(facial_hair_style.do_colouration)
-				facial_s.Blend(rgb(facial_r, facial_g, facial_b), ICON_ADD)
+				facial_s.Blend(facial_color, ICON_ADD)
 
 			face_standing.Blend(facial_s, ICON_OVERLAY)
 
@@ -374,7 +374,7 @@ var/global/list/damage_icon_parts = list()
 		if(hair_style && (src.species.get_bodytype() in hair_style.species_allowed))
 			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
 			if(hair_style.do_colouration)
-				hair_s.Blend(rgb(hair_r, hair_g, hair_b), ICON_ADD)
+				hair_s.Blend(hair_color, ICON_ADD)
 
 			face_standing.Blend(hair_s, ICON_OVERLAY)
 
@@ -923,14 +923,14 @@ var/global/list/damage_icon_parts = list()
 		update_icons()
 
 /mob/living/carbon/human/proc/get_tail_icon()
-	var/icon_key = "[species.race_key][skin_r][skin_g][skin_b]"
+	var/icon_key = "[species.race_key][skin_color]"
 
 	var/icon/tail_icon = tail_icon_cache[icon_key]
 	if(!tail_icon)
 
 		//generate a new one
 		tail_icon = new/icon(icon = (species.tail_animation? species.tail_animation : 'icons/effects/species.dmi'))
-		tail_icon.Blend(rgb(skin_r, skin_g, skin_b), ICON_ADD)
+		tail_icon.Blend(skin_color, ICON_ADD)
 
 		tail_icon_cache[icon_key] = tail_icon
 

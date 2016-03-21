@@ -32,7 +32,7 @@
 	var/cannot_amputate
 	var/cannot_break
 	var/s_tone
-	var/list/s_col
+	var/s_col = "#000000"
 	var/list/wounds = list()
 	var/number_wounds = 0 // cache the number of wounds, which is NOT wounds.len!
 	var/perma_injury = 0
