@@ -28,7 +28,7 @@
 		for (var/mob/M in player_list)
 			if (istype(M, /mob/new_player))
 				continue
-			else if(M.stat == 2 &&  M.client.prefs.toggles & CHAT_GHOSTEARS)
+			else if(M.stat == 2 &&  M.client.prefs.chat_toggles & CHAT_GHOSTEARS)
 				M << "The captive mind of [src] whispers, \"[message]\""
 
 /mob/living/captive_brain/emote(var/message)
@@ -53,7 +53,7 @@
 			verbs -= /mob/living/carbon/proc/release_control
 			verbs -= /mob/living/carbon/proc/punish_host
 			verbs -= /mob/living/carbon/proc/spawn_larvae
-		
+
 		return
-	
+
 	..()
