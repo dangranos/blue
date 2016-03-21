@@ -4,7 +4,9 @@ datum/preferences
 	var/icon/preview_east  = null
 	var/icon/preview_west  = null
 	var/preview_dir = SOUTH
+
 	proc/new_update_preview_icon()
+		req_update_icon = 0
 		for(var/dir in cardinal)
 			qdel(preview_south)
 			qdel(preview_north)

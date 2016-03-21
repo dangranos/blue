@@ -40,6 +40,7 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 		if(H.age>49)
 			var/obj/item/clothing/under/U = H.w_uniform
 			if(istype(U)) U.accessories += new /obj/item/clothing/accessory/medal/gold/captain(U)
+		return 1
 
 	get_access()
 		return get_all_accesses()
