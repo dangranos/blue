@@ -173,7 +173,7 @@
 
 		if ("drool")
 			if(russified)
-				message = "<B>[src]</B> млеет от счасть€."
+				message = "<B>[src]</B> пускает слюни."
 			else
 				message = "<B>[src]</B> drools."
 			m_type = 1
@@ -337,7 +337,7 @@
 
 			if (param)
 				if(russified)
-					message = "<B>[src]</B> смотрит со злобой на [param]."
+					message = "<B>[src]</B> смотрит на [param] со злобой."
 				else
 					message = "<B>[src]</B> glares at [param]."
 			else
@@ -656,7 +656,10 @@
 						message = "<B>[src]</B> sneezes."
 					m_type = 2
 				else
-					message = "<B>[src]</B> makes a strange noise."
+					if(russified)
+						message = "<B>[src]</B> издаЄт странный звук."
+					else
+						message = "<B>[src]</B> makes a strange noise."
 					m_type = 2
 
 		if ("sniff")
@@ -686,13 +689,13 @@
 					if(russified)
 						message = "<B>[src]</B> сопит."
 					else
-						message = "<B>[src]</B> makes a noise."
+						message = "<B>[src]</B> makes a quiet noise."
 					m_type = 2
 
 		if ("whimper")
 			if (miming)
 				if(russified)
-					message = "<B>[src]</B> изображает боль."
+					message = "<B>[src]</B> выгл€дит у€звленно."
 				else
 					message = "<B>[src]</B> appears hurt."
 				m_type = 1
@@ -823,6 +826,144 @@
 						message = "<B>[src]</B> издаЄт очень громкий звук."
 					else
 						message = "<B>[src]</B> makes a very loud noise."
+					m_type = 2
+
+		if("kiss")
+			m_type = 1
+			if (!src.restrained())
+				var/M = null
+				if (param)
+					for (var/mob/A in view(1, null))
+						if (param == A.name)
+							M = A
+							break
+				if (M == src)
+					M = null
+
+				if (M)
+					if(russified)
+						message = "<B>[src]</B> целует [M]."
+
+						message = "<B>[src]</B> kisses [M]."
+
+		if("cuddle")
+			m_type = 1
+			if (!src.restrained())
+				var/M = null
+				if (param)
+					for (var/mob/A in view(1, null))
+						if (param == A.name)
+							M = A
+							break
+				if (M == src)
+					M = null
+
+				if (M)
+					if(russified)
+						message = "<B>[src]</B> прижимаетс€ к [M]."
+
+						message = "<B>[src]</B> cuddles [M]."
+
+		if("snuggle")
+			m_type = 1
+			if (!src.restrained())
+				var/M = null
+				if (param)
+					for (var/mob/A in view(1, null))
+						if (param == A.name)
+							M = A
+							break
+				if (M == src)
+					M = null
+
+				if (M)
+					if(russified)
+						message = "<B>[src]</B> прижимает [M] к себе."
+
+						message = "<B>[src]</B> snuggles [M]."
+
+		if ("hum")
+			if (miming)
+				if(russified)
+					message = "<B>[src]</B> покачивает головой."
+				else
+					message = "<B>[src]</B> shakes /his head."
+				m_type = 1
+			else
+				if (!muzzled)
+					if(russified)
+						message = "<B>[src]</B> напевает себе под нос."
+					else
+						message = "<B>[src]</B> hums."
+					m_type = 2
+				else
+					if(russified)
+						message = "<B>[src]</B> издаЄт слабый звук."
+					else
+						message = "<B>[src]</B> makes a weak noise."
+					m_type = 2
+
+		if ("whistle")
+			if (miming)
+				if(russified)
+					message = "<B>[src]</B> имитирует свист!"
+				else
+					message = "<B>[src]</B> appears to whistle."
+				m_type = 1
+			else
+				if (!muzzled)
+					if(russified)
+						message = "<B>[src]</B> свистит!"
+					else
+						message = "<B>[src]</B> whistles!"
+					m_type = 2
+				else
+					if(russified)
+						message = "<B>[src]</B> издаЄт слабый звук."
+					else
+						message = "<B>[src]</B> makes a weak noise."
+					m_type = 2
+
+		if ("clear")
+			if (miming)
+				if(russified)
+					message = "<B>[src]</B> беззвучно кашл€ет."
+				else
+					message = "<B>[src]</B> appears to cough."
+				m_type = 1
+			else
+				if (!muzzled)
+					if(russified)
+						message = "<B>[src]</B> прочищает горло."
+					else
+						message = "<B>[src]</B> clears /his throat"
+					m_type = 2
+				else
+					if(russified)
+						message = "<B>[src]</B> издаЄт слабый звук."
+					else
+						message = "<B>[src]</B> makes a weak noise."
+					m_type = 2
+
+		if ("hem")
+			if (miming)
+				if(russified)
+					message = "<B>[src]</B> выгл€дит неуверенно."
+				else
+					message = "<B>[src]</B> seems unsure."
+				m_type = 1
+			else
+				if (!muzzled)
+					if(russified)
+						message = "<B>[src]</B> хмыкает."
+					else
+						message = "<B>[src]</B> hems"
+					m_type = 2
+				else
+					if(russified)
+						message = "<B>[src]</B> издаЄт сомневающийс€ звук."
+					else
+						message = "<B>[src]</B> makes an unsure noise."
 					m_type = 2
 
 		if("swish")
