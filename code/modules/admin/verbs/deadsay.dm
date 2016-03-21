@@ -11,7 +11,7 @@
 		src << "\red You cannot send DSAY messages (muted)."
 		return
 
-	if(!(prefs.toggles & CHAT_DEAD))
+	if(!(prefs.chat_toggles & CHAT_DEAD))
 		src << "\red You have deadchat muted."
 		return
 

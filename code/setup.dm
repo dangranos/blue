@@ -457,10 +457,11 @@
 // Therefore there needs to be a gap between the flags for the automute flags.
 #define MUTE_IC        1
 #define MUTE_OOC       2
-#define MUTE_PRAY      4
-#define MUTE_ADMINHELP 8
-#define MUTE_DEADCHAT  16
-#define MUTE_ALL       31
+#define MUTE_LOOC      4
+#define MUTE_PRAY      8
+#define MUTE_ADMINHELP 16
+#define MUTE_DEADCHAT  32
+#define MUTE_ALL       63
 
 // Number of identical messages required to get the spam-prevention auto-mute thing to trigger warnings and automutes.
 #define SPAM_TRIGGER_WARNING  5
@@ -550,20 +551,27 @@
 #define SOUND_MIDI      2
 #define SOUND_AMBIENCE  4
 #define SOUND_LOBBY     8
-#define CHAT_OOC        16
-#define CHAT_DEAD       32
-#define CHAT_GHOSTEARS  64
-#define CHAT_GHOSTSIGHT 128
-#define CHAT_PRAYER     256
-#define CHAT_RADIO      512
-#define CHAT_ATTACKLOGS 1024
-#define CHAT_DEBUGLOGS  2048
-#define CHAT_LOOC       4096
-#define CHAT_GHOSTRADIO 8192
-#define SHOW_TYPING     16384
-#define CHAT_NOICONS    32768
+#define SHOW_TYPING     16
+#define CHAT_NOICONS    32
+#define RUS_AUTOEMOTES  64
 
-#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY|CHAT_OOC|CHAT_DEAD|CHAT_GHOSTEARS|CHAT_GHOSTSIGHT|CHAT_PRAYER|CHAT_RADIO|CHAT_ATTACKLOGS|CHAT_LOOC)
+// Preference chat.
+#define CHAT_OOC          1
+#define CHAT_DEAD         2
+#define CHAT_GHOSTEARS    4
+#define CHAT_GHOSTSIGHT   8
+#define CHAT_PRAYER       16
+#define CHAT_RADIO        32
+#define CHAT_ATTACKLOGS   64
+#define CHAT_DEBUGLOGS    128
+#define CHAT_ADMINLOGS    256
+#define CHAT_GAMEMODELOGS 512
+#define CHAT_LOOC         1024
+#define CHAT_GHOSTRADIO   2048
+
+
+#define TOGGLES_DEFAULT (SOUND_ADMINHELP|SOUND_MIDI|SOUND_AMBIENCE|SOUND_LOBBY)
+#define CHAT_TOGGLES_DEFAULT (CHAT_OOC|CHAT_DEAD|CHAT_GHOSTEARS|CHAT_GHOSTSIGHT|CHAT_PRAYER|CHAT_RADIO|CHAT_ATTACKLOGS|CHAT_ADMINLOGS|CHAT_LOOC)
 
 #define BE_TRAITOR    1
 #define BE_OPERATIVE  2

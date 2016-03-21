@@ -193,20 +193,7 @@
 /obj/structure/bed/chair/wood/wings
 	icon_state = "wooden_chair_wings"
 
-// Sofa
-/obj/structure/bed/chair/wood/sofa/right
-	name = "comfy sofa"
-	color = "#FFFFFF"
-	desc = "So lovely, uh."
-	icon_state = "sofa_right"
-	base_icon = "sofa_right"
-
-/obj/structure/bed/chair/wood/sofa/left
-	name = "comfy sofa"
-	color = "#FFFFFF"
-	desc = "So lovely, uh."
-	icon_state = "sofa_left"
-	base_icon = "sofa_left"
+// Bar
 
 /obj/structure/bed/chair/plastic/bar
 	name = "bar stool"
@@ -214,6 +201,7 @@
 	color = "#FFFFFF"
 	icon_state = "stool_padded_new"
 	base_icon = "stool_padded_new"
+	can_buckle = 0
 
 /obj/structure/bed/chair/plastic/bar/New(var/newloc)
 	..(newloc, "plastic")
@@ -232,7 +220,7 @@
 			if(1)
 				state = 0
 				playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
-				user.visible_message("[user.name] unsecures [src] reinforcing bolts from the floor.", \
+				user.visible_message("[user.name] unsecures [src] from the floor.", \
 					"You undo the bolts.", \
 					"You hear a ratchet")
 				src.anchored = 0
