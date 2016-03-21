@@ -169,6 +169,24 @@ area/space/atmosalert()
 	name = "\improper Emergency Shuttle Transit"
 	icon_state = "shuttle"
 
+
+/area/shuttle/escort
+	name = "\improper Escort Shuttle"
+	music = "music/escape.ogg"
+
+/area/shuttle/escort/ship
+	name = "\improper Escort Shuttle Ship"
+	icon_state = "shuttle2"
+
+/area/shuttle/escort/station
+	name = "\improper Escort Shuttle Station"
+	icon_state = "shuttle"
+
+/area/shuttle/escort/transit
+	name = "\improper Escort Shuttle Transit"
+	icon_state = "shuttle"
+
+
 /area/shuttle/escape_pod1
 	name = "\improper Escape Pod One"
 	music = "music/escape.ogg"
@@ -393,6 +411,11 @@ area/space/atmosalert()
 	icon_state = "syndie-elite"
 
 //EXTRA
+
+/area/escort_ship
+	name = "\improper Escort Base Ship"
+	icon_state = "syndie-ship"
+	requires_power = 0
 
 /area/asteroid					// -- TLE
 	name = "\improper Asteroid"
@@ -1848,8 +1871,6 @@ area/space/atmosalert()
 
 
 //Misc
-
-
 
 /area/wreck/ai
 	name = "\improper AI Chamber"
