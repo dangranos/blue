@@ -28,7 +28,7 @@ datum/preferences
 			var/datum/body_modification/mod = get_modification(organ)
 			if(!mod.replace_limb)
 				preview_icon.Blend(new /icon(icobase, "[organ]_[g]"), ICON_OVERLAY)
-			preview_icon.Blend(mod.get_mob_icon(organ, body_build), ICON_OVERLAY)
+			preview_icon.Blend(mod.get_mob_icon(organ, body_build, gender), ICON_OVERLAY)
 
 		//Tail
 		if(current_species && (current_species.tail))
