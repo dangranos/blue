@@ -228,10 +228,10 @@
 	name = "magazine (12.5x45mm)"
 	icon_state = "5.56"
 	mag_type = MAGAZINE
-	caliber = "a762"
+	caliber = "12.5x45"
 	matter = list(DEFAULT_WALL_MATERIAL = 1800)
 	ammo_type = /obj/item/ammo_casing/c125
-	max_ammo = 7
+	max_ammo = 10
 	multiple_sprites = 1
 
 /obj/item/ammo_magazine/hornet
