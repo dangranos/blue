@@ -99,6 +99,11 @@
 
 /* short-casing projectiles, like the kind used in pistols or SMGs */
 
+
+/obj/item/projectile/bullet/pistol/light
+	damage = 15
+	sharp = 0
+
 /obj/item/projectile/bullet/pistol
 	damage = 30
 	sharp = 0
