@@ -147,7 +147,7 @@ datum/body_modification/mutation
 		short_name = "M: [name]"
 		name = "Mutation: [name]"
 
-	get_mob_icon(organ, gender = MALE, body_build = 0)
+	get_mob_icon(organ, body_build = 0, gender = MALE)
 		if(organ in list("head", "chest", "groin"))
 			return new/icon('icons/mob/human_races/body_modification.dmi', "[organ]_[mob_icon]_[gender==FEMALE?"f":"m"][body_build]")
 		else
