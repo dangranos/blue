@@ -278,11 +278,9 @@
 	desc = "A protoype lightweight, fast firing gun. Uses 11.9x33mm rounds."
 	icon_state = "hornet"
 	w_class = 4
-	load_method = MAGAZINE
 	max_shells = 30
 	caliber = "11.9x33"
 	slot_flags = null
-	ammo_type = /obj/item/ammo_casing/c119
 	multi_aim = 1
 	fire_delay = 0.2
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'

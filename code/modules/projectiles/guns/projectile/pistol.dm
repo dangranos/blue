@@ -260,7 +260,7 @@
 	desc = "A robust handgun that uses 12.5x45 CL ammo"
 	icon_state = "legalist"
 	item_state = "deagle"
-	force = 14.0
+	force = 10.0
 	caliber = "12.5x45"
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/legalist
@@ -268,3 +268,8 @@
 	auto_eject = 1
 	fire_delay = 3
 	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+
+/obj/item/weapon/gun/projectile/sec/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "legalist" : "legalist-empty"
+	update_held_icon()
