@@ -296,15 +296,7 @@
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(new_character), slot_w_uniform)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
-		new_character.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(new_character), slot_l_ear)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/captain(new_character), slot_head)
-
-		var/obj/item/device/pda/heads/pda = new(new_character)
-		pda.owner = new_character.real_name
-		pda.ownjob = "NanoTrasen Navy Captain"
-		pda.name = "PDA-[new_character.real_name] ([pda.ownjob])"
-
-		new_character.equip_to_slot_or_del(pda, slot_r_store)
 		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
 		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
 
