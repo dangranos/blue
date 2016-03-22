@@ -269,7 +269,7 @@
 	fire_delay = 3
 	fire_sound = 'sound/weapons/revolver_shoot.ogg'
 
-/obj/item/weapon/gun/projectile/sec/update_icon()
+/obj/item/weapon/gun/projectile/legalist/update_icon()
 	..()
 	icon_state = (ammo_magazine)? "legalist" : "legalist-empty"
 	update_held_icon()
