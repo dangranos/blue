@@ -142,7 +142,7 @@ obj/item/weapon/gun/energy/retro
 	fire_sound = 'sound/weapons/laser3.ogg'
 	projectile_type = /obj/item/projectile/beam/laserlight
 	charge_cost = 50
-	max_shots = 15
+	max_shots = 20
 	fire_delay = 2
 	self_recharge = 1
 	slot_flags = null
