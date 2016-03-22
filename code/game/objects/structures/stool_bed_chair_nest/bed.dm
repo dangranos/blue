@@ -297,3 +297,26 @@
 		spawn(0)
 			qdel(src)
 		return
+
+/obj/structure/bed/sofa/right
+	name = "comfy sofa"
+	desc = "So lovely, uh."
+	icon_state = "sofa_right"
+	base_icon = "sofa_right"
+	buckle_dir = 0
+	buckle_lying = 0
+
+
+/obj/structure/bed/sofa/left
+	name = "comfy sofa"
+	desc = "So lovely, uh."
+	icon_state = "sofa_left"
+	base_icon = "sofa_left"
+	buckle_lying = 0
+	buckle_dir = 0
+
+/obj/structure/bed/sofa/New(var/newloc)
+	..(newloc,"wood")
+
+/obj/structure/bed/sofa/update_icon()
+	return
