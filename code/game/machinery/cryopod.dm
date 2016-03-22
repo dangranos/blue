@@ -635,3 +635,161 @@
 //Attacks/effects.
 /obj/machinery/cryopod/blob_act()
 	return //Sorta gamey, but we don't really want these to be destroyed.
+
+/obj/machinery/cryopod/spawner/thunderred
+	player_spawn = -1
+
+/obj/machinery/cryopod/spawner/thunderred/attack_ghost(mob/dead/observer/user as mob)
+	var/mob/living/carbon/human/new_character
+	if(!user) return
+	var/is_admin = check_rights(show_msg = player_spawn)
+
+	if((!is_admin && !player_spawn) || alert("Would you like to spawn?",,"Yes","No") == "No") return
+
+	if(!is_admin)
+		if(player_spawn> 0)
+			player_spawn -= 1
+
+	var/client/client = user.client
+
+	if(client.prefs.species)
+		new_character = new(loc, client.prefs.species)
+
+	if(!new_character)
+		new_character = new(loc)
+
+	new_character.lastarea = get_area(loc)
+
+	var/datum/language/chosen_language
+	if(client.prefs.language)
+		chosen_language = all_languages[client.prefs.language]
+		if(chosen_language)
+			new_character.add_language(client.prefs.language)
+
+	client.prefs.copy_to(new_character)
+
+	new_character.name = client.prefs.real_name
+	new_character.dna.ready_dna(new_character)
+	new_character.dna.b_type = client.prefs.b_type
+
+	// Do the initial caching of the player's body icons.
+	new_character.force_update_limbs()
+	new_character.update_eyes()
+	new_character.regenerate_icons()
+
+	new_character.key = user.key
+
+	log_admin("[key_name(new_character)] have been spawned with thunderdome (red) cryospawner at ([x], [y], [z])")
+
+	if(is_admin)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/darkred(new_character), slot_w_uniform)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(new_character), slot_shoes)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(new_character), slot_gloves)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret(new_character), slot_head)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest(new_character), slot_wear_suit)
+		new_character.equip_to_slot_or_del(new /obj/item/ammo_magazine/legalist(new_character), slot_r_store)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
+		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/legalist(new_character), slot_belt)
+
+		var/obj/item/weapon/card/id/centcom/W = new(new_character)
+		W.name = "[new_character.real_name]'s ID Card"
+		W.access += get_all_centcom_access()
+		W.assignment = "Thunderdome Participant (Red Team)"
+		W.registered_name = new_character.real_name
+		new_character.equip_to_slot_or_del(W, slot_wear_id)
+
+	else
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/darkred(new_character), slot_w_uniform)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(new_character), slot_shoes)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(new_character), slot_gloves)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest(new_character), slot_wear_suit)
+		new_character.equip_to_slot_or_del(new /obj/item/ammo_magazine/legalist(new_character), slot_r_store)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
+		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/legalist(new_character), slot_belt)
+
+		var/obj/item/weapon/card/id/centcom/W = new(new_character)
+		W.name = "[new_character.real_name]'s ID Card"
+		W.access += get_all_centcom_access()
+		W.assignment = "Thunderdome Participant (Red Team)"
+		W.registered_name = new_character.real_name
+		new_character.equip_to_slot_or_del(W, slot_wear_id)
+
+/obj/machinery/cryopod/spawner/thunderblue
+	player_spawn = -1
+	orient_right = 1
+	icon_state = "body_scanner_0-r"
+
+/obj/machinery/cryopod/spawner/thunderblue/attack_ghost(mob/dead/observer/user as mob)
+	var/mob/living/carbon/human/new_character
+	if(!user) return
+	var/is_admin = check_rights(show_msg = player_spawn)
+
+	if((!is_admin && !player_spawn) || alert("Would you like to spawn?",,"Yes","No") == "No") return
+
+	if(!is_admin)
+		if(player_spawn> 0)
+			player_spawn -= 1
+
+	var/client/client = user.client
+
+	if(client.prefs.species)
+		new_character = new(loc, client.prefs.species)
+
+	if(!new_character)
+		new_character = new(loc)
+
+	new_character.lastarea = get_area(loc)
+
+	var/datum/language/chosen_language
+	if(client.prefs.language)
+		chosen_language = all_languages[client.prefs.language]
+		if(chosen_language)
+			new_character.add_language(client.prefs.language)
+
+	client.prefs.copy_to(new_character)
+
+	new_character.name = client.prefs.real_name
+	new_character.dna.ready_dna(new_character)
+	new_character.dna.b_type = client.prefs.b_type
+
+	// Do the initial caching of the player's body icons.
+	new_character.force_update_limbs()
+	new_character.update_eyes()
+	new_character.regenerate_icons()
+
+	new_character.key = user.key
+
+	log_admin("[key_name(new_character)] have been spawned with thunderdome (blue) cryospawner  at ([x], [y], [z])")
+
+	if(is_admin)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/darkblue(new_character), slot_w_uniform)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(new_character), slot_shoes)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(new_character), slot_gloves)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret(new_character), slot_head)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest(new_character), slot_wear_suit)
+		new_character.equip_to_slot_or_del(new /obj/item/ammo_magazine/legalist(new_character), slot_r_store)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
+		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/legalist(new_character), slot_belt)
+
+		var/obj/item/weapon/card/id/centcom/W = new(new_character)
+		W.name = "[new_character.real_name]'s ID Card"
+		W.access += get_all_centcom_access()
+		W.assignment = "Thunderdome Participant (Blue Team)"
+		W.registered_name = new_character.real_name
+		new_character.equip_to_slot_or_del(W, slot_wear_id)
+
+	else
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/darkblue(new_character), slot_w_uniform)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(new_character), slot_shoes)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(new_character), slot_gloves)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/suit/armor/vest(new_character), slot_wear_suit)
+		new_character.equip_to_slot_or_del(new /obj/item/ammo_magazine/legalist(new_character), slot_r_store)
+		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
+		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/projectile/legalist(new_character), slot_belt)
+
+		var/obj/item/weapon/card/id/centcom/W = new(new_character)
+		W.name = "[new_character.real_name]'s ID Card"
+		W.access += get_all_centcom_access()
+		W.assignment = "Thunderdome Participant (Blue Team)"
+		W.registered_name = new_character.real_name
+		new_character.equip_to_slot_or_del(W, slot_wear_id)
