@@ -284,7 +284,7 @@
 	multi_aim = 1
 	fire_delay = 0.2
 	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
-	magazine_type = /obj/item/ammo_magazine/hornet
+	ammo_type = /obj/item/ammo_casing/c119
 
 	firemodes = list(
 		list(name="semiauto", burst=1, fire_delay=0),
