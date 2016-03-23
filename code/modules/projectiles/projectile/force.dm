@@ -27,7 +27,7 @@
 	return ..()
 */
 
-/obj/item/projectile/forcebolt/instagib
+/obj/item/projectile/instagib
 	name = "plasma bolt"
 	icon = 'icons/obj/projectiles.dmi'
 	icon_state = "pulse1_bl"
