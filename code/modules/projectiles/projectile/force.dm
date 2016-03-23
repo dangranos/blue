@@ -26,3 +26,10 @@
 			M.throw_at(get_edge_target_turf(M, throwdir),15,1)
 	return ..()
 */
+
+/obj/item/projectile/instagib
+	name = "plasma bolt"
+	icon = 'icons/obj/projectiles.dmi'
+	icon_state = "pulse1_bl"
+	damage = 70
+	check_armour = "melee"

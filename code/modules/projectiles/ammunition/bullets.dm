@@ -54,6 +54,17 @@
 	caliber = "9mm"
 	projectile_type = /obj/item/projectile/bullet/pistol/practice
 
+/obj/item/ammo_casing/c125
+	desc = "A 12.5x45mm caseless bullet casing."
+	caliber = "12.5x45"
+	projectile_type = /obj/item/projectile/bullet/pistol
+
+
+/obj/item/ammo_casing/c119
+	desc = "A 11.9x33mm caseless bullet casing."
+	caliber = "11.9x33"
+	projectile_type = /obj/item/projectile/bullet/pistol/light
+
 
 /obj/item/ammo_casing/c45
 	desc = "A .45 bullet casing."
