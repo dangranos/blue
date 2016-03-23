@@ -980,3 +980,11 @@
 					/obj/item/weapon/screwdriver = 5,/obj/item/weapon/crowbar = 5)
 	//everything after the power cell had no amounts, I improvised.  -Sayu
 
+/obj/machinery/vending/thundervend
+	name = "Violence-o-Mate"
+	desc = "That's a guns and ammo vendor."
+	product_ads = "ULTRAVIOLENCE!;Do you like to hurt other people, mate?;You're not a nice person!;Get a goddamn gun and take them out!;Why did you come back here?"
+	icon_state = "thundervendor"
+	products = list(/obj/item/weapon/gun/projectile/automatic/hornet = 10,/obj/item/weapon/gun/energy/wasp = 10,/obj/item/weapon/gun/energy/grumbler = 10,/obj/item/weapon/material/hatchet/tacknife/thunder = 30,/obj/item/ammo_magazine/hornet = 30,/obj/item/ammo_magazine/legalist=20)
+	vend_delay = 30
+	density = 1
