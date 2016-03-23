@@ -153,7 +153,7 @@ obj/item/weapon/gun/energy/retro
 	icon_state = "grumbler"
 	item_state = "pulse"
 	fire_sound = 'sound/weapons/pulse.ogg'
-	projectile_type = /obj/item/projectile/forcebolt/instagib
+	projectile_type = /obj/item/projectile/instagib
 	charge_cost = 500
 	max_shots = 3
 	fire_delay = 30
