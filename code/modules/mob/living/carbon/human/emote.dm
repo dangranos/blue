@@ -289,7 +289,7 @@
 			else
 				if (!muzzled)
 					if(russified)
-						message = "<B>[src]</B> задыхаетс&#255;!"
+						message = "<B>[src]</B> рефлекторно пытаетс&#255; вдохнуть!"
 					else
 						message = "<B>[src]</B> gasps!"
 					m_type = 2
