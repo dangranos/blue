@@ -39,8 +39,8 @@
 	applies_material_colour = 1
 
 /obj/item/weapon/material/hatchet/tacknife/thunder
-	force_divisor = 0.4
-	thrown_force_divisor = 0.4
+	force_divisor = 0.5
+	thrown_force_divisor = 0.6
 
 /obj/item/weapon/material/minihoe // -- Numbers
 	name = "mini hoe"
