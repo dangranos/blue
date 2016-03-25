@@ -1100,34 +1100,39 @@
 	else if(longtermpower > -10)
 		longtermpower -= 2
 
-	if((cell.percent() > 30) || longtermpower > 0)              // Put most likely at the top so we don't check it last, effeciency 101
-		if(autoflag != 3)
-			equipment = autoset(equipment, 1)
-			lighting = autoset(lighting, 1)
-			environ = autoset(environ, 1)
-			autoflag = 3
-			power_alarm.clearAlarm(loc, src)
-	else if((cell.percent() <= 30) && (cell.percent() > 15) && longtermpower < 0)                       // <30%, turn off equipment
-		if(autoflag != 2)
-			equipment = autoset(equipment, 2)
-			lighting = autoset(lighting, 1)
-			environ = autoset(environ, 1)
-			power_alarm.triggerAlarm(loc, src)
-			autoflag = 2
-	else if(cell.percent() <= 15)        // <15%, turn off lighting & equipment
-		if((autoflag > 1 && longtermpower < 0) || (autoflag > 1 && longtermpower >= 0))
-			equipment = autoset(equipment, 2)
-			lighting = autoset(lighting, 2)
-			environ = autoset(environ, 1)
-			power_alarm.triggerAlarm(loc, src)
-			autoflag = 1
-	else                                   // zero charge, turn all off
-		if(autoflag != 0)
-			equipment = autoset(equipment, 0)
-			lighting = autoset(lighting, 0)
-			environ = autoset(environ, 0)
-			power_alarm.triggerAlarm(loc, src)
-			autoflag = 0
+	if(cell)
+		if((cell.percent() > 30) || longtermpower > 0)              // Put most likely at the top so we don't check it last, effeciency 101
+			if(autoflag != 3)
+				equipment = autoset(equipment, 1)
+				lighting = autoset(lighting, 1)
+				environ = autoset(environ, 1)
+				autoflag = 3
+				power_alarm.clearAlarm(loc, src)
+				return
+		else if((cell.percent() <= 30) && (cell.percent() > 15) && longtermpower < 0)                       // <30%, turn off equipment
+			if(autoflag != 2)
+				equipment = autoset(equipment, 2)
+				lighting = autoset(lighting, 1)
+				environ = autoset(environ, 1)
+				power_alarm.triggerAlarm(loc, src)
+				autoflag = 2
+				return
+		else if(cell.percent() <= 15)        // <15%, turn off lighting & equipment
+			if((autoflag > 1 && longtermpower < 0) || (autoflag > 1 && longtermpower >= 0))
+				equipment = autoset(equipment, 2)
+				lighting = autoset(lighting, 2)
+				environ = autoset(environ, 1)
+				power_alarm.triggerAlarm(loc, src)
+				autoflag = 1
+				return
+
+	// zero charge or no cell, turn all off
+	if(autoflag != 0)
+		equipment = autoset(equipment, 0)
+		lighting = autoset(lighting, 0)
+		environ = autoset(environ, 0)
+		power_alarm.triggerAlarm(loc, src)
+		autoflag = 0
 
 // val 0=off, 1=off(auto) 2=on 3=on(auto)
 // on 0=off, 1=on, 2=autooff
