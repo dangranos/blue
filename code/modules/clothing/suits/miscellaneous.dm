@@ -355,6 +355,8 @@
 	name = "red varsity jacket"
 	icon_state = "varsity_red"
 	item_state = "varsity_red"
+	icon_open = "varsity_red_open"
+	icon_closed = "varsity_red"
 	body_parts_covered = UPPER_TORSO|ARMS
 	cold_protection = UPPER_TORSO|ARMS
 
@@ -362,6 +364,17 @@
 	name = "blue varsity jacket"
 	icon_state = "varsity_blue"
 	item_state = "varsity_blue"
+	icon_open = "varsity_blue_open"
+	icon_closed = "varsity_blue"
+	body_parts_covered = UPPER_TORSO|ARMS
+	cold_protection = UPPER_TORSO|ARMS
+
+/obj/item/clothing/suit/storage/varsityblack
+	name = "black varsity jacket"
+	icon_state = "varsity_black"
+	item_state = "varsity_black"
+	icon_open = "varsity_black_open"
+	icon_closed = "varsity_black"
 	body_parts_covered = UPPER_TORSO|ARMS
 	cold_protection = UPPER_TORSO|ARMS
 
