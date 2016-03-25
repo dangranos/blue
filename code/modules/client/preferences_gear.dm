@@ -1537,19 +1537,19 @@ var/global/list/gear_datums = list()
 
 /datum/gear/varsityred
 	display_name = "Varsity jacket, red"
-	path = /obj/item/clothing/suit/storage/varsityred
+	path = /obj/item/clothing/suit/storage/toggle/varsityred
 	cost = 2
 	slot = slot_wear_suit
 
 /datum/gear/varsityblue
 	display_name = "Varsity jacket, blue"
-	path = /obj/item/clothing/suit/storage/varsityblue
+	path = /obj/item/clothing/suit/storage/toggle/varsityblue
 	cost = 2
 	slot = slot_wear_suit
 
 /datum/gear/varsityblack
 	display_name = "Varsity jacket, black"
-	path = /obj/item/clothing/suit/storage/varsityblack
+	path = /obj/item/clothing/suit/storage/toggle/varsityblack
 	cost = 2
 	slot = slot_wear_suit
 
