@@ -1307,7 +1307,7 @@
 "azg" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced,/turf/simulated/floor/plating,/area/crew_quarters/fitness)
 "azh" = (/turf/space,/area/maintenance/library)
 "azi" = (/obj/structure/grille,/obj/structure/window/reinforced{dir = 4},/obj/structure/window/reinforced{dir = 8},/obj/structure/window/reinforced{dir = 1},/turf/simulated/floor/plating,/area/maintenance/library)
-"azj" = (/obj/structure/closet,/obj/item/clothing/under/pants/classicjeans,/obj/item/clothing/suit/storage/varsityred,/turf/simulated/floor/plating,/area/maintenance/library)
+"azj" = (/obj/structure/closet,/obj/item/clothing/under/pants/classicjeans,/obj/item/clothing/suit/storage/toggle/varsityred,/turf/simulated/floor/plating,/area/maintenance/library)
 "azk" = (/obj/structure/table/steel,/obj/random/tech_supply,/obj/random/tech_supply,/turf/simulated/floor/plating,/area/maintenance/library)
 "azl" = (/obj/machinery/atmospherics/pipe/tank/air,/turf/simulated/floor/plating{icon_state = "warnplate"; dir = 10},/area/maintenance/library)
 "azm" = (/obj/structure/table/steel,/obj/item/weapon/storage/toolbox/electrical{pixel_x = 1; pixel_y = 6},/obj/item/weapon/material/shard{icon_state = "small"},/obj/machinery/light/small{dir = 8},/turf/simulated/floor/plating,/area/maintenance/library)
