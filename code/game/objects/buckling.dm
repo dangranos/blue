@@ -1,10 +1,10 @@
 /obj
 	var/can_buckle = 0
-	var/buckle_movable = 0
-	var/buckle_dir = 0
-	var/buckle_lying = -1 //bed-like behavior, forces mob.lying = buckle_lying if != -1
-	var/buckle_require_restraints = 0 //require people to be handcuffed before being able to buckle. eg: pipes
-	var/mob/living/buckled_mob = null
+	var/tmp/buckle_movable = 0
+	var/tmp/buckle_dir = 0
+	var/tmp/buckle_lying = -1 //bed-like behavior, forces mob.lying = buckle_lying if != -1
+	var/tmp/buckle_require_restraints = 0 //require people to be handcuffed before being able to buckle. eg: pipes
+	var/tmp/mob/living/buckled_mob = null
 
 /obj/attack_hand(mob/living/user)
 	. = ..()

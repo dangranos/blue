@@ -18,7 +18,7 @@ datum/preferences
 			"chest"="Body", "r_leg"="Right Leg", "r_foot"="Right foot")
 	var/global/list/l_organs = list("eyes"="Eyes", "l_arm"="Left arm", "l_hand"="Left hand",\
 			"groin"="Groin", "l_leg"="Left Leg", "l_foot"="Left foot")
-	var/global/list/internal_organs = list("heart"="Heart", "lungs"="Lungs", "liver"="Liver")
+	var/global/list/internal_organs = list("chest2"="Back", "heart"="Heart", "lungs"="Lungs", "liver"="Liver")
 	var/global/parents_list = list("r_hand"="r_arm", "l_hand"="l_arm", "r_foot"="r_leg", "l_foot"="l_leg")
 	var/global/children_list = list("r_arm"="r_hand", "l_arm"="l_hand", "r_leg"="r_foot", "l_leg"="l_foot")
 
@@ -81,7 +81,7 @@ datum/preferences
 
 /datum/preferences/Topic(href, href_list)
 	var/mob/new_player/user = usr
-	if(!user || !istype(user) || user.ready)
+	if(!user || !istype(user))
 		return
 
 	if(href_list["switch_page"])
@@ -89,6 +89,11 @@ datum/preferences
 		spawn(2)
 			NewShowChoices(user)
 		return
+	else if(href_list["rotate"])
+		if(href_list["rotate"] == "right")
+			preview_dir = turn(preview_dir,-90)
+		else
+			preview_dir = turn(preview_dir,90)
 /*
 	if(href_list["preference"])
 		if("open_load_dialog")
@@ -110,6 +115,9 @@ datum/preferences
 		if(PAGE_OCCUPATION)	HandleOccupationTopic(user, href_list)
 		if(PAGE_SILICON)	HandleSiliconTopic(user, href_list)
 		if(PAGE_PREFS)		HandlePrefsTopic(user, href_list)
+
+	if(user.ready)
+		return
 
 	spawn()
 		NewShowChoices(user)
@@ -166,10 +174,11 @@ datum/preferences
 
 	dat += "</td><td style='vertical-align:top'>"
 
-	dat += "<b>Preview</b><br><img src=new_previewicon[preview_dir].png height=64 width=64>"
+	dat += "<b>Preview</b><br><a href='byond://?src=\ref[src];rotate=right'>&lt;&lt;&lt;</a> <a href='byond://?src=\ref[src];rotate=left'>&gt;&gt;&gt;</a><br>"
+	dat += "<img src=new_previewicon[preview_dir].png height=64 width=64>"
 	dat += "<img src=new_previewicon[turn(preview_dir,-90)].png height=64 width=64><br>"
 
-	dat += "<br><br><b>Set Character Records</b><br>"
+	dat += "<br><b>Set Character Records</b><br>"
 	dat += "<a href='byond://?src=\ref[src];records=med'>Medical Records</a><br>"
 	dat += "<span style='white-space: nowrap;'>[TextPreview(med_record,26)]</span>"
 	dat += "<br><a href='byond://?src=\ref[src];records=gen'>Employment Records</a><br>"
@@ -409,7 +418,8 @@ datum/preferences
 			dat += "<div><b>[r_organs[organ]]</b>"
 		dat += "<br><a href='byond://?src=\ref[src];organ=[organ]'>[disp_name]</a></div>"
 
-	dat += "</td><td style='width:80px;text-align:center'><img src=new_previewicon[preview_dir].png height=64 width=64></td>"
+	dat += "</td><td style='width:80px;text-align:center'><img src=new_previewicon[preview_dir].png height=64 width=64>"
+	dat += "<br><a href='byond://?src=\ref[src];rotate=right'>&lt;&lt;&lt;</a> <a href='byond://?src=\ref[src];rotate=left'>&gt;&gt;&gt;</a></td>"
 	dat += "<td style='width:95px'>"
 
 	for(var/organ in l_organs)
