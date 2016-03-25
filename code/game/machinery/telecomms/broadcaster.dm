@@ -289,7 +289,7 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 
 		if (R.client)
 			if(R.client.prefs)
-				if(!(R.client.prefs.chat_toggles & CHAT_RADIO)) //Adminning with 80 people on can be fun when you're trying to talk and all you can hear is radios.
+				if(check_rights(0, 0) && !(R.client.prefs.chat_toggles & CHAT_RADIO)) //Adminning with 80 people on can be fun when you're trying to talk and all you can hear is radios.
 					continue
 			else
 				log_debug("Client prefs found to be null in /proc/Broadcast_Message() for mob [R] and client [R.ckey], this should be investigated.")
@@ -496,7 +496,7 @@ var/message_delay = 0 // To make sure restarting the recentmessages list is kept
 
 		if (R.client)
 			if(R.client.prefs)
-				if(!(R.client.prefs.chat_toggles & CHAT_RADIO)) //Adminning with 80 people on can be fun when you're trying to talk and all you can hear is radios.
+				if(check_rights(0, 0) && !(R.client.prefs.chat_toggles & CHAT_RADIO)) //Adminning with 80 people on can be fun when you're trying to talk and all you can hear is radios.
 					continue
 			else
 				log_debug("Client prefs found to be null in /proc/Broadcast_SimpleMessage() for mob [R] and client [R.ckey], this should be investigated.")
