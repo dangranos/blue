@@ -6,8 +6,8 @@
 	icon_state = "target_h"
 	density = 0
 	var/hp = 1800
-	var/icon/virtualIcon
-	var/list/bulletholes = list()
+	var/tmp/icon/virtualIcon
+	var/tmp/list/bulletholes = list()
 
 	Destroy()
 		// if a target is deleted and associated with a stake, force stake to forget

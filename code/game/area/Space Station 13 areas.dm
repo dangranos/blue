@@ -472,6 +472,10 @@ area/space/atmosalert()
 	name = "\improper Thunderdome (Observer.)"
 	icon_state = "purple"
 
+/area/tdome/tdomenew
+	name = "\improper Thunderdome (New)"
+	icon_state = "thundernew"
+
 //ENEMY
 
 //names are used

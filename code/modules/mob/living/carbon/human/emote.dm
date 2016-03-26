@@ -23,7 +23,7 @@
 		if ("airguitar")
 			if (!src.restrained())
 				if(russified)
-					message = "<B>[src]</B> играет на воображаемой гитаре и трясёт головой в такт."
+					message = "<B>[src]</B> играет на воображаемой гитаре и тр&#255;сёт головой в такт."
 				else
 					message = "<B>[src]</B> is strumming the air and headbanging like a safari chimp."
 				m_type = 1
@@ -55,12 +55,12 @@
 
 				if (param)
 					if(russified)
-						message = "<B>[src]</B> кланяется [param]."
+						message = "<B>[src]</B> клан&#255;етс&#255; [param]."
 					else
 						message = "<B>[src]</B> bows to [param]."
 				else
 					if(russified)
-						message = "<B>[src]</B> кланяется."
+						message = "<B>[src]</B> клан&#255;етс&#255;."
 					else
 						message = "<B>[src]</B> bows."
 			m_type = 1
@@ -124,14 +124,14 @@
 		if ("choke")
 			if(miming)
 				if(russified)
-					message = "<B>[src]</B> хватается за горло!"
+					message = "<B>[src]</B> хватаетс&#255; за горло!"
 				else
 					message = "<B>[src]</B> clutches \his throat desperately!"
 				m_type = 1
 			else
 				if (!muzzled)
 					if(russified)
-						message = "<B>[src]</B> задыхается!"
+						message = "<B>[src]</B> задыхаетс&#255;!"
 					else
 						message = "<B>[src]</B> chokes!"
 					m_type = 2
@@ -154,7 +154,7 @@
 		if ("flap")
 			if (!src.restrained())
 				if(russified)
-					message = "<B>[src]</B> хлопает своими крыльями."
+					message = "<B>[src]</B> хлопает своими крыль&#255;ми."
 				else
 					message = "<B>[src]</B> flaps \his wings."
 				m_type = 2
@@ -164,7 +164,7 @@
 		if ("aflap")
 			if (!src.restrained())
 				if(russified)
-					message = "<B>[src]</B> угражающе хлопает крыльями!"
+					message = "<B>[src]</B> угражающе хлопает крыль&#255;ми!"
 				else
 					message = "<B>[src]</B> flaps \his wings ANGRILY!"
 				m_type = 2
@@ -195,7 +195,7 @@
 			else
 				if (!muzzled)
 					if(russified)
-						message = "<B>[src]</B> посмеивается."
+						message = "<B>[src]</B> посмеиваетс&#255;."
 					else
 						message = "<B>[src]</B> chuckles."
 					m_type = 2
@@ -205,14 +205,14 @@
 
 		if ("twitch")
 			if(russified)
-				message = "<B>[src]</B> яростно дергается."
+				message = "<B>[src]</B> &#255;ростно дергаетс&#255;."
 			else
 				message = "<B>[src]</B> twitches violently."
 			m_type = 1
 
 		if ("twitch_s")
 			if(russified)
-				message = "<B>[src]</B> дергается."
+				message = "<B>[src]</B> дергаетс&#255;."
 			else
 				message = "<B>[src]</B> twitches."
 			m_type = 1
@@ -230,14 +230,14 @@
 		if ("cough")
 			if(miming)
 				if(russified)
-					message = "<B>[src]</B> беззвучно кашляет!"
+					message = "<B>[src]</B> беззвучно кашл&#255;ет!"
 				else
 					message = "<B>[src]</B> appears to cough!"
 				m_type = 1
 			else
 				if (!muzzled)
 					if(russified)
-						message = "<B>[src]</B> кашляет!"
+						message = "<B>[src]</B> кашл&#255;ет!"
 					else
 						message = "<B>[src]</B> coughs!"
 					m_type = 2
@@ -253,7 +253,7 @@
 				if(gender == FEMALE)
 					message = "<B>[src]</B> нахмурилась."
 				else
-					message = "<B>[src]</B> нахмурился."
+					message = "<B>[src]</B> нахмурилс&#255;."
 			else
 				message = "<B>[src]</B> frowns."
 			m_type = 1
@@ -282,14 +282,14 @@
 		if ("gasp")
 			if(miming)
 				if(russified)
-					message = "<B>[src]</B> беззвучно задыхается!"
+					message = "<B>[src]</B> беззвучно задыхаетс&#255;!"
 				else
 					message = "<B>[src]</B> appears to be gasping!"
 				m_type = 1
 			else
 				if (!muzzled)
 					if(russified)
-						message = "<B>[src]</B> задыхается!"
+						message = "<B>[src]</B> рефлекторно пытаетс&#255; вдохнуть!"
 					else
 						message = "<B>[src]</B> gasps!"
 					m_type = 2
@@ -358,12 +358,12 @@
 
 			if (param)
 				if(russified)
-					message = "<B>[src]</B> пялится на [param]."
+					message = "<B>[src]</B> п&#255;литс&#255; на [param]."
 				else
 					message = "<B>[src]</B> stares at [param]."
 			else
 				if(russified)
-					message = "<B>[src]</B> внимательно смотрит на происходящее."
+					message = "<B>[src]</B> внимательно смотрит на происход&#255;щее."
 				else
 					message = "<B>[src]</B> stares."
 
@@ -385,14 +385,14 @@
 					message = "<B>[src]</B> looks at [param]."
 			else
 				if(russified)
-					message = "<B>[src]</B> осматривается."
+					message = "<B>[src]</B> осматриваетс&#255;."
 				else
 					message = "<B>[src]</B> looks."
 			m_type = 1
 
 		if ("grin")
 			if(russified)
-				message = "<B>[src]</B> ухмыляется."
+				message = "<B>[src]</B> ухмыл&#255;етс&#255;."
 			else
 				message = "<B>[src]</B> grins."
 			m_type = 1
@@ -449,7 +449,7 @@
 			else
 				if (!muzzled)
 					if(russified)
-						message = "<B>[src]</B> смеётся."
+						message = "<B>[src]</B> смеётс&#255;."
 					else
 						message = "<B>[src]</B> laughs."
 					m_type = 2
@@ -462,7 +462,7 @@
 
 		if ("mumble")
 			if(russified)
-				message = "<B>[src]</B> бормочет что-то невнятное."
+				message = "<B>[src]</B> бормочет что-то невн&#255;тное."
 			else
 				message = "<B>[src]</B> mumbles!"
 			m_type = 2
@@ -505,7 +505,7 @@
 					m_type = 2
 				else
 					if(russified)
-						message = "<B>[src]</B> издает долгий, тянущийся звук."
+						message = "<B>[src]</B> издает долгий, т&#255;нущийс&#255; звук."
 					else
 						message = "<B>[src]</B> makes a loud noise."
 					m_type = 2
@@ -528,13 +528,13 @@
 			if (param && gender!=FEMALE)
 				if(miming)
 					if(russified)
-						message = "<B>[src]</B> затянулся сигаретой и написал \"[param]\" выдыхаемым дымом."
+						message = "<B>[src]</B> зат&#255;нулс&#255; сигаретой и написал \"[param]\" выдыхаемым дымом."
 					else
 						message = "<B>[src]</B> takes a drag from a cigarette and blows \"[param]\" out in smoke."
 					m_type = 1
 				else
 					if(russified)
-						message = "<B>[src]</B> says, \"[param], боже. У него была семья.\" [src.name] делает затяжку и рисует своё имя в облаке дыма."
+						message = "<B>[src]</B> says, \"[param], боже. У него была семь&#255;.\" [src.name] делает зат&#255;жку и рисует своё им&#255; в облаке дыма."
 					else
 						message = "<B>[src]</B> says, \"[param], please. He had a family.\" [src.name] takes a drag from a cigarette and blows their name out in smoke."
 					m_type = 2
@@ -574,7 +574,7 @@
 
 		if("shake")
 			if(russified)
-				message = "<B>[src]</B> трясёт головой."
+				message = "<B>[src]</B> тр&#255;сёт головой."
 			else
 				message = "<B>[src]</B> shakes \his head."
 			m_type = 1
@@ -613,7 +613,7 @@
 
 		if ("smile")
 			if(russified)
-				message = "<B>[src]</B> улыбается."
+				message = "<B>[src]</B> улыбаетс&#255;."
 			else
 				message = "<B>[src]</B> smiles."
 			m_type = 1
@@ -695,7 +695,7 @@
 		if ("whimper")
 			if (miming)
 				if(russified)
-					message = "<B>[src]</B> выглядит уязвленно."
+					message = "<B>[src]</B> выгл&#255;дит у&#255;звленно."
 				else
 					message = "<B>[src]</B> appears hurt."
 				m_type = 1
@@ -733,7 +733,7 @@
 		if ("collapse")
 			Paralyse(2)
 			if(russified)
-				message = "<B>[src]</B> теряет сознание!"
+				message = "<B>[src]</B> тер&#255;ет сознание!"
 			else
 				message = "<B>[src]</B> collapses!"
 			m_type = 2
@@ -759,7 +759,7 @@
 						message = "<B>[src]</B> hugs [M]."
 				else
 					if(russified)
-						message = "<B>[src]</B> обнимает себя."
+						message = "<B>[src]</B> обнимает себ&#255;."
 					else
 						message = "<B>[src]</B> hugs \himself."
 
@@ -783,7 +783,7 @@
 							message = "<B>[src]</B> shakes hands with [M]."
 					else
 						if(russified)
-							message = "<B>[src]</B> протягивает руку [M]."
+							message = "<B>[src]</B> прот&#255;гивает руку [M]."
 						else
 							message = "<B>[src]</B> holds out \his hand to [M]."
 
@@ -803,7 +803,7 @@
 						message = "<B>[src]</B> gives daps to [M]."
 				else
 					if(russified)
-						message = "<B>[src]</B> не найдя никого рядом с собой, делает  брофист сам с собой.  Жалкое зрелище"
+						message = "<B>[src]</B> не найд&#255; никого р&#255;дом с собой, делает  брофист сам с собой.  Жалкое зрелище"
 					else
 						message = "<B>[src]</B> sadly can't find anybody to give daps to, and daps \himself. Shameful."
 
@@ -860,7 +860,7 @@
 
 				if (M)
 					if(russified)
-						message = "<B>[src]</B> прижимается к [M]."
+						message = "<B>[src]</B> прижимаетс&#255; к [M]."
 
 						message = "<B>[src]</B> cuddles [M]."
 
@@ -927,7 +927,7 @@
 		if ("clear")
 			if (miming)
 				if(russified)
-					message = "<B>[src]</B> беззвучно кашляет."
+					message = "<B>[src]</B> беззвучно кашл&#255;ет."
 				else
 					message = "<B>[src]</B> appears to cough."
 				m_type = 1
@@ -948,7 +948,7 @@
 		if ("hem")
 			if (miming)
 				if(russified)
-					message = "<B>[src]</B> выглядит неуверенно."
+					message = "<B>[src]</B> выгл&#255;дит неуверенно."
 				else
 					message = "<B>[src]</B> seems unsure."
 				m_type = 1
@@ -961,7 +961,7 @@
 					m_type = 2
 				else
 					if(russified)
-						message = "<B>[src]</B> издаёт сомневающийся звук."
+						message = "<B>[src]</B> издаёт сомневающийс&#255; звук."
 					else
 						message = "<B>[src]</B> makes an unsure noise."
 					m_type = 2
