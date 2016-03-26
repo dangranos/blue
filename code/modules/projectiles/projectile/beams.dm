@@ -32,6 +32,19 @@
 	tracer_type = /obj/effect/projectile/laser_heavy/tracer
 	impact_type = /obj/effect/projectile/laser_heavy/impact
 
+/obj/item/projectile/beam/laserlight
+	name = "laser"
+	icon_state = "laser"
+	pass_flags = PASSTABLE | PASSGLASS | PASSGRILLE
+	damage = 18
+	damage_type = BURN
+	check_armour = "laser"
+	eyeblur = 2
+
+	muzzle_type = /obj/effect/projectile/laserlight/muzzle
+	tracer_type = /obj/effect/projectile/laserlight/tracer
+	impact_type = /obj/effect/projectile/laserlight/impact
+
 /obj/item/projectile/beam/xray
 	name = "xray beam"
 	icon_state = "xray"
@@ -138,7 +151,7 @@
 	taser_effect = 1
 	agony = 70
 	damage_type = HALLOSS
-	
+
 	muzzle_type = /obj/effect/projectile/stun/muzzle
 	tracer_type = /obj/effect/projectile/stun/tracer
 	impact_type = /obj/effect/projectile/stun/impact

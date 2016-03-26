@@ -54,6 +54,7 @@
 	S["be_special"]			>> be_special
 	S["default_slot"]		>> default_slot
 	S["toggles"]			>> toggles
+	S["chat_toggles"]		>> chat_toggles
 	S["UI_style_color"]		>> UI_style_color
 	S["UI_style_alpha"]		>> UI_style_alpha
 
@@ -64,6 +65,7 @@
 	be_special		= sanitize_integer(be_special, 0, 65535, initial(be_special))
 	default_slot	= sanitize_integer(default_slot, 1, config.character_slots, initial(default_slot))
 	toggles			= sanitize_integer(toggles, 0, 65535, initial(toggles))
+	chat_toggles	= sanitize_integer(chat_toggles, 0, 65535, initial(chat_toggles))
 	UI_style_color	= sanitize_hexcolor(UI_style_color, initial(UI_style_color))
 	UI_style_alpha	= sanitize_integer(UI_style_alpha, 0, 255, initial(UI_style_alpha))
 
@@ -84,6 +86,7 @@
 	S["be_special"]			<< be_special
 	S["default_slot"]		<< default_slot
 	S["toggles"]			<< toggles
+	S["chat_toggles"]		<< chat_toggles
 
 	return 1
 
