@@ -378,6 +378,16 @@
 	body_parts_covered = UPPER_TORSO|ARMS
 	cold_protection = UPPER_TORSO|ARMS
 
+/obj/item/clothing/suit/storage/toggle/varsitybrown
+	name = "brown varsity jacket"
+	desc = "Where are you right now?"
+	icon_state = "varsity_brown"
+	item_state = "varsity_brown"
+	icon_open = "varsity_brown_open"
+	icon_closed = "varsity_brown"
+	body_parts_covered = UPPER_TORSO|ARMS
+	cold_protection = UPPER_TORSO|ARMS
+
 /obj/item/clothing/suit/storage/toggle/bomber
 	name = "bomber jacket"
 	desc = "A thick, well-worn WW2 leather bomber jacket."
