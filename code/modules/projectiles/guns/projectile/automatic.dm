@@ -55,6 +55,7 @@
 	item_state = "z8carbine"
 	magazine_type = /obj/item/ammo_magazine/smg40
 	caliber = ".40"
+	load_method = MAGAZINE
 	max_shells = 30
 	w_class = 4
 	slot_flags = SLOT_BACK
@@ -280,6 +281,7 @@
 	w_class = 4
 	max_shells = 30
 	caliber = "11.9x33"
+	load_method = MAGAZINE
 	slot_flags = null
 	multi_aim = 1
 	fire_delay = 0.2
