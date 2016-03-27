@@ -19,7 +19,7 @@
 					fdel(delpath)
 				break
 		return 0
-
+/*
 	if(savefile_version < 13)
 		if(!isnull(S["hair_red"]) && !isnull(S["hair_green"]) && !isnull(S["hair_blue"]))
 			hair_color = rgb(S["hair_red"], S["hair_green"], S["hair_blue"])
@@ -41,7 +41,7 @@
 		else
 			S["eyes_color"]		>> eyes_color
 		savefile_version = 13
-
+*/
 	if(savefile_version == SAVEFILE_VERSION_MAX)	//update successful.
 		save_preferences()
 		save_character()
