@@ -351,7 +351,7 @@
 	icon_state = "blueponcho"
 	item_state = "blueponcho"
 
-/obj/item/clothing/suit/storage/varsityred
+/obj/item/clothing/suit/storage/toggle/varsityred
 	name = "red varsity jacket"
 	icon_state = "varsity_red"
 	item_state = "varsity_red"
@@ -360,7 +360,7 @@
 	body_parts_covered = UPPER_TORSO|ARMS
 	cold_protection = UPPER_TORSO|ARMS
 
-/obj/item/clothing/suit/storage/varsityblue
+/obj/item/clothing/suit/storage/toggle/varsityblue
 	name = "blue varsity jacket"
 	icon_state = "varsity_blue"
 	item_state = "varsity_blue"
@@ -369,12 +369,22 @@
 	body_parts_covered = UPPER_TORSO|ARMS
 	cold_protection = UPPER_TORSO|ARMS
 
-/obj/item/clothing/suit/storage/varsityblack
+/obj/item/clothing/suit/storage/toggle/varsityblack
 	name = "black varsity jacket"
 	icon_state = "varsity_black"
 	item_state = "varsity_black"
 	icon_open = "varsity_black_open"
 	icon_closed = "varsity_black"
+	body_parts_covered = UPPER_TORSO|ARMS
+	cold_protection = UPPER_TORSO|ARMS
+
+/obj/item/clothing/suit/storage/toggle/varsitybrown
+	name = "brown varsity jacket"
+	desc = "Where are you right now?"
+	icon_state = "varsity_brown"
+	item_state = "varsity_brown"
+	icon_open = "varsity_brown_open"
+	icon_closed = "varsity_brown"
 	body_parts_covered = UPPER_TORSO|ARMS
 	cold_protection = UPPER_TORSO|ARMS
 
