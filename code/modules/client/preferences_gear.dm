@@ -1553,6 +1553,12 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_wear_suit
 
+/datum/gear/varsitybrown
+	display_name = "Varsity jacket, brown"
+	path = /obj/item/clothing/suit/storage/toggle/varsitybrown
+	cost = 2
+	slot = slot_wear_suit
+
 // Belt
 
 /datum/gear/fannypack
