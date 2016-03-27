@@ -20,6 +20,28 @@
 				break
 		return 0
 
+	if(savefile_version < 13)
+		if(!isnull(S["hair_red"]) && !isnull(S["hair_green"]) && !isnull(S["hair_blue"]))
+			hair_color = rgb(S["hair_red"], S["hair_green"], S["hair_blue"])
+		else
+			S["hair_color"]		>> hair_color
+
+		if(!isnull(S["facial_red"]) && !isnull(S["facial_green"]) && !isnull(S["facial_blue"]))
+			facial_color = rgb(S["facial_red"], S["facial_green"], S["facial_blue"])
+		else
+			S["facial_color"]		>> facial_color
+
+		if(!isnull(S["skin_red"]) && !isnull(S["skin_green"]) && !isnull(S["skin_blue"]))
+			skin_color = rgb(S["skin_red"], S["skin_green"], S["skin_blue"])
+		else
+			S["skin_color"]		>> skin_color
+
+		if(!isnull(S["eyes_red"]) && !isnull(S["eyes_green"]) && !isnull(S["eyes_blue"]))
+			eyes_color = rgb(S["eyes_red"], S["eyes_green"], S["eyes_blue"])
+		else
+			S["eyes_color"]		>> eyes_color
+		savefile_version = 13
+
 	if(savefile_version == SAVEFILE_VERSION_MAX)	//update successful.
 		save_preferences()
 		save_character()
@@ -77,7 +99,7 @@
 	if(!S)					return 0
 	S.cd = "/"
 
-	S["version"] << savefile_version
+	S["version"] 			<< savefile_version
 
 	//general preferences
 	S["ooccolor"]			<< ooccolor
@@ -117,20 +139,9 @@
 	S["language"]			>> language
 	S["spawnpoint"]			>> spawnpoint
 
-	if(!isnull(S["hair_red"]) && !isnull(S["hair_green"]) && !isnull(S["hair_blue"]))
-		hair_color = rgb(S["hair_red"], S["hair_green"], S["hair_blue"])
-	else
-		S["hair_color"]		>> hair_color
-
-	if(!isnull(S["facial_red"]) && !isnull(S["facial_green"]) && !isnull(S["facial_blue"]))
-		facial_color = rgb(S["facial_red"], S["facial_green"], S["facial_blue"])
-	else
-		S["facial_color"]		>> facial_color
-
-	if(!isnull(S["skin_red"]) && !isnull(S["skin_green"]) && !isnull(S["skin_blue"]))
-		skin_color = rgb(S["skin_red"], S["skin_green"], S["skin_blue"])
-	else
-		S["skin_color"]		>> skin_color
+	S["hair_color"]		>> hair_color
+	S["facial_color"]		>> facial_color
+	S["skin_color"]		>> skin_color
 
 	if(!isnull(S["eyes_red"]) && !isnull(S["eyes_green"]) && !isnull(S["eyes_blue"]))
 		eyes_color = rgb(S["eyes_red"], S["eyes_green"], S["eyes_blue"])
