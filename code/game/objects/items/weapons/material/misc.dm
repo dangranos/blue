@@ -69,3 +69,12 @@
 	slot_flags = SLOT_BACK
 	origin_tech = "materials=2;combat=2"
 	attack_verb = list("chopped", "sliced", "cut", "reaped")
+	
+	/obj/item/weapon/material/knuckles
+	icon_state = "knuckles"
+	name = "brass knuckles"
+	desc = "Prepare your teeth!"
+	force_divisor = 0.25
+	thrown_force_divisor = 0.1
+	w_class = 2
+	attack_verb = list("kicked", "bashed", "slamed")
