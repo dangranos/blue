@@ -226,3 +226,17 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "poked", "jabbed", "torn", "gored")
 	default_material = "glass"
+
+/obj/item/weapon/material/twohanded/bostaff
+	icon_state = "bostaff0"
+	name = "bo staff"
+	desc = "A long, tall staff made of polished wood. Traditionally used in ancient old-Earth martial arts. Can be wielded to both kill and incapacitate."
+	force = 10
+	w_class = 4
+	slot_flags = SLOT_BACK
+	force_unwielded = 0.55
+	force_wielded = 0.75
+	throwforce = 0.25
+	throw_speed = 2
+	attack_verb = list("smashed", "slammed", "whacked", "thwacked")
+	default_material = "wood"
