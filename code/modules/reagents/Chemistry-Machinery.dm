@@ -602,8 +602,8 @@
 /obj/machinery/reagentgrinder/attackby(var/obj/item/O as obj, var/mob/user as mob)
 
 	if (istype(O,/obj/item/weapon/reagent_containers/glass) || \
-		istype(O,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass) || \
-		istype(O,/obj/item/weapon/reagent_containers/food/drinks/shaker))
+		istype(O,/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass) || \
+		istype(O,/obj/item/weapon/reagent_containers/glass/drinks/shaker))
 
 		if (beaker)
 			return 1

@@ -79,6 +79,8 @@
 			if(istype(target, type))
 				return
 
+//		if(user.
+
 		if(standard_splash_mob(user, target))
 			return
 		if(standard_dispenser_refill(user, target))
