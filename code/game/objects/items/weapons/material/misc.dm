@@ -36,7 +36,7 @@
 	icon_state = "tacknife"
 	item_state = "knife"
 	attack_verb = list("stabbed", "chopped", "cut")
-	applies_material_colour = 1
+	applies_material_colour = 0
 
 /obj/item/weapon/material/hatchet/tacknife/thunder
 	force_divisor = 0.5
