@@ -47,8 +47,8 @@
 	var/global/list/toxic_reagents = list(
 		"anti_toxin" =     -2,
 		"toxin" =           2,
-		"fluorine" =        2.5,
-		"chlorine" =        1.5,
+		"hydrazine" =       2.5,
+		"acetone" =	        1,
 		"sacid" =           1.5,
 		"pacid" =           3,
 		"plantbgone" =      3,
@@ -70,10 +70,10 @@
 		"left4zed" =        1
 		)
 	var/global/list/weedkiller_reagents = list(
-		"fluorine" =       -4,
-		"chlorine" =       -3,
+		"hydrazine" =      -4,
 		"phosphorus" =     -2,
 		"sugar" =           2,
+		"hclacid" =        -2,
 		"sacid" =          -2,
 		"pacid" =          -4,
 		"plantbgone" =     -8,
@@ -89,8 +89,7 @@
 		"adminordrazine" =  1,
 		"milk" =            0.9,
 		"beer" =            0.7,
-		"fluorine" =       -0.5,
-		"chlorine" =       -0.5,
+		"hydrazine" =      -2,
 		"phosphorus" =     -0.5,
 		"water" =           1,
 		"sodawater" =       1,
@@ -99,8 +98,7 @@
 	// Beneficial reagents also have values for modifying yield_mod and mut_mod (in that order).
 	var/global/list/beneficial_reagents = list(
 		"beer" =           list( -0.05, 0,   0  ),
-		"fluorine" =       list( -2,    0,   0  ),
-		"chlorine" =       list( -1,    0,   0  ),
+		"hydrazine" =      list( -2,    0,   0  ),
 		"phosphorus" =     list( -0.75, 0,   0  ),
 		"sodawater" =      list(  0.1,  0,   0  ),
 		"sacid" =          list( -1,    0,   0  ),
