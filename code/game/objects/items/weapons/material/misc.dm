@@ -77,5 +77,5 @@
 	force_divisor = 0.25
 	thrown_force_divisor = 0.1
 	w_class = 2
-	attack_verb = list("kicked", "bashed", "slamed")
+	attack_verb = list("smashed", "bashed", "slammed")
 	default_material = "plasteel"
