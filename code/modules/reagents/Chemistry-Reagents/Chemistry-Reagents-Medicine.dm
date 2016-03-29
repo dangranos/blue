@@ -243,6 +243,20 @@
 	M.hallucination = max(0, M.hallucination - 10)
 	M.adjustToxLoss(50 * removed) // ~It used to be incredibly deadly due to an oversight. Not anymore!~ Still as deadly
 	M.add_chemical_effect(CE_PAINKILLER, 40)
+	
+/datum/reagent/synaptirex		
+ 	name = "Synaptirex"		
+	id = "synaptirex"		
+	description = "Synaptirex is used for cleaning blood from synaptizine"	
+	taste_description = "recovery"
+	reagent_state = LIQUID		
+	color = "#99CCAA"		
+ 	overdose = REAGENTS_OVERDOSE		
+ 	scannable = 1		
+ 	
+ /datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)		
+ 	holder.remove_reagent("synaptizine", 2*REM)		
+ 	..()		
 
 /datum/reagent/alkysine
 	name = "Alkysine"
@@ -408,7 +422,7 @@
 	color = "#C8A5DC"
 	touch_met = 5
 
-/*Вернуть, если перенесем криминалистику
+/*Г‚ГҐГ°Г­ГіГІГј, ГҐГ±Г«ГЁ ГЇГҐГ°ГҐГ­ГҐГ±ГҐГ¬ ГЄГ°ГЁГ¬ГЁГ­Г Г«ГЁГ±ГІГЁГЄГі
 /datum/reagent/sterilizine/affect_touch(var/mob/living/carbon/M, var/alien, var/removed)
 	M.germ_level -= min(removed*20, M.germ_level)
 	for(var/obj/item/I in M.contents)
