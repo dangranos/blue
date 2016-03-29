@@ -666,6 +666,7 @@ proc/admin_notice(var/message, var/rights)
 			<A href='?src=\ref[src];secretsfun=fakeguns'>Make all items look like guns</A><BR>
 			<A href='?src=\ref[src];secretsfun=paintball'>Paintball Mode</A><BR>
 			<A href='?src=\ref[src];secretsfun=schoolgirl'>Japanese Animes Mode</A><BR>
+			<A href='?src=\ref[src];secretsfun=meownomaly'>Spawn a Meownomaly</A><BR>
 			<A href='?src=\ref[src];secretsfun=eagles'>Egalitarian Station Mode</A><BR>
 			<A href='?src=\ref[src];secretsfun=launchshuttle'>Launch a shuttle</A><BR>
 			<A href='?src=\ref[src];secretsfun=forcelaunchshuttle'>Force launch a shuttle</A><BR>
