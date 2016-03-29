@@ -1323,13 +1323,13 @@ var/global/list/gear_datums = list()
 
 /datum/gear/flask
 	display_name = "flask"
-	path = /obj/item/weapon/reagent_containers/food/drinks/flask/barflask
+	path = /obj/item/weapon/reagent_containers/glass/drinks/flask/barflask
 	sort_category = "misc"
 	cost = 1
 
 /datum/gear/vacflask
 	display_name = "vacuum-flask"
-	path = /obj/item/weapon/reagent_containers/food/drinks/flask/vacuumflask
+	path = /obj/item/weapon/reagent_containers/glass/drinks/flask/vacuumflask
 	sort_category = "misc"
 	cost = 1
 /datum/gear/blipstick
