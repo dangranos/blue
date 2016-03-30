@@ -234,6 +234,7 @@
 	force = 10
 	w_class = 4
 	slot_flags = SLOT_BACK
+	hitsound = 'sound/weapons/genhit3.ogg'
 	force_unwielded = 0.80
 	force_wielded = 1.4
 	throwforce = 0.40
