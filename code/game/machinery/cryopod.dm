@@ -425,8 +425,7 @@
 
 			if(do_after(user, 20))
 				if(!M || !G || !G.affecting) return
-				var/turf/src_turf = get_turf(src)
-				if( !src_turf.Adjacent(M) ) return
+				if( !Adjacent(M) ) return
 
 			set_occupant(M)
 			M << "<span class='notice'>[on_enter_occupant_message]</span>"

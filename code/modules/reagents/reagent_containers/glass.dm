@@ -79,8 +79,12 @@
 			if(istype(target, type))
 				return
 
-		if(standard_splash_mob(user, target))
+		if(user.a_intent == I_HELP)
+			if(standard_feed_mob(user, target))
+				return
+		else if(standard_splash_mob(user, target))
 			return
+
 		if(standard_dispenser_refill(user, target))
 			return
 		if(standard_pour_into(user, target))
@@ -90,6 +94,13 @@
 			user << "<span class='notice'>You splash the solution onto [target].</span>"
 			reagents.splash(target, reagents.total_volume)
 			return
+
+	self_feed_message(var/mob/user)
+		user << "<span class='notice'>You swallow a gulp from \the [src].</span>"
+
+	feed_sound(var/mob/user)
+		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
+
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
 		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
