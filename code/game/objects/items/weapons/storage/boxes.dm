@@ -390,12 +390,12 @@
 
 	New()
 		..()
-		new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass(src)
-		new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass(src)
-		new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass(src)
-		new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass(src)
-		new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass(src)
-		new /obj/item/weapon/reagent_containers/food/drinks/drinkingglass(src)
+		new /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass(src)
+		new /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass(src)
+		new /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass(src)
+		new /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass(src)
+		new /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass(src)
+		new /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass(src)
 
 /obj/item/weapon/storage/box/cdeathalarm_kit
 	name = "death alarm kit"
@@ -433,13 +433,13 @@
 	desc = "It has pictures of paper cups on the front."
 	New()
 		..()
-		new /obj/item/weapon/reagent_containers/food/drinks/sillycup( src )
-		new /obj/item/weapon/reagent_containers/food/drinks/sillycup( src )
-		new /obj/item/weapon/reagent_containers/food/drinks/sillycup( src )
-		new /obj/item/weapon/reagent_containers/food/drinks/sillycup( src )
-		new /obj/item/weapon/reagent_containers/food/drinks/sillycup( src )
-		new /obj/item/weapon/reagent_containers/food/drinks/sillycup( src )
-		new /obj/item/weapon/reagent_containers/food/drinks/sillycup( src )
+		new /obj/item/weapon/reagent_containers/glass/drinks/sillycup( src )
+		new /obj/item/weapon/reagent_containers/glass/drinks/sillycup( src )
+		new /obj/item/weapon/reagent_containers/glass/drinks/sillycup( src )
+		new /obj/item/weapon/reagent_containers/glass/drinks/sillycup( src )
+		new /obj/item/weapon/reagent_containers/glass/drinks/sillycup( src )
+		new /obj/item/weapon/reagent_containers/glass/drinks/sillycup( src )
+		new /obj/item/weapon/reagent_containers/glass/drinks/sillycup( src )
 
 
 /obj/item/weapon/storage/box/donkpockets

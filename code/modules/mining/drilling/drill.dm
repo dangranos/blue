@@ -168,8 +168,7 @@
 	check_supports()
 
 	if (panel_open && cell)
-		var/turf/src_turf = get_turf(src)
-		if( !src_turf.Adjacent(usr) ) return 0
+		if( !src.Adjacent(usr) ) return 0
 		user << "You take out \the [cell]."
 		cell.loc = get_turf(user)
 		component_parts -= cell

@@ -35,6 +35,10 @@
 	var/hand = null
 	var/glasses = null
 
+	var/backpack = /obj/item/weapon/storage/backpack
+	var/satchel = /obj/item/weapon/storage/backpack/satchel_norm
+	var/duffle = /obj/item/weapon/storage/backpack/duffle
+
 	var/list/backpacks = list(
 		/obj/item/weapon/storage/backpack,\
 		/obj/item/weapon/storage/backpack/satchel_norm,\
