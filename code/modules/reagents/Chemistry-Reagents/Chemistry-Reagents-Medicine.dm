@@ -245,18 +245,18 @@
 	M.add_chemical_effect(CE_PAINKILLER, 40)
 	
 /datum/reagent/synaptirex		
- 	name = "Synaptirex"		
+	name = "Synaptirex"		
 	id = "synaptirex"		
 	description = "Synaptirex is used for cleaning blood from synaptizine"	
 	taste_description = "recovery"
 	reagent_state = LIQUID		
 	color = "#99CCAA"		
- 	overdose = REAGENTS_OVERDOSE		
- 	scannable = 1		
+	overdose = REAGENTS_OVERDOSE		
+	scannable = 1		
  	
- /datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)		
- 	holder.remove_reagent("synaptizine", 2*REM)		
- 	..()		
+/datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)		
+	holder.remove_reagent("synaptizine", 2*REM)		
+	..()
 
 /datum/reagent/alkysine
 	name = "Alkysine"

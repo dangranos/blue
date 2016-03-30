@@ -234,9 +234,9 @@
 	force = 10
 	w_class = 4
 	slot_flags = SLOT_BACK
-	force_unwielded = 0.55
-	force_wielded = 0.75
-	throwforce = 0.25
+	force_unwielded = 0.80
+	force_wielded = 1.4
+	throwforce = 0.40
 	throw_speed = 2
 	attack_verb = list("smashed", "slammed", "whacked", "thwacked")
 	default_material = "wood"

@@ -36,7 +36,7 @@
 	icon_state = "tacknife"
 	item_state = "knife"
 	attack_verb = list("stabbed", "chopped", "cut")
-	applies_material_colour = 1
+	applies_material_colour = 0
 
 /obj/item/weapon/material/hatchet/tacknife/thunder
 	force_divisor = 0.5
@@ -74,7 +74,7 @@
 	icon_state = "knuckles"
 	name = "brass knuckles"
 	desc = "Prepare your teeth!"
-	force_divisor = 0.25
+	force_divisor = 0.15
 	thrown_force_divisor = 0.1
 	w_class = 2
 	attack_verb = list("smashed", "bashed", "slammed")
