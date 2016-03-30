@@ -74,6 +74,7 @@
 	icon_state = "knuckles"
 	name = "brass knuckles"
 	desc = "Prepare your teeth!"
+	hitsound = 'sound/weapons/genhit3.ogg'
 	force_divisor = 0.15
 	thrown_force_divisor = 0.1
 	w_class = 2
