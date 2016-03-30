@@ -2089,6 +2089,13 @@
 					W.item_state = "w_suit"
 				message_admins("[key_name_admin(usr)] activated Japanese Animes mode")
 				world << sound('sound/AI/animes.ogg')
+			if("meownomaly")
+				for(var/obj/item/clothing/head/W in world)
+					W.icon_state = "kitty"
+					W.item_state = "w_head"
+					if(ismob(W.loc)) W.loc:update_inv_obj(W)
+				message_admins("[key_name_admin(usr)] spawned Meownomaly")
+				command_announcement.Announce("Mystic Meownomaly detected on the station.", new_sound = 'sound/AI/commandreport.ogg')				
 			if("paintball")
 				for(var/species in all_species)
 					var/datum/species/S = all_species[species]
