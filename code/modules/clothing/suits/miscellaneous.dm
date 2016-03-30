@@ -445,3 +445,10 @@
 	item_state = "black_hoodie"
 	icon_open = "black_hoodie_open"
 	icon_closed = "black_hoodie"
+
+/obj/item/clothing/suit/storage/lebowski
+	name = "bathrobe"
+	desc = "Where is the money Lebowski?"
+	icon_state = "lebowski"
+	item_state = "lebowski"
+	body_parts_covered = ARMS
