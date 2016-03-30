@@ -254,9 +254,9 @@
 	overdose = REAGENTS_OVERDOSE		
 	scannable = 1		
  	
- /datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)		
+/datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)		
 	holder.remove_reagent("synaptizine", 2*REM)		
-	..()		
+	..()
 
 /datum/reagent/alkysine
 	name = "Alkysine"
