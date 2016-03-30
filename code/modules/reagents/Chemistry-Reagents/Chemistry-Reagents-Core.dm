@@ -5,7 +5,8 @@
 	reagent_state = LIQUID
 	metabolism = REM * 5
 	color = "#C80000"
-
+	taste_description = "copper"
+	taste_mult = 1.3
 	glass_icon_state = "glass_red"
 	glass_name = "glass of tomato juice"
 	glass_desc = "Are you sure this is tomato juice?"
@@ -51,9 +52,13 @@
 			B.blood_DNA["UNKNOWN DNA STRUCTURE"] = "X*"
 
 /datum/reagent/blood/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed)
-	if(dose > 5)
+
+	var/effective_dose = dose
+	if(issmall(M)) effective_dose *= 2
+
+	if(effective_dose > 5)
 		M.adjustToxLoss(removed)
-	if(dose > 15)
+	if(effective_dose > 15)
 		M.adjustToxLoss(removed)
 	if(data && data["viruses"])
 		for(var/datum/disease/D in data["viruses"])
@@ -70,6 +75,8 @@
 					infect_virus2(M, V.getcopy())
 
 /datum/reagent/blood/affect_touch(var/mob/living/carbon/M, var/alien, var/removed)
+	if(alien == IS_SYNTHETIC)
+		return
 	if(data && data["viruses"])
 		for(var/datum/disease/D in data["viruses"])
 			if(D.spread_type == SPECIAL || D.spread_type == NON_CONTAGIOUS)
@@ -92,6 +99,7 @@
 
 /datum/reagent/vaccine
 	name = "Vaccine"
+	taste_description = "slime"
 	id = "vaccine"
 	reagent_state = LIQUID
 	color = "#C81040"
@@ -114,6 +122,7 @@
 /datum/reagent/antibodies
 	data = list("antibodies"=list())
 	name = "Antibodies"
+	taste_description = "slime"
 	id = "antibodies"
 	reagent_state = LIQUID
 	color = "#0050F0"
@@ -131,7 +140,7 @@
 	reagent_state = LIQUID
 	color = "#0064C877"
 	metabolism = REM * 10
-
+	taste_description = "water"
 	glass_icon_state = "glass_clear"
 	glass_name = "glass of water"
 	glass_desc = "The father of all refreshments."
@@ -158,24 +167,7 @@
 			T.visible_message("<span class='warning'>The water sizzles as it lands on \the [T]!</span>")
 
 	else if(volume >= 10)
-		if(T.wet >= 1)
-			return
-		T.wet = 1
-		if(T.wet_overlay)
-			T.overlays -= T.wet_overlay
-			T.wet_overlay = null
-		T.wet_overlay = image('icons/effects/water.dmi',T,"wet_floor")
-		T.overlays += T.wet_overlay
-
-		spawn(800) // This is terrible and needs to be changed when possible.
-			if(!T || !istype(T))
-				return
-			if(T.wet >= 2)
-				return
-			T.wet = 0
-			if(T.wet_overlay)
-				T.overlays -= T.wet_overlay
-				T.wet_overlay = null
+		T.wet_floor(1)
 
 /datum/reagent/water/touch_obj(var/obj/O)
 	if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/monkeycube))
@@ -209,8 +201,10 @@
 	name = "Welding fuel"
 	id = "fuel"
 	description = "Required for welders. Flamable."
+	taste_description = "gross metal"
 	reagent_state = LIQUID
 	color = "#660000"
+	touch_met = 5
 
 	glass_icon_state = "dr_gibb_glass"
 	glass_name = "glass of welder fuel"
@@ -222,9 +216,9 @@
 	return
 
 /datum/reagent/fuel/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
+	if(issmall(M)) removed *= 2
 	M.adjustToxLoss(2 * removed)
 
 /datum/reagent/fuel/touch_mob(var/mob/living/L, var/amount)
 	if(istype(L))
 		L.adjust_fire_stacks(amount / 10) // Splashing people with welding fuel to make them easy to ignite!
-
