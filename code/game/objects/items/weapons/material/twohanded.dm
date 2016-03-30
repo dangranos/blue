@@ -239,4 +239,3 @@
 	throwforce = 0.40
 	throw_speed = 2
 	attack_verb = list("smashed", "slammed", "whacked", "thwacked")
-	default_material = "wood"
