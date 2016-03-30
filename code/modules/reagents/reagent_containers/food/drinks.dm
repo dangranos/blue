@@ -16,28 +16,6 @@
 	attack_self(mob/user as mob)
 		return
 
-	attack(mob/M as mob, mob/user as mob, def_zone)
-		if(standard_feed_mob(user, M))
-			return
-
-		return 0
-
-	afterattack(obj/target, mob/user, proximity)
-		if(!proximity) return
-
-		if(standard_dispenser_refill(user, target))
-			return
-		if(standard_pour_into(user, target))
-			return
-
-		return ..()
-
-	self_feed_message(var/mob/user)
-		user << "<span class='notice'>You swallow a gulp from \the [src].</span>"
-
-	feed_sound(var/mob/user)
-		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
-
 	examine(mob/user)
 		if(!..(user, 1))
 			return
