@@ -762,8 +762,7 @@
 	// Reset the machine.
 	spawn(60)
 		inuse = 0
-		var/turf/src_turf = get_turf(src)
-		if( !src_turf.Adjacent(usr) )
+		if(!Adjacent(usr))
 			usr.unset_machine()
 			return
 		interact(usr)
