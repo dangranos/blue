@@ -890,13 +890,13 @@ var/global/list/gear_datums = list()
 
 /datum/gear/leather_jacket
 	display_name = "leather jacket, black"
-	path = /obj/item/clothing/suit/storage/leather_jacket
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket
 	cost = 2
 	slot = slot_wear_suit
 
 /datum/gear/leather_jacket_nt
 	display_name = "leather jacket, NanoTrasen, black"
-	path = /obj/item/clothing/suit/storage/leather_jacket/nanotrasen
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen
 	cost = 2
 	slot = slot_wear_suit
 
