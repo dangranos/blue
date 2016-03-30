@@ -28,7 +28,7 @@
 /obj/item/clothing/shoes/jackboots/attackby(var/obj/item/weapon/material/hatchet/tacknife/I, var/mob/living/M)
 	if(istype(I))
 		if(knife) return
-		M.drop_from_inventory(knife, src)
+		M.drop_from_inventory(I, src)
 		knife = I
 		M << "<div class='notice'>You slide the [I] into [src].<div>"
 		update_icon()
