@@ -1381,8 +1381,9 @@
 	var/slot = input("Select slot for manipulate", "Select slot") in hidden_slots+list("Cancel")
 	if(slot == "Cancel") return
 
-	u_equip(hidden_slots[slot])
-	put_in_hands(hidden_slots[slot])
+	if(hidden_slots[slot] in src)
+		u_equip(hidden_slots[slot])
+		put_in_hands(hidden_slots[slot])
 
 /mob/living/carbon/human/drop_from_inventory(var/obj/item/W, var/atom/Target = null)
 	if(W in organs)
