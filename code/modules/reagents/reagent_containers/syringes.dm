@@ -55,8 +55,10 @@
 		return
 
 	afterattack(obj/target, mob/user, proximity)
-		if(!proximity || !target.reagents)
-			return
+		if(!proximity) return
+		..()
+
+		if(!target.reagents) return
 
 		if(mode == SYRINGE_BROKEN)
 			user << "<span class='warning'>This syringe is broken!</span>"
