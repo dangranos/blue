@@ -22,7 +22,7 @@
 		"Cat" = "cat",
 		"Mouse" = "mouse",
 		"Monkey" = "monkey",
-		"Borgy" = "borgy",
+		"Borgi" = "borgi",
 		"Fairy" = "fairy",
 		"Spider" = "spider"
 		)
