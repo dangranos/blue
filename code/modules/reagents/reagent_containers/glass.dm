@@ -15,6 +15,7 @@
 	w_class = 2
 	flags = OPENCONTAINER
 	unacidable = 1 //glass doesn't dissolve in acid
+	center_of_mass = list("x"=16, "y"=16)
 
 	var/label_text = ""
 
@@ -125,6 +126,7 @@
 	icon_state = "beaker"
 	item_state = "beaker"
 	matter = list("glass" = 500)
+	center_of_mass = list("x"=16, "y"=11)
 
 	New()
 		..()
@@ -186,6 +188,7 @@
 	volume = 60
 	amount_per_transfer_from_this = 10
 	flags = OPENCONTAINER | NOREACT
+	center_of_mass = list("x"=16, "y"=9)
 
 /obj/item/weapon/reagent_containers/glass/beaker/bluespace
 	name = "bluespace beaker"
@@ -206,6 +209,7 @@
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25)
 	flags = OPENCONTAINER
+	center_of_mass = list("x"=16, "y"=9)
 
 /obj/item/weapon/reagent_containers/glass/beaker/cryoxadone
 	New()
@@ -232,6 +236,7 @@
 	volume = 120
 	flags = OPENCONTAINER
 	unacidable = 0
+	center_of_mass = list("x"=16, "y"=9)
 
 	attackby(var/obj/D, mob/user as mob)
 		if(isprox(D))

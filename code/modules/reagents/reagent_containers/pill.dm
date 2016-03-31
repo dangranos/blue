@@ -11,6 +11,7 @@
 	w_class = 1
 	slot_flags = SLOT_EARS
 	volume = 60
+	center_of_mass = list("x"=16, "y"=15)
 
 	New()
 		..()

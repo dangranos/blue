@@ -59,7 +59,7 @@
 
 /obj/item/clothing/mask/D00k_N00kem
 	name = "Clown"
-	dest = "Reminder of the wonderful past"
+	desc = "Reminder of the wonderful past"
 	icon_state = "sad_clown"
 	flags_inv = HIDEFACE
 	body_parts_covered = 0
