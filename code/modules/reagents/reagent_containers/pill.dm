@@ -76,6 +76,8 @@
 	afterattack(obj/target, mob/user, proximity)
 		if(!proximity) return
 
+		..()
+
 		if(target.is_open_container() && target.reagents)
 			if(!target.reagents.total_volume)
 				user << "<span class='notice'>[target] is empty. Can't dissolve \the [src].</span>"
