@@ -23,6 +23,7 @@
 	var/image/filling //holds a reference to the current filling overlay
 	var/visible_name = "a syringe"
 	var/time = 30
+	center_of_mass = list("x"=15, "y"=15)
 
 	on_reagent_change()
 		update_icon()
