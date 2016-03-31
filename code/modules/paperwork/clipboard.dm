@@ -15,27 +15,10 @@
 	update_icon()
 
 /obj/item/weapon/clipboard/MouseDrop(obj/over_object as obj) //Quick clipboard fix. -Agouri
-	if(src.loc != over_object)
-		var/turf/src_turf = get_turf(src)
-		if( !src_turf.Adjacent(over_object) ) return 0
-	if(ishuman(usr))
-		var/mob/M = usr
-		if((istype(over_object, /obj/screen) ))
-			if(!M.restrained() && !M.stat)
-				switch(over_object.name)
-					if("r_hand")
-						M.u_equip(src)
-						M.put_in_r_hand(src)
-					if("l_hand")
-						M.u_equip(src)
-						M.put_in_l_hand(src)
-		else if ( over_object == usr )
-			return attack_self( usr )
-		else
-			return 0
-
+	if(src.loc != over_object && !Adjacent(over_object) ) return 0
+	if(ishuman(usr) && over_object == usr )
 		add_fingerprint(usr)
-		return
+		return attack_self( usr )
 
 /obj/item/weapon/clipboard/update_icon()
 	overlays.Cut()
@@ -56,6 +39,13 @@
 			toppaper = W
 		user << "<span class='notice'>You clip the [W] onto \the [src].</span>"
 		update_icon()
+
+	else if(istype(W, /obj/item/weapon/pen))
+		if(!haspen)
+			usr.drop_item()
+			W.loc = src
+			haspen = W
+			usr << "<span class='notice'>You slot the pen into \the [src].</span>"
 
 	else if(istype(toppaper) && istype(W, /obj/item/weapon/pen))
 		toppaper.attackby(W, usr)
@@ -103,11 +93,7 @@
 		else if(href_list["addpen"])
 			if(!haspen)
 				var/obj/item/weapon/pen/W = usr.get_active_hand()
-				if(istype(W, /obj/item/weapon/pen))
-					usr.drop_item()
-					W.loc = src
-					haspen = W
-					usr << "<span class='notice'>You slot the pen into \the [src].</span>"
+				attackby(W, usr)
 
 		else if(href_list["write"])
 			var/obj/item/weapon/P = locate(href_list["write"])
@@ -134,15 +120,15 @@
 						toppaper = newtop
 					else
 						toppaper = null
-						
+
 		else if(href_list["rename"])
 			var/obj/item/weapon/O = locate(href_list["rename"])
-			
+
 			if(O && (O.loc == src))
 				if(istype(O, /obj/item/weapon/paper))
 					var/obj/item/weapon/paper/to_rename = O
 					to_rename.rename()
-					
+
 				else if(istype(O, /obj/item/weapon/photo))
 					var/obj/item/weapon/photo/to_rename = O
 					to_rename.rename()

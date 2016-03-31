@@ -83,6 +83,7 @@
 	recipes += new/datum/stack_recipe("AI core", /obj/structure/AIcore, 4, time = 50, one_per_turf = 1)
 	recipes += new/datum/stack_recipe("Metal crate", /obj/structure/closet/crate, 10, time = 50, one_per_turf = 1)
 	recipes += new/datum/stack_recipe("knife grip", /obj/item/weapon/material/butterflyhandle, 4, time = 20, one_per_turf = 0, on_floor = 1, supplied_material = "[name]")
+	recipes += new/datum/stack_recipe("brass knuckles", /obj/item/weapon/material/knuckles, 6, time = 20, one_per_turf = 0, on_floor = 1, supplied_material = "[name]")
 
 /material/sandstone/generate_recipes()
 	..()
@@ -105,7 +106,9 @@
 	recipes += new/datum/stack_recipe("crossbow frame", /obj/item/weapon/crossbowframe, 5, time = 25, one_per_turf = 0, on_floor = 0)
 	recipes += new/datum/stack_recipe("coffin", /obj/structure/closet/coffin, 5, time = 15, one_per_turf = 1, on_floor = 1)
 	recipes += new/datum/stack_recipe("buckler", /obj/item/weapon/shield/buckler, 15, time = 25, one_per_turf = 0, on_floor = 0)
-
+	recipes += new/datum/stack_recipe("bo staff", /obj/item/weapon/material/twohanded/bostaff, 15, time = 25, one_per_turf = 0, on_floor = 0)
+	recipes += new/datum/stack_recipe("barricade", /obj/structure/barricade, 5, time = 50, one_per_turf = 1, on_floor = 1)
+		
 /material/cardboard/generate_recipes()
 	..()
 	recipes += new/datum/stack_recipe("box", /obj/item/weapon/storage/box)

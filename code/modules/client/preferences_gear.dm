@@ -364,19 +364,23 @@ var/global/list/gear_datums = list()
 	slot = slot_glasses
 	allowed_roles = list("Chief Medical Officer","Medical Doctor","Paramedic")
 
+/datum/gear/crimson
+	display_name = "sunglasses, crimson"
+	/obj/item/clothing/glasses/sunglasses/red
+	cost = 2
+	slot = slot_glasses
+
 /datum/gear/thugshades
 	display_name = "Sunglasses, Fat"
 	path = /obj/item/clothing/glasses/sunglasses/big
 	cost = 1
 	slot = slot_glasses
-	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent","Quartermaster","Head of Personnel","Captain")
 
 /datum/gear/prescriptionsun
 	display_name = "sunglasses, presciption"
 	path = /obj/item/clothing/glasses/sunglasses/prescription
 	cost = 2
 	slot = slot_glasses
-	allowed_roles = list("Security Officer","Head of Security","Warden","Detective","Internal Affairs Agent","Quartermaster","Head of Personnel","Captain")
 
 // Mask
 
@@ -886,13 +890,13 @@ var/global/list/gear_datums = list()
 
 /datum/gear/leather_jacket
 	display_name = "leather jacket, black"
-	path = /obj/item/clothing/suit/storage/leather_jacket
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket
 	cost = 2
 	slot = slot_wear_suit
 
 /datum/gear/leather_jacket_nt
 	display_name = "leather jacket, NanoTrasen, black"
-	path = /obj/item/clothing/suit/storage/leather_jacket/nanotrasen
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen
 	cost = 2
 	slot = slot_wear_suit
 
@@ -1319,13 +1323,13 @@ var/global/list/gear_datums = list()
 
 /datum/gear/flask
 	display_name = "flask"
-	path = /obj/item/weapon/reagent_containers/food/drinks/flask/barflask
+	path = /obj/item/weapon/reagent_containers/glass/drinks/flask/barflask
 	sort_category = "misc"
 	cost = 1
 
 /datum/gear/vacflask
 	display_name = "vacuum-flask"
-	path = /obj/item/weapon/reagent_containers/food/drinks/flask/vacuumflask
+	path = /obj/item/weapon/reagent_containers/glass/drinks/flask/vacuumflask
 	sort_category = "misc"
 	cost = 1
 /datum/gear/blipstick
@@ -1550,6 +1554,12 @@ var/global/list/gear_datums = list()
 /datum/gear/varsityblack
 	display_name = "Varsity jacket, black"
 	path = /obj/item/clothing/suit/storage/toggle/varsityblack
+	cost = 2
+	slot = slot_wear_suit
+
+/datum/gear/varsitybrown
+	display_name = "Varsity jacket, brown"
+	path = /obj/item/clothing/suit/storage/toggle/varsitybrown
 	cost = 2
 	slot = slot_wear_suit
 
