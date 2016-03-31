@@ -15,6 +15,7 @@
 	w_class = 2
 	flags = OPENCONTAINER
 	unacidable = 1 //glass doesn't dissolve in acid
+	center_of_mass = list("x"=16, "y"=16)
 
 	var/label_text = ""
 
@@ -79,8 +80,12 @@
 			if(istype(target, type))
 				return
 
-		if(standard_splash_mob(user, target))
+		if(user.a_intent == I_HELP)
+			if(standard_feed_mob(user, target))
+				return
+		else if(standard_splash_mob(user, target))
 			return
+
 		if(standard_dispenser_refill(user, target))
 			return
 		if(standard_pour_into(user, target))
@@ -90,6 +95,13 @@
 			user << "<span class='notice'>You splash the solution onto [target].</span>"
 			reagents.splash(target, reagents.total_volume)
 			return
+
+	self_feed_message(var/mob/user)
+		user << "<span class='notice'>You swallow a gulp from \the [src].</span>"
+
+	feed_sound(var/mob/user)
+		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
+
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
 		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
@@ -114,6 +126,7 @@
 	icon_state = "beaker"
 	item_state = "beaker"
 	matter = list("glass" = 500)
+	center_of_mass = list("x"=16, "y"=11)
 
 	New()
 		..()
@@ -175,6 +188,7 @@
 	volume = 60
 	amount_per_transfer_from_this = 10
 	flags = OPENCONTAINER | NOREACT
+	center_of_mass = list("x"=16, "y"=9)
 
 /obj/item/weapon/reagent_containers/glass/beaker/bluespace
 	name = "bluespace beaker"
@@ -195,6 +209,7 @@
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25)
 	flags = OPENCONTAINER
+	center_of_mass = list("x"=16, "y"=9)
 
 /obj/item/weapon/reagent_containers/glass/beaker/cryoxadone
 	New()
@@ -221,6 +236,7 @@
 	volume = 120
 	flags = OPENCONTAINER
 	unacidable = 0
+	center_of_mass = list("x"=16, "y"=9)
 
 	attackby(var/obj/D, mob/user as mob)
 		if(isprox(D))
