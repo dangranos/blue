@@ -13,9 +13,9 @@ Zippo:/obj/item/weapon/lighter/zippo:130
 Cigarette packet:/obj/item/weapon/storage/fancy/cigarettes:20
 DromedaryCo packet:/obj/item/weapon/storage/fancy/cigarettes/dromedaryco:50
 Premium Havanian Cigar:/obj/item/clothing/mask/cigarette/cigar/havana:130
-Beer bottle:/obj/item/weapon/reagent_containers/food/drinks/beer:80
-Captain flask:/obj/item/weapon/reagent_containers/food/drinks/flask:200
-Three Mile Island Ice Tea:/obj/item/weapon/reagent_containers/food/drinks/drinkingglass/threemileisland:100
+Beer bottle:/obj/item/weapon/reagent_containers/glass/drinks/beer:80
+Captain flask:/obj/item/weapon/reagent_containers/glass/drinks/flask:200
+Three Mile Island Ice Tea:/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass/threemileisland:100
 
 Shoes
 Clown Shoes:/obj/item/clothing/shoes/clown_shoes:130
@@ -198,7 +198,7 @@ proc/build_prizes_list()
 		D.show()
 
 //SPECIAL ITEMS
-/obj/item/weapon/reagent_containers/food/drinks/drinkingglass/threemileisland
+/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass/threemileisland
 	New()
 		..()
 		reagents.add_reagent("threemileisland", 50)

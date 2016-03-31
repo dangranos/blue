@@ -62,9 +62,9 @@
 	New()
 		..()
 		for(var/i = 0, i < 5, i++)
-			new /obj/item/weapon/reagent_containers/food/drinks/milk(src)
+			new /obj/item/weapon/reagent_containers/glass/drinks/milk(src)
 		for(var/i = 0, i < 3, i++)
-			new /obj/item/weapon/reagent_containers/food/drinks/soymilk(src)
+			new /obj/item/weapon/reagent_containers/glass/drinks/soymilk(src)
 		for(var/i = 0, i < 2, i++)
 			new /obj/item/weapon/storage/fancy/egg_box(src)
 		return

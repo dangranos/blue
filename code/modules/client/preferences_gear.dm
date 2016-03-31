@@ -890,13 +890,13 @@ var/global/list/gear_datums = list()
 
 /datum/gear/leather_jacket
 	display_name = "leather jacket, black"
-	path = /obj/item/clothing/suit/storage/leather_jacket
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket
 	cost = 2
 	slot = slot_wear_suit
 
 /datum/gear/leather_jacket_nt
 	display_name = "leather jacket, NanoTrasen, black"
-	path = /obj/item/clothing/suit/storage/leather_jacket/nanotrasen
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen
 	cost = 2
 	slot = slot_wear_suit
 
@@ -1323,13 +1323,13 @@ var/global/list/gear_datums = list()
 
 /datum/gear/flask
 	display_name = "flask"
-	path = /obj/item/weapon/reagent_containers/food/drinks/flask/barflask
+	path = /obj/item/weapon/reagent_containers/glass/drinks/flask/barflask
 	sort_category = "misc"
 	cost = 1
 
 /datum/gear/vacflask
 	display_name = "vacuum-flask"
-	path = /obj/item/weapon/reagent_containers/food/drinks/flask/vacuumflask
+	path = /obj/item/weapon/reagent_containers/glass/drinks/flask/vacuumflask
 	sort_category = "misc"
 	cost = 1
 /datum/gear/blipstick
