@@ -229,14 +229,10 @@
 		job_master.AssignRole(src, rank, 1)
 
 		var/mob/living/character = create_character()	//creates the human and transfers vars and mind
-		var/resistlead = findtext(character.mind.name, "Connor")
 		character = job_master.EquipRank(character, rank, 1)					//equips the human
 		UpdateFactionList(character)
 		equip_custom_items(character)
 
-		if(Holiday == "April Fool's Day")
-			if(resistlead == 0 && prob(70))
-				character.mind.assigned_role = "Cyborg"
 		// AIs don't need a spawnpoint, they must spawn at an empty core
 		if(character.mind.assigned_role == "AI")
 

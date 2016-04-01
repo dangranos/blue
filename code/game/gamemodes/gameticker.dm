@@ -289,11 +289,7 @@ var/global/datum/controller/gameticker/ticker
 	proc/equip_characters()
 		var/captainless=1
 		for(var/mob/living/carbon/human/player in player_list)
-			var/resistlead = findtext(player.real_name, "Connor")
 			if(player && player.mind && player.mind.assigned_role)
-				if(Holiday == "April Fool's Day")
-					if(resistlead == 0 && prob(70))
-						job_master.EquipRank(player, "Cyborg", 0)
 				if(player.mind.assigned_role == "Captain")
 					captainless=0
 				if(!player_is_antag(player.mind, only_offstation_roles = 1))
