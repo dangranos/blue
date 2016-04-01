@@ -72,9 +72,11 @@
 		update_icon()
 
 	afterattack(var/obj/target, var/mob/user, var/flag)
-
-		if(!is_open_container() || !flag)
+		if(!flag)
 			return
+		..()
+
+		if(!is_open_container()) return
 
 		for(var/type in can_be_placed_into)
 			if(istype(target, type))
@@ -101,6 +103,19 @@
 
 	feed_sound(var/mob/user)
 		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
+
+/*
+	bullet_act(var/obj/item/projectile/Proj)
+		visible_message("<span class = 'warning'>The [srs] smashed in the shower of shards!</span>")
+
+		if(prob(33))
+			new /obj/item/weapon/material/shard(src.loc)
+
+		if(reagents && reagents.total_volume)
+			reagents.splash(src.loc, reagents.total_volume)
+
+		qdel(src)
+*/
 
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)

@@ -40,6 +40,7 @@
 			return
 
 /obj/item/weapon/reagent_containers/afterattack(atom/A, mob/user, proximity, params)
+	..()
 	if(proximity && params && istype(A, /obj/structure/table) && center_of_mass.len)
 		//Places the item on a grid
 		var/list/mouse_control = params2list(params)
