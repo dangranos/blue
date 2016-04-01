@@ -8,6 +8,13 @@
 	siemens_coefficient = 0.9
 	body_parts_covered = 0
 
+/obj/item/clothing/head/floral_crown
+	name = "flower crown"
+	icon_state = "floral_crown"
+	desc = "Peace and Love"
+	item_state = "floral_crown"
+	body_parts_covered = 0
+
 /obj/item/clothing/head/hairflower
 	name = "hair flower pin"
 	icon_state = "hairflower"

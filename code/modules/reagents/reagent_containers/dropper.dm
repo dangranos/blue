@@ -13,7 +13,10 @@
 	center_of_mass = list("x"=17, "y"=17)
 
 	afterattack(var/obj/target, var/mob/user, var/flag)
-		if(!target.reagents || !flag) return
+		if(!flag) return
+		..()
+
+		if(!target.reagents) return
 
 		if(reagents.total_volume)
 

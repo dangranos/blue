@@ -28,7 +28,7 @@
 	afterattack(var/obj/target, var/mob/user, var/proximity)
 		if(!proximity)
 			return
-	
+
 		if(standard_dispenser_refill(user, target))
 			return
 		if(standard_pour_into(user, target))
@@ -45,6 +45,9 @@
 
 			var/trans = reagents.trans_to_obj(target, amount_per_transfer_from_this)
 			user << "<span class='notice'>You add [trans] units of the condiment to \the [target].</span>"
+			return
+
+		..()
 
 	feed_sound(var/mob/user)
 		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
