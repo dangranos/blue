@@ -123,7 +123,7 @@ var/list/datum/donator/donators = list()
 
 		var/obj/spawned = new path
 
-		var/where = user.equip_in_one_of_slots(spawned, slots, qdel_on_fail=0)
+		var/where = user.equip_in_one_of_slots(spawned, slots, del_on_fail=0)
 
 		if (!where)
 			spawned.loc = user.loc
