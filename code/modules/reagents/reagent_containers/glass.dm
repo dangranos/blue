@@ -47,30 +47,6 @@
 		/obj/machinery/radiocarbon_spectrometer
 		)
 
-	New()
-		..()
-		base_name = name
-
-	examine(var/mob/user)
-		if(!..(user, 2))
-			return
-		if(reagents && reagents.reagent_list.len)
-			user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
-		else
-			user << "<span class='notice'>It is empty.</span>"
-		if(!is_open_container())
-			user << "<span class='notice'>Airtight lid seals it completely.</span>"
-
-	attack_self()
-		..()
-		if(is_open_container())
-			usr << "<span class = 'notice'>You put the lid on \the [src].</span>"
-			flags ^= OPENCONTAINER
-		else
-			usr << "<span class = 'notice'>You take the lid off \the [src].</span>"
-			flags |= OPENCONTAINER
-		update_icon()
-
 	afterattack(var/obj/target, var/mob/user, var/flag)
 		if(!flag)
 			return
@@ -117,23 +93,6 @@
 		qdel(src)
 */
 
-
-	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
-			var/tmp_label = sanitizeName(input(user, "Enter a label for [name]", "Label", label_text), MAX_NAME_LEN, 1)
-			if(length(tmp_label) > 20)
-				user << "<span class='notice'>The label can be at most 10 characters long.</span>"
-			else
-				user << "<span class='notice'>You set the label to \"[tmp_label]\".</span>"
-				label_text = tmp_label
-				update_name_label()
-
-	proc/update_name_label()
-		if(label_text == "")
-			name = base_name
-		else
-			name = "[base_name] ([label_text])"
-
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
 	desc = "A beaker."
@@ -145,7 +104,18 @@
 
 	New()
 		..()
+		base_name = name
 		desc += " Can hold up to [volume] units."
+
+	examine(var/mob/user)
+		if(!..(user, 2))
+			return
+		if(reagents && reagents.reagent_list.len)
+			user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
+		else
+			user << "<span class='notice'>It is empty.</span>"
+		if(!is_open_container())
+			user << "<span class='notice'>Airtight lid seals it completely.</span>"
 
 	on_reagent_change()
 		update_icon()
@@ -160,6 +130,16 @@
 
 	attack_hand()
 		..()
+		update_icon()
+
+	attack_self()
+		..()
+		if(is_open_container())
+			usr << "<span class = 'notice'>You put the lid on \the [src].</span>"
+			flags ^= OPENCONTAINER
+		else
+			usr << "<span class = 'notice'>You take the lid off \the [src].</span>"
+			flags |= OPENCONTAINER
 		update_icon()
 
 	update_icon()
@@ -184,6 +164,23 @@
 		if (!is_open_container())
 			var/image/lid = image(icon, src, "lid_[initial(icon_state)]")
 			overlays += lid
+
+	attackby(obj/item/weapon/W as obj, mob/user as mob)
+		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
+			var/tmp_label = sanitizeName(input(user, "Enter a label for [name]", "Label", label_text), MAX_NAME_LEN, 1)
+			if(length(tmp_label) > 20)
+				user << "<span class='notice'>The label can be at most 10 characters long.</span>"
+			else
+				user << "<span class='notice'>You set the label to \"[tmp_label]\".</span>"
+				label_text = tmp_label
+				update_name_label()
+
+	proc/update_name_label()
+		if(label_text == "")
+			name = base_name
+		else
+			name = "[base_name] ([label_text])"
+
 
 /obj/item/weapon/reagent_containers/glass/beaker/large
 	name = "large beaker"
