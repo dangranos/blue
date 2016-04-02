@@ -57,6 +57,13 @@
 	flags_inv = HIDEFACE
 	body_parts_covered = 0
 
+/obj/item/clothing/mask/D00k_N00kem
+	name = "Clown"
+	desc = "Reminder of the wonderful past"
+	icon_state = "sad_clown"
+	flags_inv = HIDEFACE
+	body_parts_covered = 0
+
 // For Terti with love <3.
 /obj/item/clothing/mask/arafatka
 	name = "shemagh"

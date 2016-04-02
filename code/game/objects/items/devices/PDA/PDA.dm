@@ -1103,12 +1103,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		var/obj/item/weapon/pen/O = locate() in src
 		if(O)
 			if (istype(loc, /mob))
-				var/mob/M = loc
-				if(M.get_active_hand() == null)
-					M.put_in_hands(O)
-					usr << "<span class='notice'>You remove \the [O] from \the [src].</span>"
-					return
-			O.loc = get_turf(src)
+				loc:put_in_hands(O)
+				usr << "<span class='notice'>You remove \the [O] from \the [src].</span>"
+				return
 		else
 			usr << "<span class='notice'>This PDA does not have a pen in it.</span>"
 	else
