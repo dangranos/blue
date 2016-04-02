@@ -555,6 +555,7 @@
 #define SHOW_TYPING     16
 #define CHAT_NOICONS    32
 #define RUS_AUTOEMOTES  64
+#define HIDE_MOTD       128
 
 // Preference chat.
 #define CHAT_OOC          1
