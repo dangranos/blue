@@ -111,8 +111,19 @@
 	icon_open = "labcoat_tox_open"
 	icon_closed = "labcoat_tox"
 
-/obj/item/clothing/suit/storage/toggle/labcoat/augmented
+/obj/item/clothing/suit/storage/labcoat
+	item_state = "labcoat"
+	blood_overlay_type = "coat"
+	body_parts_covered = UPPER_TORSO|ARMS
+	allowed = list(/obj/item/device/analyzer,/obj/item/stack/medical,/obj/item/weapon/dnainjector,/obj/item/weapon/reagent_containers/dropper,/obj/item/weapon/reagent_containers/syringe,/obj/item/weapon/reagent_containers/hypospray,/obj/item/device/healthanalyzer,/obj/item/device/flashlight/pen,/obj/item/weapon/reagent_containers/glass/bottle,/obj/item/weapon/reagent_containers/glass/beaker,/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/storage/pill_bottle,/obj/item/weapon/paper,/obj/item/device/radio)
+	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 50, rad = 0)
+
+/obj/item/clothing/suit/storage/labcoat/augmented
 	name = "augmented labcoat"
 	desc = "What a lovely diods! Blink."
 	icon_state = "labcoat_aug"
-	item_state = "labcoat_aug"
+
+/obj/item/clothing/suit/storage/labcoat/long
+	name = "long labcoat"
+	desc = "A suit that protects against minor chemical spills."
+	icon_state = "labcoat_long"

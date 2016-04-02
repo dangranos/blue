@@ -68,7 +68,7 @@ datum/body_modification/tattoo
 	short_name = "T: Abstract"
 	desc = "Simple tattoo (use flavor)."
 	id = "abstract"
-	body_parts = list("head", "chest", "groin", "l_arm", "r_arm",\
+	body_parts = list("head", "chest", "chest2", "groin", "l_arm", "r_arm",\
 		"l_hand", "r_hand", "l_leg", "r_leg", "l_foot", "r_foot")
 	mob_icon = "1"
 

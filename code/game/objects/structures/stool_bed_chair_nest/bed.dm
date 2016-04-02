@@ -319,4 +319,8 @@
 	..(newloc,"wood")
 
 /obj/structure/bed/sofa/update_icon()
-	return
+	..()
+	if(dir == NORTH)
+		layer = 5
+	else
+		layer = initial(layer)

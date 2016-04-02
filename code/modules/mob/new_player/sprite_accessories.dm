@@ -769,6 +769,18 @@
 		species_allowed = list("Skrell")
 		gender = FEMALE
 
+	skr_tentacle_f_alt
+		name = "Skrell Female Tentacles Alt"
+		icon_state = "skrell_hair_f_alt"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
+	skr_tentacle_f_alt2
+		name = "Skrell Female Tentacles Alt2"
+		icon_state = "skrell_hair_f_alt2"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
 	taj_ears
 		name = "Tajaran Ears"
 		icon_state = "ears_plain"

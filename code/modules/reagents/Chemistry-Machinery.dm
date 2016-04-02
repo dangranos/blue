@@ -602,8 +602,8 @@
 /obj/machinery/reagentgrinder/attackby(var/obj/item/O as obj, var/mob/user as mob)
 
 	if (istype(O,/obj/item/weapon/reagent_containers/glass) || \
-		istype(O,/obj/item/weapon/reagent_containers/food/drinks/drinkingglass) || \
-		istype(O,/obj/item/weapon/reagent_containers/food/drinks/shaker))
+		istype(O,/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass) || \
+		istype(O,/obj/item/weapon/reagent_containers/glass/drinks/shaker))
 
 		if (beaker)
 			return 1
@@ -762,8 +762,7 @@
 	// Reset the machine.
 	spawn(60)
 		inuse = 0
-		var/turf/src_turf = get_turf(src)
-		if( !src_turf.Adjacent(usr) )
+		if(!Adjacent(usr))
 			usr.unset_machine()
 			return
 		interact(usr)
