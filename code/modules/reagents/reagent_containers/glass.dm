@@ -47,6 +47,16 @@
 		/obj/machinery/radiocarbon_spectrometer
 		)
 
+	attack_self()
+		..()
+		if(is_open_container())
+			usr << "<span class = 'notice'>You put the lid on \the [src].</span>"
+			flags ^= OPENCONTAINER
+		else
+			usr << "<span class = 'notice'>You take the lid off \the [src].</span>"
+			flags |= OPENCONTAINER
+		update_icon()
+
 	afterattack(var/obj/target, var/mob/user, var/flag)
 		if(!flag)
 			return
@@ -130,16 +140,6 @@
 
 	attack_hand()
 		..()
-		update_icon()
-
-	attack_self()
-		..()
-		if(is_open_container())
-			usr << "<span class = 'notice'>You put the lid on \the [src].</span>"
-			flags ^= OPENCONTAINER
-		else
-			usr << "<span class = 'notice'>You take the lid off \the [src].</span>"
-			flags |= OPENCONTAINER
 		update_icon()
 
 	update_icon()
