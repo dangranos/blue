@@ -195,7 +195,7 @@
 	set name = "Show/Hide MOTD"
 	set category = "Preferences"
 	set desc ="Show or not MOTD at round join"
-	prefs.toggles ^= RUS_AUTOEMOTES
+	prefs.toggles ^= HIDE_MOTD
 	prefs.save_preferences()
 
 	src << "You will [(prefs.toggles & HIDE_MOTD) ? "no longer" : "now"] see MOTD at join game."
