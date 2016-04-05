@@ -14,6 +14,7 @@
 	possible_transfer_amounts = null
 	flags = OPENCONTAINER
 	slot_flags = SLOT_BELT
+	center_of_mass = list("x"=16, "y"=7)
 
 ///obj/item/weapon/reagent_containers/hypospray/New() //comment this to make hypos start off empty
 //	..()
@@ -47,6 +48,7 @@
 	item_state = "autoinjector"
 	amount_per_transfer_from_this = 5
 	volume = 5
+	center_of_mass = list("x"=16, "y"=16)
 
 /obj/item/weapon/reagent_containers/hypospray/autoinjector/New()
 	..()

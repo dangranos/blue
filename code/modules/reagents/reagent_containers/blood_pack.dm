@@ -18,6 +18,7 @@
 	icon = 'icons/obj/bloodpack.dmi'
 	icon_state = "empty"
 	volume = 200
+	center_of_mass = list("x"=16, "y"=16)
 
 	var/blood_type = null
 

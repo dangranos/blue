@@ -15,6 +15,7 @@
 	w_class = 2
 	flags = OPENCONTAINER
 	unacidable = 1 //glass doesn't dissolve in acid
+	center_of_mass = list("x"=16, "y"=16)
 
 	var/label_text = ""
 
@@ -46,20 +47,6 @@
 		/obj/machinery/radiocarbon_spectrometer
 		)
 
-	New()
-		..()
-		base_name = name
-
-	examine(var/mob/user)
-		if(!..(user, 2))
-			return
-		if(reagents && reagents.reagent_list.len)
-			user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
-		else
-			user << "<span class='notice'>It is empty.</span>"
-		if(!is_open_container())
-			user << "<span class='notice'>Airtight lid seals it completely.</span>"
-
 	attack_self()
 		..()
 		if(is_open_container())
@@ -71,9 +58,11 @@
 		update_icon()
 
 	afterattack(var/obj/target, var/mob/user, var/flag)
-
-		if(!is_open_container() || !flag)
+		if(!flag)
 			return
+		..()
+
+		if(!is_open_container()) return
 
 		for(var/type in can_be_placed_into)
 			if(istype(target, type))
@@ -101,22 +90,18 @@
 	feed_sound(var/mob/user)
 		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
 
+/*
+	bullet_act(var/obj/item/projectile/Proj)
+		visible_message("<span class = 'warning'>The [srs] smashed in the shower of shards!</span>")
 
-	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
-			var/tmp_label = sanitizeName(input(user, "Enter a label for [name]", "Label", label_text), MAX_NAME_LEN, 1)
-			if(length(tmp_label) > 20)
-				user << "<span class='notice'>The label can be at most 10 characters long.</span>"
-			else
-				user << "<span class='notice'>You set the label to \"[tmp_label]\".</span>"
-				label_text = tmp_label
-				update_name_label()
+		if(prob(33))
+			new /obj/item/weapon/material/shard(src.loc)
 
-	proc/update_name_label()
-		if(label_text == "")
-			name = base_name
-		else
-			name = "[base_name] ([label_text])"
+		if(reagents && reagents.total_volume)
+			reagents.splash(src.loc, reagents.total_volume)
+
+		qdel(src)
+*/
 
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
@@ -125,10 +110,22 @@
 	icon_state = "beaker"
 	item_state = "beaker"
 	matter = list("glass" = 500)
+	center_of_mass = list("x"=16, "y"=11)
 
 	New()
 		..()
+		base_name = name
 		desc += " Can hold up to [volume] units."
+
+	examine(var/mob/user)
+		if(!..(user, 2))
+			return
+		if(reagents && reagents.reagent_list.len)
+			user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
+		else
+			user << "<span class='notice'>It is empty.</span>"
+		if(!is_open_container())
+			user << "<span class='notice'>Airtight lid seals it completely.</span>"
 
 	on_reagent_change()
 		update_icon()
@@ -168,6 +165,23 @@
 			var/image/lid = image(icon, src, "lid_[initial(icon_state)]")
 			overlays += lid
 
+	attackby(obj/item/weapon/W as obj, mob/user as mob)
+		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
+			var/tmp_label = sanitizeName(input(user, "Enter a label for [name]", "Label", label_text), MAX_NAME_LEN, 1)
+			if(length(tmp_label) > 20)
+				user << "<span class='notice'>The label can be at most 10 characters long.</span>"
+			else
+				user << "<span class='notice'>You set the label to \"[tmp_label]\".</span>"
+				label_text = tmp_label
+				update_name_label()
+
+	proc/update_name_label()
+		if(label_text == "")
+			name = base_name
+		else
+			name = "[base_name] ([label_text])"
+
+
 /obj/item/weapon/reagent_containers/glass/beaker/large
 	name = "large beaker"
 	desc = "A large beaker."
@@ -186,6 +200,7 @@
 	volume = 60
 	amount_per_transfer_from_this = 10
 	flags = OPENCONTAINER | NOREACT
+	center_of_mass = list("x"=16, "y"=9)
 
 /obj/item/weapon/reagent_containers/glass/beaker/bluespace
 	name = "bluespace beaker"
@@ -206,6 +221,7 @@
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25)
 	flags = OPENCONTAINER
+	center_of_mass = list("x"=16, "y"=9)
 
 /obj/item/weapon/reagent_containers/glass/beaker/cryoxadone
 	New()
@@ -232,6 +248,7 @@
 	volume = 120
 	flags = OPENCONTAINER
 	unacidable = 0
+	center_of_mass = list("x"=16, "y"=9)
 
 	attackby(var/obj/D, mob/user as mob)
 		if(isprox(D))

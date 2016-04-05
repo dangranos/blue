@@ -1,6 +1,6 @@
 /mob/new_player/Login()
 	update_Login_details()	//handles setting lastKnownIP and computer_id for use by the ban systems as well as checking for multikeying
-	if(join_motd)
+	if(join_motd && !(client.prefs.toggles & HIDE_MOTD))
 		src << "<div class=\"motd\">[join_motd]</div>"
 
 	if(config.soft_popcap && living_player_count() >= config.soft_popcap)
