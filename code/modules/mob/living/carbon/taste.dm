@@ -20,7 +20,7 @@ calculate text size per text.
 				continue
 			if(R.id == "nutriment")
 				var/list/t = R.get_data()
-				if(!t.len)
+				if(!t || !t.len)
 					world.log << "##TASTE: nutriment without taste: [R.holder:name]"
 					continue
 				for(var/i in 1 to t.len)
