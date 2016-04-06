@@ -278,7 +278,10 @@
 	touch_met = 50
 
 /datum/reagent/space_cleaner/touch_obj(var/obj/O)
-	O.clean_blood()
+	if(istype(O, /obj/effect/decal/cleanable))
+		qdel(O)
+	else
+		O.clean_blood()
 
 /datum/reagent/space_cleaner/touch_turf(var/turf/T)
 	if(volume >= 1)
