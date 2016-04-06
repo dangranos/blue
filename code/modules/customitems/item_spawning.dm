@@ -129,58 +129,17 @@
 /hook/startup/proc/load_custom_items()
 
 	var/datum/custom_item/current_data
-	for(var/line in text2list(file2text("config/custom_items.txt"), "\n"))
-
-		line = trim(line)
-		if(line == "" || !line || findtext(line, "#", 1, 2))
-			continue
-
-		if(findtext(line, "{", 1, 2) || findtext(line, "}", 1, 2)) // New block!
-			if(current_data && current_data.assoc_key)
-				if(!custom_items[current_data.assoc_key])
-					custom_items[current_data.assoc_key] = list()
-				var/list/L = custom_items[current_data.assoc_key]
-				L |= current_data
-			current_data = null
-
-		var/split = findtext(line,":")
-		if(!split)
-			continue
-		var/field = trim(copytext(line,1,split))
-		var/field_data = trim(copytext(line,(split+1)))
-		if(!field || !field_data)
-			continue
-
-		if(!current_data)
-			current_data = new()
-
-		switch(field)
-			if("ckey")
-				current_data.assoc_key = lowertext(field_data)
-			if("character_name")
-				current_data.character_name = lowertext(field_data)
-			if("item_path")
-				current_data.item_path = text2path(field_data)
-			if("item_name")
-				current_data.name = field_data
-			if("item_icon")
-				current_data.item_icon = field_data
-			if("inherit_inhands")
-				current_data.inherit_inhands = text2num(field_data)
-			if("item_desc")
-				current_data.item_desc = field_data
-			if("req_access")
-				current_data.req_access = text2num(field_data)
-			if("req_titles")
-				current_data.req_titles = text2list(field_data,", ")
-			if("kit_name")
-				current_data.kit_name = field_data
-			if("kit_desc")
-				current_data.kit_desc = field_data
-			if("kit_icon")
-				current_data.kit_icon = field_data
-			if("additional_data")
-				current_data.additional_data = field_data
+	var/list/L
+	custom_items["D00k_n00kem"] = list()
+	L = custom_items["D00k_n00kem"]
+	current_data = new()
+	current_data.assoc_key = "d00k_n00kem"
+	current_data.character_name = "Natalia Lynn"
+	current_data.item_path = /obj/item/clothing/suit/storage/labcoat/augmented
+	current_data.req_access = 0
+	current_data.req_titles = list()
+	L |= current_data
+	current_data = null
 	return 1
 
 //gets the relevant list for the key from the listlist if it exists, check to make sure they are meant to have it and then calls the giving function
