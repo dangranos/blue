@@ -102,17 +102,16 @@ Captain Bedsheet:/obj/item/weapon/bedsheet/captain:120
 Toys
 Rubber Duck:/obj/item/weapon/bikehorn/rubberducky:200
 Champion Belt:/obj/item/weapon/storage/belt/champion:200
-Toy sword:/obj/item/toy/sword:70
-Toy katana:/obj/item/toy/katana:100
-Plush beepsky:/obj/structure/plushie/beepsky:120
+Toy Sword:/obj/item/toy/sword:70
+Toy Katana:/obj/item/toy/katana:100
+Plush Beepsky:/obj/structure/plushie/beepsky:120
 Plush Ian:/obj/structure/plushie/ian:120
-Dount Box:/obj/item/weapon/storage/fancy/donut_box:450
-Space cola:/obj/item/weapon/reagent_containers/glass/drinks/cans/cola:80
-Bottled water:/obj/item/weapon/reagent_containers/glass/drinks/cans/waterbottle:40
+Donut Box:/obj/item/weapon/storage/fancy/donut_box:450
+Space Cola:/obj/item/weapon/reagent_containers/glass/drinks/cans/cola:80
+Bottled Water:/obj/item/weapon/reagent_containers/glass/drinks/cans/waterbottle:40
 
 Special Stuff
 Santabag:/obj/item/weapon/storage/backpack/santabag:600
-Bible:/obj/item/weapon/storage/book/bible:100
 "}
 
 
