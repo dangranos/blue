@@ -9,7 +9,7 @@
 	flags = OPENCONTAINER
 	amount_per_transfer_from_this = 5
 	volume = 50
-
+	isGlass = 0
 	on_reagent_change()
 		return
 
@@ -207,6 +207,7 @@
 	icon_state = "britcup"
 	volume = 30
 	center_of_mass = list("x"=15, "y"=13)
+	isGlass = 1
 
 /obj/item/weapon/reagent_containers/glass/drinks/irecup
 	name = "Irish cup"
@@ -214,6 +215,7 @@
 	icon_state = "irecup"
 	volume = 30
 	center_of_mass = list("x"=15, "y"=13)
+	isGlass = 1
 
 /obj/item/weapon/reagent_containers/glass/drinks/ntcup
 	name = "NT cup"
@@ -221,3 +223,5 @@
 	icon_state = "nt"
 	volume = 30
 	center_of_mass = list("x"=15, "y"=13)
+	isGlass = 1
+
