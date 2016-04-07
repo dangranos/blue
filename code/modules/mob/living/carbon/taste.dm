@@ -21,10 +21,7 @@ calculate text size per text.
 			if(R.id == "nutriment")
 				var/list/t = R.get_data()
 				if(!t || !t.len)
-					if(istype(from, /atom))
-						world.log << "##TASTE: nutriment without taste: [from:name]"
-					else
-						world.log << "##TASTE: nutriment without taste (not atom): [from.type]"
+					iworld.log << "##TASTE: nutriment without taste: [from.my_atom.name]"
 					continue
 				for(var/i in 1 to t.len)
 					var/A = t[i]
