@@ -363,7 +363,7 @@
 	filling_color = "#D9C386"
 	var/overlay_state = "box-donut1"
 	center_of_mass = list("x"=13, "y"=16)
-	nutriment_desc = list("sweetness", "donut")
+	nutriment_desc = list("sweetness" = 3, "donut" = 3)
 
 /obj/item/weapon/reagent_containers/food/snacks/donut/normal
 	name = "donut"
