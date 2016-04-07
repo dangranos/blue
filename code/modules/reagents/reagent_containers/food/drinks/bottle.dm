@@ -89,7 +89,7 @@
 /obj/item/weapon/broken_bottle
 
 	name = "Broken Bottle"
-	desc = "A bottle with a sharp broken bottom."
+	desc = "Careful, those edeges are sharp."
 	icon = 'icons/obj/drinks.dmi'
 	icon_state = "broken_bottle"
 	force = 9.0
