@@ -30,7 +30,7 @@ Eye patch:/obj/item/clothing/glasses/eyepatch:130
 3D-glasses:/obj/item/clothing/glasses/threedglasses:120
 Monocle:/obj/item/clothing/glasses/monocle:110
 Cane:/obj/item/weapon/cane:130
-Zippo:/obj/item/weapon/lighter/zippo:130
+Zippo:/obj/item/weapon/flame/lighter/zippo:130
 Cigarette packet:/obj/item/weapon/storage/fancy/cigarettes:20
 DromedaryCo packet:/obj/item/weapon/storage/fancy/cigarettes/dromedaryco:50
 Premium Havanian Cigar:/obj/item/clothing/mask/cigarette/cigar/havana:130
@@ -88,7 +88,7 @@ Blue:/obj/item/clothing/gloves/blue:130
 Brown:/obj/item/clothing/gloves/brown:130
 White:/obj/item/clothing/gloves/color/white:130
 Rainbow:/obj/item/clothing/gloves/color/rainbow:200
-Black:/obj/item/clothing/gloves/color/black:160
+Black:/obj/item/clothing/gloves/black:160
 Boxing:/obj/item/clothing/gloves/boxing:120
 Green gloves:/obj/item/clothing/gloves/green:130
 Latex gloves:/obj/item/clothing/gloves/white/latex:150
