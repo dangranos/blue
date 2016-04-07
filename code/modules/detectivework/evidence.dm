@@ -129,9 +129,9 @@
 		var/full_print = md5(H.dna.uni_identity)
 		fingerprints[full_print] = full_print
 
-/obj/item/weapon/f_card/examine(mob/user)
+/obj/item/weapon/f_card/examine(mob/user, distance)
 	..()
-	if(fingerprints.len)
+	if((distance<=1) && fingerprints && fingerprints.len)
 		user << "<span class='notice'>Fingerprints on this card:</span>"
 		for(var/print in fingerprints)
 			user << "<span class='notice'>\t[fingerprints[print]]</span>"
