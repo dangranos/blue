@@ -16,7 +16,7 @@
 	flags = OPENCONTAINER
 	unacidable = 1 //glass doesn't dissolve in acid
 	center_of_mass = list("x"=16, "y"=16)
-
+	var/isGlass = 1
 	var/label_text = ""
 
 	var/list/can_be_placed_into = list(
@@ -90,18 +90,63 @@
 	feed_sound(var/mob/user)
 		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
 
-/*
-	bullet_act(var/obj/item/projectile/Proj)
-		visible_message("<span class = 'warning'>The [srs] smashed in the shower of shards!</span>")
+	bullet_act(var/obj/item/projectile/bullet/Proj)
+		if(isGlass)
+			isGlass = 0
+			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
 
-		if(prob(33))
-			new /obj/item/weapon/material/shard(src.loc)
+			//create new broken bottle
+			var/obj/item/weapon/broken_bottle/B = new /obj/item/weapon/broken_bottle(loc)
+			B.name = "broken [name]"
+			B.force = src.force
+			B.icon_state = src.icon_state
 
-		if(reagents && reagents.total_volume)
-			reagents.splash(src.loc, reagents.total_volume)
+			if(istype(src, /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass))
+				B.icon_state = "glass_empty"
 
-		qdel(src)
-*/
+			var/icon/Q = new(src.icon, B.icon_state)
+			Q.Blend(B.broken_outline, ICON_OVERLAY, rand(5), 1)
+			Q.SwapColor(rgb(255, 0, 220, 255), rgb(0, 0, 0, 0))
+			B.icon = Q
+			src.transfer_fingerprints_to(B)
+
+			playsound(src, "shatter", 70, 1)
+
+			if(prob(33))
+				new /obj/item/weapon/material/shard(src.loc)
+
+			if(reagents && reagents.total_volume)
+				reagents.splash(src.loc, reagents.total_volume)
+
+			qdel(src)
+
+	throw_impact(var/atom/hit_atom)
+		if(isGlass)
+
+			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
+
+			//create new broken bottle
+			var/obj/item/weapon/broken_bottle/B = new /obj/item/weapon/broken_bottle(loc)
+			B.force = src.force
+			B.icon_state = src.icon_state
+
+			if(istype(src, /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass))
+				B.icon_state = "glass_empty"
+
+			if(reagents && reagents.total_volume)
+				reagents.splash(hit_atom, reagents.total_volume)
+
+			var/icon/Q = new(src.icon, B.icon_state)
+			Q.Blend(B.broken_outline, ICON_OVERLAY, rand(5), 1)
+			Q.SwapColor(rgb(255, 0, 220, 255), rgb(0, 0, 0, 0))
+			B.icon = Q
+			src.transfer_fingerprints_to(B)
+
+			playsound(src, "shatter", 70, 1)
+
+			if(prob(50))
+				new /obj/item/weapon/material/shard(src.loc)
+			qdel(src)
 
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
@@ -201,6 +246,7 @@
 	amount_per_transfer_from_this = 10
 	flags = OPENCONTAINER | NOREACT
 	center_of_mass = list("x"=16, "y"=9)
+	isGlass = 0
 
 /obj/item/weapon/reagent_containers/glass/beaker/bluespace
 	name = "bluespace beaker"
@@ -211,6 +257,7 @@
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25,30,60,120,300)
 	flags = OPENCONTAINER
+	isGlass = 0
 
 /obj/item/weapon/reagent_containers/glass/beaker/vial
 	name = "vial"
@@ -249,6 +296,7 @@
 	flags = OPENCONTAINER
 	unacidable = 0
 	center_of_mass = list("x"=16, "y"=9)
+	isGlass = 0
 
 	attackby(var/obj/D, mob/user as mob)
 		if(isprox(D))
