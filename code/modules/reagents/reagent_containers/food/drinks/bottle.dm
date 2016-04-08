@@ -89,7 +89,7 @@
 /obj/item/weapon/broken_bottle
 
 	name = "Broken Bottle"
-	desc = "A bottle with a sharp broken bottom."
+	desc = "Careful, those edeges are sharp."
 	icon = 'icons/obj/drinks.dmi'
 	icon_state = "broken_bottle"
 	force = 9.0
@@ -133,7 +133,7 @@
 	New()
 		..()
 		reagents.add_reagent("vodka", 100)
-		
+
 /obj/item/weapon/reagent_containers/food/drinks/bottle/vodka/badminka
 	name = "Badminka Vodka"
 	desc = "The label's written in Cyrillic. All you can make out is the name and a word that looks vaguely like 'Vodka'."
