@@ -63,9 +63,9 @@
 	glasses =
 	hat =
 
-	var/backpack = /obj/item/weapon/storage/backpack
-	var/satchel = /obj/item/weapon/storage/backpack/satchel_norm
-	var/duffle = /obj/item/weapon/storage/backpack/duffle
+	backpack = /obj/item/weapon/storage/backpack
+	satchel = /obj/item/weapon/storage/backpack/satchel_norm
+	duffle = /obj/item/weapon/storage/backpack/duffle
 
 	put_in_backpack = list(\
 	)
