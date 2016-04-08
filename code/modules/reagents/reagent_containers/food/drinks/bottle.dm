@@ -140,7 +140,7 @@
 	icon_state = "badminka"
 	center_of_mass = list("x"=17, "y"=3)
 	New()
-		...()
+		..()
 		reagents.add_reagent("vodka", 100)
 
 /obj/item/weapon/reagent_containers/glass/drinks/bottle/tequilla
