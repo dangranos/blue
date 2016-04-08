@@ -95,6 +95,19 @@
 	floor_type = null
 	intact = 0
 
+/turf/simulated/floor/plating/with_grille
+	icon_state = "with_grille"
+	New()
+		icon_state = "plating"
+		..()
+		spawn(5)
+			new /obj/structure/grille(src)
+			var/obj/structure/window/reinforced/W = null
+			for(var/dir in cardinal)
+				if(!istype(get_step(src,dir), /turf/simulated/floor/plating))
+					W = new(src)
+					W.dir = dir
+
 /turf/simulated/floor/plating/airless
 	icon_state = "plating"
 	name = "airless plating"

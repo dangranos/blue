@@ -9,34 +9,8 @@
 	w_class = 2
 	var/obj/item/stored_item = null
 
-/obj/item/weapon/evidencebag/MouseDrop(var/obj/item/I as obj)
-	if (!ishuman(usr))
-		return
-
-	var/mob/living/carbon/human/user = usr
-
-	if (!(user.l_hand == src || user.r_hand == src))
-		return //bag must be in your hands to use
-
-	if (isturf(I.loc))
-		if (!user.Adjacent(I))
-			return
-	else
-		//If it isn't on the floor. Do some checks to see if it's in our hands or a box. Otherwise give up.
-		if(istype(I.loc,/obj/item/weapon/storage))	//in a container.
-			var/sdepth = I.storage_depth(user)
-			if (sdepth == -1 || sdepth > 1)
-				return	//too deeply nested to access
-
-			var/obj/item/weapon/storage/U = I.loc
-			user.client.screen -= I
-			U.contents.Remove(I)
-		else if(user.l_hand == I)					//in a hand
-			user.drop_l_hand()
-		else if(user.r_hand == I)					//in a hand
-			user.drop_r_hand()
-		else
-			return
+/obj/item/weapon/evidencebag/afterattack(obj/item/I, mob/user, proximity_flag)
+	if(!proximity_flag) return
 
 	if(!istype(I) || I.anchored)
 		return
@@ -129,9 +103,9 @@
 		var/full_print = md5(H.dna.uni_identity)
 		fingerprints[full_print] = full_print
 
-/obj/item/weapon/f_card/examine(mob/user)
+/obj/item/weapon/f_card/examine(mob/user, distance)
 	..()
-	if(fingerprints.len)
+	if((distance<=1) && fingerprints && fingerprints.len)
 		user << "<span class='notice'>Fingerprints on this card:</span>"
 		for(var/print in fingerprints)
 			user << "<span class='notice'>\t[fingerprints[print]]</span>"
