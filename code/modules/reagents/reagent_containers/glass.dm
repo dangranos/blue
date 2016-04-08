@@ -91,11 +91,23 @@
 		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
 
 	bullet_act(var/obj/item/projectile/bullet/Proj)
-		if(isGlass)
+		if(!isGlass)
+			visible_message("<span class = 'warning'>Bullet flies through the [src], splashing it's contents all around!</span>")
+
+			var/obj/item/weapon/pierced_container/B = new /obj/item/weapon/pierced_container/(loc)
+			B.name = "spoiled [name]"
+			B.force = src.force
+			B.icon_state = src.icon_state
+			B.item_state = src.item_state
+
+			var/icon/Q = new(src.icon, B.icon_state)
+			Q.Blend(B.hole, ICON_OVERLAY, rand(2), 1)
+			B.icon = Q
+			src.transfer_fingerprints_to(B)
+		else
 			isGlass = 0
 			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
 
-			//create new broken bottle
 			var/obj/item/weapon/broken_bottle/B = new /obj/item/weapon/broken_bottle(loc)
 			B.name = "broken [name]"
 			B.force = src.force
@@ -112,11 +124,11 @@
 
 			playsound(src, "shatter", 70, 1)
 
-			if(prob(33))
+			if(prob(66))
 				new /obj/item/weapon/material/shard(src.loc)
 
-			if(reagents && reagents.total_volume)
-				reagents.splash(src.loc, reagents.total_volume)
+		if(reagents && reagents.total_volume)
+			reagents.splash(src.loc, reagents.total_volume)
 
 			qdel(src)
 
@@ -129,6 +141,7 @@
 			var/obj/item/weapon/broken_bottle/B = new /obj/item/weapon/broken_bottle(loc)
 			B.force = src.force
 			B.icon_state = src.icon_state
+
 
 			if(istype(src, /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass))
 				B.icon_state = "glass_empty"
@@ -147,6 +160,20 @@
 			if(prob(50))
 				new /obj/item/weapon/material/shard(src.loc)
 			qdel(src)
+
+/obj/item/weapon/pierced_container
+
+	name = "Broken Can"
+	desc = "It's kinda useless now, you know. Think first, shoot after."
+	icon = 'icons/obj/drinks.dmi'
+	icon_state = "pierced_container"
+	force = 2.0
+	throwforce = 0
+	throw_speed = 3
+	throw_range = 5
+	item_state = "cola"
+	var/icon/hole = icon('icons/obj/drinks.dmi', "hole")
+
 
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
