@@ -51,10 +51,6 @@
 	max_w_class = 4
 	max_storage_space = 56
 
-	New()
-		..()
-		return
-
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
 		if(crit_fail)
 			user << "\red The Bluespace generator isn't working."

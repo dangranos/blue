@@ -130,10 +130,10 @@
 
 	var/datum/custom_item/current_data
 	var/list/L
-	custom_items["D00k_n00kem"] = list()
-	L = custom_items["D00k_n00kem"]
+	custom_items["d00kn00kem"] = list()
+	L = custom_items["d00kn00kem"]
 	current_data = new()
-	current_data.assoc_key = "d00k_n00kem"
+	current_data.assoc_key = "d00kn00kem"
 	current_data.character_name = "Natalia Lynn"
 	current_data.item_path = /obj/item/clothing/suit/storage/labcoat/augmented
 	current_data.req_access = 0
