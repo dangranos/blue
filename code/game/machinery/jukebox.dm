@@ -34,6 +34,7 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("Scratch", 'sound/music/title1.ogg'),
 		new/datum/track("Trai`Tor", 'sound/music/traitor.ogg'),
 		new/datum/track("Callista-Omega", 'sound/jukebox/club_afterlife-callista_omega.ogg'),
+		new/datum/track("Lone Digger", 'sound/jukebox/Caravan_Palace_-Lone_Digger.ogg'),
 		new/datum/track("Magic Fly", 'sound/jukebox/magic_fly.ogg'),
 		new/datum/track("THUNDERDROME", 'sound/music/THUNDERDOME.ogg'),
 		new/datum/track("Staying Alive", 'sound/jukebox/staying_alive.ogg'),
