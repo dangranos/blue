@@ -47,9 +47,13 @@ datum/preferences
 				preview_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
 
 		// Eyes color
-		var/icon/eyes = new/icon("icon" = icobase, "icon_state" = "eyes_[body_build]")
-		if ((current_species && (current_species.flags & HAS_EYE_COLOR)))
-			eyes.Blend(eyes_color, ICON_ADD)
+		var/icon/eyes = new /icon('icons/mob/human.dmi', "blank")
+		var/datum/body_modification/mod = get_modification("eyes")
+		if(!mod.replace_limb)
+			eyes.Blend(new/icon("icon" = icobase, "icon_state" = "eyes_[body_build]"), ICON_OVERLAY)
+			if((current_species && (current_species.flags & HAS_EYE_COLOR)))
+				eyes.Blend(eyes_color, ICON_ADD)
+		eyes.Blend(mod.get_mob_icon("eyes", body_build, modifications_colors["eyes"]), ICON_OVERLAY)
 
 		// Hair Style'n'Color
 		var/datum/sprite_accessory/hair_style = hair_styles_list[h_style]

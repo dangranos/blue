@@ -1,6 +1,6 @@
-# define MODIFICATION_ORGANIC 1
-# define MODIFICATION_SILICON 2
-# define MODIFICATION_REMOVED 3
+#define MODIFICATION_ORGANIC 1
+#define MODIFICATION_SILICON 2
+#define MODIFICATION_REMOVED 3
 
 var/global/list/body_modifications = list()
 var/global/list/modifications_list = list(
@@ -23,17 +23,18 @@ var/global/list/modifications_list = list(
 	if(nature == MODIFICATION_SILICON) return "prosthesis_basic"
 	if(nature == MODIFICATION_REMOVED) return "amputated"
 
-datum/body_modification
-	var/name = "Nothing"
-	var/short_name = "Nothing"
-	var/id = "nothing"					// For savefile. Must be unique.
-	var/desc = "Normal organ"			// Description.
+/datum/body_modification
+	var/name = ""
+	var/short_name = ""
+	var/id = ""					// For savefile. Must be unique.
+	var/desc = ""			// Description.
 	var/list/body_parts = list("chest", "chest2", "head", "groin", "l_arm", "r_arm", "l_hand", "r_hand", "l_leg", "r_leg",\
 		"l_foot", "r_foot", "heart", "lungs", "liver", "brain", "eyes")		// For sorting'n'selection optimization.
 	var/allowed_species = list("Human")	// Species restriction.
 	var/allowed_slim_body = 1			// The "main sprite question" yeah.
 	var/replace_limb = null				// To draw usual limb or not.
 	var/mob_icon = ""
+	var/icon/icon = 'icons/mob/human_races/body_modification.dmi'
 	var/nature = MODIFICATION_ORGANIC
 
 	proc/get_mob_icon(organ, body_build = 0, gender = MALE)	//Use in setup character only
@@ -54,22 +55,29 @@ datum/body_modification
 	proc/apply_to_mob(var/mob/living/carbon/human/H, var/slot)
 		return 1
 
-datum/body_modification/amputation
+/datum/body_modification/nothing
+	name = "Nothing"
+	id = "nothing"
+	short_name = "nothing"
+	desc = "Normal organ."
+
+/datum/body_modification/amputation
 	name = "Amputated"
 	short_name = "Amputated"
 	id = "amputated"
-	desc = "Organ was removed"
+	desc = "Organ was removed."
 	body_parts = list("l_arm", "r_arm", "l_hand", "r_hand", "l_leg", "r_leg", "l_foot", "r_foot")
 	replace_limb = 1
 	nature = MODIFICATION_REMOVED
 
-datum/body_modification/tattoo
+/datum/body_modification/tattoo
 	name = "Abstract"
 	short_name = "T: Abstract"
 	desc = "Simple tattoo (use flavor)."
 	id = "abstract"
 	body_parts = list("head", "chest", "chest2", "groin", "l_arm", "r_arm",\
 		"l_hand", "r_hand", "l_leg", "r_leg", "l_foot", "r_foot")
+	icon = 'icons/mob/tattoo.dmi'
 	mob_icon = "1"
 
 	New()
@@ -77,7 +85,7 @@ datum/body_modification/tattoo
 		name = "Tattoo: [name]"
 
 	get_mob_icon(organ, gender = MALE, body_build = 0)
-		return new/icon('icons/mob/tattoo.dmi', "[organ]_[mob_icon]_[body_build]")
+		return new/icon(icon, "[organ]_[mob_icon]_[body_build]")
 
 	apply_to_mob(var/mob/living/carbon/human/H, var/slot)
 		var/obj/item/organ/external/E = H.organs_by_name[slot]
@@ -86,7 +94,7 @@ datum/body_modification/tattoo
 		else
 			E.tattoo = mob_icon
 
-datum/body_modification/prosthesis
+/datum/body_modification/prosthesis
 	name = "Unbranded"
 	id = "prosthesis_basic"
 	desc = "Simple, brutal and reliable prosthesis"
@@ -101,15 +109,15 @@ datum/body_modification/prosthesis
 		name = "Prosthesis: [name]"
 
 	get_mob_icon(organ, body_build = 0)
-		return new/icon('icons/mob/human_races/body_modification.dmi', "[organ]_[mob_icon]_[body_build]")
+		return new/icon(icon, "[organ]_[mob_icon]_[body_build]")
 
-datum/body_modification/prosthesis/bishop
+/datum/body_modification/prosthesis/bishop
 	name = "Bishop"
 	id = "prosthesis_bishop"
 	desc = "Prosthesis with white polymer casing with blue holo-displays."
 	mob_icon = "bishop"
 
-datum/body_modification/prosthesis/hesphaistos
+/datum/body_modification/prosthesis/hesphaistos
 	name = "Hesphaistos"
 	id = "prosthesis_hesphaistos"
 	desc = "Prosthesis with militaristic black and green casing with gold stripes."
@@ -117,7 +125,7 @@ datum/body_modification/prosthesis/hesphaistos
 	get_mob_icon(organ, body_build = 0)
 		return new/icon('icons/mob/human_races/cyberlimbs/hesphaistos.dmi', "[organ]_f[body_build]")
 
-datum/body_modification/prosthesis/zenghu
+/datum/body_modification/prosthesis/zenghu
 	name = "Zeng-Hu"
 	id = "prosthesis_zenghu"
 	desc = "Prosthesis with rubbery fleshtone covering with visible seams."
@@ -126,7 +134,7 @@ datum/body_modification/prosthesis/zenghu
 	get_mob_icon(organ, body_build = 0)
 		return new/icon('icons/mob/human_races/cyberlimbs/zenghu.dmi', "[organ]_m[body_build]")
 
-datum/body_modification/prosthesis/xion
+/datum/body_modification/prosthesis/xion
 	name = "Xion"
 	id = "prosthesis_xion"
 	desc = "Prosthesis with minimalist black and red casing."
@@ -134,7 +142,12 @@ datum/body_modification/prosthesis/xion
 	get_mob_icon(organ, body_build = 0)
 		return new/icon('icons/mob/human_races/cyberlimbs/xion.dmi', "[organ]_f[body_build]")
 
-datum/body_modification/mutation
+/datum/body_modification/mutation
+	New()
+		short_name = "M: [name]"
+		name = "Mutation: [name]"
+
+/datum/body_modification/mutation/exoskeleton
 	name = "Exoskeleton"
 	id = "mutation_exoskeleton"
 	desc = "Your limb covered with bony shell (act as shield)."
@@ -143,23 +156,32 @@ datum/body_modification/mutation
 	replace_limb = 1
 	mob_icon = "exo"
 
-	New()
-		short_name = "M: [name]"
-		name = "Mutation: [name]"
-
 	get_mob_icon(organ, body_build = 0, gender = MALE)
 		if(organ in list("head", "chest", "groin"))
-			return new/icon('icons/mob/human_races/body_modification.dmi', "[organ]_[mob_icon]_[gender==FEMALE?"f":"m"][body_build]")
+			return new/image(icon, "[organ]_[mob_icon]_[gender==FEMALE?"f":"m"][body_build]")
 		else
-			return new/icon('icons/mob/human_races/body_modification.dmi', "[organ]_[mob_icon]_[body_build]")
+			return new/image(icon, "[organ]_[mob_icon]_[body_build]")
 
-datum/body_modification/mutation/heterochromia
+/datum/body_modification/mutation/wings
+	name = "Wings"
+	id = "mutation_wing"
+	desc = "Bird wings. Block backpack slot."
+	body_parts = list("chest2")
+
+	get_mob_icon()
+		return null
+
+/datum/body_modification/mutation/heterochromia
 	name = "Heterochromia"
 	id = "mutation_heterochromia"
-	desc = "Special color for right eye."
+	desc = "Special color for left eye."
 	body_parts = list("eyes")
 
+	get_mob_icon(organ, body_build = 0, color = "#ffffff")
+		var/icon/I = new/icon(icon, "heterochromia_[body_build]")
+		I.Blend(color, ICON_ADD)
+		return I
 
-# undef MODIFICATION_REMOVED
-# undef MODIFICATION_ORGANIC
-# undef MODIFICATION_SILICON
+#undef MODIFICATION_REMOVED
+#undef MODIFICATION_ORGANIC
+#undef MODIFICATION_SILICON
