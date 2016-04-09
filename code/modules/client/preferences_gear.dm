@@ -366,7 +366,7 @@ var/global/list/gear_datums = list()
 
 /datum/gear/crimson
 	display_name = "sunglasses, crimson"
-	/obj/item/clothing/glasses/sunglasses/red
+	path = /obj/item/clothing/glasses/sunglasses/red
 	cost = 2
 	slot = slot_glasses
 
@@ -637,11 +637,11 @@ var/global/list/gear_datums = list()
 	allowed_roles = list("Head of Personnel")
 
 /datum/gear/navysecsuit
-    display_name = "uniform, navyblue (Security Officer)"
-    path = /obj/item/clothing/under/rank/security/navyblue
-    cost = 1
-    slot = slot_w_uniform
-    allowed_roles = list("Security Officer")
+	display_name = "uniform, navyblue (Security Officer)"
+	path = /obj/item/clothing/under/rank/security/navyblue
+	cost = 1
+	slot = slot_w_uniform
+	allowed_roles = list("Security Officer")
 
 /datum/gear/navywarsuit
 	display_name = "uniform, navyblue (Warden)"

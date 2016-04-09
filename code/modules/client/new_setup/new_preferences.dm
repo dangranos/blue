@@ -14,10 +14,8 @@ datum/preferences
 		"Silicon"     = PAGE_SILICON,\
 		"Preferences" = PAGE_PREFS,\
 		)
-	var/global/list/r_organs = list("head"="Head", "r_arm"="Right arm", "r_hand"="Right hand",\
-			"chest"="Body", "r_leg"="Right Leg", "r_foot"="Right foot")
-	var/global/list/l_organs = list("eyes"="Eyes", "l_arm"="Left arm", "l_hand"="Left hand",\
-			"groin"="Groin", "l_leg"="Left Leg", "l_foot"="Left foot")
+	var/global/list/r_organs = list("head", "r_arm", "r_hand", "chest", "r_leg", "r_foot")
+	var/global/list/l_organs = list("eyes", "l_arm", "l_hand", "groin", "l_leg", "l_foot")
 	var/global/list/internal_organs = list("chest2"="Back", "heart"="Heart", "lungs"="Lungs", "liver"="Liver")
 	var/global/parents_list = list("r_hand"="r_arm", "l_hand"="l_arm", "r_foot"="r_leg", "l_foot"="l_leg")
 	var/global/children_list = list("r_arm"="r_hand", "l_arm"="l_hand", "r_leg"="r_foot", "l_leg"="l_foot")
@@ -404,18 +402,19 @@ datum/preferences
 /datum/preferences/proc/GetLimbsPage()
 	var/dat = "<style>div.block{border: 3px solid black;margin: 3px 0px;padding: 4px 0px;}</style>"
 	dat += "<table style='max-height:400px;height:400px;'>"
-	dat += "<tr style='vertical-align:top;'><td><div style='max-width:210px;width:210px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
+	dat += "<tr style='vertical-align:top;'><td><div style='max-width:230px;width:230px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
 	dat += modifications_list[current_organ]
 	dat += "</div></td><td style='margin-left:10px;width-max:285px;width:285px;border:solid'>"
-	dat += "<table><tr><td style='width:95px; text-align:right'>"
+	dat += "<table><tr><td style='width:105px; text-align:right'>"
 
 	for(var/organ in r_organs)
 		var/datum/body_modification/mod = get_modification(modifications_data[organ])
 		var/disp_name = mod ? mod.short_name : "Nothing"
 		if(organ == current_organ)
-			dat += "<div><b><u>[r_organs[organ]]</u></b>"
+			dat += "<div><b><u>[organ_tag_to_name[organ]]</u></b> "
 		else
-			dat += "<div><b>[r_organs[organ]]</b>"
+			dat += "<div><b>[organ_tag_to_name[organ]]</b> "
+		dat += "<a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a>"
 		dat += "<br><a href='byond://?src=\ref[src];organ=[organ]'>[disp_name]</a></div>"
 
 	dat += "</td><td style='width:80px;text-align:center'><img src=new_previewicon[preview_dir].png height=64 width=64>"
@@ -425,10 +424,11 @@ datum/preferences
 	for(var/organ in l_organs)
 		var/datum/body_modification/mod = get_modification(modifications_data[organ])
 		var/disp_name = mod ? mod.short_name : "Nothing"
+		dat += "<div><a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a>"
 		if(organ == current_organ)
-			dat += "<div><b><u>[l_organs[organ]]</u></b>"
+			dat += " <b><u>[organ_tag_to_name[organ]]</u></b>"
 		else
-			dat += "<div><b>[l_organs[organ]]</b>"
+			dat += " <b>[organ_tag_to_name[organ]]</b>"
 		dat += "<br><a href='byond://?src=\ref[src];organ=[organ]'>[disp_name]</a></div>"
 
 	dat += "</td></tr></table><hr>"
@@ -464,7 +464,15 @@ datum/preferences
 	if(href_list["organ"])
 		current_organ = href_list["organ"]
 
-	if(href_list["body_modification"])
+	else if(href_list["color"])
+		var/organ = href_list["color"]
+		if(!modifications_colors[organ]) modifications_colors[organ] = "#FFFFFF"
+		var/new_color = input(user, "Choose color for [organ_tag_to_name[organ]]: ", "Character Preference", modifications_colors[organ]) as color|null
+		if(new_color && modifications_colors[organ]!=new_color)
+			req_update_icon = 1
+			modifications_colors[organ] = new_color
+
+	else if(href_list["body_modification"])
 		var/datum/body_modification/mod = body_modifications[href_list["body_modification"]]
 		if(mod && mod.is_allowed(current_organ, src))
 			modifications_data[current_organ] = mod.id

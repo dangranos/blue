@@ -893,6 +893,7 @@
 #include "code\modules\client\preferences_savefile.dm"
 #include "code\modules\client\preferences_spawnpoints.dm"
 #include "code\modules\client\preferences_toggles.dm"
+#include "code\modules\client\new_setup\loadout.dm"
 #include "code\modules\client\new_setup\new_preferences.dm"
 #include "code\modules\client\new_setup\preview.dm"
 #include "code\modules\clothing\clothing.dm"

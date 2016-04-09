@@ -58,3 +58,8 @@
 		..()
 		reagents.add_reagent("cola", 50)
 		on_reagent_change()
+
+/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass/throw_impact()
+	if(isGlass)
+		icon_state = "glass_empty"
+		..()
