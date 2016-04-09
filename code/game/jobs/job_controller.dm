@@ -22,9 +22,9 @@ var/global/datum/controller/occupations/job_master
 			world << "\red \b Error setting up jobs, no job datums found"
 			return 0
 		for(var/J in all_jobs)
-			if(!initial(J:title) == "BASIC") continue
 			var/datum/job/job = new J()
 			if(!job)	continue
+			if(job.title == "BASIC") continue
 			if(job.faction != faction)	continue
 			occupations += job
 
