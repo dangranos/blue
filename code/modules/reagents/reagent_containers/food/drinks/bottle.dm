@@ -7,7 +7,7 @@
 	volume = 120
 	item_state = "broken_beer" //Generic held-item sprite until unique ones are made.
 	var/const/duration = 13 //Directly relates to the 'weaken' duration. Lowered by armor (i.e. helmets)
-	var/isGlass = 1 //Whether the 'bottle' is made of glass or not so that milk cartons dont shatter when someone gets hit by it
+	isGlass = 1
 
 /obj/item/weapon/reagent_containers/glass/drinks/bottle/proc/smash(mob/living/target as mob, mob/living/user as mob)
 
@@ -89,7 +89,7 @@
 /obj/item/weapon/broken_bottle
 
 	name = "Broken Bottle"
-	desc = "A bottle with a sharp broken bottom."
+	desc = "Careful, those edeges are sharp."
 	icon = 'icons/obj/drinks.dmi'
 	icon_state = "broken_bottle"
 	force = 9.0
@@ -129,6 +129,15 @@
 	name = "Tunguska Triple Distilled"
 	desc = "Aah, vodka. Prime choice of drink AND fuel by Russians worldwide."
 	icon_state = "vodkabottle"
+	center_of_mass = list("x"=17, "y"=3)
+	New()
+		..()
+		reagents.add_reagent("vodka", 100)
+
+/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka/badminka
+	name = "Badminka Vodka"
+	desc = "The label's written in Cyrillic. All you can make out is the name and a word that looks vaguely like 'Vodka'."
+	icon_state = "badminka"
 	center_of_mass = list("x"=17, "y"=3)
 	New()
 		..()
