@@ -402,10 +402,10 @@ datum/preferences
 /datum/preferences/proc/GetLimbsPage()
 	var/dat = "<style>div.block{border: 3px solid black;margin: 3px 0px;padding: 4px 0px;}</style>"
 	dat += "<table style='max-height:400px;height:400px;'>"
-	dat += "<tr style='vertical-align:top;'><td><div style='max-width:210px;width:210px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
+	dat += "<tr style='vertical-align:top;'><td><div style='max-width:230px;width:230px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
 	dat += modifications_list[current_organ]
 	dat += "</div></td><td style='margin-left:10px;width-max:285px;width:285px;border:solid'>"
-	dat += "<table><tr><td style='width:95px; text-align:right'>"
+	dat += "<table><tr><td style='width:105px; text-align:right'>"
 
 	for(var/organ in r_organs)
 		var/datum/body_modification/mod = get_modification(modifications_data[organ])
@@ -424,11 +424,11 @@ datum/preferences
 	for(var/organ in l_organs)
 		var/datum/body_modification/mod = get_modification(modifications_data[organ])
 		var/disp_name = mod ? mod.short_name : "Nothing"
-		dat += "<div><a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a> "
+		dat += "<div><a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a>"
 		if(organ == current_organ)
-			dat += "<b><u>[organ_tag_to_name[organ]]</u></b>"
+			dat += " <b><u>[organ_tag_to_name[organ]]</u></b>"
 		else
-			dat += "<b>[organ_tag_to_name[organ]]</b>"
+			dat += " <b>[organ_tag_to_name[organ]]</b>"
 		dat += "<br><a href='byond://?src=\ref[src];organ=[organ]'>[disp_name]</a></div>"
 
 	dat += "</td></tr></table><hr>"

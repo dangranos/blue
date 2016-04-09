@@ -159,8 +159,11 @@ var/global/list/robot_modules = list(
 	sprites = list(	"Basic" = "robot_old",
 					"Android" = "droid",
 					"Default" = "robot",
+					"CyberFlower" = "tableturning-standard",
+					"Spider" = "mechoid-standard",
 					"ED" = "ED-standard",
-					"Drone" = "drone-standard"
+					"Drone" = "drone-standard",
+					"Robot" = "bigbro-standard"
 				  )
 
 /obj/item/weapon/robot_module/standard/New()
@@ -186,10 +189,12 @@ var/global/list/robot_modules = list(
 	sprites = list(
 					"Basic" = "Medbot",
 					"Standard" = "surgeon",
-					"Advanced Droid" = "droid-medical",
-					"Needles" = "medicalrobot",
+					"CyberFlower" = "tableturning-medical",
+					"Spider" = "mechoid-surgeon",
 					"ED" = "ED-medical",
-					"Drone" = "drone-surgery"
+					"Drone" = "drone-surgery",
+					"Needles" = "medicalrobot",
+					"Advanced Droid" = "droid-medical"
 					)
 
 /obj/item/weapon/robot_module/medical/surgeon/New()
@@ -238,11 +243,14 @@ var/global/list/robot_modules = list(
 	sprites = list(
 					"Basic" = "Medbot",
 					"Standard" = "surgeon",
-					"Advanced Droid" = "droid-medical",
-					"Needles" = "medicalrobot",
+					"CyberFlower" = "tableturning-crisis",
+					"Spider" = "mechoid-crisis",
 					"ED" = "ED-crisis",
 					"Drone - Medical" = "drone-medical",
-					"Drone - Chemistry" = "drone-chemistry"
+					"Drone - Chemistry" = "drone-chemistry",
+					"Robot" = "bigbro-medical",
+					"Needles" = "medicalrobot",
+					"Advanced Droid" = "droid-medical"
 					)
 
 /obj/item/weapon/robot_module/medical/crisis/New()
@@ -305,12 +313,15 @@ var/global/list/robot_modules = list(
 	subsystems = list(/mob/living/silicon/proc/subsystem_power_monitor)
 	sprites = list(
 					"Basic" = "Engineering",
-					"Antique" = "engineerrobot",
-					"Retro" = "Engineer",
+					"Standart" = "engineerrobot",
+					"CyberFlower" = "tableturning-engineering",
+					"Spider" = "mechoid-engineering",
+					"ED" = "ED-engineering",
+					"Drone" = "drone-engineer",
+					"Robot" = "bigbro-engineering",
 					"Landmate" = "landmate",
 					"Landmate - Treaded" = "engiborg+tread",
-					"ED" = "ED-engineering",
-					"Drone" = "drone-engineer"
+					"Retro" = "Engineer"
 					)
 
 /obj/item/weapon/robot_module/engineering/construction
@@ -419,14 +430,17 @@ var/global/list/robot_modules = list(
 /obj/item/weapon/robot_module/security/general
 	sprites = list(
 					"Basic" = "secborg",
-					"Red Knight" = "Security",
-					"Black Knight" = "securityrobot",
-					"Retro" = "Security2",
-					"Retro (red)" = "Security3",
+					"Standart" = "securityrobot",
+					"CyberFlower" = "tableturning-security",
+					"Spider" = "mechoid-security",
+					"ED" = "ED-security",
+					"Drone" = "drone-sec",
+					"Robot" = "bigbro-security",
 					"Bloodhound" = "bloodhound",
 					"Bloodhound - Treaded" = "secborg+tread",
-					"ED" = "ED-security",
-					"Drone" = "drone-sec"
+					"Red Knight" = "Security",
+					"Retro" = "Security2",
+					"Retro (red)" = "Security3"
 				)
 
 /obj/item/weapon/robot_module/security/general/New()
@@ -457,12 +471,15 @@ var/global/list/robot_modules = list(
 	name = "janitorial robot module"
 	channels = list("Service" = 1)
 	sprites = list(
-					"Basic" = "JanBot2",
-					"Antique" = "JanBot",
-					"Mopbot"  = "janitorrobot",
-					"Mop Gear Rex" = "mopgearrex",
+					"Basic" = "JanBot",
+					"Standart"  = "janitorrobot",
+					"CyberFlower" = "tableturning-janitor",
+					"Spider" = "mechoid-janitor",
 					"ED" = "ED-janitor",
-					"Drone" = "drone-janitor"
+					"Drone" = "drone-janitor",
+					"Robot" = "bigbro-janitor",
+					"Antique" = "JanBot2",
+					"Mop Gear Rex" = "mopgearrex"
 					)
 
 /obj/item/weapon/robot_module/janitor/New()
@@ -502,14 +519,17 @@ var/global/list/robot_modules = list(
 					)
 
 /obj/item/weapon/robot_module/clerical/butler
-	sprites = list(	"Waitress" = "Service",
-					"Kent" = "toiletbot",
-					"Bro" = "Brobot",
-					"Rich" = "maximillion",
-					"Default" = "Service2",
+	sprites = list(	"Basic" = "Service2",
+					"CyberFlower" = "tableturning-service",
+					"Spider" = "mechoid-service",
 					"ED" = "ED-service",
 					"Drone - Service" = "drone-service",
-					"Drone - Hydro" = "drone-hydro"
+					"Drone - Hydro" = "drone-hydro",
+					"Waitress" = "Service",
+					"Proto" = "proto",
+					"Kent" = "toiletbot",
+					"Bro" = "Brobot",
+					"Rich" = "maximillion"
 				  	)
 
 /obj/item/weapon/robot_module/clerical/butler/New()
@@ -549,13 +569,14 @@ var/global/list/robot_modules = list(
 /obj/item/weapon/robot_module/clerical/general
 	name = "clerical robot module"
 	sprites = list(
+					"Default" = "Service2",
+					"CyberFlower" = "tableturning-clerical",
+					"ED" = "ED-service",
+					"Drone" = "drone-service",
+					"Robot" = "bigbro-service",
 					"Waitress" = "Service",
 					"Kent" = "toiletbot",
-					"Bro" = "Brobot",
 					"Rich" = "maximillion",
-					"Default" = "Service2",
-					"ED" = "ED-service",
-					"Drone" = "drone-service"
 					)
 
 /obj/item/weapon/robot_module/clerical/general/New()
@@ -583,10 +604,13 @@ var/global/list/robot_modules = list(
 	networks = list(NETWORK_MINE)
 	sprites = list(
 					"Basic" = "Miner_old",
-					"Advanced Droid" = "droid-miner",
-					"Treadhead" = "Miner",
+					"CyberFlover" = "tableturning-miner",
+					"Spider" = "mechoid-miner",
 					"ED" = "ED-miner",
-					"Drone" = "drone-miner"
+					"Drone" = "drone-miner",
+					"Robot" = "bigbro-miner",
+					"Treadhead" = "Miner",
+					"Advanced Droid" = "droid-miner"
 				)
 	supported_upgrades = list(/obj/item/borg/upgrade/jetpack)
 
