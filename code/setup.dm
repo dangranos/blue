@@ -983,6 +983,9 @@ var/list/be_special_flags = list(
 #define LANGUAGE_ROOTSPEAK "Rootspeak"
 #define LANGUAGE_TRADEBAND "Tradeband"
 #define LANGUAGE_GUTTER "Gutter"
+#define LANGUAGE_SIIK_MAAS "Siik'maas"
+#define LANGUAGE_SURZHYK "Surzhyk"
+
 
 #define WALL_CAN_OPEN 1
 #define WALL_OPENING 2
