@@ -578,11 +578,11 @@
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Drone;jobban4=\ref[M]'><font color=red>Drone</font></a></td>"
 		else
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Drone;jobban4=\ref[M]'>Drone</a></td>"
-			
+
 		if(jobban_isbanned(M, "Mouse"))
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Mouse;jobban4=\ref[M]'><font color=red>Mouse</font></a></td>"
 		else
-			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Mouse;jobban4=\ref[M]'>Mouse</a></td>"	
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Mouse;jobban4=\ref[M]'>Mouse</a></td>"
 
 		jobs += "</tr></table>"
 		body = "<body>[jobs]</body>"
@@ -855,6 +855,15 @@
 				//qdel(M)
 			if("Cancel")
 				return
+
+	else if(href_list["unmutef"])
+		if(!check_rights(R_BAN))	return
+		remove_mute(href_list["unmutef"])
+		mutepanel()
+
+	else if(href_list["permamute"])
+		if(!check_rights(R_BAN))	return
+		addmute(href_list["permamute"], usr.ckey, href_list["chat"])
 
 	else if(href_list["mute"])
 		if(!check_rights(R_MOD,0) && !check_rights(R_ADMIN))  return
@@ -2095,7 +2104,7 @@
 					W.item_state = "w_head"
 					if(ismob(W.loc)) W.loc:update_inv_obj(W)
 				message_admins("[key_name_admin(usr)] spawned Meownomaly")
-				command_announcement.Announce("Mystic Meownomaly detected on the station.", new_sound = 'sound/AI/commandreport.ogg')				
+				command_announcement.Announce("Mystic Meownomaly detected on the station.", new_sound = 'sound/AI/commandreport.ogg')
 			if("paintball")
 				for(var/species in all_species)
 					var/datum/species/S = all_species[species]
