@@ -47,6 +47,12 @@
 	flags_inv = HIDEJUMPSUIT
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
 
+/obj/item/clothing/suit/kate_jacket
+	name = "sol government officer jacket"
+	desc = "A stylish suit made of martian cotton."
+	icon_state = "kate_jacket"
+	item_state = "kate_jacket"
+	body_parts_covered = UPPER_TORSO|ARMS
 
 /obj/item/clothing/suit/cyborg_suit
 	name = "cyborg suit"
@@ -64,6 +70,11 @@
 	icon_state = "nazi"
 	item_state = "nazi"
 
+/obj/item/clothing/suit/judas_jacket
+	name = "black jacket"
+	desc = "Inspector Judas."
+	icon_state = "judas"
+	item_state = "judas"
 
 /obj/item/clothing/suit/johnny_coat
 	name = "johnny~~ coat"
