@@ -223,6 +223,26 @@
 /obj/item/ammo_magazine/chameleon/empty
 	initial_ammo = 0
 
+
+/obj/item/ammo_magazine/legalist
+	name = "magazine (12.5x45mm)"
+	icon_state = "5.56"
+	mag_type = MAGAZINE
+	caliber = "12.5x45"
+	matter = list(DEFAULT_WALL_MATERIAL = 1800)
+	ammo_type = /obj/item/ammo_casing/c125
+	max_ammo = 10
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/hornet
+	name = "magazine (11.9x33mm)"
+	icon_state = "40car"
+	mag_type = MAGAZINE
+	caliber = "11.9x33"
+	matter = list(DEFAULT_WALL_MATERIAL = 1800)
+	ammo_type = /obj/item/ammo_casing/c119
+	max_ammo = 30
+	multiple_sprites = 1
 /*
 //unused garbage
 

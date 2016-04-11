@@ -314,10 +314,7 @@
 	New()
 		..()
 		new /obj/item/clothing/under/rank/forentech(src)
-		new /obj/item/clothing/under/rank/forentech(src)
 		new /obj/item/clothing/under/rank/forentech2(src)
-		new /obj/item/clothing/under/rank/forentech2(src)
-		new	/obj/item/clothing/suit/storage/toggle/labcoat/forensic(src)
 		new	/obj/item/clothing/suit/storage/toggle/labcoat/forensic(src)
 		new /obj/item/clothing/gloves/black(src)
 		new /obj/item/clothing/shoes/brown(src)
@@ -425,5 +422,9 @@
 
     New()
         ..()
+        new /obj/item/clothing/mask/gas/batman(src)
         new /obj/item/clothing/under/batman(src)
+        new /obj/item/clothing/gloves/black/batman(src)
+        new /obj/item/clothing/shoes/swat/batman(src)
+        new /obj/item/weapon/storage/belt/security/batman(src)
         return

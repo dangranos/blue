@@ -9,7 +9,7 @@
 	throw_speed = 1
 	throw_range = 15
 	var/state
-	var/datum/gas_mixture/air_contents = null
+	var/tmp/datum/gas_mixture/air_contents = null
 
 /obj/item/latexballon/proc/blow(obj/item/weapon/tank/tank)
 	if (icon_state == "latexballon_bursted")

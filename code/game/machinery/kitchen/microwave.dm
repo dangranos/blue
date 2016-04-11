@@ -121,7 +121,7 @@
 				"\blue You add \the [O] to \the [src].")
 			return
 	else if(istype(O,/obj/item/weapon/reagent_containers/glass) || \
-	        istype(O,/obj/item/weapon/reagent_containers/food/drinks) || \
+	        istype(O,/obj/item/weapon/reagent_containers/glass/drinks) || \
 	        istype(O,/obj/item/weapon/reagent_containers/food/condiment) \
 		)
 		if (!O.reagents)

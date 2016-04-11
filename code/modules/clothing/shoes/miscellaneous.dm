@@ -14,7 +14,7 @@
 	name = "mime shoes"
 	icon_state = "mime"
 
-/obj/item/clothing/shoes/swat
+/obj/item/clothing/shoes/jackboots/swat
 	name = "\improper SWAT shoes"
 	desc = "When you want to turn up the heat."
 	icon_state = "swat"
@@ -23,7 +23,7 @@
 	flags = NOSLIP
 	siemens_coefficient = 0.6
 
-/obj/item/clothing/shoes/combat //Basically SWAT shoes combined with galoshes.
+/obj/item/clothing/shoes/jackboots/combat //Basically SWAT shoes combined with galoshes.
 	name = "combat boots"
 	desc = "When you REALLY want to turn up the heat"
 	icon_state = "swat"

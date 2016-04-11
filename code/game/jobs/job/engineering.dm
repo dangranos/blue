@@ -1,10 +1,29 @@
-/datum/job/chief_engineer
-	title = "Chief Engineer"
-	flag = CHIEF
-	head_position = 1
+/datum/job/engi
 	department = "Engineering"
 	department_flag = ENGSEC
 	faction = "Station"
+	supervisors = "the chief engineer"
+	selection_color = "#fff5cc"
+
+	ear = /obj/item/device/radio/headset/headset_eng
+	custom_survival_gear = /obj/item/weapon/storage/box/engineer
+
+	backpack = /obj/item/weapon/storage/backpack/industrial
+	satchel = /obj/item/weapon/storage/backpack/satchel_eng
+	duffle = /obj/item/weapon/storage/backpack/duffle/engie
+
+	backpacks = list(
+		/obj/item/weapon/storage/backpack/industrial,\
+		/obj/item/weapon/storage/backpack/satchel_eng,\
+		/obj/item/weapon/storage/backpack/satchel
+		)
+
+
+
+/datum/job/engi/chief_engineer
+	title = "Chief Engineer"
+	flag = CHIEF
+	head_position = 1
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the captain"
@@ -29,26 +48,14 @@
 	gloves = /obj/item/clothing/gloves/black
 	belt = /obj/item/weapon/storage/belt/utility/full
 	ear = /obj/item/device/radio/headset/heads/ce
-	custom_survival_gear = /obj/item/weapon/storage/box/engineer
-
-	backpacks = list(
-		/obj/item/weapon/storage/backpack/industrial,\
-		/obj/item/weapon/storage/backpack/satchel_eng,\
-		/obj/item/weapon/storage/backpack/satchel
-		)
 
 
 
-/datum/job/engineer
+/datum/job/engi/engineer
 	title = "Station Engineer"
 	flag = ENGINEER
-	department = "Engineering"
-	department_flag = ENGSEC
-	faction = "Station"
 	total_positions = 5
 	spawn_positions = 5
-	supervisors = "the chief engineer"
-	selection_color = "#fff5cc"
 	access = list(access_eva, access_engine, access_engine_equip, access_tech_storage, access_maint_tunnels, access_external_airlocks, access_construction, access_atmospherics)
 	minimal_access = list(access_eva, access_engine, access_engine_equip, access_tech_storage, access_maint_tunnels, access_external_airlocks, access_construction)
 	alt_titles = list("Maintenance Technician","Engine Technician","Electrician")
@@ -58,17 +65,9 @@
 	pda = /obj/item/device/pda/engineering
 	hat = /obj/item/clothing/head/hardhat
 	belt = /obj/item/weapon/storage/belt/utility/full
-	ear = /obj/item/device/radio/headset/headset_eng
-	custom_survival_gear = /obj/item/weapon/storage/box/engineer
 
 	put_in_backpack = list(\
 		/obj/item/device/t_scanner
-		)
-
-	backpacks = list(
-		/obj/item/weapon/storage/backpack/industrial,\
-		/obj/item/weapon/storage/backpack/satchel_eng,\
-		/obj/item/weapon/storage/backpack/satchel
 		)
 
 	equip(var/mob/living/carbon/human/H)
@@ -85,21 +84,14 @@
 
 
 
-/datum/job/atmos
+/datum/job/engi/atmos
 	title = "Atmospheric Technician"
 	flag = ATMOSTECH
-	department = "Engineering"
-	department_flag = ENGSEC
-	faction = "Station"
 	total_positions = 3
 	spawn_positions = 2
-	supervisors = "the chief engineer"
-	selection_color = "#fff5cc"
 	access = list(access_eva, access_engine, access_engine_equip, access_tech_storage, access_maint_tunnels, access_external_airlocks, access_construction, access_atmospherics, access_external_airlocks)
 	minimal_access = list(access_eva, access_engine, access_atmospherics, access_maint_tunnels, access_emergency_storage, access_construction, access_external_airlocks)
-	custom_survival_gear = /obj/item/weapon/storage/box/engineer
 
 	uniform = /obj/item/clothing/under/rank/atmospheric_technician
 	pda = /obj/item/device/pda/atmos
 	belt = /obj/item/weapon/storage/belt/utility/atmostech
-	ear = /obj/item/device/radio/headset/headset_eng

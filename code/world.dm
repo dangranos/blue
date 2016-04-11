@@ -4,7 +4,7 @@ var/global/datum/global_init/init = new ()
 	Pre-map initialization stuff should go here.
 */
 /datum/global_init/New()
-
+	load_mute()
 	makeDatumRefLists()
 	load_configuration()
 
@@ -65,6 +65,8 @@ var/global/datum/global_init/init = new ()
 
 	// Create robolimbs for chargen.
 	populate_robolimb_list()
+
+	generate_body_modification_lists()
 
 	processScheduler = new
 	master_controller = new /datum/controller/game_controller()

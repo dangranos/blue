@@ -168,12 +168,6 @@
 			var/obj/effect/plant/P = A
 			P.die_off()
 
-/*
-/*
- * Double-Bladed Energy Swords - Cheridan
- */
- // Not sure what to do with this one, it won't work nicely with the material system,
- // but I don't want to copypaste all the twohanded procs..
 /obj/item/weapon/material/twohanded/dualsaber
 	icon_state = "dualsaber0"
 	base_icon = "dualsaber"
@@ -211,7 +205,7 @@
 		return 1
 	else
 		return 0
-*/
+
 
 //spears, bay edition
 /obj/item/weapon/material/twohanded/spear
@@ -222,8 +216,8 @@
 	force = 10
 	w_class = 4.0
 	slot_flags = SLOT_BACK
-	force_wielded = 0.75           // 22 when wielded with hardness 15 (glass)
-	unwielded_force_divisor = 0.65 // 14 when unwielded based on above
+	force_wielded = 0.35           // 22 when wielded with hardness 15 (glass)
+	unwielded_force_divisor = 0.25 // 14 when unwielded based on above
 	thrown_force_divisor = 1.5 // 20 when thrown with weight 15 (glass)
 	throw_speed = 3
 	edge = 1
@@ -232,3 +226,17 @@
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb = list("attacked", "poked", "jabbed", "torn", "gored")
 	default_material = "glass"
+
+/obj/item/weapon/material/twohanded/bostaff
+	icon_state = "bostaff0"
+	name = "bo staff"
+	desc = "A long, tall staff made of polished wood. Traditionally used in ancient old-Earth martial arts. Can be wielded to both kill and incapacitate."
+	force = 10
+	w_class = 4
+	slot_flags = SLOT_BACK
+	hitsound = 'sound/weapons/genhit3.ogg'
+	force_unwielded = 0.80
+	force_wielded = 1.4
+	throwforce = 0.40
+	throw_speed = 2
+	attack_verb = list("smashed", "slammed", "whacked", "thwacked")

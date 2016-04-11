@@ -180,7 +180,7 @@
 			if(!new_permission)	return
 			D.rights ^= permissionlist[new_permission]
 
-			message_admins("[key_name_admin(usr)] toggled the [new_permission] permission of [adm_ckey]")
+			//message_admins("[key_name_admin(usr)] toggled the [new_permission] permission of [adm_ckey]")
 			log_admin("[key_name(usr)] toggled the [new_permission] permission of [adm_ckey]")
 			log_admin_permission_modification(adm_ckey, permissionlist[new_permission], new_permission)
 
@@ -579,6 +579,11 @@
 		else
 			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Drone;jobban4=\ref[M]'>Drone</a></td>"
 
+		if(jobban_isbanned(M, "Mouse"))
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Mouse;jobban4=\ref[M]'><font color=red>Mouse</font></a></td>"
+		else
+			jobs += "<td width='20%'><a href='?src=\ref[src];jobban3=Mouse;jobban4=\ref[M]'>Mouse</a></td>"
+
 		jobs += "</tr></table>"
 		body = "<body>[jobs]</body>"
 		dat = "<tt>[header][body]</tt>"
@@ -794,7 +799,7 @@
 		var/mob/M = locate(href_list["newban"])
 		if(!ismob(M)) return
 
-		if(M.client && M.client.holder)	return	//admins cannot be banned. Even if they could, the ban doesn't affect them anyway
+//		if(M.client && M.client.holder)	return	//admins cannot be banned. Even if they could, the ban doesn't affect them anyway
 
 		switch(alert("Temporary Ban?",,"Yes","No", "Cancel"))
 			if("Yes")
@@ -850,6 +855,15 @@
 				//qdel(M)
 			if("Cancel")
 				return
+
+	else if(href_list["unmutef"])
+		if(!check_rights(R_BAN))	return
+		remove_mute(href_list["unmutef"])
+		mutepanel()
+
+	else if(href_list["permamute"])
+		if(!check_rights(R_BAN))	return
+		addmute(href_list["permamute"], usr.ckey, href_list["chat"])
 
 	else if(href_list["mute"])
 		if(!check_rights(R_MOD,0) && !check_rights(R_ADMIN))  return
@@ -2084,6 +2098,13 @@
 					W.item_state = "w_suit"
 				message_admins("[key_name_admin(usr)] activated Japanese Animes mode")
 				world << sound('sound/AI/animes.ogg')
+			if("meownomaly")
+				for(var/obj/item/clothing/head/W in world)
+					W.icon_state = "kitty"
+					W.item_state = "w_head"
+					if(ismob(W.loc)) W.loc:update_inv_obj(W)
+				message_admins("[key_name_admin(usr)] spawned Meownomaly")
+				command_announcement.Announce("Mystic Meownomaly detected on the station.", new_sound = 'sound/AI/commandreport.ogg')
 			if("paintball")
 				for(var/species in all_species)
 					var/datum/species/S = all_species[species]

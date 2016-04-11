@@ -41,12 +41,9 @@
 				return owner.change_skin_tone(new_s_tone)
 	if(href_list["skin_color"])
 		if(can_change_skin_color())
-			var/new_skin = input(usr, "Choose your character's skin colour: ", "Skin Color", rgb(owner.skin_r, owner.skin_g, owner.skin_b)) as color|null
+			var/new_skin = input(usr, "Choose your character's skin colour: ", "Skin Color", owner.skin_color) as color|null
 			if(new_skin && can_still_topic(state))
-				var/skin_r = hex2num(copytext(new_skin, 2, 4))
-				var/skin_g = hex2num(copytext(new_skin, 4, 6))
-				var/skin_b = hex2num(copytext(new_skin, 6, 8))
-				if(owner.change_skin_color(skin_r, skin_g, skin_b))
+				if(owner.change_skin_color(new_skin))
 					update_dna()
 					return 1
 	if(href_list["hair"])
@@ -56,12 +53,9 @@
 				return 1
 	if(href_list["hair_color"])
 		if(can_change(APPEARANCE_HAIR_COLOR))
-			var/new_hair = input("Please select hair color.", "Hair Color", rgb(owner.hair_r, owner.hair_g, owner.hair_b)) as color|null
+			var/new_hair = input("Please select hair color.", "Hair Color", owner.hair_color) as color|null
 			if(new_hair && can_still_topic(state))
-				var/hair_r = hex2num(copytext(new_hair, 2, 4))
-				var/hair_g = hex2num(copytext(new_hair, 4, 6))
-				var/hair_b = hex2num(copytext(new_hair, 6, 8))
-				if(owner.change_hair_color(hair_r, hair_g, hair_b))
+				if(owner.change_hair_color(new_hair))
 					update_dna()
 					return 1
 	if(href_list["facial_hair"])
@@ -71,22 +65,16 @@
 				return 1
 	if(href_list["facial_hair_color"])
 		if(can_change(APPEARANCE_FACIAL_HAIR_COLOR))
-			var/new_facial = input("Please select facial hair color.", "Facial Hair Color", rgb(owner.facial_r, owner.facial_g, owner.facial_b)) as color|null
+			var/new_facial = input("Please select facial hair color.", "Facial Hair Color", owner.facial_color) as color|null
 			if(new_facial && can_still_topic(state))
-				var/facial_r = hex2num(copytext(new_facial, 2, 4))
-				var/facial_g = hex2num(copytext(new_facial, 4, 6))
-				var/facial_b = hex2num(copytext(new_facial, 6, 8))
-				if(owner.change_facial_hair_color(facial_r, facial_g, facial_b))
+				if(owner.change_facial_hair_color(new_facial))
 					update_dna()
 					return 1
 	if(href_list["eye_color"])
 		if(can_change(APPEARANCE_EYE_COLOR))
-			var/new_eyes = input("Please select eye color.", "Eye Color", rgb(owner.eyes_r, owner.eyes_g, owner.eyes_b)) as color|null
+			var/new_eyes = input("Please select eye color.", "Eye Color", owner.eyes_color) as color|null
 			if(new_eyes && can_still_topic(state))
-				var/eyes_r = hex2num(copytext(new_eyes, 2, 4))
-				var/eyes_g = hex2num(copytext(new_eyes, 4, 6))
-				var/eyes_b = hex2num(copytext(new_eyes, 6, 8))
-				if(owner.change_eye_color(eyes_r, eyes_g, eyes_b))
+				if(owner.change_eye_color(new_eyes))
 					update_dna()
 					return 1
 

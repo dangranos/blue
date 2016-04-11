@@ -225,16 +225,16 @@
 	if(istype(M, /mob/living/carbon/human))
 		M.dna.check_integrity()
 		var/mob/living/carbon/human/H = M
-		H.hair_r = hex2num(getblock(structure,1,3))
-		H.hair_b = hex2num(getblock(structure,2,3))
-		H.hair_g = hex2num(getblock(structure,3,3))
-		H.facial_r = hex2num(getblock(structure,4,3))
-		H.facial_b = hex2num(getblock(structure,5,3))
-		H.facial_g = hex2num(getblock(structure,6,3))
+		H.hair_color = rgb( hex2num(getblock(structure,1,3)),\
+							hex2num(getblock(structure,2,3)),\
+							hex2num(getblock(structure,3,3)))
+		H.facial_color=rgb( hex2num(getblock(structure,4,3)),\
+							hex2num(getblock(structure,5,3)),\
+							hex2num(getblock(structure,6,3)))
 		H.s_tone = round(((hex2num(getblock(structure,7,3)) / 16) - 220))
-		H.eyes_r = hex2num(getblock(structure,8,3))
-		H.eyes_g = hex2num(getblock(structure,9,3))
-		H.eyes_b = hex2num(getblock(structure,10,3))
+		H.eyes_color = rgb( hex2num(getblock(structure,8,3)),\
+							hex2num(getblock(structure,9,3)),\
+							hex2num(getblock(structure,10,3)))
 
 		if(H.internal_organs_by_name["eyes"])
 			H.update_eyes()

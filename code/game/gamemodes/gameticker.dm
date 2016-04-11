@@ -1,4 +1,5 @@
 var/global/datum/controller/gameticker/ticker
+var/list/donator_icons
 
 /datum/controller/gameticker
 	var/const/restart_timeout = 600
@@ -51,6 +52,7 @@ var/global/datum/controller/gameticker/ticker
 	'sound/music/First_rendez-vous.ogg',\
 	'sound/music/undertale.ogg',\
 	'sound/music/space_oddity.ogg') //Ground Control to Major Tom, this song is cool, what's going on?
+	donator_icons = icon_states('icons/donator.dmi')
 
 	do
 		pregame_timeleft = 180

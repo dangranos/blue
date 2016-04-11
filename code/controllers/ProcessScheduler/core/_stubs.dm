@@ -34,5 +34,5 @@
  */
 /datum/var/disposed
 // Garbage collection (controller).
-/datum/var/gcDestroyed
-/datum/var/timeDestroyed
+/datum/var/tmp/gcDestroyed
+/datum/var/tmp/timeDestroyed

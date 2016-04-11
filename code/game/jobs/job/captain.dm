@@ -25,6 +25,9 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	ear = /obj/item/device/radio/headset/heads/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
 
+	backpack = /obj/item/weapon/storage/backpack/captain
+	satchel = /obj/item/weapon/storage/backpack/satchel_cap
+
 	backpacks = list(
 		/obj/item/weapon/storage/backpack/captain,\
 		/obj/item/weapon/storage/backpack/satchel_cap,\
@@ -40,6 +43,7 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 		if(H.age>49)
 			var/obj/item/clothing/under/U = H.w_uniform
 			if(istype(U)) U.accessories += new /obj/item/clothing/accessory/medal/gold/captain(U)
+		return 1
 
 	get_access()
 		return get_all_accesses()
