@@ -346,8 +346,7 @@ proc/slur(phrase)
 			//if(9,10)	newletter="<b>[newletter]</b>"
 			//if(11,12)	newletter="<big>[newletter]</big>"
 			//if(13)	newletter="<small>[newletter]</small>"
-		newphrase+="[newletter]"
-		counter-=1
+		newphrase+="[newletter]";counter-=1
 	return rhtml_encode(newphrase)
 
 /proc/stutter(n)
@@ -556,7 +555,7 @@ proc/is_blind(A)
 				name = realname
 
 	for(var/mob/M in player_list)
-		if(M.client && ((!istype(M, /mob/new_player) && M.stat == DEAD) || (M.client.holder && !is_mentor(M.client))) && (M.client.prefs.toggles & CHAT_DEAD))
+		if(M.client && ((!istype(M, /mob/new_player) && M.stat == DEAD) || (M.client.holder && !is_mentor(M.client))) && (M.client.prefs.chat_toggles & CHAT_DEAD))
 			var/follow
 			var/lname
 			if(subject)
@@ -568,9 +567,9 @@ proc/is_blind(A)
 				if(istype(subject, /mob/dead/observer))
 					DM = subject
 				if(M.client.holder) 							// What admins see
-					lname = "[keyname][(DM && DM.anonsay) ? "*" : (DM ? "" : "^")] ([name])"
+					lname = "[keyname][(DM && DM.client && DM.client.prefs.chat_toggles^CHTA_GHOSTANONIM) ? "*" : (DM ? "" : "^")] ([name])"
 				else
-					if(DM && DM.anonsay)						// If the person is actually observer they have the option to be anonymous
+					if(DM && DM.client && DM.client.prefs.chat_toggles^CHTA_GHOSTANONIM)	// If the person is actually observer they have the option to be anonymous
 						lname = "Ghost of [name]"
 					else if(DM)									// Non-anons
 						lname = "[keyname] ([name])"

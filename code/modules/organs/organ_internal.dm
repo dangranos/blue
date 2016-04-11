@@ -68,16 +68,12 @@
 	gender = PLURAL
 	organ_tag = "eyes"
 	parent_organ = "head"
-	var/list/eye_colour = list(0,0,0)
+	var/eye_colour = "#000000"
 
 /obj/item/organ/eyes/proc/update_colour()
 	if(!owner)
 		return
-	eye_colour = list(
-		owner.eyes_r ? owner.eyes_r : 0,
-		owner.eyes_g ? owner.eyes_g : 0,
-		owner.eyes_b ? owner.eyes_b : 0
-		)
+	eye_colour = owner.eyes_color ? owner.eyes_color : "#000000"
 
 /obj/item/organ/eyes/take_damage(amount, var/silent=0)
 	var/oldbroken = is_broken()

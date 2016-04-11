@@ -19,7 +19,7 @@
 /obj/item/clothing/under/scratch
 	name = "white suit"
 	desc = "A white suit, suitable for an excellent host"
-	icon_state = "white_suit"
+	icon_state = "scratch"
 	item_state = "scratch"
 
 /obj/item/clothing/under/sl_suit
@@ -451,6 +451,25 @@
 	desc = "It is a white cheongsam dress."
 	icon_state = "mai_yang"
 	item_state = "nursesuit"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
+
+/obj/item/clothing/under/nisse
+	name = "fabulous yellow dress"
+	desc = "What a miracle!"
+	icon_state = "nisse_dress"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+
+/obj/item/clothing/under/lethal
+	name = "fabulous mazarine dress"
+	desc = "Luxurious dress."
+	icon_state = "lethal_dress"
+	item_state = "psyche"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS|HANDS
+
+/obj/item/clothing/under/nikiss
+	name = "fabulous purple dress"
+	desc = "SHRIEK!"
+	icon_state = "nikiss_dress"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS
 
 /obj/item/clothing/under/blazer

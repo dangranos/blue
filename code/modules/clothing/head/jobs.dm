@@ -70,6 +70,18 @@
 	name = "warden beret"
 	desc = "A navy blue beret with a warden's rank emblem. For officers that are more inclined towards style than safety."
 	icon_state = "wardenberet"
+/obj/item/clothing/head/beret/sec/alt/corp
+	name = "officer beret"
+	desc = "A black beret with an officer's rank emblem. For officers that are more inclined towards style than safety."
+	icon_state = "beret_corporate_officer"
+/obj/item/clothing/head/beret/sec/hos/corp
+	name = "officer beret"
+	desc = "A black beret with a commander's rank emblem. For officers that are more inclined towards style than safety."
+	icon_state = "beret_corporate_hos"
+/obj/item/clothing/head/beret/sec/warden/corp
+	name = "warden beret"
+	desc = "A black beret with a warden's rank emblem. For officers that are more inclined towards style than safety."
+	icon_state = "beret_corporate_warden"
 /obj/item/clothing/head/beret/eng
 	name = "engineering beret"
 	desc = "A beret with the engineering insignia emblazoned on it. For engineers that are more inclined towards style than safety."

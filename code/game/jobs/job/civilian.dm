@@ -218,7 +218,7 @@
 	gloves = /obj/item/clothing/gloves/white
 	mask = /obj/item/clothing/mask/gas/mime
 	ear = /obj/item/device/radio/headset/headset_service
-	hand = /obj/item/weapon/reagent_containers/food/drinks/bottle/bottleofnothing
+	hand = /obj/item/weapon/reagent_containers/glass/drinks/bottle/bottleofnothing
 
 //	put_in_backpack = list(\
 //		/obj/item/pen/crayon/mime

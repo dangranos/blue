@@ -15,8 +15,12 @@
 	msg = sanitize(msg)
 	if(!msg)	return
 
-	if(!(prefs.toggles & CHAT_OOC))
+	if(!(prefs.chat_toggles & CHAT_OOC))
 		src << "\red You have OOC muted."
+		return
+
+	if(oocmuted(ckey))
+		src << "<span class='danger'><big><b>No way for you, dick.</b></big></span>"
 		return
 
 	if(!holder)
@@ -49,8 +53,17 @@
 		if(holder.rights & R_ADMIN)
 			ooc_style = "admin"
 
+	var/donator_icon = ""
+
+	if(is_donator(key) && !holder.fakekey)
+		donator_icon = "<img class=icon src=\ref['icons/donator.dmi'] iconstate='[key]'>"
+	if(holder)
+		if(holder.fakekey && is_donator(holder.fakekey))
+			donator_icon = "<img class=icon src=\ref['icons/donator.dmi'] iconstate='[holder.fakekey]'>"
+
+
 	for(var/client/target in clients)
-		if(target.prefs.toggles & CHAT_OOC)
+		if(target.prefs.chat_toggles & CHAT_OOC)
 			var/display_name = src.key
 			if(holder)
 				if(holder.fakekey)
@@ -59,9 +72,9 @@
 					else
 						display_name = holder.fakekey
 			if(holder && !holder.fakekey && (holder.rights & R_ADMIN) && config.allow_admin_ooccolor && (src.prefs.ooccolor != initial(src.prefs.ooccolor))) // keeping this for the badmins
-				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></font>"
+				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'>" + create_text_tag("ooc", "OOC:", target) + " <EM> [donator_icon][display_name]:</EM> <span class='message'>[msg]</span></span></font>"
 			else
-				target << "<span class='ooc'><span class='[ooc_style]'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
+				target << "<span class='ooc'><span class='[ooc_style]'>" + create_text_tag("ooc", "OOC:", target) + " [donator_icon]<EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
 
 /client/verb/looc(msg as text)
 	set name = "LOOC"
@@ -80,7 +93,7 @@
 	msg = sanitize(msg)
 	if(!msg)	return
 
-	if(!(prefs.toggles & CHAT_LOOC))
+	if(!(prefs.chat_toggles & CHAT_LOOC))
 		src << "\red You have LOOC muted."
 		return
 
@@ -91,10 +104,10 @@
 		if(!config.dooc_allowed && (mob.stat == DEAD))
 			usr << "<span class='danger'>OOC for dead mobs has been turned off.</span>"
 			return
-		if(prefs.muted & MUTE_OOC)
-			src << "<span class='danger'>You cannot use OOC (muted).</span>"
+		if(prefs.muted & MUTE_LOOC)
+			src << "<span class='danger'>You cannot use LOOC (muted).</span>"
 			return
-		if(handle_spam_prevention(msg,MUTE_OOC))
+		if(handle_spam_prevention(msg,MUTE_LOOC))
 			return
 		if(findtext(msg, "byond://"))
 			src << "<B>Advertising other servers is not allowed.</B>"
@@ -116,7 +129,7 @@
 	var/prefix
 	var/admin_stuff
 	for(var/client/target in clients)
-		if(target.prefs.toggles & CHAT_LOOC)
+		if(target.prefs.chat_toggles & CHAT_LOOC)
 			admin_stuff = ""
 			if(target in admins)
 				prefix = "(R)"
@@ -127,3 +140,8 @@
 				prefix = ""
 			if((target.mob in heard) || (target in admins))
 				target << "<span class='ooc'><span class='looc'>" + create_text_tag("looc", "LOOC:", target) + " <span class='prefix'>[prefix]</span><EM>[display_name][admin_stuff]:</EM> <span class='message'>[msg]</span></span></span>"
+
+/proc/is_donator(var/key as text)
+	if(key in donator_icons)
+		return 1
+	return 0

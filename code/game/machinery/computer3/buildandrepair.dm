@@ -74,6 +74,7 @@
 	name = "laptop frame"
 	completed = /obj/machinery/computer3/laptop
 	max_components = 3
+	density = 0
 
 /obj/structure/computer3frame/attackby(obj/item/P as obj, mob/user as mob)
 	switch(state)

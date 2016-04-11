@@ -553,7 +553,7 @@ var/list/name_to_material
 /material/wood
 	name = "wood"
 	stack_type = /obj/item/stack/material/wood
-	icon_colour = "#824B28"
+	icon_colour = "#8B471D"
 	integrity = 25
 	icon_base = "solid"
 	icon_reinf = "reinf_wood"

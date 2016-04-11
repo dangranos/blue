@@ -320,6 +320,10 @@
 		name = "Feather"
 		icon_state = "hair_feather"
 
+	ramona
+		name = "Ramona"
+		icon_state = "hair_ramona"
+
 	smessy
 		name = "Messy Hair"
 		icon_state = "hair_smessy"
@@ -497,10 +501,34 @@
 		icon_state = "hair_pixie"
 		gender = FEMALE
 
+	longeralt2
+		name = "Long Hair Alt 2"
+		icon_state = "hair_longeralt2"
+
+ 	shortbangs
+ 		name = "Short Bangs"
+ 		icon_state = "hair_shortbangs"
+
+ 	halfshaved
+ 		name = "Half-Shaved Emo"
+ 		icon_state = "hair_halfshaved"
+
+ 	bun
+ 		name = "Bun"
+ 		icon_state = "hair_bun"
+
+ 	doublebun
+ 		name = "Double-Bun"
+ 		icon_state = "hair_doublebun"
+
 	highpony
 		name = "High Ponytail"
 		icon_state = "hair_highponytail"
 		gender = FEMALE
+
+	stylo
+		name = "Stylo"
+		icon_state = "hair_stylo"
 
 	bald
 		name = "Bald"
@@ -738,6 +766,24 @@
 	skr_tentacle_f
 		name = "Skrell Female Tentacles"
 		icon_state = "skrell_hair_f"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
+	skr_tentacle_f_old
+		name = "Skrell Female Tentacles (old)"
+		icon_state = "skrell_hair_f_old"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
+	skr_tentacle_f_wide
+		name = "Skrell Female Tentacles Wide"
+		icon_state = "skrell_hair_f_wide"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
+	skr_tentacle_f_alt
+		name = "Skrell Female Tentacles Alt"
+		icon_state = "skrell_hair_f_alt"
 		species_allowed = list("Skrell")
 		gender = FEMALE
 

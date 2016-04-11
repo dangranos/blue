@@ -15,7 +15,7 @@ var/global/floorIsLava = 0
 	var/rendered = "<span class=\"log_message\"><span class=\"prefix\">ATTACK:</span> <span class=\"message\">[text]</span></span>"
 	for(var/client/C in admins)
 		if(R_ADMIN & C.holder.rights)
-			if(C.prefs.toggles & CHAT_ATTACKLOGS)
+			if(C.prefs.chat_toggles & CHAT_ATTACKLOGS)
 				var/msg = rendered
 				C << msg
 
@@ -72,10 +72,15 @@ proc/admin_notice(var/message, var/rights)
 		body += {"<br><b>Mute: </b>
 			\[<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_IC]'><font color='[(muted & MUTE_IC)?"red":"blue"]'>IC</font></a> |
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_OOC]'><font color='[(muted & MUTE_OOC)?"red":"blue"]'>OOC</font></a> |
+			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_LOOC]'><font color='[(muted & MUTE_LOOC)?"red":"blue"]'>LOOC</font></a> |
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_PRAY]'><font color='[(muted & MUTE_PRAY)?"red":"blue"]'>PRAY</font></a> |
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_ADMINHELP]'><font color='[(muted & MUTE_ADMINHELP)?"red":"blue"]'>ADMINHELP</font></a> |
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_DEADCHAT]'><font color='[(muted & MUTE_DEADCHAT)?"red":"blue"]'>DEADCHAT</font></a>\]
 			(<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_ALL]'><font color='[(muted & MUTE_ALL)?"red":"blue"]'>toggle all</font></a>)
+
+			body += "<br><b>Permamute: </b> "
+			body += "\[<A href='?_src_=holder;permamute=[M.ckey];chat=OOC'><font color='[oocmuted(M.ckey)?"red":"blue"]'>OOC</font></a> | "
+			body += "<A href='?_src_=holder;permamute=[M.ckey];chat=AH'><font color='[ahmuted(M.ckey)?"red":"blue"]'>ADMINHELP</font></a>\]"
 		"}
 
 	body += {"<br><br>
@@ -333,7 +338,7 @@ proc/admin_notice(var/message, var/rights)
 		if(0)
 			dat += {"Welcome to the admin newscaster.<BR> Here you can add, edit and censor every newspiece on the network.
 				<BR>Feed channels and stories entered through here will be uneditable and handled as official news by the rest of the units.
-				<BR>Note that this panel allows full freedom over the news network, there are no constrictions except the few basic ones. Don't break things!</FONT>
+				<BR>Note that this panel allows full freedom over the news network, there are no constrictions except the few basic ones. Don't break things!
 			"}
 			if(news_network.wanted_issue)
 				dat+= "<HR><A href='?src=\ref[src];ac_view_wanted=1'>Read Wanted Issue</A>"
@@ -665,6 +670,7 @@ proc/admin_notice(var/message, var/rights)
 			<A href='?src=\ref[src];secretsfun=fakeguns'>Make all items look like guns</A><BR>
 			<A href='?src=\ref[src];secretsfun=paintball'>Paintball Mode</A><BR>
 			<A href='?src=\ref[src];secretsfun=schoolgirl'>Japanese Animes Mode</A><BR>
+			<A href='?src=\ref[src];secretsfun=meownomaly'>Spawn a Meownomaly</A><BR>
 			<A href='?src=\ref[src];secretsfun=eagles'>Egalitarian Station Mode</A><BR>
 			<A href='?src=\ref[src];secretsfun=launchshuttle'>Launch a shuttle</A><BR>
 			<A href='?src=\ref[src];secretsfun=forcelaunchshuttle'>Force launch a shuttle</A><BR>
@@ -725,7 +731,7 @@ proc/admin_notice(var/message, var/rights)
 	if(confirm == "Cancel")
 		return
 	if(confirm == "Yes")
-		world << "\red <b>Restarting world!</b> \blue Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key]!"
+		world << "<span class='danger'>Restarting world!</span> <span class='notice'>Initiated by [usr.client.holder.fakekey ? "Admin" : usr.key]!</span>"
 		log_admin("[key_name(usr)] initiated a reboot.")
 
 		sleep(50)

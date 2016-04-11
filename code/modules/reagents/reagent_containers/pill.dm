@@ -11,6 +11,7 @@
 	w_class = 1
 	slot_flags = SLOT_EARS
 	volume = 60
+	center_of_mass = list("x"=16, "y"=15)
 
 	New()
 		..()
@@ -74,6 +75,8 @@
 
 	afterattack(obj/target, mob/user, proximity)
 		if(!proximity) return
+
+		..()
 
 		if(target.is_open_container() && target.reagents)
 			if(!target.reagents.total_volume)

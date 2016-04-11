@@ -23,6 +23,7 @@
 	var/image/filling //holds a reference to the current filling overlay
 	var/visible_name = "a syringe"
 	var/time = 30
+	center_of_mass = list("x"=15, "y"=15)
 
 	on_reagent_change()
 		update_icon()
@@ -54,8 +55,10 @@
 		return
 
 	afterattack(obj/target, mob/user, proximity)
-		if(!proximity || !target.reagents)
-			return
+		if(!proximity) return
+		..()
+
+		if(!target.reagents) return
 
 		if(mode == SYRINGE_BROKEN)
 			user << "<span class='warning'>This syringe is broken!</span>"

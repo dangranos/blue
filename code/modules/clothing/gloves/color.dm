@@ -22,7 +22,7 @@
 	desc = "These work gloves are thick and fire-resistant."
 	name = "black gloves"
 	icon_state = "black"
-	item_state = "black"
+	item_state = "bgloves"
 	siemens_coefficient = 0.50
 	permeability_coefficient = 0.05
 

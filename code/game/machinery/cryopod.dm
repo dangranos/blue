@@ -246,92 +246,6 @@
 
 	find_control_computer()
 
-
-/obj/machinery/cryopod/spawner
-	var/player_spawn = 0
-
-/obj/machinery/cryopod/spawner/attack_ghost(mob/dead/observer/user as mob)
-	var/mob/living/carbon/human/new_character
-	if(!user) return
-	var/is_admin = check_rights(show_msg = player_spawn)
-
-	if((!is_admin && !player_spawn) || alert("Would you like to spawn?",,"Yes","No") == "No") return
-
-	if(!is_admin)
-		if(player_spawn> 0)
-			player_spawn -= 1
-
-	var/client/client = user.client
-
-	if(client.prefs.species)
-		new_character = new(loc, client.prefs.species)
-
-	if(!new_character)
-		new_character = new(loc)
-
-	new_character.lastarea = get_area(loc)
-
-	var/datum/language/chosen_language
-	if(client.prefs.language)
-		chosen_language = all_languages[client.prefs.language]
-		if(chosen_language)
-			new_character.add_language(client.prefs.language)
-
-	client.prefs.copy_to(new_character)
-
-	new_character.name = client.prefs.real_name
-	new_character.dna.ready_dna(new_character)
-	new_character.dna.b_type = client.prefs.b_type
-
-	// Do the initial caching of the player's body icons.
-	new_character.force_update_limbs()
-	new_character.update_eyes()
-	new_character.regenerate_icons()
-
-	new_character.key = user.key
-
-	log_admin("[key_name(new_character)] have been spawned with cryospawner at ([x], [y], [z])")
-
-	if(is_admin)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_captain(new_character), slot_w_uniform)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
-		new_character.equip_to_slot_or_del(new /obj/item/device/radio/headset/heads/captain(new_character), slot_l_ear)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/captain(new_character), slot_head)
-
-		var/obj/item/device/pda/heads/pda = new(new_character)
-		pda.owner = new_character.real_name
-		pda.ownjob = "NanoTrasen Navy Captain"
-		pda.name = "PDA-[new_character.real_name] ([pda.ownjob])"
-
-		new_character.equip_to_slot_or_del(pda, slot_r_store)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
-		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
-
-		var/obj/item/weapon/card/id/centcom/W = new(new_character)
-		W.name = "[new_character.real_name]'s ID Card"
-		W.access = get_all_accesses()
-		W.access += get_all_centcom_access()
-		W.assignment = "NanoTrasen Navy Captain"
-		W.registered_name = new_character.real_name
-		new_character.equip_to_slot_or_del(W, slot_wear_id)
-	else
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/under/rank/centcom_officer(new_character), slot_w_uniform)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/shoes/laceup(new_character), slot_shoes)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/gloves/white(new_character), slot_gloves)
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/head/beret/centcom/officer(new_character), slot_head)
-
-		new_character.equip_to_slot_or_del(new /obj/item/clothing/glasses/sunglasses(new_character), slot_l_store)
-		new_character.equip_to_slot_or_del(new /obj/item/weapon/gun/energy(new_character), slot_belt)
-
-		var/obj/item/weapon/card/id/centcom/W = new(new_character)
-		W.name = "[new_character.real_name]'s ID Card"
-		W.access = get_all_accesses()
-		W.access += get_all_centcom_access()
-		W.assignment = "NanoTrasen Navy Officer"
-		W.registered_name = new_character.real_name
-		new_character.equip_to_slot_or_del(W, slot_wear_id)
-
 /obj/machinery/cryopod/proc/find_control_computer(urgent=0)
 	control_computer = locate(/obj/machinery/computer/cryopod) in src.loc.loc
 
@@ -511,8 +425,7 @@
 
 			if(do_after(user, 20))
 				if(!M || !G || !G.affecting) return
-				var/turf/src_turf = get_turf(src)
-				if( !src_turf.Adjacent(M) ) return
+				if( !Adjacent(M) ) return
 
 			set_occupant(M)
 			M << "<span class='notice'>[on_enter_occupant_message]</span>"
