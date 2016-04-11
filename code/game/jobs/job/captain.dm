@@ -25,6 +25,9 @@ var/datum/announcement/minor/captain_announcement = new(do_newscast = 1)
 	ear = /obj/item/device/radio/headset/heads/captain
 	glasses = /obj/item/clothing/glasses/sunglasses
 
+	backpack = /obj/item/weapon/storage/backpack/captain
+	satchel = /obj/item/weapon/storage/backpack/satchel_cap
+
 	backpacks = list(
 		/obj/item/weapon/storage/backpack/captain,\
 		/obj/item/weapon/storage/backpack/satchel_cap,\

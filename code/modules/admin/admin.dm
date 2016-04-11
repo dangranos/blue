@@ -77,6 +77,10 @@ proc/admin_notice(var/message, var/rights)
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_ADMINHELP]'><font color='[(muted & MUTE_ADMINHELP)?"red":"blue"]'>ADMINHELP</font></a> |
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_DEADCHAT]'><font color='[(muted & MUTE_DEADCHAT)?"red":"blue"]'>DEADCHAT</font></a>\]
 			(<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_ALL]'><font color='[(muted & MUTE_ALL)?"red":"blue"]'>toggle all</font></a>)
+
+			body += "<br><b>Permamute: </b> "
+			body += "\[<A href='?_src_=holder;permamute=[M.ckey];chat=OOC'><font color='[oocmuted(M.ckey)?"red":"blue"]'>OOC</font></a> | "
+			body += "<A href='?_src_=holder;permamute=[M.ckey];chat=AH'><font color='[ahmuted(M.ckey)?"red":"blue"]'>ADMINHELP</font></a>\]"
 		"}
 
 	body += {"<br><br>
