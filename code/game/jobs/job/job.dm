@@ -71,8 +71,11 @@
 	)
 	*/
 
-/datum/job/proc/equip(var/mob/living/carbon/human/H)
+/datum/job/proc/equip(var/mob/living/carbon/human/H, var/spawn_loadout = 0)
 	if(!H)	return 0
+
+	if(!H.client || !H.client.prefs.toggles & PREFER_NEWSETUP)
+		spawn_loadout = 0
 
 	//Put items in hands
 	if(hand) H.equip_to_slot_or_del(new hand (H), slot_l_hand)

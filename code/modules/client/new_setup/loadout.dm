@@ -27,6 +27,19 @@
 /datum/loadout/backpack
 	slot = slot_back
 
+/datum/loadout/backpack/nothing
+	name = "Nothing"
+
+/datum/loadout/backpack/job
+	name = "Job default"
+
+/datum/loadout/backpack/job_satchel
+	name = "Job satchel"
+
+/datum/loadout/backpack/job_duffle
+	name = "Job duffle"
+
+
 /datum/loadout/mask
 	slot = slot_wear_mask
 
