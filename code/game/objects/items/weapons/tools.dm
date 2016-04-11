@@ -258,6 +258,28 @@
 	setWelding(!welding, usr)
 	return
 
+
+/obj/item/weapon/weldingtool/attack(mob/M as mob, mob/user as mob)
+
+	if(hasorgans(M))
+
+		var/obj/item/organ/external/S = M:organs_by_name[user.zone_sel.selecting]
+
+		if (!S) return
+		if(!(S.status & ORGAN_ROBOT) || user.a_intent != I_HELP)
+			return ..()
+
+		if(S.brute_dam)
+			S.heal_damage(15,0,0,1)
+			user.visible_message("\red \The [user] patches some dents on \the [M]'s [S.name] with \the [src].")
+			return
+		else
+			user << "Nothing to fix!"
+
+	else
+		return ..()
+
+
 //Returns the amount of fuel in the welder
 /obj/item/weapon/weldingtool/proc/get_fuel()
 	return reagents.get_reagent_amount("fuel")
@@ -391,8 +413,6 @@
 	origin_tech = "engineering=4;phorontech=3"
 	var/last_gen = 0
 
-
-
 /obj/item/weapon/weldingtool/experimental/proc/fuel_gen()//Proc to make the experimental welder generate fuel, optimized as fuck -Sieve
 	var/gen_amount = ((world.time-last_gen)/25)
 	reagents += (gen_amount)
@@ -422,33 +442,6 @@
 	icon = 'icons/obj/items.dmi'
 	icon_state = "red_crowbar"
 	item_state = "crowbar_red"
-
-/obj/item/weapon/weldingtool/attack(mob/M as mob, mob/user as mob)
-
-	if(hasorgans(M))
-
-		var/obj/item/organ/external/S = M:organs_by_name[user.zone_sel.selecting]
-
-		if (!S) return
-		if(!(S.status & ORGAN_ROBOT) || user.a_intent != I_HELP)
-			return ..()
-
-		if(istype(M,/mob/living/carbon/human))
-			var/mob/living/carbon/human/H = M
-			if(H.species.flags & IS_SYNTHETIC)
-				if(M == user)
-					user << "\red You can't repair damage to your own body - it's against OH&S."
-					return
-
-		if(S.brute_dam)
-			S.heal_damage(15,0,0,1)
-			user.visible_message("\red \The [user] patches some dents on \the [M]'s [S.name] with \the [src].")
-			return
-		else
-			user << "Nothing to fix!"
-
-	else
-		return ..()
 
 /*/obj/item/weapon/combitool
 	name = "combi-tool"

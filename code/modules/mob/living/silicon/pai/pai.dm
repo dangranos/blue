@@ -21,7 +21,10 @@
 		"Drone" = "repairbot",
 		"Cat" = "cat",
 		"Mouse" = "mouse",
-		"Monkey" = "monkey"
+		"Monkey" = "monkey",
+		"Borgi" = "borgi",
+		"Fairy" = "fairy",
+		"Spider" = "spider"
 		)
 
 	var/global/list/possible_say_verbs = list(
@@ -86,6 +89,8 @@
 	add_language("Sol Common", 1)
 	add_language("Tradeband", 1)
 	add_language("Gutter", 1)
+	add_language("Siik'maas", 1)
+	add_language("Surzhyk", 1)
 
 	verbs += /mob/living/silicon/pai/proc/choose_chassis
 	verbs += /mob/living/silicon/pai/proc/choose_verbs

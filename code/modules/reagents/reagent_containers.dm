@@ -7,6 +7,7 @@
 	var/amount_per_transfer_from_this = 5
 	var/possible_transfer_amounts = list(5,10,15,25,30)
 	var/volume = 30
+	var/list/center_of_mass = list() // Used for table placement
 
 /obj/item/weapon/reagent_containers/verb/set_APTFT() //set amount_per_transfer_from_this
 	set name = "Set transfer amount"
@@ -16,11 +17,19 @@
 	if(N)
 		amount_per_transfer_from_this = N
 
+#define CELLS 4
+#define CELLSIZE (32/CELLS)
+
 /obj/item/weapon/reagent_containers/New()
 	..()
 	if(!possible_transfer_amounts)
 		src.verbs -= /obj/item/weapon/reagent_containers/verb/set_APTFT
 	create_reagents(volume)
+
+	if (!pixel_x && !pixel_y)
+		src.pixel_x = rand(-6.0, 6) //Randomizes postion
+		src.pixel_y = rand(-6.0, 6)
+
 
 /obj/item/weapon/reagent_containers/attack_self(mob/user as mob)
 	return
@@ -30,8 +39,27 @@
 		if(do_surgery(M, user, src))
 			return
 
-/obj/item/weapon/reagent_containers/afterattack(obj/target, mob/user, flag)
-	return
+/obj/item/weapon/reagent_containers/afterattack(atom/A, mob/user, proximity, params)
+	..()
+	if(proximity && params && istype(A, /obj/structure/table) && center_of_mass.len)
+		//Places the item on a grid
+		var/list/mouse_control = params2list(params)
+
+		var/mouse_x = text2num(mouse_control["icon-x"])
+		var/mouse_y = text2num(mouse_control["icon-y"])
+
+		if(!isnum(mouse_x) || !isnum(mouse_y))
+			return
+
+		var/cell_x = max(0, min(CELLS-1, round(mouse_x/CELLSIZE)))
+		var/cell_y = max(0, min(CELLS-1, round(mouse_y/CELLSIZE)))
+
+		pixel_x = (CELLSIZE * (0.5 + cell_x)) - center_of_mass["x"]
+		pixel_y = (CELLSIZE * (0.5 + cell_y)) - center_of_mass["y"]
+
+#undef CELLS
+#undef CELLSIZE
+
 
 /obj/item/weapon/reagent_containers/proc/reagentlist() // For attack logs
 	if(reagents)

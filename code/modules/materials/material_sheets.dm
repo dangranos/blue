@@ -169,6 +169,9 @@
 	icon_state = "sheet-wood"
 	default_type = "wood"
 
+/obj/item/stack/material/wood/thunder
+	amount = 50
+
 /obj/item/stack/material/cloth
 	name = "cloth"
 	icon_state = "sheet-cloth"

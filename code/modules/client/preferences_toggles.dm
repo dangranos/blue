@@ -3,34 +3,34 @@
 	set name = "Show/Hide GhostEars"
 	set category = "Preferences"
 	set desc = ".Toggle Between seeing all mob speech, and only speech of nearby mobs"
-	prefs.toggles ^= CHAT_GHOSTEARS
-	src << "As a ghost, you will now [(prefs.toggles & CHAT_GHOSTEARS) ? "see all speech in the world" : "only see speech from nearby mobs"]."
+	prefs.chat_toggles ^= CHAT_GHOSTEARS
+	src << "As a ghost, you will now [(prefs.chat_toggles & CHAT_GHOSTEARS) ? "see all speech in the world" : "only see speech from nearby mobs"]."
 	prefs.save_preferences()
 
 /client/verb/toggle_ghost_sight()
 	set name = "Show/Hide GhostSight"
 	set category = "Preferences"
 	set desc = ".Toggle Between seeing all mob emotes, and only emotes of nearby mobs"
-	prefs.toggles ^= CHAT_GHOSTSIGHT
-	src << "As a ghost, you will now [(prefs.toggles & CHAT_GHOSTSIGHT) ? "see all emotes in the world" : "only see emotes from nearby mobs"]."
+	prefs.chat_toggles ^= CHAT_GHOSTSIGHT
+	src << "As a ghost, you will now [(prefs.chat_toggles & CHAT_GHOSTSIGHT) ? "see all emotes in the world" : "only see emotes from nearby mobs"]."
 	prefs.save_preferences()
 
 /client/verb/toggle_ghost_radio()
 	set name = "Enable/Disable GhostRadio"
 	set category = "Preferences"
 	set desc = ".Toggle between hearing all radio chatter, or only from nearby speakers"
-	prefs.toggles ^= CHAT_GHOSTRADIO
-	src << "As a ghost, you will now [(prefs.toggles & CHAT_GHOSTRADIO) ? "hear all radio chat in the world" : "only hear from nearby speakers"]."
+	prefs.chat_toggles ^= CHAT_GHOSTRADIO
+	src << "As a ghost, you will now [(prefs.chat_toggles & CHAT_GHOSTRADIO) ? "hear all radio chat in the world" : "only hear from nearby speakers"]."
 	prefs.save_preferences()
 
 /client/proc/toggle_hear_radio()
 	set name = "Show/Hide RadioChatter"
 	set category = "Preferences"
 	set desc = "Toggle seeing radiochatter from radios and speakers"
-	if(!holder) return
-	prefs.toggles ^= CHAT_RADIO
+	if(!holder && !(prefs.chat_toggles & CHAT_RADIO)) return
+	prefs.chat_toggles ^= CHAT_RADIO
 	prefs.save_preferences()
-	usr << "You will [(prefs.toggles & CHAT_RADIO) ? "now" : "no longer"] see radio chatter from radios or speakers"
+	usr << "You will [(prefs.chat_toggles & CHAT_RADIO) ? "now" : "no longer"] see radio chatter from radios or speakers"
 
 /client/proc/toggleadminhelpsound()
 	set name = "Hear/Silence Adminhelps"
@@ -45,22 +45,22 @@
 	set name = "Show/Hide Deadchat"
 	set category = "Preferences"
 	set desc ="Toggles seeing deadchat"
-	prefs.toggles ^= CHAT_DEAD
+	prefs.chat_toggles ^= CHAT_DEAD
 	prefs.save_preferences()
 
 	if(src.holder)
-		src << "You will [(prefs.toggles & CHAT_DEAD) ? "now" : "no longer"] see deadchat."
+		src << "You will [(prefs.chat_toggles & CHAT_DEAD) ? "now" : "no longer"] see deadchat."
 	else
-		src << "As a ghost, you will [(prefs.toggles & CHAT_DEAD) ? "now" : "no longer"] see deadchat."
+		src << "As a ghost, you will [(prefs.chat_toggles & CHAT_DEAD) ? "now" : "no longer"] see deadchat."
 
 
 /client/proc/toggleprayers()
 	set name = "Show/Hide Prayers"
 	set category = "Preferences"
 	set desc = "Toggles seeing prayers"
-	prefs.toggles ^= CHAT_PRAYER
+	prefs.chat_toggles ^= CHAT_PRAYER
 	prefs.save_preferences()
-	src << "You will [(prefs.toggles & CHAT_PRAYER) ? "now" : "no longer"] see prayerchat."
+	src << "You will [(prefs.chat_toggles & CHAT_PRAYER) ? "now" : "no longer"] see prayerchat."
 
 /client/verb/toggletitlemusic()
 	set name = "Hear/Silence LobbyMusic"
@@ -95,19 +95,19 @@
 	set name = "Show/Hide OOC"
 	set category = "Preferences"
 	set desc = "Toggles seeing OutOfCharacter chat"
-	prefs.toggles ^= CHAT_OOC
+	prefs.chat_toggles ^= CHAT_OOC
 	prefs.save_preferences()
-	src << "You will [(prefs.toggles & CHAT_OOC) ? "now" : "no longer"] see messages on the OOC channel."
+	src << "You will [(prefs.chat_toggles & CHAT_OOC) ? "now" : "no longer"] see messages on the OOC channel."
 
 
 /client/verb/listen_looc()
 	set name = "Show/Hide LOOC"
 	set category = "Preferences"
 	set desc = "Toggles seeing Local OutOfCharacter chat"
-	prefs.toggles ^= CHAT_LOOC
+	prefs.chat_toggles ^= CHAT_LOOC
 	prefs.save_preferences()
 
-	src << "You will [(prefs.toggles & CHAT_LOOC) ? "now" : "no longer"] see messages on the LOOC channel."
+	src << "You will [(prefs.chat_toggles & CHAT_LOOC) ? "now" : "no longer"] see messages on the LOOC channel."
 
 
 /client/verb/toggle_chattags()
@@ -181,3 +181,32 @@
 		prefs.UI_style_color = UI_style_color_new
 		prefs.save_preferences()
 		usr << "UI was saved"
+
+/client/verb/autoemotes() // Toggle autoemote russification
+	set name = "Toggle Emote Localization"
+	set category = "Preferences"
+	set desc ="Toggle autoemote localization"
+	prefs.toggles ^= RUS_AUTOEMOTES
+	prefs.save_preferences()
+
+	src << "Your auto emote [(prefs.toggles & RUS_AUTOEMOTES) ? "now" : "no longer"] be russified."
+
+/client/verb/toggle_motd()
+	set name = "Show/Hide MOTD"
+	set category = "Preferences"
+	set desc ="Show or not MOTD at round join"
+	prefs.toggles ^= HIDE_MOTD
+	prefs.save_preferences()
+
+	src << "You will [(prefs.toggles & HIDE_MOTD) ? "no longer" : "now"] see MOTD at join game."
+
+/client/verb/toggle_stetup_pref()
+	set name = "Toggle new/old setup usage"
+	set category = "Preferences"
+	set desc = "Select new/old style loadout and so on"
+
+	prefs.toggles ^= PREFER_NEWSETUP
+	prefs.save_preferences()
+
+	src << "You will now use preference from [(prefs.toggles & PREFER_NEWSETUP) ? "new" : "old"] setup menu."
+

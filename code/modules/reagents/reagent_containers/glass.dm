@@ -15,7 +15,8 @@
 	w_class = 2
 	flags = OPENCONTAINER
 	unacidable = 1 //glass doesn't dissolve in acid
-
+	center_of_mass = list("x"=16, "y"=16)
+	var/isGlass = 1
 	var/label_text = ""
 
 	var/list/can_be_placed_into = list(
@@ -46,20 +47,6 @@
 		/obj/machinery/radiocarbon_spectrometer
 		)
 
-	New()
-		..()
-		base_name = name
-
-	examine(var/mob/user)
-		if(!..(user, 2))
-			return
-		if(reagents && reagents.reagent_list.len)
-			user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
-		else
-			user << "<span class='notice'>It is empty.</span>"
-		if(!is_open_container())
-			user << "<span class='notice'>Airtight lid seals it completely.</span>"
-
 	attack_self()
 		..()
 		if(is_open_container())
@@ -71,16 +58,22 @@
 		update_icon()
 
 	afterattack(var/obj/target, var/mob/user, var/flag)
-
-		if(!is_open_container() || !flag)
+		if(!flag)
 			return
+		..()
+
+		if(!is_open_container()) return
 
 		for(var/type in can_be_placed_into)
 			if(istype(target, type))
 				return
 
-		if(standard_splash_mob(user, target))
+		if(user.a_intent == I_HELP)
+			if(standard_feed_mob(user, target))
+				return
+		else if(standard_splash_mob(user, target))
 			return
+
 		if(standard_dispenser_refill(user, target))
 			return
 		if(standard_pour_into(user, target))
@@ -91,21 +84,96 @@
 			reagents.splash(target, reagents.total_volume)
 			return
 
-	attackby(obj/item/weapon/W as obj, mob/user as mob)
-		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
-			var/tmp_label = sanitizeName(input(user, "Enter a label for [name]", "Label", label_text), MAX_NAME_LEN, 1)
-			if(length(tmp_label) > 20)
-				user << "<span class='notice'>The label can be at most 10 characters long.</span>"
-			else
-				user << "<span class='notice'>You set the label to \"[tmp_label]\".</span>"
-				label_text = tmp_label
-				update_name_label()
+	self_feed_message(var/mob/user)
+		user << "<span class='notice'>You swallow a gulp from \the [src].</span>"
 
-	proc/update_name_label()
-		if(label_text == "")
-			name = base_name
+	feed_sound(var/mob/user)
+		playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
+
+	bullet_act(var/obj/item/projectile/bullet/Proj)
+		if(!isGlass)
+			visible_message("<span class = 'warning'>Bullet flies through the [src], splashing it's contents all around!</span>")
+
+			var/obj/item/weapon/pierced_container/B = new /obj/item/weapon/pierced_container/(loc)
+			B.name = "spoiled [name]"
+			B.force = src.force
+			B.icon_state = src.icon_state
+			B.item_state = src.item_state
+
+			var/icon/Q = new(src.icon, B.icon_state)
+			Q.Blend(B.hole, ICON_OVERLAY, rand(2), 1)
+			B.icon = Q
+			src.transfer_fingerprints_to(B)
 		else
-			name = "[base_name] ([label_text])"
+			isGlass = 0
+			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
+
+			var/obj/item/weapon/broken_bottle/B = new /obj/item/weapon/broken_bottle(loc)
+			B.name = "broken [name]"
+			B.force = src.force
+			B.icon_state = src.icon_state
+
+			if(istype(src, /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass))
+				B.icon_state = "glass_empty"
+
+			var/icon/Q = new(src.icon, B.icon_state)
+			Q.Blend(B.broken_outline, ICON_OVERLAY, rand(5), 1)
+			Q.SwapColor(rgb(255, 0, 220, 255), rgb(0, 0, 0, 0))
+			B.icon = Q
+			src.transfer_fingerprints_to(B)
+
+			playsound(src, "shatter", 70, 1)
+
+			if(prob(66))
+				new /obj/item/weapon/material/shard(src.loc)
+
+		if(reagents && reagents.total_volume)
+			reagents.splash(src.loc, reagents.total_volume)
+
+			qdel(src)
+
+	throw_impact(var/atom/hit_atom)
+		if(isGlass)
+
+			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
+
+			//create new broken bottle
+			var/obj/item/weapon/broken_bottle/B = new /obj/item/weapon/broken_bottle(loc)
+			B.force = src.force
+			B.icon_state = src.icon_state
+
+
+			if(istype(src, /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass))
+				B.icon_state = "glass_empty"
+
+			if(reagents && reagents.total_volume)
+				reagents.splash(hit_atom, reagents.total_volume)
+
+			var/icon/Q = new(src.icon, B.icon_state)
+			Q.Blend(B.broken_outline, ICON_OVERLAY, rand(5), 1)
+			Q.SwapColor(rgb(255, 0, 220, 255), rgb(0, 0, 0, 0))
+			B.icon = Q
+			src.transfer_fingerprints_to(B)
+
+			playsound(src, "shatter", 70, 1)
+
+			if(prob(50))
+				new /obj/item/weapon/material/shard(src.loc)
+			qdel(src)
+
+/obj/item/weapon/pierced_container
+
+	name = "Broken Can"
+	desc = "It's kinda useless now, you know. Think first, shoot after."
+	icon = 'icons/obj/drinks.dmi'
+	icon_state = "pierced_container"
+	force = 2.0
+	throwforce = 0
+	throw_speed = 3
+	throw_range = 5
+	item_state = "cola"
+	var/icon/hole = icon('icons/obj/drinks.dmi', "hole")
+
 
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
@@ -114,10 +182,22 @@
 	icon_state = "beaker"
 	item_state = "beaker"
 	matter = list("glass" = 500)
+	center_of_mass = list("x"=16, "y"=11)
 
 	New()
 		..()
+		base_name = name
 		desc += " Can hold up to [volume] units."
+
+	examine(var/mob/user)
+		if(!..(user, 2))
+			return
+		if(reagents && reagents.reagent_list.len)
+			user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
+		else
+			user << "<span class='notice'>It is empty.</span>"
+		if(!is_open_container())
+			user << "<span class='notice'>Airtight lid seals it completely.</span>"
 
 	on_reagent_change()
 		update_icon()
@@ -157,6 +237,23 @@
 			var/image/lid = image(icon, src, "lid_[initial(icon_state)]")
 			overlays += lid
 
+	attackby(obj/item/weapon/W as obj, mob/user as mob)
+		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
+			var/tmp_label = sanitizeName(input(user, "Enter a label for [name]", "Label", label_text), MAX_NAME_LEN, 1)
+			if(length(tmp_label) > 20)
+				user << "<span class='notice'>The label can be at most 10 characters long.</span>"
+			else
+				user << "<span class='notice'>You set the label to \"[tmp_label]\".</span>"
+				label_text = tmp_label
+				update_name_label()
+
+	proc/update_name_label()
+		if(label_text == "")
+			name = base_name
+		else
+			name = "[base_name] ([label_text])"
+
+
 /obj/item/weapon/reagent_containers/glass/beaker/large
 	name = "large beaker"
 	desc = "A large beaker."
@@ -175,6 +272,8 @@
 	volume = 60
 	amount_per_transfer_from_this = 10
 	flags = OPENCONTAINER | NOREACT
+	center_of_mass = list("x"=16, "y"=9)
+	isGlass = 0
 
 /obj/item/weapon/reagent_containers/glass/beaker/bluespace
 	name = "bluespace beaker"
@@ -185,6 +284,7 @@
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25,30,60,120,300)
 	flags = OPENCONTAINER
+	isGlass = 0
 
 /obj/item/weapon/reagent_containers/glass/beaker/vial
 	name = "vial"
@@ -195,6 +295,7 @@
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25)
 	flags = OPENCONTAINER
+	center_of_mass = list("x"=16, "y"=9)
 
 /obj/item/weapon/reagent_containers/glass/beaker/cryoxadone
 	New()
@@ -221,6 +322,8 @@
 	volume = 120
 	flags = OPENCONTAINER
 	unacidable = 0
+	center_of_mass = list("x"=16, "y"=9)
+	isGlass = 0
 
 	attackby(var/obj/D, mob/user as mob)
 		if(isprox(D))

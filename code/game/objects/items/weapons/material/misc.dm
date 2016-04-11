@@ -36,7 +36,11 @@
 	icon_state = "tacknife"
 	item_state = "knife"
 	attack_verb = list("stabbed", "chopped", "cut")
-	applies_material_colour = 1
+	applies_material_colour = 0
+
+/obj/item/weapon/material/hatchet/tacknife/thunder
+	force_divisor = 0.5
+	thrown_force_divisor = 0.6
 
 /obj/item/weapon/material/minihoe // -- Numbers
 	name = "mini hoe"
@@ -65,3 +69,13 @@
 	slot_flags = SLOT_BACK
 	origin_tech = "materials=2;combat=2"
 	attack_verb = list("chopped", "sliced", "cut", "reaped")
+	
+	/obj/item/weapon/material/knuckles
+	icon_state = "knuckles"
+	name = "brass knuckles"
+	desc = "Prepare your teeth!"
+	hitsound = 'sound/weapons/genhit3.ogg'
+	force_divisor = 0.15
+	thrown_force_divisor = 0.1
+	w_class = 2
+	attack_verb = list("smashed", "bashed", "slammed")

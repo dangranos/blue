@@ -40,3 +40,4 @@
 	var/on_fire = 0 //The "Are we on fire?" var
 	var/fire_stacks
 
+	var/list/say_log = list() //a log of what we've said, plain text, no spans or junk, essentially just each individual "message"

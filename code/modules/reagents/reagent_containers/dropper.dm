@@ -4,16 +4,19 @@
 /obj/item/weapon/reagent_containers/dropper
 	name = "Dropper"
 	desc = "A dropper. Transfers 5 units."
-	icon = 'icons/obj/chemical.dmi'
 	icon_state = "dropper0"
 	amount_per_transfer_from_this = 5
 	possible_transfer_amounts = list(1,2,3,4,5)
 	w_class = 1
 	slot_flags = SLOT_EARS
 	volume = 5
+	center_of_mass = list("x"=17, "y"=17)
 
 	afterattack(var/obj/target, var/mob/user, var/flag)
-		if(!target.reagents || !flag) return
+		if(!flag) return
+		..()
+
+		if(!target.reagents) return
 
 		if(reagents.total_volume)
 

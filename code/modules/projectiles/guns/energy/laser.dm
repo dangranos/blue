@@ -132,3 +132,30 @@ obj/item/weapon/gun/energy/retro
 	item_state = "redtag"
 	projectile_type = /obj/item/projectile/beam/lastertag/red
 	required_vest = /obj/item/clothing/suit/redtag
+
+
+/obj/item/weapon/gun/energy/wasp
+	name = "Wasp MKI"
+	desc = "A low-power laser gun capable of expelling concentrated photon blasts."
+	icon_state = "wasp"
+	item_state = "lasercannon"
+	fire_sound = 'sound/weapons/laser3.ogg'
+	projectile_type = /obj/item/projectile/beam/laserlight
+	charge_cost = 50
+	max_shots = 20
+	fire_delay = 2
+	self_recharge = 1
+	slot_flags = null
+
+/obj/item/weapon/gun/energy/grumbler
+	name = "Grumbler-R"
+	desc = "A high-power energy gun capable of expelling concentrated plasma blasts."
+	icon_state = "grumbler"
+	item_state = "pulse"
+	fire_sound = 'sound/weapons/pulse.ogg'
+	projectile_type = /obj/item/projectile/instagib
+	charge_cost = 500
+	max_shots = 3
+	fire_delay = 30
+	self_recharge = 1
+	slot_flags = null

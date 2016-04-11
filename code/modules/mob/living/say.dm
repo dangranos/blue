@@ -159,6 +159,9 @@ proc/get_radio_key_from_channel(var/channel)
 
 	message = trim_left(message)
 
+	//Log of what we've said, plain message, no spans or junk
+	say_log += message
+
 	//parse the language code and consume it
 	if(!speaking)
 		speaking = parse_language(message)
@@ -267,7 +270,7 @@ proc/get_radio_key_from_channel(var/channel)
 
 
 		for(var/mob/M in player_list)
-			if(M.stat == DEAD && M.client && (M.client.prefs.toggles & CHAT_GHOSTEARS))
+			if(M.stat == DEAD && M.client && (M.client.prefs.chat_toggles & CHAT_GHOSTEARS))
 				listening |= M
 				continue
 			if(M.loc && M.locs[1] in hearturfs)

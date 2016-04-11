@@ -15,6 +15,30 @@
 	force = 3
 	armor = list(melee = 30, bullet = 10, laser = 10, energy = 15, bomb = 20, bio = 0, rad = 0)
 	siemens_coefficient = 0.7
+	var/obj/item/weapon/material/hatchet/tacknife/knife = null
+
+/obj/item/clothing/shoes/jackboots/attack_hand(var/mob/living/M)
+	if(knife)
+		if(M.put_in_active_hand(knife))
+			M << "<div class='notice'>You slide the [knife] out of [src].</div>"
+			knife = null
+			update_icon()
+	else ..()
+
+/obj/item/clothing/shoes/jackboots/attackby(var/obj/item/weapon/material/hatchet/tacknife/I, var/mob/living/M)
+	if(istype(I))
+		if(knife) return
+		M.drop_from_inventory(I, src)
+		knife = I
+		M << "<div class='notice'>You slide the [I] into [src].<div>"
+		update_icon()
+	else ..()
+
+/obj/item/clothing/shoes/jackboots/update_icon()
+	if(knife)
+		icon_state = "[initial(icon_state)]_knife"
+	else
+		icon_state = initial(icon_state)
 
 /obj/item/clothing/shoes/jackboots/unathi
 	name = "toe-less jackboots"
@@ -30,3 +54,4 @@
 	item_state = "workboots"
 	armor = list(melee = 40, bullet = 0, laser = 0, energy = 15, bomb = 20, bio = 0, rad = 20)
 	siemens_coefficient = 0.7
+

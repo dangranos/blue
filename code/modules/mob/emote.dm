@@ -36,7 +36,7 @@
 				continue
 			if(findtext(message," snores.")) //Because we have so many sleeping people.
 				break
-			if(M.stat == 2 && (M.client.prefs.toggles & CHAT_GHOSTSIGHT) && !(M in viewers(src,null)))
+			if(M.stat == 2 && (M.client.prefs.chat_toggles & CHAT_GHOSTSIGHT) && !(M in viewers(src,null)))
 				M.show_message(message)
 
 		for(var/I in view(world.view, get_turf(usr))) //get_turf is needed to stop weirdness with x-ray.
@@ -96,7 +96,7 @@
 		src << "<span class='danger'>You cannot send deadchat emotes (muted).</span>"
 		return
 
-	if(!(client.prefs.toggles & CHAT_DEAD))
+	if(!(client.prefs.chat_toggles & CHAT_DEAD))
 		src << "<span class='danger'>You have deadchat muted.</span>"
 		return
 

@@ -13,15 +13,14 @@
 	New()
 		..()
 		new /obj/item/weapon/storage/box/autoinjectors(src)
+		new /obj/item/weapon/storage/box/pillbottles(src)
+		new /obj/item/weapon/reagent_containers/glass/beaker(src)
+		new /obj/item/weapon/reagent_containers/dropper(src)
+		new /obj/item/weapon/reagent_containers/glass/bottle/inaprovaline(src)
+		new /obj/item/weapon/reagent_containers/glass/bottle/inaprovaline(src)
+		new /obj/item/weapon/reagent_containers/glass/bottle/antitoxin(src)
+		new /obj/item/weapon/reagent_containers/glass/bottle/antitoxin(src)
 		new /obj/item/weapon/storage/box/syringes(src)
-		new /obj/item/weapon/reagent_containers/dropper(src)
-		new /obj/item/weapon/reagent_containers/dropper(src)
-		new /obj/item/weapon/reagent_containers/glass/beaker(src)
-		new /obj/item/weapon/reagent_containers/glass/beaker(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/inaprovaline(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/inaprovaline(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/antitoxin(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/antitoxin(src)
 		return
 
 
@@ -92,6 +91,7 @@
 				new /obj/item/clothing/under/rank/medical/purple(src)
 				new /obj/item/clothing/head/surgery/purple(src)
 		new /obj/item/clothing/under/rank/medical(src)
+		new /obj/item/clothing/under/rank/medical/black(src)
 		new /obj/item/clothing/under/rank/nurse(src)
 		new /obj/item/clothing/under/rank/orderly(src)
 		new /obj/item/clothing/suit/storage/toggle/labcoat(src)
@@ -179,7 +179,6 @@
 
 	New()
 		..()
-		new /obj/item/weapon/storage/box/pillbottles(src)
 		new /obj/item/weapon/storage/box/pillbottles(src)
 		return
 

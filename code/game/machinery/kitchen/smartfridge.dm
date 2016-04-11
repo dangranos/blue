@@ -115,12 +115,15 @@
 	desc = "A refrigerated storage unit for tasty tasty alcohol."
 
 /obj/machinery/smartfridge/drinks/accept_check(var/obj/item/O as obj)
-	if(istype(O,/obj/item/weapon/reagent_containers/glass) || istype(O,/obj/item/weapon/reagent_containers/food/drinks) || istype(O,/obj/item/weapon/reagent_containers/food/condiment))
+	if(istype(O,/obj/item/weapon/reagent_containers/glass) || istype(O,/obj/item/weapon/reagent_containers/glass/drinks) || istype(O,/obj/item/weapon/reagent_containers/food/condiment))
 		return 1
 
 /obj/machinery/smartfridge/drying_rack
 	name = "\improper Drying Rack"
 	desc = "A machine for drying plants."
+	icon_state = "drying_rack_on"
+	icon_on = "drying_rack_on"
+	icon_off = "drying_rack"
 
 /obj/machinery/smartfridge/drying_rack/accept_check(var/obj/item/O as obj)
 	if(istype(O, /obj/item/weapon/reagent_containers/food/snacks/))
@@ -339,7 +342,7 @@
 		return 0
 	spawn(0)
 		throw_item.throw_at(target,16,3,src)
-	src.visible_message("\red <b>[src] launches [throw_item.name] at [target.name]!</b>")
+	src.visible_message("<span class='warning'>[src] launches [throw_item.name] at [target.name]!</span>")
 	return 1
 
 /************************
