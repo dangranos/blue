@@ -91,7 +91,8 @@
 		return
 	else if (delay < 0)
 		delay = 0
-	silk++
-	delay = 5
+	else
+		silk++
+		delay = 5
 	//owner.nutriment --
 	return
