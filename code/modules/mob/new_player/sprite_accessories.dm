@@ -812,6 +812,11 @@
 		icon_state = "hair_shaggy"
 		species_allowed = list("Tajara")
 
+	taj_ears_chalma
+		name = "Tajara Chalma"
+		icon_state = "hair_chalma"
+		species_allowed = list("Tajara")
+
 	taj_ears_mohawk
 		name = "Tajaran Mohawk"
 		icon_state = "hair_mohawk"
