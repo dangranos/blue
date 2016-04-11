@@ -47,9 +47,9 @@
 					B.name = "Toolbox Manifesto"
 				if("homosexuality")
 					B.name = "Guys Gone Wild"
-				//if("lol", "wtf", "gay", "penis", "ass", "poo", "badmin", "shitmin", "deadmin", "cock", "cocks")
-				//	B.name = pick("Woodys Got Wood: The Aftermath", "War of the Cocks", "Sweet Bro and Hella Jef: Expanded Edition")
-				//	H.setBrainLoss(100) // starts off retarded as fuck
+				if("lol", "wtf", "gay", "penis", "ass", "poo", "badmin", "shitmin", "deadmin", "cock", "cocks")
+					B.name = pick("Woodys Got Wood: The Aftermath", "War of the Cocks", "Sweet Bro and Hella Jef: Expanded Edition")
+					H.setBrainLoss(100)
 				if("science")
 					B.name = pick("Principle of Relativity", "Quantum Enigma: Physics Encounters Consciousness", "Programming the Universe", "Quantum Physics and Theology", "String Theory for Dummies", "How To: Build Your Own Warp Drive", "The Mysteries of Bluespace", "Playing God: Collector's Edition")
 				else
@@ -71,7 +71,7 @@
 
 			while(!accepted)
 				if(!B) break // prevents possible runtime errors
-				new_book_style = input(H,"Which bible style would you like?") in list("Bible", "Koran", "Scrapbook", "Creeper", "White Bible", "Holy Light", "Athiest", "Tome", "The King in Yellow", "Ithaqua", "Scientology", "the bible melts", "Necronomicon")
+				new_book_style = input(H,"Which bible style would you like?") in list("Bible", "Koran", "Scrapbook", "Creeper", "White Bible", "Holy Light", "Athiest", "Tome", "The King in Yellow", "Ithaqua", "Scientology", "the bible melts", "Necronomicon", "Imperial Cult")
 				switch(new_book_style)
 					if("Koran")
 						B.icon_state = "koran"
@@ -121,6 +121,12 @@
 					if("Necronomicon")
 						B.icon_state = "necronomicon"
 						B.item_state = "necronomicon"
+					if("Imperial Cult")
+						B.icon_state = "imperial_cult"
+						B.item_state = "imperial_cult"
+						new /obj/item/clothing/accessory/aquila(B)
+						new /obj/item/clothing/accessory/aquila(B)
+						new /obj/item/clothing/accessory/aquila(B)
 					else
 						// if christian bible, revert to default
 						B.icon_state = "bible"
