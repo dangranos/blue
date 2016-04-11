@@ -146,6 +146,11 @@
 	name = "stethoscope"
 	desc = "An outdated medical apparatus for listening to the sounds of the human body. It also makes you look like you know what you're doing."
 	icon_state = "stethoscope"
+	
+/obj/item/clothing/accessory/aquila
+	name = "aquila"
+	desc = "You can see the Emperor smiling in the reflection."
+	icon_state = "aquila"	
 
 /obj/item/clothing/accessory/stethoscope/attack(mob/living/carbon/human/M, mob/living/user)
 	if(ishuman(M) && isliving(user))

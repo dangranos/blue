@@ -55,6 +55,7 @@
 	item_state = "z8carbine"
 	magazine_type = /obj/item/ammo_magazine/smg40
 	caliber = ".40"
+	load_method = MAGAZINE
 	max_shells = 30
 	w_class = 4
 	slot_flags = SLOT_BACK
@@ -272,3 +273,28 @@
 		user << "<span class='warning'>You need to open the cover to unload [src].</span>"
 		return
 	..()
+
+/obj/item/weapon/gun/projectile/automatic/hornet
+	name = "Hornet SMG"
+	desc = "A protoype lightweight, fast firing gun. Uses 11.9x33mm rounds."
+	icon_state = "hornet"
+	w_class = 4
+	max_shells = 30
+	caliber = "11.9x33"
+	load_method = MAGAZINE
+	slot_flags = null
+	multi_aim = 1
+	fire_delay = 0.2
+	fire_sound = 'sound/weapons/Gunshot_smg.ogg'
+	ammo_type = /obj/item/ammo_casing/c119
+
+	firemodes = list(
+		list(name="semiauto", burst=1, fire_delay=0),
+		list(name="3-round bursts", burst=3, move_delay=4, accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.0, 0.6, 1.0)),
+		list(name="short bursts", 	burst=5, move_delay=4, accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.6, 1.0, 1.0, 1.0, 1.2)),
+		)
+
+/obj/item/weapon/gun/projectile/automatic/hornet/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "hornet" : "hornet-empty"
+	update_held_icon()

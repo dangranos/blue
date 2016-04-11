@@ -33,16 +33,28 @@
 			if(index)
 				beard = index * f_hrange - rand(1,f_hrange-1)
 
-			temp = add_zero2(num2hex((character.hair_r),1), 3)
-			temp += add_zero2(num2hex((character.hair_b),1), 3)
-			temp += add_zero2(num2hex((character.hair_g),1), 3)
-			temp += add_zero2(num2hex((character.facial_r),1), 3)
-			temp += add_zero2(num2hex((character.facial_b),1), 3)
-			temp += add_zero2(num2hex((character.facial_g),1), 3)
+			var/hair_r   = copytext(character.hair_color, 2, 4)
+			var/hair_g   = copytext(character.hair_color, 4, 6)
+			var/hair_b   = copytext(character.hair_color, 6, 8)
+
+			var/eyes_r   = copytext(character.eyes_color, 2, 4)
+			var/eyes_g   = copytext(character.eyes_color, 4, 6)
+			var/eyes_b   = copytext(character.eyes_color, 6, 8)
+
+			var/facial_r = copytext(character.facial_color, 2, 4)
+			var/facial_g = copytext(character.facial_color, 4, 6)
+			var/facial_b = copytext(character.facial_color, 6, 8)
+
+			temp =  add_zero2(hair_r,  3)
+			temp += add_zero2(hair_g,  3)
+			temp += add_zero2(hair_b,  3)
+			temp += add_zero2(facial_r,3)
+			temp += add_zero2(facial_g,3)
+			temp += add_zero2(facial_b,3)
 			temp += add_zero2(num2hex(((character.s_tone + 220) * 16),1), 3)
-			temp += add_zero2(num2hex((character.eyes_r),1), 3)
-			temp += add_zero2(num2hex((character.eyes_g),1), 3)
-			temp += add_zero2(num2hex((character.eyes_b),1), 3)
+			temp += add_zero2(eyes_r,  3)
+			temp += add_zero2(eyes_g,  3)
+			temp += add_zero2(eyes_b,  3)
 
 			var/gender
 
@@ -94,16 +106,29 @@
 	if(index)
 		beard = index * f_hrange - rand(1,f_hrange-1)
 
-	temp = add_zero2(num2hex((character.hair_r),1), 3)
-	temp += add_zero2(num2hex((character.hair_b),1), 3)
-	temp += add_zero2(num2hex((character.hair_g),1), 3)
-	temp += add_zero2(num2hex((character.facial_r),1), 3)
-	temp += add_zero2(num2hex((character.facial_b),1), 3)
-	temp += add_zero2(num2hex((character.facial_g),1), 3)
+	var/hair_r   = copytext(character.hair_color, 2, 4)
+	var/hair_g   = copytext(character.hair_color, 4, 6)
+	var/hair_b   = copytext(character.hair_color, 6, 8)
+
+	var/eyes_r   = copytext(character.eyes_color, 2, 4)
+	var/eyes_g   = copytext(character.eyes_color, 4, 6)
+	var/eyes_b   = copytext(character.eyes_color, 6, 8)
+
+	var/facial_r = copytext(character.facial_color, 2, 4)
+	var/facial_g = copytext(character.facial_color, 4, 6)
+	var/facial_b = copytext(character.facial_color, 6, 8)
+
+
+	temp =  add_zero2(hair_r, 3)
+	temp += add_zero2(hair_g, 3)
+	temp += add_zero2(hair_b, 3)
+	temp += add_zero2(facial_r, 3)
+	temp += add_zero2(facial_g, 3)
+	temp += add_zero2(facial_b, 3)
 	temp += add_zero2(num2hex(((character.s_tone + 220) * 16),1), 3)
-	temp += add_zero2(num2hex((character.eyes_r),1), 3)
-	temp += add_zero2(num2hex((character.eyes_g),1), 3)
-	temp += add_zero2(num2hex((character.eyes_b),1), 3)
+	temp += add_zero2(eyes_r, 3)
+	temp += add_zero2(eyes_g, 3)
+	temp += add_zero2(eyes_b, 3)
 
 	var/gender
 

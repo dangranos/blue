@@ -44,7 +44,7 @@
 			src.open(usr)
 			return
 
-		if (!( istype(over_object, /obj/screen) ))
+		if (!istype(over_object, /obj/screen))
 			return ..()
 
 		//makes sure that the storage is equipped, so that we can't drag it into our hand from miles away.
@@ -224,10 +224,6 @@
 
 	if(src.loc == W)
 		return 0 //Means the item is already in the storage item
-//	if(contents.len >= storage_slots)
-//		if(!stop_messages)
-//			usr << "<span class='notice'>[src] is full, make some space.</span>"
-//		return 0 //Storage item is full
 
 	if(can_hold.len)
 		if(!is_type_in_list(W, can_hold))

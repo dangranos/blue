@@ -254,3 +254,22 @@
 	var/obj/item/ammo_casing/ammo = ammo_type
 	caliber = initial(ammo.caliber)
 	..()
+
+/obj/item/weapon/gun/projectile/legalist
+	name = "Legalist MKI"
+	desc = "A robust handgun that uses 12.5x45 CL ammo"
+	icon_state = "legalist"
+	item_state = "deagle"
+	force = 10.0
+	caliber = "12.5x45"
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/legalist
+	ammo_type = /obj/item/ammo_casing/c125
+	auto_eject = 1
+	fire_delay = 3
+	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+
+/obj/item/weapon/gun/projectile/legalist/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "legalist" : "legalist-empty"
+	update_held_icon()

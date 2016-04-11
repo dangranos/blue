@@ -84,13 +84,15 @@
 
 	//Dig out the tasty ores.
 	if(resource_field.len)
-		var/turf/harvesting = pick(resource_field)
+		var/turf/harvesting = null
 
-		while(resource_field.len && !harvesting.resources)
+		while(resource_field.len)
+			harvesting = pick(resource_field)
+			if(harvesting.resources) break
 			harvesting.has_resources = 0
 			harvesting.resources = null
 			resource_field -= harvesting
-			harvesting = pick(resource_field)
+
 
 		if(!harvesting) return
 
@@ -166,8 +168,7 @@
 	check_supports()
 
 	if (panel_open && cell)
-		var/turf/src_turf = get_turf(src)
-		if( !src_turf.Adjacent(usr) ) return 0
+		if( !src.Adjacent(usr) ) return 0
 		user << "You take out \the [cell]."
 		cell.loc = get_turf(user)
 		component_parts -= cell

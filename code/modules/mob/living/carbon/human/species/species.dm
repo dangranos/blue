@@ -46,6 +46,7 @@
 	var/brute_mod = 1                        // Physical damage multiplier.
 	var/burn_mod = 1                         // Burn damage multiplier.
 	var/vision_flags = SEE_SELF              // Same flags as glasses.
+	var/taste_sensitivity = TASTE_NORMAL                   // How sensitive the species is to minute tastes. Higher values means less sensitive. Lower values means more sensitive.
 
 	// Death vars.
 	var/meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat/human

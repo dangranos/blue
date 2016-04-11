@@ -16,6 +16,7 @@
 	var/spray_size = 3
 	var/list/spray_sizes = list(1,3)
 	volume = 250
+	center_of_mass = list("x"=17, "y"=12)
 
 /obj/item/weapon/reagent_containers/spray/New()
 	..()
@@ -23,7 +24,7 @@
 
 /obj/item/weapon/reagent_containers/spray/afterattack(atom/A as mob|obj, mob/user as mob, proximity)
 	if(istype(A, /obj/item/weapon/storage) || istype(A, /obj/structure/table) || istype(A, /obj/structure/closet) || istype(A, /obj/item/weapon/reagent_containers) || istype(A, /obj/structure/sink) || istype(A, /obj/structure/janitorialcart))
-		return
+		return ..()
 
 	if(istype(A, /spell))
 		return
@@ -158,6 +159,7 @@
 	possible_transfer_amounts = null
 	volume = 600
 	origin_tech = "combat=3;materials=3;engineering=3"
+	center_of_mass = list("x"=17, "y"=11)
 
 /obj/item/weapon/reagent_containers/spray/chemsprayer/Spray_at(atom/A as mob|obj)
 	var/direction = get_dir(src, A)

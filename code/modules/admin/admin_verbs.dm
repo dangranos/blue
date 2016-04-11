@@ -93,8 +93,10 @@ var/list/admin_verbs_admin = list(
 )
 var/list/admin_verbs_ban = list(
 	/client/proc/unban_panel,
-//	/client/proc/jobbans,
-	/client/proc/late_ban
+	//client/proc/jobbans,
+	/client/proc/late_ban,
+	/client/proc/DB_ban_panel,
+	/datum/admins/proc/mutepanel
 	)
 var/list/admin_verbs_sounds = list(
 	/client/proc/play_local_sound,
@@ -564,7 +566,7 @@ var/list/admin_verbs_mentor = list(
 		if(holder.fakekey)
 			holder.fakekey = null
 		else
-			var/new_key = ckeyEx(input("Enter your desired display name.", "Fake Key", key) as text|null)
+			var/new_key = sanitizeName(input("Enter your desired display name.", "Fake Key", key) as text|null)
 			if(!new_key)	return
 			if(length(new_key) >= 26)
 				new_key = copytext(new_key, 1, 26)
@@ -863,29 +865,21 @@ var/list/admin_verbs_mentor = list(
 			return
 	var/new_facial = input("Please select facial hair color.", "Character Generation") as color
 	if(new_facial)
-		M.facial_r = hex2num(copytext(new_facial, 2, 4))
-		M.facial_g = hex2num(copytext(new_facial, 4, 6))
-		M.facial_b = hex2num(copytext(new_facial, 6, 8))
+		M.facial_color = new_facial
 
 	var/new_hair = input("Please select hair color.", "Character Generation") as color
-	if(new_facial)
-		M.hair_r = hex2num(copytext(new_hair, 2, 4))
-		M.hair_g = hex2num(copytext(new_hair, 4, 6))
-		M.hair_b = hex2num(copytext(new_hair, 6, 8))
+	if(new_hair)
+		M.hair_color = new_hair
 
 	if(S.flags & HAS_EYE_COLOR)
 		var/new_eyes = input("Please select eye color.", "Character Generation") as color
 		if(new_eyes)
-			M.eyes_r = hex2num(copytext(new_eyes, 2, 4))
-			M.eyes_g = hex2num(copytext(new_eyes, 4, 6))
-			M.eyes_b = hex2num(copytext(new_eyes, 6, 8))
+			M.eyes_color = new_eyes
 
 	if(S.flags & HAS_SKIN_COLOR)
 		var/new_skin = input("Please select body color. This is for Tajaran, Unathi, and Skrell only!", "Character Generation") as color
 		if(new_skin)
-			M.skin_r = hex2num(copytext(new_skin, 2, 4))
-			M.skin_g = hex2num(copytext(new_skin, 4, 6))
-			M.skin_b = hex2num(copytext(new_skin, 6, 8))
+			M.skin_color = new_skin
 
 	if(S.flags & HAS_SKIN_TONE)
 		var/new_tone = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation")  as text
@@ -953,8 +947,8 @@ var/list/admin_verbs_mentor = list(
 	set name = "Toggle Attack Log Messages"
 	set category = "Preferences"
 
-	prefs.toggles ^= CHAT_ATTACKLOGS
-	if (prefs.toggles & CHAT_ATTACKLOGS)
+	prefs.chat_toggles ^= CHAT_ATTACKLOGS
+	if (prefs.chat_toggles & CHAT_ATTACKLOGS)
 		usr << "You now will get attack log messages"
 	else
 		usr << "You now won't get attack log messages"
@@ -992,8 +986,8 @@ var/list/admin_verbs_mentor = list(
 	set name = "Toggle Debug Log Messages"
 	set category = "Preferences"
 
-	prefs.toggles ^= CHAT_DEBUGLOGS
-	if (prefs.toggles & CHAT_DEBUGLOGS)
+	prefs.chat_toggles ^= CHAT_DEBUGLOGS
+	if (prefs.chat_toggles & CHAT_DEBUGLOGS)
 		usr << "You now will get debug log messages"
 	else
 		usr << "You now won't get debug log messages"
@@ -1011,7 +1005,6 @@ var/list/admin_verbs_mentor = list(
 
 	var/name = "Custom supply pack"
 	var/cost = 8
-	var/price = 0
 	var/access = MD.req_access.len?MD:req_access[1]:0
 	var/containername = MD.name
 	var/containertype = MD.type
@@ -1057,7 +1050,7 @@ var/list/admin_verbs_mentor = list(
 	hide = alert( "Pack must be visiable only in hacked console?", "Hide", "No", "Yes")=="Yes" ? 1 : 0
 
 	var/datum/supply_packs/custom/CP = new( \
-		name, cost, price, access, containername, \
+		name, cost, access, containername, \
 		containertype, group, hide, contains )
 
 	if( supply_controller.supply_packs.Find(name) ) log_debug("Supply pack [name] already exist!")

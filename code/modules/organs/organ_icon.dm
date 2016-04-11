@@ -14,13 +14,13 @@ var/global/list/limb_icon_cache = list()
 
 /obj/item/organ/external/proc/sync_colour_to_human(var/mob/living/carbon/human/human)
 	s_tone = null
-	s_col = null
+	s_col = "#000000"
 	if(status & ORGAN_ROBOT)
 		return
 	if(!isnull(human.s_tone) && (human.species.flags & HAS_SKIN_TONE))
 		s_tone = human.s_tone
 	if(human.species.flags & HAS_SKIN_COLOR)
-		s_col = list(human.skin_r, human.skin_g, human.skin_b)
+		s_col = human.skin_color
 
 /obj/item/organ/external/head/sync_colour_to_human(var/mob/living/carbon/human/human)
 	..()
@@ -41,13 +41,13 @@ var/global/list/limb_icon_cache = list()
 		var/obj/item/organ/eyes/eyes = owner.internal_organs_by_name["eyes"]
 		var/icon/eyes_icon = new/icon(owner.species.icobase, "eyes_[owner.body_build]")
 		if(eyes)
-			eyes_icon.Blend(rgb(eyes.eye_colour[1], eyes.eye_colour[2], eyes.eye_colour[3]), ICON_ADD)
+			eyes_icon.Blend(eyes.eye_colour, ICON_ADD)
 		else
 			eyes_icon.Blend(rgb(128,0,0), ICON_ADD)
 		mob_icon.Blend(eyes_icon, ICON_OVERLAY)
 		overlays |= eyes_icon
 
-	if(owner.lip_color && (owner.species.flags & HAS_LIPS) )
+	if(owner.lip_color && (owner.species.flags & HAS_LIPS))
 		var/icon/lip_icon = new/icon(owner.species.icobase, "lips_[owner.body_build]")
 		lip_icon.Blend(owner.lip_color, ICON_ADD)
 		overlays |= lip_icon
@@ -58,7 +58,7 @@ var/global/list/limb_icon_cache = list()
 		if(facial_hair_style && facial_hair_style.species_allowed && (owner.species.get_bodytype() in facial_hair_style.species_allowed))
 			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			if(facial_hair_style.do_colouration)
-				facial_s.Blend(rgb(owner.facial_r, owner.facial_g, owner.facial_b), ICON_ADD)
+				facial_s.Blend(owner.facial_color, ICON_ADD)
 			overlays |= facial_s
 
 	if(owner.h_style && !(owner.head && (owner.head.flags & BLOCKHEADHAIR)))
@@ -66,7 +66,7 @@ var/global/list/limb_icon_cache = list()
 		if(hair_style && (owner.species.get_bodytype() in hair_style.species_allowed))
 			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
 			if(hair_style.do_colouration)
-				hair_s.Blend(rgb(owner.hair_r, owner.hair_g, owner.hair_b), ICON_ADD)
+				hair_s.Blend(owner.hair_color, ICON_ADD)
 			overlays |= hair_s
 
 	return mob_icon
@@ -83,9 +83,9 @@ var/global/list/limb_icon_cache = list()
 			mob_icon = new /icon('icons/mob/human_races/r_human.dmi', "[limb_name]_m0")
 		else
 			if(skeletal)
-				mob_icon = new /icon('icons/mob/human_races/r_skeleton.dmi', "[limb_name]_[gender][body_build]")
+				mob_icon = new /icon('icons/mob/human_races/r_skeleton.dmi', "[limb_name][is_stump()?"_s":""]_[gender][body_build]")
 			else if ((status & ORGAN_ROBOT) && !(owner.species && owner.species.flags & IS_SYNTHETIC))
-				mob_icon = new /icon('icons/mob/human_races/robotic.dmi', "[limb_name]_[gender][body_build]")
+				mob_icon = new /icon('icons/mob/human_races/robotic.dmi', "[limb_name][is_stump()?"_s":""]_[gender][body_build]")
 			else
 				if (status & ORGAN_MUTATED)
 					mob_icon = new /icon(owner.species.deform, "[limb_name]_[gender][body_build]")
@@ -101,8 +101,8 @@ var/global/list/limb_icon_cache = list()
 						mob_icon.Blend(rgb(s_tone, s_tone, s_tone), ICON_ADD)
 					else
 						mob_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
-				else if(s_col && s_col.len >= 3)
-					mob_icon.Blend(rgb(s_col[1], s_col[2], s_col[3]), ICON_ADD)
+				else if(s_col)
+					mob_icon.Blend(s_col, ICON_ADD)
 				if(tattoo)
 					mob_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[limb_name]_[tattoo]_[body_build]"), ICON_OVERLAY)
 				if(tattoo2)

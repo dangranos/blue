@@ -171,7 +171,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 
 	// Skin color
 	if(H.species && H.species.flags & HAS_SKIN_COLOR)
-		preview_icon.Blend(rgb(H.skin_r, H.skin_g, H.skin_b), ICON_ADD)
+		preview_icon.Blend(H.skin_color, ICON_ADD)
 
 	var/icon/eyes
 
@@ -179,22 +179,19 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 		var/obj/item/organ/eyes/E = H.internal_organs_by_name["eyes"]
 		if( E )
 			eyes = new/icon("icon" = icobase, "icon_state" = "eyes_[H.body_build]")
-			if( E.robotic >= 2 )
-				eyes.Blend(rgb(H.mech_eyes_r, H.mech_eyes_g, H.mech_eyes_b), ICON_ADD)
-			else
-				eyes.Blend(rgb(H.eyes_r, H.eyes_g, H.eyes_b), ICON_ADD)
+			eyes.Blend(H.eyes_color, ICON_ADD)
 
 	var/datum/sprite_accessory/hair_style = hair_styles_list[H.h_style]
 	if(hair_style)
 		var/icon/hair = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
-		hair.Blend(rgb(H.hair_r, H.hair_g, H.hair_b), ICON_ADD)
+		hair.Blend(H.hair_color, ICON_ADD)
 		if(eyes) eyes.Blend(hair, ICON_OVERLAY)
 		else eyes = hair
 
 	var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[H.f_style]
 	if(facial_hair_style)
 		var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
-		facial_s.Blend(rgb(H.facial_r, H.facial_g, H.facial_b), ICON_ADD)
+		facial_s.Blend(H.facial_color, ICON_ADD)
 		eyes.Blend(facial_s, ICON_OVERLAY)
 
 	var/icon/clothes = null
