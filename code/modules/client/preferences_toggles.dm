@@ -183,15 +183,15 @@
 		usr << "UI was saved"
 
 /client/verb/autoemotes() // Toggle autoemote russification
-	set name = "Toggla Emote Russified"
+	set name = "Toggle Emote Localization"
 	set category = "Preferences"
-	set desc ="Toggle autoemote russification"
+	set desc ="Toggle autoemote localization"
 	prefs.toggles ^= RUS_AUTOEMOTES
 	prefs.save_preferences()
 
 	src << "Your auto emote [(prefs.toggles & RUS_AUTOEMOTES) ? "now" : "no longer"] be russified."
 
-/client/verb/toggle_motd() // Toggle autoemote russification
+/client/verb/toggle_motd()
 	set name = "Show/Hide MOTD"
 	set category = "Preferences"
 	set desc ="Show or not MOTD at round join"
@@ -199,3 +199,14 @@
 	prefs.save_preferences()
 
 	src << "You will [(prefs.toggles & HIDE_MOTD) ? "no longer" : "now"] see MOTD at join game."
+
+/client/verb/toggle_stetup_pref()
+	set name = "Toggle new/old setup usage"
+	set category = "Preferences"
+	set desc = "Select new/old style loadout and so on"
+
+	prefs.toggles ^= PREFER_NEWSETUP
+	prefs.save_preferences()
+
+	src << "You will now use preference from [(prefs.toggles & PREFER_NEWSETUP) ? "new" : "old"] setup menu."
+
