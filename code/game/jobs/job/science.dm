@@ -110,6 +110,7 @@
 	uniform = /obj/item/clothing/under/rank/roboticist
 	pda = /obj/item/device/pda/roboticist
 	hand = /obj/item/weapon/storage/toolbox/mechanical
+	shoes = /obj/item/clothing/shoes/black
 
 	backpack = /obj/item/weapon/storage/backpack
 	satchel = /obj/item/weapon/storage/backpack/satchel_norm
