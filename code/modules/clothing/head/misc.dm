@@ -11,7 +11,7 @@
 /obj/item/clothing/head/floral_crown
 	name = "flower crown"
 	icon_state = "floral_crown"
-	desc = "Peace and Love"
+	desc = "Peace and Love."
 	item_state = "floral_crown"
 	body_parts_covered = 0
 
@@ -135,6 +135,12 @@
 	desc = "Wearing these makes you looks useless, and only good for your sex appeal."
 	icon_state = "bunny"
 	body_parts_covered = 0
+
+/obj/item/clothing/head/sol_beret
+	name = "sol beret"
+	desc = "A blue beret. Only dumb martians wear this!"
+	icon_state = "sol_beret"
+	item_state = "sol beret"
 
 /obj/item/clothing/head/flatcap
 	name = "flat cap"

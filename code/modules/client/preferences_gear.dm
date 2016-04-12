@@ -678,13 +678,6 @@ var/global/list/gear_datums = list()
 	slot = slot_w_uniform
 	allowed_roles = list("Head of Security")
 
-/datum/gear/bluecamo
-	display_name = "russian blue camo"
-	path = /obj/item/clothing/under/russobluecamooutfit
-	cost = 1
-	slot = slot_w_uniform
-	allowed_roles = list("Warden")
-
 /datum/gear/squatter_outfit
 	display_name = "slav squatter tracksuit"
 	path = /obj/item/clothing/under/squatter_outfit
@@ -693,6 +686,12 @@ var/global/list/gear_datums = list()
 
 
 // Attachments
+
+/datum/gear/aquila
+	display_name = "aquila"
+	path = /obj/item/clothing/accessory/aquila
+	slot = slot_tie
+	cost = 1
 
 /datum/gear/armband_cargo
 	display_name = "armband, cargo"

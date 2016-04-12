@@ -143,6 +143,9 @@ var/list/ai_verbs_default = list(
 	add_language("Skrellian", 0)
 	add_language("Tradeband", 1)
 	add_language("Gutter", 0)
+	add_language("Siik'maas", 0)
+	add_language("Surzhyk", 0)
+
 
 	if(!safety)//Only used by AIize() to successfully spawn an AI.
 		if (!B)//If there is no player/brain inside.
