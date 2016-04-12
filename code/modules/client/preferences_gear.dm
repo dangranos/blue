@@ -687,6 +687,12 @@ var/global/list/gear_datums = list()
 
 // Attachments
 
+/datum/gear/aquila
+	display_name = "aquila"
+	path = /obj/item/clothing/accessory/aquila
+	slot = slot_tie
+	cost = 1
+
 /datum/gear/armband_cargo
 	display_name = "armband, cargo"
 	path = /obj/item/clothing/accessory/armband/cargo
