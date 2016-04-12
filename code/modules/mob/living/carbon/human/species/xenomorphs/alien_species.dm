@@ -145,6 +145,13 @@
 	H.RemoveInfectionImages()
 	..()
 
+/datum/species/xenos/Stat(var/mob/living/carbon/human/H)
+	var/obj/item/organ/xenos/plasmavessel/P = H.internal_organs_by_name["plasma vessel"]
+	if(P)
+		stat("Phoron Stored:", " [P.stored_plasma]/[P.max_plasma]")
+	return
+
+
 /datum/species/xenos/drone
 	name = "Xenomorph Drone"
 	caste_name = "drone"
