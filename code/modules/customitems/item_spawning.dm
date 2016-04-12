@@ -140,6 +140,28 @@
 	current_data.req_titles = list()
 	L |= current_data
 	current_data = null
+	
+	custom_items["wajtswv"] = list()
+	L = custom_items["wajtswv"]
+	current_data = new()
+	current_data.assoc_key = "wajtswv"
+	current_data.character_name = "William Stern"
+	current_data.item_path = /obj/item/clothing/under/russobluecamooutfit
+	current_data.req_access = 0
+	current_data.req_titles = list()
+	L |= current_data
+	current_data = null
+	
+	custom_items["tertiumdatur"] = list()
+	L = custom_items["tertiumdatur"]
+	current_data = new()
+	current_data.assoc_key = "tertiumdatur"
+	current_data.character_name = "Karamzi Khis'san"
+	current_data.item_path = /obj/item/clothing/head/floral_crown
+	current_data.req_access = 0
+	current_data.req_titles = list()
+	L |= current_data
+	current_data = null
 	return 1
 
 //gets the relevant list for the key from the listlist if it exists, check to make sure they are meant to have it and then calls the giving function

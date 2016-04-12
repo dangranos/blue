@@ -1,10 +1,28 @@
-/datum/job/rd
-	title = "Research Director"
-	flag = RD
-	head_position = 1
+/datum/job/science
 	department = "Science"
 	department_flag = MEDSCI
 	faction = "Station"
+	supervisors = "the research director"
+	selection_color = "#ffeeff"
+
+	ear = /obj/item/device/radio/headset/headset_sci
+	shoes = /obj/item/clothing/shoes/white
+	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science
+
+	backpack = /obj/item/weapon/storage/backpack/toxins
+	satchel = /obj/item/weapon/storage/backpack/satchel_tox
+	duffle = /obj/item/weapon/storage/backpack/duffle
+
+	backpacks = list(
+		/obj/item/weapon/storage/backpack/toxins,\
+		/obj/item/weapon/storage/backpack/satchel_tox,\
+		/obj/item/weapon/storage/backpack/satchel
+		)
+
+/datum/job/science/rd
+	title = "Research Director"
+	flag = RD
+	head_position = 1
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the captain"
@@ -28,24 +46,13 @@
 	suit = /obj/item/clothing/suit/storage/toggle/labcoat
 	hand = /obj/item/weapon/clipboard
 
-	backpacks = list(
-		/obj/item/weapon/storage/backpack/toxins,\
-		/obj/item/weapon/storage/backpack/satchel_tox,\
-		/obj/item/weapon/storage/backpack/satchel
-		)
 
 
-
-/datum/job/scientist
+/datum/job/science/scientist
 	title = "Scientist"
 	flag = SCIENTIST
-	department = "Science"
-	department_flag = MEDSCI
-	faction = "Station"
 	total_positions = 5
 	spawn_positions = 3
-	supervisors = "the research director"
-	selection_color = "#ffeeff"
 	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_xenoarch)
 	minimal_access = list(access_tox, access_tox_storage, access_research, access_xenoarch)
 	alt_titles = list("Xenoarcheologist", "Anomalist", "Phoron Researcher")
@@ -54,15 +61,6 @@
 
 	uniform = /obj/item/clothing/under/rank/scientist
 	pda = /obj/item/device/pda/science
-	ear = /obj/item/device/radio/headset/headset_sci
-	shoes = /obj/item/clothing/shoes/white
-	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science
-
-	backpacks = list(
-		/obj/item/weapon/storage/backpack/toxins,\
-		/obj/item/weapon/storage/backpack/satchel_tox,\
-		/obj/item/weapon/storage/backpack/satchel
-		)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
@@ -80,16 +78,12 @@
 		return ..()
 
 
-/datum/job/xenobiologist
+
+/datum/job/science/xenobiologist
 	title = "Xenobiologist"
 	flag = XENOBIOLOGIST
-	department = "Science"
-	department_flag = MEDSCI
-	faction = "Station"
 	total_positions = 3
 	spawn_positions = 2
-	supervisors = "the research director"
-	selection_color = "#ffeeff"
 	access = list(access_robotics, access_tox, access_tox_storage, access_research, access_xenobiology, access_hydroponics)
 	minimal_access = list(access_research, access_xenobiology, access_hydroponics, access_tox_storage)
 	alt_titles = list("Xenobotanist")
@@ -98,28 +92,15 @@
 
 	uniform = /obj/item/clothing/under/rank/xenobio
 	pda = /obj/item/device/pda/science
-	ear = /obj/item/device/radio/headset/headset_sci
-	shoes = /obj/item/clothing/shoes/white
-	suit = /obj/item/clothing/suit/storage/toggle/labcoat/science
-
-	backpacks = list(
-		/obj/item/weapon/storage/backpack/toxins,\
-		/obj/item/weapon/storage/backpack/satchel_tox,\
-		/obj/item/weapon/storage/backpack/satchel
-		)
 
 
 
-/datum/job/roboticist
+/datum/job/science/roboticist
 	title = "Roboticist"
 	flag = ROBOTICIST
-	department = "Science"
-	department_flag = MEDSCI
-	faction = "Station"
 	total_positions = 2
 	spawn_positions = 2
 	supervisors = "research director"
-	selection_color = "#ffeeff"
 	access = list(access_robotics, access_tox, access_tox_storage, access_tech_storage, access_morgue, access_research) //As a job that handles so many corpses, it makes sense for them to have morgue access.
 	minimal_access = list(access_robotics, access_tech_storage, access_morgue, access_research) //As a job that handles so many corpses, it makes sense for them to have morgue access.
 	alt_titles = list("Biomechanical Engineer","Mechatronic Engineer")
@@ -128,9 +109,18 @@
 
 	uniform = /obj/item/clothing/under/rank/roboticist
 	pda = /obj/item/device/pda/roboticist
-	ear = /obj/item/device/radio/headset/headset_sci
-	suit = /obj/item/clothing/suit/storage/toggle/labcoat
 	hand = /obj/item/weapon/storage/toolbox/mechanical
+	shoes = /obj/item/clothing/shoes/black
+
+	backpack = /obj/item/weapon/storage/backpack
+	satchel = /obj/item/weapon/storage/backpack/satchel_norm
+	duffle = /obj/item/weapon/storage/backpack/duffle
+
+	backpacks = list(
+		/obj/item/weapon/storage/backpack,\
+		/obj/item/weapon/storage/backpack/satchel_norm,\
+		/obj/item/weapon/storage/backpack/satchel
+	)
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
