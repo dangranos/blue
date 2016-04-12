@@ -85,14 +85,13 @@
 	if (silk >= silk_max)
 		//owner << "\red silk gland full"
 		return
-	else if (delay != 0)
+	else if (delay > 0)
 		delay --
 		//owner << "\red silk gland [delay]"
 		return
 	else if (delay < 0)
 		delay = 0
-	else
-		silk++
-		delay = 5
+	silk++
+	delay = 5
 	//owner.nutriment --
 	return
