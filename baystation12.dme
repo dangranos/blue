@@ -1193,6 +1193,8 @@
 #include "code\modules\mob\living\carbon\arachna\arachna_abilities.dm"
 #include "code\modules\mob\living\carbon\arachna\arachna_nest.dm"
 #include "code\modules\mob\living\carbon\arachna\arachna_organ_icon.dm"
+#include "code\modules\mob\living\carbon\arachna\arachna_powers.dm"
+#include "code\modules\mob\living\carbon\arachna\modulararachna.dm"
 #include "code\modules\mob\living\carbon\arachna\organ_external_arachna.dm"
 #include "code\modules\mob\living\carbon\arachna\organ_internal_arachna.dm"
 #include "code\modules\mob\living\carbon\arachna\species_arachna.dm"
