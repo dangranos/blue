@@ -567,7 +567,7 @@
 				new /obj/item/stack/cable_coil(loc,10)
 				user << "<span class='notice'>You cut the cables and dismantle the power terminal.</span>"
 				qdel(terminal)
-	else if (istype(W, /obj/item/weapon/module/power_control) && opened && has_electronics==0 && !((stat & BROKEN)))
+	/*else if (istype(W, /obj/item/weapon/module/power_control) && opened && has_electronics==0 && !((stat & BROKEN)))
 		user.visible_message("<span class='warning'>[user.name] inserts the power control board into [src].</span>", \
 							"You start to insert the power control board into the frame...")
 		playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
@@ -578,7 +578,19 @@
 				qdel(W)
 	else if (istype(W, /obj/item/weapon/module/power_control) && opened && has_electronics==0 && ((stat & BROKEN)))
 		user << "<span class='warning'>You cannot put the board inside, the frame is damaged.</span>"
-		return
+		return*/
+	else if (istype(W, /obj/item/weapon/module/power_control) && opened && has_electronics==0)
+		if ((stat & BROKEN))
+			user << "<span class='warning'>You cannot put the board inside, the frame is damaged.</span>"
+			return
+		user.visible_message("<span class='warning'>[user.name] inserts the power control board into [src].</span>", \
+							"You start to insert the power control board into the frame...")
+		playsound(src.loc, 'sound/items/Deconstruct.ogg', 50, 1)
+		if(do_after(user, 10))
+			if(has_electronics==0)
+				has_electronics = 1
+				user << "<span class='notice'>You place the power control board inside the frame.</span>"
+				qdel(W)
 	else if (istype(W, /obj/item/weapon/weldingtool) && opened && has_electronics==0 && !terminal)
 		var/obj/item/weapon/weldingtool/WT = W
 		if (WT.get_fuel() < 3)
@@ -626,8 +638,9 @@
 			qdel(W)
 			stat &= ~BROKEN
 			// Malf AI, removes the APC from AI's hacked APCs list.
-			if(hacker && hacker.hacked_apcs && src in hacker.hacked_apcs)
-				hacker.hacked_apcs -= src
+			if(hacker)
+				if(hacker.hacked_apcs && (src in hacker.hacked_apcs))
+					hacker.hacked_apcs -= src
 			if (opened==2)
 				opened = 1
 			update_icon()
