@@ -80,6 +80,16 @@ var/global/list/modifications_list = list(
 	icon = 'icons/mob/tattoo.dmi'
 	mob_icon = "1"
 
+/datum/body_modification/tattoo/tajara_stripes
+	name = "Tiger Stripes"
+	short_name = "T: Tiger"
+	desc = "A great camouflage to hide in long grass."
+	id = "stripes"
+	body_parts = list("head", "chest")
+	icon = 'icons/mob/tattoo.dmi'
+	mob_icon = "2"
+	allowed_species = list("Tajara")
+
 	New()
 		short_name = "T: [name]"
 		name = "Tattoo: [name]"
