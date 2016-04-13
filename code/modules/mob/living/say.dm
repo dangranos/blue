@@ -259,8 +259,7 @@ proc/get_radio_key_from_channel(var/channel)
 
 		for(var/I in viewers|hear)
 			if(!(I in hear))
-				if(istype(I, /mob))
-					I:show_message("<b>[src]</b> says something.", 2)
+				I:show_message("<b>[src]</b> says something.", 2)
 				continue
 			if(istype(I, /mob/))
 				var/mob/M = I
