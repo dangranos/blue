@@ -107,3 +107,16 @@
 /datum/species/arachna/handle_post_spawn(var/mob/living/carbon/human/H)
 	H.gender = FEMALE
 	return ..()
+
+
+
+
+datum/species/arachna/Stat(var/mob/living/carbon/human/H)
+	..()
+	var/obj/item/organ/arachna/P = H.internal_organs_by_name["poison_gland"]
+	if(P)
+		stat("Poison Stored:", " [P.reagents.total_volume]/[P.reagents.maximum_volume]")
+	P = H.internal_organs_by_name["silk_gland"]
+	if(P)
+		stat("Silk Stored:", " [P:silk]/[P:silk_max]")
+	return
