@@ -211,7 +211,7 @@ proc/get_radio_key_from_channel(var/channel)
 	var/sound_vol = handle_v[2]
 
 	var/italics = 0
-	var/message_range = world.view
+	var/message_range = (copytext(message, length(message))=="!") ? world.view+4 : world.view
 
 	//speaking into radios
 	if(used_radios.len)
@@ -267,7 +267,6 @@ proc/get_radio_key_from_channel(var/channel)
 				var/obj/O = I
 				hearturfs += O.locs[1]
 				listening_obj |= O
-
 
 		for(var/mob/M in player_list)
 			if(M.stat == DEAD && M.client && (M.client.prefs.chat_toggles & CHAT_GHOSTEARS))
