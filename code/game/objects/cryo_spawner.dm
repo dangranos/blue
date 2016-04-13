@@ -18,6 +18,7 @@
 		if(player_spawn> 0)
 			player_spawn -= 1
 
+	if(!user) return
 	var/client/client = user.client
 
 	if(client.prefs.species)
