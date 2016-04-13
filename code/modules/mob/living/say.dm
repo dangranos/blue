@@ -211,7 +211,7 @@ proc/get_radio_key_from_channel(var/channel)
 	var/sound_vol = handle_v[2]
 
 	var/italics = 0
-	var/message_range = (copytext(message, length(message))=="!") ? world.view+2 : world.view-2
+	var/message_range = (copytext(message, length(message))=="!") ? world.view+4 : world.view-2
 
 	//speaking into radios
 	if(used_radios.len)
