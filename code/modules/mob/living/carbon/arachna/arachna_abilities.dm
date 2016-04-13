@@ -115,6 +115,11 @@ mob/living/carbon/human/arachna/verb/remove_venom()
 	return
 
 
+/obj/item/weapon/energy_net/arachna_net
+	name = "silk net"
+	desc = "It's a net made of spider silk."
+
+
 //	category = !category
 //	usr << "You [category ? "enable" : "disable"] your bite ability."
 
