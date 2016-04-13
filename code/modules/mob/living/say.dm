@@ -211,7 +211,7 @@ proc/get_radio_key_from_channel(var/channel)
 	var/sound_vol = handle_v[2]
 
 	var/italics = 0
-	var/message_range = world.view
+	var/message_range = (copytext(message, length(message))=="!") ? world.view : world.view-4
 
 	//speaking into radios
 	if(used_radios.len)
@@ -254,9 +254,14 @@ proc/get_radio_key_from_channel(var/channel)
 			sound_vol *= 0.5 //muffle the sound a bit, so it's like we're actually talking through contact
 
 		var/list/hear = hear(message_range, T)
+		var/list/viewers = viewers(world.view, src)
 		var/list/hearturfs = list()
 
-		for(var/I in hear)
+		for(var/I in viewers|hear)
+			if(!(I in hear))
+				if(istype(I, /mob))
+					I:show_message("<b>[src]</b> says something.", 2)
+				continue
 			if(istype(I, /mob/))
 				var/mob/M = I
 				listening += M
