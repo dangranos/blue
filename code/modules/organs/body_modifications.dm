@@ -81,10 +81,10 @@ var/global/list/modifications_list = list(
 	mob_icon = "1"
 
 	New()
-		short_name = "T: [name]"
+		if(!short_name) short_name = "T: [name]"
 		name = "Tattoo: [name]"
 
-	get_mob_icon(organ, gender = MALE, body_build = 0)
+	get_mob_icon(organ, body_build = 0)
 		return new/icon(icon, "[organ]_[mob_icon]_[body_build]")
 
 	apply_to_mob(var/mob/living/carbon/human/H, var/slot)
