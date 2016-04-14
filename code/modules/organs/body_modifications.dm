@@ -80,6 +80,26 @@ var/global/list/modifications_list = list(
 	icon = 'icons/mob/tattoo.dmi'
 	mob_icon = "1"
 
+/datum/body_modification/tattoo/tajara_stripes
+	name = "Tiger Stripes"
+	short_name = "T: Tiger"
+	desc = "A great camouflage to hide in long grass."
+	id = "stripes"
+	body_parts = list("head", "chest")
+	icon = 'icons/mob/tattoo.dmi'
+	mob_icon = "2"
+	allowed_species = list("Tajara")
+
+/datum/body_modification/tattoo/tribal_markings
+	name = "Unathi Tribal Markings"
+	short_name = "T: Tribal"
+	desc = "A specific identification and beautification marks designed on the face or body."
+	id = "tribal"
+	body_parts = list("head", "chest")
+	icon = 'icons/mob/tattoo.dmi'
+	mob_icon = "2"
+	allowed_species = list("Unathi")
+
 	New()
 		if(!short_name) short_name = "T: [name]"
 		name = "Tattoo: [name]"
