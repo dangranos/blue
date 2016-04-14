@@ -47,14 +47,14 @@ Briefcase:/obj/item/weapon/storage/briefcase:120
 Shoes
 Brown Shoes:/obj/item/clothing/shoes/brown:130
 Blue shoes:/obj/item/clothing/shoes/blue:130
-Leather shoes:/obj/item/clothing/shoes/blue:130
+Leather /obj/item/clothing/shoes/leather:130
 Green shoes:/obj/item/clothing/shoes/green:130
 Black shoes:/obj/item/clothing/shoes/black:130
 Purple shoes:/obj/item/clothing/shoes/purple:130
 
 
 Coats
-Leather Coat:/obj/item/clothing/suit/leathercoat:160
+Leather Coat:/obj/item/clothing/suit/storage/leathercoat:160
 Pirate Coat:/obj/item/clothing/suit/pirate:120
 Red poncho:/obj/item/clothing/suit/poncho/red:140
 Green poncho:/obj/item/clothing/suit/poncho/green:120
@@ -86,12 +86,12 @@ Gloves
 White:/obj/item/clothing/gloves/white:130
 Blue:/obj/item/clothing/gloves/blue:130
 Brown:/obj/item/clothing/gloves/brown:130
-White:/obj/item/clothing/gloves/color/white:130
-Rainbow:/obj/item/clothing/gloves/color/rainbow:200
+White:/obj/item/clothing/gloves/white:130
+Rainbow:/obj/item/clothing/gloves/rainbow:200
 Black:/obj/item/clothing/gloves/black:160
 Boxing:/obj/item/clothing/gloves/boxing:120
-Green gloves:/obj/item/clothing/gloves/green:130
-Latex gloves:/obj/item/clothing/gloves/white/latex:150
+Green:/obj/item/clothing/gloves/green:130
+Latex:/obj/item/clothing/gloves/white/latex:150
 
 Bedsheets
 Clown Bedsheet:/obj/item/weapon/bedsheet/clown:100
