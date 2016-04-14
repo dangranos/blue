@@ -18,21 +18,21 @@
 
 /datum/malf_research_ability/interdiction/unlock_cyborg
 	ability = new/datum/game_mode/malfunction/verb/unlock_cyborg()
-	price = 1200
+	price = 400
 	next = new/datum/malf_research_ability/interdiction/hack_cyborg()
 	name = "Unlock Cyborg"
 
 
 /datum/malf_research_ability/interdiction/hack_cyborg
 	ability = new/datum/game_mode/malfunction/verb/hack_cyborg()
-	price = 3000
+	price = 800
 	next = new/datum/malf_research_ability/interdiction/hack_ai()
 	name = "Hack Cyborg"
 
 
 /datum/malf_research_ability/interdiction/hack_ai
 	ability = new/datum/game_mode/malfunction/verb/hack_ai()
-	price = 7500
+	price = 1200
 	name = "Hack AI"
 
 // END RESEARCH DATUMS
