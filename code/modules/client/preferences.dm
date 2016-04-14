@@ -68,8 +68,6 @@ datum/preferences
 	var/species_preview                 //Used for the species selection window.
 	var/language = "None"				//Secondary language
 	var/list/gear						//Custom/fluff item loadout.
-	var/email = ""						//Character email adress.
-	var/email_is_public = 1				//Add or not to email-list at round join.
 
 		//Some faction information.
 	var/home_system = "Unset"           //System of birth.
@@ -144,6 +142,7 @@ datum/preferences
 
 /datum/preferences/proc/ShowChoices(mob/user)
 	if(!user || !user.client)	return
+	req_update_icon = 1 // For synchronization with new menu.
 	update_preview_icon()
 	if(preview_icon_front && preview_icon_side)
 		user << browse_rsc(preview_icon_front, "previewicon.png")
@@ -369,7 +368,7 @@ datum/preferences
 	user << browse(dat, "window=preferences;size=560x736")
 
 
-/datum/preferences/proc/SetChoices(mob/user, limit = 17, list/splitJobs = list("Chief Medical Officer"), width = 550, height = 660)
+/datum/preferences/proc/SetChoices(mob/user, limit = 18, list/splitJobs = list("Chief Medical Officer"), width = 550, height = 660)
 	if(!job_master)
 		return
 

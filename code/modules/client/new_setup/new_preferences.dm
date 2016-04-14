@@ -14,33 +14,41 @@ datum/preferences
 		"Silicon"     = PAGE_SILICON,\
 		"Preferences" = PAGE_PREFS,\
 		)
+
+	var/current_page = PAGE_RECORDS
+	var/req_update_icon = 1
+
+	// GENERAL
+	var/hair_color   = "#000000"
+	var/facial_color = "#000000"
+	var/eyes_color   = "#000000"
+	var/skin_color   = "#000000"
+	var/skin_tone    = 35			//LETHALGHOST: -s_tone + 35.
+	var/email = ""					//Character email adress.
+	var/email_is_public = 1			//Add or not to email-list at round join.
+
+	// AUGMENTATION
+	var/list/modifications_data   = list()
+	var/list/modifications_colors = list()
+	var/current_organ= "chest"
 	var/global/list/r_organs = list("head", "r_arm", "r_hand", "chest", "r_leg", "r_foot")
 	var/global/list/l_organs = list("eyes", "l_arm", "l_hand", "groin", "l_leg", "l_foot")
 	var/global/list/internal_organs = list("chest2"="Back", "heart"="Heart", "lungs"="Lungs", "liver"="Liver")
 	var/global/parents_list = list("r_hand"="r_arm", "l_hand"="l_arm", "r_foot"="r_leg", "l_foot"="l_leg")
 	var/global/children_list = list("r_arm"="r_hand", "l_arm"="l_hand", "r_leg"="r_foot", "l_leg"="l_foot")
 
-	var/hair_color   = "#000000"
-	var/facial_color = "#000000"
-	var/eyes_color   = "#000000"
-	var/skin_color   = "#000000"
-	var/skin_tone    = 35			//LETHALGHOST: -s_tone + 35.
-	var/current_organ= "chest"
-	var/current_page = PAGE_RECORDS
-	var/req_update_icon = 1
+	// LOADOUT
+	var/list/loadout = list()
 
-	var/list/modifications_data   = list()
-	var/list/modifications_colors = list()
 
 /datum/preferences/proc/NewShowChoices(mob/user)
 	if(!user || !user.client)	return
 	if(req_update_icon)
 		new_update_preview_icon()
-
-	user << browse_rsc(preview_south, "new_previewicon[SOUTH].png") // TODO: return to list of dirs?
-	user << browse_rsc(preview_north, "new_previewicon[NORTH].png")
-	user << browse_rsc(preview_east,  "new_previewicon[EAST].png")
-	user << browse_rsc(preview_west,  "new_previewicon[WEST].png")
+		user << browse_rsc(preview_south, "new_previewicon[SOUTH].png") // TODO: return to list of dirs?
+		user << browse_rsc(preview_north, "new_previewicon[NORTH].png")
+		user << browse_rsc(preview_east,  "new_previewicon[EAST].png" )
+		user << browse_rsc(preview_west,  "new_previewicon[WEST].png" )
 
 	var/dat = "<html><head><script language='javascript'>function set(param, value)"
 	dat += "{window.location='byond://?src=\ref[src];'+param+'='+value;}</script>"
@@ -208,7 +216,8 @@ datum/preferences
 				if(new_name)
 					real_name = new_name
 				else
-					user << "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ' and .</font>"
+					user << "<font color='red'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] \
+					characters long. It may only contain the characters A-Z, a-z, -, ' and .</font>"
 		if("random")
 			real_name = random_name(gender,species)
 		if("random_always")
@@ -379,22 +388,26 @@ datum/preferences
 
 	else if(href_list["records"]) switch(href_list["records"])
 		if("med")
-			var/medmsg = sanitize(input(usr,"Set your medical notes here.","Medical Records",rhtml_decode(edit_utf8(med_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
+			var/medmsg = sanitize(input(usr,"Set your medical notes here.","Medical Records",\
+						rhtml_decode(edit_utf8(med_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(medmsg != null)
 				med_record = cp1251_to_utf8(post_edit_utf8(medmsg))
 
 		if("sec")
-			var/secmsg = sanitize(input(usr,"Set your security notes here.","Security Records",rhtml_decode(edit_utf8(sec_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
+			var/secmsg = sanitize(input(usr,"Set your security notes here.","Security Records",\
+						rhtml_decode(edit_utf8(sec_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(secmsg != null)
 				sec_record = cp1251_to_utf8(post_edit_utf8(secmsg))
 
 		if("gen")
-			var/genmsg = sanitize(input(usr,"Set your employment notes here.","Employment Records",rhtml_decode(edit_utf8(gen_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
+			var/genmsg = sanitize(input(usr,"Set your employment notes here.","Employment Records",\
+						rhtml_decode(edit_utf8(gen_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(genmsg != null)
 				gen_record = cp1251_to_utf8(post_edit_utf8(genmsg))
 
 		if("exp")
-			var/expmsg = sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",rhtml_decode(edit_utf8(exploit_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
+			var/expmsg = sanitize(input(usr,"Set exploitable information about you here.","Exploitable Information",\
+						rhtml_decode(edit_utf8(exploit_record))) as message, MAX_PAPER_MESSAGE_LEN, extra = 0)
 			if(expmsg != null)
 				exploit_record = cp1251_to_utf8(post_edit_utf8(expmsg))
 	return
@@ -402,10 +415,10 @@ datum/preferences
 /datum/preferences/proc/GetLimbsPage()
 	var/dat = "<style>div.block{border: 3px solid black;margin: 3px 0px;padding: 4px 0px;}</style>"
 	dat += "<table style='max-height:400px;height:400px;'>"
-	dat += "<tr style='vertical-align:top;'><td><div style='max-width:210px;width:210px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
+	dat += "<tr style='vertical-align:top;'><td><div style='max-width:230px;width:230px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
 	dat += modifications_list[current_organ]
 	dat += "</div></td><td style='margin-left:10px;width-max:285px;width:285px;border:solid'>"
-	dat += "<table><tr><td style='width:95px; text-align:right'>"
+	dat += "<table><tr><td style='width:105px; text-align:right'>"
 
 	for(var/organ in r_organs)
 		var/datum/body_modification/mod = get_modification(modifications_data[organ])
@@ -424,11 +437,11 @@ datum/preferences
 	for(var/organ in l_organs)
 		var/datum/body_modification/mod = get_modification(modifications_data[organ])
 		var/disp_name = mod ? mod.short_name : "Nothing"
-		dat += "<div><a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a> "
+		dat += "<div><a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a>"
 		if(organ == current_organ)
-			dat += "<b><u>[organ_tag_to_name[organ]]</u></b>"
+			dat += " <b><u>[organ_tag_to_name[organ]]</u></b>"
 		else
-			dat += "<b>[organ_tag_to_name[organ]]</b>"
+			dat += " <b>[organ_tag_to_name[organ]]</b>"
 		dat += "<br><a href='byond://?src=\ref[src];organ=[organ]'>[disp_name]</a></div>"
 
 	dat += "</td></tr></table><hr>"
@@ -495,7 +508,7 @@ datum/preferences
 */
 
 /datum/preferences/proc/GetLoadOutPage()
-
+//	loadout
 
 
 /datum/preferences/proc/GetOccupationPage()

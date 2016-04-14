@@ -19,6 +19,10 @@
 		src << "\red You have OOC muted."
 		return
 
+	if(oocmuted(ckey))
+		src << "<span class='danger'><big><b>No way for you, dick.</b></big></span>"
+		return
+
 	if(!holder)
 		if(!config.ooc_allowed)
 			src << "<span class='danger'>OOC is globally muted.</span>"
