@@ -191,7 +191,16 @@
 	blood_overlay_type = "coat"
 	body_parts_covered = UPPER_TORSO|ARMS
 
-
+//Head of Personnel
+/obj/item/clothing/suit/storage/toggle/hop
+	name = "head of personnel's jacket"
+	desc = "Funny, it looks bigger inside."
+	icon_state = "gmjacket_open"
+	item_state = "gmjacket"
+	icon_open = "gmjacket_open"
+	icon_closed = "gmjacket"
+	blood_overlay_type = "coat"
+	body_parts_covered = UPPER_TORSO|ARMS
 
 //Medical
 /obj/item/clothing/suit/storage/toggle/fr_jacket

@@ -253,6 +253,18 @@
 	desc = "A flowing, black coat."
 	icon_state = "neocoat"
 	item_state = "neocoat"
+	
+/obj/item/clothing/suit/retpolcoat
+	name = "retro coat"
+	desc = "Smells like genuine leather."
+	icon_state = "retpolcoat"
+	item_state = "retpolcoat"
+
+/obj/item/clothing/suit/maxcoat
+	name = "classy coat"
+	desc = "You might have laughed, if you had remembered how."
+	icon_state = "maxcoat"
+	item_state = "maxcoat"
 
 //stripper
 /obj/item/clothing/under/stripper
