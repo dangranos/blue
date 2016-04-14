@@ -80,6 +80,22 @@ var/global/list/modifications_list = list(
 	icon = 'icons/mob/tattoo.dmi'
 	mob_icon = "1"
 
+
+	New()
+		if(!short_name) short_name = "T: [name]"
+		name = "Tattoo: [name]"
+
+	get_mob_icon(organ, body_build = 0)
+		return new/icon(icon, "[organ]_[mob_icon]_[body_build]")
+
+	apply_to_mob(var/mob/living/carbon/human/H, var/slot)
+		var/obj/item/organ/external/E = H.organs_by_name[slot]
+		if(findtext(slot, "2"))
+			E.tattoo2 = mob_icon
+		else
+			E.tattoo = mob_icon
+
+
 /datum/body_modification/tattoo/tajara_stripes
 	name = "Tiger Stripes"
 	short_name = "T: Tiger"
@@ -99,20 +115,6 @@ var/global/list/modifications_list = list(
 	icon = 'icons/mob/tattoo.dmi'
 	mob_icon = "2"
 	allowed_species = list("Unathi")
-
-	New()
-		if(!short_name) short_name = "T: [name]"
-		name = "Tattoo: [name]"
-
-	get_mob_icon(organ, body_build = 0)
-		return new/icon(icon, "[organ]_[mob_icon]_[body_build]")
-
-	apply_to_mob(var/mob/living/carbon/human/H, var/slot)
-		var/obj/item/organ/external/E = H.organs_by_name[slot]
-		if(findtext(slot, "2"))
-			E.tattoo2 = mob_icon
-		else
-			E.tattoo = mob_icon
 
 /datum/body_modification/prosthesis
 	name = "Unbranded"
