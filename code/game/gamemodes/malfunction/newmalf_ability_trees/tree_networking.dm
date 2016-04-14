@@ -25,14 +25,14 @@
 
 /datum/malf_research_ability/networking/elite_hack
 	ability = new/datum/game_mode/malfunction/verb/elite_encryption_hack()
-	price = 1000
+	price = 800
 	next = new/datum/malf_research_ability/networking/system_override()
 	name = "Elite Encryption Hack"
 
 
 /datum/malf_research_ability/networking/system_override
 	ability = new/datum/game_mode/malfunction/verb/system_override()
-	price = 2750
+	price = 2000
 	name = "System Override"
 
 // END RESEARCH DATUMS
@@ -67,11 +67,11 @@
 
 	user.hacking = 1
 	user << "Beginning APC system override..."
-	sleep(300)
-	user << "APC hack completed. Uploading modified operation software.."
 	sleep(200)
-	user << "Restarting APC to apply changes.."
+	user << "APC hack completed. Uploading modified operation software.."
 	sleep(100)
+	user << "Restarting APC to apply changes.."
+	sleep(50)
 	if(A)
 		A.ai_hack(user)
 		if(A.hacker == user)
@@ -145,8 +145,8 @@
 		return
 	var/list/remaining_apcs = list()
 	for(var/obj/machinery/power/apc/A in machines)
-		if(!(A.z in config.station_levels)) 		// Only station APCs
-			continue
+//		if(!(A.z in config.station_levels)) 		// Only station APCs
+//			continue
 		if(A.hacker == user || A.aidisabled) 		// This one is already hacked, or AI control is disabled on it.
 			continue
 		remaining_apcs += A
