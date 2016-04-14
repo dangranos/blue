@@ -72,6 +72,12 @@
 	icon_state = "hop_dark"
 	item_state = "b_suit"
 
+/obj/item/clothing/under/rank/head_of_personnel/doctor
+	desc = "This bow tie is kinda cool, you know."
+	name = "head of personnel's jumpsuit"
+	icon_state = "gmshirt"
+	item_state = "gmshirt"
+
 
 /obj/item/clothing/under/rank/hydroponics
 	desc = "It's a jumpsuit designed to protect against minor plant-related hazards."

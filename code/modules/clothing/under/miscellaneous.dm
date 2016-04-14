@@ -28,6 +28,12 @@
 	icon_state = "sl_suit"
 	item_state = "sl_suit"
 
+/obj/item/clothing/under/max
+	name = "classy suit"
+	desc = "You can't really tell the reason, but this suit looks kinda painful"
+	icon_state = "max"
+	item_state = "max"
+
 /obj/item/clothing/under/waiter
 	name = "waiter's outfit"
 	desc = "It's a very smart uniform with a special pocket for tip."
