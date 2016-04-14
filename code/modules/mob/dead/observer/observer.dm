@@ -25,7 +25,6 @@ var/global/list/image/ghost_sightless_images = list() //this is a list of images
 	universal_speak = 1
 	var/atom/movable/following = null
 	var/admin_ghosted = 0
-	var/anonsay = 0
 	var/image/ghostimage = null //this mobs ghost image, for deleting and stuff
 	var/ghostvision = 1 //is the ghost able to see things humans can't?
 	var/seedarkness = 1
@@ -419,11 +418,11 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	if(config.disable_player_mice)
 		src << "<span class='warning'>Spawning as a mouse is currently disabled.</span>"
 		return
-		
+
 	if(jobban_isbanned(src,"mouse"))
 		src << "<span class='warning'>You can't play as mouse (banned).</span>"
 		return
-	 	
+
 	if(!MayRespawn(1))
 		return
 
@@ -620,8 +619,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	set name = "Toggle Anonymous Chat"
 	set desc = "Toggles showing your key in dead chat."
 
-	src.anonsay = !src.anonsay
-	if(anonsay)
+	client.prefs.chat_toggles ^= CHAT_GHOSTANONIM
+	client.prefs.save_preferences()
+
+	if(client.prefs.chat_toggles & CHAT_GHOSTANONIM)
 		src << "<span class='info'>Your key won't be shown when you speak in dead chat.</span>"
 	else
 		src << "<span class='info'>Your key will be publicly visible again.</span>"

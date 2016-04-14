@@ -142,6 +142,11 @@
 	icon = 'icons/obj/clothing/belts.dmi'
 	icon_state = "suspenders"
 
+/obj/item/clothing/accessory/aquila
+	name = "aquila"
+	desc = "You can see the Emperor smiling in the reflection."
+	icon_state = "aquila"
+
 /obj/item/clothing/accessory/stethoscope
 	name = "stethoscope"
 	desc = "An outdated medical apparatus for listening to the sounds of the human body. It also makes you look like you know what you're doing."

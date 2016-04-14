@@ -8,20 +8,21 @@
 	idle_power_usage = 10
 	active_power_usage = 2000
 
-	var/list/machine_recipes
+	var/tmp/list/machine_recipes
 	var/list/stored_material =  list(DEFAULT_WALL_MATERIAL = 0, "glass" = 0)
 	var/list/storage_capacity = list(DEFAULT_WALL_MATERIAL = 0, "glass" = 0)
 	var/show_category = "All"
+	var/current_color = "#ffffff"
 
 	var/hacked = 0
 	var/disabled = 0
 	var/shocked = 0
-	var/busy = 0
+	var/tmp/busy = 0
 
 	var/mat_efficiency = 1
 	var/build_time = 50
 
-	var/datum/wires/autolathe/wires = null
+	var/tmp/datum/wires/autolathe/wires = null
 
 
 /obj/machinery/autolathe/New()
@@ -53,7 +54,8 @@
 	if(shocked)
 		shock(user, 50)
 
-	var/dat = "<center><h1>Autolathe Control Panel</h1><hr/>"
+	var/dat = "<style>span.box{display: inline-block; width: 20px; height: 10px; border:1px solid #000;}</style>"
+	dat += "<center><h1>Autolathe Control Panel</h1><hr/>"
 
 	if(!disabled)
 		dat += "<table width = '100%'>"
@@ -65,6 +67,7 @@
 			material_bottom += "<td width = '25%' align = center>[stored_material[material]]<b>/[storage_capacity[material]]</b></td>"
 
 		dat += "[material_top]</tr>[material_bottom]</tr></table><hr>"
+		dat += "<b>Current color:</b> <a href='?src=\ref[src];color=set'><span class='box' style='background-color:[current_color];'></span></a><hr><br>"
 		dat += "<h2>Printable Designs</h2><h3>Showing: <a href='?src=\ref[src];change_category=1'>[show_category]</a>.</h3></center><table width = '100%'>"
 
 		var/index = 0
@@ -220,6 +223,10 @@
 		if(!choice) return
 		show_category = choice
 
+	if(href_list["color"])
+		var/new_color = input(usr, "Choose new color:", "Items color", current_color) as color|null
+		if(new_color) current_color = new_color
+
 	if(href_list["make"] && machine_recipes)
 
 		var/index = text2num(href_list["make"])
@@ -266,6 +273,9 @@
 		if(multiplier > 1 && istype(I, /obj/item/stack))
 			var/obj/item/stack/S = I
 			S.amount = multiplier
+		if(istype(I, /obj/item/weapon/light))
+			I:brightness_color = current_color
+
 
 	updateUsrDialog()
 
