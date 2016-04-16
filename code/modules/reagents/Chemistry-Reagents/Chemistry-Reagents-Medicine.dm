@@ -243,19 +243,19 @@
 	M.hallucination = max(0, M.hallucination - 10)
 	M.adjustToxLoss(50 * removed) // ~It used to be incredibly deadly due to an oversight. Not anymore!~ Still as deadly
 	M.add_chemical_effect(CE_PAINKILLER, 40)
-	
-/datum/reagent/synaptirex		
-	name = "Synaptirex"		
-	id = "synaptirex"		
-	description = "Synaptirex is used for cleaning blood from synaptizine"	
+
+/datum/reagent/synaptirex
+	name = "Synaptirex"
+	id = "synaptirex"
+	description = "Synaptirex is used for cleaning blood from synaptizine"
 	taste_description = "recovery"
-	reagent_state = LIQUID		
-	color = "#99CCAA"		
-	overdose = REAGENTS_OVERDOSE		
-	scannable = 1		
- 	
-/datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)		
-	holder.remove_reagent("synaptizine", 2*REM)		
+	reagent_state = LIQUID
+	color = "#99CCAA"
+	overdose = REAGENTS_OVERDOSE
+	scannable = 1
+
+/datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
+	holder.remove_reagent("synaptizine", 2*REM)
 	..()
 
 /datum/reagent/alkysine
@@ -547,31 +547,3 @@
 	if(dose > 10)
 		M.make_dizzy(5)
 		M.make_jittery(5)
-
-//for aphrodisiac
- /datum/reagent/kurovasicin
-	name = "Kurovasicin"
-	id = "kurovasicin"
-	taste_description = "cheap perfume"
-	description = "A powerful aphrodisiac that increases high sexual desire."
-	reagent_state = LIQUID
-	color = "#FF00B4"
-	metabolism = REM * 0.2
-	overdose = 5
-
-/datum/reagent/kurovasicin/affect_touch(var/mob/living/carbon/M, var/alien, var/removed)
-	affect_blood(M, alien, removed * 0.5)
-
-/datum/reagent/kurovasicin/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
-	if(alien == IS_DIONA)
-		return
-	M.horny = max(M.horny, 15)
-	M.add_chemical_effect(CE_PAINKILLER, 50)
-	if(prob(7))
-		M << pick(\
-		"<span class='pleasure'>You start to lose control over your mind...</span>",\
-		"<span class='pleasure'>You're sweating... It's too hot here!</span>",\
-		"<span class='pleasure'>You feel extreme tensity all over your body...</span>",\
-		"<span class='pleasure'>You are filled with lust...</span>")
-	if(prob(6))
-		M.emote(pick("giggle", "moan"))

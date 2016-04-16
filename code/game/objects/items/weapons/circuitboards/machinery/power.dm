@@ -1,5 +1,5 @@
 #ifndef T_BOARD
-#error T_BOARD macro is not defined but we need it! 
+#error T_BOARD macro is not defined but we need it!
 #endif
 
 /obj/item/weapon/circuitboard/smes
@@ -22,3 +22,11 @@
 	build_path = "/obj/machinery/power/smes/batteryrack/makeshift"
 	board_type = "machine"
 	req_components = list("/obj/item/weapon/cell" = 3)
+
+
+//TODO: rewrite this!
+/obj/item/weapon/circuitboard/ghettosmes/attackby(var/obj/item/weapon/W as obj, var/mob/user as mob)
+	if (istype(W, /obj/item/device/multitool))
+		var/obj/item/weapon/module/power_control/newcircuit = new (user.loc)
+		qdel(src)
+		user.put_in_hands(newcircuit)

@@ -28,7 +28,7 @@ macro "borghotkeymode"
 		command = "westfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+WEST"
+		name = "SHIFT+WEST"
 		command = "westface"
 		is-disabled = false
 	elem 
@@ -40,7 +40,7 @@ macro "borghotkeymode"
 		command = "northfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+NORTH"
+		name = "SHIFT+NORTH"
 		command = "northface"
 		is-disabled = false
 	elem 
@@ -52,7 +52,7 @@ macro "borghotkeymode"
 		command = "eastfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+EAST"
+		name = "SHIFT+EAST"
 		command = "eastface"
 		is-disabled = false
 	elem 
@@ -64,7 +64,7 @@ macro "borghotkeymode"
 		command = "southfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+SOUTH"
+		name = "SHIFT+SOUTH"
 		command = "southface"
 		is-disabled = false
 	elem 
@@ -488,7 +488,7 @@ macro "hotkeymode"
 		command = "westfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+WEST"
+		name = "SHIFT+WEST"
 		command = "westface"
 		is-disabled = false
 	elem 
@@ -500,7 +500,7 @@ macro "hotkeymode"
 		command = "northfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+NORTH"
+		name = "SHIFT+NORTH"
 		command = "northface"
 		is-disabled = false
 	elem 
@@ -512,7 +512,7 @@ macro "hotkeymode"
 		command = "eastfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+EAST"
+		name = "SHIFT+EAST"
 		command = "eastface"
 		is-disabled = false
 	elem 
@@ -524,7 +524,7 @@ macro "hotkeymode"
 		command = "southfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+SOUTH"
+		name = "SHIFT+SOUTH"
 		command = "southface"
 		is-disabled = false
 	elem 
@@ -770,7 +770,7 @@ macro "borgmacro"
 		command = "westfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+WEST"
+		name = "SHIFT+WEST"
 		command = "westface"
 		is-disabled = false
 	elem 
@@ -782,7 +782,7 @@ macro "borgmacro"
 		command = "northfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+NORTH"
+		name = "SHIFT+NORTH"
 		command = "northface"
 		is-disabled = false
 	elem 
@@ -794,7 +794,7 @@ macro "borgmacro"
 		command = "eastfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+EAST"
+		name = "SHIFT+EAST"
 		command = "eastface"
 		is-disabled = false
 	elem 
@@ -806,7 +806,7 @@ macro "borgmacro"
 		command = "southfaceperm"
 		is-disabled = false
 	elem 
-		name = "CTRL+SOUTH"
+		name = "SHIFT+SOUTH"
 		command = "southface"
 		is-disabled = false
 	elem 
