@@ -101,20 +101,6 @@
 		name = "Long Fringe"
 		icon_state = "hair_longfringe"
 
-	longestalt
-		name = "Longer Fringe"
-		icon_state = "hair_vlongfringe"
-
-	wife
-		name = "Wife"
-		icon_state = "hair_wife"
-		gender = FEMALE
-
-	victory
-		name = "Victory"
-		icon_state = "hair_victory"
-		gender = FEMALE
-
 	hbangs
 		name = "Combed Hair"
 		icon_state = "hair_hbangs"
@@ -294,8 +280,8 @@
 		icon_state = "hair_zone"
 		gender = FEMALE
 
-	bun
-		name = "Bun"
+	messy_bun
+		name = "Messy Bun"
 		icon_state = "hair_bun"
 		gender = FEMALE
 
@@ -850,6 +836,18 @@
 	taj_ears_messy
 		name = "Tajara Messy"
 		icon_state = "hair_messy"
+		species_allowed = list("Tajara")
+
+	wife
+		name = "Tajara Wife"
+		icon_state = "hair_wife"
+		gender = FEMALE
+		species_allowed = list("Tajara")
+
+	victory
+		name = "Tajara Victory"
+		icon_state = "hair_victory"
+		gender = FEMALE
 		species_allowed = list("Tajara")
 
 	vox_quills_short
