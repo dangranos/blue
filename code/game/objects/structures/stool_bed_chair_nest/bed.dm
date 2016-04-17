@@ -307,6 +307,7 @@
 	base_icon = "sofa_right"
 	buckle_dir = 0
 	buckle_lying = 0
+	color = null
 
 
 /obj/structure/bed/sofa/left
@@ -316,13 +317,14 @@
 	base_icon = "sofa_left"
 	buckle_lying = 0
 	buckle_dir = 0
+	color = null
 
 /obj/structure/bed/sofa/New(var/newloc)
-	..(newloc,"wood")
+	..(newloc,"plastic")
 
-/obj/structure/bed/sofa/update_icon()
-	..()
-	if(dir == NORTH)
-		layer = 5
+
+/obj/structure/bed/sofa/proc/update_layer()
+	if(src.dir == NORTH)
+		src.layer = 5
 	else
-		layer = initial(layer)
+		src.layer = OBJ_LAYER
