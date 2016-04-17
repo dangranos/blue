@@ -205,7 +205,7 @@
 				if(!name || !src.Adjacent(usr))
 					usr.unset_machine()
 					return
-				var/obj/item/weapon/reagent_containers/glass/bottle/P = new/obj/item/weapon/reagent_containers/glass/bottle(src.loc)
+				var/obj/item/weapon/reagent_containers/glass/beaker/bottle/P = new/obj/item/weapon/reagent_containers/glass/beaker/bottle(src.loc)
 				P.name = "[name] bottle"
 				P.pixel_x = rand(-7, 7) //random position
 				P.pixel_y = rand(-7, 7)
@@ -357,7 +357,7 @@
 
 	if (href_list["create_vaccine"])
 		if(!src.wait)
-			var/obj/item/weapon/reagent_containers/glass/bottle/B = new/obj/item/weapon/reagent_containers/glass/bottle(src.loc)
+			var/obj/item/weapon/reagent_containers/glass/beaker/bottle/B = new/obj/item/weapon/reagent_containers/glass/beaker/bottle(src.loc)
 			if(B)
 				var/path = href_list["create_vaccine"]
 				var/vaccine_type = text2path(path)
@@ -389,7 +389,7 @@
 		return
 	else if (href_list["create_virus_culture"])
 		if(!wait)
-			var/obj/item/weapon/reagent_containers/glass/bottle/B = new/obj/item/weapon/reagent_containers/glass/bottle(src.loc)
+			var/obj/item/weapon/reagent_containers/glass/beaker/bottle/B = new/obj/item/weapon/reagent_containers/glass/beaker/bottle(src.loc)
 			B.icon_state = "bottle-1"
 			var/type = text2path(href_list["create_virus_culture"])//the path is received as string - converting
 			var/datum/disease/D = null
