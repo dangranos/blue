@@ -1001,6 +1001,10 @@ area/space/atmosalert()
 /area/crew_quarters/bar
 	name = "\improper Bar"
 	icon_state = "bar"
+	
+area/crew_quarters/barman
+	name = "\improrer Barman"
+	icon_state = "barman"
 
 /area/crew_quarters/theatre
 	name = "\improper Theatre"
@@ -1541,6 +1545,10 @@ area/space/atmosalert()
 /area/rnd/misc_lab
 	name = "\improper Miscellaneous Research"
 	icon_state = "toxmisc"
+	
+/area/rnd/res_break
+	name = "\improrer Research Break Room"
+	icon_state = "res_break"
 
 /area/toxins/server
 	name = "\improper Server Room"
