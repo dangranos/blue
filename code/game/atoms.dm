@@ -406,6 +406,7 @@ its easier to just keep the beam vertical.
 		// Make toxins vomit look different
 		if(toxvomit)
 			this.icon_state = "vomittox_[pick(1,4)]"
+		return this
 
 
 /atom/proc/clean_blood()
