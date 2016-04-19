@@ -15,6 +15,9 @@
 	if(!istype(I) || I.anchored)
 		return
 
+	if(ismob(I.loc))
+		I.loc:drop_from_inventory(I)
+
 	if(istype(I, /obj/item/weapon/evidencebag))
 		user << "<span class='notice'>You find putting an evidence bag in another evidence bag to be slightly absurd.</span>"
 		return

@@ -128,8 +128,6 @@
 			switch(H.mind.role_alt_title)
 				if("Biomechanical Engineer")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/biomechanical(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/science)
 				if("Mechatronic Engineer")
 					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/mechatronic(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat/science)
 		return ..()
