@@ -128,7 +128,8 @@ var/list/nonhuman_positions = list(
 	var/list/occupations = list()
 	var/list/all_jobs = typesof(/datum/job)
 
-	for(var/A in all_jobs)
+	for(var/datum/job/A in all_jobs)
+		if(initial(A.title) == "BASIC") continue
 		var/datum/job/job = new A()
 		if(!job)	continue
 		occupations += job
