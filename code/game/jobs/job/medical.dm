@@ -43,13 +43,9 @@
 	shoes = /obj/item/clothing/shoes/brown
 	pda = /obj/item/device/pda/heads/cmo
 	suit = /obj/item/clothing/suit/storage/toggle/labcoat/cmo
+	suit_store = /obj/item/device/flashlight/pen
 	ear = /obj/item/device/radio/headset/heads/cmo
 	hand = /obj/item/weapon/storage/firstaid/adv
-
-	equip(var/mob/living/carbon/human/H)
-		if(!..())	return 0
-		H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
-		return 1
 
 /datum/job/medical/doctor
 	title = "Medical Doctor"
@@ -61,6 +57,7 @@
 	alt_titles = list("Surgeon","Emergency Physician","Nurse","Virologist")
 
 	suit = /obj/item/clothing/suit/storage/toggle/labcoat
+	suit_store = /obj/item/device/flashlight/pen
 	hand = /obj/item/weapon/storage/firstaid/adv
 
 	equip(var/mob/living/carbon/human/H)
@@ -95,7 +92,6 @@
 					else
 						H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/medical/purple(H), slot_w_uniform)
 		..()
-		H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
 		return 1
 
 
@@ -143,6 +139,7 @@
 	pda = /obj/item/device/pda/geneticist
 	ear = /obj/item/device/radio/headset/headset_medsci
 	suit = /obj/item/clothing/suit/storage/toggle/labcoat/genetics
+	suit_store = /obj/item/device/flashlight/pen
 
 	backpacks = list(
 		/obj/item/weapon/storage/backpack/genetics,\
@@ -150,11 +147,6 @@
 		/obj/item/weapon/storage/backpack/satchel
 		)
 
-
-	equip(var/mob/living/carbon/human/H)
-		if(!..())	return 0
-		H.equip_to_slot_or_del(new /obj/item/device/flashlight/pen(H), slot_s_store)
-		return 1
 
 /datum/job/medical/psychiatrist
 	title = "Psychiatrist"
@@ -168,6 +160,7 @@
 	uniform = /obj/item/clothing/under/rank/psych
 	shoes = /obj/item/clothing/shoes/laceup
 	suit = /obj/item/clothing/suit/storage/toggle/labcoat
+	suit_store = null
 
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
@@ -179,7 +172,7 @@
 
 
 
-/datum/job/medical/Paramedic
+/datum/job/medical/paramedic
 	title = "Paramedic"
 	flag = PARAMEDIC
 	total_positions = 2
