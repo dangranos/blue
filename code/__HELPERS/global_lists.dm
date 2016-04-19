@@ -154,8 +154,7 @@ var/global/list/endgame_safespawns = list()
 	//List of job. I can't believe this was calculated multiple times per tick!
 	paths = typesof(/datum/job)-/datum/job
 	paths -= exclude_jobs
-	for(var/datum/job/T in paths)
-		if(initial(T.title) == "BASIC") continue
+	for(var/T in paths)
 		var/datum/job/J = new T
 		joblist[J.title] = J
 
