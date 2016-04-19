@@ -34,6 +34,7 @@
 	var/ear = /obj/item/device/radio/headset
 	var/hand = null
 	var/glasses = null
+	var/suit_store = null
 
 	var/backpack = /obj/item/weapon/storage/backpack
 	var/satchel = /obj/item/weapon/storage/backpack/satchel_norm
@@ -48,14 +49,16 @@
 	//This will be put in backpack. List ordered by priority!
 	var/list/put_in_backpack = list()
 
-	/*
-	For copy-pasting:
+/*
+For copy-pasting:
+
 	implanted =
 	uniform =
 	pda =
 	ear =
 	shoes =
 	suit =
+	suit_store =
 	gloves =
 	mask =
 	belt =
@@ -63,13 +66,13 @@
 	glasses =
 	hat =
 
-	backpack = /obj/item/weapon/storage/backpack
-	satchel = /obj/item/weapon/storage/backpack/satchel_norm
-	duffle = /obj/item/weapon/storage/backpack/duffle
+	backpack =
+	satchel =
+	duffle =
 
 	put_in_backpack = list(\
 	)
-	*/
+*/
 
 /datum/job/proc/equip(var/mob/living/carbon/human/H, var/spawn_loadout = 0)
 	if(!H)	return 0
@@ -92,14 +95,15 @@
 	H.equip_survival_gear(custom_survival_gear)
 
 	//No-check items (suits, gloves, etc)
-	if(ear) 	H.equip_to_slot_or_del(new ear (H), slot_l_ear)
-	if(shoes)	H.equip_to_slot_or_del(new shoes (H), slot_shoes)
-	if(uniform)	H.equip_to_slot_or_del(new uniform (H), slot_w_uniform)
-	if(suit)	H.equip_to_slot_or_del(new suit (H), slot_wear_suit)
-	if(mask)	H.equip_to_slot_or_del(new mask (H), slot_wear_mask)
-	if(hat)		H.equip_to_slot_or_del(new hat (H), slot_head)
-	if(gloves)	H.equip_to_slot_or_del(new gloves (H), slot_gloves)
-	if(glasses)	H.equip_to_slot_or_del(new glasses (H), slot_glasses)
+	if(ear) 		H.equip_to_slot_or_del(new ear (H), slot_l_ear)
+	if(shoes)		H.equip_to_slot_or_del(new shoes (H), slot_shoes)
+	if(uniform)		H.equip_to_slot_or_del(new uniform (H), slot_w_uniform)
+	if(suit)		H.equip_to_slot_or_del(new suit (H), slot_wear_suit)
+	if(suit_store)	H.equip_to_slot_or_del(new suit_store (H), slot_s_store)
+	if(mask)		H.equip_to_slot_or_del(new mask (H), slot_wear_mask)
+	if(hat)			H.equip_to_slot_or_del(new hat (H), slot_head)
+	if(gloves)		H.equip_to_slot_or_del(new gloves (H), slot_gloves)
+	if(glasses)		H.equip_to_slot_or_del(new glasses (H), slot_glasses)
 
 	//Belt and PDA
 	if(belt)

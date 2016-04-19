@@ -101,14 +101,14 @@
 /obj/item/device/radio/headset/headset_sci
 	name = "science radio headset"
 	desc = "A sciency headset. Like usual."
-	icon_state = "com_headset"
+	icon_state = "sci_headset"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/headset_sci
 
 /obj/item/device/radio/headset/headset_medsci
 	name = "medical research radio headset"
 	desc = "A headset that is a result of the mating between medical and science."
-	icon_state = "med_headset"
+	icon_state = "medsci_headset"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/headset_medsci
 
@@ -122,7 +122,7 @@
 /obj/item/device/radio/headset/heads/captain
 	name = "captain's headset"
 	desc = "The headset of the boss."
-	icon_state = "com_headset"
+	icon_state = "headset_captain"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/heads/captain
 
@@ -144,35 +144,35 @@
 /obj/item/device/radio/headset/heads/rd
 	name = "research director's headset"
 	desc = "Headset of the researching God."
-	icon_state = "com_headset"
+	icon_state = "headset_rd"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/heads/rd
 
 /obj/item/device/radio/headset/heads/hos
 	name = "head of security's headset"
 	desc = "The headset of the man who protects your worthless lifes."
-	icon_state = "com_headset"
+	icon_state = "headset_hos"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/heads/hos
 
 /obj/item/device/radio/headset/heads/ce
 	name = "chief engineer's headset"
 	desc = "The headset of the guy who is in charge of morons"
-	icon_state = "com_headset"
+	icon_state = "headset_ce"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/heads/ce
 
 /obj/item/device/radio/headset/heads/cmo
 	name = "chief medical officer's headset"
 	desc = "The headset of the highly trained medical chief."
-	icon_state = "com_headset"
+	icon_state = "headset_cmo"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/heads/cmo
 
 /obj/item/device/radio/headset/heads/hop
 	name = "head of personnel's headset"
 	desc = "The headset of the guy who will one day be captain."
-	icon_state = "com_headset"
+	icon_state = "headset_hop"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/heads/hop
 /*
@@ -207,7 +207,7 @@
 /obj/item/device/radio/headset/ert
 	name = "emergency response team radio headset"
 	desc = "The headset of the boss's boss."
-	icon_state = "com_headset"
+	icon_state = "cent_headset"
 	item_state = "headset"
 	freerange = 1
 	ks2type = /obj/item/device/encryptionkey/ert
@@ -215,7 +215,7 @@
 /obj/item/device/radio/headset/ia
 	name = "internal affair's headset"
 	desc = "The headset of your worst enemy."
-	icon_state = "com_headset"
+	icon_state = "headset_ia"
 	item_state = "headset"
 	ks2type = /obj/item/device/encryptionkey/heads/hos
 
