@@ -142,9 +142,7 @@
 			B.force = src.force
 			B.icon_state = src.icon_state
 
-
-			if(istype(src, /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass))
-				B.icon_state = "glass_empty"
+			src.transfer_fingerprints_to(B)
 
 			if(reagents && reagents.total_volume)
 				reagents.splash(hit_atom, reagents.total_volume)
@@ -153,7 +151,6 @@
 			Q.Blend(B.broken_outline, ICON_OVERLAY, rand(5), 1)
 			Q.SwapColor(rgb(255, 0, 220, 255), rgb(0, 0, 0, 0))
 			B.icon = Q
-			src.transfer_fingerprints_to(B)
 
 			playsound(src, "shatter", 70, 1)
 
@@ -222,20 +219,19 @@
 
 			var/percent = round((reagents.total_volume / volume) * 100)
 			switch(percent)
-				if(0 to 9)		filling.icon_state = "[icon_state]-10"
-				if(10 to 24) 	filling.icon_state = "[icon_state]10"
-				if(25 to 49)	filling.icon_state = "[icon_state]25"
-				if(50 to 74)	filling.icon_state = "[icon_state]50"
-				if(75 to 79)	filling.icon_state = "[icon_state]75"
-				if(80 to 90)	filling.icon_state = "[icon_state]80"
-				if(91 to INFINITY)	filling.icon_state = "[icon_state]100"
+				if(0 to 9)		filling.icon_state = "[icon_state]-00"
+				if(10 to 24) 	filling.icon_state = "[icon_state]-10"
+				if(25 to 49)	filling.icon_state = "[icon_state]-25"
+				if(50 to 74)	filling.icon_state = "[icon_state]-50"
+				if(75 to 79)	filling.icon_state = "[icon_state]-75"
+				if(80 to 90)	filling.icon_state = "[icon_state]-80"
+				if(91 to INFINITY)	filling.icon_state = "[icon_state]-100"
 
 			filling.color = reagents.get_color()
 			overlays += filling
 
 		if (!is_open_container())
-			var/image/lid = image(icon, src, "lid_[initial(icon_state)]")
-			overlays += lid
+			overlays += image(icon, src, "lid_[initial(icon_state)]")
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)
 		if(istype(W, /obj/item/weapon/pen) || istype(W, /obj/item/device/flashlight/pen))
