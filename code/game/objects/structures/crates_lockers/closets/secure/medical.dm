@@ -16,10 +16,10 @@
 		new /obj/item/weapon/storage/box/pillbottles(src)
 		new /obj/item/weapon/reagent_containers/glass/beaker(src)
 		new /obj/item/weapon/reagent_containers/dropper(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/inaprovaline(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/inaprovaline(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/antitoxin(src)
-		new /obj/item/weapon/reagent_containers/glass/bottle/antitoxin(src)
+		new /obj/item/weapon/reagent_containers/glass/beaker/bottle/inaprovaline(src)
+		new /obj/item/weapon/reagent_containers/glass/beaker/bottle/inaprovaline(src)
+		new /obj/item/weapon/reagent_containers/glass/beaker/bottle/antitoxin(src)
+		new /obj/item/weapon/reagent_containers/glass/beaker/bottle/antitoxin(src)
 		new /obj/item/weapon/storage/box/syringes(src)
 		return
 
