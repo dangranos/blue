@@ -34,9 +34,9 @@ Zippo:/obj/item/weapon/flame/lighter/zippo:130
 Cigarette Packet:/obj/item/weapon/storage/fancy/cigarettes:20
 DromedaryCo Packet:/obj/item/weapon/storage/fancy/cigarettes/dromedaryco:50
 Premium Havanian Cigar:/obj/item/clothing/mask/cigarette/cigar/havana:130
-Beer Bottle:/obj/item/weapon/reagent_containers/food/drinks/beer:80
+Beer Bottle:/obj/item/weapon/reagent_containers/glass/drinks/cans/beer:80
 Captain Flask:/obj/item/weapon/reagent_containers/food/drinks/flask:200
-Three Mile Island Ice Tea:/obj/item/weapon/reagent_containers/food/drinks/drinkingglass/threemileisland:100
+Three Mile Island Ice Tea:/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass/threemileisland:100
 Shiny Flask:/obj/item/weapon/reagent_containers/glass/drinks/flask/shiny:200
 Leather Satchel:/obj/item/weapon/storage/backpack/satchel:190
 Wallet:/obj/item/weapon/storage/wallet:90
@@ -58,7 +58,6 @@ Pirate Coat:/obj/item/clothing/suit/pirate:120
 Red Poncho:/obj/item/clothing/suit/poncho/red:140
 Green Poncho:/obj/item/clothing/suit/poncho/green:120
 Cardborg:/obj/item/clothing/suit/cardborg:190
-Brown Coat:/obj/item/clothing/suit/browncoat:140
 Judge Robe:/obj/item/clothing/suit/judgerobe:170
 
 
@@ -67,7 +66,7 @@ Vice Policeman:/obj/item/clothing/under/rank/vice:180
 Pirate Outfit:/obj/item/clothing/under/pirate:130
 Waiter Outfit:/obj/item/clothing/under/waiter:120
 Black Suit:/obj/item/clothing/under/lawyer/blacksuit:150
-Central Command officer:/obj/item/clothing/under/rank/centcom_officer:390
+Central Command Officer:/obj/item/clothing/under/rank/centcom_officer:390
 Jeans:/obj/item/clothing/under/pants/jeans:160
 Rainbow Suit:/obj/item/clothing/under/rainbow:130
 Executive Suit:/obj/item/clothing/under/suit_jacket/really_black:130
@@ -105,7 +104,7 @@ Toy Sword:/obj/item/toy/sword:70
 Toy Katana:/obj/item/toy/katana:100
 Plush Beepsky:/obj/structure/plushie/beepsky:120
 Plush Ian:/obj/structure/plushie/ian:120
-Donut Box:/obj/item/weapon/storage/fancy/donut_box:450
+Donut Box:/obj/item/weapon/storage/box/donut:450
 Space Cola:/obj/item/weapon/reagent_containers/glass/drinks/cans/cola:80
 Bottled Water:/obj/item/weapon/reagent_containers/glass/drinks/cans/waterbottle:40
 
