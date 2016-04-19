@@ -108,6 +108,7 @@
 	minimal_player_age = 7
 
 	uniform = /obj/item/clothing/under/rank/roboticist
+	ear = /obj/item/device/radio/headset/headset_rob
 	pda = /obj/item/device/pda/roboticist
 	hand = /obj/item/weapon/storage/toolbox/mechanical
 	shoes = /obj/item/clothing/shoes/black
