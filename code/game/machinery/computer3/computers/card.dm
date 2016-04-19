@@ -197,7 +197,12 @@
 		return 0
 
 	proc/set_default_access(var/jobname)
-		var/datum/job/jobdatum = job_master.GetJob(jobname)
+		var/datum/job/jobdatum
+		for(var/jobtype in typesof(/datum/job))
+			var/datum/job/J = new jobtype
+			if(ckey(J.title) == ckey(jobname))
+				jobdatum = J
+				break
 		if(jobdatum)
 			writer.access = jobdatum.get_access() // ( istype(src,/obj/machinery/computer/card/centcom) ? get_centcom_access(t1)
 

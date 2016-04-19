@@ -105,6 +105,7 @@
 			B.icon = Q
 			src.transfer_fingerprints_to(B)
 		else
+			isGlass = 0
 			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
 
 			var/obj/item/weapon/broken_bottle/B = new /obj/item/weapon/broken_bottle(loc)

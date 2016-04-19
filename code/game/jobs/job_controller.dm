@@ -21,12 +21,12 @@ var/global/datum/controller/occupations/job_master
 		if(!all_jobs.len)
 			world << "\red \b Error setting up jobs, no job datums found"
 			return 0
-		for(var/datum/job/J in all_jobs)
-			if(initial(J.title) == "BASIC") continue
+		for(var/J in all_jobs)
 			var/datum/job/job = new J()
 			if(!job)	continue
+			if(job.title == "BASIC") continue
 			if(job.faction != faction)	continue
-			occupations[job.title] = job
+			occupations += job
 		return 1
 
 
@@ -38,7 +38,10 @@ var/global/datum/controller/occupations/job_master
 
 	proc/GetJob(var/rank)
 		if(!rank)	return null
-		return occupations[rank]
+		for(var/datum/job/J in occupations)
+			if(!J)	continue
+			if(J.title == rank)	return J
+		return null
 
 	proc/GetPlayerAltTitle(mob/new_player/player, rank)
 		return player.client.prefs.GetPlayerAltTitle(GetJob(rank))
@@ -94,8 +97,7 @@ var/global/datum/controller/occupations/job_master
 
 	proc/GiveRandomJob(var/mob/new_player/player)
 		Debug("GRJ Giving random job, Player: [player]")
-		for(var/title in shuffle(occupations))
-			var/datum/job/job = occupations[title]
+		for(var/datum/job/job in shuffle(occupations))
 			if(!job)
 				continue
 
@@ -233,8 +235,10 @@ var/global/datum/controller/occupations/job_master
 
 		//Holder for Triumvirate is stored in the ticker, this just processes it
 		if(ticker && ticker.triai)
-			var/datum/job/A = occupations["AI"]
-			if(A) A.spawn_positions = 3
+			for(var/datum/job/A in occupations)
+				if(A.title == "AI")
+					A.spawn_positions = 3
+					break
 
 		//Get the players who are ready
 		for(var/mob/new_player/player in player_list)
@@ -290,8 +294,7 @@ var/global/datum/controller/occupations/job_master
 					RejectPlayer(player)
 
 				// Loop through all jobs
-				for(var/title in shuffledoccupations) // SHUFFLE ME BABY
-					var/datum/job/job = shuffledoccupations[title]
+				for(var/datum/job/job in shuffledoccupations) // SHUFFLE ME BABY
 					if(!job)
 						continue
 
@@ -540,7 +543,12 @@ var/global/datum/controller/occupations/job_master
 		if(!H)	return 0
 		var/obj/item/weapon/card/id/C = null
 
-		var/datum/job/job = occupations[rank]
+		var/datum/job/job = null
+		for(var/datum/job/J in occupations)
+			if(J.title == rank)
+				job = J
+				break
+
 		if(job)
 			if(job.title == "Cyborg")
 				return
@@ -607,8 +615,7 @@ var/global/datum/controller/occupations/job_master
 
 
 	proc/HandleFeedbackGathering()
-		for(var/title in occupations)
-			var/datum/job/job = occupations[title]
+		for(var/datum/job/job in occupations)
 			var/tmp_str = "|[job.title]|"
 
 			var/level1 = 0 //high
