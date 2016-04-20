@@ -223,6 +223,29 @@
 	new /obj/item/clothing/head/beret/eng(src)
 	return
 
+/obj/structure/closet/wardrobe/research
+	name = "science wardrobe"
+	icon_state = "mixed"
+	icon_closed = "mixed"
+	
+/obj/structure/closet/wardrobe/research/New()
+	..()
+	new /obj/item/clothing/under/rank/scientist(src)
+	new /obj/item/clothing/under/rank/scientist(src)
+	new /obj/item/clothing/under/rank/xenoarch(src)
+	new /obj/item/clothing/under/rank/xenoarch(src)
+	new /obj/item/clothing/under/rank/plasmares(src)
+	new /obj/item/clothing/under/rank/plasmares(src)
+	new /obj/item/clothing/under/rank/xenobio(src)
+	new /obj/item/clothing/under/rank/xenobio(src)
+	new /obj/item/clothing/under/rank/anomalist(src)
+	new /obj/item/clothing/under/rank/anomalist(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/shoes/white(src)
+	new /obj/item/clothing/shoes/white(src)
+	new /obj/item/clothing/shoes/white(src)
 
 /obj/structure/closet/wardrobe/white
 	name = "white wardrobe"
