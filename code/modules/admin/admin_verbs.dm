@@ -566,7 +566,7 @@ var/list/admin_verbs_mentor = list(
 		if(holder.fakekey)
 			holder.fakekey = null
 		else
-			var/new_key = sanitizeName(input("Enter your desired display name.", "Fake Key", key) as text|null)
+			var/new_key = sanitizeName(input("Enter your desired display name.", "Fake Key", key) as text|null, allow_numbers = 1)
 			if(!new_key)	return
 			if(length(new_key) >= 26)
 				new_key = copytext(new_key, 1, 26)
