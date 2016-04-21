@@ -1,28 +1,28 @@
 var/const/stuff = {"
 Hats
-Collectable Pete hat:/obj/item/clothing/head/collectable/petehat:150
-Collectable Xeno hat:/obj/item/clothing/head/collectable/xenom:110
-Collectable Top hat:/obj/item/clothing/head/collectable/tophat:120
+Collectable Pete Hat:/obj/item/clothing/head/collectable/petehat:150
+Collectable Xeno Hat:/obj/item/clothing/head/collectable/xenom:110
+Collectable Top Hat:/obj/item/clothing/head/collectable/tophat:120
 Kitty Ears:/obj/item/clothing/head/kitty:100
 Ushanka:/obj/item/clothing/head/ushanka:200
 Beret:/obj/item/clothing/head/beret:150
-Cake-hat:/obj/item/clothing/head/cakehat:100
-Wizard hat:/obj/item/clothing/head/wizard/fake:100
-Flat-cap:/obj/item/clothing/head/flatcap:120
-Collectable rabbit ears:/obj/item/clothing/head/collectable/rabbitears:120
-Cardborg helment. Beep-boop!:/obj/item/clothing/head/cardborg:85
+Cake-Hat:/obj/item/clothing/head/cakehat:100
+Wizard Hat:/obj/item/clothing/head/wizard/fake:100
+Flat-Cap:/obj/item/clothing/head/flatcap:120
+Collectable Rabbit ears:/obj/item/clothing/head/collectable/rabbitears:120
+Cardborg Helment. Beep-boop!:/obj/item/clothing/head/cardborg:85
 Sombrero:/obj/item/clothing/head/sombrero:120
-Pirate hat:/obj/item/clothing/head/pirate:120
-Hair flower:/obj/item/clothing/head/hairflower:130
-Powdered wig:/obj/item/clothing/head/powdered_wig:120
+Pirate Hat:/obj/item/clothing/head/pirate:120
+Hair Flower:/obj/item/clothing/head/hairflower:130
+Powdered Wig:/obj/item/clothing/head/powdered_wig:120
 Collectable HoS hat:/obj/item/clothing/head/collectable/HoS:150
-Philowopher wig:/obj/item/clothing/head/philosopher_wig:120
-Carved pumpkin:/obj/item/clothing/head/pumpkinhead:140
-Collectable captain's hat:/obj/item/clothing/head/collectable/captain:210
+Philowopher Wig:/obj/item/clothing/head/philosopher_wig:120
+Carved Pumpkin:/obj/item/clothing/head/pumpkinhead:140
+Collectable Captain's hat:/obj/item/clothing/head/collectable/captain:210
 Crown:/obj/item/clothing/head/collectable/crown:190
 Marisa Hat!:/obj/item/clothing/head/collectable/marisa:130
-Metroid hat:/obj/item/clothing/head/collectable/metroid:140
-Very elite top hat:/obj/item/clothing/head/collectable/secelitetop:110
+Metroid Hat:/obj/item/clothing/head/collectable/metroid:140
+Very Elite Top Hat:/obj/item/clothing/head/collectable/secelitetop:110
 
 
 Personal Stuff
@@ -31,44 +31,42 @@ Eye patch:/obj/item/clothing/glasses/eyepatch:130
 Monocle:/obj/item/clothing/glasses/monocle:110
 Cane:/obj/item/weapon/cane:130
 Zippo:/obj/item/weapon/flame/lighter/zippo:130
-Cigarette packet:/obj/item/weapon/storage/fancy/cigarettes:20
-DromedaryCo packet:/obj/item/weapon/storage/fancy/cigarettes/dromedaryco:50
+Cigarette Packet:/obj/item/weapon/storage/fancy/cigarettes:20
+DromedaryCo Packet:/obj/item/weapon/storage/fancy/cigarettes/dromedaryco:50
 Premium Havanian Cigar:/obj/item/clothing/mask/cigarette/cigar/havana:130
-Beer bottle:/obj/item/weapon/reagent_containers/food/drinks/beer:80
-Captain flask:/obj/item/weapon/reagent_containers/food/drinks/flask:200
-Three Mile Island Ice Tea:/obj/item/weapon/reagent_containers/food/drinks/drinkingglass/threemileisland:100
-Badminka Vodka:/obj/item/weapon/reagent_containers/food/drinks/bottle/vodka/badminka:240
-Shiny flask:/obj/item/weapon/reagent_containers/glass/drinks/flask/shiny:200
-Leather satchel:/obj/item/weapon/storage/backpack/satchel:190
+Beer Bottle:/obj/item/weapon/reagent_containers/glass/drinks/cans/beer:80
+Captain Flask:/obj/item/weapon/reagent_containers/food/drinks/flask:200
+Three Mile Island Ice Tea:/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass/threemileisland:100
+Shiny Flask:/obj/item/weapon/reagent_containers/glass/drinks/flask/shiny:200
+Leather Satchel:/obj/item/weapon/storage/backpack/satchel:190
 Wallet:/obj/item/weapon/storage/wallet:90
 Briefcase:/obj/item/weapon/storage/briefcase:120
 
 
 Shoes
 Brown Shoes:/obj/item/clothing/shoes/brown:130
-Blue shoes:/obj/item/clothing/shoes/blue:130
-Leather /obj/item/clothing/shoes/leather:130
-Green shoes:/obj/item/clothing/shoes/green:130
-Black shoes:/obj/item/clothing/shoes/black:130
-Purple shoes:/obj/item/clothing/shoes/purple:130
+Blue Shoes:/obj/item/clothing/shoes/blue:130
+Leather Shoes:/obj/item/clothing/shoes/leather:130
+Green Shoes:/obj/item/clothing/shoes/green:130
+Black Shoes:/obj/item/clothing/shoes/black:130
+Purple Shoes:/obj/item/clothing/shoes/purple:130
 
 
 Coats
 Leather Coat:/obj/item/clothing/suit/storage/leathercoat:160
 Pirate Coat:/obj/item/clothing/suit/pirate:120
-Red poncho:/obj/item/clothing/suit/poncho/red:140
-Green poncho:/obj/item/clothing/suit/poncho/green:120
+Red Poncho:/obj/item/clothing/suit/poncho/red:140
+Green Poncho:/obj/item/clothing/suit/poncho/green:120
 Cardborg:/obj/item/clothing/suit/cardborg:190
-Brown coat:/obj/item/clothing/suit/browncoat:140
-Judge robe:/obj/item/clothing/suit/judgerobe:170
+Judge Robe:/obj/item/clothing/suit/judgerobe:170
 
 
 Jumpsuits
 Vice Policeman:/obj/item/clothing/under/rank/vice:180
-Pirate outfit:/obj/item/clothing/under/pirate:130
-Waiter outfit:/obj/item/clothing/under/waiter:120
-Black suit:/obj/item/clothing/under/lawyer/blacksuit:150
-Central Command officer:/obj/item/clothing/under/rank/centcom_officer:390
+Pirate Outfit:/obj/item/clothing/under/pirate:130
+Waiter Outfit:/obj/item/clothing/under/waiter:120
+Black Suit:/obj/item/clothing/under/lawyer/blacksuit:150
+Central Command Officer:/obj/item/clothing/under/rank/centcom_officer:390
 Jeans:/obj/item/clothing/under/pants/jeans:160
 Rainbow Suit:/obj/item/clothing/under/rainbow:130
 Executive Suit:/obj/item/clothing/under/suit_jacket/really_black:130
@@ -76,11 +74,11 @@ Schoolgirl Uniform:/obj/item/clothing/under/schoolgirl:130
 Tacticool Turtleneck:/obj/item/clothing/under/syndicate/tacticool:130
 Soviet Uniform:/obj/item/clothing/under/soviet:130
 Gemtelman:/obj/item/clothing/under/gentlesuit:140
-Assistent formal:/obj/item/clothing/under/assistantformal:140
-Tan suit:/obj/item/clothing/under/suit_jacket/tan:130
+Assistant Formal:/obj/item/clothing/under/assistantformal:140
+Tan Suit:/obj/item/clothing/under/suit_jacket/tan:130
 Charcoal:/obj/item/clothing/under/suit_jacket/charcoal:130
-Navy suit:/obj/item/clothing/under/suit_jacket/navy:120
-Black suit:/obj/item/clothing/under/suit_jacket:120
+Navy Suit:/obj/item/clothing/under/suit_jacket/navy:120
+Black Suit:/obj/item/clothing/under/suit_jacket:120
 
 Gloves
 White:/obj/item/clothing/gloves/white:130
@@ -106,7 +104,7 @@ Toy Sword:/obj/item/toy/sword:70
 Toy Katana:/obj/item/toy/katana:100
 Plush Beepsky:/obj/structure/plushie/beepsky:120
 Plush Ian:/obj/structure/plushie/ian:120
-Donut Box:/obj/item/weapon/storage/fancy/donut_box:450
+Donut Box:/obj/item/weapon/storage/box/donut:450
 Space Cola:/obj/item/weapon/reagent_containers/glass/drinks/cans/cola:80
 Bottled Water:/obj/item/weapon/reagent_containers/glass/drinks/cans/waterbottle:40
 

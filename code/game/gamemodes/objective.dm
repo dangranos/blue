@@ -858,9 +858,9 @@ datum/objective/heist/salvage
 			if ( is_type_in_list(A, centcom_areas))
 				acolytes_survived++
 	if(acolytes_survived >= target_amount)
-		return 0
-	else
 		return 1
+	else
+		return 0
 
 /datum/objective/cult/eldergod
 	explanation_text = "Summon Nar-Sie via the use of the appropriate rune (Hell join self). It will only work if nine cultists stand on and around it. The convert rune is join blood self."
@@ -882,7 +882,7 @@ datum/objective/heist/salvage
 	if(target) explanation_text = "Sacrifice [target.name], the [target.assigned_role]. You will need the sacrifice rune (Hell blood join) and three acolytes to do so."
 
 /datum/objective/cult/sacrifice/check_completion()
-	return (target && cult && !cult.sacrificed.Find(target))
+	return (target && cult && cult.sacrificed.Find(target))
 
 /datum/objective/rev/find_target()
 	..()
