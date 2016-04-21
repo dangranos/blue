@@ -147,6 +147,31 @@
 	desc = "You can see the Emperor smiling in the reflection."
 	icon_state = "aquila"
 
+/obj/item/clothing/accessory/amulet_khorne
+	name = "khorne amulet"
+	desc = "You can't see the Emperor smiling in the reflection."
+	icon_state = "khorne_amulet"
+
+/obj/item/clothing/accessory/amulet_nurgle
+	name = "nurgle amulet"
+	desc = "You can't see the Emperor smiling in the reflection."
+	icon_state = "nurgle_amulet"
+
+/obj/item/clothing/accessory/amulet_slaanesh
+	name = "slaanesh amulet"
+	desc = "You can't see the Emperor smiling in the reflection."
+	icon_state = "slaanesh_amulet"
+
+/obj/item/clothing/accessory/amulet_tzeench
+	name = "tzeench amulet"
+	desc = "You can't see the Emperor smiling in the reflection."
+	icon_state = "tzeench_amulet"
+
+/obj/item/clothing/accessory/amulet_chaos
+	name = "chaos undivided amulet"
+	desc = "You can't see the Emperor smiling in the reflection."
+	icon_state = "chaos_amulet"
+
 /obj/item/clothing/accessory/stethoscope
 	name = "stethoscope"
 	desc = "An outdated medical apparatus for listening to the sounds of the human body. It also makes you look like you know what you're doing."

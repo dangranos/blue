@@ -6,7 +6,7 @@ datum/preferences
 	var/preview_dir = SOUTH
 
 	proc/new_update_preview_icon()
-		req_update_icon = 0
+		req_update_icon = 0			//No check. Can be forced.
 		for(var/dir in cardinal)
 			qdel(preview_south)
 			qdel(preview_north)
@@ -28,7 +28,7 @@ datum/preferences
 			var/datum/body_modification/mod = get_modification(organ)
 			if(!mod.replace_limb)
 				preview_icon.Blend(new /icon(icobase, "[organ]_[g]"), ICON_OVERLAY)
-			preview_icon.Blend(mod.get_mob_icon(organ, body_build, gender), ICON_OVERLAY)
+			preview_icon.Blend(mod.get_mob_icon(organ, body_build, modifications_colors[organ], gender), ICON_OVERLAY)
 
 		//Tail
 		if(current_species && (current_species.tail))
