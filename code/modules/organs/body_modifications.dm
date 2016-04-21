@@ -26,12 +26,12 @@ var/global/list/modifications_list = list(
 /datum/body_modification
 	var/name = ""
 	var/short_name = ""
-	var/id = ""					// For savefile. Must be unique.
+	var/id = ""				// For savefile. Must be unique.
 	var/desc = ""			// Description.
 	var/list/body_parts = list("chest", "chest2", "head", "groin", "l_arm", "r_arm", "l_hand", "r_hand", "l_leg", "r_leg",\
 		"l_foot", "r_foot", "heart", "lungs", "liver", "brain", "eyes")		// For sorting'n'selection optimization.
 	var/allowed_species = list("Human")	// Species restriction.
-	var/allowed_slim_body = 1			// The "main sprite question" yeah.
+	var/allow_slim_body = 1			// The "main sprite question" yeah.
 	var/replace_limb = null				// To draw usual limb or not.
 	var/mob_icon = ""
 	var/icon/icon = 'icons/mob/human_races/body_modification.dmi'
@@ -47,7 +47,7 @@ var/global/list/modifications_list = list(
 		if(allowed_species && !(P.species in allowed_species))
 			usr << "[name] isn't allowed for [P.species]"
 			return 0
-		if(!allowed_slim_body && (P.body_build == BODY_SLIM))
+		if(!allow_slim_body && (P.body_build == BODY_SLIM))
 			usr << "[name] isn't allowed for slim body"
 			return 0
 		return 1
@@ -156,7 +156,7 @@ var/global/list/modifications_list = list(
 	name = "Zeng-Hu"
 	id = "prosthesis_zenghu"
 	desc = "Prosthesis with rubbery fleshtone covering with visible seams."
-	allowed_slim_body = 0
+	allow_slim_body = 0
 
 	get_mob_icon(organ, body_build = 0)
 		return new/icon('icons/mob/human_races/cyberlimbs/zenghu.dmi', "[organ]_m[body_build]")
@@ -168,6 +168,13 @@ var/global/list/modifications_list = list(
 
 	get_mob_icon(organ, body_build = 0)
 		return new/icon('icons/mob/human_races/cyberlimbs/xion.dmi', "[organ]_f[body_build]")
+
+/datum/body_modification/prosthesis/cyber_industries
+	name = "Cyber Industries"
+	id = "prosthesis_cyber"
+	desc = "This limb features sleek silver metal and black polymers."
+	allow_slim_body = 0
+	mob_icon = "cyber"
 
 /datum/body_modification/mutation
 	New()
