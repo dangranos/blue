@@ -43,10 +43,6 @@
 
 	return speak_statement
 
-#define IS_AI 1
-#define IS_ROBOT 2
-#define IS_PAI 3
-
 /mob/living/silicon/say_understands(var/other,var/datum/language/speaking = null)
 	//These only pertain to common. Languages are handled by mob/say_understands()
 	if (!speaking)
@@ -140,7 +136,3 @@
 		src.holopad_emote(message)
 	else //Emote normally, then.
 		..()
-
-#undef IS_AI
-#undef IS_ROBOT
-#undef IS_PAI

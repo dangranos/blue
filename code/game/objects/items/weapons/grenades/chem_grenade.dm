@@ -11,7 +11,7 @@
 	var/path = 0
 	var/obj/item/device/assembly_holder/detonator = null
 	var/list/beakers = new/list()
-	var/list/allowed_containers = list(/obj/item/weapon/reagent_containers/glass/beaker, /obj/item/weapon/reagent_containers/glass/bottle)
+	var/list/allowed_containers = list(/obj/item/weapon/reagent_containers/glass/beaker, /obj/item/weapon/reagent_containers/glass/beaker/bottle)
 	var/affected_area = 3
 
 	New()
@@ -163,7 +163,7 @@
 		playsound(src.loc, 'sound/effects/bamf.ogg', 50, 1)
 
 		for(var/obj/item/weapon/reagent_containers/glass/G in beakers)
-			G.reagents.trans_to(src, G.reagents.total_volume)
+			G.reagents.trans_to_obj(src, G.reagents.total_volume)
 
 		if(src.reagents && src.reagents.total_volume) //The possible reactions didnt use up all reagents.
 			var/datum/effect/effect/system/steam_spread/steam = new /datum/effect/effect/system/steam_spread()
@@ -171,7 +171,7 @@
 			steam.attach(src)
 			steam.start()
 
-			for(var/atom/A in view(affected_area, src.loc))
+			for(var/atom/A in view(affected_area, get_turf(src)))
 				if( A == src ) continue
 				src.reagents.touch(A)
 
