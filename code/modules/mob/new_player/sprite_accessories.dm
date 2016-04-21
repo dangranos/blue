@@ -401,9 +401,9 @@
 		gender = FEMALE
 		
 	mbraidalt
- 		name = "Medium Braid Alt"
- 		icon_state = "hair_mediumbraid"
- 		gender = FEMALE
+		name = "Medium Braid Alt"
+		icon_state = "hair_mediumbraid"
+		gender = FEMALE
 
 	braid2
 		name = "Long Braid"
