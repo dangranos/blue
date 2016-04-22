@@ -5,24 +5,30 @@
 	req_one_access = list(access_janitor, access_robotics)
 	botcard_access = list(access_janitor, access_maint_tunnels)
 
-	var/obj/effect/decal/cleanable/target
-	var/list/path = list()
-	var/list/patrol_path = list()
-	var/list/ignorelist = list()
+	var/tmp/obj/effect/decal/cleanable/target = null
+	var/tmp/list/path = list()
+	var/tmp/list/patrol_path = list()
+	var/tmp/list/ignorelist = list()
 
-	var/obj/cleanbot_listener/listener = null
+	var/tmp/obj/cleanbot_listener/listener = null
 	var/beacon_freq = 1445 // navigation beacon frequency
-	var/signal_sent = 0
-	var/closest_dist
-	var/next_dest
-	var/next_dest_loc
+	var/tmp/signal_sent = 0
+	var/tmp/closest_dist
+	var/tmp/next_dest
+	var/tmp/next_dest_loc
 
-	var/cleaning = 0
+	var/tmp/cleaning = 0
 	var/screwloose = 0
 	var/oddbutton = 0
 	var/should_patrol = 0
 	var/blood = 1
-	var/list/target_types = list()
+	var/tmp/list/target_types = list()
+
+/mob/living/bot/cleanbot/proc/set_target(var/obj/effect/decal/cleanable/target)
+	if(!istype(target) || !isturf(target.loc)) return 0
+
+	src.target = target
+	return 1
 
 /mob/living/bot/cleanbot/New()
 	..()
@@ -61,16 +67,23 @@
 			ignorelist -= gib
 
 	if(!target) // Find a target
-		for(var/obj/effect/decal/cleanable/D in view(7, src))
-			if(D in ignorelist)
-				continue
-			for(var/T in target_types)
-				if(istype(D, T))
-					target = D
-					patrol_path = list()
+		for(var/i=0;i<=7;i++)
+			if(target) break
+			for(var/obj/effect/decal/cleanable/D in view(i, src))
+				if(D in ignorelist)
+					continue
+				for(var/T in target_types)
+					if(istype(D, T))
+						if(set_target(D))
+							patrol_path = list()
+							break
 
 		if(!target) // No targets in range
 			if(!should_patrol)
+				return
+
+			if(pulledby) // Don't wiggle if someone pulls you
+				patrol_path = list()
 				return
 
 			if(!patrol_path || !patrol_path.len)
@@ -96,9 +109,6 @@
 							patrol_path = AStar(loc, next_dest_loc, /turf/proc/CardinalTurfsWithAccess, /turf/proc/Distance, 0, 120, id = botcard, exclude = null)
 							signal_sent = 0
 			else
-				if(pulledby) // Don't wiggle if someone pulls you
-					patrol_path = list()
-					return
 				if(patrol_path[1] == loc)
 					patrol_path -= patrol_path[1]
 				var/moved = step_towards(src, patrol_path[1])
@@ -108,36 +118,43 @@
 		if(loc == target.loc)
 			if(!cleaning)
 				UnarmedAttack(target)
+				target = null
+		else
+			if(!path.len)
+				spawn(0)
+					path = AStar(loc, target.loc, /turf/proc/CardinalTurfsWithAccess, /turf/proc/Distance, 0, 30, id = botcard)
+					if(!path)
+						path = list()
+						var/bad_target = target
+						target = null
+						ignorelist += bad_target
+						spawn(600)
+							ignorelist -= bad_target
 				return
-		if(!path.len)
-			spawn(0)
-				path = AStar(loc, target.loc, /turf/proc/CardinalTurfsWithAccess, /turf/proc/Distance, 0, 30, id = botcard)
-				if(!path)
-					path = list()
-			return
-		if(path.len)
-			step_to(src, path[1])
-			path -= path[1]
-			return
+			if(path.len)
+				step_to(src, path[1])
+				path -= path[1]
+				return
 
 /mob/living/bot/cleanbot/UnarmedAttack(var/obj/effect/decal/cleanable/D, var/proximity)
 	if(!..())
 		return
 
-	if(!istype(D))
+	if(D.loc != loc)
 		return
 
-	if(D.loc != loc)
+	if(!istype(D))
 		return
 
 	cleaning = 1
 	custom_emote(2, "begins to clean up the [D]")
 	update_icons()
-	var/cleantime = istype(D, /obj/effect/decal/cleanable/dirt) ? 10 : 50
+	var/cleantime = istype(D, /obj/effect/decal/cleanable/dirt) ? 10 : 40
 	if(do_after(src, cleantime))
 		if(istype(loc, /turf/simulated))
 			var/turf/simulated/f = loc
 			f.dirt = 0
+			f.clean_blood()
 		if(!D)
 			return
 		qdel(D)
@@ -284,7 +301,7 @@
 		qdel(src)
 
 	else if(istype(O, /obj/item/weapon/pen))
-		var/t = sanitizeSafe(input(user, "Enter new robot name", name, created_name), MAX_NAME_LEN)
+		var/t = sanitizeName(input(user, "Enter new robot name", name, created_name), allow_numbers = 1)
 		if(!t)
 			return
 		if(!in_range(src, usr) && src.loc != usr)

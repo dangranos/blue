@@ -60,10 +60,7 @@ var/global/list/underwear_m = list("White" = "1", "Grey" = "2", "Green" = "3", "
 var/global/list/underwear_f = list("Red" = "1", "White" = "2", "Yellow" = "3", "Blue" = "4", "Black" = "5", "Thong" = "6", "Black Sports" = "7", "White Sports" = "8", "None")
 	//undershirt
 var/global/list/undershirt_t = list("White Tank top" = "u1", "Black Tank top" = "u2", "Black shirt" = "u3", "White shirt" = "u4", "None")
-var/global/list/socks = list("white_norm", "white_short", "white_knee", "white_thigh",\
-							 "black_norm", "black_short", "black_knee", "black_thigh",\
-							 "thin_knee", "thin_thigh", "rainbow_knee", "rainbow_thigh",\
-							 "pantyhose", "striped_knee", "striped_thigh")
+
 	//Backpacks
 var/global/list/backbaglist = list("Nothing", "Backpack", "Satchel", "Satchel Alt")
 var/global/list/exclude_jobs = list(/datum/job/ai,/datum/job/cyborg)
@@ -88,10 +85,11 @@ var/global/list/flavs_list = list("general"="General", "torso"="Body", "head"="H
 				"mech_eyes"="Mechanical eyes", "arms"="Arms", "hands"="Hands", "legs"="Legs", "feet"="Feet")
 
 var/global/list/organ_tag_to_name = list(
-	"head"="Head", "r_arm"="Right arm", "r_hand"="Right hand",\
-	"chest"="Body", "r_leg"="Right Leg", "r_foot"="Right foot",\
-	"eyes"="Eyes", "l_arm"="Left arm", "l_hand"="Left hand",\
-	"groin"="Groin", "l_leg"="Left Leg", "l_foot"="Left foot"
+	"head"="Head", "r_arm"="Right arm", "r_hand"="Right hand",
+	"chest"="Body", "r_leg"="Right Leg", "r_foot"="Right foot",
+	"eyes"="Eyes", "l_arm"="Left arm", "l_hand"="Left hand",
+	"groin"="Groin", "l_leg"="Left Leg", "l_foot"="Left foot",
+	"chest2" = "Back", "heart"="Heart", "lungs"="Lungs", "liver"="Liver"
 	)
 
 var/global/list/default_lang_keys = list("2", "3", "4", "5", "6", "7", "8", "9")
