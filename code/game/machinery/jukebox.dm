@@ -48,6 +48,8 @@ datum/track/New(var/title_name, var/audio)
 		new/datum/track("Lovesong", 'sound/jukebox/lovesong.ogg'),
 		new/datum/track("Judge", 'sound/jukebox/Judge_Bitch.ogg'),
 		new/datum/track("Hishmaliin", 'sound/jukebox/dvar_hishmaliin.ogg'),
+		new/datum/track("Mystyrious Song", 'sound/jukebox/gay_bar.ogg'),
+		new/datum/track("Keep", 'sound/jukebox/aritus-keep.ogg'),
 	)
 
 /obj/machinery/media/jukebox/Destroy()
