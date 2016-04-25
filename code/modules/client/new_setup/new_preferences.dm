@@ -5,7 +5,7 @@
 #define PAGE_SILICON	5
 #define PAGE_PREFS		6
 
-datum/preferences
+/datum/preferences
 	var/global/list/setup_pages = list(
 		"General"     = PAGE_RECORDS,\
 		"Augmentation"= PAGE_LIMBS,\
@@ -112,7 +112,8 @@ datum/preferences
 
 		if("changeslot")
 			load_character(text2num(href_list["num"]))
-			close_load_dialog(user)*/
+			close_load_dialog(user)
+*/
 
 	switch(current_page)
 		if(PAGE_RECORDS)	HandleRecordsTopic(user, href_list)
@@ -472,6 +473,9 @@ datum/preferences
 /datum/preferences/proc/get_modification(var/organ as text)
 	if(!organ) return body_modifications["nothing"]
 	return body_modifications[modifications_data[organ] ? modifications_data[organ] : "nothing"]
+
+/datum/preferences/proc/check_children_modifications(var/organ = "body" as text)
+	return
 
 /datum/preferences/proc/HandleLimbsTopic(mob/new_player/user, list/href_list)
 	if(href_list["organ"])
