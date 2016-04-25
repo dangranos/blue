@@ -144,6 +144,11 @@
 	var/list/accentFL = list()
 	var/allow_slim_fem = 0
 
+	//Species Abilities
+	var/tmp/evolution_points = 0 //How many points race have for abilities
+
+
+
 	// Srites
 	proc/get_uniform_sprite(state = "", var/body_build = 0)
 		return 'icons/mob/uniform.dmi'
