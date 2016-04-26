@@ -191,7 +191,6 @@ var/list/sacrificed = list()
 		tearreality()
 			if(!cult.allow_narsie)
 				return fizzle()
-
 			var/list/cultists = new()
 			for(var/mob/M in range(1,src))
 				if(iscultist(M) && !M.stat)
@@ -211,6 +210,9 @@ var/list/sacrificed = list()
 				";I command you to" = 0,
 				";Rise" = 8
 				)
+				src.word1=null
+				src.word2=null
+				src.word3=null
 				log_and_message_admins_many(cultists, "summoned Nar-sie.")
 				for(var/speach in whattosay)
 					if (whattosay[speach])
