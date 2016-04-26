@@ -192,9 +192,9 @@ var/global/list/modifications_list = list(
 
 	get_mob_icon(organ, body_build = 0, color="#ffffff", gender = MALE)
 		if(organ in list("head", "chest", "groin"))
-			return new/image(icon, "[organ]_[mob_icon]_[gender==FEMALE?"f":"m"][body_build]")
+			return new/icon(icon, "[organ]_[mob_icon]_[gender==FEMALE?"f":"m"][body_build]")
 		else
-			return new/image(icon, "[organ]_[mob_icon]_[body_build]")
+			return new/icon(icon, "[organ]_[mob_icon]_[body_build]")
 
 /datum/body_modification/mutation/wings
 	name = "Wings"
