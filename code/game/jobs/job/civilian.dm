@@ -280,7 +280,6 @@
 
 
 
-//var/global/lawyer = 0//Checks for another lawyer //This changed clothes on 2nd lawyer, both IA get the same dreds.
 /datum/job/lawyer
 	title = "Internal Affairs Agent"
 	flag = LAWYER
@@ -299,6 +298,6 @@
 	shoes = /obj/item/clothing/shoes/brown
 	pda = /obj/item/device/pda/lawyer
 	suit = /obj/item/clothing/suit/storage/toggle/internalaffairs
-	ear = /obj/item/device/radio/headset/headset_sec
+	ear = /obj/item/device/radio/headset/ia
 	hand = /obj/item/weapon/storage/briefcase
 	glasses = /obj/item/clothing/glasses/sunglasses/big
