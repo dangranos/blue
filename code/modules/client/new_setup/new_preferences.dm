@@ -422,7 +422,7 @@
 	dat += "<table><tr><td style='width:105px; text-align:right'>"
 
 	for(var/organ in r_organs)
-		var/datum/body_modification/mod = get_modification(modifications_data[organ])
+		var/datum/body_modification/mod = get_modification(organ)
 		var/disp_name = mod ? mod.short_name : "Nothing"
 		if(organ == current_organ)
 			dat += "<div><b><span style='background-color:pink'>[organ_tag_to_name[organ]]</span></b> "
@@ -436,7 +436,7 @@
 	dat += "<td style='width:95px'>"
 
 	for(var/organ in l_organs)
-		var/datum/body_modification/mod = get_modification(modifications_data[organ])
+		var/datum/body_modification/mod = get_modification(organ)
 		var/disp_name = mod ? mod.short_name : "Nothing"
 		dat += "<div><a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a>"
 		if(organ == current_organ)
