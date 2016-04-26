@@ -134,27 +134,3 @@
 /obj/item/clothing/shoes/swat/batman
 	name = "batman boots"
 	icon_state = "batman"
-	
-/obj/item/clothing/shoes/red/fashion
-	name = "stylish red shoes"
-	icon_state = "red_fashion"
-
-/obj/item/clothing/shoes/green/fashion
-	name = "stylish green shoes"
-	icon_state = "green_fashion"
-
-/obj/item/clothing/shoes/white/fashion
-	name = "stylish white shoes"
-	icon_state = "white_fashion"
-
-/obj/item/clothing/shoes/black/fashion
-	name = "stylish black shoes"
-	icon_state = "black_fashion"
-
-/obj/item/clothing/shoes/addidas
-	name = "addidas shoes"
-	icon_state = "addidas"
-
-/obj/item/clothing/shoes/nike_air
-	name = "nike air"
-	icon_state = "nike_air_force"
