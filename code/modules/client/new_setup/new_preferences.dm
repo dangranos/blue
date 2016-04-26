@@ -453,7 +453,7 @@
 	for(var/organ in internal_organs)
 		if(!organ in body_modifications) continue
 
-		var/datum/body_modification/mod = get_modification(modifications_data[organ])
+		var/datum/body_modification/mod = get_modification(organ)
 		var/disp_name = mod.short_name
 		if(organ == current_organ)
 			dat += "<td width='33%'><b><span style='background-color:pink'>[organ_tag_to_name[organ]]</span></b>"
@@ -465,7 +465,6 @@
 			dat += "</tr><tr align='center'>"
 			counter = 0
 	dat += "</tr></table>"
-
 	dat += "</span></div>"
 
 	return dat
