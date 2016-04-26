@@ -92,6 +92,12 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/head/beret
 	cost = 1
 	slot = slot_head
+	
+/datum/gear/beret/black
+	display_name = "beret, black"
+	path = /obj/item/clothing/head/beret/black
+	cost = 1
+	slot = slot_head
 
 /datum/gear/sec_beret
 	display_name = "beret, red (security)"
