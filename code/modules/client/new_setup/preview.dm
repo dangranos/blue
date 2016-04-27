@@ -24,7 +24,12 @@ datum/preferences
 
 		preview_icon = new /icon('icons/mob/human.dmi', "blank")
 
-		for(var/organ in list("chest","groin","head","r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
+		var/list/organ_list = list("chest","groin","head")
+		if(preview_dir & (SOUTH|WEST))
+			organ_list += list("r_arm","r_hand","r_leg","r_foot", "l_leg","l_foot","l_arm","l_hand")
+		else
+			organ_list += list("l_leg","l_foot","l_arm","l_hand", "r_arm","r_hand","r_leg","r_foot")
+		for(var/organ in organ_list)
 			var/datum/body_modification/mod = get_modification(organ)
 			if(!mod.replace_limb)
 				var/icon/organ_icon = new(icobase, "[organ]_[g]")

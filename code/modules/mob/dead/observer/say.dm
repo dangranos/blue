@@ -43,8 +43,7 @@
 	if(!client) return
 
 	if(speaker && !speaker.client && client.prefs.chat_toggles & CHAT_GHOSTEARS && !speaker in view(src))
-			//Does the speaker have a client?  It's either random stuff that observers won't care about (Experiment 97B says, 'EHEHEHEHEHEHEHE')
-			//Or someone snoring.  So we make it where they won't hear it.
+		//Does the speaker have a client?  It's either random stuff that observers won't care about (Experiment 97B says, 'EHEHEHEHEHEHEHE')
+		//Or someone snoring.  So we make it where they won't hear it.
 		return
-
 	..()
