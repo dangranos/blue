@@ -3,7 +3,7 @@
 #define MODIFICATION_REMOVED 3
 
 var/global/list/body_modifications = list()
-var/global/list/modifications_list = list(
+var/global/list/modifications_types = list(
 	"chest" = "",  "chest2" = "", "head" = "",   "groin" = "",
 	"l_arm"  = "", "r_arm"  = "", "l_hand" = "", "r_hand" = "",
 	"l_leg"  = "", "r_leg"  = "", "l_foot" = "", "r_foot" = "",
@@ -16,12 +16,12 @@ var/global/list/modifications_list = list(
 		if(!BM.id) continue
 		body_modifications[BM.id] += BM
 		for(var/part in BM.body_parts)
-			modifications_list[part] += "<div onclick=\"set('body_modification', '[BM.id]');\" class='block'><b>[BM.name]</b><br>[BM.desc]</div>"
+			modifications_types[part] += "<div onclick=\"set('body_modification', '[BM.id]');\" class='block'><b>[BM.name]</b><br>[BM.desc]</div>"
 
 /proc/get_default_modificaton(var/nature = MODIFICATION_ORGANIC)
-	if(nature == MODIFICATION_ORGANIC) return "nothing"
-	if(nature == MODIFICATION_SILICON) return "prosthesis_basic"
-	if(nature == MODIFICATION_REMOVED) return "amputated"
+	if(nature == MODIFICATION_ORGANIC) return body_modifications["nothing"]
+	if(nature == MODIFICATION_SILICON) return body_modifications["prosthesis_basic"]
+	if(nature == MODIFICATION_REMOVED) return body_modifications["amputated"]
 
 /datum/body_modification
 	var/name = ""
@@ -50,19 +50,23 @@ var/global/list/modifications_list = list(
 		if(!allow_slim_body && (P.body_build == BODY_SLIM))
 			usr << "[name] isn't allowed for slim body"
 			return 0
+		var/parent_organ = organ_structure[organ]["parent"]
+		if(parent_organ)
+			var/datum/body_modification/parent = P.get_modification(parent_organ)
+			if(parent.nature > nature)
+				usr << "[name] can't be attached to [parent.name]"
+				return 0
 		return 1
 
 	proc/apply_to_mob(var/mob/living/carbon/human/H, var/slot)
 		return 1
 
 /datum/body_modification/nothing
-	name = "Nothing"
+	name = "Unmodified organ"
 	id = "nothing"
 	short_name = "nothing"
 	desc = "Normal organ."
-
-	is_allowed()
-		return 1
+	allowed_species = null
 
 /datum/body_modification/amputation
 	name = "Amputated"
@@ -170,8 +174,8 @@ var/global/list/modifications_list = list(
 		return new/icon('icons/mob/human_races/cyberlimbs/xion.dmi', "[organ]_f[body_build]")
 
 /datum/body_modification/prosthesis/cyber_industries
-	name = "Cyber Industries"
-	id = "prosthesis_cyber"
+	name = "Enforcer Charge"
+	id = "prosthesis_enforcer"
 	desc = "This limb features sleek silver metal and black polymers."
 	allow_slim_body = 0
 	mob_icon = "cyber"
@@ -198,7 +202,7 @@ var/global/list/modifications_list = list(
 
 /datum/body_modification/mutation/wings
 	name = "Wings"
-	id = "mutation_wing"
+	id = "mutation_wings"
 	desc = "Bird wings. Block backpack slot."
 	body_parts = list("chest2")
 

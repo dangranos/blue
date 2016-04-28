@@ -14,10 +14,10 @@ datum/preferences
 			qdel(preview_west)
 		qdel(preview_icon)
 
-		var/g = "m"
+		var/g = "m[body_build]"
 		if(gender == FEMALE)
-			g = "f"
-		var/b="[body_build]"
+			g = "f[body_build]"
+		var/b=""
 		g+=b
 
 		var/icon/icobase = current_species.icobase
@@ -82,16 +82,6 @@ datum/preferences
 			var/icon/facial = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			facial.Blend(facial_color, ICON_ADD)
 			eyes.Blend(facial, ICON_OVERLAY)
-
-/*
-		var/icon/underwear = null
-		if(underwear && current_species.flags & HAS_UNDERWEAR)
-			underwear = new/icon("icon" = 'icons/mob/human.dmi', "icon_state" = "[underwear]_[g]")
-
-		var/icon/undershirt = null
-		if(undershirt && current_species.flags & HAS_UNDERWEAR)
-			undershirt = new/icon("icon" = 'icons/mob/human.dmi', "icon_state" = "[undershirt]_[g]")
-*/
 
 		var/icon/clothes = null
 		if(job_civilian_low & ASSISTANT || !job_master)//This gives the preview icon clothes depending on which job(if any) is set to 'high'

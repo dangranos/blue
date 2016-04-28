@@ -34,8 +34,6 @@
 	var/global/list/r_organs = list("head", "r_arm", "r_hand", "chest", "r_leg", "r_foot")
 	var/global/list/l_organs = list("eyes", "l_arm", "l_hand", "groin", "l_leg", "l_foot")
 	var/global/list/internal_organs = list("chest2", "heart", "lungs", "liver")
-	var/global/parents_list = list("r_hand"="r_arm", "l_hand"="l_arm", "r_foot"="r_leg", "l_foot"="l_leg")
-	var/global/children_list = list("r_arm"="r_hand", "l_arm"="l_hand", "r_leg"="r_foot", "l_leg"="l_foot")
 
 	// LOADOUT
 	var/list/loadout = list()
@@ -228,8 +226,9 @@
 		var/choice = input("Which species would you like to look at?") as null|anything in playable_species
 		if(!choice) return
 		species_preview = choice
-		req_update_icon = 1 // LETHALGHOST: Move to species select!
-		spawn() SetSpecies(user)
+		spawn()
+			SetSpecies(user)
+			req_update_icon = 1 // LETHALGHOST: Move to species select!
 
 	else if(href_list["gender"])
 		req_update_icon = 1
@@ -237,11 +236,11 @@
 			gender = FEMALE
 		else
 			gender = MALE
-			body_build = 0
+			body_build = BODY_DEFAULT
 
 	else if(href_list["build"])
 		req_update_icon = 1
-		if(body_build == BODY_DEFAULT && current_species.allow_slim_fem)
+		if(body_build == BODY_DEFAULT && gender == FEMALE && current_species.allow_slim_fem)
 			body_build = BODY_SLIM
 		else
 			body_build = BODY_DEFAULT
@@ -417,7 +416,7 @@
 	var/dat = "<style>div.block{border: 3px solid black;margin: 3px 0px;padding: 4px 0px;}</style>"
 	dat += "<table style='max-height:400px;height:400px;'>"
 	dat += "<tr style='vertical-align:top;'><td><div style='max-width:230px;width:230px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
-	dat += modifications_list[current_organ]
+	dat += modifications_types[current_organ]
 	dat += "</div></td><td style='margin-left:10px;width-max:285px;width:285px;border:solid'>"
 	dat += "<table><tr><td style='width:105px; text-align:right'>"
 
@@ -469,11 +468,21 @@
 
 	return dat
 
-/datum/preferences/proc/get_modification(var/organ as text)
+/datum/preferences/proc/get_modification(var/organ)
 	if(!organ) return body_modifications["nothing"]
-	return body_modifications[modifications_data[organ] ? modifications_data[organ] : "nothing"]
+	return modifications_data[organ]
 
-/datum/preferences/proc/check_children_modifications(var/organ = "body" as text)
+/datum/preferences/proc/check_childred_modifications(var/organ = "chest")
+	var/list/organ_data = organ_structure[organ]
+	var/datum/body_modification/mod = modifications_data[organ]
+	for(var/child_organ in organ_data["children"])
+		var/datum/body_modification/child_mod = get_modification(child_organ)
+		if(child_mod.nature < mod.nature)
+			if(mod.is_allowed(child_organ, src))
+				modifications_data[child_organ] = mod
+			else
+				modifications_data[child_organ] = get_default_modificaton(mod.nature)
+			check_childred_modifications(child_organ)
 	return
 
 /datum/preferences/proc/HandleLimbsTopic(mob/new_player/user, list/href_list)
@@ -491,24 +500,9 @@
 	else if(href_list["body_modification"])
 		var/datum/body_modification/mod = body_modifications[href_list["body_modification"]]
 		if(mod && mod.is_allowed(current_organ, src))
-			modifications_data[current_organ] = mod.id
+			modifications_data[current_organ] = mod
+			check_childred_modifications(current_organ)
 			req_update_icon = 1
-/*
-			if(current_organ in parents_list)
-				var/datum/body_modification/parent_mod = get_modification(parents_list[current_organ])
-				if(parent_mod.nature > mod.nature)
-					if(mod.is_allowed(parents_list[current_organ], src))
-						modifications_data[parents_list[current_organ]] = mod
-					else
-						modifications_data[parents_list[current_organ]] = get_default_modificaton(mod.nature)
-			else if(current_organ in children_list)
-				var/datum/body_modification/child_mod = get_modification(children_list[current_organ])
-				if(child_mod.nature < mod.nature)
-					if(mod.is_allowed(children_list[current_organ], src))
-						modifications_data[children_list[current_organ]] = mod
-					else
-						modifications_data[children_list[current_organ]] = get_default_modificaton(mod.nature)
-*/
 
 /datum/preferences/proc/GetLoadOutPage()
 //	loadout
