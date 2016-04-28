@@ -173,12 +173,18 @@ var/global/list/modifications_types = list(
 	get_mob_icon(organ, body_build = 0)
 		return new/icon('icons/mob/human_races/cyberlimbs/xion.dmi', "[organ]_f[body_build]")
 
-/datum/body_modification/prosthesis/cyber_industries
+/datum/body_modification/prosthesis/enforcer_charge
 	name = "Enforcer Charge"
 	id = "prosthesis_enforcer"
-	desc = "This limb features sleek silver metal and black polymers."
 	allow_slim_body = 0
 	mob_icon = "cyber"
+
+/datum/body_modification/prosthesis/eyecam
+	name = "Eye cam"
+	id = "prosthesis_eye_cam"
+	desc = "One of your eyes replaced with portable cam. Do not lose it."
+	mob_icon = ""
+	body_parts = list("eyes")
 
 /datum/body_modification/mutation
 	New()
