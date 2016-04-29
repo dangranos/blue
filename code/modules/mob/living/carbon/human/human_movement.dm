@@ -20,7 +20,7 @@
 	if (hungry >= 70) tally += hungry/50
 
 	if(CE_SPEEDBOOST in chem_effects || mRun in mutations)
-		return tally-1
+		return tally-3
 
 	if(wear_suit)
 		tally += wear_suit.slowdown
