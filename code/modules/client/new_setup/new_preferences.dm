@@ -508,14 +508,14 @@
 //	loadout
 
 
-/datum/preferences/proc/GetOccupationPage(limit = 18, list/splitJobs = list("Chief Medical Officer"))
+/datum/preferences/proc/GetOccupationPage()
 	if(!job_master)
 		return
 
-//limit 	 - The amount of jobs allowed per column. Defaults to 17 to make it look nice.
+	//limit     - The amount of jobs allowed per column. Defaults to 17 to make it look nice.
 	//splitJobs - Allows you split the table by job. You can make different tables for each department by including their heads. Defaults to CE to make it look nice.
-	//width	 - Screen' width. Defaults to 550 to make it look nice.
-	//height 	 - Screen's height. Defaults to 500 to make it look nice.
+	var/limit = 18
+	var/list/splitJobs = list("Chief Medical Officer")
 
 
 	var/HTML = "<tt><center>"
@@ -541,21 +541,24 @@
 
 		HTML += "<tr bgcolor='[job.selection_color]'><td width='60%' align='right'>"
 		var/rank = job.title
+		var/job_name = rank
+		if(job.alt_titles)
+			job_name = "<a href=\"byond://?src=\ref[user];preference=job;task=alt_title;job=\ref[job]\">\[[GetPlayerAltTitle(job)]\]</a>"
 		lastJob = job
 		if(jobban_isbanned(user, rank))
-			HTML += "<del>[rank]</del></td><td><b> \[BANNED]</b></td></tr>"
+			HTML += "<del>[job_name]</del></td><td><b> \[BANNED]</b></td></tr>"
 			continue
 		if(!job.player_old_enough(user.client))
 			var/available_in_days = job.available_in_days(user.client)
-			HTML += "<del>[rank]</del></td><td> \[IN [(available_in_days)] DAYS]</td></tr>"
+			HTML += "<del>[job_name]</del></td><td> \[IN [(available_in_days)] DAYS]</td></tr>"
 			continue
 		if((job_civilian_low & ASSISTANT) && (rank != "Assistant"))
-			HTML += "<font color=orange>[rank]</font></td><td></td></tr>"
+			HTML += "<font color=orange>[job_name]</font></td><td></td></tr>"
 			continue
 		if((rank in command_positions) || (rank == "AI"))//Bold head jobs
-			HTML += "<b>[rank]</b>"
+			HTML += "<b>[job_name]</b>"
 		else
-			HTML += "[rank]"
+			HTML += "[job_name]"
 
 		HTML += "</td><td width='40%'>"
 
@@ -566,8 +569,6 @@
 				HTML += " <font color=green>\[Yes]</font>"
 			else
 				HTML += " <font color=red>\[No]</font>"
-			if(job.alt_titles) //Blatantly cloned from a few lines down.
-				HTML += "</a></td></tr><tr bgcolor='[lastJob.selection_color]'><td width='60%' align='center'><a>&nbsp</a></td><td><a href=\"byond://?src=\ref[user];preference=job;task=alt_title;job=\ref[job]\">\[[GetPlayerAltTitle(job)]\]</a></td></tr>"
 			HTML += "</a></td></tr>"
 			continue
 
@@ -579,8 +580,6 @@
 			HTML += " <font color=orange>\[Low]</font>"
 		else
 			HTML += " <font color=red>\[NEVER]</font>"
-		if(job.alt_titles)
-			HTML += "</a></td></tr><tr bgcolor='[lastJob.selection_color]'><td width='60%' align='center'><a>&nbsp</a></td><td><a href=\"byond://?src=\ref[user];preference=job;task=alt_title;job=\ref[job]\">\[[GetPlayerAltTitle(job)]\]</a></td></tr>"
 		HTML += "</a></td></tr>"
 
 	HTML += "</td'></tr></table>"
