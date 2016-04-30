@@ -186,6 +186,11 @@ var/global/list/modifications_types = list(
 	mob_icon = ""
 	body_parts = list("eyes")
 
+	get_mob_icon(organ, body_build = 0, color = "#ffffff")
+		var/icon/I = new/icon(icon, "one_eye_[body_build]")
+		I.Blend(color, ICON_ADD)
+		return I
+
 /datum/body_modification/mutation
 	New()
 		short_name = "M: [name]"
@@ -222,7 +227,7 @@ var/global/list/modifications_types = list(
 	body_parts = list("eyes")
 
 	get_mob_icon(organ, body_build = 0, color = "#ffffff")
-		var/icon/I = new/icon(icon, "heterochromia_[body_build]")
+		var/icon/I = new/icon(icon, "one_eye_[body_build]")
 		I.Blend(color, ICON_ADD)
 		return I
 

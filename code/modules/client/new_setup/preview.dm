@@ -47,7 +47,7 @@ datum/preferences
 			preview_icon.Blend(mod.get_mob_icon(organ, body_build, modifications_colors[organ], gender), ICON_OVERLAY)
 
 		//Tail
-		if(current_species && (current_species.tail))
+		if(current_species.tail)
 			var/icon/temp = new/icon("icon" = 'icons/effects/species.dmi', "icon_state" = "[current_species.tail]_s")
 			// Skin color
 			if(current_species && (current_species.flags & HAS_SKIN_COLOR))
