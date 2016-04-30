@@ -84,16 +84,30 @@ var/global/list/tattoo_list = list(
 var/global/list/flavs_list = list("general"="General", "torso"="Body", "head"="Head", "face"="Face", "eyes"="Eyes",\
 				"mech_eyes"="Mechanical eyes", "arms"="Arms", "hands"="Hands", "legs"="Legs", "feet"="Feet")
 
+var/global/list/organ_structure = list(
+	chest = list(name= "Chest", children=list()),
+	groin = list(name= "Groin",     parent="chest", children=list()),
+	head  = list(name= "Head",      parent="chest", children=list()),
+	r_arm = list(name= "Right arm", parent="chest", children=list()),
+	l_arm = list(name= "Left arm",  parent="chest", children=list()),
+	r_leg = list(name= "Right leg", parent="groin", children=list()),
+	l_leg = list(name= "Left leg",  parent="groin", children=list()),
+	r_hand= list(name= "Right hand",parent="r_arm", children=list()),
+	l_hand= list(name= "Left hand", parent="l_arm", children=list()),
+	r_foot= list(name= "Right foot",parent="r_leg", children=list()),
+	l_foot= list(name= "Left foot", parent="l_leg", children=list()),
+	)
+
 var/global/list/organ_tag_to_name = list(
-	"head"="Head", "r_arm"="Right arm", "r_hand"="Right hand",
-	"chest"="Body", "r_leg"="Right Leg", "r_foot"="Right foot",
-	"eyes"="Eyes", "l_arm"="Left arm", "l_hand"="Left hand",
-	"groin"="Groin", "l_leg"="Left Leg", "l_foot"="Left foot",
-	"chest2" = "Back", "heart"="Heart", "lungs"="Lungs", "liver"="Liver"
+	head  = "Head", r_arm = "Right arm",r_hand = "Right hand",
+	chest = "Body", r_leg = "Right Leg",r_foot = "Right foot",
+	eyes  = "Eyes", l_arm = "Left arm", l_hand = "Left hand",
+	groin = "Groin",l_leg = "Left Leg", l_foot = "Left foot",
+	chest2= "Back", heart = "Heart",    lungs  = "Lungs",
+	liver = "Liver"
 	)
 
 var/global/list/default_lang_keys = list("2", "3", "4", "5", "6", "7", "8", "9")
-
 
 // Visual nets
 var/list/datum/visualnet/visual_nets = list()
@@ -174,6 +188,12 @@ var/global/list/endgame_safespawns = list()
 			playable_species += S.name
 		if(S.flags & IS_WHITELISTED)
 			whitelisted_species += S.name
+
+	for(var/organ in organ_structure)
+		var/list/organ_data = organ_structure[organ]
+		if(organ_data["parent"])
+			var/list/parent = organ_structure[organ_data["parent"]]
+			parent["children"] += organ
 
 	//Posters
 	paths = typesof(/datum/poster) - /datum/poster
