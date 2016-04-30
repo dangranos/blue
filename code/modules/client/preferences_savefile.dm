@@ -153,6 +153,12 @@
 	for(var/module in robot_module_types)
 		S["flavour_texts_robot_[module]"] >> flavour_texts_robot[module]
 
+	var/mod_id = "nothing"
+	for(var/organ in modifications_types)
+		S["modification_[organ]"] >> mod_id
+		modifications_data[organ] = mod_id ? body_modifications[mod_id] : get_default_modificaton()
+	check_childred_modifications()
+
 	//Miscellaneous
 	S["med_record"]			>> med_record
 	S["sec_record"]			>> sec_record
