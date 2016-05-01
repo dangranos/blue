@@ -107,6 +107,25 @@
 			D.cure(0)
 		..()
 
+/obj/effect/decal/cleanable/gangtag
+	name = "gangtag"
+	desc = "A spraypainted gang tag."
+	density = 0
+	anchored = 1
+	layer = 3
+	icon = 'icons/obj/decals.dmi'
+	icon_state = "gangtag1"
+	random_icon_states = list("gangtag1", "gangtag2", "gangtag3", "gangtag4", "gangtag5", "gangtag6", "gangtag7", "gangtag8", "gangtag9", "gangtag10", "gangtag11", "gangtag12", "gangtag13", "gangtag14", "gangtag15", "gangtag16", "gangtag17", "gangtag18")
+
+/obj/effect/decal/cleanable/hotline
+	name = "blood tag"
+	desc = "A spraypainted tag."
+	density = 0
+	anchored = 1
+	layer = 3
+	icon = 'icons/obj/decals.dmi'
+	icon_state = "hotline"
+
 /obj/effect/decal/cleanable/tomato_smudge
 	name = "tomato smudge"
 	desc = "It's red."
