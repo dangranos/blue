@@ -302,7 +302,7 @@ proc/get_radio_key_from_channel(var/channel)
 /mob/living/proc/GetVoice()
 	return name
 
-/mob/living/hear_say(var/message, var/verb = "says", var/datum/language/language = null, var/alt_name = "",var/italics = 0, var/mob/speaker = null, var/sound/speech_sound, var/sound_vol)
+/mob/living/hear_say(message, verb = "says", datum/language/language = null, alt_name = "", italics = 0, mob/speaker = null, speech_sound, sound_vol)
 	if(!client) return
 
 	if(sdisabilities & DEAF || ear_deaf)
@@ -330,19 +330,57 @@ proc/get_radio_key_from_channel(var/channel)
 		return
 
 	//non-verbal languages are garbled if you can't see the speaker. Yes, this includes if they are inside a closet.
-	if (language && (language.flags & NONVERBAL))
-		if (!speaker || (src.sdisabilities & BLIND || src.blinded) || !(speaker in view(src)))
-			message = stars(message)
+	if (language)
+		if(language.flags & NONVERBAL)
+			if (!speaker || (src.sdisabilities & BLIND || src.blinded) || !(speaker in view(src)))
+				message = stars(message)
 
-	if(!(language && (language.flags & INNATE))) // skip understanding checks for INNATE languages
-		if(!say_understands(speaker,language))
-			if(istype(speaker,/mob/living/simple_animal))
-				var/mob/living/simple_animal/S = speaker
-				message = pick(S.speak)
-			else
-				if(language)
-					message = language.scramble(message)
+		if(!(language.flags & INNATE)) // skip understanding checks for INNATE languages
+			if(!say_understands(speaker,language))
+				if(istype(speaker,/mob/living/simple_animal))
+					var/mob/living/simple_animal/S = speaker
+					message = pick(S.speak)
 				else
-					message = stars(message)
+					if(language)
+						message = language.scramble(message)
+					else
+						message = stars(message)
+
+	..()
+
+
+/mob/living/hear_radio(message, verb="says", datum/language/language=null, part_a, part_b, speaker = null, hard_to_hear = 0, vname ="")
+	if(!client) return
+
+	if(sdisabilities & DEAF || ear_deaf)
+		if(prob(20))
+			src << "<span class='warning'>You feel your headset vibrate but can hear nothing from it!</span>"
+
+	if(sleeping || stat==1) //If unconscious or sleeping
+		hear_sleep(message)
+		return
+
+	//non-verbal languages are garbled if you can't see the speaker. Yes, this includes if they are inside a closet.
+	if (language)
+		if(language.flags & NONVERBAL)
+			if (!speaker || (src.sdisabilities & BLIND || src.blinded) || !(speaker in view(src)))
+				message = stars(message)
+
+		if(!(language.flags & INNATE)) // skip understanding checks for INNATE languages
+			if(!say_understands(speaker,language))
+				if(istype(speaker,/mob/living/simple_animal))
+					var/mob/living/simple_animal/S = speaker
+					if(S.speak && S.speak.len)
+						message = pick(S.speak)
+					else
+						return
+				else
+					if(language)
+						message = language.scramble(message)
+					else
+						message = stars(message)
+
+		if(hard_to_hear)
+			message = stars(message)
 
 	..()
