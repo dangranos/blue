@@ -11,6 +11,9 @@ mob/proc/airflow_stun()
 	if(!(status_flags & CANSTUN) && !(status_flags & CANWEAKEN))
 		src << "<span class='notice'>You stay upright as the air rushes past you.</span>"
 		return 0
+	if(buckled)
+		src << "<span class='notice'>Air suddenly rushes past you!</span>"
+		return 0
 	if(!lying)
 		src << "<span class='warning'>The sudden rush of air knocks you over!</span>"
 	Weaken(5)
@@ -65,7 +68,7 @@ obj/item/check_airflow_movable(n)
 /atom/movable/proc/GotoAirflowDest(n)
 	if(!airflow_dest) return
 	if(airflow_speed < 0) return
-	if(last_airflow > world.time - vsc.airflow_delay) return
+	if(last_airflow > world.time - (ismob(src) ? vsc.airflow_mob_delay : vsc.airflow_delay)) return
 	if(airflow_speed)
 		airflow_speed = n/max(get_dist(src,airflow_dest),1)
 		return
@@ -128,7 +131,7 @@ obj/item/check_airflow_movable(n)
 /atom/movable/proc/RepelAirflowDest(n)
 	if(!airflow_dest) return
 	if(airflow_speed < 0) return
-	if(last_airflow > world.time - vsc.airflow_delay) return
+	if(last_airflow > world.time - (ismob(src) ? vsc.airflow_mob_delay : vsc.airflow_delay)) return
 	if(airflow_speed)
 		airflow_speed = n/max(get_dist(src,airflow_dest),1)
 		return
