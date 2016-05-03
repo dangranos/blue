@@ -122,10 +122,14 @@ datum/preferences
 			preview_icon.Blend(new /icon((g == "f1")?'icons/mob/eyes_f.dmi':'icons/mob/eyes.dmi', "glasses"), ICON_OVERLAY)
 
 		preview_icon.Blend(eyes, ICON_OVERLAY)
+
+/*
 		if(underwear)
 			preview_icon.Blend(underwear, ICON_OVERLAY)
 		if(undershirt)
 			preview_icon.Blend(undershirt, ICON_OVERLAY)
+*/
+
 		if(clothes)
 			preview_icon.Blend(clothes, ICON_OVERLAY)
 
