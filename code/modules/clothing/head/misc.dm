@@ -274,3 +274,9 @@
 	icon_state = "orange_bandana"
 	item_state = "orange_bandana"
 	body_parts_covered = 0
+
+/obj/item/clothing/head/beret/black
+	name = "black beret"
+	desc = "Usuall black beret. Nothing special."
+	icon_state = "blackberet"
+	item_state = "blackberet"

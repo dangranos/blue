@@ -135,6 +135,12 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/carbon/human/proc/drip(var/amt as num)
 
+	if(!isturf(loc))	//No drips, if we are in closet, or disposal pipe or anywhere else, but not on the floor
+		return
+
+	if(istype(loc, /turf/space))	//No drips in space
+		return
+
 	if(species && species.flags & NO_BLOOD) //TODO: Make drips come from the reagents instead.
 		return
 

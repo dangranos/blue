@@ -349,6 +349,12 @@
 	hidden = 1
 	category = "Arms and Ammunition"
 
+/datum/autolathe/recipe/magazine_L6
+	name = "ammunition (7.62mm box)"
+	path = /obj/item/ammo_magazine/a762
+	hidden = 1
+	category = "Arms and Ammunition"
+
 /datum/autolathe/recipe/magazine_smg40
 	name = "ammunition (.40 SMG)"
 	path = /obj/item/ammo_magazine/smg40

@@ -5,7 +5,7 @@
 #define PAGE_SILICON	5
 #define PAGE_PREFS		6
 
-datum/preferences
+/datum/preferences
 	var/global/list/setup_pages = list(
 		"General"     = PAGE_RECORDS,\
 		"Augmentation"= PAGE_LIMBS,\
@@ -34,8 +34,6 @@ datum/preferences
 	var/global/list/r_organs = list("head", "r_arm", "r_hand", "chest", "r_leg", "r_foot")
 	var/global/list/l_organs = list("eyes", "l_arm", "l_hand", "groin", "l_leg", "l_foot")
 	var/global/list/internal_organs = list("chest2", "heart", "lungs", "liver")
-	var/global/parents_list = list("r_hand"="r_arm", "l_hand"="l_arm", "r_foot"="r_leg", "l_foot"="l_leg")
-	var/global/children_list = list("r_arm"="r_hand", "l_arm"="l_hand", "r_leg"="r_foot", "l_leg"="l_foot")
 
 	// LOADOUT
 	var/list/loadout = list()
@@ -112,7 +110,8 @@ datum/preferences
 
 		if("changeslot")
 			load_character(text2num(href_list["num"]))
-			close_load_dialog(user)*/
+			close_load_dialog(user)
+*/
 
 	switch(current_page)
 		if(PAGE_RECORDS)	HandleRecordsTopic(user, href_list)
@@ -227,8 +226,9 @@ datum/preferences
 		var/choice = input("Which species would you like to look at?") as null|anything in playable_species
 		if(!choice) return
 		species_preview = choice
-		req_update_icon = 1 // LETHALGHOST: Move to species select!
-		spawn() SetSpecies(user)
+		spawn()
+			SetSpecies(user)
+			req_update_icon = 1 // LETHALGHOST: Move to species select!
 
 	else if(href_list["gender"])
 		req_update_icon = 1
@@ -236,11 +236,11 @@ datum/preferences
 			gender = FEMALE
 		else
 			gender = MALE
-			body_build = 0
+			body_build = BODY_DEFAULT
 
 	else if(href_list["build"])
 		req_update_icon = 1
-		if(body_build == BODY_DEFAULT && current_species.allow_slim_fem)
+		if(body_build == BODY_DEFAULT && gender == FEMALE && current_species.allow_slim_fem)
 			body_build = BODY_SLIM
 		else
 			body_build = BODY_DEFAULT
@@ -416,12 +416,12 @@ datum/preferences
 	var/dat = "<style>div.block{border: 3px solid black;margin: 3px 0px;padding: 4px 0px;}</style>"
 	dat += "<table style='max-height:400px;height:400px;'>"
 	dat += "<tr style='vertical-align:top;'><td><div style='max-width:230px;width:230px;height:100%;overflow-y:auto;border:solid;padding:3px'>"
-	dat += modifications_list[current_organ]
+	dat += modifications_types[current_organ]
 	dat += "</div></td><td style='margin-left:10px;width-max:285px;width:285px;border:solid'>"
 	dat += "<table><tr><td style='width:105px; text-align:right'>"
 
 	for(var/organ in r_organs)
-		var/datum/body_modification/mod = get_modification(modifications_data[organ])
+		var/datum/body_modification/mod = get_modification(organ)
 		var/disp_name = mod ? mod.short_name : "Nothing"
 		if(organ == current_organ)
 			dat += "<div><b><span style='background-color:pink'>[organ_tag_to_name[organ]]</span></b> "
@@ -435,7 +435,7 @@ datum/preferences
 	dat += "<td style='width:95px'>"
 
 	for(var/organ in l_organs)
-		var/datum/body_modification/mod = get_modification(modifications_data[organ])
+		var/datum/body_modification/mod = get_modification(organ)
 		var/disp_name = mod ? mod.short_name : "Nothing"
 		dat += "<div><a href='byond://?src=\ref[src];color=[organ]'><span class='box' style='background-color:[modifications_colors[organ]];'></span></a>"
 		if(organ == current_organ)
@@ -452,7 +452,7 @@ datum/preferences
 	for(var/organ in internal_organs)
 		if(!organ in body_modifications) continue
 
-		var/datum/body_modification/mod = get_modification(modifications_data[organ])
+		var/datum/body_modification/mod = get_modification(organ)
 		var/disp_name = mod.short_name
 		if(organ == current_organ)
 			dat += "<td width='33%'><b><span style='background-color:pink'>[organ_tag_to_name[organ]]</span></b>"
@@ -464,14 +464,26 @@ datum/preferences
 			dat += "</tr><tr align='center'>"
 			counter = 0
 	dat += "</tr></table>"
-
 	dat += "</span></div>"
 
 	return dat
 
-/datum/preferences/proc/get_modification(var/organ as text)
+/datum/preferences/proc/get_modification(var/organ)
 	if(!organ) return body_modifications["nothing"]
-	return body_modifications[modifications_data[organ] ? modifications_data[organ] : "nothing"]
+	return modifications_data[organ]
+
+/datum/preferences/proc/check_childred_modifications(var/organ = "chest")
+	var/list/organ_data = organ_structure[organ]
+	var/datum/body_modification/mod = modifications_data[organ]
+	for(var/child_organ in organ_data["children"])
+		var/datum/body_modification/child_mod = get_modification(child_organ)
+		if(child_mod.nature < mod.nature)
+			if(mod.is_allowed(child_organ, src))
+				modifications_data[child_organ] = mod
+			else
+				modifications_data[child_organ] = get_default_modificaton(mod.nature)
+			check_childred_modifications(child_organ)
+	return
 
 /datum/preferences/proc/HandleLimbsTopic(mob/new_player/user, list/href_list)
 	if(href_list["organ"])
@@ -488,30 +500,104 @@ datum/preferences
 	else if(href_list["body_modification"])
 		var/datum/body_modification/mod = body_modifications[href_list["body_modification"]]
 		if(mod && mod.is_allowed(current_organ, src))
-			modifications_data[current_organ] = mod.id
+			modifications_data[current_organ] = mod
+			check_childred_modifications(current_organ)
 			req_update_icon = 1
-/*
-			if(current_organ in parents_list)
-				var/datum/body_modification/parent_mod = get_modification(parents_list[current_organ])
-				if(parent_mod.nature > mod.nature)
-					if(mod.is_allowed(parents_list[current_organ], src))
-						modifications_data[parents_list[current_organ]] = mod
-					else
-						modifications_data[parents_list[current_organ]] = get_default_modificaton(mod.nature)
-			else if(current_organ in children_list)
-				var/datum/body_modification/child_mod = get_modification(children_list[current_organ])
-				if(child_mod.nature < mod.nature)
-					if(mod.is_allowed(children_list[current_organ], src))
-						modifications_data[children_list[current_organ]] = mod
-					else
-						modifications_data[children_list[current_organ]] = get_default_modificaton(mod.nature)
-*/
 
 /datum/preferences/proc/GetLoadOutPage()
 //	loadout
 
 
 /datum/preferences/proc/GetOccupationPage()
+	if(!job_master)
+		return
+
+	//limit     - The amount of jobs allowed per column. Defaults to 17 to make it look nice.
+	//splitJobs - Allows you split the table by job. You can make different tables for each department by including their heads. Defaults to CE to make it look nice.
+	var/limit = 18
+	var/list/splitJobs = list("Chief Medical Officer")
+
+
+	var/HTML = "<tt><center>"
+	HTML += "<b>Choose occupation chances</b><br>Unavailable occupations are crossed out.<br><br>"
+	HTML += "<table width='100%' cellpadding='1' cellspacing='0'><tr><td width='20%'>" // Table within a table for alignment, also allows you to easily add more colomns.
+	HTML += "<table width='100%' cellpadding='1' cellspacing='0'>"
+	var/index = -1
+
+	//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
+	var/datum/job/lastJob
+	if (!job_master)		return
+	var/mob/user = usr
+	for(var/datum/job/job in job_master.occupations)
+		index += 1
+		if((index >= limit) || (job.title in splitJobs))
+			if((index < limit) && (lastJob != null))
+				//If the cells were broken up by a job in the splitJob list then it will fill in the rest of the cells with
+				//the last job's selection color. Creating a rather nice effect.
+				for(var/i = 0, i < (limit - index), i += 1)
+					HTML += "<tr bgcolor='[lastJob.selection_color]'><td width='60%' align='right'><a>&nbsp</a></td><td><a>&nbsp</a></td></tr>"
+			HTML += "</table></td><td width='20%'><table width='100%' cellpadding='1' cellspacing='0'>"
+			index = 0
+
+		HTML += "<tr bgcolor='[job.selection_color]'><td width='60%' align='right'>"
+		var/rank = job.title
+		var/job_name = rank
+		if(job.alt_titles)
+			job_name = "<a href=\"byond://?src=\ref[user];preference=job;task=alt_title;job=\ref[job]\">\[[GetPlayerAltTitle(job)]\]</a>"
+		lastJob = job
+		if(jobban_isbanned(user, rank))
+			HTML += "<del>[job_name]</del></td><td><b> \[BANNED]</b></td></tr>"
+			continue
+		if(!job.player_old_enough(user.client))
+			var/available_in_days = job.available_in_days(user.client)
+			HTML += "<del>[job_name]</del></td><td> \[IN [(available_in_days)] DAYS]</td></tr>"
+			continue
+		if((job_civilian_low & ASSISTANT) && (rank != "Assistant"))
+			HTML += "<font color=orange>[job_name]</font></td><td></td></tr>"
+			continue
+		if((rank in command_positions) || (rank == "AI"))//Bold head jobs
+			HTML += "<b>[job_name]</b>"
+		else
+			HTML += "[job_name]"
+
+		HTML += "</td><td width='40%'>"
+
+		HTML += "<a href='?_src_=prefs;preference=job;task=input;text=[rank]'>"
+
+		if(rank == "Assistant")//Assistant is special
+			if(job_civilian_low & ASSISTANT)
+				HTML += " <font color=green>\[Yes]</font>"
+			else
+				HTML += " <font color=red>\[No]</font>"
+			HTML += "</a></td></tr>"
+			continue
+
+		if(GetJobDepartment(job, 1) & job.flag)
+			HTML += " <font color=blue>\[High]</font>"
+		else if(GetJobDepartment(job, 2) & job.flag)
+			HTML += " <font color=green>\[Medium]</font>"
+		else if(GetJobDepartment(job, 3) & job.flag)
+			HTML += " <font color=orange>\[Low]</font>"
+		else
+			HTML += " <font color=red>\[NEVER]</font>"
+		HTML += "</a></td></tr>"
+
+	HTML += "</td'></tr></table>"
+
+	HTML += "</center></table>"
+
+	switch(alternate_option)
+		if(GET_RANDOM_JOB)
+			HTML += "<center><br><u><a href='?_src_=prefs;preference=job;task=random'><font color=green>Get random job if preferences unavailable</font></a></u></center><br>"
+		if(BE_ASSISTANT)
+			HTML += "<center><br><u><a href='?_src_=prefs;preference=job;task=random'><font color=red>Be assistant if preference unavailable</font></a></u></center><br>"
+		if(RETURN_TO_LOBBY)
+			HTML += "<center><br><u><a href='?_src_=prefs;preference=job;task=random'><font color=purple>Return to lobby if preference unavailable</font></a></u></center><br>"
+
+	HTML += "<center><a href='?_src_=prefs;preference=job;task=reset'>\[Reset\]</a></center>"
+	HTML += "</tt>"
+
+	return HTML
 
 /datum/preferences/proc/GetSiliconPage()
 
