@@ -33,7 +33,7 @@ Cane:/obj/item/weapon/cane:130
 Zippo:/obj/item/weapon/flame/lighter/zippo:130
 Cigarette Packet:/obj/item/weapon/storage/fancy/cigarettes:20
 DromedaryCo Packet:/obj/item/weapon/storage/fancy/cigarettes/dromedaryco:50
-Premium Havanian Cigar:/obj/item/clothing/mask/cigarette/cigar/havana:130
+Premium Havanian Cigar:/obj/item/clothing/mask/smokable/cigarette/cigar/havana:130
 Beer Bottle:/obj/item/weapon/reagent_containers/glass/drinks/cans/beer:80
 Captain Flask:/obj/item/weapon/reagent_containers/food/drinks/flask:200
 Three Mile Island Ice Tea:/obj/item/weapon/reagent_containers/glass/drinks/drinkingglass/threemileisland:100
