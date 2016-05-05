@@ -61,7 +61,7 @@
 	alt_titles = list("Maintenance Technician","Engine Technician","Electrician")
 
 	uniform = /obj/item/clothing/under/rank/engineer
-	shoes = /obj/item/clothing/shoes/orange
+	shoes = /obj/item/clothing/shoes/workboots
 	pda = /obj/item/device/pda/engineering
 	hat = /obj/item/clothing/head/hardhat
 	belt = /obj/item/weapon/storage/belt/utility/full

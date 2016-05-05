@@ -242,25 +242,25 @@
 	icon_state = "militaryjacket"
 	item_state = "militaryjacket"
 
-/obj/item/clothing/suit/browncoat
+/obj/item/clothing/suit/storage/browncoat
 	name = "brown leather coat"
 	desc = "A long, brown leather coat."
 	icon_state = "browncoat"
 	item_state = "browncoat"
 
-/obj/item/clothing/suit/neocoat
+/obj/item/clothing/suit/storage/neocoat
 	name = "black coat"
 	desc = "A flowing, black coat."
 	icon_state = "neocoat"
 	item_state = "neocoat"
 	
-/obj/item/clothing/suit/retpolcoat
+/obj/item/clothing/suit/storage/retpolcoat
 	name = "retro coat"
 	desc = "Smells like genuine leather."
 	icon_state = "retpolcoat"
 	item_state = "retpolcoat"
 
-/obj/item/clothing/suit/maxcoat
+/obj/item/clothing/suit/storage/maxcoat
 	name = "classy coat"
 	desc = "You might have laughed, if you had remembered how."
 	icon_state = "maxcoat"
