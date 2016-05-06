@@ -130,23 +130,40 @@
 
 	var/datum/custom_item/current_data
 	var/list/L
+
+////D00k-N00kem////
 	L = list()
 	current_data = new()
 	current_data.assoc_key = "d00kn00kem"
 	current_data.character_name = "Natalia Lynn"
 	current_data.item_path = /obj/item/clothing/suit/storage/labcoat/augmented
 	L |= current_data
-	current_data = null
+
+	current_data = new()
+	current_data.assoc_key = "d00kn00kem"
+	current_data.character_name = "Lorenzo Shere"
+	current_data.item_path = /obj/item/clothing/mask/D00k_N00kem
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "d00kn00kem"
+	current_data.character_name = "Lorenzo Shere"
+	current_data.item_path = /obj/item/clothing/mask/D00k_N00kem
+	L |= current_data
+
 	custom_items["d00kn00kem"] = L
 
+////Wajtswv////
 	L = list()
 	current_data = new()
 	current_data.assoc_key = "wajtswv"
 	current_data.character_name = "William Stern"
 	current_data.item_path = /obj/item/clothing/under/russobluecamooutfit
 	L |= current_data
+
 	custom_items["wajtswv"] = L
 
+////Tertiumdatur////
 	L = list()
 	current_data = new()
 	current_data.assoc_key = "tertiumdatur"
@@ -159,7 +176,10 @@
 	current_data.character_name = "Judas Insufledor"
 	current_data.item_path = /obj/item/clothing/suit/judas_jacket
 	L |= current_data
+
 	custom_items["tertiumdatur"] = L
+
+
 	return 1
 
 //gets the relevant list for the key from the listlist if it exists, check to make sure they are meant to have it and then calls the giving function
