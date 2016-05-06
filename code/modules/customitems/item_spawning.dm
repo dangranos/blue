@@ -133,6 +133,7 @@
 
 ////D00k-N00kem////
 	L = list()
+
 	current_data = new()
 	current_data.assoc_key = "d00kn00kem"
 	current_data.character_name = "Natalia Lynn"
@@ -148,7 +149,7 @@
 	current_data = new()
 	current_data.assoc_key = "d00kn00kem"
 	current_data.character_name = "Lorenzo Shere"
-	current_data.item_path = /obj/item/clothing/mask/D00k_N00kem
+	current_data.item_path = /obj/item/clothing/suit/storage/labcoat/long
 	L |= current_data
 
 	custom_items["d00kn00kem"] = L
