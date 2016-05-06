@@ -534,6 +534,7 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/clerical/butler
 	sprites = list(	"Basic" = "Service2",
+					"Fembot" = "fembot-service",
 					"CyberFlower" = "tableturning-service",
 					"Spider" = "mechoid-service",
 					"ED" = "ED-service",
@@ -584,6 +585,7 @@ var/global/list/robot_modules = list(
 	name = "clerical robot module"
 	sprites = list(
 					"Default" = "Service2",
+					"Fembot" = "fembot-clerical",
 					"CyberFlower" = "tableturning-clerical",
 					"ED" = "ED-service",
 					"Drone" = "drone-service",
@@ -618,6 +620,7 @@ var/global/list/robot_modules = list(
 	networks = list(NETWORK_MINE)
 	sprites = list(
 					"Basic" = "Miner_old",
+					"Fembot" = "fembot-miner",
 					"CyberFlover" = "tableturning-miner",
 					"Spider" = "mechoid-miner",
 					"ED" = "ED-miner",
@@ -647,6 +650,7 @@ var/global/list/robot_modules = list(
 	name = "research module"
 	channels = list("Science" = 1)
 	sprites = list(
+					"Fembot" = "fembot-research",
 					"ED" = "ED-research",
 					"Droid" = "droid-science",
 					"Drone" = "drone-science"
