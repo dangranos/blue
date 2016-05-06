@@ -232,7 +232,7 @@ var/list/cheartstopper = list("potassium_chloride")                       // Thi
 
 // Used by robots and robot preferences.
 var/list/robot_module_types = list(
-	"Standard", "Engineering", "Construction", "Surgeon",  "Crisis",
+	"Standard", "Engineering", "Surgeon",  "Crisis",
 	"Miner",    "Janitor",     "Service",      "Clerical", "Security",
 	"Research"
 )
