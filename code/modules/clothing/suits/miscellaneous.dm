@@ -31,7 +31,7 @@
 /*
  * Costume
  */
-/obj/item/clothing/suit/pirate
+/obj/item/clothing/suit/storage/pirate
 	name = "pirate coat"
 	desc = "Yarr."
 	icon_state = "pirate"
@@ -39,7 +39,7 @@
 	body_parts_covered = UPPER_TORSO|ARMS
 
 
-/obj/item/clothing/suit/hgpirate
+/obj/item/clothing/suit/storage/hgpirate
 	name = "pirate captain coat"
 	desc = "Yarr."
 	icon_state = "hgpirate"
@@ -47,7 +47,7 @@
 	flags_inv = HIDEJUMPSUIT
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
 
-/obj/item/clothing/suit/kate_jacket
+/obj/item/clothing/suit/storage/kate_jacket
 	name = "sol government officer jacket"
 	desc = "A stylish suit made of martian cotton."
 	icon_state = "kate_jacket"
@@ -64,19 +64,19 @@
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 
 
-/obj/item/clothing/suit/greatcoat
+/obj/item/clothing/suit/storage/greatcoat
 	name = "great coat"
 	desc = "A heavy great coat"
 	icon_state = "nazi"
 	item_state = "nazi"
 
-/obj/item/clothing/suit/judas_jacket
+/obj/item/clothing/suit/storage/judas_jacket
 	name = "black jacket"
 	desc = "Inspector Judas."
 	icon_state = "judas"
 	item_state = "judas"
 
-/obj/item/clothing/suit/johnny_coat
+/obj/item/clothing/suit/storage/johnny_coat
 	name = "johnny~~ coat"
 	desc = "Johnny~~"
 	icon_state = "johnny"
