@@ -17,13 +17,17 @@
 	siemens_coefficient = 0.7
 	var/obj/item/weapon/material/hatchet/tacknife/knife = null
 
-/obj/item/clothing/shoes/jackboots/attack_hand(var/mob/living/M)
-	if(knife)
-		if(M.put_in_active_hand(knife))
+/obj/item/clothing/shoes/jackboots/verb/remove_knife()
+	set name = "Remove knife"
+	set desc = "Get knife from boot and put in your hand."
+	set category = "Object"
+
+	var/mob/living/carbon/human/M = usr
+	if(knife && istype(M))
+		if(M.put_in_hands(knife))
 			M << "<div class='notice'>You slide the [knife] out of [src].</div>"
 			knife = null
 			update_icon()
-	else ..()
 
 /obj/item/clothing/shoes/jackboots/attackby(var/obj/item/weapon/material/hatchet/tacknife/I, var/mob/living/M)
 	if(istype(I))
@@ -35,10 +39,9 @@
 	else ..()
 
 /obj/item/clothing/shoes/jackboots/update_icon()
+	..() // Drop overlays, add blood overlay and so on
 	if(knife)
-		icon_state = "[initial(icon_state)]_knife"
-	else
-		icon_state = initial(icon_state)
+		overlays += image(icon, "[initial(icon_state)]_knife")
 
 /obj/item/clothing/shoes/jackboots/unathi
 	name = "toe-less jackboots"
