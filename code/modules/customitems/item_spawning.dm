@@ -155,6 +155,7 @@
 
 ////Wajtswv////
 	L = list()
+
 	current_data = new()
 	current_data.assoc_key = "wajtswv"
 	current_data.character_name = "William Stern"
@@ -165,6 +166,7 @@
 
 ////Tertiumdatur////
 	L = list()
+
 	current_data = new()
 	current_data.assoc_key = "tertiumdatur"
 	current_data.character_name = "Karamzi Khis'san"
