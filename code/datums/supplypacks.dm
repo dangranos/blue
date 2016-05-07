@@ -1075,7 +1075,7 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 
 /datum/supply_packs/randomised/costume
 	num_contained = 2
-	contains = list(/obj/item/clothing/suit/pirate,
+	contains = list(/obj/item/clothing/suit/storage/pirate,
 					/obj/item/clothing/suit/judgerobe,
 					/obj/item/clothing/suit/wcoat,
 					/obj/item/clothing/suit/hastur,
