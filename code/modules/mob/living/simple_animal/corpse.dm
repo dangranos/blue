@@ -142,7 +142,7 @@
 
 /obj/effect/landmark/mobcorpse/pirate/ranged
 	name = "Pirate Gunner"
-	corpsesuit = /obj/item/clothing/suit/pirate
+	corpsesuit = /obj/item/clothing/suit/storage/pirate
 	corpsehelmet = /obj/item/clothing/head/pirate
 
 

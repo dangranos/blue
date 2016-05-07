@@ -125,7 +125,7 @@ var/global/list/chameleons = list(
 	New()
 		..()
 		initialize_chameleon_list(style_list, parent_type, list(/obj/item/clothing/suit/cyborg_suit,\
-									/obj/item/clothing/suit/justice, /obj/item/clothing/suit/greatcoat))
+									/obj/item/clothing/suit/justice, /obj/item/clothing/suit/storage/greatcoat))
 
 /obj/item/clothing/suit/chameleon/emp_act(severity) //Because we don't have psych for all slots right now but still want a downside to EMP.  In this case your cover's blown.
 	name = "armor"
