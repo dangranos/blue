@@ -177,7 +177,7 @@
 	current_data = new()
 	current_data.assoc_key = "tertiumdatur"
 	current_data.character_name = "Judas Insufledor"
-	current_data.item_path = /obj/item/clothing/suit/judas_jacket
+	current_data.item_path = /obj/item/clothing/suit/storage/judas_jacket
 	L |= current_data
 
 	custom_items["tertiumdatur"] = L
