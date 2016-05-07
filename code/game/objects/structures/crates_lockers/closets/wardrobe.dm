@@ -222,12 +222,12 @@
 	new /obj/item/clothing/head/beret/eng(src)
 	new /obj/item/clothing/head/beret/eng(src)
 	return
-	
+
 /obj/structure/closet/wardrobe/research
 	name = "science wardrobe"
 	icon_state = "mixed"
 	icon_closed = "mixed"
-	
+
 /obj/structure/closet/wardrobe/research/New()
 	..()
 	new /obj/item/clothing/under/rank/scientist(src)
@@ -252,7 +252,7 @@
 	name = "science wardrobe"
 	icon_state = "mixed"
 	icon_closed = "mixed"
-	
+
 /obj/structure/closet/wardrobe/research/New()
 	..()
 	new /obj/item/clothing/under/rank/scientist(src)
@@ -322,6 +322,8 @@
 	new /obj/item/clothing/shoes/black(src)
 	new /obj/item/clothing/gloves/black(src)
 	new /obj/item/clothing/gloves/black(src)
+	new /obj/item/device/radio/headset/headset_rob(src)
+	new /obj/item/device/radio/headset/headset_rob(src)
 	return
 
 
