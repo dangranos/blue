@@ -6,7 +6,7 @@ datum/preferences
 	var/preview_dir = SOUTH
 
 	proc/new_update_preview_icon()
-		req_update_icon = 0
+		req_update_icon = 0			//No check. Can be forced.
 		for(var/dir in cardinal)
 			qdel(preview_south)
 			qdel(preview_north)
@@ -14,37 +14,52 @@ datum/preferences
 			qdel(preview_west)
 		qdel(preview_icon)
 
-		var/g = "m"
+		var/g = "m[body_build]"
 		if(gender == FEMALE)
-			g = "f"
-		var/b="[body_build]"
+			g = "f[body_build]"
+		var/b=""
 		g+=b
 
 		var/icon/icobase = current_species.icobase
 
 		preview_icon = new /icon('icons/mob/human.dmi', "blank")
 
-		for(var/organ in list("chest","groin","head","r_arm","r_hand","r_leg","r_foot","l_leg","l_foot","l_arm","l_hand"))
+		var/list/organ_list = list("chest","groin","head")
+		if(preview_dir & (SOUTH|WEST))
+			organ_list += list("r_arm","r_hand","r_leg","r_foot", "l_leg","l_foot","l_arm","l_hand")
+		else
+			organ_list += list("l_leg","l_foot","l_arm","l_hand", "r_arm","r_hand","r_leg","r_foot")
+		for(var/organ in organ_list)
 			var/datum/body_modification/mod = get_modification(organ)
 			if(!mod.replace_limb)
-				preview_icon.Blend(new /icon(icobase, "[organ]_[g]"), ICON_OVERLAY)
-			preview_icon.Blend(mod.get_mob_icon(organ, body_build, gender), ICON_OVERLAY)
+				var/icon/organ_icon = new(icobase, "[organ]_[g]")
+				// Skin color
+				if(current_species && (current_species.flags & HAS_SKIN_COLOR))
+					organ_icon.Blend(skin_color, ICON_ADD)
+
+				// Skin tone
+				if(current_species && (current_species.flags & HAS_SKIN_TONE))
+					if (s_tone >= 0)
+						organ_icon.Blend(rgb(s_tone, s_tone, s_tone), ICON_ADD)
+					else
+						organ_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
+				preview_icon.Blend(organ_icon, ICON_OVERLAY)
+			preview_icon.Blend(mod.get_mob_icon(organ, body_build, modifications_colors[organ], gender), ICON_OVERLAY)
 
 		//Tail
-		if(current_species && (current_species.tail))
+		if(current_species.tail)
 			var/icon/temp = new/icon("icon" = 'icons/effects/species.dmi', "icon_state" = "[current_species.tail]_s")
+			// Skin color
+			if(current_species && (current_species.flags & HAS_SKIN_COLOR))
+				temp.Blend(skin_color, ICON_ADD)
+
+			// Skin tone
+			if(current_species && (current_species.flags & HAS_SKIN_TONE))
+				if (s_tone >= 0)
+					temp.Blend(rgb(s_tone, s_tone, s_tone), ICON_ADD)
+				else
+					temp.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
 			preview_icon.Blend(temp, ICON_OVERLAY)
-
-		// Skin color
-		if(current_species && (current_species.flags & HAS_SKIN_COLOR))
-			preview_icon.Blend(skin_color, ICON_ADD)
-
-		// Skin tone
-		if(current_species && (current_species.flags & HAS_SKIN_TONE))
-			if (s_tone >= 0)
-				preview_icon.Blend(rgb(s_tone, s_tone, s_tone), ICON_ADD)
-			else
-				preview_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
 
 		// Eyes color
 		var/icon/eyes = new /icon('icons/mob/human.dmi', "blank")
@@ -67,14 +82,6 @@ datum/preferences
 			var/icon/facial = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			facial.Blend(facial_color, ICON_ADD)
 			eyes.Blend(facial, ICON_OVERLAY)
-
-		var/icon/underwear = null
-		if(underwear && current_species.flags & HAS_UNDERWEAR)
-			underwear = new/icon("icon" = 'icons/mob/human.dmi', "icon_state" = "[underwear]_[g]")
-
-		var/icon/undershirt = null
-		if(undershirt && current_species.flags & HAS_UNDERWEAR)
-			undershirt = new/icon("icon" = 'icons/mob/human.dmi', "icon_state" = "[undershirt]_[g]")
 
 		var/icon/clothes = null
 		if(job_civilian_low & ASSISTANT || !job_master)//This gives the preview icon clothes depending on which job(if any) is set to 'high'
@@ -115,10 +122,14 @@ datum/preferences
 			preview_icon.Blend(new /icon((g == "f1")?'icons/mob/eyes_f.dmi':'icons/mob/eyes.dmi', "glasses"), ICON_OVERLAY)
 
 		preview_icon.Blend(eyes, ICON_OVERLAY)
+
+/*
 		if(underwear)
 			preview_icon.Blend(underwear, ICON_OVERLAY)
 		if(undershirt)
 			preview_icon.Blend(undershirt, ICON_OVERLAY)
+*/
+
 		if(clothes)
 			preview_icon.Blend(clothes, ICON_OVERLAY)
 

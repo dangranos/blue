@@ -158,7 +158,7 @@
 	tail_animation = 'icons/mob/species/tajaran/tail.dmi'
 	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
 	darksight = 8
-	slowdown = -1
+	slowdown = -0.75
 	brute_mod = 1.2
 	gluttonous = 1
 

@@ -30,10 +30,8 @@
 		var/mob/living/new_mob
 
 		var/options = list("robot", "slime")
-		for(var/t in all_species)
+		for(var/t in playable_species)
 			options += t
-		options -= "Xenomorph Queen"
-		options -= "Xenomorph"
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			if(H.species)

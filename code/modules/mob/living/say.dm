@@ -211,7 +211,7 @@ proc/get_radio_key_from_channel(var/channel)
 	var/sound_vol = handle_v[2]
 
 	var/italics = 0
-	var/message_range = world.view
+	var/message_range = (copytext(message, length(message))=="!") ? world.view+4 : world.view
 
 	//speaking into radios
 	if(used_radios.len)
@@ -268,7 +268,6 @@ proc/get_radio_key_from_channel(var/channel)
 				hearturfs += O.locs[1]
 				listening_obj |= O
 
-
 		for(var/mob/M in player_list)
 			if(M.stat == DEAD && M.client && (M.client.prefs.chat_toggles & CHAT_GHOSTEARS))
 				listening |= M
@@ -302,3 +301,86 @@ proc/get_radio_key_from_channel(var/channel)
 
 /mob/living/proc/GetVoice()
 	return name
+
+/mob/living/hear_say(message, verb = "says", datum/language/language = null, alt_name = "", italics = 0, mob/speaker = null, speech_sound, sound_vol)
+	if(!client) return
+
+	if(sdisabilities & DEAF || ear_deaf)
+		if(!language || !(language.flags & INNATE)) // INNATE is the flag for audible-emote-language, so we don't want to show an "x talks but you cannot hear them" message if it's set
+			if(speaker == src)
+				src << "<span class='warning'>You cannot hear yourself speak!</span>"
+			else
+				src << "<span class='name'>[speaker.name]</span>[alt_name] talks but you cannot hear \him."
+			return
+
+	//make sure the air can transmit speech - hearer's side
+	var/turf/T = get_turf(src)
+	if (T)
+		var/datum/gas_mixture/environment = T.return_air()
+		var/pressure = (environment)? environment.return_pressure() : 0
+		if(pressure < SOUND_MINIMUM_PRESSURE && get_dist(speaker, src) > 1)
+			return
+
+		if (pressure < ONE_ATMOSPHERE*0.4) //sound distortion pressure, to help clue people in that the air is thin, even if it isn't a vacuum yet
+			italics = 1
+			sound_vol *= 0.5 //muffle the sound a bit, so it's like we're actually talking through contact
+
+	if(sleeping || stat == 1)
+		hear_sleep(message)
+		return
+
+	//non-verbal languages are garbled if you can't see the speaker. Yes, this includes if they are inside a closet.
+	if (language)
+		if(language.flags & NONVERBAL)
+			if (!speaker || (src.sdisabilities & BLIND || src.blinded) || !(speaker in view(src)))
+				message = stars(message)
+
+		if(!(language.flags & INNATE)) // skip understanding checks for INNATE languages
+			if(!say_understands(speaker,language))
+				if(istype(speaker,/mob/living/simple_animal))
+					var/mob/living/simple_animal/S = speaker
+					message = pick(S.speak)
+				else
+					if(language)
+						message = language.scramble(message)
+					else
+						message = stars(message)
+
+	..()
+
+
+/mob/living/hear_radio(message, verb="says", datum/language/language=null, part_a, part_b, speaker = null, hard_to_hear = 0, vname ="")
+	if(!client) return
+
+	if(sdisabilities & DEAF || ear_deaf)
+		if(prob(20))
+			src << "<span class='warning'>You feel your headset vibrate but can hear nothing from it!</span>"
+
+	if(sleeping || stat==1) //If unconscious or sleeping
+		hear_sleep(message)
+		return
+
+	//non-verbal languages are garbled if you can't see the speaker. Yes, this includes if they are inside a closet.
+	if (language)
+		if(language.flags & NONVERBAL)
+			if (!speaker || (src.sdisabilities & BLIND || src.blinded) || !(speaker in view(src)))
+				message = stars(message)
+
+		if(!(language.flags & INNATE)) // skip understanding checks for INNATE languages
+			if(!say_understands(speaker,language))
+				if(istype(speaker,/mob/living/simple_animal))
+					var/mob/living/simple_animal/S = speaker
+					if(S.speak && S.speak.len)
+						message = pick(S.speak)
+					else
+						return
+				else
+					if(language)
+						message = language.scramble(message)
+					else
+						message = stars(message)
+
+		if(hard_to_hear)
+			message = stars(message)
+
+	..()

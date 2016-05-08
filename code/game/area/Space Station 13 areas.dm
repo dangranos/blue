@@ -1002,6 +1002,10 @@ area/space/atmosalert()
 	name = "\improper Bar"
 	icon_state = "bar"
 
+area/crew_quarters/barman
+	name = "\improper Barman"
+	icon_state = "barman"
+
 /area/crew_quarters/theatre
 	name = "\improper Theatre"
 	icon_state = "Theatre"
@@ -1498,6 +1502,10 @@ area/space/atmosalert()
 	name = "\improper Research and Development"
 	icon_state = "research"
 
+/area/rnd/brainstorm
+	name = "\improper Brainstorm Office"
+	icon_state = "res_break"
+
 /area/rnd/docking
 	name = "\improper Research Dock"
 	icon_state = "research_dock"
@@ -1541,6 +1549,10 @@ area/space/atmosalert()
 /area/rnd/misc_lab
 	name = "\improper Miscellaneous Research"
 	icon_state = "toxmisc"
+
+/area/rnd/res_break
+	name = "\improper Research Break Room"
+	icon_state = "res_break"
 
 /area/toxins/server
 	name = "\improper Server Room"

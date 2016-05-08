@@ -1924,5 +1924,5 @@
 	name = "Luminol"
 	id = "luminol"
 	result = "luminol"
-	required_reagents = list("hydrogen" = 2, "carbon" = 2, "ammonia" = 2)
+	required_reagents = list("hydrazine" = 2, "carbon" = 2, "ammonia" = 2)
 	result_amount = 6

@@ -31,7 +31,7 @@
 /*
  * Costume
  */
-/obj/item/clothing/suit/pirate
+/obj/item/clothing/suit/storage/pirate
 	name = "pirate coat"
 	desc = "Yarr."
 	icon_state = "pirate"
@@ -39,7 +39,7 @@
 	body_parts_covered = UPPER_TORSO|ARMS
 
 
-/obj/item/clothing/suit/hgpirate
+/obj/item/clothing/suit/storage/hgpirate
 	name = "pirate captain coat"
 	desc = "Yarr."
 	icon_state = "hgpirate"
@@ -47,7 +47,7 @@
 	flags_inv = HIDEJUMPSUIT
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
 
-/obj/item/clothing/suit/kate_jacket
+/obj/item/clothing/suit/storage/kate_jacket
 	name = "sol government officer jacket"
 	desc = "A stylish suit made of martian cotton."
 	icon_state = "kate_jacket"
@@ -64,19 +64,19 @@
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 
 
-/obj/item/clothing/suit/greatcoat
+/obj/item/clothing/suit/storage/greatcoat
 	name = "great coat"
 	desc = "A heavy great coat"
 	icon_state = "nazi"
 	item_state = "nazi"
 
-/obj/item/clothing/suit/judas_jacket
+/obj/item/clothing/suit/storage/judas_jacket
 	name = "black jacket"
 	desc = "Inspector Judas."
 	icon_state = "judas"
 	item_state = "judas"
 
-/obj/item/clothing/suit/johnny_coat
+/obj/item/clothing/suit/storage/johnny_coat
 	name = "johnny~~ coat"
 	desc = "Johnny~~"
 	icon_state = "johnny"
@@ -242,17 +242,29 @@
 	icon_state = "militaryjacket"
 	item_state = "militaryjacket"
 
-/obj/item/clothing/suit/browncoat
+/obj/item/clothing/suit/storage/browncoat
 	name = "brown leather coat"
 	desc = "A long, brown leather coat."
 	icon_state = "browncoat"
 	item_state = "browncoat"
 
-/obj/item/clothing/suit/neocoat
+/obj/item/clothing/suit/storage/neocoat
 	name = "black coat"
 	desc = "A flowing, black coat."
 	icon_state = "neocoat"
 	item_state = "neocoat"
+	
+/obj/item/clothing/suit/storage/retpolcoat
+	name = "retro coat"
+	desc = "Smells like genuine leather."
+	icon_state = "retpolcoat"
+	item_state = "retpolcoat"
+
+/obj/item/clothing/suit/storage/maxcoat
+	name = "classy coat"
+	desc = "You might have laughed, if you had remembered how."
+	icon_state = "maxcoat"
+	item_state = "maxcoat"
 
 //stripper
 /obj/item/clothing/under/stripper
