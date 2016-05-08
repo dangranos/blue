@@ -20,7 +20,7 @@
 	var/datum/reagents/R = new/datum/reagents(1000)
 	reagents = R
 	R.my_atom = src
-	beaker = new /obj/item/weapon/reagent_containers/glass/bottle(src)
+	beaker = new /obj/item/weapon/reagent_containers/glass/beaker/bottle(src)
 
 	component_parts = list()
 	component_parts += new /obj/item/weapon/circuitboard/biogenerator(src)
@@ -119,6 +119,9 @@
 					dat += "<A href='?src=\ref[src];action=create;item=cashbag;cost=400'>Cash Bag</A> <FONT COLOR=blue>([round(400/build_eff)])</FONT><BR>"
 					//dat += "Other<BR>"
 					//dat += "<A href='?src=\ref[src];action=create;item=monkey;cost=500'>Monkey</A> <FONT COLOR=blue>(500)</FONT><BR>"
+					dat += "Medical<BR>"
+					dat += "<A href='?src=\ref[src];action=create;item=gauze;cost=200'>roll of gauze</A> <FONT COLOR=blue>([round(200/build_eff)])</FONT><BR>"
+					dat += "<A href='?src=\ref[src];action=create;item=ointment;cost=200'>ointment</A> <FONT COLOR=blue>([round(200/build_eff)])</FONT><BR>"
 				else
 					dat += "<BR><FONT COLOR=red>No beaker inside. Please insert a beaker.</FONT><BR>"
 			if("nopoints")
@@ -216,6 +219,10 @@
 			new/obj/item/weapon/storage/bag/cash(loc)
 		if("monkey")
 			new/mob/living/carbon/human/monkey(loc)
+		if("gauze")
+			new/obj/item/stack/medical/bruise_pack(loc)
+		if("ointment")
+			new/obj/item/stack/medical/ointment(loc)
 	processing = 0
 	menustat = "complete"
 	update_icon()

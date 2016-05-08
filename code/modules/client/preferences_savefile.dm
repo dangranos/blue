@@ -1,5 +1,5 @@
-#define SAVEFILE_VERSION_MIN	8
-#define SAVEFILE_VERSION_MAX	13
+#define SAVEFILE_VERSION_MIN	1
+#define SAVEFILE_VERSION_MAX	1
 
 //handles converting savefiles to new formats
 //MAKE SURE YOU KEEP THIS UP TO DATE!
@@ -10,13 +10,14 @@
 //if a file can't be updated, return 0 to delete it and start again
 //if a file was updated, return 1
 /datum/preferences/proc/savefile_update()
-	if(savefile_version < 8)	//lazily delete everything + additional files so they can be saved in the new format
+	if(savefile_version < SAVEFILE_VERSION_MIN)	//lazily delete everything + additional files so they can be saved in the new format
 		for(var/ckey in preferences_datums)
 			var/datum/preferences/D = preferences_datums[ckey]
 			if(D == src)
 				var/delpath = "data/player_saves/[copytext(ckey,1,2)]/[ckey]/"
 				if(delpath && fexists(delpath))
 					fdel(delpath)
+					savefile_version = SAVEFILE_VERSION_MIN
 				break
 		return 0
 
@@ -117,13 +118,6 @@
 	S["language"]			>> language
 	S["spawnpoint"]			>> spawnpoint
 
-	if(savefile_version < 13)
-		hair_color = rgb(S["hair_red"], S["hair_green"], S["hair_blue"])
-		facial_color = rgb(S["facial_red"], S["facial_green"], S["facial_blue"])
-		skin_color = rgb(S["skin_red"], S["skin_green"], S["skin_blue"])
-		eyes_color = rgb(S["eyes_red"], S["eyes_green"], S["eyes_blue"])
-		savefile_version = 13
-
 	S["hair_color"]		>> hair_color
 	S["facial_color"]		>> facial_color
 	S["skin_color"]		>> skin_color
@@ -158,6 +152,12 @@
 	S["flavour_texts_robot_Default"] >> flavour_texts_robot["Default"]
 	for(var/module in robot_module_types)
 		S["flavour_texts_robot_[module]"] >> flavour_texts_robot[module]
+
+	var/mod_id = "nothing"
+	for(var/organ in modifications_types)
+		S["modification_[organ]"] >> mod_id
+		modifications_data[organ] = mod_id ? body_modifications[mod_id] : get_default_modificaton()
+	check_childred_modifications()
 
 	//Miscellaneous
 	S["med_record"]			>> med_record

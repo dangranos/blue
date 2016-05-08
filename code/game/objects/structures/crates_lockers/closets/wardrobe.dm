@@ -212,9 +212,9 @@
 	new /obj/item/clothing/under/rank/maintenance_tech(src)
 	new /obj/item/clothing/under/rank/engine_tech(src)
 	new /obj/item/clothing/under/rank/electrician(src)
-	new /obj/item/clothing/shoes/orange(src)
-	new /obj/item/clothing/shoes/orange(src)
-	new /obj/item/clothing/shoes/orange(src)
+	new /obj/item/clothing/shoes/workboots(src)
+	new /obj/item/clothing/shoes/workboots(src)
+	new /obj/item/clothing/shoes/workboots(src)
 	new /obj/item/clothing/head/hardhat(src)
 	new /obj/item/clothing/head/hardhat(src)
 	new /obj/item/clothing/head/hardhat(src)
@@ -223,6 +223,54 @@
 	new /obj/item/clothing/head/beret/eng(src)
 	return
 
+/obj/structure/closet/wardrobe/research
+	name = "science wardrobe"
+	icon_state = "mixed"
+	icon_closed = "mixed"
+
+/obj/structure/closet/wardrobe/research/New()
+	..()
+	new /obj/item/clothing/under/rank/scientist(src)
+	new /obj/item/clothing/under/rank/scientist(src)
+	new /obj/item/clothing/under/rank/xenoarch(src)
+	new /obj/item/clothing/under/rank/xenoarch(src)
+	new /obj/item/clothing/under/rank/plasmares(src)
+	new /obj/item/clothing/under/rank/plasmares(src)
+	new /obj/item/clothing/under/rank/xenobio(src)
+	new /obj/item/clothing/under/rank/xenobio(src)
+	new /obj/item/clothing/under/rank/anomalist(src)
+	new /obj/item/clothing/under/rank/anomalist(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/shoes/white(src)
+	new /obj/item/clothing/shoes/white(src)
+	new /obj/item/clothing/shoes/white(src)
+	return
+
+/obj/structure/closet/wardrobe/research
+	name = "science wardrobe"
+	icon_state = "mixed"
+	icon_closed = "mixed"
+
+/obj/structure/closet/wardrobe/research/New()
+	..()
+	new /obj/item/clothing/under/rank/scientist(src)
+	new /obj/item/clothing/under/rank/scientist(src)
+	new /obj/item/clothing/under/rank/xenoarch(src)
+	new /obj/item/clothing/under/rank/xenoarch(src)
+	new /obj/item/clothing/under/rank/plasmares(src)
+	new /obj/item/clothing/under/rank/plasmares(src)
+	new /obj/item/clothing/under/rank/xenobio(src)
+	new /obj/item/clothing/under/rank/xenobio(src)
+	new /obj/item/clothing/under/rank/anomalist(src)
+	new /obj/item/clothing/under/rank/anomalist(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
+	new /obj/item/clothing/shoes/white(src)
+	new /obj/item/clothing/shoes/white(src)
+	new /obj/item/clothing/shoes/white(src)
 
 /obj/structure/closet/wardrobe/white
 	name = "white wardrobe"
@@ -258,30 +306,6 @@
 	return
 
 
-/obj/structure/closet/wardrobe/science_white
-	name = "science wardrobe"
-	icon_state = "white"
-	icon_closed = "white"
-
-/obj/structure/closet/wardrobe/toxins_white/New()
-	..()
-	new /obj/item/clothing/under/rank/scientist(src)
-	new /obj/item/clothing/under/rank/plasmares(src)
-	new /obj/item/clothing/under/rank/xenoarch(src)
-	new /obj/item/clothing/under/rank/anomalist(src)
-	new /obj/item/clothing/under/rank/xenobio(src)
-	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
-	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
-	new /obj/item/clothing/suit/storage/toggle/labcoat(src)
-	new /obj/item/clothing/shoes/white(src)
-	new /obj/item/clothing/shoes/white(src)
-	new /obj/item/clothing/shoes/white(src)
-	new /obj/item/clothing/shoes/slippers(src)
-	new /obj/item/clothing/shoes/slippers(src)
-	new /obj/item/clothing/shoes/slippers(src)
-	return
-
-
 /obj/structure/closet/wardrobe/robotics_black
 	name = "robotics wardrobe"
 	icon_state = "black"
@@ -298,6 +322,8 @@
 	new /obj/item/clothing/shoes/black(src)
 	new /obj/item/clothing/gloves/black(src)
 	new /obj/item/clothing/gloves/black(src)
+	new /obj/item/device/radio/headset/headset_rob(src)
+	new /obj/item/device/radio/headset/headset_rob(src)
 	return
 
 

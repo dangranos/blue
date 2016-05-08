@@ -9,7 +9,6 @@ var/global/list/robot_modules = list(
 	"Security" 		= /obj/item/weapon/robot_module/security/general,
 	"Combat" 		= /obj/item/weapon/robot_module/security/combat,
 	"Engineering"	= /obj/item/weapon/robot_module/engineering/general,
-	"Construction"	= /obj/item/weapon/robot_module/engineering/construction,
 	"Janitor" 		= /obj/item/weapon/robot_module/janitor
 	)
 
@@ -244,6 +243,7 @@ var/global/list/robot_modules = list(
 	name = "crisis robot module"
 	sprites = list(
 					"Basic" = "Medbot",
+					"Fembot" = "fembot-medical",
 					"Standard" = "surgeon",
 					"CyberFlower" = "tableturning-crisis",
 					"Spider" = "mechoid-crisis",
@@ -315,6 +315,7 @@ var/global/list/robot_modules = list(
 	subsystems = list(/mob/living/silicon/proc/subsystem_power_monitor)
 	sprites = list(
 					"Basic" = "Engineering",
+					"Fembot" = "fembot-engineering",
 					"Standart" = "engineerrobot",
 					"CyberFlower" = "tableturning-engineering",
 					"Spider" = "mechoid-engineering",
@@ -326,7 +327,7 @@ var/global/list/robot_modules = list(
 					"Retro" = "Engineer"
 					)
 
-/obj/item/weapon/robot_module/engineering/construction
+/*/obj/item/weapon/robot_module/engineering/construction
 	name = "construction robot module"
 	no_slip = 1
 
@@ -363,7 +364,7 @@ var/global/list/robot_modules = list(
 
 	var/obj/item/stack/material/cyborg/glass/reinforced/RG = new (src)
 	RG.synths = list(metal, glass)
-	src.modules += RG
+	src.modules += RG*/
 
 /obj/item/weapon/robot_module/engineering/general/New()
 	..()
@@ -380,15 +381,19 @@ var/global/list/robot_modules = list(
 	src.modules += new /obj/item/device/analyzer(src)
 	src.modules += new /obj/item/taperoll/engineering(src)
 	src.modules += new /obj/item/weapon/gripper(src)
+	src.modules += new /obj/item/device/lightreplacer(src)
 	src.modules += new /obj/item/device/pipe_painter(src)
 	src.emag = new /obj/item/borg/stun(src)
 
-	var/datum/matter_synth/metal = new /datum/matter_synth/metal(40000)
+	var/datum/matter_synth/metal = new /datum/matter_synth/metal(60000)
 	var/datum/matter_synth/glass = new /datum/matter_synth/glass(40000)
+	var/datum/matter_synth/plasteel = new /datum/matter_synth/plasteel(30000)
 	var/datum/matter_synth/wire = new /datum/matter_synth/wire()
 	synths += metal
 	synths += glass
+	synths += plasteel
 	synths += wire
+
 
 	var/obj/item/weapon/matter_decompiler/MD = new /obj/item/weapon/matter_decompiler(src)
 	MD.metal = metal
@@ -419,6 +424,10 @@ var/global/list/robot_modules = list(
 	RG.synths = list(metal, glass)
 	src.modules += RG
 
+	var/obj/item/stack/material/cyborg/plasteel/P = new (src)
+	P.synths = list(plasteel)
+	src.modules += P
+
 	return
 
 /obj/item/weapon/robot_module/security
@@ -432,6 +441,7 @@ var/global/list/robot_modules = list(
 /obj/item/weapon/robot_module/security/general
 	sprites = list(
 					"Basic" = "secborg",
+					"Fembot" = "fembot-security",
 					"Standart" = "securityrobot",
 					"CyberFlower" = "tableturning-security",
 					"Spider" = "mechoid-security",
@@ -474,6 +484,7 @@ var/global/list/robot_modules = list(
 	channels = list("Service" = 1)
 	sprites = list(
 					"Basic" = "JanBot",
+					"Fembot" = "fembot-janitor",
 					"Standart"  = "janitorrobot",
 					"CyberFlower" = "tableturning-janitor",
 					"Spider" = "mechoid-janitor",
@@ -517,11 +528,13 @@ var/global/list/robot_modules = list(
 					LANGUAGE_SKRELLIAN	= 1,
 					LANGUAGE_ROOTSPEAK	= 1,
 					LANGUAGE_TRADEBAND	= 1,
-					LANGUAGE_GUTTER		= 1
+					LANGUAGE_GUTTER		= 1,
+					LANGUAGE_SURZHYK	= 1
 					)
 
 /obj/item/weapon/robot_module/clerical/butler
 	sprites = list(	"Basic" = "Service2",
+					"Fembot" = "fembot-service",
 					"CyberFlower" = "tableturning-service",
 					"Spider" = "mechoid-service",
 					"ED" = "ED-service",
@@ -572,6 +585,7 @@ var/global/list/robot_modules = list(
 	name = "clerical robot module"
 	sprites = list(
 					"Default" = "Service2",
+					"Fembot" = "fembot-clerical",
 					"CyberFlower" = "tableturning-clerical",
 					"ED" = "ED-service",
 					"Drone" = "drone-service",
@@ -606,6 +620,7 @@ var/global/list/robot_modules = list(
 	networks = list(NETWORK_MINE)
 	sprites = list(
 					"Basic" = "Miner_old",
+					"Fembot" = "fembot-miner",
 					"CyberFlover" = "tableturning-miner",
 					"Spider" = "mechoid-miner",
 					"ED" = "ED-miner",
@@ -635,6 +650,7 @@ var/global/list/robot_modules = list(
 	name = "research module"
 	channels = list("Science" = 1)
 	sprites = list(
+					"Fembot" = "fembot-research",
 					"ED" = "ED-research",
 					"Droid" = "droid-science",
 					"Drone" = "drone-science"
@@ -713,7 +729,7 @@ var/global/list/robot_modules = list(
 	name = "drone module"
 	no_slip = 1
 	networks = list(NETWORK_ENGINEERING)
-	channels = list("Engineering" = 0)
+	channels = list("Engineering" = 1)
 
 /obj/item/weapon/robot_module/drone/New()
 	..()

@@ -191,14 +191,41 @@ var/list/sacrificed = list()
 		tearreality()
 			if(!cult.allow_narsie)
 				return fizzle()
-
 			var/list/cultists = new()
 			for(var/mob/M in range(1,src))
 				if(iscultist(M) && !M.stat)
 					M.say("Tok-lyr rqa'nap g[pick("'","`")]lt-ulotf!")
-					cultists += 1
+					cultists += M
 			if(cultists.len >= 9)
+				var/list/whattosay = list (
+				";The time has come, to awaken him." = 0,
+				";I call upon the ancient lords of the underworld," = 0,
+				";To bring forth this beast and," = 0,
+				";Awaken," = 4,
+				";Take the land, that must be taken." = 0,
+				"; Awaken," = 4,
+				";Devour worlds, smite forsaken" = 0,
+				";Rise up from your thousandth year of sleep," = 0,
+				";Break forth from your grave eternally." = 0,
+				";I command you to" = 0,
+				";Rise" = 8
+				)
+				src.word1=null
+				src.word2=null
+				src.word3=null
 				log_and_message_admins_many(cultists, "summoned Nar-sie.")
+				for(var/speach in whattosay)
+					if (whattosay[speach])
+						for(var/i=1, i <= whattosay[speach], i++)
+							var/mob/M = cultists[rand(1,cultists.len)]
+							M.say(speach)
+							sleep(10)
+					else
+						var/mob/M = cultists[rand(1,cultists.len)]
+						M.say(speach)
+						sleep(20)
+				world << sound('sound/music/Dethklok_awaken.ogg', volume = 40, channel = 777)
+				sleep (5)
 				new /obj/singularity/narsie/large(src.loc)
 				return
 			else

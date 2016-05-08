@@ -1,7 +1,7 @@
 var/state = 0
 
 // Free abilities.
-mob/living/carbon/human/arachna/proc/prepare_bite(mob/living/carbon/human/M as mob in oview())
+mob/living/carbon/human/arachna/proc/prepare_bite(mob/living/carbon/human/M as mob in oview(1))
 	set name = "Prepare Bite"
 	set desc = "Prepare to bite for poising someone"
 	set category = "Abilities"

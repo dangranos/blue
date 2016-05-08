@@ -2,12 +2,6 @@
 
 	if (istype(loc, /turf/space)) return -1 // It's hard to be slowed down in space by... anything
 
-	if(CE_SPEEDBOOST in chem_effects)
-		return -1
-
-	if(mRun in mutations)
-		return config.human_delay
-
 	var/tally = 0
 
 	if(species.slowdown)
@@ -24,6 +18,9 @@
 
 	var/hungry = (500 - nutrition)/5 // So overeat would be 100 and default level would be 80
 	if (hungry >= 70) tally += hungry/50
+
+	if(CE_SPEEDBOOST in chem_effects || mRun in mutations)
+		return tally-3
 
 	if(wear_suit)
 		tally += wear_suit.slowdown
