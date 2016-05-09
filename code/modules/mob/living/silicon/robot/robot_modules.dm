@@ -10,7 +10,7 @@ var/global/list/robot_modules = list(
 	"Combat" 		= /obj/item/weapon/robot_module/security/combat,
 	"Engineering"	= /obj/item/weapon/robot_module/engineering/general,
 	"Janitor" 		= /obj/item/weapon/robot_module/janitor
-	)
+)
 
 /obj/item/weapon/robot_module
 	name = "robot module"
@@ -24,7 +24,8 @@ var/global/list/robot_modules = list(
 	var/languages = list(LANGUAGE_SOL_COMMON = 1, LANGUAGE_TRADEBAND = 1, LANGUAGE_UNATHI = 0,\
 						LANGUAGE_SIIK_TAJR = 0, LANGUAGE_SKRELLIAN = 0, LANGUAGE_GUTTER = 0,\
 						LANGUAGE_SIIK_MAAS = 0, LANGUAGE_SURZHYK = 0)
-	var/sprites = list()
+	var/module_type = "Standard"
+	//var/sprites = list()
 	var/can_be_pushed = 1
 	var/no_slip = 0
 	var/list/modules = list()
@@ -104,7 +105,7 @@ var/global/list/robot_modules = list(
 	for(var/datum/matter_synth/T in synths)
 		T.add_charge(T.recharge_rate * rate)
 
-/obj/item/weapon/robot_module/proc/rebuild()//Rebuilds the list so it's possible to add/remove items from the module
+/obj/item/weapon/robot_module/proc/rebuild() //Rebuilds the list so it's possible to add/rem items from the module
 	var/list/temp_list = modules
 	modules = list()
 	for(var/obj/O in temp_list)
@@ -157,15 +158,7 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/standard
 	name = "standard robot module"
-	sprites = list(	"Basic" = "robot_old",
-					"Android" = "droid",
-					"Default" = "robot",
-					"CyberFlower" = "tableturning-standard",
-					"Spider" = "mechoid-standard",
-					"ED" = "ED-standard",
-					"Drone" = "drone-standard",
-					"Robot" = "bigbro-standard"
-				  )
+	module_type = "Standard"
 
 /obj/item/weapon/robot_module/standard/New()
 	..()
@@ -187,16 +180,7 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/medical/surgeon
 	name = "surgeon robot module"
-	sprites = list(
-					"Basic" = "Medbot",
-					"Standard" = "surgeon",
-					"CyberFlower" = "tableturning-medical",
-					"Spider" = "mechoid-surgeon",
-					"ED" = "ED-medical",
-					"Drone" = "drone-surgery",
-					"Needles" = "medicalrobot",
-					"Advanced Droid" = "droid-medical"
-					)
+	module_type = "Surgeon"
 
 /obj/item/weapon/robot_module/medical/surgeon/New()
 	..()
@@ -241,19 +225,7 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/medical/crisis
 	name = "crisis robot module"
-	sprites = list(
-					"Basic" = "Medbot",
-					"Fembot" = "fembot-medical",
-					"Standard" = "surgeon",
-					"CyberFlower" = "tableturning-crisis",
-					"Spider" = "mechoid-crisis",
-					"ED" = "ED-crisis",
-					"Drone - Medical" = "drone-medical",
-					"Drone - Chemistry" = "drone-chemistry",
-					"Robot" = "bigbro-medical",
-					"Needles" = "medicalrobot",
-					"Advanced Droid" = "droid-medical"
-					)
+	module_type = "Crisis"
 
 /obj/item/weapon/robot_module/medical/crisis/New()
 	..()
@@ -313,58 +285,7 @@ var/global/list/robot_modules = list(
 	channels = list("Engineering" = 1)
 	networks = list(NETWORK_ENGINEERING)
 	subsystems = list(/mob/living/silicon/proc/subsystem_power_monitor)
-	sprites = list(
-					"Basic" = "Engineering",
-					"Fembot" = "fembot-engineering",
-					"Standart" = "engineerrobot",
-					"CyberFlower" = "tableturning-engineering",
-					"Spider" = "mechoid-engineering",
-					"ED" = "ED-engineering",
-					"Drone" = "drone-engineer",
-					"Robot" = "bigbro-engineering",
-					"Landmate" = "landmate",
-					"Landmate - Treaded" = "engiborg+tread",
-					"Retro" = "Engineer"
-					)
-
-/*/obj/item/weapon/robot_module/engineering/construction
-	name = "construction robot module"
-	no_slip = 1
-
-/obj/item/weapon/robot_module/engineering/construction/New()
-	..()
-	src.modules += new /obj/item/device/flash(src)
-	src.modules += new /obj/item/borg/sight/meson(src)
-	src.modules += new /obj/item/weapon/extinguisher(src)
-	src.modules += new /obj/item/weapon/rcd/borg(src)
-	src.modules += new /obj/item/weapon/screwdriver(src)
-	src.modules += new /obj/item/weapon/wrench(src)
-	src.modules += new /obj/item/weapon/crowbar(src)
-	src.modules += new /obj/item/weapon/pickaxe/plasmacutter(src)
-	src.modules += new /obj/item/device/pipe_painter(src)
-
-	var/datum/matter_synth/metal = new /datum/matter_synth/metal()
-	var/datum/matter_synth/plasteel = new /datum/matter_synth/plasteel()
-	var/datum/matter_synth/glass = new /datum/matter_synth/glass()
-	synths += metal
-	synths += plasteel
-	synths += glass
-
-	var/obj/item/stack/material/cyborg/steel/M = new (src)
-	M.synths = list(metal)
-	src.modules += M
-
-	var/obj/item/stack/rods/cyborg/R = new /obj/item/stack/rods/cyborg(src)
-	R.synths = list(metal)
-	src.modules += R
-
-	var/obj/item/stack/material/cyborg/plasteel/S = new (src)
-	S.synths = list(plasteel)
-	src.modules += S
-
-	var/obj/item/stack/material/cyborg/glass/reinforced/RG = new (src)
-	RG.synths = list(metal, glass)
-	src.modules += RG*/
+	module_type = "Engineering"
 
 /obj/item/weapon/robot_module/engineering/general/New()
 	..()
@@ -437,23 +358,7 @@ var/global/list/robot_modules = list(
 	subsystems = list(/mob/living/silicon/proc/subsystem_crew_monitor)
 	can_be_pushed = 0
 	supported_upgrades = list(/obj/item/borg/upgrade/tasercooler)
-
-/obj/item/weapon/robot_module/security/general
-	sprites = list(
-					"Basic" = "secborg",
-					"Fembot" = "fembot-security",
-					"Standart" = "securityrobot",
-					"CyberFlower" = "tableturning-security",
-					"Spider" = "mechoid-security",
-					"ED" = "ED-security",
-					"Drone" = "drone-sec",
-					"Robot" = "bigbro-security",
-					"Bloodhound" = "bloodhound",
-					"Bloodhound - Treaded" = "secborg+tread",
-					"Red Knight" = "Security",
-					"Retro" = "Security2",
-					"Retro (red)" = "Security3"
-				)
+	module_type = "Security"
 
 /obj/item/weapon/robot_module/security/general/New()
 	..()
@@ -482,18 +387,7 @@ var/global/list/robot_modules = list(
 /obj/item/weapon/robot_module/janitor
 	name = "janitorial robot module"
 	channels = list("Service" = 1)
-	sprites = list(
-					"Basic" = "JanBot",
-					"Fembot" = "fembot-janitor",
-					"Standart"  = "janitorrobot",
-					"CyberFlower" = "tableturning-janitor",
-					"Spider" = "mechoid-janitor",
-					"ED" = "ED-janitor",
-					"Drone" = "drone-janitor",
-					"Robot" = "bigbro-janitor",
-					"Antique" = "JanBot2",
-					"Mop Gear Rex" = "mopgearrex"
-					)
+	module_type = "Janitor"
 
 /obj/item/weapon/robot_module/janitor/New()
 	..()
@@ -530,22 +424,10 @@ var/global/list/robot_modules = list(
 					LANGUAGE_TRADEBAND	= 1,
 					LANGUAGE_GUTTER		= 1,
 					LANGUAGE_SURZHYK	= 1
-					)
+				)
 
 /obj/item/weapon/robot_module/clerical/butler
-	sprites = list(	"Basic" = "Service2",
-					"Fembot" = "fembot-service",
-					"CyberFlower" = "tableturning-service",
-					"Spider" = "mechoid-service",
-					"ED" = "ED-service",
-					"Drone - Service" = "drone-service",
-					"Drone - Hydro" = "drone-hydro",
-					"Waitress" = "Service",
-					"Proto" = "proto",
-					"Kent" = "toiletbot",
-					"Bro" = "Brobot",
-					"Rich" = "maximillion"
-				  	)
+	module_type = "Service"
 
 /obj/item/weapon/robot_module/clerical/butler/New()
 	..()
@@ -583,17 +465,7 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/clerical/general
 	name = "clerical robot module"
-	sprites = list(
-					"Default" = "Service2",
-					"Fembot" = "fembot-clerical",
-					"CyberFlower" = "tableturning-clerical",
-					"ED" = "ED-service",
-					"Drone" = "drone-service",
-					"Robot" = "bigbro-service",
-					"Waitress" = "Service",
-					"Kent" = "toiletbot",
-					"Rich" = "maximillion",
-					)
+	module_type = "Clerical"
 
 /obj/item/weapon/robot_module/clerical/general/New()
 	..()
@@ -618,17 +490,7 @@ var/global/list/robot_modules = list(
 	name = "miner robot module"
 	channels = list("Supply" = 1)
 	networks = list(NETWORK_MINE)
-	sprites = list(
-					"Basic" = "Miner_old",
-					"Fembot" = "fembot-miner",
-					"CyberFlover" = "tableturning-miner",
-					"Spider" = "mechoid-miner",
-					"ED" = "ED-miner",
-					"Drone" = "drone-miner",
-					"Robot" = "bigbro-miner",
-					"Treadhead" = "Miner",
-					"Advanced Droid" = "droid-miner"
-				)
+	module_type = "Miner"
 	supported_upgrades = list(/obj/item/borg/upgrade/jetpack)
 
 /obj/item/weapon/robot_module/miner/New()
@@ -649,12 +511,7 @@ var/global/list/robot_modules = list(
 /obj/item/weapon/robot_module/research
 	name = "research module"
 	channels = list("Science" = 1)
-	sprites = list(
-					"Fembot" = "fembot-research",
-					"ED" = "ED-research",
-					"Droid" = "droid-science",
-					"Drone" = "drone-science"
-					)
+	module_type = "Research"
 
 /obj/item/weapon/robot_module/research/New()
 	..()
@@ -711,7 +568,8 @@ var/global/list/robot_modules = list(
 
 /obj/item/weapon/robot_module/security/combat
 	name = "combat robot module"
-	sprites = list("Combat Android" = "droid-combat")
+	module_type = "Combat"
+//	sprites = list("Combat Android" = "droid-combat")
 
 /obj/item/weapon/robot_module/combat/New()
 	..()
