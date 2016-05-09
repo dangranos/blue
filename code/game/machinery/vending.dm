@@ -985,7 +985,7 @@
 	desc = "That's a guns and ammo vendor."
 	product_ads = "ULTRAVIOLENCE!;Do you like to hurt other people, mate?;You're not a nice person!;Get a goddamn gun and take them out!;Why did you come back here?"
 	icon_state = "thundervendor"
-	products = list(/obj/item/weapon/gun/projectile/automatic/hornet = 10,/obj/item/weapon/gun/energy/wasp = 10,/obj/item/weapon/gun/energy/grumbler = 10,/obj/item/weapon/material/hatchet/tacknife/thunder = 30,/obj/item/ammo_magazine/hornet = 30,/obj/item/ammo_magazine/legalist=20,/obj/item/stack/material/wood/thunder=20,/obj/item/weapon/reagent_containers/hypospray/autoinjector/combat=60,/obj/item/weapon/grenade/chem_grenade/metalfoam=20,/obj/item/weapon/grenade/flashbang=20,/obj/item/weapon/grenade/chem_grenade/cleaner=30)
-	vend_delay = 25
+	products = list(/obj/item/weapon/gun/projectile/automatic/hornet = 10,/obj/item/weapon/gun/energy/wasp = 10,/obj/item/weapon/material/hatchet/tacknife/thunder = 30,/obj/item/ammo_magazine/hornet = 30,/obj/item/ammo_magazine/legalist=20,/obj/item/weapon/reagent_containers/hypospray/autoinjector/combat=60,/obj/item/weapon/grenade/chem_grenade/metalfoam=20,/obj/item/weapon/grenade/flashbang=20,/obj/item/weapon/grenade/chem_grenade/cleaner=30)
+	vend_delay = 10
 	density = 1
 
