@@ -1,4 +1,4 @@
-var/global/list/robot_modules = list(
+var/mob/living/silicon/robot/global/list/robot_modules = list(
 	"Standard"		= /obj/item/weapon/robot_module/standard,
 	"Service" 		= /obj/item/weapon/robot_module/clerical/butler,
 	"Clerical" 		= /obj/item/weapon/robot_module/clerical/general,
@@ -7,9 +7,13 @@ var/global/list/robot_modules = list(
 	"Crisis" 		= /obj/item/weapon/robot_module/medical/crisis,
 	"Surgeon" 		= /obj/item/weapon/robot_module/medical/surgeon,
 	"Security" 		= /obj/item/weapon/robot_module/security/general,
-	"Combat" 		= /obj/item/weapon/robot_module/security/combat,
 	"Engineering"	= /obj/item/weapon/robot_module/engineering/general,
 	"Janitor" 		= /obj/item/weapon/robot_module/janitor
+)
+
+// It's possible to override original modules with RedCode one.
+var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
+	"Combat" 		= /obj/item/weapon/robot_module/security/combat
 )
 
 /obj/item/weapon/robot_module
@@ -569,9 +573,8 @@ var/global/list/robot_modules = list(
 /obj/item/weapon/robot_module/security/combat
 	name = "combat robot module"
 	module_type = "Combat"
-//	sprites = list("Combat Android" = "droid-combat")
 
-/obj/item/weapon/robot_module/combat/New()
+/obj/item/weapon/robot_module/security/combat/combat/New()
 	..()
 	src.modules += new /obj/item/device/flash(src)
 	src.modules += new /obj/item/borg/sight/thermal(src)

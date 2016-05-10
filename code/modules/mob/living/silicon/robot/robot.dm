@@ -246,15 +246,17 @@
 	var/list/modules = robot_modules.Copy()
 	if((crisis && security_level == SEC_LEVEL_RED) || crisis_override) //Leaving this in until it's balanced appropriately.
 		src << "\red Crisis mode active. Combat module available."
-		modules+="Combat"
+		for(var/name in redcode_robot_modules)
+			modules[name] = redcode_robot_modules[name]
 	modtype = input("Please, select a module!", "Robot", null, null) in modules
 
 	if(module)
 		return
-	if(!(modtype in robot_modules))
+
+	if(!(modtype in modules))
 		return
 
-	var/module_type = robot_modules[modtype]
+	var/module_type = modules[modtype]
 	new module_type(src)
 
 	hands.icon_state = lowertext(modtype)
