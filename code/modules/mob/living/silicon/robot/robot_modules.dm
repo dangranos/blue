@@ -574,7 +574,7 @@ var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
 	name = "combat robot module"
 	module_type = "Combat"
 
-/obj/item/weapon/robot_module/security/combat/combat/New()
+/obj/item/weapon/robot_module/security/combat/New()
 	..()
 	src.modules += new /obj/item/device/flash(src)
 	src.modules += new /obj/item/borg/sight/thermal(src)
