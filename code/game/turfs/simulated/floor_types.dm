@@ -96,6 +96,7 @@
 	intact = 0
 
 /turf/simulated/floor/plating/with_grille
+	blocks_air = 1
 	icon_state = "with_grille"
 	New()
 		icon_state = "plating"
@@ -107,6 +108,7 @@
 				if(!istype(get_step(src,dir), /turf/simulated/floor/plating))
 					W = new(src)
 					W.dir = dir
+			blocks_air = 0
 
 /turf/simulated/floor/plating/airless
 	icon_state = "plating"
