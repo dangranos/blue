@@ -280,7 +280,6 @@
 		new /obj/item/clothing/shoes/brown(src)
 		new /obj/item/weapon/storage/box/evidence(src)
 		new /obj/item/device/radio/headset/headset_sec(src)
-		new /obj/item/device/detective_scanner(src)
 		new /obj/item/clothing/suit/storage/vest/detective(src)
 		new /obj/item/ammo_magazine/c45m/rubber(src)
 		new /obj/item/ammo_magazine/c45m/rubber(src)
@@ -324,7 +323,6 @@
 		new /obj/item/clothing/shoes/brown(src)
 		new /obj/item/weapon/storage/box/evidence(src)
 		new /obj/item/device/radio/headset/headset_sec(src)
-		new /obj/item/device/detective_scanner(src)
 		new /obj/item/taperoll/police(src)
 		new /obj/item/clothing/glasses/hud/security(src)
 		return
