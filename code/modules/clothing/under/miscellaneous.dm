@@ -532,6 +532,11 @@
 	name = "SID suit"
 	icon_state = "jane_sid_suit"
 	item_state = "suit-orange"
+
+/obj/item/clothing/under/french
+	name = "french suit"
+	icon_state = "french_suit"
+
 //Pants
 
 /obj/item/clothing/under/pants
