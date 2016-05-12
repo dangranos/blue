@@ -98,14 +98,17 @@
 /turf/simulated/floor/plating/with_grille
 	blocks_air = 1
 	icon_state = "with_grille"
+	var/strict_typecheck = 1
 	New()
 		icon_state = "plating"
 		..()
 		spawn(5)
+			var/type = /turf/simulated/floor/plating
+			if(strict_typecheck) type = /turf/simulated/floor/plating/with_grille
 			new /obj/structure/grille(src)
 			var/obj/structure/window/reinforced/W = null
 			for(var/dir in cardinal)
-				if(!istype(get_step(src,dir), /turf/simulated/floor/plating))
+				if(!istype(get_step(src,dir), type))
 					W = new(src)
 					W.dir = dir
 			blocks_air = 0
