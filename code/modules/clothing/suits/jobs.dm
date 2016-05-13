@@ -130,6 +130,15 @@
 /obj/item/clothing/suit/storage/det_suit/black
 	icon_state = "detective2"
 
+/obj/item/clothing/suit/storage/det_suit/seven
+	name = "leather coat"
+	icon_state = "sevencoat"
+	desc = "Thick and sturdy coat with the armor vest attached to it's innards. So, what's in the box?"
+	armor = list(melee = 50, bullet = 15, laser = 50, energy = 10, bomb = 25, bio = 0, rad = 0)
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+
+
+
 //Forensics
 /obj/item/clothing/suit/storage/forensics
 	name = "jacket"
