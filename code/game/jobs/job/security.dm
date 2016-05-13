@@ -93,7 +93,6 @@
 	put_in_backpack = list(\
 		/obj/item/weapon/flame/lighter/zippo,\
 		/obj/item/weapon/storage/box/evidence,\
-		/obj/item/device/detective_scanner
 		)
 
 	backpacks = list(

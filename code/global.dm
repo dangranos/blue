@@ -230,13 +230,6 @@ var/list/bradycardics  = list("neurotoxin", "cryoxadone", "clonexadone", "space_
 var/list/heartstopper  = list("potassium_phorochloride", "zombie_powder") // This stops the heart.
 var/list/cheartstopper = list("potassium_chloride")                       // This stops the heart when overdose is met. -- c = conditional
 
-// Used by robots and robot preferences.
-var/list/robot_module_types = list(
-	"Standard", "Engineering", "Construction", "Surgeon",  "Crisis",
-	"Miner",    "Janitor",     "Service",      "Clerical", "Security",
-	"Research"
-)
-
 // Some scary sounds.
 var/static/list/scarySounds = list(
 	'sound/weapons/thudswoosh.ogg',

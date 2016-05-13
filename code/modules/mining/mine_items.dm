@@ -25,7 +25,10 @@
 	new /obj/item/weapon/storage/bag/ore(src)
 	new /obj/item/device/flashlight/lantern(src)
 	new /obj/item/weapon/shovel(src)
-	new /obj/item/weapon/pickaxe(src)
+	if(prob(50))
+		new /obj/item/weapon/pickaxe(src)
+	else
+		new /obj/item/weapon/pickaxe/drill(src)
 	new /obj/item/clothing/glasses/material(src)
 
 /******************************Lantern*******************************/
@@ -39,25 +42,32 @@
 /*****************************Pickaxe********************************/
 
 /obj/item/weapon/pickaxe
-	name = "mining drill"
-	desc = "The most basic of mining drills, for short excavations and small mineral extractions."
+	name = "power pickaxe"
+	desc = "STRIKE THE GROUND! DIG A HOLE!"
 	icon = 'icons/obj/items.dmi'
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
 	force = 15.0
 	throwforce = 4.0
 	icon_state = "pickaxe"
-	item_state = "jackhammer"
+	item_state = "pickaxe"
 	w_class = 4.0
 	matter = list(DEFAULT_WALL_MATERIAL = 3750)
 	var/digspeed = 40 //moving the delay to an item var so R&D can make improved picks. --NEO
 	origin_tech = "materials=1;engineering=1"
-	attack_verb = list("hit", "pierced", "sliced", "attacked")
+	attack_verb = list("hit", "dug", "sliced", "attacked")
 	var/drill_sound = 'sound/weapons/Genhit.ogg'
-	var/drill_verb = "drilling"
+	var/drill_verb = "digging"
 	sharp = 1
 
 	var/excavation_amount = 100
+
+/obj/item/weapon/pickaxe/drill
+	name = "mining drill"
+	desc = "The most basic of mining drills, for short excavations and small mineral extractions."
+	item_state = "pickaxe"
+	attack_verb = list("hit", "pierced", "sliced", "attacked")
+	drill_verb = "drilling"
 
 /obj/item/weapon/pickaxe/hammer
 	name = "sledgehammer"
