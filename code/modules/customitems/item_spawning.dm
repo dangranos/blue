@@ -187,21 +187,25 @@
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
+	current_data.character_name = "Bertrand Francois"
 	current_data.item_path = /obj/item/clothing/under/french
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
+	current_data.character_name = "Bertrand Francois"
 	current_data.item_path = /obj/item/clothing/suit/storage/orange_bomber
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
+	current_data.character_name = "Bertrand Francois"
 	current_data.item_path = /obj/item/clothing/shoes/men_shoes
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
+	current_data.character_name = "Bertrand Francois"
 	current_data.item_path = /obj/item/clothing/gloves/black/half
 	L |= current_data
 
