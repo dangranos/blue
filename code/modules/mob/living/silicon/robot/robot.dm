@@ -3,8 +3,8 @@
 /mob/living/silicon/robot
 	name = "Cyborg"
 	real_name = "Cyborg"
-	icon = 'icons/mob/robots.dmi'
-	icon_state = "robot"
+	icon = 'icons/mob/robot_body.dmi'
+	icon_state = "human"
 	maxHealth = 200
 	health = 200
 
@@ -25,7 +25,7 @@
 //Icon stuff
 
 	var/icontype //Persistent icontype tracking allows for cleaner icon updates
-	var/module_sprites[0] //Used to store the associations between sprite names and sprite index.
+	var/datum/borg_sprite/sprite_data
 
 //Hud stuff
 
@@ -117,8 +117,8 @@
 	robot_modules_background.icon_state = "block"
 	robot_modules_background.layer = 19 //Objects that appear on screen are on layer 20, UI should be just below it.
 	ident = rand(1, 999)
-	module_sprites["Basic"] = "robot"
-	icontype = "Basic"
+	sprite_data = borg_sprites["Standard"]["Droid"]
+//	icontype = "Basic"
 	updatename("Default")
 	updateicon()
 
@@ -240,35 +240,28 @@
 		connected_ai.connected_robots -= src
 	..()
 
-/mob/living/silicon/robot/proc/set_module_sprites(var/list/new_sprites)
-	module_sprites = new_sprites
-	//Custom_sprite check and entry
-	if (custom_sprite == 1)
-		module_sprites["Custom"] = "[src.ckey]-[modtype]"
-	return module_sprites
-
 /mob/living/silicon/robot/proc/pick_module()
 	if(module)
 		return
-	var/list/modules = list()
-	modules.Add(robot_module_types)
+	var/list/modules = robot_modules.Copy()
 	if((crisis && security_level == SEC_LEVEL_RED) || crisis_override) //Leaving this in until it's balanced appropriately.
 		src << "\red Crisis mode active. Combat module available."
-		modules+="Combat"
+		for(var/name in redcode_robot_modules)
+			modules[name] = redcode_robot_modules[name]
 	modtype = input("Please, select a module!", "Robot", null, null) in modules
 
 	if(module)
 		return
-	if(!(modtype in robot_modules))
+
+	if(!(modtype in modules))
 		return
 
-	var/module_type = robot_modules[modtype]
+	var/module_type = modules[modtype]
 	new module_type(src)
 
 	hands.icon_state = lowertext(modtype)
 	updatename()
-	set_module_sprites(module.sprites)
-	choose_icon(module_sprites.len + 1, module_sprites)
+	choose_icon()
 	notify_ai(ROBOT_NOTIFICATION_NEW_MODULE, module.name)
 
 /mob/living/silicon/robot/proc/updatename(var/prefix as text)
@@ -338,7 +331,10 @@
 	var/dat = "<HEAD><TITLE>[src.name] Self-Diagnosis Report</TITLE></HEAD><BODY>\n"
 	for (var/V in components)
 		var/datum/robot_component/C = components[V]
-		dat += "<b>[C.name]</b><br><table><tr><td>Brute Damage:</td><td>[C.brute_damage]</td></tr><tr><td>Electronics Damage:</td><td>[C.electronics_damage]</td></tr><tr><td>Powered:</td><td>[(!C.idle_usage || C.is_powered()) ? "Yes" : "No"]</td></tr><tr><td>Toggled:</td><td>[ C.toggled ? "Yes" : "No"]</td></table><br>"
+		dat += "<b>[C.name]</b><br><table><tr><td>Brute Damage:</td><td>[C.brute_damage]</td></tr>\
+		<tr><td>Electronics Damage:</td><td>[C.electronics_damage]</td></tr>\
+		<tr><td>Powered:</td><td>[(!C.idle_usage || C.is_powered()) ? "Yes" : "No"]</td></tr>\
+		<tr><td>Toggled:</td><td>[ C.toggled ? "Yes" : "No"]</td></table><br>"
 
 	return dat
 
@@ -766,26 +762,27 @@
 /mob/living/silicon/robot/updateicon()
 	overlays.Cut()
 	if(stat == 0)
-		overlays += "eyes-[module_sprites[icontype]]"
+		var/image/eyes = image(icon, sprite_data.eyes)
+		eyes.color = sprite_data.eyes_color
+		overlays += eyes
 
 	if(opened)
-		var/panelprefix = custom_sprite ? src.ckey : "ov"
+		var/panelprefix = sprite_data.panel
 		if(wiresexposed)
-			overlays += "[panelprefix]-openpanel +w"
+			overlays += "[panelprefix]-panel +w"
 		else if(cell)
-			overlays += "[panelprefix]-openpanel +c"
+			overlays += "[panelprefix]-panel +c"
 		else
-			overlays += "[panelprefix]-openpanel -c"
+			overlays += "[panelprefix]-panel -c"
 
 	if(module_active && istype(module_active,/obj/item/borg/combat/shield))
-		overlays += "[module_sprites[icontype]]-shield"
+		overlays += "[sprite_data.icon_state]-shield"
 
-	if(modtype == "Combat")
-		if(module_active && istype(module_active,/obj/item/borg/combat/mobility))
-			icon_state = "[module_sprites[icontype]]-roll"
-		else
-			icon_state = module_sprites[icontype]
-		return
+	if(modtype == "Combat" && module_active && istype(module_active,/obj/item/borg/combat/mobility))
+		icon_state = "[sprite_data.icon_state]-roll"
+	else
+		icon_state = sprite_data.icon_state
+	return
 
 //Call when target overlay should be added/removed
 /mob/living/silicon/robot/update_targeted()
@@ -965,7 +962,8 @@
 /mob/living/silicon/robot/proc/ResetSecurityCodes()
 	set category = "Robot Commands"
 	set name = "Reset Identity Codes"
-	set desc = "Scrambles your security and identification codes and resets your current buffers.  Unlocks you and but permenantly severs you from your AI and the robotics console and will deactivate your camera system."
+	set desc = "Scrambles your security and identification codes and resets your current buffers.\
+	Unlocks you and but permenantly severs you from your AI and the robotics console and will deactivate your camera system."
 
 	var/mob/living/silicon/robot/R = src
 
@@ -992,39 +990,29 @@
 
 	return
 
-/mob/living/silicon/robot/proc/choose_icon(var/triesleft, var/list/module_sprites)
-	if(triesleft<1 || !module_sprites.len)
-		return
-	else
-		triesleft--
+/mob/living/silicon/robot/proc/choose_icon(var/triesleft = 0)
+	var/list/module_sprites = borg_sprites[module.module_type]
+	if(triesleft<1 && module_sprites.len)
+		triesleft = module_sprites.len + 1
 
 	if (custom_sprite == 1)
 		icontype = "Custom"
 		triesleft = 0
-	else if(module_sprites.len == 1)
-		icontype = module_sprites[1]
-	else
-		icontype = input("Select an icon! [triesleft ? "You have [triesleft] more chances." : "This is your last try."]", "Robot", null, null) in module_sprites
-
-	if(icontype)
-		icon_state = module_sprites[icontype]
-	else
-		src << "Something is badly wrong with the sprite selection. Harass a coder."
-		icon_state = module_sprites[1]
 		return
 
-	updateicon()
+	while(triesleft--)
+		icontype = input("Select an icon! [triesleft ? "You have [triesleft] more chances." : "This is your last try."]", "Robot", null, null) in module_sprites
+		sprite_data = borg_sprites[module.module_type][icontype]
 
-	if (triesleft >= 1)
+		updateicon()
+
 		var/choice = input("Look at your icon - is this what you want?") in list("Yes","No")
-		if(choice=="No")
-			choose_icon(triesleft, module_sprites)
-			return
-		else
+		if(choice=="Yes")
 			triesleft = 0
-			return
-	else
-		src << "Your icon has been set. You now require a module reset to change it."
+
+	src << "Your icon has been set. You now require a module reset to change it."
+
+
 
 /mob/living/silicon/robot/proc/sensor_mode() //Medical/Security HUD controller for borgs
 	set name = "Set Sensor Augmentation"
