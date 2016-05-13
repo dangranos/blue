@@ -287,6 +287,9 @@
 		new /obj/item/weapon/gun/projectile/colt/detective(src)
 		new /obj/item/clothing/accessory/holster/armpit(src)
 		new /obj/item/clothing/glasses/hud/security(src)
+		new /obj/item/clothing/suit/storage/det_suit/seven(src)
+		new /obj/item/clothing/under/det/seven(src)
+		new /obj/item/clothing/shoes/laceup(src)
 		return
 
 /obj/structure/closet/secure_closet/detective/update_icon()
