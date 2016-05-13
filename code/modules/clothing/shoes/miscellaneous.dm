@@ -134,3 +134,7 @@
 /obj/item/clothing/shoes/swat/batman
 	name = "batman boots"
 	icon_state = "batman"
+
+/obj/item/clothing/shoes/men_shoes
+	name = "high men shoes"
+	icon_state = "high_men_shoes"

@@ -150,7 +150,7 @@
 
 	//Flavour text for robots.
 	S["flavour_texts_robot_Default"] >> flavour_texts_robot["Default"]
-	for(var/module in robot_module_types)
+	for(var/module in robot_modules)
 		S["flavour_texts_robot_[module]"] >> flavour_texts_robot[module]
 
 	var/mod_id = "nothing"
@@ -289,7 +289,7 @@
 
 	//Flavour text for robots.
 	S["flavour_texts_robot_Default"] << flavour_texts_robot["Default"]
-	for(var/module in robot_module_types)
+	for(var/module in robot_modules)
 		S["flavour_texts_robot_[module]"] << flavour_texts_robot[module]
 
 	//Miscellaneous

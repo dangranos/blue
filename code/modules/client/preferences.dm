@@ -624,7 +624,7 @@ datum/preferences
 	HTML += "<a href ='byond://?src=\ref[user];preference=flavour_text_robot;task=Default'>Default:</a> "
 	HTML += TextPreview(cp1251_to_utf8(flavour_texts_robot["Default"]))
 	HTML += "<hr />"
-	for(var/module in robot_module_types)
+	for(var/module in robot_modules)
 		HTML += "<a href='byond://?src=\ref[user];preference=flavour_text_robot;task=[module]'>[module]:</a> "
 		HTML += TextPreview(cp1251_to_utf8(flavour_texts_robot[module]))
 		HTML += "<br>"
