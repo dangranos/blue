@@ -1449,3 +1449,15 @@
 
 /mob/living/carbon/human/proc/get_hidden_slot_sprite(state = "")
 	return image(species.get_hidden_slot_sprite(state, body_build), icon_state = state)
+
+/mob/living/carbon/human/proc/get_full_print()
+	if(!dna ||!dna.uni_identity)
+		return
+	return md5(dna.uni_identity)
+
+/mob/living/carbon/human/proc/check_has_mouth()
+	// Todo, check stomach organ when implemented.
+	var/obj/item/organ/external/head/H = get_organ("head")
+	if(!H)
+		return 0
+	return 1
