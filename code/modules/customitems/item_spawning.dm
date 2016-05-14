@@ -182,6 +182,16 @@
 
 	custom_items["tertiumdatur"] = L
 
+////Subber////
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "subber"
+	current_data.character_name = "Claire Sandford"
+	current_data.item_path = /obj/item/toy/plushie/man
+	L|=current_data
+
+	custom_items["subber"] = L
 
 	return 1
 
