@@ -76,6 +76,10 @@
 	icon_state = "polsuit"
 	item_state = "sl_suit"
 
+/obj/item/clothing/under/det/seven
+	icon_state = "detsuit_black"
+	item_state = "sl_suit"
+
 /obj/item/clothing/under/rank/forentech
 	name = "red forensic technician suit"
 	desc = "Someone who wears this means business."
