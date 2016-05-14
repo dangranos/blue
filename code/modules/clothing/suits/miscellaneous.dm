@@ -253,7 +253,7 @@
 	desc = "A flowing, black coat."
 	icon_state = "neocoat"
 	item_state = "neocoat"
-	
+
 /obj/item/clothing/suit/storage/retpolcoat
 	name = "retro coat"
 	desc = "Smells like genuine leather."
@@ -480,3 +480,11 @@
 	icon_state = "lebowski"
 	item_state = "lebowski"
 	body_parts_covered = ARMS
+
+/obj/item/clothing/suit/storage/orange_bomber
+	name = "orange bomber jacket"
+	icon_state = "orange_bomber"
+	body_parts_covered = UPPER_TORSO|ARMS
+	cold_protection = UPPER_TORSO|ARMS
+	min_cold_protection_temperature = T0C - 20
+	siemens_coefficient = 0.7
