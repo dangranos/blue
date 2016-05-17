@@ -7,12 +7,12 @@
  *		Toy crossbow
  *		Toy swords
  *		Toy bosun's whistle
- *      Toy mechs
+ *		Toy mechs
  *		Snap pops
  *		Water flower
- *      Therapy dolls
- *      Toddler doll
- *      Inflatable duck
+ *		Therapy dolls
+ *		Toddler doll
+ *		Inflatable duck
  *		Action figures
  *		Plushies
  *		Toy cult sword
@@ -938,6 +938,11 @@
 	name = "farwa plush"
 	desc = "A farwa plush doll. It's soft and comforting!"
 	icon_state = "farwaplushie"
+
+/obj/item/toy/plushie/man
+	name = "Ash Blackburn"
+	desc = "Totally what you think it is"
+	icon_state = "ashplushie"
 
 //Toy cult sword
 /obj/item/toy/cultsword
