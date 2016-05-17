@@ -323,7 +323,8 @@
 	..(newloc,"plastic")
 
 
-/obj/structure/bed/sofa/proc/update_layer()
+/obj/structure/bed/sofa/update_icon()
+	..()
 	if(src.dir == NORTH)
 		src.layer = 5
 	else
