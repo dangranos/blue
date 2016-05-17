@@ -93,28 +93,16 @@
 
 				bloodDNA = null
 
-			if(istype(src, /turf/simulated/floor/plating))
-
-				if(M.buckled || M.m_intent == "walk")
-					return
-				if(prob(25))
-					step(M, M.dir)
-					M.stop_pulling()
-					M << "<span class='warning'>You stumble on [src]! You should walk carefully on the [src] next time! </span>"
-					playsound(src.loc, 'sound/effects/bang.ogg', 50, 1, -3)
-					M.Stun(4)
-					M.Weaken(2)
-
 			var/contents_weight
-			for(var/obj/item/O in src.contents)
-				contents_weight += O.w_class
-				contents_weight = max(min(contents_weight, 95), 1)
+			for(var/obj/item/weapon/O in src.contents)
+				if(O.w_class > 1)
+					contents_weight += O.w_class
+			contents_weight = max(min(contents_weight, 95), 1)
 
 			if(prob(contents_weight))
-				if(M.buckled || (src.wet == 1 && M.m_intent == "walk"))
-					return
-				if(M.slip("something on the floor",4))
-					step(M, M.dir)
+				if(M.buckled || M.m_intent == "walk")
+					if(M.slip("something on the floor",4))
+						step(M, M.dir)
 
 		if(src.wet)
 
