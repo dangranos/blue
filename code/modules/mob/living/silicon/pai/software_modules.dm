@@ -394,6 +394,8 @@
 			hackprogress = 0
 			D.open()
 			cable.machine = null
+			qdel(cable)
+			cable = null
 			return
 		sleep(10)			// Update every second
 
