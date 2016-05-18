@@ -146,7 +146,7 @@
 
 			if(reagents && reagents.total_volume)
 				if(isliving(hit_atom))
-					visible_message("<span class = 'warning'>The soluton splashes all over the [target]!</span>")
+					visible_message("<span class = 'warning'>The soluton splashes all over the [hit_atom]!</span>")
 					reagents.splash(hit_atom, reagents.total_volume)
 				else
 					reagents.splash(hit_atom, reagents.total_volume)
