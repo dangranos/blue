@@ -162,7 +162,8 @@
 		magpulse = 0
 		canremove = 1
 
-/obj/item/clothing/shoes/magboots/vox/examine(mob/user)
-	..(user)
-	if (magpulse)
-		user << "It would be hard to take these off without relaxing your grip first." //theoretically this message should only be seen by the wearer when the claws are equipped.
+/obj/item/clothing/shoes/magboots/vox/examine(mob/user, return_dist=1)
+	. = ..()
+	if(magpulse && .<1)
+		user << "It would be hard to take these off without relaxing your grip first."
+		//theoretically this message should only be seen by the wearer when the claws are equipped.

@@ -12,8 +12,9 @@
 			icon_state = initial(new_type.icon_state)
 			caption = initial(new_type.caption)
 
-/obj/structure/sign/trophy/examine(mob/user)
-	if(..(user, 3) && caption)
+/obj/structure/sign/trophy/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=3 && caption)
 		user << "Caption: \"[caption]\""
 
 /obj/structure/sign/trophy/monkey

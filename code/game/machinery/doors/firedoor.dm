@@ -78,9 +78,9 @@
 /obj/machinery/door/firedoor/get_material()
 	return get_material_by_name(DEFAULT_WALL_MATERIAL)
 
-/obj/machinery/door/firedoor/examine(mob/user)
-	. = ..(user, 1)
-	if(!. || !density)
+/obj/machinery/door/firedoor/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(!(.>1) || !density)
 		return
 
 	if(pdiff >= FIREDOOR_MAX_PRESSURE_DIFF)

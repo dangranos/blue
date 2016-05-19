@@ -286,8 +286,8 @@
 	return 0
 
 /mob/living/simple_animal/spiderbot/examine(mob/user)
-	..(user)
-	if(src.held_item)
+	.=..()
+	if(.<=4 && src.held_item)
 		user << "It is carrying \icon[src.held_item] \a [src.held_item]."
 
 /mob/living/simple_animal/spiderbot/cannot_use_vents()

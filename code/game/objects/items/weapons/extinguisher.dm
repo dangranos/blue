@@ -38,8 +38,9 @@
 	create_reagents(max_water)
 	reagents.add_reagent("water", max_water)
 
-/obj/item/weapon/extinguisher/examine(mob/user)
-	if(..(user, 0))
+/obj/item/weapon/extinguisher/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(.<=1)
 		user << text("\icon[] [] contains [] units of water left!", src, src.name, src.reagents.total_volume)
 	return
 
@@ -62,7 +63,7 @@
 		if(C) C.propelled = (6-i)
 		O.Move(get_step(user,movementdirection), movementdirection)
 		sleep(move_speed[i])
-	
+
 	//additional movement
 	for(var/i in 1 to 3)
 		O.Move(get_step(user,movementdirection), movementdirection)
@@ -105,7 +106,7 @@
 		for(var/a = 1 to spray_particles)
 			spawn(0)
 				if(!src || !reagents.total_volume) return
-			
+
 				var/obj/effect/effect/water/W = PoolOrNew(/obj/effect/effect/water, get_turf(src))
 				var/turf/my_target
 				if(a <= the_targets.len)

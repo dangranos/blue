@@ -551,17 +551,15 @@
 	else if(dead)
 		remove_dead(user)
 
-/obj/machinery/portable_atmospherics/hydroponics/examine()
-
-	..()
-
+/obj/machinery/portable_atmospherics/hydroponics/examine(mob/user, return_dist=1)
+	.=..()
 	if(!seed)
 		usr << "[src] is empty."
 		return
 
 	usr << "<span class='notice'>[seed.display_name]</span> are growing here.</span>"
 
-	if(!Adjacent(usr))
+	if(.>2)
 		return
 
 	usr << "Water: [round(waterlevel,0.1)]/100"

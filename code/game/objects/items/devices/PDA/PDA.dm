@@ -62,8 +62,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 	var/obj/item/device/paicard/pai = null	// A slot for a personal AI device
 
-/obj/item/device/pda/examine(mob/user)
-	if(..(user, 1))
+/obj/item/device/pda/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(.<=1)
 		user << "The time [worldtime2text()] is displayed in the corner of the screen."
 
 /obj/item/device/pda/medical

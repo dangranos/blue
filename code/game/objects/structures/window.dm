@@ -18,7 +18,7 @@
 	var/silicate = 0 // number of units of silicate
 
 /obj/structure/window/examine(mob/user)
-	. = ..(user)
+	. = ..()
 
 	if(health == maxhealth)
 		user << "<span class='notice'>It looks fully intact.</span>"

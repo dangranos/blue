@@ -373,9 +373,9 @@
 		accuracy = initial(accuracy)
 		recoil = initial(recoil)
 
-/obj/item/weapon/gun/examine(mob/user)
-	..()
-	if(firemodes.len > 1)
+/obj/item/weapon/gun/examine(mob/user, return_dist=1)
+	.=..()
+	if(firemodes.len > 1 && .<=4)
 		var/datum/firemode/current_mode = firemodes[sel_mode]
 		user << "The fire selector is set to [current_mode.name]."
 
