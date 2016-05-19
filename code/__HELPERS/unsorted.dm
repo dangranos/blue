@@ -1034,27 +1034,27 @@ proc/get_mob_with_client_list()
 
 
 /proc/parse_zone(zone)
-	if(zone == "r_hand") return "right hand"
-	else if (zone == "l_hand") return "left hand"
-	else if (zone == "l_arm") return "left arm"
-	else if (zone == "r_arm") return "right arm"
-	else if (zone == "l_leg") return "left leg"
-	else if (zone == "r_leg") return "right leg"
-	else if (zone == "l_foot") return "left foot"
-	else if (zone == "r_foot") return "right foot"
-	else if (zone == "l_hand") return "left hand"
-	else if (zone == "r_hand") return "right hand"
-	else if (zone == "l_foot") return "left foot"
-	else if (zone == "r_foot") return "right foot"
-	else return zone
+	switch(zone)
+		if("r_hand") return "right hand"
+		if("l_hand") return "left hand"
+		if("l_arm")  return "left arm"
+		if("r_arm")  return "right arm"
+		if("l_leg")  return "left leg"
+		if("r_leg")  return "right leg"
+		if("l_foot") return "left foot"
+		if("r_foot") return "right foot"
+		if("l_hand") return "left hand"
+		if("r_hand") return "right hand"
+		if("l_foot") return "left foot"
+		if("r_foot") return "right foot"
+	return zone
 
 //gets the turf the atom is located in (or itself, if it is a turf).
 //returns null if the atom is not in a turf.
-/proc/get_turf(atom/location)
-	while(location)
-		if(isturf(location))
-			return location
-		location = location.loc
+/proc/get_turf(atom/movable/A)
+	if(isturf(A)) return A
+	if(istype(A) && A.loc && A.locs.len)
+		return A.locs[1]
 	return null
 
 /proc/get(atom/loc, type)
@@ -1172,8 +1172,7 @@ proc/is_hot(obj/item/W as obj)
 /proc/can_puncture(obj/item/W as obj)		// For the record, WHAT THE HELL IS THIS METHOD OF DOING IT?
 	if(!W) return 0
 	if(W.sharp) return 1
-	return ( \
-		W.sharp													  || \
+	return (
 		istype(W, /obj/item/weapon/screwdriver)                   || \
 		istype(W, /obj/item/weapon/pen)                           || \
 		istype(W, /obj/item/weapon/weldingtool)					  || \

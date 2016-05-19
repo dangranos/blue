@@ -3,11 +3,9 @@
 	icon = 'icons/obj/iv_drip.dmi'
 	anchored = 0
 	density = 1
-
-
-/obj/machinery/iv_drip/var/mob/living/carbon/human/attached = null
-/obj/machinery/iv_drip/var/mode = 1 // 1 is injecting, 0 is taking blood.
-/obj/machinery/iv_drip/var/obj/item/weapon/reagent_containers/beaker = null
+	var/mob/living/carbon/human/attached = null
+	var/mode = 1 // 1 is injecting, 0 is taking blood.
+	var/obj/item/weapon/reagent_containers/beaker = null
 
 /obj/machinery/iv_drip/update_icon()
 	if(src.attached)
@@ -36,19 +34,15 @@
 			overlays += filling
 
 /obj/machinery/iv_drip/MouseDrop(over_object, src_location, over_location)
-	..()
-
 	if(!istype(usr, /mob/living/carbon/human)) return
-
-	if(attached)
-		visible_message("[src.attached] is detached from \the [src]")
-		src.attached = null
-		src.update_icon()
-		return
-
 	if(in_range(src, usr) && ishuman(over_object) && get_dist(over_object, src) <= 1)
-		visible_message("[usr] attaches \the [src] to \the [over_object].")
-		src.attached = over_object
+		if(attached)
+			visible_message("[src.attached] is detached from \the [src]")
+			src.attached = null
+		else
+			visible_message("[usr] attaches \the [src] to \the [over_object].")
+			src.attached = over_object
+
 		src.update_icon()
 
 
