@@ -24,9 +24,9 @@
 	radio = new(src)
 	camera = new(src)
 
-/obj/item/device/spy_bug/examine(mob/user)
-	. = ..(user, 0)
-	if(.)
+/obj/item/device/spy_bug/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(. < 1)
 		user << "It's a tiny camera, microphone, and transmission device in a happy union."
 		user << "Needs to be both configured and brought in contact with monitor device to be fully functional."
 
@@ -63,9 +63,9 @@
 /obj/item/device/spy_monitor/New()
 	radio = new(src)
 
-/obj/item/device/spy_monitor/examine(mob/user)
-	. = ..(user, 1)
-	if(.)
+/obj/item/device/spy_monitor/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(. <= 1)
 		user << "The time '12:00' is blinking in the corner of the screen and \the [src] looks very cheaply made."
 
 /obj/item/device/spy_monitor/attack_self(mob/user)

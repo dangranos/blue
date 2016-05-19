@@ -51,13 +51,14 @@
 	else
 		icon_state = "[initial(name)]"
 
-/obj/item/weapon/melee/baton/examine(mob/user)
-	if(!..(user, 1))
+/obj/item/weapon/melee/baton/examine(mob/user, return_dist = 1)
+	.=..()
+	if(.>1)
 		return
 
 	if(bcell)
 		user <<"<span class='notice'>The baton is [round(bcell.percent())]% charged.</span>"
-	if(!bcell)
+	else
 		user <<"<span class='warning'>The baton does not have a power source installed.</span>"
 
 /obj/item/weapon/melee/baton/attackby(obj/item/weapon/W, mob/user)

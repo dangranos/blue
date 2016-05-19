@@ -186,7 +186,7 @@ its easier to just keep the beam vertical.
 
 
 //All atoms
-/atom/proc/examine(mob/user, var/distance = -1, var/infix = "", var/suffix = "")
+/atom/proc/examine(mob/user, var/return_distance = 0, var/infix = "", var/suffix = "")
 	//This reformat names to get a/an properly working on item descriptions when they are bloody
 	var/f_name = "\a [src][infix]."
 	if(src.blood_DNA && !istype(src, /obj/effect/decal))
@@ -202,7 +202,7 @@ its easier to just keep the beam vertical.
 	user << "\icon[src] That's [f_name] [suffix]"
 	user << desc
 
-	return distance == -1 || (get_dist(src, user) <= distance)
+	return return_distance ? get_dist(src, user) : 0
 
 // called by mobs when e.g. having the atom as their machine, pulledby, loc (AKA mob being inside the atom) or buckled var set.
 // see code/modules/mob/mob_movement.dm for more.

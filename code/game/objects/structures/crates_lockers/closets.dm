@@ -36,8 +36,9 @@
 			storage_capacity = content_size + 5
 
 
-/obj/structure/closet/examine(mob/user)
-	if(..(user, 1) && !opened)
+/obj/structure/closet/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1 && !opened)
 		var/content_size = 0
 		for(var/obj/item/I in src.contents)
 			if(!I.anchored)

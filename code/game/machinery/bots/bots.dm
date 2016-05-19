@@ -43,7 +43,7 @@
 		log_and_message_admins("emagged [src]'s inner circuits")
 
 /obj/machinery/bot/examine(mob/user)
-	..(user)
+	. = ..(user)
 	if (src.health < maxhealth)
 		if (src.health > maxhealth/3)
 			user << "<span class='warning'>[src]'s parts look loose.</span>"

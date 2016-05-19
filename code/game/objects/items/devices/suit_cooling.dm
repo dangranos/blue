@@ -161,8 +161,9 @@
 	else
 		icon_state = "suitcooler0"
 
-/obj/item/device/suit_cooling_unit/examine(mob/user)
-	if(!..(user, 1))
+/obj/item/device/suit_cooling_unit/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(.>1)
 		return
 
 	if (on)

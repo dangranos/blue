@@ -217,8 +217,9 @@
 	spawn(5)
 		src.update()
 
-/obj/machinery/power/apc/examine(mob/user)
-	if(..(user, 1))
+/obj/machinery/power/apc/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1)
 		user << "A control terminal for the area electrical systems."
 		if(stat & BROKEN)
 			user << "Looks broken."

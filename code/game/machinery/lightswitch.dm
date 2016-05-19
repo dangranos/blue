@@ -34,8 +34,9 @@
 	else
 		icon_state = "light[on]"
 
-/obj/machinery/light_switch/examine(mob/user)
-	if(..(user, 1))
+/obj/machinery/light_switch/examine(mob/user, return_dist = 1)
+	. = ..(user)
+	if(. <= 1)
 		user << "A light switch. It is [on? "on" : "off"]."
 
 /obj/machinery/light_switch/attack_hand(mob/user)

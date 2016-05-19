@@ -83,8 +83,8 @@
 	..()
 	flags |= NOBLUDGEON
 
-/obj/item/weapon/ducttape/examine(mob/user)
-	return stuck.examine(user)
+/obj/item/weapon/ducttape/examine(mob/user, return_dist = 0)
+	return stuck.examine(user, return_dist)
 
 /obj/item/weapon/ducttape/proc/attach(var/obj/item/weapon/W)
 	stuck = W
@@ -98,7 +98,7 @@
 		return
 
 	user << "You remove \the [initial(name)] from [stuck]."
-	
+
 	user.drop_from_inventory(src)
 	stuck.forceMove(get_turf(src))
 	user.put_in_hands(stuck)

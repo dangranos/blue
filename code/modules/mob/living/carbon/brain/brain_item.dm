@@ -61,7 +61,7 @@
 		brainmob.add_language(L.name)
 
 /obj/item/organ/brain/examine(mob/user) // -- TLE
-	..(user)
+	.=..()
 	if(brainmob && brainmob.client)//if thar be a brain inside... the brain.
 		user << "You can feel the small spark of life still left in this one."
 	else
