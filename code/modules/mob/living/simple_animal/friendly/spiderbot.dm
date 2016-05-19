@@ -285,7 +285,7 @@
 	src << "<span class='warning'>There is nothing of interest to take.</span>"
 	return 0
 
-/mob/living/simple_animal/spiderbot/examine(mob/user)
+/mob/living/simple_animal/spiderbot/examine(mob/user, return_dist=1)
 	.=..()
 	if(.<=4 && src.held_item)
 		user << "It is carrying \icon[src.held_item] \a [src.held_item]."
