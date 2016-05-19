@@ -145,7 +145,13 @@
 			src.transfer_fingerprints_to(B)
 
 			if(reagents && reagents.total_volume)
-				reagents.splash(hit_atom, reagents.total_volume)
+				if(isliving(hit_atom))
+					visible_message("<span class = 'warning'>The soluton splashes all over the [hit_atom]!</span>")
+					reagents.splash(hit_atom, reagents.total_volume)
+				else
+					reagents.splash(hit_atom, reagents.total_volume)
+
+
 
 			var/icon/Q = new(src.icon, B.icon_state)
 			Q.Blend(B.broken_outline, ICON_OVERLAY, rand(5), 1)
