@@ -26,6 +26,7 @@
 	..(new_loc, "Machine")
 
 /mob/living/carbon/human/monkey/New(var/new_loc)
+	icon_state = "monkey"
 	..(new_loc, "Monkey")
 
 /mob/living/carbon/human/farwa/New(var/new_loc)
