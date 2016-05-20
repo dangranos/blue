@@ -102,8 +102,9 @@
 				I.pixel_y = -3
 			overlays += I
 
-	examine(mob/user)
-		if(..(user, 4))
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<=4)
 			if(sortTag)
 				user << "<span class='notice'>It is labeled \"[sortTag]\"</span>"
 			if(examtext)
@@ -206,8 +207,9 @@
 					I.pixel_y = -3
 			overlays += I
 
-	examine(mob/user)
-		if(..(user, 4))
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<=4)
 			if(sortTag)
 				user << "<span class='notice'>It is labeled \"[sortTag]\"</span>"
 			if(examtext)
@@ -303,8 +305,9 @@
 			return
 		return
 
-	examine(mob/user)
-		if(..(user, 0))
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<=1)
 			user << "\blue There are [amount] units of package wrap left!"
 
 		return

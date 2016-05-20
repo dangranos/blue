@@ -71,9 +71,9 @@
 
 	free_space -= length(strip_html_properly(new_text))
 
-/obj/item/weapon/paper/examine(mob/user)
-	..()
-	if(in_range(user, src) || istype(user, /mob/dead/observer))
+/obj/item/weapon/paper/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1 || istype(user, /mob/dead/observer))
 		show_content(usr)
 	else
 		user << "<span class='notice'>You have to go closer if you want to read it.</span>"

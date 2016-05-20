@@ -48,9 +48,9 @@
 	if(!anchored)
 		return
 
-/obj/machinery/power/port_gen/examine(mob/user)
-	if(!..(user,1 ))
-		return
+/obj/machinery/power/port_gen/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1) return
 	if(active)
 		usr << "\blue The generator is on."
 	else
@@ -146,10 +146,11 @@
 	reliability = min(round(temp_reliability / part_count), 100)
 	power_gen = round(initial(power_gen) * (max(2, temp_rating) / 2))
 
-/obj/machinery/power/port_gen/pacman/examine(mob/user)
-	..(user)
-	user << "\The [src] appears to be producing [power_gen*power_output] W."
-	user << "There [sheets == 1 ? "is" : "are"] [sheets] sheet\s left in the hopper."
+/obj/machinery/power/port_gen/pacman/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=4)
+		user << "\The [src] appears to be producing [power_gen*power_output] W."
+		user << "There [sheets == 1 ? "is" : "are"] [sheets] sheet\s left in the hopper."
 	if(IsBroken()) user << "<span class='warning'>\The [src] seems to have broken down.</span>"
 	if(overheating) user << "<span class='danger'>\The [src] is overheating!</span>"
 

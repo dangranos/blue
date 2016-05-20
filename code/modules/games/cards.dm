@@ -203,7 +203,7 @@
 	user.visible_message("\The [user] [concealed ? "conceals" : "reveals"] their hand.")
 
 /obj/item/weapon/hand/examine(mob/user)
-	..(user)
+	. = ..()
 	if((!concealed || src.loc == user) && cards.len)
 		user << "It contains: "
 		for(var/datum/playingcard/P in cards)

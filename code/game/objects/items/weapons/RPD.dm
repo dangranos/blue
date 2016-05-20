@@ -211,7 +211,7 @@ RPD
 */
 
 /*/obj/item/weapon/rpd/examine()
-	..()
+	. = ..()
 	if(src.type == /obj/item/weapon/rpd && loc == usr)
 		usr << "It currently holds [stored_matter]/30 matter-units."
 */

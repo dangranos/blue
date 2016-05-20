@@ -95,11 +95,11 @@
 					return suit.cell
 	return null
 
-/obj/item/weapon/gun/energy/examine(mob/user)
-	..(user)
-	var/shots_remaining = round(power_supply.charge / charge_cost)
-	user << "Has [shots_remaining] shot\s remaining."
-	return
+/obj/item/weapon/gun/energy/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=3)
+		var/shots_remaining = round(power_supply.charge / charge_cost)
+		user << "Has [shots_remaining] shot\s remaining."
 
 /obj/item/weapon/gun/energy/update_icon()
 	if(charge_meter)

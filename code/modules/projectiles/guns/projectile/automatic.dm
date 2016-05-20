@@ -206,7 +206,7 @@
 	return
 
 /obj/item/weapon/gun/projectile/automatic/z8/examine(mob/user)
-	..()
+	.=..()
 	if(launcher.chambered)
 		user << "\The [launcher] has \a [launcher.chambered] loaded."
 	else

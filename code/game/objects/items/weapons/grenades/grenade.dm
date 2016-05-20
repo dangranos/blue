@@ -42,8 +42,9 @@
 	return*/
 
 
-/obj/item/weapon/grenade/examine(mob/user)
-	if(..(user, 0))
+/obj/item/weapon/grenade/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(.<=1)
 		if(det_time > 1)
 			user << "The timer is set to [det_time/10] seconds."
 			return

@@ -553,9 +553,9 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	else
 		w_class = 2.0
 
-/obj/item/stack/cable_coil/examine(mob/user)
-	if(get_dist(src, user) > 1)
-		return
+/obj/item/stack/cable_coil/examine(mob/user, return_dist=1)
+	.=..()
+	if(.>1) return
 
 	if(get_amount() == 1)
 		user << "A short piece of power cable."
