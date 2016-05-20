@@ -190,12 +190,12 @@
 		ammo_magazine = null
 		update_icon() //make sure to do this after unsetting ammo_magazine
 
-/obj/item/weapon/gun/projectile/examine(mob/user)
-	..(user)
+/obj/item/weapon/gun/projectile/examine(mob/user, return_dist=1)
+	.=..()
 	if(ammo_magazine)
 		user << "It has \a [ammo_magazine] loaded."
-	user << "Has [getAmmo()] round\s remaining."
-	return
+		if(.<=4)
+			user << "Has [getAmmo()] round\s remaining."
 
 /obj/item/weapon/gun/projectile/proc/getAmmo()
 	var/bullets = 0

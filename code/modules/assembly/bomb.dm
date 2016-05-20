@@ -12,7 +12,7 @@
 	var/obj/item/weapon/tank/bombtank = null //the second part of the bomb is a phoron tank
 
 /obj/item/device/onetankbomb/examine(mob/user)
-	..(user)
+	.=..()
 	user.examinate(bombtank)
 
 /obj/item/device/onetankbomb/update_icon()

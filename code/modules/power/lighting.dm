@@ -27,9 +27,9 @@
 	if (fixture_type == "bulb")
 		icon_state = "bulb-construct-stage1"
 
-/obj/machinery/light_construct/examine(mob/user)
-	if(!..(user, 2))
-		return
+/obj/machinery/light_construct/examine(mob/user, return_dist=1)
+	.=..()
+	if(.>2) return
 
 	switch(src.stage)
 		if(1)
@@ -280,15 +280,16 @@
 
 // examine verb
 /obj/machinery/light/examine(mob/user)
+	.=..()
 	switch(status)
 		if(LIGHT_OK)
-			user << "[desc] It is turned [on? "on" : "off"]."
+			user << "It is turned [on? "on" : "off"]."
 		if(LIGHT_EMPTY)
-			user << "[desc] The [fitting] has been removed."
+			user << "The [fitting] has been removed."
 		if(LIGHT_BURNED)
-			user << "[desc] The [fitting] is burnt out."
+			user << "The [fitting] is burnt out."
 		if(LIGHT_BROKEN)
-			user << "[desc] The [fitting] has been smashed."
+			user << "The [fitting] has been smashed."
 
 
 

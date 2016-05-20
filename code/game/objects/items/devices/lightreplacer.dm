@@ -62,8 +62,9 @@
 	failmsg = "The [name]'s refill light blinks red."
 	..()
 
-/obj/item/device/lightreplacer/examine(mob/user)
-	if(..(user, 2))
+/obj/item/device/lightreplacer/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(. <= 2)
 		user << "It has [uses] lights remaining."
 
 /obj/item/device/lightreplacer/attackby(obj/item/W, mob/user)

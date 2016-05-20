@@ -57,13 +57,13 @@
 	var/obj/item/clothing/head/helmet/helmet = null   // Deployable helmet, if any.
 	var/obj/item/weapon/tank/tank = null              // Deployable tank, if any.
 
-/obj/item/clothing/suit/space/void/examine(user)
-	..(user)
+/obj/item/clothing/suit/space/void/examine(user, return_dist=1)
+	. = ..()
 	var/list/part_list = new
 	for(var/obj/item/I in list(helmet,boots,tank))
 		part_list += "\a [I]"
 	user << "\The [src] has [english_list(part_list)] installed."
-	if(tank && in_range(src,user))
+	if(tank && .<=1)
 		user << "<span class='notice'>The wrist-mounted pressure gauge reads [max(round(tank.air_contents.return_pressure()),0)] kPa remaining in \the [tank].</span>"
 
 /obj/item/clothing/suit/space/void/refit_for_species(var/target_species)

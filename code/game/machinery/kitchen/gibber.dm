@@ -81,7 +81,7 @@
 		src.startgibbing(user)
 
 /obj/machinery/gibber/examine()
-	..()
+	. = ..()
 	usr << "The safety guard is [emagged ? "<span class='danger'>disabled</span>" : "enabled"]."
 
 /obj/machinery/gibber/attackby(var/obj/item/W, var/mob/user)

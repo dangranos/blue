@@ -33,8 +33,9 @@
 	keyslot2 = null
 	..()
 
-/obj/item/device/radio/headset/examine(mob/user)
-	if(!(..(user, 1) && radio_desc))
+/obj/item/device/radio/headset/examine(mob/user, return_dist = 1)
+	. = ..()
+	if( .>1 || !radio_desc )
 		return
 
 	user << "The following channels are built-in:"
