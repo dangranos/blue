@@ -444,7 +444,7 @@ var/global/datum/controller/occupations/job_master
 				H.buckled.set_dir(H.dir)
 
 		//give them an account in the station database
-		var/datum/money_account/M = create_account(H.real_name, rand(50,500)*10, null)
+		var/datum/money_account/M = create_account(H.real_name, rand(250,1000), null)
 		if(H.mind)
 			var/remembered_info = ""
 			remembered_info += "<b>Your account number is:</b> #[M.account_number]<br>"
