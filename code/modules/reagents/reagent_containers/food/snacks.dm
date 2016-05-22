@@ -119,17 +119,17 @@
 	return 0
 
 
-/obj/item/weapon/reagent_containers/food/snacks/examine(mob/user)
-	if(!..(user, 1))
-		return
-	if (bitecount==0)
-		return
-	else if (bitecount==1)
-		user << "<span class='notice'>\The [src] was bitten by someone!</span>"
-	else if (bitecount<=3)
-		user << "<span class='notice'>\The [src] was bitten [bitecount] time\s!</span>"
-	else
-		user << "<span class='notice'>\The [src] was bitten multiple times!</span>"
+/obj/item/weapon/reagent_containers/food/snacks/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=4)
+		if (bitecount==0)
+			return
+		else if (bitecount==1)
+			user << "<span class='notice'>\The [src] was bitten by someone!</span>"
+		else if (bitecount<=3)
+			user << "<span class='notice'>\The [src] was bitten [bitecount] time\s!</span>"
+		else
+			user << "<span class='notice'>\The [src] was bitten multiple times!</span>"
 
 
 /obj/item/weapon/reagent_containers/food/snacks/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -1289,6 +1289,19 @@
 		..()
 		reagents.add_reagent("protein", 3)
 		bitesize = 2
+		
+/obj/item/weapon/reagent_containers/food/snacks/pyureshka
+	name = "Pyureshechka"
+	desc = "Tastes better with cutlets."
+	icon_state = "pyureshka"
+	filling_color = "#9C7A68"
+	center_of_mass = list("x"=16, "y"=10)
+	nutriment_desc = list("potato" = 2, "milk" = 2)
+	nutriment_amt = 5
+	New()
+		..()
+		reagents.add_reagent("protein", 6)
+		bitesize = 4
 
 /obj/item/weapon/reagent_containers/food/snacks/fries
 	name = "Space Fries"

@@ -23,15 +23,15 @@
 			src.verbs -= /obj/structure/reagent_dispensers/verb/set_APTFT
 		..()
 
-	examine(mob/user)
-		if(!..(user, 2))
-			return
-		user << "\blue It contains:"
-		if(reagents && reagents.reagent_list.len)
-			for(var/datum/reagent/R in reagents.reagent_list)
-				user << "\blue [R.volume] units of [R.name]"
-		else
-			user << "\blue Nothing."
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<=2)
+			user << "\blue It contains:"
+			if(reagents && reagents.reagent_list.len)
+				for(var/datum/reagent/R in reagents.reagent_list)
+					user << "\blue [R.volume] units of [R.name]"
+			else
+				user << "\blue Nothing."
 
 	verb/set_APTFT() //set amount_per_transfer_from_this
 		set name = "Set transfer amount"
@@ -93,13 +93,13 @@
 		..()
 		reagents.add_reagent("fuel",1000)
 
-/obj/structure/reagent_dispensers/fueltank/examine(mob/user)
-	if(!..(user, 2))
-		return
-	if (modded)
-		user << "\red Fuel faucet is wrenched open, leaking the fuel!"
-	if(rig)
-		user << "<span class='notice'>There is some kind of device rigged to the tank."
+/obj/structure/reagent_dispensers/fueltank/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=2)
+		if (modded)
+			user << "\red Fuel faucet is wrenched open, leaking the fuel!"
+		if(rig)
+			user << "<span class='notice'>There is some kind of device rigged to the tank."
 
 /obj/structure/reagent_dispensers/fueltank/attack_hand()
 	if (rig)

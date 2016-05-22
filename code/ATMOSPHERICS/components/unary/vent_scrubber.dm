@@ -141,12 +141,14 @@
 	var/power_draw = -1
 	if(scrubbing)
 		//limit flow rate from turfs
-		var/transfer_moles = min(environment.total_moles, environment.total_moles*MAX_SCRUBBER_FLOWRATE/environment.volume)	//group_multiplier gets divided out here
+		var/transfer_moles = min(environment.total_moles, environment.total_moles*MAX_SCRUBBER_FLOWRATE/environment.volume)
+		//group_multiplier gets divided out here
 
 		power_draw = scrub_gas(src, scrubbing_gas, environment, air_contents, transfer_moles, power_rating)
 	else //Just siphon all air
 		//limit flow rate from turfs
-		var/transfer_moles = min(environment.total_moles, environment.total_moles*MAX_SIPHON_FLOWRATE/environment.volume)	//group_multiplier gets divided out here
+		var/transfer_moles = min(environment.total_moles, environment.total_moles*MAX_SIPHON_FLOWRATE/environment.volume)
+		//group_multiplier gets divided out here
 
 		power_draw = pump_gas(src, environment, air_contents, transfer_moles, power_rating)
 
@@ -240,7 +242,8 @@
 			broadcast_status()
 		return //do not update_icon
 
-//			log_admin("DEBUG \[[world.timeofday]\]: vent_scrubber/receive_signal: unknown command \"[signal.data["command"]]\"\n[signal.debug_print()]")
+//log_admin("DEBUG \[[world.timeofday]\]: \
+	vent_scrubber/receive_signal: unknown command \"[signal.data["command"]]\"\n[signal.debug_print()]")
 	spawn(2)
 		broadcast_status()
 	update_icon()
@@ -278,8 +281,9 @@
 		new /obj/item/pipe(loc, make_from=src)
 		qdel(src)
 
-/obj/machinery/atmospherics/unary/vent_scrubber/examine(mob/user)
-	if(..(user, 1))
+/obj/machinery/atmospherics/unary/vent_scrubber/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1)
 		user << "A small gauge in the corner reads [round(last_flow_rate, 0.1)] L/s; [round(last_power_draw)] W"
 	else
 		user << "You are too far away to read the gauge."

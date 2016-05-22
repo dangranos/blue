@@ -22,7 +22,7 @@
 	qdel(ion_trail)
 	..()
 
-/obj/item/weapon/tank/jetpack/examine(mob/user)
+/obj/item/weapon/tank/jetpack/examine(mob/user, return_dist = 0)
 	. = ..()
 	if(air_contents.total_moles < 5)
 		user << "<span class='danger'>The meter on \the [src] indicates you are almost out of gas!</span>"
