@@ -83,14 +83,14 @@ var/global/list/limb_icon_cache = list()
 			mob_icon = new /icon('icons/mob/human_races/r_human.dmi', "[limb_name]_m0")
 		else
 			if(skeletal)
-				mob_icon = new /icon('icons/mob/human_races/r_skeleton.dmi', "[limb_name][is_stump()?"_s":""]_[gender][body_build]")
+				mob_icon = new /icon('icons/mob/human_races/r_skeleton.dmi', "[limb_name]_[gender][body_build]")
 			else if ((status & ORGAN_ROBOT) && !(owner.species && owner.species.flags & IS_SYNTHETIC))
-				mob_icon = new /icon('icons/mob/human_races/robotic.dmi', "[limb_name][is_stump()?"_s":""]_[gender][body_build]")
+				mob_icon = new /icon('icons/mob/human_races/robotic.dmi', "[limb_name]_[gender][body_build]")
 			else
 				if (status & ORGAN_MUTATED)
 					mob_icon = new /icon(owner.species.deform, "[limb_name]_[gender][body_build]")
 				else
-					mob_icon = new /icon(owner.species.icobase, "[limb_name]_[gender][body_build]")
+					mob_icon = new /icon(owner.species.icobase, "[limb_name][is_stump()?"_s":""]_[gender][body_build]")
 
 				if(status & ORGAN_DEAD)
 					mob_icon.ColorTone(rgb(10,50,0))
