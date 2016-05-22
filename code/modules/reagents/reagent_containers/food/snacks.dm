@@ -1289,6 +1289,19 @@
 		..()
 		reagents.add_reagent("protein", 3)
 		bitesize = 2
+		
+/obj/item/weapon/reagent_containers/food/snacks/pyureshka
+	name = "Pyureshechka"
+	desc = "Tastes better with cutlets."
+	icon_state = "pyureshka"
+	filling_color = "#9C7A68"
+	center_of_mass = list("x"=16, "y"=10)
+	nutriment_desc = list("potato" = 2, "milk" = 2)
+	nutriment_amt = 5
+	New()
+		..()
+		reagents.add_reagent("protein", 6)
+		bitesize = 4
 
 /obj/item/weapon/reagent_containers/food/snacks/fries
 	name = "Space Fries"
