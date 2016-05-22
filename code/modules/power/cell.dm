@@ -77,12 +77,12 @@
 	return amount_used
 
 
-/obj/item/weapon/cell/examine(mob/user)
-	if(get_dist(src, user) > 1)
-		return
+/obj/item/weapon/cell/examine(mob/user, return_dist=1)
+	.=..()
+	if(.>1) return
 
 	if(maxcharge <= 2500)
-		user << "[desc]\nThe manufacturer's label states this cell has a power rating of [maxcharge], and that you should not swallow it.\nThe charge meter reads [round(src.percent() )]%."
+		user << "The manufacturer's label states this cell has a power rating of [maxcharge], and that you should not swallow it.\nThe charge meter reads [round(src.percent() )]%."
 	else
 		user << "This power cell has an exciting chrome finish, as it is an uber-capacity cell type! It has a power rating of [maxcharge]!\nThe charge meter reads [round(src.percent() )]%."
 	if(crit_fail)

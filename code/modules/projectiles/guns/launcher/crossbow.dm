@@ -116,7 +116,7 @@
 		//double check that the user hasn't removed the bolt in the meantime
 		if(!(bolt && tension && loc == current_user))
 			return
-		
+
 		tension++
 		update_icon()
 
@@ -207,7 +207,7 @@
 	icon_state = "crossbowframe[buildstate]"
 
 /obj/item/weapon/crossbowframe/examine(mob/user)
-	..(user)
+	.=..()
 	switch(buildstate)
 		if(1) user << "It has a loose rod frame in place."
 		if(2) user << "It has a steel backbone welded in place."

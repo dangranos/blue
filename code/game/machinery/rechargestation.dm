@@ -105,7 +105,7 @@
 			R.adjustFireLoss(-wire_rate)
 
 /obj/machinery/recharge_station/examine(mob/user)
-	..(user)
+	. = ..()
 	user << "The charge meter reads: [round(chargepercentage())]%"
 
 /obj/machinery/recharge_station/proc/chargepercentage()

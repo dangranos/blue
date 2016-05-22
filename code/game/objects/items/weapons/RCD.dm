@@ -30,7 +30,7 @@
 	return (user.Adjacent(T) && user.get_active_hand() == src && !user.stat && !user.restrained())
 
 /obj/item/weapon/rcd/examine()
-	..()
+	. = ..()
 	if(src.type == /obj/item/weapon/rcd && loc == usr)
 		usr << "It currently holds [stored_matter]/30 matter-units."
 

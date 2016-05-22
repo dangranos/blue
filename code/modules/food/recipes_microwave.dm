@@ -379,6 +379,11 @@ I said no!
 	fruit = list("potato" = 1)
 	items = list(/obj/item/weapon/reagent_containers/food/snacks/cheesewedge)
 	result = /obj/item/weapon/reagent_containers/food/snacks/loadedbakedpotato
+	
+/datum/recipe/pyureshka
+	fruit = list("potato" = 2)
+	reagents = list("milk" = 10)
+	result = /obj/item/weapon/reagent_containers/food/snacks/pyureshka
 
 /datum/recipe/cheesyfries
 	items = list(

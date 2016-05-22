@@ -78,24 +78,22 @@
 		qdel(O)
 	..()
 
-/obj/item/weapon/reagent_containers/food/snacks/csandwich/examine(mob/user)
-	..(user)
-	var/obj/item/O = pick(contents)
-	user << "\blue You think you can see [O.name] in there."
+/obj/item/weapon/reagent_containers/food/snacks/csandwich/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=2)
+		var/obj/item/O = pick(contents)
+		user << "\blue You think you can see [O.name] in there."
 
 /obj/item/weapon/reagent_containers/food/snacks/csandwich/attack(mob/M as mob, mob/user as mob, def_zone)
-
 	var/obj/item/shard
 	for(var/obj/item/O in contents)
 		if(istype(O,/obj/item/weapon/material/shard))
 			shard = O
 			break
 
-	var/mob/living/H
-	if(istype(M,/mob/living))
-		H = M
-
-	if(H && shard && M == user) //This needs a check for feeding the food to other people, but that could be abusable.
-		H << "\red You lacerate your mouth on a [shard.name] in the sandwich!"
-		H.adjustBruteLoss(5) //TODO: Target head if human.
+	var/mob/living/H = M
+	if(istype(H))
+		if(H && shard && H == user) //This needs a check for feeding the food to other people, but that could be abusable.
+			H << "\red You lacerate your mouth on a [shard.name] in the sandwich!"
+			H.adjustBruteLoss(5) //TODO: Target head if human.
 	..()
