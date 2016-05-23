@@ -272,8 +272,10 @@ var/global/list/damage_icon_parts = list()
 			icon_key += "0"
 		else if(part.status & ORGAN_ROBOT)
 			icon_key += "2[part.model ? "-[part.model]": ""]"
-		else if(part.status & ORGAN_DEAD)
+		else if(part.status & ORGAN_MUTATED)
 			icon_key += "3"
+		else if(part.status & ORGAN_DEAD)
+			icon_key += "4"
 		else
 			icon_key += "1[part.tattoo][part.tattoo2]"
 
@@ -348,7 +350,7 @@ var/global/list/damage_icon_parts = list()
 	overlays_standing[HAIR_LAYER]	= null
 
 	var/obj/item/organ/external/head/head_organ = get_organ("head")
-	if(!head_organ || head_organ.is_stump() || (head_organ.status & ORGAN_DESTROYED) )
+	if(!head_organ || head_organ.is_stump() || (head_organ.status & ORGAN_DESTROYED) || (SKELETON in src.mutations))
 		if(update_icons)   update_icons()
 		return
 
