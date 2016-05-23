@@ -257,6 +257,12 @@
 	icon_state = "dress_fire"
 	item_state = "waiter"
 
+/obj/item/clothing/under/dress/dress_blue
+	name = "blue dress"
+	desc = "A small blue dress."
+	icon_state = "bluedress"
+	item_state = "b_suit"
+
 /obj/item/clothing/under/dress/dress_green
 	name = "green dress"
 	desc = "A simple, tight fitting green dress."
