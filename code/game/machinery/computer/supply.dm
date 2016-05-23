@@ -300,8 +300,8 @@
 
 /obj/machinery/computer/order/proc/show_pack( var/supply_name )
 	var/datum/supply_packs/SP = supply_controller.supply_packs[supply_name]
-	if(SP.hidden || SP.contraband || SP.group != src.last_viewed_group) return ""					//Have to send the type instead of a reference to
-	return "<A href='?src=\ref[src];doorder=[supply_name]'>[supply_name]</A> Cost: [SP.cost]<BR>"	//the obj because it would get caught by the garbage
+	if(SP.hidden || SP.contraband || SP.group != src.last_viewed_group) return ""
+	return "<A href='?src=\ref[src];doorder=[supply_name]'>[supply_name]</A> Cost: [SP.cost]<BR>"
 
 /obj/machinery/computer/order/supply/show_pack( var/supply_name )
 	var/datum/supply_packs/SP = supply_controller.supply_packs[supply_name]
