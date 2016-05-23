@@ -569,7 +569,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 		return
 
 	user.set_machine(src)
-	var/dat = ""
+	var/dat = "<style>span.req{padding-left: 20px; font-size: 90%}</style>"
 	files.RefreshResearch()
 	switch(screen) //A quick check to make sure you get the right screen when a device is disconnected.
 		if(2 to 2.9)
@@ -800,7 +800,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					else if (!linked_lathe.reagents.has_reagent(M, D.materials[M]*linked_lathe.mat_efficiency))
 						check_materials = 0
 				if(temp_dat)
-					temp_dat = " \[[copytext(temp_dat,3)]\]"
+					temp_dat = "<br><span class='req'>\[[copytext(temp_dat,3)]\]</span>"
 				if(check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];build=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else
@@ -890,7 +890,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					else if (!linked_imprinter.reagents.has_reagent(M, D.materials[M]*linked_imprinter.mat_efficiency))
 						check_materials = 0
 				if(temp_dat)
-					temp_dat = " \[[copytext(temp_dat,3)]\]"
+					temp_dat = "<br><span class='req'>\[[copytext(temp_dat,3)]\]</span>"
 				if (check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];imprint=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else
@@ -945,7 +945,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 			dat += "List of Researched Technologies and Designs:"
 			dat += GetResearchListInfo()
 
-	user << browse("<TITLE>Research and Development Console</TITLE><HR>[dat]", "window=rdconsole;size=850x600")
+	user << browse("<TITLE>Research and Development Console</TITLE><HR>[dat]", "window=rdconsole;size=570x400")
 	onclose(user, "rdconsole")
 
 /obj/machinery/computer/rdconsole/robotics
