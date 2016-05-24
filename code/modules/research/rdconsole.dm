@@ -560,7 +560,7 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 	dat += "<UL>"
 	for(var/datum/design/D in files.known_designs)
 		if(D.build_path)
-			dat += "<LI><B>[D.name]</B>: [D.desc]"
+			dat += "<LI><B>[D.name]</B>:<br>[D.desc]"
 	dat += "</UL>"
 	return dat
 
