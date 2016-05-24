@@ -795,8 +795,8 @@ var/global/list/damage_icon_parts = list()
 	var/image/standing = new/image(icon = 'icons/mob/mob.dmi', icon_state = "blank")
 	for( var/obj/item/clothing/hidden/C in list(h_socks, h_underwear, h_undershirt) )
 		if(!C) continue
-		var/icon/item = get_hidden_slot_sprite(C.item_state)
-		//if(C.color) item.color = C.color
+		var/image/item = get_hidden_slot_sprite(C.item_state)
+		if(C.color) item.color = C.color
 		standing.overlays += item
 
 	overlays_standing[UNDERWEAR_LAYER] = standing
