@@ -229,7 +229,10 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 	changeling.absorbed_dna |= T.dna
 	if(src.nutrition < 400) src.nutrition = min((src.nutrition + T.nutrition), 400)
 	changeling.chem_charges += 10
-	changeling.geneticpoints += 2
+	if(issmall(T))
+		src << "<span class='warning'>This creature's DNA can't make us more powerfull!</span>"
+	else
+		changeling.geneticpoints += 2
 
 	//Steal all of their languages!
 	for(var/language in T.languages)
