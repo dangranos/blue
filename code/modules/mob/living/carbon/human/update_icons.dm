@@ -248,14 +248,14 @@ var/global/list/damage_icon_parts = list()
 	g += "[body_build]"
 
 	//CACHING: Generate an index key from visible bodyparts.
-	//0 = destroyed, 1 = normal, 2 = robotic, 3 = necrotic.
+	//0 = destroyed, 1 = normal, 2 = robotic, 3 = mutated, 4 = necrotic.
 
 	//Create a new, blank icon for our mob to use.
 	if(stand_icon)
 		qdel(stand_icon)
 	stand_icon = new(species.icon_template ? species.icon_template : 'icons/mob/human.dmi',"blank")
 
-	var/icon_key = "[species.race_key][g][s_tone][skin_color]"
+	var/icon_key = "[species.race_key][g][species.flags & HAS_SKIN_TONE ? s_tone : ""][species.flags & HAS_SKIN_COLOR ? skin_color : ""]"
 	if(lip_color)
 		icon_key += lip_color
 	else
@@ -286,8 +286,7 @@ var/global/list/damage_icon_parts = list()
 		base_icon = human_icon_cache[icon_key]
 	else
 		//BEGIN CACHED ICON GENERATION.
-		var/obj/item/organ/external/chest = get_organ("chest")
-		base_icon = chest.get_icon()
+		base_icon = icon('icons/mob/human.dmi', "blank")
 
 		for(var/obj/item/organ/external/part in organs)
 			var/icon/temp = part.get_icon(skeleton)
