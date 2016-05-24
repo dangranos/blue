@@ -99,19 +99,32 @@
 	blocks_air = 1
 	icon_state = "with_grille"
 	var/strict_typecheck = 1
+	var/tmp/border_type = /obj/structure/window
+	var/id = null //for tint
+
 	New()
+		var/tint = istype(border_type, /obj/structure/window/reinforced/polarized)
 		icon_state = "plating"
 		..()
 		spawn(5)
 			var/type = /turf/simulated/floor/plating
-			if(strict_typecheck) type = /turf/simulated/floor/plating/with_grille
+			if(strict_typecheck) type = src.type
 			new /obj/structure/grille(src)
 			var/obj/structure/window/reinforced/W = null
 			for(var/dir in cardinal)
 				if(!istype(get_step(src,dir), type))
-					W = new(src)
+					W = new border_type(src)
 					W.dir = dir
+					if(tint)
+						W:id = src.id
 			blocks_air = 0
+
+/turf/simulated/floor/plating/with_grille/reinforced
+	border_type = /obj/structure/window/reinforced
+
+/turf/simulated/floor/plating/with_grille/tinted
+	border_type = /obj/structure/window/reinforced/polarized
+
 
 /turf/simulated/floor/plating/airless
 	icon_state = "plating"
