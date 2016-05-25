@@ -8,7 +8,7 @@
 	..()
 	spawn(2)
 		switch(pick(1,2,3))
-			if(1) new /obj/item/weapon/storage/backpack/industrial(src)
+			if(1) new /obj/item/weapon/storage/backpack(src)
 			if(2) new /obj/item/weapon/storage/backpack/satchel_norm(src)
 			if(3) new /obj/item/weapon/storage/backpack/duffle(src)
 		new /obj/item/device/radio/headset( src )
