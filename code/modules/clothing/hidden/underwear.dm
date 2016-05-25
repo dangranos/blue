@@ -5,30 +5,30 @@
 
 ////Female////
 
-/obj/item/clothing/hidden/underwear/pink_female
+/obj/item/clothing/hidden/underwear/type1
+	name = "white female underwear"
+	icon_state = "underwear_f1"
+	item_state = "underwear_f1"
+
+/obj/item/clothing/hidden/underwear/type1/pink
 	name = "pink female underwear"
-	icon_state = "pink_female"
-	item_state = "pink_female"
+	color = "#ff66ff"
 
-/obj/item/clothing/hidden/underwear/red_female
+/obj/item/clothing/hidden/underwear/type1/red
 	name = "red female underwear"
-	icon_state = "red_female"
-	item_state = "red_female"
+	color = "#f05438"
 
-/obj/item/clothing/hidden/underwear/black_female
+/obj/item/clothing/hidden/underwear/type1/black
 	name = "black female underwear"
-	icon_state = "black_female"
-	item_state = "black_female"
+	color = "#282828"
 
-/obj/item/clothing/hidden/underwear/blue_female
+/obj/item/clothing/hidden/underwear/type1/blue
 	name = "blue female underwear"
-	icon_state = "blue_female"
-	item_state = "blue_female"
+	color = "#3333ff"
 
-/obj/item/clothing/hidden/underwear/light_gray_female
+/obj/item/clothing/hidden/underwear/yellow
 	name = "light gray female underwear"
-	icon_state = "light_gray_female"
-	item_state = "light_gray_female"
+	color = "#fff000"
 
 /obj/item/clothing/hidden/underwear/mixed_female
 	name = "mixed female underwear"
