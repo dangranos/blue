@@ -1447,11 +1447,11 @@ var/global/list/gear_datums = list()
 
 /datum/gear/underwear/black_female
 	display_name = "Underwear, female, black"
-	path = /obj/item/clothing/hidden/underwear/black_female
+	path = /obj/item/clothing/hidden/underwear/type1/black
 
 /datum/gear/underwear/blue_female
 	display_name = "Underwear, female, blue"
-	path = /obj/item/clothing/hidden/underwear/blue_female
+	path = /obj/item/clothing/hidden/underwear/type1/blue
 
 /datum/gear/underwear/gray_female
 	display_name = "Underwear, female, gray"
@@ -1460,10 +1460,6 @@ var/global/list/gear_datums = list()
 /datum/gear/underwear/green_female
 	display_name = "Underwear, female, green"
 	path = /obj/item/clothing/hidden/underwear/green_female
-
-/datum/gear/underwear/light_gray_female
-	display_name = "Underwear, female, light gray"
-	path = /obj/item/clothing/hidden/underwear/light_gray_female
 
 /datum/gear/underwear/light_pink_female
 	display_name = "Underwear, female, light pink"
@@ -1479,11 +1475,11 @@ var/global/list/gear_datums = list()
 
 /datum/gear/underwear/pink_female
 	display_name = "Underwear, female, pink"
-	path = /obj/item/clothing/hidden/underwear/pink_female
+	path = /obj/item/clothing/hidden/underwear/type1/pink
 
 /datum/gear/underwear/red_female
 	display_name = "Underwear, female, red"
-	path = /obj/item/clothing/hidden/underwear/red_female
+	path = /obj/item/clothing/hidden/underwear/type1/red
 
 /datum/gear/underwear/red_alt_female
 	display_name = "Underwear, female, red alt"
