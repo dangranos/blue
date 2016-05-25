@@ -7,10 +7,10 @@
 /obj/structure/closet/secure_closet/personal/New()
 	..()
 	spawn(2)
-		if(prob(50))
-			new /obj/item/weapon/storage/backpack(src)
-		else
-			new /obj/item/weapon/storage/backpack/satchel_norm(src)
+		switch(pick(1,2,3))
+			if(1) new /obj/item/weapon/storage/backpack/industrial(src)
+			if(2) new /obj/item/weapon/storage/backpack/satchel_norm(src)
+			if(3) new /obj/item/weapon/storage/backpack/duffle(src)
 		new /obj/item/device/radio/headset( src )
 	return
 
@@ -28,27 +28,12 @@
 		new /obj/item/clothing/shoes/white( src )
 	return
 
-
-
 /obj/structure/closet/secure_closet/personal/cabinet
 	icon_state = "cabinetdetective_locked"
 	icon_closed = "cabinetdetective"
-	icon_locked = "cabinetdetective_locked"
 	icon_opened = "cabinetdetective_open"
 	icon_broken = "cabinetdetective_broken"
 	icon_off = "cabinetdetective_broken"
-
-/obj/structure/closet/secure_closet/personal/cabinet/update_icon()
-	if(broken)
-		icon_state = icon_broken
-	else
-		if(!opened)
-			if(locked)
-				icon_state = icon_locked
-			else
-				icon_state = icon_closed
-		else
-			icon_state = icon_opened
 
 /obj/structure/closet/secure_closet/personal/cabinet/New()
 	..()
@@ -75,8 +60,7 @@
 		if(src.allowed(user) || !src.registered_name || (istype(I) && (src.registered_name == I.registered_name)))
 			//they can open all lockers, or nobody owns this, or they own this locker
 			src.locked = !( src.locked )
-			if(src.locked)	src.icon_state = src.icon_locked
-			else	src.icon_state = src.icon_closed
+			update_icon()
 
 			if(!src.registered_name)
 				src.registered_name = I.registered_name
@@ -87,7 +71,7 @@
 		broken = 1
 		locked = 0
 		desc = "It appears to be broken."
-		icon_state = src.icon_broken
+		update_icon()
 		if(istype(W, /obj/item/weapon/melee/energy/blade))
 			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
 			spark_system.set_up(5, 0, src.loc)
@@ -117,7 +101,7 @@
 				if(!src.close())
 					return
 			src.locked = 1
-			src.icon_state = src.icon_locked
+			update_icon()
 			src.registered_name = null
 			src.desc = "It's a secure locker for personnel. The first card swiped gains control."
 	return
