@@ -1,9 +1,11 @@
-#define PAGE_RECORDS	1
-#define PAGE_LIMBS		2
-#define PAGE_OCCUPATION	3
-#define PAGE_LOADOUT	4
-#define PAGE_SILICON	5
-#define PAGE_PREFS		6
+#define PAGE_LOAD		1
+#define PAGE_RECORDS	2
+#define PAGE_LIMBS		3
+#define PAGE_OCCUPATION	4
+#define PAGE_LOADOUT	5
+#define PAGE_SILICON	6
+#define PAGE_PREFS		7
+#define PAGE_SPECIES	8
 
 /datum/preferences
 	var/global/list/setup_pages = list(
@@ -50,8 +52,8 @@
 
 	var/dat = "<html><head><script language='javascript'>function set(param, value)"
 	dat += "{window.location='byond://?src=\ref[src];'+param+'='+value;}</script>"
-	dat += "<style>span.box{display: inline-block; width: 20px; height: 10px; border:1px solid #000;}"
-	dat += "td{padding: 0px}</style></head><body><center>"
+	dat += "<style>span.box{display: inline-block; width: 20px; height: 10px; border:1px solid #000;} td{padding: 0px}</style>"
+	dat += "</head><body><center>"
 
 	if(path)
 		dat += "Slot - "
@@ -78,6 +80,7 @@
 		if(PAGE_SILICON)	dat+=GetSiliconPage()
 		if(PAGE_PREFS)		dat+=GetPrefsPage()
 		if(PAGE_LOADOUT)	dat+=GetLoadOutPage()
+		if(PAGE_SPECIES)	dat+=GetSpeciesPage()
 		else dat+=GetRecordsPage() // Protection
 	dat += "</body></html>"
 
@@ -98,8 +101,13 @@
 			preview_dir = turn(preview_dir,-90)
 		else
 			preview_dir = turn(preview_dir,90)
-/*
+
 	if(href_list["preference"])
+		switch(href_list["preference"])
+			if("reload")
+				load_preferences()
+				load_character()
+/*
 		if("open_load_dialog")
 			if(!IsGuestKey(user.key))
 				spawn(2)
@@ -120,6 +128,7 @@
 		if(PAGE_OCCUPATION)	HandleOccupationTopic(user, href_list)
 		if(PAGE_SILICON)	HandleSiliconTopic(user, href_list)
 		if(PAGE_PREFS)		HandlePrefsTopic(user, href_list)
+		if(PAGE_SPECIES)	HandleSpeciesTopic(user, href_list)
 
 	if(user.ready)
 		return
@@ -137,7 +146,7 @@
 	dat += "(<a href='byond://?src=\ref[src];name=random_always'>Always Random Name: [random_name ? "Yes" : "No"]</a>)"
 	dat += "<br>"
 
-	dat += "Species: <a href='byond://?src=\ref[src];species=input'>[species]</a><br>"
+	dat += "Species: <a href='byond://?src=\ref[src];switch_page=[PAGE_SPECIES]'>[species]</a><br>"
 //	dat += "Secondary Language:<br><a href='byond://?src=\ref[src];language=input'>[language]</a><br>"
 	dat += "Gender: <a href='byond://?src=\ref[src];gender=switch'>[gender == MALE ? "Male" : "Female"]</a><br>"
 	if(gender == FEMALE && current_species.allow_slim_fem)
@@ -518,7 +527,7 @@
 	var/list/splitJobs = list("Chief Medical Officer")
 
 
-	var/HTML = "<tt><center>"
+	var/HTML = "<style>td.job{text-align:right; width:60%}</style><tt><center>"
 	HTML += "<b>Choose occupation chances</b><br>Unavailable occupations are crossed out.<br><br>"
 	HTML += "<table width='100%' cellpadding='1' cellspacing='0'><tr><td width='20%'>" // Table within a table for alignment, also allows you to easily add more colomns.
 	HTML += "<table width='100%' cellpadding='1' cellspacing='0'>"
@@ -535,11 +544,11 @@
 				//If the cells were broken up by a job in the splitJob list then it will fill in the rest of the cells with
 				//the last job's selection color. Creating a rather nice effect.
 				for(var/i = 0, i < (limit - index), i += 1)
-					HTML += "<tr bgcolor='[lastJob.selection_color]'><td width='60%' align='right'><a>&nbsp</a></td><td><a>&nbsp</a></td></tr>"
+					HTML += "<tr bgcolor='[lastJob.selection_color]'><td class='job'><a>&nbsp</a></td><td><a>&nbsp</a></td></tr>"
 			HTML += "</table></td><td width='20%'><table width='100%' cellpadding='1' cellspacing='0'>"
 			index = 0
 
-		HTML += "<tr bgcolor='[job.selection_color]'><td width='60%' align='right'>"
+		HTML += "<tr bgcolor='[job.selection_color]'><td class='job'>"
 		var/rank = job.title
 		var/job_name = rank
 		if(job.alt_titles)
@@ -582,20 +591,20 @@
 			HTML += " <font color=red>\[NEVER]</font>"
 		HTML += "</a></td></tr>"
 
-	HTML += "</td'></tr></table>"
+	HTML += "</table></td></tr>"
 
-	HTML += "</center></table>"
+	HTML += "</table>"
 
 	switch(alternate_option)
 		if(GET_RANDOM_JOB)
-			HTML += "<center><br><u><a href='?_src_=prefs;preference=job;task=random'><font color=green>Get random job if preferences unavailable</font></a></u></center><br>"
+			HTML += "<br><u><a href='?_src_=prefs;preference=job;task=random'><font color=green>Get random job if preferences unavailable</font></a></u><br>"
 		if(BE_ASSISTANT)
-			HTML += "<center><br><u><a href='?_src_=prefs;preference=job;task=random'><font color=red>Be assistant if preference unavailable</font></a></u></center><br>"
+			HTML += "<br><u><a href='?_src_=prefs;preference=job;task=random'><font color=red>Be assistant if preference unavailable</font></a></u><br>"
 		if(RETURN_TO_LOBBY)
-			HTML += "<center><br><u><a href='?_src_=prefs;preference=job;task=random'><font color=purple>Return to lobby if preference unavailable</font></a></u></center><br>"
+			HTML += "<br><u><a href='?_src_=prefs;preference=job;task=random'><font color=purple>Return to lobby if preference unavailable</font></a></u><br>"
 
-	HTML += "<center><a href='?_src_=prefs;preference=job;task=reset'>\[Reset\]</a></center>"
-	HTML += "</tt>"
+	HTML += "<a href='?_src_=prefs;preference=job;task=reset'>\[Reset\]</a>"
+	HTML += "</center></tt>"
 
 	return HTML
 
@@ -603,11 +612,15 @@
 
 /datum/preferences/proc/GetPrefsPage()
 
+/datum/preferences/proc/GetSpeciesPage()
+
+
 
 /datum/preferences/proc/HandleLoadOutTopic(mob/new_player/user, list/href_list)
 /datum/preferences/proc/HandleOccupationTopic(mob/new_player/user, list/href_list)
 /datum/preferences/proc/HandleSiliconTopic(mob/new_player/user, list/href_list)
 /datum/preferences/proc/HandlePrefsTopic(mob/new_player/user, list/href_list)
+/datum/preferences/proc/HandleSpeciesTopic(mob/new_player/user, list/href_list)
 
 
 #undef PAGE_RECORDS
