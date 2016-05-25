@@ -95,7 +95,9 @@ For copy-pasting:
 	H.equip_survival_gear(custom_survival_gear)
 
 	//No-check items (suits, gloves, etc)
-	if(ear) 		H.equip_to_slot_or_del(new ear (H), slot_l_ear)
+	if(ear)
+		H.equip_to_slot_or_del(new ear (H), slot_l_ear)
+		H << "<b>To speak on your department's radio channel use :h. For the use of other channels, examine your headset.</b>"
 	if(shoes)		H.equip_to_slot_or_del(new shoes (H), slot_shoes)
 	if(uniform)		H.equip_to_slot_or_del(new uniform (H), slot_w_uniform)
 	if(suit)		H.equip_to_slot_or_del(new suit (H), slot_wear_suit)
