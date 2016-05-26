@@ -120,7 +120,8 @@
 
 
 /obj/item/weapon/reagent_containers/food/snacks/examine(mob/user)
-	if(!..(user, 1))
+	.=..()
+	if(.<=4)
 		return
 	if (bitecount==0)
 		return
