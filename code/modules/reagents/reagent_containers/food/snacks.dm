@@ -119,17 +119,17 @@
 	return 0
 
 
-/obj/item/weapon/reagent_containers/food/snacks/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=4)
-		if (bitecount==0)
-			return
-		else if (bitecount==1)
-			user << "<span class='notice'>\The [src] was bitten by someone!</span>"
-		else if (bitecount<=3)
-			user << "<span class='notice'>\The [src] was bitten [bitecount] time\s!</span>"
-		else
-			user << "<span class='notice'>\The [src] was bitten multiple times!</span>"
+/obj/item/weapon/reagent_containers/food/snacks/examine(mob/user)
+	if(!..(user, 1))
+		return
+	if (bitecount==0)
+		return
+	else if (bitecount==1)
+		user << "<span class='notice'>\The [src] was bitten by someone!</span>"
+	else if (bitecount<=3)
+		user << "<span class='notice'>\The [src] was bitten [bitecount] time\s!</span>"
+	else
+		user << "<span class='notice'>\The [src] was bitten multiple times!</span>"
 
 
 /obj/item/weapon/reagent_containers/food/snacks/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -892,6 +892,18 @@
 		..()
 		bitesize = 2
 
+/obj/item/weapon/reagent_containers/food/snacks/chickenburger
+	name = "chicken burger"
+	desc = "Tastes like chi...oh wait!"
+	icon_state = "mc_chicken"
+	filling_color = "#FFFEE0"
+	center_of_mass = list("x"=16, "y"=10)
+	nutriment_desc = list("bun" = 2, "chicken meat" = 3)
+	nutriment_amt = 6
+	New()
+		..()
+	bitesize = 2
+
 /obj/item/weapon/reagent_containers/food/snacks/roburger
 	name = "roburger"
 	desc = "The lettuce is the only organic component. Beep."
@@ -977,6 +989,21 @@
 	New()
 		..()
 		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/muffin/berry
+	name = "berry muffin"
+	icon_state = "berrymuffin"
+	desc = "A delicious and spongy little cake, with berries."
+
+/obj/item/weapon/reagent_containers/food/snacks/muffin/booberry
+	name = "booberry muffin"
+	icon_state = "booberrymuffin"
+	desc = "My stomach is a graveyard! No living being can quench my bloodthirst!"
+
+/obj/item/weapon/reagent_containers/food/snacks/muffin/dindumuffin
+	name = "Dindu Muffin"
+	desc = "This muffin didn't do anything."
+	icon_state = "dindumuffins"
 
 /obj/item/weapon/reagent_containers/food/snacks/pie
 	name = "Banana Cream Pie"
@@ -1289,7 +1316,7 @@
 		..()
 		reagents.add_reagent("protein", 3)
 		bitesize = 2
-		
+
 /obj/item/weapon/reagent_containers/food/snacks/pyureshka
 	name = "Pyureshechka"
 	desc = "Tastes better with cutlets."
@@ -1932,6 +1959,19 @@
 		..()
 		bitesize = 2
 
+
+/obj/item/weapon/reagent_containers/food/snacks/riceball
+	name = "Rice Ball"
+	desc = "In mining culture, this is also known as a donut."
+	icon_state = "riceball"
+	filling_color = "#FFFBDB"
+	center_of_mass = list("x"=17, "y"=11)
+	nutriment_desc = list("rice" = 2)
+	nutriment_amt = 2
+	New()
+		..()
+		bitesize = 1
+
 /obj/item/weapon/reagent_containers/food/snacks/boiledrice
 	name = "Boiled Rice"
 	desc = "A boring dish of boring rice."
@@ -1985,6 +2025,19 @@
 		..()
 		reagents.add_reagent("protein", 4)
 		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/copypasta
+	name = "copypasta"
+	desc = "You probably shouldn't try this, you always hear people talking about how bad it is..."
+	icon_state = "copypasta"
+	trash = /obj/item/trash/plate
+	filling_color = "#DE4545"
+	center_of_mass = list("x"=16, "y"=10)
+	nutriment_desc = list("tomato" = 6, "noodles" = 6)
+	nutriment_amt = 12
+	New()
+		..()
+		bitesize = 4
 
 /obj/item/weapon/reagent_containers/food/snacks/spesslaw
 	name = "Spesslaw"
@@ -2160,8 +2213,8 @@
 		bitesize = 1
 
 /obj/item/weapon/reagent_containers/food/snacks/beetsoup
-	name = "beet soup"
-	desc = "Wait, how do you spell it again..?"
+	name = "borscht"
+	desc = "Feed your inner Russian with borscht."
 	icon_state = "beetsoup"
 	trash = /obj/item/trash/snack_bowl
 	filling_color = "#FAC9FF"
@@ -2491,6 +2544,24 @@
 	bitesize = 2
 	center_of_mass = list("x"=16, "y"=14)
 
+/obj/item/weapon/reagent_containers/food/snacks/sliceable/chococherrycake
+	name = "chocolate-cherry cake"
+	desc = "A chocolate cake with icing and cherries."
+	icon_state = "chococherrycake"
+	slice_path = /obj/item/weapon/reagent_containers/food/snacks/chococherrycakeslice
+	slices_num = 5
+	center_of_mass = list("x"=16, "y"=10)
+	nutriment_desc = list("cake" = 10, "sweetness" = 10, "chocolate" = 15, "cherry" = 8)
+	nutriment_amt = 20
+
+/obj/item/weapon/reagent_containers/food/snacks/chococherrycakeslice
+	name = "chocolate-cherry cake slice"
+	desc = "Just a slice of cake, it is enough for everyone."
+	icon_state = "chococherrycake_slice"
+	trash = /obj/item/trash/plate
+	bitesize = 2
+	center_of_mass = list("x"=16, "y"=14)
+
 /obj/item/weapon/reagent_containers/food/snacks/sliceable/cheesewheel
 	name = "Cheese wheel"
 	desc = "A big wheel of delcious Cheddar."
@@ -2632,6 +2703,29 @@
 	filling_color = "#F5B951"
 	bitesize = 2
 	center_of_mass = list("x"=16, "y"=12)
+
+
+/obj/item/weapon/reagent_containers/food/snacks/sliceable/buchedenoel
+	name = "Buche de Noel"
+	desc = "Merry Christmas"
+	icon_state = "buche"
+	slice_path = /obj/item/weapon/reagent_containers/food/snacks/bucheslice
+	slices_num = 5
+	trash = /obj/item/trash/tray
+	filling_color = "#805930"
+	center_of_mass = list("x"=16, "y"=10)
+	nutriment_desc = list("cream" = 2, "chocolate" = 2, "winter magic" = 1)
+	nutriment_amt = 20
+
+/obj/item/weapon/reagent_containers/food/snacks/bucheslice
+	name = "Buche de Noel slice"
+	desc = "A slice of winter magic"
+	icon_state = "buche_slice"
+	trash = /obj/item/trash/tray
+	filling_color = "#805930"
+	bitesize = 2
+	center_of_mass = list("x"=16, "y"=10)
+
 
 /obj/item/weapon/reagent_containers/food/snacks/cracker
 	name = "Cracker"
@@ -2908,6 +3002,42 @@
 		reagents.add_reagent("radium", 2)
 		bitesize = 2
 
+/obj/item/weapon/reagent_containers/food/snacks/wrap
+	name = "egg wrap"
+	desc = "The precursor to Pigs in a Blanket."
+	icon_state = "wrap"
+	filling_color = "#75754B"
+	center_of_mass = list("x"=16, "y"=7)
+	nutriment_desc = list("soy sauce" = 3, "egg" = 2, "cabbage" = 2)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/beans
+	name = "tin of beans"
+	desc = "Musical fruit in a slightly less musical container."
+	icon_state = "beans"
+	filling_color = "#75754B"
+	center_of_mass = list("x"=16, "y"=7)
+	nutriment_desc = list("tomatoes" = 4, "beans" = 3)
+	nutriment_amt = 10
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/benedict
+	name = "eggs benedict"
+	desc = "There is only one egg on this, how rude."
+	icon_state = "benedict"
+	filling_color = "#75754B"
+	center_of_mass = list("x"=16, "y"=7)
+	nutriment_desc = list("fried egg" = 2, "fried meat" = 2, "bread" = 2)
+	nutriment_amt = 3
+	New()
+		..()
+		bitesize = 3
+
 ///////////////////////////////////////////
 // new old food stuff from bs12
 ///////////////////////////////////////////
@@ -3131,3 +3261,253 @@
 	New()
 		..()
 		bitesize = 3
+
+//////////////////CHICKEN//////////////////
+
+/obj/item/weapon/reagent_containers/food/snacks/chicken_nuggets
+	name = "Chicken Nuggets"
+	desc = "You'd rather not know how they were prepared."
+	icon_state = "kfc_nuggets"
+	item_state = "kfc_bucket"
+	trash = /obj/item/trash/chicken_bucket
+	center_of_mass = list("x"=16, "y"=15)
+	nutriment_desc = list("fried chicken" = 5)
+	nutriment_amt = 6
+	New()
+		..()
+		bitesize = 1
+
+/obj/item/weapon/reagent_containers/food/snacks/chicken_drumstick
+	name = "chicken drumstick"
+	desc = "We can fry further..."
+	icon_state = "chicken_drumstick"
+	trash = /obj/item/trash/chicken_bucket
+	center_of_mass = list("x"=16, "y"=15)
+	nutriment_desc = list("fried chicken" = 5)
+	nutriment_amt = 3
+	New()
+		..()
+		bitesize = 1
+
+/obj/item/weapon/reagent_containers/food/snacks/chicken_fillet
+	name = "Chicken Fillet"
+	desc = "This is a fancy word for chicken fingers so that high class people can forget they're eating fried food."
+	icon_state = "tendies"
+	center_of_mass = list("x"=16, "y"=15)
+	nutriment_desc = list("fried chicken" = 5, "corn" = 1)
+	nutriment_amt = 4
+	New()
+		..()
+		bitesize = 2
+
+
+//////////////////CURRY//////////////////
+
+/obj/item/weapon/reagent_containers/food/snacks/curry
+	name = "Chicken Balti"
+	desc = "Finest Indian Cuisine, at least you think it is chicken."
+	icon_state = "curry_balti"
+	center_of_mass = list("x"=16, "y"=15)
+	nutriment_desc = list("chicken" = 4, "chilli" = 2, "tomatoes" = 2)
+	nutriment_amt = 20
+	New()
+		..()
+		bitesize = 3
+
+/obj/item/weapon/reagent_containers/food/snacks/curry/vindaloo
+	name = "Chicken Vindaloo"
+	desc = "Me and me Mum and me Dad and me Nan are off to Waterloo, me and me Mum and me Dad and me Nan and a bucket of Vindaloo!"
+	icon_state = "curry_vindaloo"
+	center_of_mass = list("x"=16, "y"=15)
+	nutriment_desc = list("chicken" = 3, "chilli" = 5, "tomatoes" = 2)
+	nutriment_amt = 20
+	New()
+		..()
+		bitesize = 3
+
+/obj/item/weapon/reagent_containers/food/snacks/curry/lemon
+	name = "Lemon Curry"
+	desc = "This actually exists?"
+	icon_state = "curry_lemon"
+	center_of_mass = list("x"=16, "y"=15)
+	nutriment_desc = list("chicken" = 4, "bitterness" = 5)
+	nutriment_amt = 20
+	New()
+		..()
+		bitesize = 3
+
+
+//////////////////CHIPS//////////////////
+
+
+/obj/item/weapon/reagent_containers/food/snacks/chips/cookable
+	name = "Plain Chips"
+	desc = "Where did the bag come from?"
+	icon_state = "plain_chips"
+	trash = /obj/item/trash/chips
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("salt" = 1, "chips" = 2)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 1
+
+/obj/item/weapon/reagent_containers/food/snacks/chips/cookable/cheddar
+	name = "Cheddar Chips"
+	desc = "Dangerously cheesy."
+	icon_state = "cheddar_chips"
+	trash = /obj/item/trash/chips
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("salt" = 1, "chips" = 2, "cheese" = 2)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 1
+
+/obj/item/weapon/reagent_containers/food/snacks/chips/cookable/clown
+	name = "Banana Chips"
+	desc = "A clown's favourite snack!"
+	icon_state = "clown_chips"
+	trash = /obj/item/trash/chips
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("chips" = 2, "bananas" = 4)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/chips/cookable/nuclear
+	name = "Nuclear Chips"
+	desc = "Radioactive taste!"
+	icon_state = "nuclear_chips"
+	trash = /obj/item/trash/chips
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("chips" = 2, "radiation" = 3)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/chips/cookable/communist
+	name = "Communist Chips"
+	desc = "A perfect snack to share with the party!"
+	icon_state = "commie_chips"
+	trash = /obj/item/trash/chips
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("chips" = 2, "vodka" = 3)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 2
+
+
+/obj/item/weapon/reagent_containers/food/snacks/gigapuddi
+	name = "Giga Puddi"
+	desc = "A large crème caramel"
+	icon_state = "gigapuddi"
+	trash = /obj/item/trash/plate
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("pudding" = 4)
+	nutriment_amt = 20
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/gigapuddi/happy
+	desc = "A large crème caramel made with extra love"
+	icon_state = "happypuddi"
+	nutriment_desc = list("pudding" = 4, "happines" = 2)
+
+/obj/item/weapon/reagent_containers/food/snacks/gigapuddi/anger
+	desc = "A large crème caramel made with extra hate"
+	icon_state = "angerpuddi"
+	nutriment_desc = list("pudding" = 4, "anger" = 2)
+
+/obj/item/weapon/reagent_containers/food/snacks/omurice
+	name = "omelette rice"
+	desc = "Just like your Japanese animes!"
+	icon_state = "omurice"
+	trash = /obj/item/trash/plate
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("egg" = 2,"rice" = 2, "ketchup" = 1)
+	nutriment_amt = 8
+	New()
+		..()
+		bitesize = 1
+
+/obj/item/weapon/reagent_containers/food/snacks/omurice/heart
+	icon_state = "omuriceheart"
+	nutriment_desc = list("egg" = 2,"rice" = 2, "ketchup" = 1, "love" = 1)
+
+/obj/item/weapon/reagent_containers/food/snacks/omurice/face
+	icon_state = "omuriceface"
+
+
+/obj/item/weapon/reagent_containers/food/snacks/yellowcake
+	name = "Yellowcake"
+	desc = "For Fat Men."
+	icon_state = "yellowcake"
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("nuclear danger" = 3)
+	nutriment_amt = 40
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/yellowcupcake
+	name = "Yellowcupcake"
+	desc = "For Little Boys."
+	icon_state = "yellowcupcake"
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("little nuclear danger" = 3)
+	nutriment_amt = 15
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/cookiebowl
+	name = "Bowl of cookies"
+	desc = "A bowl full of small cookies."
+	icon_state = "cookiebowl"
+	trash = /obj/item/trash/snack_bowl
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("cookies" = 3, "chocolate" = 2)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 2
+
+/obj/item/weapon/reagent_containers/food/snacks/corndog
+	name = "Corndog"
+	desc = "Battered hotdog on a stick!"
+	icon_state = "corndog"
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("sausage" = 2, "corny bun" = 3)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 5
+
+/obj/item/weapon/reagent_containers/food/snacks/sundae
+	name = "Sundae"
+	desc = "A colorful ice cream treat."
+	icon_state = "sundae"
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("ice-cream" = 3, "chocolate" = 2, "cold" = 1)
+	nutriment_amt = 5
+	New()
+		..()
+		bitesize = 3
+
+/obj/item/weapon/reagent_containers/food/snacks/risotto
+	name = "Risotto"
+	desc = "For the gentleman's wino, this is an offer one cannot refuse."
+	icon_state = "risotto"
+	center_of_mass = list("x"=15, "y"=15)
+	nutriment_desc = list("rice" = 3, "wine" = 2, "cheese" = 1)
+	nutriment_amt = 4
+	New()
+		..()
+		bitesize = 2
+
+
