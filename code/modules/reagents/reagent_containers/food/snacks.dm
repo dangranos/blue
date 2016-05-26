@@ -119,7 +119,7 @@
 	return 0
 
 
-/obj/item/weapon/reagent_containers/food/snacks/examine(mob/user)
+/obj/item/weapon/reagent_containers/food/snacks/examine(mob/user, return_dist=1)
 	.=..()
 	if(.<=4)
 		return
