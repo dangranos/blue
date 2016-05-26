@@ -72,5 +72,9 @@
 	name = "bread tube"
 	icon_state = "tastybread"
 
+/obj/item/trash/chicken_bucket
+	name = "chicken bucket"
+	icon_state = "kfc_bucket"
+
 /obj/item/trash/attack(mob/M as mob, mob/living/user as mob)
 	return
