@@ -122,15 +122,14 @@
 /obj/item/weapon/reagent_containers/food/snacks/examine(mob/user, return_dist=1)
 	.=..()
 	if(.<=4)
+		if (bitecount==0)
 		return
-	if (bitecount==0)
-		return
-	else if (bitecount==1)
-		user << "<span class='notice'>\The [src] was bitten by someone!</span>"
-	else if (bitecount<=3)
-		user << "<span class='notice'>\The [src] was bitten [bitecount] time\s!</span>"
-	else
-		user << "<span class='notice'>\The [src] was bitten multiple times!</span>"
+		else if (bitecount==1)
+			user << "<span class='notice'>\The [src] was bitten by someone!</span>"
+		else if (bitecount<=3)
+			user << "<span class='notice'>\The [src] was bitten [bitecount] time\s!</span>"
+		else
+			user << "<span class='notice'>\The [src] was bitten multiple times!</span>"
 
 
 /obj/item/weapon/reagent_containers/food/snacks/attackby(obj/item/weapon/W as obj, mob/user as mob)
