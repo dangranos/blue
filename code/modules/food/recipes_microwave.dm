@@ -1099,7 +1099,7 @@ I said no!
 	result = /obj/item/weapon/reagent_containers/food/snacks/copypasta
 
 /datum/recipe/curry
-	fruit = list("chilli" = 1, "tomato" = 2)
+	fruit = list("chili" = 1, "tomato" = 2)
 	reagents = list("water" = 10)
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
@@ -1108,7 +1108,7 @@ I said no!
 	result = /obj/item/weapon/reagent_containers/food/snacks/curry
 
 /datum/recipe/vindaloo
-	fruit = list("chilli" = 2, "tomato" = 1)
+	fruit = list("chili" = 2, "tomato" = 1)
 	reagents = list ("water" = 10, "capsaicin" = 5)
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
