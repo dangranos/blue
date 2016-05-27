@@ -123,7 +123,7 @@
 	.=..()
 	if(.<=4)
 		if (bitecount==0)
-		return
+			return
 		else if (bitecount==1)
 			user << "<span class='notice'>\The [src] was bitten by someone!</span>"
 		else if (bitecount<=3)
