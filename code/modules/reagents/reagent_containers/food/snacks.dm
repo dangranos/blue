@@ -2721,7 +2721,7 @@
 	name = "Buche de Noel slice"
 	desc = "A slice of winter magic"
 	icon_state = "buche_slice"
-	trash = /obj/item/trash/tray
+	trash = /obj/item/trash/plate
 	filling_color = "#805930"
 	bitesize = 2
 	center_of_mass = list("x"=16, "y"=10)
@@ -3416,12 +3416,12 @@
 /obj/item/weapon/reagent_containers/food/snacks/gigapuddi/happy
 	desc = "A large crème caramel made with extra love"
 	icon_state = "happypuddi"
-	nutriment_desc = list("pudding" = 4, "happines" = 2)
+	nutriment_desc = list("pudding" = 4, "love" = 2)
 
 /obj/item/weapon/reagent_containers/food/snacks/gigapuddi/anger
 	desc = "A large crème caramel made with extra hate"
 	icon_state = "angerpuddi"
-	nutriment_desc = list("pudding" = 4, "anger" = 2)
+	nutriment_desc = list("pudding" = 4, "hate" = 2)
 
 /obj/item/weapon/reagent_containers/food/snacks/omurice
 	name = "omelette rice"
