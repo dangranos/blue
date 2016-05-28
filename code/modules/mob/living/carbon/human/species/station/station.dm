@@ -74,7 +74,6 @@
 		else
 			return 'icons/mob/hidden.dmi'
 
-
 /datum/species/human/cursed
 	name = "Cursed huamn"
 	name_plural = "Humans"
