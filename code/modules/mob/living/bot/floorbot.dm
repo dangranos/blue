@@ -266,6 +266,8 @@
 					M.use(1)
 					addTiles(4)
 			repairing = 0
+			update_icons()
+
 
 /mob/living/bot/floorbot/explode()
 	turn_off()
