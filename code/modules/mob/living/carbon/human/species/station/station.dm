@@ -74,11 +74,13 @@
 		else
 			return 'icons/mob/hidden.dmi'
 
+
 /datum/species/human/cursed
 	name = "Cursed huamn"
 	name_plural = "Humans"
 	language = "Sol Common"
 	primitive_form = ""
+	flags = HAS_SKIN_TONE | HAS_LIPS | HAS_UNDERWEAR | HAS_EYE_COLOR | IS_RESTRICTED
 
 /datum/species/human/cursed/handle_environment_special(var/mob/living/carbon/human/H)
 	var/is_skeleton = (SKELETON in H.mutations)
