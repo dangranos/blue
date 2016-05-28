@@ -18,6 +18,9 @@
 	var/list/req_access = list()
 	var/list/req_one_access = list()
 
+	var/list/path = list()
+
+
 /mob/living/bot/New()
 	..()
 	update_icons()

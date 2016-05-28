@@ -12,7 +12,6 @@
 	var/eattiles = 0
 	var/maketiles = 0
 	var/targetdirection = null
-	var/list/path = list()
 	var/list/ignorelist = list()
 	var/turf/target
 
@@ -30,7 +29,7 @@
 	dat += "<TT><B>Automatic Station Floor Repairer v1.0</B></TT><BR><BR>"
 	dat += "Status: <A href='?src=\ref[src];operation=start'>[src.on ? "On" : "Off"]</A><BR>"
 	dat += "Maintenance panel is [open ? "opened" : "closed"]<BR>"
-	//dat += "Tiles left: [amount]<BR>"
+	dat += "Tiles left: [amount]<BR>"
 	dat += "Behvaiour controls are [locked ? "locked" : "unlocked"]<BR>"
 	if(!locked || issilicon(user))
 		dat += "Improves floors: <A href='?src=\ref[src];operation=improve'>[improvefloors ? "Yes" : "No"]</A><BR>"
@@ -50,8 +49,7 @@
 /mob/living/bot/floorbot/Emag(var/mob/user)
 	..()
 	emagged = 1
-	if(user)
-		user << "<span class='notice'>The [src] buzzes and beeps.</span>"
+	visible_message("<span class='notice'>The [src] buzzes and beeps.</span>")
 
 /mob/living/bot/floorbot/Topic(href, href_list)
 	if(..())
@@ -114,8 +112,14 @@
 			if(prob(1))
 				ignorelist -= T
 
-	if(amount && !emagged)
-		if(!target && targetdirection) // Building a bridge
+	if(pulledby) // Don't wiggle if someone pulls you
+		path = list()
+		target = null
+		return
+
+	var/list/check_list = view(src)
+	if(!target && amount && !emagged)
+		if(targetdirection) // Building a bridge
 			var/turf/T = get_step(src, targetdirection)
 			while(T in range(src))
 				if(istype(T, /turf/space))
@@ -123,22 +127,23 @@
 					break
 				T = get_step(T, targetdirection)
 
-		if(!target) // Fixing floors
-			for(var/turf/T in view(src))
+		else // Find a target
+			for(var/turf/T in check_list)
 				if(T.loc.name == "Space")
 					continue
 				if(T in ignorelist)
 					continue
 				if(istype(T, /turf/space))
-					if(get_turf(T) == loc || prob(40)) // So they target the same tile all the time
-						target = T
+					target = T
+					break
 				if(improvefloors && istype(T, /turf/simulated/floor))
 					var/turf/simulated/floor/F = T
-					if(!F.floor_type && (get_turf(T) == loc || prob(40)))
+					if(!F.floor_type)
 						target = T
+						break
 
 	if(emagged) // Time to griff
-		for(var/turf/simulated/floor/D in view(src))
+		for(var/turf/simulated/floor/D in check_list)
 			if(D.loc.name == "Space")
 				continue
 			if(D in ignorelist)
@@ -146,15 +151,15 @@
 			target = D
 			break
 
-	if(!target && amount < maxAmount && eattiles || maketiles) // Eat tiles
-		if(eattiles)
-			for(var/obj/item/stack/tile/steel/T in view(src))
+	if(!target) // Eat tiles
+		if(eattiles && (amount < maxAmount))
+			for(var/obj/item/stack/tile/steel/T in check_list)
 				if(T in ignorelist)
 					continue
 				target = T
 				break
-		if(maketiles && !target)
-			for(var/obj/item/stack/material/steel/T in view(src))
+		if(!target && maketiles && (amount+4 <= maxAmount))
+			for(var/obj/item/stack/material/steel/T in check_list)
 				if(T in ignorelist)
 					continue
 				target = T
@@ -162,16 +167,17 @@
 
 	if(target && get_turf(target) == loc)
 		UnarmedAttack(target)
+		return
 
-	if(target && get_turf(target) != loc && !path.len)
-		spawn(0)
-			path = AStar(loc, get_turf(target), /turf/proc/AdjacentTurfsSpace, /turf/proc/Distance, 0, 30, id = botcard)
-			if(!path)
-				path = list()
-				ignorelist += target
-				target = null
-
-	if(path.len)
+	if(!path.len)
+		if(target && get_turf(target) != loc)
+			spawn(0)
+				path = AStar(loc, get_turf(target), /turf/proc/AdjacentTurfsSpace, /turf/proc/Distance, 0, 30, id = botcard)
+				if(!path)
+					path = list()
+					ignorelist += target
+					target = null
+	else
 		step_to(src, path[1])
 		path -= path[1]
 
@@ -196,7 +202,7 @@
 				addTiles(1)
 		else
 			visible_message("<span class='danger'>[src] begins to tear through the floor!</span>")
-			if(do_after(src, 150)) // Extra time because this can and will kill.
+			if(do_after(src, 120)) // Extra time because this can and will kill.
 				F.ReplaceWithLattice()
 				addTiles(1)
 		target = null
@@ -255,10 +261,11 @@
 			visible_message("<span class='notice'>[src] begins to make tiles.</span>")
 			repairing = 1
 			update_icons()
-			if(do_after(50))
+			if(do_after(src, 40))
 				if(M)
 					M.use(1)
 					addTiles(4)
+			repairing = 0
 
 /mob/living/bot/floorbot/explode()
 	turn_off()
