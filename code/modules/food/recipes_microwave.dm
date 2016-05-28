@@ -109,6 +109,13 @@ I said no!
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/xenoburger
 
+/datum/recipe/chickenburger
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/bun,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chickenburger
+
 /datum/recipe/fishburger
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/bun,
@@ -245,12 +252,42 @@ I said no!
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/omelette
 
+/datum/recipe/benedict
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/friedegg,
+		/obj/item/weapon/reagent_containers/food/snacks/meatsteak,
+		/obj/item/weapon/reagent_containers/food/snacks/breadslice,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/benedict
+
 /datum/recipe/muffin
 	reagents = list("milk" = 5, "sugar" = 5)
 	items = list(
 		/obj/item/weapon/reagent_containers/food/snacks/dough,
 	)
 	result = /obj/item/weapon/reagent_containers/food/snacks/muffin
+
+/datum/recipe/berrymuffin
+	fruit = list("berry" = 1)
+	reagents = list("milk" = 5, "flour" = 5)
+	items = list(/obj/item/weapon/reagent_containers/food/snacks/egg)
+	result = /obj/item/weapon/reagent_containers/food/snacks/muffin/berry
+
+/datum/recipe/booberrymuffin
+	fruit = list("berry" = 1)
+	reagents = list("milk" = 5, "flour" = 5)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/ectoplasm
+		)
+	result = /obj/item/weapon/reagent_containers/food/snacks/muffin/booberry
+
+/datum/recipe/dindumuffin
+	reagents = list("milk" = 5, "flour" = 5)
+	items = list(/obj/item/weapon/handcuffs)
+	result = /obj/item/weapon/reagent_containers/food/snacks/muffin/dindumuffin
+
+
 
 /datum/recipe/eggplantparm
 	fruit = list("eggplant" = 1)
@@ -379,7 +416,7 @@ I said no!
 	fruit = list("potato" = 1)
 	items = list(/obj/item/weapon/reagent_containers/food/snacks/cheesewedge)
 	result = /obj/item/weapon/reagent_containers/food/snacks/loadedbakedpotato
-	
+
 /datum/recipe/pyureshka
 	fruit = list("potato" = 2)
 	reagents = list("milk" = 10)
@@ -1027,3 +1064,188 @@ I said no!
 /datum/recipe/cake/brain
 	items = list(/obj/item/organ/brain)
 	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/braincake
+
+/datum/recipe/riceball
+	reagents = list("rice" = 5)
+	result = /obj/item/weapon/reagent_containers/food/snacks/riceball
+
+/datum/recipe/wrap
+	fruit = list("cabbage" = 1)
+	reagents = list("soysauce" = 10)
+	items = list(/obj/item/weapon/reagent_containers/food/snacks/friedegg)
+	result = /obj/item/weapon/reagent_containers/food/snacks/wrap
+
+/datum/recipe/beans
+	fruit = list("soybean" = 2)
+	reagents = list("ketchup" = 5)
+	result = /obj/item/weapon/reagent_containers/food/snacks/beans
+
+/datum/recipe/buchedenoel
+	fruit = list("berry" = 2)
+	reagents = list("milk" = 5, "flour" = 15, "cream" = 10)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/chocolatebar,
+		/obj/item/weapon/reagent_containers/food/snacks/chocolatebar,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/buchedenoel
+
+/datum/recipe/copypasta
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/pastatomato,
+		/obj/item/weapon/reagent_containers/food/snacks/pastatomato,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/copypasta
+
+/datum/recipe/curry
+	fruit = list("chili" = 1, "tomato" = 2)
+	reagents = list("water" = 10)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/curry
+
+/datum/recipe/vindaloo
+	fruit = list("chili" = 2, "tomato" = 1)
+	reagents = list ("water" = 10, "capsaicin" = 5)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/curry/vindaloo
+
+/datum/recipe/lemoncurry
+	fruit = list("lemon" = 3)
+	reagents = list ("water" = 10, "lemonjuice" = 5)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/curry/lemon
+
+/datum/recipe/chips
+	fruit = list("potato" = 1)
+	reagents = list ("sodiumchloride" = 2)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chips/cookable
+
+/datum/recipe/cheddarchips
+	fruit = list("potato" = 1)
+	reagents = list ("sodiumchloride" = 2)
+	items = list(/obj/item/weapon/reagent_containers/food/snacks/cheesewedge)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chips/cookable/cheddar
+
+/datum/recipe/clownchips
+	fruit = list("potato" = 1)
+	reagents = list ("banana" = 20)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chips/cookable/clown
+
+/datum/recipe/nuclearchips
+	fruit = list("potato" = 1)
+	reagents = list ("uranium" = 10, "sodiumchloride" = 2)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chips/cookable/nuclear
+
+/datum/recipe/commiechips
+	fruit = list("potato" = 1)
+	reagents = list ("sodiumchloride" = 2, "vodka" = 10)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chips/cookable/communist
+
+/datum/recipe/chicken_nuggets
+	reagents = list("ketchup" = 5)
+	items = list(
+		/obj/item/stack/material/cardboard,
+		/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chicken_nuggets
+
+/datum/recipe/chicken_fillet
+	reagents = list("cornoil" = 3)
+	items = list(/obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken)
+	result = /obj/item/weapon/reagent_containers/food/snacks/chicken_fillet
+
+/datum/recipe/gigapuddi
+	reagents = list("milk" = 15)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/chocolatebar
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/gigapuddi
+
+/datum/recipe/gigapuddi/happy
+	reagents = list("milk" = 15, "sugar" = 5)
+	result = /obj/item/weapon/reagent_containers/food/snacks/gigapuddi/happy
+
+/datum/recipe/gigapuddi/anger
+	reagents = list("milk" = 15, "sodiumchloride" = 5)
+	result = /obj/item/weapon/reagent_containers/food/snacks/gigapuddi/anger
+
+/datum/recipe/omurice
+	reagents = list("rice" = 5, "ketchup" = 5)
+	items = list(/obj/item/weapon/reagent_containers/food/snacks/egg)
+	result = /obj/item/weapon/reagent_containers/food/snacks/omurice
+
+/datum/recipe/omurice/heart
+	reagents = list("rice" = 5, "ketchup" = 5, "sugar" = 5)
+	result = /obj/item/weapon/reagent_containers/food/snacks/omurice/heart
+
+/datum/recipe/omurice/face
+	reagents = list("rice" = 5, "ketchup" = 5, "sodiumchloride" = 5)
+	result = /obj/item/weapon/reagent_containers/food/snacks/omurice/face
+
+/datum/recipe/yellowcake
+	reagents = list("uranium" = 5, "radium" = 10)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/egg
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/yellowcake
+
+/datum/recipe/yellowcupcake
+	reagents = list("uranium" = 2, "radium" = 5)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg)
+	result = /obj/item/weapon/reagent_containers/food/snacks/yellowcupcake
+
+/datum/recipe/cookiebowl
+	reagents = list("flour" = 5, "sugar" = 2)
+	items = list (
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/chocolatebar
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/cookiebowl
+
+/datum/recipe/chococherrycake
+	fruit = list("cherries" = 2)
+	reagents = list("milk" = 5, "flour" = 15)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/chocolatebar,
+		/obj/item/weapon/reagent_containers/food/snacks/chocolatebar,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/sliceable/chococherrycake
+
+/datum/recipe/corndog
+	fruit = list("corn" = 1)
+	reagents = list("flour" = 5)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/egg,
+		/obj/item/weapon/reagent_containers/food/snacks/sausage,
+	)
+	result = /obj/item/weapon/reagent_containers/food/snacks/corndog
+
+/datum/recipe/sundae
+	reagents = list("cream" = 10, "ice" = 10, "milk" = 5)
+	items = list(/obj/item/weapon/reagent_containers/food/snacks/chocolatebar)
+	result = /obj/item/weapon/reagent_containers/food/snacks/sundae
+
+/datum/recipe/risotto
+	reagents = list("rice" = 10, "wine" = 5)
+	items = list(
+		/obj/item/weapon/reagent_containers/food/snacks/cheesewedge)
+	result = /obj/item/weapon/reagent_containers/food/snacks/risotto
+

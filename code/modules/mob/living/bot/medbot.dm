@@ -9,7 +9,6 @@
 
 	//AI vars
 	var/frustration = 0
-	var/list/path = list()
 	var/mob/living/carbon/human/patient = null
 	var/mob/ignored = list() // Used by emag
 	var/last_newpatient_speak = 0
@@ -60,7 +59,7 @@
 				if(get_dist(src, patient) > 7 || frustration > 8)
 					patient = null
 		else
-			for(var/mob/living/carbon/human/H in view(7, src)) // Time to find a patient!
+			for(var/mob/living/carbon/human/H in reverselist(view(7, src))) // Time to find a patient!
 				if(valid_healing_target(H))
 					patient = H
 					frustration = 0
