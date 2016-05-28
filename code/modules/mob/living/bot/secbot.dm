@@ -1,3 +1,11 @@
+#define SECBOT_IDLE 		0		// idle
+#define SECBOT_HUNT 		1		// found target, hunting
+#define SECBOT_ARREST		2		// arresting target
+#define SECBOT_START_PATROL	3		// start patrol
+#define SECBOT_WAIT_PATROL	4		// waiting for signals
+#define SECBOT_PATROL		5		// patrolling
+#define SECBOT_SUMMON		6		// summoned by PDA
+
 /mob/living/bot/secbot
 	name = "Securitron"
 	desc = "A little security robot.  He looks less than thrilled."
@@ -17,13 +25,6 @@
 	var/auto_patrol = 0 // If true, patrols on its own
 
 	var/mode = 0
-#define SECBOT_IDLE 		0		// idle
-#define SECBOT_HUNT 		1		// found target, hunting
-#define SECBOT_ARREST		2		// arresting target
-#define SECBOT_START_PATROL	3		// start patrol
-#define SECBOT_WAIT_PATROL	4		// waiting for signals
-#define SECBOT_PATROL		5		// patrolling
-#define SECBOT_SUMMON		6		// summoned by PDA
 	var/is_attacking = 0
 	var/is_ranged = 0
 	var/awaiting_surrender = 0
@@ -31,7 +32,6 @@
 	var/obj/secbot_listener/listener = null
 	var/beacon_freq = 1445			// Navigation beacon frequency
 	var/control_freq = BOT_FREQ		// Bot control frequency
-	var/list/path = list()
 	var/frustration = 0
 	var/turf/patrol_target = null	// This is where we are headed
 	var/closest_dist				// Used to find the closest beakon

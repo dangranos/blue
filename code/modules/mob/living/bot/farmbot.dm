@@ -23,7 +23,6 @@
 	var/obj/structure/reagent_dispensers/watertank/tank
 
 	var/attacking = 0
-	var/list/path = list()
 	var/atom/target
 	var/frustration = 0
 
