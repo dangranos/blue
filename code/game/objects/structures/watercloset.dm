@@ -39,6 +39,17 @@
 	open = !open
 	update_icon()
 
+
+/obj/structure/toilet/AltClick(var/mob/living/user)
+	if(!open)
+		return
+	var/H = user.get_active_hand()
+	if(istype(H,/obj/item/weapon/reagent_containers/glass) || istype(H,/obj/item/weapon/reagent_containers/food/drinks))
+		var/obj/item/weapon/reagent_containers/O = user.get_active_hand()
+		if(O.reagents && O.reagents.total_volume)
+			O.reagents.clear_reagents()
+			user << "<span class='notice'>You empty the [O] into the [src].</span>"
+
 /obj/structure/toilet/update_icon()
 	icon_state = "toilet[open][cistern]"
 
@@ -344,6 +355,15 @@
 	desc = "A sink used for washing one's hands and face."
 	anchored = 1
 	var/busy = 0 	//Something's being washed at the moment
+
+/obj/structure/sink/AltClick(var/mob/living/user)
+	var/H = user.get_active_hand()
+	if(istype(H,/obj/item/weapon/reagent_containers/glass) || istype(H,/obj/item/weapon/reagent_containers/food/drinks))
+		var/obj/item/weapon/reagent_containers/O = user.get_active_hand()
+		if(O.reagents && O.reagents.total_volume)
+			O.reagents.clear_reagents()
+			user << "<span class='notice'>You empty the [O] into the [src].</span>"
+
 
 /obj/structure/sink/attack_hand(mob/user as mob)
 	if (ishuman(user))
