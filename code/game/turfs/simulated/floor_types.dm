@@ -103,7 +103,7 @@
 	var/id = null //for tint
 
 	New()
-		var/tint = istype(border_type, /obj/structure/window/reinforced/polarized)
+		var/tint = border_type == /obj/structure/window/reinforced/polarized
 		icon_state = "plating"
 		..()
 		spawn(5)
@@ -115,7 +115,7 @@
 				if(!istype(get_step(src,dir), type))
 					W = new border_type(src)
 					W.dir = dir
-					if(tint)
+					if(src.id && tint)
 						W:id = src.id
 			blocks_air = 0
 
