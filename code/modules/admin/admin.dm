@@ -77,6 +77,8 @@ proc/admin_notice(var/message, var/rights)
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_ADMINHELP]'><font color='[(muted & MUTE_ADMINHELP)?"red":"blue"]'>ADMINHELP</font></a> |
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_DEADCHAT]'><font color='[(muted & MUTE_DEADCHAT)?"red":"blue"]'>DEADCHAT</font></a>\]
 			(<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_ALL]'><font color='[(muted & MUTE_ALL)?"red":"blue"]'>toggle all</font></a>)
+
+
 		"}
 
 	body += {"<br><br>
@@ -102,7 +104,7 @@ proc/admin_notice(var/message, var/rights)
 	if(jobban_isbanned(M, "LOOC"))
 		body+= {" <A href='?_src_=holder;jobban3=LOOC;jobban4=\ref[M]'><font color=red>LOOCBAN</font></A> | "}
 	else
-		body+= {"<A href='?_src_=holder;jobban3=LOOC;jobban4=\ref[M]'>LOOCBAN</A>  "
+		body+= {"<A href='?_src_=holder;jobban3=LOOC;jobban4=\ref[M]'>LOOCBAN</A>  "}
 
 	if (M.client)
 		if(!istype(M, /mob/new_player))
