@@ -19,9 +19,10 @@
 		src << "\red You have OOC muted."
 		return
 
-	if(oocmuted(ckey))
-		src << "<span class='danger'><big><b>No way for you, dick.</b></big></span>"
-		return
+	if(src.mob)
+		if(jobban_isbanned(src.mob, "OOC"))
+			src << "<span class='danger'>You have been banned from OOC.</span>"
+			return
 
 	if(!holder)
 		if(!config.ooc_allowed)
@@ -88,6 +89,11 @@
 	if(say_disabled)	//This is here to try to identify lag problems
 		usr << "\red Speech is currently admin-disabled."
 		return
+
+	if(src.mob)
+		if(jobban_isbanned(src.mob, "LOOC"))
+			src << "<span class='danger'>You have been banned from LOOC.</span>"
+			return
 
 	if(!mob)	return
 	if(IsGuestKey(key))
