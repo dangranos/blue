@@ -3532,7 +3532,7 @@
 "bpV" = (/obj/machinery/light,/turf/simulated/floor{dir = 2; icon_state = "purple"},/area/hallway/primary/starboard)
 "bpW" = (/turf/simulated/floor{dir = 6; icon_state = "purple"},/area/hallway/primary/starboard)
 "bpX" = (/turf/simulated/wall/r_wall,/area/rnd/lab)
-"bpY" = (/obj/machinery/door/airlock/maintenance{name = "Maintenance Access"; req_access = list(12)},/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/door/firedoor/border_only,/obj/machinery/atmospherics/pipe/simple/hidden,/turf/simulated/floor/plating,/area/storage/emergency)
+"bpY" = (/obj/structure/cable{d1 = 1; d2 = 2; icon_state = "1-2"},/obj/machinery/door/firedoor/border_only,/obj/machinery/atmospherics/pipe/simple/hidden,/obj/machinery/door/airlock{name = "Starboard Emergency Storage"; req_one_access = list(12,47)},/turf/simulated/floor/plating,/area/storage/emergency)
 "bpZ" = (/turf/simulated/wall,/area/storage/emergency)
 "bqa" = (/obj/machinery/door/firedoor/border_only{dir = 2},/turf/simulated/floor/plating/with_grille/reinforced,/area/hallway/secondary/entry/aft)
 "bqb" = (/obj/machinery/light{dir = 4},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/turf/simulated/floor,/area/hallway/secondary/entry/aft)
