@@ -78,9 +78,7 @@ proc/admin_notice(var/message, var/rights)
 			<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_DEADCHAT]'><font color='[(muted & MUTE_DEADCHAT)?"red":"blue"]'>DEADCHAT</font></a>\]
 			(<A href='?src=\ref[src];mute=\ref[M];mute_type=[MUTE_ALL]'><font color='[(muted & MUTE_ALL)?"red":"blue"]'>toggle all</font></a>)
 
-			 "<br><b>Permamute: </b> "
-			"\[<A href='?_src_=holder;permamute=[M.ckey];chat=OOC'><font color='[oocmuted(M.ckey)?"red":"blue"]'>OOC</font></a> | "
-			 "<A href='?_src_=holder;permamute=[M.ckey];chat=AH'><font color='[ahmuted(M.ckey)?"red":"blue"]'>ADMINHELP</font></a>\]"
+
 		"}
 
 	body += {"<br><br>
@@ -92,6 +90,21 @@ proc/admin_notice(var/message, var/rights)
 		<A href='?src=\ref[src];narrateto=\ref[M]'>Narrate to</A> |
 		<A href='?src=\ref[src];subtlemessage=\ref[M]'>Subtle message</A>
 	"}
+
+	if(jobban_isbanned(M, "OOC"))
+		body+= {"| <A href='?_src_=holder;jobban3=OOC;jobban4=\ref[M]'><font color=red>OOCBAN</font></A> | "}
+	else
+		body+= {"<A href='?_src_=holder;jobban3=OOC;jobban4=\ref[M]'>OOCBAN</A> | "}
+
+	if(jobban_isbanned(M, "AHELP"))
+		body+= {" <A href='?_src_=holder;jobban3=AHELP;jobban4=\ref[M]'><font color=red>AHELPBAN</font></A> | "}
+	else
+		body+= {"<A href='?_src_=holder;jobban3=AHELP;jobban4=\ref[M]'>AHELPBAN</A>  "}
+
+	if(jobban_isbanned(M, "LOOC"))
+		body+= {" <A href='?_src_=holder;jobban3=LOOC;jobban4=\ref[M]'><font color=red>LOOCBAN</font></A> | "}
+	else
+		body+= {"<A href='?_src_=holder;jobban3=LOOC;jobban4=\ref[M]'>LOOCBAN</A>  "}
 
 	if (M.client)
 		if(!istype(M, /mob/new_player))

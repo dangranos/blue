@@ -119,6 +119,13 @@ var/list/datum/power/changeling/powerinstances = list()
 	genomecost = 3
 	verbpath = /mob/proc/changeling_lsdsting
 
+/datum/power/changeling/armblade
+	name = "Armblade"
+	desc = "We transform one of out hand into sharp blade."
+	helptext = "Powerful but totally not stealthy."
+	genomecost = 3
+	verbpath = /mob/proc/changeling_armblade
+
 /datum/power/changeling/DeathSting
 	name = "Death Sting"
 	desc = "We silently sting a human, filling them with potent chemicals. Their rapid death is all but assured."
