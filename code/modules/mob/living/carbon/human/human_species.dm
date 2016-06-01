@@ -25,9 +25,10 @@
 	h_style = "blue IPC screen"
 	..(new_loc, "Machine")
 
-/mob/living/carbon/human/monkey/New(var/new_loc)
+/mob/living/carbon/human/monkey
 	icon_state = "monkey"
-	..(new_loc, "Monkey")
+	New(var/new_loc)
+		..(new_loc, "Monkey")
 
 /mob/living/carbon/human/farwa/New(var/new_loc)
 	..(new_loc, "Farwa")
