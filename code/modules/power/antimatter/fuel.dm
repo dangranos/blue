@@ -67,8 +67,9 @@
 	return
 
 
-/obj/item/weapon/fuel/examine(mob/user)
-	if(get_dist(src, user) <= 1)
+/obj/item/weapon/fuel/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1)
 		user << "A magnetic storage ring, it contains [fuel]kg of [content ? content : "nothing"]."
 
 /obj/item/weapon/fuel/proc/injest(mob/M as mob)

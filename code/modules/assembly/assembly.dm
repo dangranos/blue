@@ -117,9 +117,9 @@
 		return
 
 
-	examine(mob/user)
-		..(user)
-		if((in_range(src, user) || loc == user))
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<=1)
 			if(secured)
 				user << "\The [src] is ready!"
 			else

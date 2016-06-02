@@ -462,13 +462,13 @@
 		return get_mobs_in_view(canhear_range, src)
 
 
-/obj/item/device/radio/examine(mob/user)
+/obj/item/device/radio/examine(mob/user, return_dist = 1)
 	. = ..()
-	if ((in_range(src, user) || loc == user))
+	if (.<=1)
 		if (b_stat)
-			user.show_message("\blue \the [src] can be attached and modified!")
+			user << "<span class='notice'>\the [src] can be attached and modified!</span>"
 		else
-			user.show_message("\blue \the [src] can not be modified or attached!")
+			user << "<span class='notice'>\the [src] can not be modified or attached!</span>"
 	return
 
 /obj/item/device/radio/attackby(obj/item/weapon/W as obj, mob/user as mob)

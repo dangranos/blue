@@ -1,9 +1,8 @@
 /obj/structure/closet/secure_closet/scientist
 	name = "scientist's locker"
 	req_access = list(access_tox_storage)
-	icon_state = "secureres1"
+	icon_state = "secureres"
 	icon_closed = "secureres"
-	icon_locked = "secureres1"
 	icon_opened = "secureresopen"
 	icon_broken = "secureresbroken"
 	icon_off = "secureresoff"
@@ -25,9 +24,8 @@
 /obj/structure/closet/secure_closet/RD
 	name = "research director's locker"
 	req_access = list(access_rd)
-	icon_state = "rdsecure1"
+	icon_state = "rdsecure"
 	icon_closed = "rdsecure"
-	icon_locked = "rdsecure1"
 	icon_opened = "rdsecureopen"
 	icon_broken = "rdsecurebroken"
 	icon_off = "rdsecureoff"
@@ -49,3 +47,17 @@
 		new /obj/item/clothing/mask/gas(src)
 		new /obj/item/device/flash(src)
 		return
+
+
+/obj/structure/closet/secure_closet/animal
+	name = "animal control closet"
+	req_access = list(access_surgery)
+
+	New()
+		..()
+		new /obj/item/device/assembly/signaler(src)
+		new /obj/item/device/radio/electropack(src)
+		new /obj/item/device/radio/electropack(src)
+		new /obj/item/device/radio/electropack(src)
+		return
+

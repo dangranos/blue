@@ -21,7 +21,7 @@ obj/machinery/recharger/examine(mob/user)
 		desc =  "The charge meter reads: [round(chargepercentage())]%"
 	else
 		desc = "It's empty"
-	..(user)
+	return ..()
 
 obj/machinery/recharger/proc/chargepercentage()
 	if(istype(charging, /obj/item/weapon/gun/energy))

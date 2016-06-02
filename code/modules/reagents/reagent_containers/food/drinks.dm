@@ -16,19 +16,19 @@
 	attack_self(mob/user as mob)
 		return
 
-	examine(mob/user)
-		if(!..(user, 1))
-			return
-		if(!reagents || reagents.total_volume == 0)
-			user << "<span class='notice'>\The [src] is empty!</span>"
-		else if (reagents.total_volume <= volume * 0.25)
-			user << "<span class='notice'>\The [src] is almost empty!</span>"
-		else if (reagents.total_volume <= volume * 0.66)
-			user << "<span class='notice'>\The [src] is half full!</span>"
-		else if (reagents.total_volume <= volume * 0.90)
-			user << "<span class='notice'>\The [src] is almost full!</span>"
-		else
-			user << "<span class='notice'>\The [src] is full!</span>"
+	examine(mob/user, return_dist = 1)
+		.=..()
+		if(.<=2)
+			if(!reagents || reagents.total_volume == 0)
+				user << "<span class='notice'>\The [src] is empty!</span>"
+			else if (reagents.total_volume <= volume * 0.25)
+				user << "<span class='notice'>\The [src] is almost empty!</span>"
+			else if (reagents.total_volume <= volume * 0.66)
+				user << "<span class='notice'>\The [src] is half full!</span>"
+			else if (reagents.total_volume <= volume * 0.90)
+				user << "<span class='notice'>\The [src] is almost full!</span>"
+			else
+				user << "<span class='notice'>\The [src] is full!</span>"
 
 
 ////////////////////////////////////////////////////////////////////////////////

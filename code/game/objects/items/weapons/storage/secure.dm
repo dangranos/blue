@@ -27,8 +27,9 @@
 	max_w_class = 2
 	max_storage_space = 14
 
-	examine(mob/user)
-		if(..(user, 1))
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<=1)
 			user << text("The service panel is [src.open ? "open" : "closed"].")
 
 	attackby(obj/item/weapon/W as obj, mob/user as mob)

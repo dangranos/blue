@@ -87,7 +87,7 @@ LINEN BINS
 
 
 /obj/structure/bedsheetbin/examine(mob/user)
-	..(user)
+	. = ..()
 
 	if(amount < 1)
 		user << "There are no bed sheets in the bin."
@@ -130,7 +130,6 @@ LINEN BINS
 		else
 			B = new /obj/item/weapon/bedsheet(loc)
 
-		B.loc = user.loc
 		user.put_in_hands(B)
 		user << "<span class='notice'>You take [B] out of [src].</span>"
 

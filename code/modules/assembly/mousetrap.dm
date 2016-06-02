@@ -8,7 +8,7 @@
 
 
 	examine(mob/user)
-		..(user)
+		.=..()
 		if(armed)
 			user << "It looks like it's armed."
 

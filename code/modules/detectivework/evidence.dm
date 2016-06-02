@@ -71,7 +71,7 @@
 	return
 
 /obj/item/weapon/evidencebag/examine(mob/user)
-	..(user)
+	. = ..()
 	if (stored_item) user.examinate(stored_item)
 
 /obj/item/weapon/storage/box/evidence
@@ -106,9 +106,9 @@
 		var/full_print = md5(H.dna.uni_identity)
 		fingerprints[full_print] = full_print
 
-/obj/item/weapon/f_card/examine(mob/user, distance)
-	..()
-	if((distance<=1) && fingerprints && fingerprints.len)
+/obj/item/weapon/f_card/examine(mob/user, return_dist=1)
+	. = ..()
+	if((.<=1) && fingerprints && fingerprints.len)
 		user << "<span class='notice'>Fingerprints on this card:</span>"
 		for(var/print in fingerprints)
 			user << "<span class='notice'>\t[fingerprints[print]]</span>"

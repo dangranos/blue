@@ -165,6 +165,51 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 
 	return 1
 
+/mob/proc/changeling_armblade()
+
+	set category = "Changeling"
+	set name = "Slide out armblade (35)"
+
+	var/mob/living/carbon/human/H = src
+	if(!istype(H))
+		src << "<span class='warning'>We may only use this power while in humanoid form.</span>"
+		return
+
+	var/datum/changeling/changeling = changeling_power(35,1,0)
+	if(!changeling)	return
+
+	var/obj/item/weapon/armblade/AB = new(H)
+
+	if(!H.put_in_hands(AB))
+		qdel(AB)
+		return 0
+
+	H.visible_message("A grotesque blade forms around [H]\'s arm!",\
+						"Our arm twists and mutates, transforming it into a deadly blade.",\
+						"You hear organic matter ripping and tearing!")
+
+	changeling.chem_charges -= 35
+	return 1
+
+/obj/item/weapon/armblade
+	name = "arm blade"
+	icon_state = "arm_blade"
+	desc = "A grotesque blade made out of bone and flesh that cleaves through people as a hot knife through butter."
+	abstract = 1
+	canremove = 0
+	flags = CONDUCT
+	force = 10.0
+	sharp = 1
+	edge = 1
+	force = 40
+	attack_verb = list("attacked", "slashed", "sliced", "torn", "ripped", "diced", "cut")
+
+/obj/item/weapon/armblade/attack_self(var/mob/user)
+	user.visible_message("With a sickening crunch, [user] reforms their arm blade into an arm!",\
+						"We assimilate the weapon back into our body.",\
+						"You hear organic matter ripping and tearing!")
+	qdel(src)
+
 //Absorbs the victim's DNA making them uncloneable. Requires a strong grip on the victim.
 //Doesn't cost anything as it's the most basic ability.
 /mob/proc/changeling_absorb_dna()
@@ -229,7 +274,10 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 	changeling.absorbed_dna |= T.dna
 	if(src.nutrition < 400) src.nutrition = min((src.nutrition + T.nutrition), 400)
 	changeling.chem_charges += 10
-	changeling.geneticpoints += 2
+	if(issmall(T))
+		src << "<span class='warning'>This creature's DNA can't make us more powerfull!</span>"
+	else
+		changeling.geneticpoints += 2
 
 	//Steal all of their languages!
 	for(var/language in T.languages)

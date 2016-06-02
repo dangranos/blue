@@ -91,9 +91,9 @@
 		return //no eating the limb until everything's been removed
 	return ..()
 
-/obj/item/organ/external/examine()
-	..()
-	if(in_range(usr, src) || istype(usr, /mob/dead/observer))
+/obj/item/organ/external/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1 || istype(usr, /mob/dead/observer))
 		for(var/obj/item/I in contents)
 			if(istype(I, /obj/item/organ))
 				continue

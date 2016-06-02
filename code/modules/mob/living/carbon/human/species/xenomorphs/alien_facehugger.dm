@@ -44,7 +44,7 @@ var/const/MAX_ACTIVE_TIME = 400
 		qdel(src)
 
 /obj/item/clothing/mask/facehugger/examine(mob/user)
-	..(user)
+	. = ..()
 	switch(stat)
 		if(DEAD,UNCONSCIOUS)
 			user << "\red \b [src] is not moving."

@@ -24,8 +24,9 @@
 	src.icon_state = "[src.icon_type]box[total_contents]"
 	return
 
-/obj/item/weapon/storage/fancy/examine(mob/user)
-	if(!..(user, 1))
+/obj/item/weapon/storage/fancy/examine(mob/user, return_dist = 1)
+	.=..()
+	if(.>1)
 		return
 
 	if(contents.len <= 0)
@@ -34,8 +35,6 @@
 		user << "There is one [src.icon_type] left in the box."
 	else
 		user << "There are [src.contents.len] [src.icon_type]s in the box."
-
-	return
 
 /*
  * Egg Box
