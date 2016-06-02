@@ -111,26 +111,27 @@
 				var/moved = step_towards(src, patrol_path[1])
 				if(moved)
 					patrol_path -= patrol_path[1]
-	if(loc == target.loc)
-		if(!cleaning)
-			UnarmedAttack(target)
-			target = null
-	else
-		if(!path.len)
-			spawn(0)
-				path = AStar(loc, target.loc, /turf/proc/CardinalTurfsWithAccess, /turf/proc/Distance, 0, 30, id = botcard)
-				if(!path)
-					path = list()
-					var/bad_target = target
-					target = null
-					ignorelist += bad_target
-					spawn(600)
-						ignorelist -= bad_target
-			return
-		if(path.len)
-			step_to(src, path[1])
-			path -= path[1]
-			return
+	if(target)
+		if(loc == target.loc)
+			if(!cleaning)
+				UnarmedAttack(target)
+				target = null
+		else
+			if(!path.len)
+				spawn(0)
+					path = AStar(loc, target.loc, /turf/proc/CardinalTurfsWithAccess, /turf/proc/Distance, 0, 30, id = botcard)
+					if(!path)
+						path = list()
+						var/bad_target = target
+						target = null
+						ignorelist += bad_target
+						spawn(600)
+							ignorelist -= bad_target
+				return
+			if(path.len)
+				step_to(src, path[1])
+				path -= path[1]
+				return
 
 /mob/living/bot/cleanbot/UnarmedAttack(var/obj/effect/decal/cleanable/D, var/proximity)
 	if(!..())
