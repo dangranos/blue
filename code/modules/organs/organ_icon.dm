@@ -59,6 +59,7 @@ var/global/list/limb_icon_cache = list()
 			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			if(facial_hair_style.do_colouration)
 				facial_s.Blend(owner.facial_color, ICON_ADD)
+			mob_icon.Blend(facial_s, ICON_OVERLAY)
 			overlays |= facial_s
 
 	if(owner.h_style && !(owner.head && (owner.head.flags & BLOCKHEADHAIR)))
@@ -67,8 +68,10 @@ var/global/list/limb_icon_cache = list()
 			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
 			if(hair_style.do_colouration)
 				hair_s.Blend(owner.hair_color, ICON_ADD)
+			mob_icon.Blend(hair_s, ICON_OVERLAY)
 			overlays |= hair_s
 
+	icon = mob_icon
 	return mob_icon
 
 /obj/item/organ/external/proc/get_icon(var/skeletal)
