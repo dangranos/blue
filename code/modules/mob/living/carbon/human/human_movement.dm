@@ -16,17 +16,24 @@
 	if (!(species && (species.flags & NO_PAIN)))
 		if(halloss >= 10) tally += (halloss / 10) //halloss shouldn't slow you down if you can't even feel it
 
-	var/hungry = (500 - nutrition)/5 // So overeat would be 100 and default level would be 80
-	if (hungry >= 70) tally += hungry/50
+	if( !(CE_SPEEDBOOST in chem_effects) && !(mRun in mutations) )
+		var/hungry = (500 - nutrition)/5 // So overeat would be 100 and default level would be 80
+		if (hungry >= 70) tally += hungry/50
 
-	if(CE_SPEEDBOOST in chem_effects || mRun in mutations)
-		return tally-3
+		if(wear_suit)
+			tally += wear_suit.slowdown
+		if(back)
+			tally += back.slowdown
 
-	if(wear_suit)
-		tally += wear_suit.slowdown
+		if(shock_stage >= 10) tally += 3
 
-	if(back)
-		tally += back.slowdown
+		if(FAT in src.mutations)
+			tally += 1.5
+		if (bodytemperature < 283.222)
+			tally += (283.222 - bodytemperature) / 10 * 1.75
+
+		tally += max(2 * stance_damage, 0) //damaged/missing feet or legs is slow
+
 
 	if(istype(buckled, /obj/structure/bed/chair/wheelchair))
 		for(var/organ_name in list("l_hand","r_hand","l_arm","r_arm"))
@@ -49,15 +56,6 @@
 				tally += 0.5
 			else if(E.status & ORGAN_BROKEN)
 				tally += 1.5
-
-	if(shock_stage >= 10) tally += 3
-
-	if(FAT in src.mutations)
-		tally += 1.5
-	if (bodytemperature < 283.222)
-		tally += (283.222 - bodytemperature) / 10 * 1.75
-
-	tally += max(2 * stance_damage, 0) //damaged/missing feet or legs is slow
 
 	return (tally+config.human_delay)
 

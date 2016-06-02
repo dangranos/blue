@@ -42,8 +42,8 @@
 				icon_state = "pinonfar"
 		spawn(5) .()
 
-	examine(mob/user)
-		..(user)
+	examine(mob/user, return_dist = 0)
+		. = ..()
 		for(var/obj/machinery/nuclearbomb/bomb in world)
 			if(bomb.timing)
 				user << "Extreme danger.  Arming signal detected.   Time remaining: [bomb.timeleft]"

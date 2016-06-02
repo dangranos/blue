@@ -112,8 +112,8 @@
 				else
 					user << "\red \the [W] is empty."
 
-	examine(mob/user)
-		..(user)
+	examine(mob/user, return_dist = 0)
+		. = ..()
 		if(detonator)
 			user << "With attached [detonator.name]"
 

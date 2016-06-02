@@ -466,17 +466,18 @@ BLIND     // can't see anything
 				usr.put_in_l_hand(src)
 		src.add_fingerprint(usr)
 
-/obj/item/clothing/under/examine(mob/user)
-	..(user)
-	switch(src.sensor_mode)
-		if(0)
-			user << "Its sensors appear to be disabled."
-		if(1)
-			user << "Its binary life sensors appear to be enabled."
-		if(2)
-			user << "Its vital tracker appears to be enabled."
-		if(3)
-			user << "Its vital tracker and tracking beacon appear to be enabled."
+/obj/item/clothing/under/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1)
+		switch(src.sensor_mode)
+			if(0)
+				user << "Its sensors appear to be disabled."
+			if(1)
+				user << "Its binary life sensors appear to be enabled."
+			if(2)
+				user << "Its vital tracker appears to be enabled."
+			if(3)
+				user << "Its vital tracker and tracking beacon appear to be enabled."
 	if(accessories.len)
 		for(var/obj/item/clothing/accessory/A in accessories)
 			user << "\A [A] is attached to it."

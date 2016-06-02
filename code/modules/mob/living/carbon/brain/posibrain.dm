@@ -85,8 +85,7 @@
 		M.show_message("\blue The positronic brain buzzes quietly, and the golden lights fade away. Perhaps you could try again?")
 
 /obj/item/device/mmi/digital/posibrain/examine(mob/user)
-	if(!..(user))
-		return
+//	.=..() //Check this.
 
 	var/msg = "<span class='info'>*---------*\nThis is \icon[src] \a <EM>[src]</EM>!\n[desc]\n"
 	msg += "<span class='warning'>"

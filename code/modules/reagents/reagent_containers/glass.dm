@@ -192,15 +192,15 @@
 		base_name = name
 		desc += " Can hold up to [volume] units."
 
-	examine(var/mob/user)
-		if(!..(user, 2))
-			return
-		if(reagents && reagents.reagent_list.len)
-			user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
-		else
-			user << "<span class='notice'>It is empty.</span>"
-		if(!is_open_container())
-			user << "<span class='notice'>Airtight lid seals it completely.</span>"
+	examine(var/mob/user, return_dist=1)
+		.=..()
+		if(.<=2)
+			if(reagents && reagents.reagent_list.len)
+				user << "<span class='notice'>It contains [reagents.total_volume] units of liquid.</span>"
+			else
+				user << "<span class='notice'>It is empty.</span>"
+			if(!is_open_container())
+				user << "<span class='notice'>Airtight lid seals it completely.</span>"
 
 	on_reagent_change()
 		update_icon()

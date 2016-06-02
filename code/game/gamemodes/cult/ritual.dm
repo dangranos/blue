@@ -83,8 +83,8 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 		rune_list.Remove(src)
 		..()
 
-	examine(mob/user)
-		..()
+	examine(mob/user, return_dist)
+		. = ..()
 		if(iscultist(user))
 			user << "This spell circle reads: <i>[word1] [word2] [word3]</i>."
 
@@ -506,6 +506,7 @@ var/global/list/rnwords = list("ire","ego","nahlizet","certum","veri","jatkaa","
 
 
 	examine(mob/user)
+		. = ..()
 		if(!iscultist(user))
 			user << "An old, dusty tome with frayed edges and a sinister looking cover."
 		else

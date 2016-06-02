@@ -85,8 +85,8 @@
 */
 
 	examine(mob/user)
-		..(user)
-		if ((in_range(src, user) || src.loc == user))
+		.=..()
+		if (.<=1)
 			if (src.secured)
 				user << "\The [src] is ready!"
 			else
