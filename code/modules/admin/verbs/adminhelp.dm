@@ -12,7 +12,7 @@
 		return
 
 	if(src.mob)
-		if(jobban_isbanned(src.mob, "OOC"))
+		if(jobban_isbanned(src.mob, "AHELP"))
 			src << "<span class='danger'>You have been banned from Adminhelp.</span>"
 			return
 

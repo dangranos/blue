@@ -306,6 +306,10 @@
 		name = "Feather"
 		icon_state = "hair_feather"
 
+	chop
+		name = "Chop"
+		icon_state = "hair_chop"
+
 	ramona
 		name = "Ramona"
 		icon_state = "hair_ramona"
@@ -399,7 +403,7 @@
 		name = "Medium Braid"
 		icon_state = "hair_shortbraid"
 		gender = FEMALE
-		
+
 	mbraidalt
 		name = "Medium Braid Alt"
 		icon_state = "hair_mediumbraid"
