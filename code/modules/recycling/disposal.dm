@@ -652,7 +652,7 @@
 	var/health = 10 	// health points 0-10
 	layer = 2.3			// slightly lower than wires and other pipes
 	var/base_icon_state	// initial icon state on map
-	var/sortType = ""
+	var/list/sortTypes = list()
 	var/subtype = 0
 	// new pipe, set the icon_state as on map
 	New()
@@ -900,10 +900,10 @@
 				C.ptype = 5
 			if("pipe-j1s")
 				C.ptype = 9
-				C.sortType = sortType
+				C.sortTypes = sortTypes
 			if("pipe-j2s")
 				C.ptype = 10
-				C.sortType = sortType
+				C.sortTypes = sortTypes
 ///// Z-Level stuff
 			if("pipe-u")
 				C.ptype = 11
@@ -1055,7 +1055,6 @@
 			else
 				for(var/obj/structure/disposalpipe/up/F in T)
 					P = F
-
 		else
 			T = get_step(src.loc, H.dir)
 			P = H.findpipe(T)
@@ -1185,15 +1184,23 @@
 	var/sortdir = 0
 
 	proc/updatedesc()
-		desc = initial(desc)
-		if(sortType)
-			desc += "\nIt's filtering objects with the '[sortType]' tag."
+		switch(sortTypes.len)
+			if(0) desc = initial(desc)
+			if(1) desc += "\nIt's filtering objects with the '[sortTypes[1]]' tag."
+			else
+				desc += "\nIt's filtering objects with the '[sortTypes[1]]' tag."
+				var/tmp_desc = ""
+				for(var/location in sortTypes)
+					tmp_desc += ", '[location]'"
+				desc = "\nIt's filtering objects with the [copytext(tmp_desc,2)] tags."
+
 
 	proc/updatename()
-		if(sortType)
-			name = "[initial(name)] ([sortType])"
-		else
-			name = initial(name)
+		switch(sortTypes.len)
+			if(0)
+				name = initial(name)
+			if(1)
+				name = "[initial(name)] ([sortTypes][1])"
 
 	proc/updatedir()
 		posdir = dir
@@ -1208,7 +1215,8 @@
 
 	New()
 		. = ..()
-		if(sortType) tagger_locations |= sortType
+		for(var/location in sortTypes)
+			tagger_locations |= location
 
 		updatedir()
 		updatename()
@@ -1223,14 +1231,19 @@
 			var/obj/item/device/destTagger/O = I
 
 			if(O.currTag)// Tag set
-				sortType = O.currTag
-				playsound(src.loc, 'sound/machines/twobeep.ogg', 100, 1)
-				user << "\blue Changed filter to '[sortType]'."
+				if(O.currTag in sortTypes)
+					sortTypes -= O.currTag
+					playsound(src.loc, 'sound/machines/twobeep.ogg', 100, 1)
+					user << "\blue Remove '[O.currTag]', from sort types."
+				else
+					sortTypes += O.currTag
+					playsound(src.loc, 'sound/machines/twobeep.ogg', 100, 1)
+					user << "\blue Add '[O.currTag]', to sort types."
 				updatename()
 				updatedesc()
 
 	proc/divert_check(var/checkTag)
-		return sortType == checkTag
+		return checkTag in sortTypes
 
 	// next direction to move
 	// if coming in from negdir, then next is primary dir or sortdir
@@ -1258,7 +1271,6 @@
 			var/obj/structure/disposalholder/H2 = locate() in P
 			if(H2 && !H2.active)
 				H.merge(H2)
-
 			H.loc = P
 		else			// if wasn't a pipe, then set loc to turf
 			H.loc = T

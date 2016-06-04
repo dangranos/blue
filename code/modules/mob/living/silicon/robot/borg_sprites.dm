@@ -178,15 +178,15 @@ var/global/list/borg_sprites = list(
 	module = MOD_CMB
 
 ////KODIAK////
-/datum/borg_sprite/droid
+/datum/borg_sprite/kodiak
 	name = "Kodiak"
 	icon_state = "kodiak-standard"
 
-/datum/borg_sprite/droid/security
+/datum/borg_sprite/kodiak/security
 	icon_state = "kodiak-security"
 	module = MOD_SEC
 
-/datum/borg_sprite/droid/service
+/datum/borg_sprite/kodiak/service
 	icon_state = "kodiak-service"
 	module = MOD_SRV
 
