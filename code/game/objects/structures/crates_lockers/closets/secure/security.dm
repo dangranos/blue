@@ -24,7 +24,7 @@
 		new /obj/item/device/radio/headset/heads/captain(src)
 		new /obj/item/clothing/gloves/captain(src)
 		new /obj/item/weapon/gun/energy/gun(src)
-		new /obj/item/weapon/melee/telebaton(src)
+		new /obj/item/weapon/melee/baton/shocker(src)
 		new /obj/item/clothing/under/dress/dress_cap(src)
 		new /obj/item/clothing/head/helmet/formalcaptain(src)
 		new /obj/item/clothing/under/captainformal(src)
@@ -52,6 +52,7 @@
 		new /obj/item/weapon/storage/box/ids(src)
 		new /obj/item/weapon/gun/energy/gun(src)
 		new /obj/item/weapon/gun/projectile/sec/flash(src)
+		new /obj/item/weapon/melee/baton/shocker(src)
 		new /obj/item/device/flash(src)
 		return
 
