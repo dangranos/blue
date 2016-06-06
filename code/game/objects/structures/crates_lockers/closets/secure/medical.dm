@@ -137,6 +137,7 @@
 		new /obj/item/clothing/gloves/white/latex(src)
 		new /obj/item/clothing/shoes/brown	(src)
 		new /obj/item/device/radio/headset/heads/cmo(src)
+		new /obj/item/weapon/melee/baton/shocker(src)
 		new /obj/item/device/flash(src)
 		new /obj/item/weapon/reagent_containers/hypospray(src)
 		return
