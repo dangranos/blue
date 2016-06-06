@@ -192,3 +192,17 @@
 	hitcost = 2500
 	attack_verb = list("poked")
 	slot_flags = null
+
+/obj/item/weapon/melee/baton/shocker
+	name = "shocker"
+	desc = "Electrifying!"
+	icon_state = "shocker"
+	item_state = "shocker"
+	force = 0
+	throwforce = 0
+	stunforce = 0
+	agonyforce = 60
+	hitcost = 1000
+	w_class = 2
+	attack_verb = list("shocked")
+	slot_flags = SLOT_BELT
