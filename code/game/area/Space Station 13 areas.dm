@@ -1304,8 +1304,8 @@ area/crew_quarters/barman
 	name = "\improper Isolation B"
 	icon_state = "patients"
 
-/area/medical/patient_c
-	name = "\improper Isolation C"
+/area/medical/shower
+	name = "\improper Medbay Toilet"
 	icon_state = "patients"
 
 /area/medical/patient_wing
