@@ -143,6 +143,12 @@
 	icon_state = "gentlesuit"
 	item_state = "gy_suit"
 
+/obj/item/clothing/under/maid
+	name = "maid uniform"
+	desc = "Traditional French maid uniform."
+	icon_state = "maid"
+	item_state = "chef"
+
 /obj/item/clothing/under/gimmick/rank/captain/suit
 	name = "captain's suit"
 	desc = "A green suit and yellow necktie. Exemplifies authority."
