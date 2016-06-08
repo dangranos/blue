@@ -16,12 +16,16 @@
 	wall_mounted = 0 //never solid (You can always pass over it)
 	health = 200
 
+
 /obj/structure/closet/secure_closet/wall
+	name = "wall locker"
+	req_access = list(access_security)
+	density = 1
 	locked_overlay = "wall_locked"
-	welded = ""
 	anchored = 1
-	density = 0
 	wall_mounted = 1
+	//too small to put a man in
+	large = 0
 
 
 /obj/structure/closet/secure_closet/New()
