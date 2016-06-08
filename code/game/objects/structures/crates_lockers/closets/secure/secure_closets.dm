@@ -41,7 +41,7 @@
 			if(!locked)
 				open()
 			else
-				src.req_access = list()
+				src.req_access.Cut()
 				src.req_access += pick(get_all_accesses())
 	..()
 
@@ -118,8 +118,7 @@
 			icon_state = icon_off
 		else
 			icon_state = icon_closed
-			if(locked)
-				overlays += locked_overlay
+			overlays += "[locked_overlay][locked?"1":"0"]"
 		if(welded)
 			overlays += "welded"
 

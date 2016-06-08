@@ -8,7 +8,7 @@
 /obj/structure/closet/l3closet/general
 	icon_state = "bio_general"
 	icon_closed = "bio_general"
-	icon_opened = "bio_generalopen"
+	icon_opened = "bioopen"
 
 /obj/structure/closet/l3closet/general/New()
 	..()
@@ -19,7 +19,7 @@
 /obj/structure/closet/l3closet/virology
 	icon_state = "bio_virology"
 	icon_closed = "bio_virology"
-	icon_opened = "bio_virologyopen"
+	icon_opened = "bioopen"
 
 /obj/structure/closet/l3closet/virology/New()
 	..()
