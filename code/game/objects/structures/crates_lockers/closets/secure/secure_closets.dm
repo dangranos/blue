@@ -16,6 +16,14 @@
 	wall_mounted = 0 //never solid (You can always pass over it)
 	health = 200
 
+/obj/structure/closet/secure_closet/wall
+	locked_overlay = "wall_locked"
+	welded = ""
+	anchored = 1
+	density = 0
+	wall_mounted = 1
+
+
 /obj/structure/closet/secure_closet/New()
 	..()
 	update_icon()
