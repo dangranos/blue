@@ -554,7 +554,8 @@ var/list/ai_verbs_default = list(
 		"Zone AI" = "holo3",
 		"Zone AI (clothing)" = "holo4",
 		"carp" = "holo5",
-		"xeno"  = "holo6"
+		"xeno"  = "holo6",
+		"ancient wraith" = "holo7"
 		)
 		input = input("Please select a hologram:") as null|anything in icon_list
 		if(input)
