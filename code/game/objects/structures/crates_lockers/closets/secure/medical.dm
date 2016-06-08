@@ -160,27 +160,13 @@
 		new /obj/item/weapon/storage/box/pillbottles(src)
 		return
 
-/obj/structure/closet/secure_closet/medical_wall
+/obj/structure/closet/secure_closet/wall/medical
 	name = "first aid closet"
 	desc = "It's a secure wall-mounted storage unit for first aid supplies."
-	icon_state = "medical_wall_unlocked"
-	icon_closed = "medical_wall_unlocked"
-	locked_overlay = "medical_wall_locked"
+	icon_state = "medical_wall_off"
+	icon_closed = "medical_wall_off"
 	icon_opened = "medical_wall_open"
-	icon_broken = "medical_wall_spark"
+	icon_broken = "medical_wall_broken"
 	icon_off = "medical_wall_off"
-	anchored = 1
-	density = 0
-	wall_mounted = 1
 	req_access = list(access_medical_equip)
 
-/obj/structure/closet/secure_closet/medical_wall/update_icon()
-	if(opened)
-		icon_state = icon_opened
-	else
-		if(broken)
-			icon_state = icon_broken
-		else
-			icon_state = icon_closed
-			if(locked)
-				overlays += locked_overlay
