@@ -169,15 +169,4 @@
 	icon_broken = "medical_wall_broken"
 	icon_off = "medical_wall_off"
 	req_access = list(access_medical_equip)
-/*
-/obj/structure/closet/secure_closet/medical_wall/update_icon()
-	if(opened)
-		icon_state = icon_opened
-	else
-		if(broken)
-			icon_state = icon_broken
-		else
-			icon_state = icon_closed
-			if(locked)
-				overlays += locked_overlay
-*/
+
