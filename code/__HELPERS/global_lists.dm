@@ -40,8 +40,8 @@ var/global/list/AI_icons = list( "Rainbow" = "ai-clown", "Monochrome" = "ai-mono
 		"Triumvirate Static" = "ai-triumvirate-malf", "Soviet" = "ai-redoctober", "Trapped" = "ai-hades",\
 		"Heartline" = "ai-heartline", "Chatterbox" = "ai-president", "Helios" = "ai-helios", "Goon" = "ai-goon",\
 		"Dug Too Deep" = "ai-toodeep", "Database" = "ai-database", "Glitchman" = "ai-glitchman",\
-		"Lonestar" = "ai-lonestar", "Nanotrasen" = "ai-nanotrasen", "Whale" = "ai-whale", \
-		"House" = "ai-rhouse", "Yuki" = "ai-yuki", "Xeno" = "ai-xeno", "Zone AI" = "ai-zone")
+		"Lonestar" = "ai-lonestar", "Nanotrasen" = "ai-nanotrasen", "Whale" = "ai-whale", "Zone AI" = "ai-zone",\
+		"House" = "ai-rhouse", "Yuki" = "ai-yuki", "Xeno" = "ai-xeno", "Sparkles" = "ai-sparkles")
 
 // Uplinks
 var/list/obj/item/device/uplink/world_uplinks = list()
