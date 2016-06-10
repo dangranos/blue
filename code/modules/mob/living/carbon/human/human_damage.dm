@@ -77,6 +77,24 @@
 		amount += O.burn_dam
 	return amount
 
+/mob/living/carbon/human/getToxLoss()
+	if(species.flags & NO_POISON)
+		toxloss = 0
+	return ..()
+
+/mob/living/carbon/human/adjustToxLoss(var/amount)
+	if(species.flags & NO_POISON)
+		toxloss = 0
+	else
+		amount = amount*species.toxins_mod
+		..(amount)
+
+/mob/living/carbon/human/setToxLoss(var/amount)
+	if(species.flags & NO_POISON)
+		toxloss = 0
+	else
+		..()
+
 
 /mob/living/carbon/human/adjustBruteLoss(var/amount)
 	if(species && species.brute_mod)
