@@ -719,7 +719,7 @@
 	vend_power_usage = 85000 //85 kJ to heat a 250 mL cup of coffee
 	products = list(/obj/item/weapon/reagent_containers/glass/drinks/coffee = 25,/obj/item/weapon/reagent_containers/glass/drinks/tea = 25,/obj/item/weapon/reagent_containers/glass/drinks/h_chocolate = 25)
 	contraband = list(/obj/item/weapon/reagent_containers/glass/drinks/ice = 10)
-	prices = list(/obj/item/weapon/reagent_containers/glass/drinks/coffee = 3, /obj/item/weapon/reagent_containers/glass/drinks/tea = 3, /obj/item/weapon/reagent_containers/glass/drinks/h_chocolate = 3)
+	prices = list(/obj/item/weapon/reagent_containers/glass/drinks/coffee = 60, /obj/item/weapon/reagent_containers/glass/drinks/tea = 45, /obj/item/weapon/reagent_containers/glass/drinks/h_chocolate = 75)
 
 
 
@@ -734,9 +734,9 @@
 					/obj/item/weapon/reagent_containers/food/snacks/sosjerky = 6,/obj/item/weapon/reagent_containers/food/snacks/no_raisin = 6,/obj/item/weapon/reagent_containers/food/snacks/spacetwinkie = 6,
 					/obj/item/weapon/reagent_containers/food/snacks/cheesiehonkers = 6, /obj/item/weapon/reagent_containers/food/snacks/tastybread = 6)
 	contraband = list(/obj/item/weapon/reagent_containers/food/snacks/syndicake = 6, /obj/item/weapon/reagent_containers/food/snacks/skrellsnacks = 3)
-	prices = list(/obj/item/weapon/reagent_containers/food/snacks/candy = 1,/obj/item/weapon/reagent_containers/glass/drinks/dry_ramen = 5,/obj/item/weapon/reagent_containers/food/snacks/chips = 1,
-					/obj/item/weapon/reagent_containers/food/snacks/sosjerky = 2,/obj/item/weapon/reagent_containers/food/snacks/no_raisin = 1,/obj/item/weapon/reagent_containers/food/snacks/spacetwinkie = 1,
-					/obj/item/weapon/reagent_containers/food/snacks/cheesiehonkers = 1, /obj/item/weapon/reagent_containers/food/snacks/tastybread = 2)
+	prices = list(/obj/item/weapon/reagent_containers/food/snacks/candy = 20,/obj/item/weapon/reagent_containers/glass/drinks/dry_ramen = 110,/obj/item/weapon/reagent_containers/food/snacks/chips = 75,
+					/obj/item/weapon/reagent_containers/food/snacks/sosjerky = 40,/obj/item/weapon/reagent_containers/food/snacks/no_raisin = 90,/obj/item/weapon/reagent_containers/food/snacks/spacetwinkie = 40,
+					/obj/item/weapon/reagent_containers/food/snacks/cheesiehonkers = 60, /obj/item/weapon/reagent_containers/food/snacks/tastybread = 60)
 
 /obj/machinery/vending/snack/wallmounted
 	icon_state = "snack_wall"
@@ -753,10 +753,10 @@
 					/obj/item/weapon/reagent_containers/glass/drinks/cans/waterbottle = 10,/obj/item/weapon/reagent_containers/glass/drinks/cans/space_up = 10,
 					/obj/item/weapon/reagent_containers/glass/drinks/cans/iced_tea = 10, /obj/item/weapon/reagent_containers/glass/drinks/cans/grape_juice = 10)
 	contraband = list(/obj/item/weapon/reagent_containers/glass/drinks/cans/thirteenloko = 5, /obj/item/weapon/reagent_containers/food/snacks/liquidfood = 6)
-	prices = list(/obj/item/weapon/reagent_containers/glass/drinks/cans/cola = 1,/obj/item/weapon/reagent_containers/glass/drinks/cans/space_mountain_wind = 1,
-					/obj/item/weapon/reagent_containers/glass/drinks/cans/dr_gibb = 1,/obj/item/weapon/reagent_containers/glass/drinks/cans/starkist = 1,
-					/obj/item/weapon/reagent_containers/glass/drinks/cans/waterbottle = 2,/obj/item/weapon/reagent_containers/glass/drinks/cans/space_up = 1,
-					/obj/item/weapon/reagent_containers/glass/drinks/cans/iced_tea = 1,/obj/item/weapon/reagent_containers/glass/drinks/cans/grape_juice = 1)
+	prices = list(/obj/item/weapon/reagent_containers/glass/drinks/cans/cola = 80,/obj/item/weapon/reagent_containers/glass/drinks/cans/space_mountain_wind = 1,
+					/obj/item/weapon/reagent_containers/glass/drinks/cans/dr_gibb = 120,/obj/item/weapon/reagent_containers/glass/drinks/cans/starkist = 70,
+					/obj/item/weapon/reagent_containers/glass/drinks/cans/waterbottle = 35,/obj/item/weapon/reagent_containers/glass/drinks/cans/space_up = 70,
+					/obj/item/weapon/reagent_containers/glass/drinks/cans/iced_tea = 65,/obj/item/weapon/reagent_containers/glass/drinks/cans/grape_juice = 200)
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.
 
 /obj/machinery/vending/cola/soda
@@ -784,7 +784,7 @@
 	products = list(/obj/item/weapon/storage/fancy/cigarettes = 10,/obj/item/weapon/storage/box/matches = 10,/obj/item/weapon/flame/lighter/random = 4)
 	contraband = list(/obj/item/weapon/flame/lighter/zippo = 4)
 	premium = list(/obj/item/weapon/storage/fancy/cigar = 5)
-	prices = list(/obj/item/weapon/storage/fancy/cigarettes = 15,/obj/item/weapon/storage/box/matches = 1,/obj/item/weapon/flame/lighter/random = 2)
+	prices = list(/obj/item/weapon/storage/fancy/cigarettes = 150,/obj/item/weapon/storage/box/matches = 10,/obj/item/weapon/flame/lighter/random = 20)
 
 /obj/machinery/vending/cigarette/wallmounted
 	icon_state = "cigs_wall"

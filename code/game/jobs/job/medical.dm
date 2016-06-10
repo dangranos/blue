@@ -1,5 +1,4 @@
 /datum/job/medical
-	title = ""
 	faction = "Station"
 	department = "Medical"
 	department_flag = MEDSCI

@@ -147,12 +147,8 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 
 	var/icon/icobase = H.species.icobase
 
-	preview_icon = new /icon(icobase, "torso_[g]")
+	preview_icon = new /icon('icons/mob/human.dmi', "blank")
 	var/icon/temp
-	temp = new /icon(icobase, "groin_[g]")
-	preview_icon.Blend(temp, ICON_OVERLAY)
-	temp = new /icon(icobase, "head_[g]")
-	preview_icon.Blend(temp, ICON_OVERLAY)
 
 	for(var/obj/item/organ/external/E in H.organs)
 		preview_icon.Blend(E.get_icon(), ICON_OVERLAY)

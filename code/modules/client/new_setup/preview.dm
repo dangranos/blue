@@ -7,12 +7,10 @@ datum/preferences
 
 	proc/new_update_preview_icon()
 		req_update_icon = 0			//No check. Can be forced.
-		for(var/dir in cardinal)
-			qdel(preview_south)
-			qdel(preview_north)
-			qdel(preview_east)
-			qdel(preview_west)
-		qdel(preview_icon)
+		qdel(preview_south)
+		qdel(preview_north)
+		qdel(preview_east)
+		qdel(preview_west)
 
 		var/g = "m[body_build]"
 		if(gender == FEMALE)
@@ -122,13 +120,6 @@ datum/preferences
 			preview_icon.Blend(new /icon((g == "f1")?'icons/mob/eyes_f.dmi':'icons/mob/eyes.dmi', "glasses"), ICON_OVERLAY)
 
 		preview_icon.Blend(eyes, ICON_OVERLAY)
-
-/*
-		if(underwear)
-			preview_icon.Blend(underwear, ICON_OVERLAY)
-		if(undershirt)
-			preview_icon.Blend(undershirt, ICON_OVERLAY)
-*/
 
 		if(clothes)
 			preview_icon.Blend(clothes, ICON_OVERLAY)

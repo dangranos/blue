@@ -152,6 +152,10 @@
 /obj/effect/decal/mecha_wreckage/ripley/deathripley
 	name = "Death-Ripley wreckage"
 	icon_state = "deathripley-broken"
+	
+/obj/effect/decal/mecha_wreckage/ripley/lagan
+	name = "Lagann wreckage"
+	icon_state = "lagann-broken"
 
 /obj/effect/decal/mecha_wreckage/durand
 	name = "Durand wreckage"

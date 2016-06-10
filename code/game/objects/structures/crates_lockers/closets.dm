@@ -36,8 +36,9 @@
 			storage_capacity = content_size + 5
 
 
-/obj/structure/closet/examine(mob/user)
-	if(..(user, 1) && !opened)
+/obj/structure/closet/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1 && !opened)
 		var/content_size = 0
 		for(var/obj/item/I in src.contents)
 			if(!I.anchored)
@@ -96,8 +97,8 @@
 
 	src.dump_contents()
 
-	src.icon_state = src.icon_opened
 	src.opened = 1
+	update_icon()
 	playsound(src.loc, open_sound, 15, 1, -3)
 	density = 0
 	return 1
@@ -116,10 +117,9 @@
 		stored_units += store_items(stored_units)
 	if(store_mobs)
 		stored_units += store_mobs(stored_units)
-
-	src.icon_state = src.icon_closed
 	src.opened = 0
 
+	update_icon()
 	playsound(src.loc, close_sound, 15, 1, -3)
 	density = 1
 	return 1
@@ -242,7 +242,7 @@
 			return
 		if(W.loc != user) // This should stop mounted modules ending up outside the module.
 			return
-		usr.drop_item()
+		user.drop_item()
 		if(W)
 			W.forceMove(src.loc)
 	else if(istype(W, /obj/item/weapon/packageWrap))

@@ -60,7 +60,7 @@
 	..()
 
 /obj/item/clothing/accessory/holster/examine(mob/user)
-	..(user)
+	. = ..()
 	if (holstered)
 		user << "A [holstered] is holstered here."
 	else

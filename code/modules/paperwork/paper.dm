@@ -71,10 +71,10 @@
 
 	free_space -= length(strip_html_properly(new_text))
 
-/obj/item/weapon/paper/examine(mob/user)
-	..()
-	if(in_range(user, src) || istype(user, /mob/dead/observer))
-		show_content(usr)
+/obj/item/weapon/paper/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1 || istype(user, /mob/dead/observer))
+		show_content(user)
 	else
 		user << "<span class='notice'>You have to go closer if you want to read it.</span>"
 	return
@@ -132,8 +132,8 @@
 
 /obj/item/weapon/paper/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
 	if(user.zone_sel.selecting == "eyes")
-		user.visible_message("<span class='notice'>You show the paper to [M]. </span>", \
-			"<span class='notice'> [user] holds up a paper and shows it to [M]. </span>")
+		user.visible_message("<span class='notice'> [user] holds up a paper and shows it to [M]. </span>",\
+			"<span class='notice'>You show the paper to [M]. </span>")
 		M.examinate(src)
 
 	else if(user.zone_sel.selecting == "mouth") // lipstick wiping

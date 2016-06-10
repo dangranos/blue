@@ -24,25 +24,32 @@
 		/obj/item/weapon/screwdriver,
 		/obj/item/weapon/stamp)
 	slot_flags = SLOT_ID
-
+	var/list/combined_access = list()
 	var/obj/item/weapon/card/id/front_id = null
 
 
 /obj/item/weapon/storage/wallet/remove_from_storage(obj/item/W as obj, atom/new_location)
 	. = ..(W, new_location)
 	if(.)
-		if(W == front_id)
-			front_id = null
-			name = initial(name)
+		if(istype(W, /obj/item/weapon/card/id))
+			if(W == front_id)
+				front_id = null
+			refreshID()
 			update_icon()
+
+/obj/item/weapon/storage/wallet/proc/refreshID()
+	combined_access.Cut()
+	for(var/obj/item/weapon/card/id/I in contents)
+		if(!front_id)
+			front_id = I
+		update_icon()
+		combined_access |= I.access
 
 /obj/item/weapon/storage/wallet/handle_item_insertion(obj/item/W as obj, prevent_warning = 0)
 	. = ..(W, prevent_warning)
 	if(.)
-		if(!front_id && istype(W, /obj/item/weapon/card/id))
-			front_id = W
-			name = "[name] ([front_id])"
-			update_icon()
+		if(istype(W, /obj/item/weapon/card/id))
+			refreshID()
 
 /obj/item/weapon/storage/wallet/update_icon()
 
@@ -67,9 +74,8 @@
 	return front_id
 
 /obj/item/weapon/storage/wallet/GetAccess()
-	var/obj/item/I = GetID()
-	if(I)
-		return I.GetAccess()
+	if(combined_access.len)
+		return combined_access
 	else
 		return ..()
 

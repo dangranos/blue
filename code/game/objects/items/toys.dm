@@ -7,12 +7,12 @@
  *		Toy crossbow
  *		Toy swords
  *		Toy bosun's whistle
- *      Toy mechs
+ *		Toy mechs
  *		Snap pops
  *		Water flower
- *      Therapy dolls
- *      Toddler doll
- *      Inflatable duck
+ *		Therapy dolls
+ *		Toddler doll
+ *		Inflatable duck
  *		Action figures
  *		Plushies
  *		Toy cult sword
@@ -155,9 +155,10 @@
 	attack_verb = list("struck", "pistol whipped", "hit", "bashed")
 	var/bullets = 7.0
 
-	examine(mob/user)
-		if(..(user, 0))
-			src.desc = text("There are [] caps\s left. Looks almost like the real thing! Ages 8 and up.", src.bullets)
+	examine(mob/user, return_dist = 1)
+		. = ..()
+		if(.<=1)
+			user << "There are [src.bullets] caps\s left. Looks almost like the real thing! Ages 8 and up."
 		return
 
 	attackby(obj/item/toy/ammo/gun/A as obj, mob/user as mob)
@@ -232,8 +233,9 @@
 	attack_verb = list("attacked", "struck", "hit")
 	var/bullets = 5
 
-	examine(mob/user)
-		if(..(user, 2) && bullets)
+	examine(mob/user, return_dist = 1)
+		. = ..()
+		if(.<=2 && bullets)
 			user << "\blue It is loaded with [bullets] foam darts!"
 
 	attackby(obj/item/I as obj, mob/user as mob)
@@ -481,8 +483,9 @@
 
 		return
 
-/obj/item/toy/waterflower/examine(mob/user)
-	if(..(user, 0))
+/obj/item/toy/waterflower/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(.<1)
 		user << text("\icon[] [] units of water left!", src, src.reagents.total_volume)
 
 /*
@@ -938,6 +941,11 @@
 	name = "farwa plush"
 	desc = "A farwa plush doll. It's soft and comforting!"
 	icon_state = "farwaplushie"
+
+/obj/item/toy/plushie/man
+	name = "Ash Blackburn"
+	desc = "Totally what you think it is"
+	icon_state = "ashplushie"
 
 //Toy cult sword
 /obj/item/toy/cultsword

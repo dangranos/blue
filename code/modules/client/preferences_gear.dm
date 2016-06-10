@@ -92,7 +92,7 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/head/beret
 	cost = 1
 	slot = slot_head
-	
+
 /datum/gear/beret/black
 	display_name = "beret, black"
 	path = /obj/item/clothing/head/beret/black
@@ -1434,10 +1434,69 @@ var/global/list/gear_datums = list()
 
 /datum/gear/skrell_xilobeads
 	display_name = "skrell xilobeads"
-	path = "/obj/item/clothing/ears/skrell/xilobeads"
+	path = /obj/item/clothing/ears/skrell/xilobeads
 	cost = 2
 	sort_category = "ears"
 	whitelisted = "Skrell"
+
+
+/datum/gear/underwear
+	display_name = "basic"
+	slot = slot_underwear
+	cost = 1
+
+/datum/gear/underwear/black_female
+	display_name = "Underwear, female, black"
+	path = /obj/item/clothing/hidden/underwear/type1/black
+
+/datum/gear/underwear/blue_female
+	display_name = "Underwear, female, blue"
+	path = /obj/item/clothing/hidden/underwear/type1/blue
+
+/datum/gear/underwear/gray_female
+	display_name = "Underwear, female, gray"
+	path = /obj/item/clothing/hidden/underwear/gray_female
+
+/datum/gear/underwear/green_female
+	display_name = "Underwear, female, green"
+	path = /obj/item/clothing/hidden/underwear/green_female
+
+/datum/gear/underwear/light_pink_female
+	display_name = "Underwear, female, light pink"
+	path = /obj/item/clothing/hidden/underwear/light_pink_female
+
+/datum/gear/underwear/light_purple_female
+	display_name = "Underwear, female, light purple"
+	path = /obj/item/clothing/hidden/underwear/light_purple_female
+
+/datum/gear/underwear/mixed_female
+	display_name = "Underwear, female, mixed"
+	path = /obj/item/clothing/hidden/underwear/mixed_female
+
+/datum/gear/underwear/pink_female
+	display_name = "Underwear, female, pink"
+	path = /obj/item/clothing/hidden/underwear/type1/pink
+
+/datum/gear/underwear/red_female
+	display_name = "Underwear, female, red"
+	path = /obj/item/clothing/hidden/underwear/type1/red
+
+/datum/gear/underwear/red_alt_female
+	display_name = "Underwear, female, red alt"
+	path = /obj/item/clothing/hidden/underwear/red_alt_female
+
+/datum/gear/underwear/teal_female
+	display_name = "Underwear, female, teal"
+	path = /obj/item/clothing/hidden/underwear/teal_female
+
+/datum/gear/underwear/thong_female
+	display_name = "Underwear, female, thong"
+	path = /obj/item/clothing/hidden/underwear/thong_female
+
+/datum/gear/underwear/yellow_female
+	display_name = "Underwear, female, yellow"
+	path = /obj/item/clothing/hidden/underwear/yellow_female
+
 
 /datum/gear/socks
 	display_name = "basic"

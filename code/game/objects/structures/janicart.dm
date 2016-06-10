@@ -19,8 +19,9 @@
 	create_reagents(100)
 
 
-/obj/structure/janitorialcart/examine(mob/user)
-	if(..(user, 1))
+/obj/structure/janitorialcart/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1)
 		user << "[src] \icon[src] contains [reagents.total_volume] unit\s of liquid!"
 	//everything else is visible, so doesn't need to be mentioned
 
@@ -107,7 +108,7 @@
 	if(!isliving(usr))
 		return
 	var/mob/living/user = usr
-	
+
 	if(href_list["take"])
 		switch(href_list["take"])
 			if("garbage")
@@ -178,8 +179,9 @@
 	update_layer()
 
 
-/obj/structure/bed/chair/janicart/examine(mob/user)
-	if(!..(user, 1))
+/obj/structure/bed/chair/janicart/examine(mob/user, return_dist=1)
+	.=..()
+	if(.>1)
 		return
 
 	user << "\icon[src] This [callme] contains [reagents.total_volume] unit\s of water!"

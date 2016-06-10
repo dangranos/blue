@@ -38,7 +38,7 @@
 			..()
 
 	wooden_reinforced
-		icon_state = "reinf_wooden_preview"
+		icon_state = "reinf_wood_preview"
 		color = "#CF570D"
 		New()
 			material = get_material_by_name("wood")

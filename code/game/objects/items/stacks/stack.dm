@@ -36,8 +36,9 @@
 		usr << browse(null, "window=stack")
 	return ..()
 
-/obj/item/stack/examine(mob/user)
-	if(..(user, 1))
+/obj/item/stack/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(.<=1)
 		if(!uses_charge)
 			user << "There are [src.amount] [src.singular_name]\s in the stack."
 		else
