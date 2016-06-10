@@ -167,8 +167,9 @@
 		processing_objects -= src
 	..()
 
-/obj/item/weapon/weldingtool/examine(mob/user)
-	if(..(user, 0))
+/obj/item/weapon/weldingtool/examine(mob/user, return_dist = 1)
+	. = ..()
+	if(.<=1)
 		user << text("\icon[] [] contains []/[] units of fuel!", src, src.name, get_fuel(),src.max_fuel )
 
 
@@ -462,7 +463,7 @@
 	var/current_tool = 1
 
 /obj/item/weapon/combitool/examine()
-	..()
+	. = ..()
 	if(loc == usr && tools.len)
 		usr << "It has the following fittings:"
 		for(var/obj/item/tool in tools)

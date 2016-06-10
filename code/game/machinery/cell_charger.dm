@@ -28,10 +28,10 @@
 	else
 		overlays.Cut()
 
-/obj/machinery/cell_charger/examine(mob/user)
-	if(!..(user, 5))
-		return
+/obj/machinery/cell_charger/examine(mob/user, return_dist = 1)
+	. = ..()
 
+	if(.>5) return
 	user << "There's [charging ? "a" : "no"] cell in the charger."
 	if(charging)
 		user << "Current charge: [charging.charge]"

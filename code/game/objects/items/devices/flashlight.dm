@@ -144,6 +144,10 @@
 	if(!usr.stat)
 		attack_self(usr)
 
+/obj/item/device/flashlight/lamp/AltClick(var/mob/user)
+	if(in_range(src,user))
+		src.toggle_light()
+
 // FLARES
 
 /obj/item/device/flashlight/flare

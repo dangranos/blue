@@ -132,7 +132,7 @@
 	return 0
 
 /obj/machinery/status_display/examine(mob/user)
-	. = ..(user)
+	. = ..()
 	if(mode != STATUS_DISPLAY_BLANK && mode != STATUS_DISPLAY_ALERT)
 		user << "The display says:<br>\t[sanitize(message1)]<br>\t[sanitize(message2)]"
 

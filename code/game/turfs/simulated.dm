@@ -93,6 +93,17 @@
 
 				bloodDNA = null
 
+			var/contents_weight
+			for(var/obj/item/weapon/O in src.contents)
+				if(O.w_class > 1)
+					contents_weight += O.w_class
+			contents_weight = max(min(contents_weight, 75), 0)
+
+			if(prob(contents_weight))
+				if(!M.buckled && M.m_intent == "run")
+					if(M.slip("something on the floor",4))
+						step(M, M.dir)
+
 		if(src.wet)
 
 			if(M.buckled || (src.wet == 1 && M.m_intent == "walk"))

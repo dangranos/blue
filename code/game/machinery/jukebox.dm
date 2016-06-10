@@ -1,13 +1,3 @@
-//This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:32
-
-datum/track
-	var/title
-	var/sound
-
-datum/track/New(var/title_name, var/audio)
-	title = title_name
-	sound = audio
-
 /obj/machinery/media/jukebox/
 	name = "space jukebox"
 	icon = 'icons/obj/jukebox.dmi'
@@ -22,34 +12,34 @@ datum/track/New(var/title_name, var/audio)
 
 	var/playing = 0
 
-	var/datum/track/current_track
-	var/list/datum/track/tracks = list(
-		new/datum/track("Beyond", 'sound/ambience/ambispace.ogg'),
-		new/datum/track("Clouds of Fire", 'sound/music/clouds.s3m'),
-		new/datum/track("D`Bert", 'sound/music/title2.ogg'),
-		new/datum/track("D`Fort", 'sound/ambience/song_game.ogg'),
-		new/datum/track("Floating", 'sound/music/main.ogg'),
-		new/datum/track("Endless Space", 'sound/music/space.ogg'),
-		new/datum/track("Part A", 'sound/misc/TestLoop1.ogg'),
-		new/datum/track("Scratch", 'sound/music/title1.ogg'),
-		new/datum/track("Trai`Tor", 'sound/music/traitor.ogg'),
-		new/datum/track("Callista-Omega", 'sound/jukebox/club_afterlife-callista_omega.ogg'),
-		new/datum/track("Lone Digger", 'sound/jukebox/Caravan_Palace_-Lone_Digger.ogg'),
-		new/datum/track("Magic Fly", 'sound/jukebox/magic_fly.ogg'),
-		new/datum/track("THUNDERDROME", 'sound/music/THUNDERDOME.ogg'),
-		new/datum/track("Staying Alive", 'sound/jukebox/staying_alive.ogg'),
-		new/datum/track("Space Oddity", 'sound/music/david_bowie-space_oddity_original.ogg'),
-		new/datum/track("Fascination", 'sound/jukebox/Keep_Feeling.ogg'),
-		new/datum/track("Resist", 'sound/jukebox/Old_Friends.ogg'),
-		new/datum/track("Turf", 'sound/jukebox/Turf.ogg'),
-		new/datum/track("Don't You Want?", 'sound/jukebox/Somebody_to_Love.ogg'),
-		new/datum/track("Who Knows?", 'sound/jukebox/TheManWhoSoldTheWorld.ogg'),
-		new/datum/track("See You Tomorrow?", 'sound/jukebox/See_You_Tomorrow.ogg'),
-		new/datum/track("Lovesong", 'sound/jukebox/lovesong.ogg'),
-		new/datum/track("Judge", 'sound/jukebox/Judge_Bitch.ogg'),
-		new/datum/track("Hishmaliin", 'sound/jukebox/dvar_hishmaliin.ogg'),
-		new/datum/track("Mystyrious Song", 'sound/jukebox/gay_bar.ogg'),
-		new/datum/track("Keep", 'sound/jukebox/aritus-keep.ogg'),
+	var/current_track = ""
+	var/list/tracks = list(
+		"Beyond"			= list('sound/ambience/ambispace.ogg'),
+		"Clouds of Fire"	= list('sound/music/clouds.s3m'),
+		"D`Bert"			= list('sound/music/title2.ogg'),
+		"D`Fort"			= list('sound/ambience/song_game.ogg'),
+		"Floating"			= list('sound/music/main.ogg'),
+		"Endless Space"		= list('sound/music/space.ogg'),
+		"Part A"			= list('sound/misc/TestLoop1.ogg'),
+		"Scratch"			= list('sound/music/title1.ogg'),
+		"Trai`Tor"			= list('sound/music/traitor.ogg'),
+		"Callista-Omega"	= list('sound/jukebox/club_afterlife-callista_omega.ogg'),
+		"Lone Digger"		= list('sound/jukebox/Caravan_Palace_-Lone_Digger.ogg'),
+		"Magic Fly"			= list('sound/jukebox/magic_fly.ogg'),
+		"THUNDERDROME"		= list('sound/music/THUNDERDOME.ogg'),
+		"Staying Alive"		= list('sound/jukebox/staying_alive.ogg'),
+		"Space Oddity"		= list('sound/music/david_bowie-space_oddity_original.ogg'),
+		"Fascination"		= list('sound/jukebox/Keep_Feeling.ogg'),
+		"Resist"			= list('sound/jukebox/Old_Friends.ogg'),
+		"Turf"				= list('sound/jukebox/Turf.ogg'),
+		"Don't You Want?"	= list('sound/jukebox/Somebody_to_Love.ogg'),
+		"Who Knows?"		= list('sound/jukebox/TheManWhoSoldTheWorld.ogg'),
+		"See You Tomorrow?"	= list('sound/jukebox/See_You_Tomorrow.ogg'),
+		"Lovesong"			= list('sound/jukebox/lovesong.ogg'),
+		"Judge"				= list('sound/jukebox/Judge_Bitch.ogg'),
+		"Hishmaliin"		= list('sound/jukebox/dvar_hishmaliin.ogg'),
+		"Mystyrious Song"	= list('sound/jukebox/gay_bar.ogg'),
+		"Keep"				= list('sound/jukebox/aritus-keep.ogg')
 	)
 
 /obj/machinery/media/jukebox/Destroy()
@@ -94,11 +84,10 @@ datum/track/New(var/title_name, var/audio)
 		return
 
 	if(href_list["change_track"])
-		for(var/datum/track/T in tracks)
-			if(T.title == href_list["title"])
-				current_track = T
-				StartPlaying()
-				break
+		var/T = href_list["title"]
+		if(T)
+			current_track = T
+			StartPlaying()
 	else if(href_list["stop"])
 		StopPlaying()
 	else if(href_list["play"])
@@ -120,7 +109,7 @@ datum/track/New(var/title_name, var/audio)
 					M.make_jittery(500)
 			spawn(15)
 				explode()
-		else if(current_track == null)
+		else if(!current_track)
 			usr << "No track selected."
 		else
 			StartPlaying()
@@ -139,12 +128,12 @@ datum/track/New(var/title_name, var/audio)
 	var/data[0]
 
 	if(!(stat & (NOPOWER|BROKEN)))
-		data["current_track"] = current_track != null ? current_track.title : ""
+		data["current_track"] = current_track ? current_track : ""
 		data["playing"] = playing
 
-		var/list/nano_tracks = new
-		for(var/datum/track/T in tracks)
-			nano_tracks[++nano_tracks.len] = list("track" = T.title)
+		var/list/nano_tracks = list()
+		for(var/T in tracks)
+			nano_tracks += T
 
 		data["tracks"] = nano_tracks
 
@@ -215,11 +204,11 @@ datum/track/New(var/title_name, var/audio)
 
 /obj/machinery/media/jukebox/proc/StartPlaying()
 	StopPlaying()
-	if(!current_track)
+	if(!current_track || !(current_track in tracks))
 		return
 
 	var/area/main_area = get_area(src)
-	main_area.forced_ambience = list(current_track.sound)
+	main_area.forced_ambience = list(pick(tracks[current_track]))
 	for(var/mob/living/M in mobs_in_area(main_area))
 		if(M.mind)
 			main_area.play_ambience(M)

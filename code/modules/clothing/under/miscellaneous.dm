@@ -143,6 +143,12 @@
 	icon_state = "gentlesuit"
 	item_state = "gy_suit"
 
+/obj/item/clothing/under/maid
+	name = "maid uniform"
+	desc = "Traditional French maid uniform."
+	icon_state = "maid"
+	item_state = "chef"
+
 /obj/item/clothing/under/gimmick/rank/captain/suit
 	name = "captain's suit"
 	desc = "A green suit and yellow necktie. Exemplifies authority."
@@ -256,6 +262,12 @@
 	desc = "A small black dress with blue flames print on it."
 	icon_state = "dress_fire"
 	item_state = "waiter"
+
+/obj/item/clothing/under/dress/dress_blue
+	name = "blue dress"
+	desc = "A small blue dress."
+	icon_state = "bluedress"
+	item_state = "b_suit"
 
 /obj/item/clothing/under/dress/dress_green
 	name = "green dress"

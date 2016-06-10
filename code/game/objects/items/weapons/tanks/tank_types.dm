@@ -23,8 +23,9 @@
 		return
 
 
-	examine(mob/user)
-		if(..(user, 0) && air_contents.gas["oxygen"] < 10)
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<1 && air_contents.gas["oxygen"] < 10)
 			user << text("\red <B>The meter on the [src.name] indicates you are almost out of oxygen!</B>")
 			//playsound(usr, 'sound/effects/alert.ogg', 50, 1)
 
@@ -65,8 +66,9 @@
 	icon_state = "oxygen"
 
 
-	examine(mob/user)
-		if(..(user, 0) && air_contents.gas["oxygen"] < 1 && loc==user)
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<1 && air_contents.gas["oxygen"] < 1 && loc==user)
 			user << "\red <B>The meter on the [src.name] indicates you are almost out of air!</B>"
 			user << sound('sound/effects/alert.ogg')
 
@@ -129,8 +131,9 @@
 		return
 
 
-	examine(mob/user)
-		if(..(user, 0) && air_contents.gas["oxygen"] < 0.2 && loc==user)
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<0 && air_contents.gas["oxygen"] < 0.2 && loc==user)
 			user << text("\red <B>The meter on the [src.name] indicates you are almost out of air!</B>")
 			user << sound('sound/effects/alert.ogg')
 
@@ -154,7 +157,7 @@
 	force = 4.0
 	distribute_pressure = ONE_ATMOSPHERE*O2STANDARD
 	volume = 2
-	
+
 	New()
 		..()
 		src.air_contents.adjust_gas("nitrogen", (3*ONE_ATMOSPHERE)*volume/(R_IDEAL_GAS_EQUATION*T20C))
@@ -162,8 +165,9 @@
 		return
 
 
-	examine(mob/user)
-		if(..(user, 0) && air_contents.gas["nitrogen"] < 0.2 && loc==user)
+	examine(mob/user, return_dist=1)
+		.=..()
+		if(.<1 && air_contents.gas["nitrogen"] < 0.2 && loc==user)
 			user << text("\red <B>The meter on the [src.name] indicates you are almost out of air!</B>")
 			user << sound('sound/effects/alert.ogg')
 
@@ -183,7 +187,8 @@
 	src.air_contents.adjust_gas("nitrogen", (3*ONE_ATMOSPHERE)*70/(R_IDEAL_GAS_EQUATION*T20C))
 	return
 
-/obj/item/weapon/tank/nitrogen/examine(mob/user)
-	if(..(user, 0) && air_contents.gas["nitrogen"] < 10)
+/obj/item/weapon/tank/nitrogen/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<1 && air_contents.gas["nitrogen"] < 10)
 		user << text("\red <B>The meter on the [src.name] indicates you are almost out of nitrogen!</B>")
 		//playsound(user, 'sound/effects/alert.ogg', 50, 1)

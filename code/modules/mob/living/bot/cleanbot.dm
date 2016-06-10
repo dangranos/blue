@@ -6,7 +6,6 @@
 	botcard_access = list(access_janitor, access_maint_tunnels)
 
 	var/tmp/obj/effect/decal/cleanable/target = null
-	var/tmp/list/path = list()
 	var/tmp/list/patrol_path = list()
 	var/tmp/list/ignorelist = list()
 
@@ -45,45 +44,43 @@
 
 	if(!on)
 		return
-
 	if(client)
 		return
 	if(cleaning)
 		return
 
-	if(!screwloose && !oddbutton && prob(5))
+	if(screwloose)
+		if(prob(5)) // Make a mess
+			if(istype(loc, /turf/simulated))
+				var/turf/simulated/T = loc
+				T.wet_floor()
+	else if(!oddbutton && prob(5))
 		custom_emote(2, "makes an excited beeping booping sound!")
-
-	if(screwloose && prob(5)) // Make a mess
-		if(istype(loc, /turf/simulated))
-			var/turf/simulated/T = loc
-			T.wet_floor()
 
 	if(oddbutton && prob(5)) // Make a big mess
 		visible_message("Something flies out of [src]. He seems to be acting oddly.")
-		var/obj/effect/decal/cleanable/blood/gibs/gib = new /obj/effect/decal/cleanable/blood/gibs(loc)
+		var/obj/effect/decal/cleanable/blood/gibs/gib = new(loc)
 		ignorelist += gib
 		spawn(600)
 			ignorelist -= gib
 
+	if(pulledby) // Don't wiggle if someone pulls you
+		patrol_path = list()
+		path = list()
+		target = null
+		return
+
 	if(!target) // Find a target
-		for(var/i=0;i<=7;i++)
-			if(target) break
-			for(var/obj/effect/decal/cleanable/D in view(i, src))
-				if(D in ignorelist)
-					continue
-				for(var/T in target_types)
-					if(istype(D, T))
-						if(set_target(D))
-							patrol_path = list()
-							break
+		for(var/obj/effect/decal/cleanable/D in reverselist(view(src)))
+			if(D in ignorelist)
+				continue
+			for(var/T in target_types)
+				if(istype(D, T))
+					if(set_target(D))
+						break
 
 		if(!target) // No targets in range
 			if(!should_patrol)
-				return
-
-			if(pulledby) // Don't wiggle if someone pulls you
-				patrol_path = list()
 				return
 
 			if(!patrol_path || !patrol_path.len)
@@ -237,20 +234,19 @@
 
 /mob/living/bot/cleanbot/Emag(var/mob/user)
 	..()
-	if(user)
-		user << "<span class='notice'>The [src] buzzes and beeps.</span>"
+	visible_message("<span class='notice'>The [src] buzzes and beeps.</span>")
 	oddbutton = 1
 	screwloose = 1
 
 /mob/living/bot/cleanbot/proc/get_targets()
-	target_types = list()
-
-	target_types += /obj/effect/decal/cleanable/blood/oil
-	target_types += /obj/effect/decal/cleanable/vomit
-	target_types += /obj/effect/decal/cleanable/crayon
-	target_types += /obj/effect/decal/cleanable/liquid_fuel
-	target_types += /obj/effect/decal/cleanable/mucus
-	target_types += /obj/effect/decal/cleanable/dirt
+	target_types = list(
+		/obj/effect/decal/cleanable/blood/oil,
+		/obj/effect/decal/cleanable/vomit,
+		/obj/effect/decal/cleanable/crayon,
+		/obj/effect/decal/cleanable/liquid_fuel,
+		/obj/effect/decal/cleanable/mucus,
+		/obj/effect/decal/cleanable/dirt,
+	)
 
 	if(blood)
 		target_types += /obj/effect/decal/cleanable/blood

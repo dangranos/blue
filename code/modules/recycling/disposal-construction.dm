@@ -12,7 +12,7 @@
 	pressure_resistance = 5*ONE_ATMOSPHERE
 	matter = list(DEFAULT_WALL_MATERIAL = 1850)
 	level = 2
-	var/sortType = ""
+	var/sortTypes = list()
 	var/ptype = 0
 	// 0=straight, 1=bent, 2=junction-j1, 3=junction-j2, 4=junction-y, 5=trunk, 6=disposal bin, 7=outlet, 8=inlet 9=pipe-j1s 10=pipe-j2s
 	var/subtype = 0
@@ -286,7 +286,7 @@
 							//Needs some special treatment ;)
 							if(ptype==9 || ptype==10)
 								var/obj/structure/disposalpipe/sortjunction/SortP = P
-								SortP.sortType = sortType
+								SortP.sortTypes = sortTypes
 								SortP.updatedir()
 								SortP.updatedesc()
 								SortP.updatename()

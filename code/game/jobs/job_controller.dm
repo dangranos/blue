@@ -444,7 +444,7 @@ var/global/datum/controller/occupations/job_master
 				H.buckled.set_dir(H.dir)
 
 		//give them an account in the station database
-		var/datum/money_account/M = create_account(H.real_name, rand(50,500)*10, null)
+		var/datum/money_account/M = create_account(H.real_name, rand(250,1000), null)
 		if(H.mind)
 			var/remembered_info = ""
 			remembered_info += "<b>Your account number is:</b> #[M.account_number]<br>"
@@ -520,8 +520,6 @@ var/global/datum/controller/occupations/job_master
 
 		if(job.idtype)
 			spawnId(H, rank, alt_title)
-			H.equip_to_slot_or_del(new /obj/item/device/radio/headset(H), slot_l_ear)
-			H << "<b>To speak on your department's radio channel use :h. For the use of other channels, examine your headset.</b>"
 
 		if(job.req_admin_notify)
 			H << "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>"

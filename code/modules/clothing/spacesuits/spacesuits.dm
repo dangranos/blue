@@ -39,10 +39,10 @@
 
 	..()
 
-/obj/item/clothing/head/helmet/space/examine()
-	..()
-	if(camera_networks && get_dist(usr,src) <= 1)
-		usr << "This helmet has a built-in camera. It's [camera ? "" : "in"]active."
+/obj/item/clothing/head/helmet/space/examine(mob/user, return_dist=1)
+	. = ..()
+	if(camera_networks && .<=1)
+		user << "This helmet has a built-in camera. It's [camera ? "" : "in"]active."
 
 /obj/item/clothing/suit/space
 	name = "Space suit"

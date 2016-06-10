@@ -14,6 +14,7 @@
 
 	uniform = /obj/item/clothing/under/rank/bartender
 	pda = /obj/item/device/pda/bar
+	suit = /obj/item/clothing/suit/storage/vest/pcrc
 	ear = /obj/item/device/radio/headset/headset_service
 
 	equip(var/mob/living/carbon/human/H)

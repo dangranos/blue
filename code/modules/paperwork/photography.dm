@@ -48,10 +48,10 @@ var/global/photo_count = 0
 			scribble = txt
 	..()
 
-/obj/item/weapon/photo/examine(mob/user)
-	if(in_range(user, src))
+/obj/item/weapon/photo/examine(mob/user, return_dist=1)
+	.=..()
+	if(.<=1)
 		show(user)
-		user << desc
 	else
 		user << "<span class='notice'>It is too far away.</span>"
 
