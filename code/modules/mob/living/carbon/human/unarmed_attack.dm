@@ -8,7 +8,7 @@
 	var/shredding = 0 // Calls the old attack_alien() behavior on objects/mobs when on harm intent.
 	var/sharp = 0
 	var/edge = 0
-	
+
 	var/eye_attack_text
 	var/eye_attack_text_victim
 
@@ -87,7 +87,7 @@
 /datum/unarmed_attack/proc/handle_eye_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target)
 	var/obj/item/organ/eyes/eyes = target.internal_organs_by_name["eyes"]
 	eyes.take_damage(rand(3,4), 1)
-	
+
 	user.visible_message("<span class='danger'>[user] presses \his [eye_attack_text] into [target]'s [eyes.name]!</span>")
 	target << "<span class='danger'>You experience[(target.species.flags & NO_PAIN)? "" : " immense pain as you feel" ] [eye_attack_text_victim] being pressed into your [eyes.name][(target.species.flags & NO_PAIN)? "." : "!"]</span>"
 
@@ -237,3 +237,13 @@
 	switch(attack_damage)
 		if(1 to 4)	user.visible_message("<span class='danger'>[pick("[user] stomped on", "[user] slammed \his [shoes ? copytext(shoes.name, 1, -1) : "foot"] down onto")] [target]'s [organ]!</span>")
 		if(5)		user.visible_message("<span class='danger'>[pick("[user] landed a powerful stomp on", "[user] stomped down hard on", "[user] slammed \his [shoes ? copytext(shoes.name, 1, -1) : "foot"] down hard onto")] [target]'s [organ]!</span>") //Devastated lol. No. We want to say that the stomp was powerful or forceful, not that it /wrought devastation/
+
+
+/datum/unarmed_attack/light_strike
+	attack_noun = list("tap","light strike")
+	attack_verb = list("tapped", "lightly struck")
+	damage = 2
+	shredding = 0
+	damage = 0
+	sharp = 0
+	edge = 0
