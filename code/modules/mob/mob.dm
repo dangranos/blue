@@ -716,11 +716,15 @@
 		lying = 1
 		canmove = 0
 		downed = 1
-	else if(resting || weakened)
+	else if(weakened)
 		lying = 1
 		canmove = 0
-		if prob(25)
+		if(prob(25))
 			downed = 1
+	else if(resting)
+		lying = 1
+		canmove = 0
+		downed = 0
 	else if(stunned)
 		canmove = 0
 	else if(captured)
