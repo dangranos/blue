@@ -719,8 +719,8 @@
 	else if(resting || weakened)
 		lying = 1
 		canmove = 0
-		if prob(5)
-			downed = 0
+		if prob(25)
+			downed = 1
 	else if(stunned)
 		canmove = 0
 	else if(captured)
