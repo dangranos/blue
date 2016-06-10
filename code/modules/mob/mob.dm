@@ -712,28 +712,29 @@
 				anchored = 0
 				canmove = 1
 
-	if( stat || paralysis || sleeping || (status_flags & FAKEDEATH))
-		lying = 1
-		canmove = 0
-		downed = 1
-		if(weakened)
-			lying = 1
-			canmove = 0
-			if(prob(25))
-				downed = 1
-		if(resting)
-			lying = 1
-			canmove = 0
-		if(stunned)
-			canmove = 0
-		if(captured)
-			anchored = 1
-			canmove = 0
-			lying = 0
-			downed = 1
 		else
-			lying = 0
-			canmove = 1
+			if(stat || paralysis || sleeping || (status_flags & FAKEDEATH))
+				lying = 1
+				canmove = 0
+				downed = 1
+			if(weakened)
+					lying = 1
+					canmove = 0
+					if(prob(25))
+						downed = 1
+			if(resting)
+				lying = 1
+				canmove = 0
+			if(stunned)
+				canmove = 0
+			if(captured)
+				anchored = 1
+				canmove = 0
+				lying = 0
+				downed = 1
+			else
+				lying = 0
+				canmove = 1
 
 	if(lying)
 		density = 0
