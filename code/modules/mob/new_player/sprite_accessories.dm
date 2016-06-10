@@ -23,7 +23,7 @@
 	var/icon_state		// the icon_state of the accessory
 	var/preview_state	// a custom preview state for whatever reason
 
-	var/name			// the preview name of the accessory
+	var/name			// the preview name of the accessory. Try to capatilize it please~
 
 	// Determines if the accessory will be skipped or included in random hair generations
 	var/gender = NEUTER
@@ -44,7 +44,9 @@
 */
 
 /datum/sprite_accessory/hair
+
 	icon = 'icons/mob/Human_face.dmi'	  // default icon for all hairs
+
 	afro
 		name = "Afro"
 		icon_state = "hair_afro"
@@ -336,9 +338,9 @@
 		name = "Long Fringe"
 		icon_state = "hair_longfringe"
 
-	/*longish
+	longish
 		name = "Longer Hair"
-		icon_state = "hair_b2"*/
+		icon_state = "hair_b2"
 
 	longovereye
 		name = "Overeye Long"
@@ -361,7 +363,7 @@
 
 	messy_bun
 		name = "Messy Bun"
-		icon_state = "hair_bun"
+		icon_state = "hair_messybun"
 		gender = FEMALE
 
 	mohawk
@@ -524,111 +526,92 @@
 		icon_state = "hair_zone"
 		gender = FEMALE
 
-
-	icp_pc_console
-		name = "console IPC screen"
-		icon_state = "ipc_console"
+	ipc
 		species_allowed = list("Machine")
 
-	icp_screen_blue
-		name = "blue IPC screen"
-		icon_state = "ipc_blue"
-		species_allowed = list("Machine")
+		icp_pc_console
+			name = "console IPC screen"
+			icon_state = "ipc_console"
 
-	icp_screen_breakout
-		name = "breakout IPC screen"
-		icon_state = "ipc_breakout"
-		species_allowed = list("Machine")
+		icp_screen_blue
+			name = "blue IPC screen"
+			icon_state = "ipc_blue"
 
-	icp_screen_eight
-		name = "eight IPC screen"
-		icon_state = "ipc_eight"
-		species_allowed = list("Machine")
+		icp_screen_breakout
+			name = "breakout IPC screen"
+			icon_state = "ipc_breakout"
 
-	icp_screen_go_glider
-		name = "glider IPC screen"
-		icon_state = "ipc_gol_glider"
-		species_allowed = list("Machine")
+		icp_screen_eight
+			name = "eight IPC screen"
+			icon_state = "ipc_eight"
 
-	icp_screen_goggles
-		name = "goggles IPC screen"
-		icon_state = "ipc_goggles"
-		species_allowed = list("Machine")
+		icp_screen_go_glider
+			name = "glider IPC screen"
+			icon_state = "ipc_gol_glider"
 
-	icp_screen_green
-		name = "green IPC screen"
-		icon_state = "ipc_green"
-		species_allowed = list("Machine")
+		icp_screen_goggles
+			name = "goggles IPC screen"
+			icon_state = "ipc_goggles"
 
-	icp_screen_heart
-		name = "heart IPC screen"
-		icon_state = "ipc_heart"
-		species_allowed = list("Machine")
+		icp_screen_green
+			name = "green IPC screen"
+			icon_state = "ipc_green"
 
-	icp_screen_kitty
-		name = "kitty IPC screen"
-		icon_state = "ipc_kitty"
-		species_allowed = list("Machine")
+		icp_screen_heart
+			name = "heart IPC screen"
+			icon_state = "ipc_heart"
 
-	icp_screen_monoeye
-		name = "monoeye IPC screen"
-		icon_state = "ipc_monoeye"
-		species_allowed = list("Machine")
+		icp_screen_kitty
+			name = "kitty IPC screen"
+			icon_state = "ipc_kitty"
 
-	icp_screen_nature
-		name = "nature IPC screen"
-		icon_state = "ipc_nature"
-		species_allowed = list("Machine")
+		icp_screen_monoeye
+			name = "monoeye IPC screen"
+			icon_state = "ipc_monoeye"
 
-	icp_screen_orange
-		name = "orange IPC screen"
-		icon_state = "ipc_orange"
-		species_allowed = list("Machine")
+		icp_screen_nature
+			name = "nature IPC screen"
+			icon_state = "ipc_nature"
 
-	icp_screen_pink
-		name = "pink IPC screen"
-		icon_state = "ipc_pink"
-		species_allowed = list("Machine")
+		icp_screen_orange
+			name = "orange IPC screen"
+			icon_state = "ipc_orange"
 
-	icp_screen_purple
-		name = "purple IPC screen"
-		icon_state = "ipc_purple"
-		species_allowed = list("Machine")
+		icp_screen_pink
+			name = "pink IPC screen"
+			icon_state = "ipc_pink"
 
-	icp_screen_rainbow
-		name = "rainbow IPC screen"
-		icon_state = "ipc_rainbow"
-		species_allowed = list("Machine")
+		icp_screen_purple
+			name = "purple IPC screen"
+			icon_state = "ipc_purple"
 
-	icp_screen_red
-		name = "red IPC screen"
-		icon_state = "ipc_red"
-		species_allowed = list("Machine")
+		icp_screen_rainbow
+			name = "rainbow IPC screen"
+			icon_state = "ipc_rainbow"
 
-	icp_screen_rgb
-		name = "RGB IPC screen"
-		icon_state = "ipc_rgb"
-		species_allowed = list("Machine")
+		icp_screen_red
+			name = "red IPC screen"
+			icon_state = "ipc_red"
 
-	icp_screen_shower
-		name = "shower IPC screen"
-		icon_state = "ipc_shower"
-		species_allowed = list("Machine")
+		icp_screen_rgb
+			name = "RGB IPC screen"
+			icon_state = "ipc_rgb"
 
-	icp_screen_static
-		name = "static IPC screen"
-		icon_state = "ipc_static"
-		species_allowed = list("Machine")
+		icp_screen_shower
+			name = "shower IPC screen"
+			icon_state = "ipc_shower"
 
-	icp_screen_yellow
-		name = "yellow IPC screen"
-		icon_state = "ipc_yellow"
-		species_allowed = list("Machine")
+		icp_screen_static
+			name = "static IPC screen"
+			icon_state = "ipc_static"
 
-	icp_scroll
-		name = "scroll IPC screen"
-		icon_state = "ipc_scroll"
-		species_allowed = list("Machine")
+		icp_screen_yellow
+			name = "yellow IPC screen"
+			icon_state = "ipc_yellow"
+
+		icp_scroll
+			name = "scroll IPC screen"
+			icon_state = "ipc_scroll"
 
 
 /*
@@ -640,6 +623,7 @@
 */
 
 /datum/sprite_accessory/facial_hair
+
 	icon = 'icons/mob/Human_face.dmi'
 	gender = MALE // barf (unless you're a dorf, dorfs dig chix /w beards :P)
 
@@ -714,6 +698,8 @@
 		name = "Watson Mustache"
 		icon_state = "facial_watson"
 
+
+
 /*
 ///////////////////////////////////
 /  =---------------------------=  /
@@ -723,15 +709,112 @@
 */
 
 /datum/sprite_accessory/hair
-		una_spines_long
-		name = "Long Unathi Spines"
-		icon_state = "soghun_longspines"
-		species_allowed = list("Unathi")
+	skr_tentacle_f
+		name = "Skrell Female Tentacles"
+		icon_state = "skrell_hair_f"
+		species_allowed = list("Skrell")
+		gender = FEMALE
 
-	una_spines_short
-		name = "Short Unathi Spines"
-		icon_state = "soghun_shortspines"
-		species_allowed = list("Unathi")
+	skr_tentacle_f_alt
+		name = "Skrell Female Tentacles Alt"
+		icon_state = "skrell_hair_f_alt"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
+	skr_tentacle_f_old
+		name = "Skrell Female Tentacles (old)"
+		icon_state = "skrell_hair_f_old"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
+	skr_tentacle_f_wide
+		name = "Skrell Female Tentacles Wide"
+		icon_state = "skrell_hair_f_wide"
+		species_allowed = list("Skrell")
+		gender = FEMALE
+
+	skr_tentacle_m
+		name = "Skrell Male Tentacles"
+		icon_state = "skrell_hair_m"
+		species_allowed = list("Skrell")
+		gender = MALE
+
+	taj_ears
+		name = "Tajaran Ears"
+		icon_state = "ears_plain"
+		species_allowed = list("Tajara")
+
+	taj_ears_bangs
+		name = "Tajara Bangs"
+		icon_state = "hair_bangs"
+		species_allowed = list("Tajara")
+
+	taj_ears_braid
+		name = "Tajara Braid"
+		icon_state = "hair_tbraid"
+		species_allowed = list("Tajara")
+
+	taj_ears_chalma
+		name = "Tajara Chalma"
+		icon_state = "hair_chalma"
+		species_allowed = list("Tajara")
+
+	taj_ears_clean
+		name = "Tajara Clean"
+		icon_state = "hair_clean"
+		species_allowed = list("Tajara")
+
+	taj_ears_long
+		name = "Tajara Long"
+		icon_state = "hair_long"
+		species_allowed = list("Tajara")
+
+	taj_ears_messy
+		name = "Tajara Messy"
+		icon_state = "hair_messy"
+		species_allowed = list("Tajara")
+
+	taj_ears_mohawk
+		name = "Tajaran Mohawk"
+		icon_state = "hair_mohawk"
+		species_allowed = list("Tajara")
+
+	taj_ears_plait
+		name = "Tajara Plait"
+		icon_state = "hair_plait"
+		species_allowed = list("Tajara")
+
+	taj_ears_rattail
+		name = "Tajara Rat Tail"
+		icon_state = "hair_rattail"
+		species_allowed = list("Tajara")
+
+	taj_ears_shaggy
+		name = "Tajara Shaggy"
+		icon_state = "hair_shaggy"
+		species_allowed = list("Tajara")
+
+	taj_ears_spiky
+		name = "Tajara Spiky"
+		icon_state = "hair_tajspiky"
+		species_allowed = list("Tajara")
+
+	taj_ears_straight
+		name = "Tajara Straight"
+		icon_state = "hair_straight"
+		species_allowed = list("Tajara")
+
+	taj_ears_victory
+		name = "Tajara Victory"
+		icon_state = "hair_victory"
+		gender = FEMALE
+		species_allowed = list("Tajara")
+
+	taj_ears_wife
+		name = "Tajara Wife"
+		icon_state = "hair_wife"
+		gender = FEMALE
+		species_allowed = list("Tajara")
 
 	una_frills_long
 		name = "Long Unathi Frills"
@@ -748,120 +831,24 @@
 		icon_state = "soghun_horns"
 		species_allowed = list("Unathi")
 
-	skr_tentacle_m
-		name = "Skrell Male Tentacles"
-		icon_state = "skrell_hair_m"
-		species_allowed = list("Skrell")
-		gender = MALE
+	una_spines_long
+		name = "Long Unathi Spines"
+		icon_state = "soghun_longspines"
+		species_allowed = list("Unathi")
 
-	skr_tentacle_f
-		name = "Skrell Female Tentacles"
-		icon_state = "skrell_hair_f"
-		species_allowed = list("Skrell")
-		gender = FEMALE
-
-	skr_tentacle_f_old
-		name = "Skrell Female Tentacles (old)"
-		icon_state = "skrell_hair_f_old"
-		species_allowed = list("Skrell")
-		gender = FEMALE
-
-	skr_tentacle_f_wide
-		name = "Skrell Female Tentacles Wide"
-		icon_state = "skrell_hair_f_wide"
-		species_allowed = list("Skrell")
-		gender = FEMALE
-
-	skr_tentacle_f_alt
-		name = "Skrell Female Tentacles Alt"
-		icon_state = "skrell_hair_f_alt"
-		species_allowed = list("Skrell")
-		gender = FEMALE
-
-	taj_ears
-		name = "Tajaran Ears"
-		icon_state = "ears_plain"
-		species_allowed = list("Tajara")
-
-	taj_ears_clean
-		name = "Tajara Clean"
-		icon_state = "hair_clean"
-		species_allowed = list("Tajara")
-
-	taj_ears_bangs
-		name = "Tajara Bangs"
-		icon_state = "hair_bangs"
-		species_allowed = list("Tajara")
-
-	taj_ears_braid
-		name = "Tajara Braid"
-		icon_state = "hair_tbraid"
-		species_allowed = list("Tajara")
-
-	taj_ears_shaggy
-		name = "Tajara Shaggy"
-		icon_state = "hair_shaggy"
-		species_allowed = list("Tajara")
-
-	taj_ears_chalma
-		name = "Tajara Chalma"
-		icon_state = "hair_chalma"
-		species_allowed = list("Tajara")
-
-	taj_ears_mohawk
-		name = "Tajaran Mohawk"
-		icon_state = "hair_mohawk"
-		species_allowed = list("Tajara")
-
-	taj_ears_plait
-		name = "Tajara Plait"
-		icon_state = "hair_plait"
-		species_allowed = list("Tajara")
-
-	taj_ears_straight
-		name = "Tajara Straight"
-		icon_state = "hair_straight"
-		species_allowed = list("Tajara")
-
-	taj_ears_long
-		name = "Tajara Long"
-		icon_state = "hair_long"
-		species_allowed = list("Tajara")
-
-	taj_ears_rattail
-		name = "Tajara Rat Tail"
-		icon_state = "hair_rattail"
-		species_allowed = list("Tajara")
-
-	taj_ears_spiky
-		name = "Tajara Spiky"
-		icon_state = "hair_tajspiky"
-		species_allowed = list("Tajara")
-
-	taj_ears_messy
-		name = "Tajara Messy"
-		icon_state = "hair_messy"
-		species_allowed = list("Tajara")
-
-	wife
-		name = "Tajara Wife"
-		icon_state = "hair_wife"
-		gender = FEMALE
-		species_allowed = list("Tajara")
-
-	victory
-		name = "Tajara Victory"
-		icon_state = "hair_victory"
-		gender = FEMALE
-		species_allowed = list("Tajara")
+	una_spines_short
+		name = "Short Unathi Spines"
+		icon_state = "soghun_shortspines"
+		species_allowed = list("Unathi")
 
 	vox_quills_short
 		name = "Short Vox Quills"
 		icon_state = "vox_shortquills"
 		species_allowed = list("Vox")
 
-/datum/sprite_accessory/facial_hair
 
+
+/datum/sprite_accessory/facial_hair
 	taj_goatee
 		name = "Tajara Goatee"
 		icon_state = "facial_goatee"
@@ -885,6 +872,11 @@
 	taj_sideburns
 		name = "Tajara Sideburns"
 		icon_state = "facial_sideburns"
+		species_allowed = list("Tajara")
+
+	taj_smallstache
+		name = "Tajara Smallsatche"
+		icon_state = "facial_smallstache"
 		species_allowed = list("Tajara")
 
 

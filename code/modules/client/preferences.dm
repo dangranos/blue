@@ -1167,9 +1167,11 @@ datum/preferences
 						b_type = new_b_type
 
 				if("hair")
-					if(species == "Human" || species == "Unathi" || species == "Tajara" || species == "Skrell")
+					var/datum/sprite_accessory/H = hair_styles_list[h_style]
+					if(H.do_colouration)
 						var/new_hair = input(user, "Choose your character's hair colour:", "Character Preference", hair_color) as color|null
-						if(new_hair)
+						if(new_hair && new_hair!=hair_color)
+							req_update_icon = 1
 							hair_color = new_hair
 
 				if("h_style")
