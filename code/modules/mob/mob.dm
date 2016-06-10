@@ -718,10 +718,10 @@
 				canmove = 0
 				downed = 1
 			if(weakened)
-					lying = 1
-					canmove = 0
-					if(prob(25))
-						downed = 1
+				lying = 1
+				canmove = 0
+				if(prob(25))
+					downed = 1
 			if(resting)
 				lying = 1
 				canmove = 0
