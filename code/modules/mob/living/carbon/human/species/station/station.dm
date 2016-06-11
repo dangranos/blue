@@ -457,7 +457,7 @@ datum/species/human/vatgrown
 
 	flags = CAN_JOIN | HAS_UNDERWEAR | HAS_EYE_COLOR
 
-	toxins_mod =   1.1
+//	toxins_mod =   1.1
 	has_organ = list(
 		"heart" =    /obj/item/organ/heart,
 		"lungs" =    /obj/item/organ/lungs,
