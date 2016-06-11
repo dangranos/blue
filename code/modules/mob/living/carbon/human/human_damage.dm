@@ -86,7 +86,7 @@
 	if(species.flags & NO_POISON)
 		toxloss = 0
 	else
-		amount = amount*species.toxins_mod
+//		amount = amount*species.toxins_mod
 		..(amount)
 
 /mob/living/carbon/human/setToxLoss(var/amount)
