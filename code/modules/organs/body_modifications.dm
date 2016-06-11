@@ -50,12 +50,14 @@ var/global/list/modifications_types = list(
 		if(!allow_slim_body && (P.body_build == BODY_SLIM))
 			usr << "[name] isn't allowed for slim body"
 			return 0
-		var/parent_organ = organ_structure[organ]["parent"]
-		if(parent_organ)
-			var/datum/body_modification/parent = P.get_modification(parent_organ)
-			if(parent.nature > nature)
-				usr << "[name] can't be attached to [parent.name]"
-				return 0
+		var/list/organ_data = organ_structure[organ]
+		if(organ_data)
+			var/parent_organ = organ_data["parent"]
+			if(parent_organ)
+				var/datum/body_modification/parent = P.get_modification(parent_organ)
+				if(parent.nature > nature)
+					usr << "[name] can't be attached to [parent.name]"
+					return 0
 		return 1
 
 	proc/apply_to_mob(var/mob/living/carbon/human/H, var/slot)

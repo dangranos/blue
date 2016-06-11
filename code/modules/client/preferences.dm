@@ -705,7 +705,6 @@ datum/preferences
 			job_civilian_low &= ~job.flag
 		else
 			job_civilian_low |= job.flag
-		SetChoices(user)
 		return 1
 
 	if(GetJobDepartment(job, 1) & job.flag)
@@ -716,8 +715,6 @@ datum/preferences
 		SetJobDepartment(job, 3)
 	else//job = Never
 		SetJobDepartment(job, 4)
-
-	SetChoices(user)
 	return 1
 
 /datum/preferences/proc/ResetJobs()
@@ -770,6 +767,7 @@ datum/preferences
 			job_civilian_high = 0
 			job_medsci_high = 0
 			job_engsec_high = 0
+			req_update_icon = 1
 			high_job_title = ""
 			return 1
 		if(2)//Set current highs to med, then reset them
@@ -779,6 +777,7 @@ datum/preferences
 			job_civilian_high = 0
 			job_medsci_high = 0
 			job_engsec_high = 0
+			req_update_icon = 1
 			high_job_title = job.title
 
 	switch(job.department_flag)
@@ -851,7 +850,8 @@ datum/preferences
 						SetPlayerAltTitle(job, choice)
 						SetChoices(user)
 			if("input")
-				SetJob(user, href_list["text"])
+				if(SetJob(user, href_list["text"]))
+					spawn SetChoices(user)
 			else
 				SetChoices(user)
 		return 1
