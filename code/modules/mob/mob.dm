@@ -691,6 +691,8 @@
 //Updates canmove, lying and icons. Could perhaps do with a rename but I can't think of anything to describe it.
 /mob/proc/update_canmove()
 	var/downed = 0
+	var/lying = 0
+	var/canmove = 1
 	if(istype(buckled, /obj/vehicle))
 		var/obj/vehicle/V = buckled
 		if(stat || paralysis || sleeping || (status_flags & FAKEDEATH))
@@ -700,7 +702,6 @@
 			downed = 1
 		else
 			if(buckled.buckle_lying != -1) lying = buckled.buckle_lying
-			canmove = 1
 			pixel_y = V.mob_offset_y
 	else if(buckled)
 		anchored = 1
@@ -730,11 +731,9 @@
 			if(captured)
 				anchored = 1
 				canmove = 0
-				lying = 0
 				downed = 1
-			else
-				lying = 0
-				canmove = 1
+	src.lying = lying
+	src.canmove = canmove
 
 	if(lying)
 		density = 0
