@@ -626,3 +626,9 @@
 	desc = "A pair of woodland camouflage pants. Probably not the best choice for a space station."
 	icon_state = "camopants"
 	item_state = "camopants"
+
+/obj/item/clothing/under/army
+	name = "battle dress uniform"
+	desc = "Standard-issue uniform of the NT colonial infantry"
+	icon_state = "armybd"
+	item_state = "armybd"
