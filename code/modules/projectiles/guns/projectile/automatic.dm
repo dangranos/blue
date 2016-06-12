@@ -298,3 +298,63 @@
 	..()
 	icon_state = (ammo_magazine)? "hornet" : "hornet-empty"
 	update_held_icon()
+
+/obj/item/weapon/gun/projectile/automatic/m94a2
+	name = "assault rifle"
+	desc = "That's the M94A2, standard-issue rifle of the NT colonial infantry."
+	icon_state = "m94a2"
+	item_state = "m94a2"
+	w_class = 4
+	max_shells = 20
+	caliber = "a556"
+	load_method = MAGAZINE
+	slot_flags = null
+	multi_aim = 1
+	fire_delay = 2
+	accuracy = 2
+	fire_sound = 'sound/weapons/eventrifle.ogg'
+	ammo_type = /obj/item/ammo_casing/a556
+	slot_flags = SLOT_BACK
+
+	firemodes = list(
+		list(name="semiauto", burst=1, fire_delay=0),
+		list(name="3-round bursts", burst=3, move_delay=4, accuracy = list(2,1,0,-1,-1), dispersion = list(0.0, 0.3, 0.6)),
+		list(name="short bursts", 	burst=5, move_delay=4, accuracy = list(1,0,-1,-1,-2), dispersion = list(0.3, 0.3, 0.6, 1.0, 1.2)),
+		)
+
+/obj/item/weapon/gun/projectile/automatic/m94a2/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "m94a2" : "m94a2-empty"
+	item_state = (ammo_magazine)? "m94a2" : "m94a2-empty"
+	update_held_icon()
+
+/obj/item/weapon/gun/projectile/automatic/har17
+	name = "assault carbine"
+	desc = "That's the HAR-17, shortened version of the M94A2 and the standard-issue carbine of the NT colonial infantry."
+	icon_state = "har-17"
+	item_state = "har-17"
+	w_class = 4
+	max_shells = 20
+	caliber = "a556"
+	load_method = MAGAZINE
+	slot_flags = null
+	multi_aim = 1
+	fire_delay = 0
+	accuracy = 1
+	fire_sound = 'sound/weapons/eventrifle.ogg'
+	ammo_type = /obj/item/ammo_casing/a556
+	slot_flags = SLOT_BACK
+
+	firemodes = list(
+		list(name="semiauto", burst=1, fire_delay=0),
+		list(name="3-round bursts", burst=3, move_delay=2, accuracy = list(0,0,0,-1,-1), dispersion = list(0.0, 0.6, 1.0)),
+		list(name="short bursts", 	burst=5, move_delay=2, accuracy = list(0,0,-1,-1,-2), dispersion = list(0.6, 1.0, 1.0, 1.0, 1.2)),
+		)
+
+/obj/item/weapon/gun/projectile/automatic/har17/update_icon()
+	..()
+	icon_state = (ammo_magazine)? "har-17" : "har-17-empty"
+	item_state = (ammo_magazine)? "har-17" : "har-17-empty"
+	update_held_icon()
+
+

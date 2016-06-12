@@ -117,3 +117,14 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/pellet
 	w_class = 3
 	force = 5
+
+/obj/item/weapon/gun/projectile/shotgun/pump/combat/h680
+	name = "combat shotgun"
+	desc = "That's the Hutchinson 680, standard-issue weapon of the NT colonial infantry.."
+	icon_state = "hutchinson680"
+	item_state = "hutchinson680"
+	origin_tech = "combat=7;materials=4"
+	max_shells = 11
+	slot_flags = SLOT_BACK
+	ammo_type = /obj/item/ammo_casing/shotgun
+	fire_sound = 'sound/weapons/eventshotgun.ogg'
