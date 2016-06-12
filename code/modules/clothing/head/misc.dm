@@ -280,3 +280,16 @@
 	desc = "Usuall black beret. Nothing special."
 	icon_state = "blackberet"
 	item_state = "blackberet"
+
+/obj/item/clothing/head/beret/army
+	name = "army beret"
+	desc = "That's the khaki-colored beret. Has a NTCI insignia on it"
+	icon_state = "armyberet"
+	item_state = "armyberet"
+
+/obj/item/clothing/head/beret/caparmy
+	name = "army cap"
+	desc = "That's the khaki-colored cap."
+	icon_state = "armycap"
+	item_state = "armycap"
+	body_parts_covered = 0

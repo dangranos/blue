@@ -268,3 +268,15 @@
 	name = "emergency response team medical helmet"
 	desc = "A set of armor worn by medical members of the NanoTrasen Emergency Response Team. Has red and white highlights."
 	icon_state = "erthelmet_med"
+
+/obj/item/clothing/head/helmet/army
+	name = "army helmet"
+	desc = "That's the combat helmet with multiple attachments."
+	icon_state = "armyhelmet"
+	flags = HEADCOVERSEYES | THICKMATERIAL | HEADCOVERSMOUTH
+	item_state = "armyhelmet"
+	armor = list(melee = 40, bullet = 35, laser = 50,energy = 45, bomb = 45, bio = 0, rad = 0)
+	flags_inv = HIDEMASK|HIDEEARS
+	siemens_coefficient = 0.4
+	light_overlay = "helmet_light"
+	brightness_on = 4

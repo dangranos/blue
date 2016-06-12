@@ -77,6 +77,18 @@
 	max_ammo = 10
 	multiple_sprites = 1
 
+/obj/item/ammo_magazine/mc9mmarmy
+	name = "magazine (9mm)"
+	icon_state = "9x19army"
+	origin_tech = "combat=2"
+	mag_type = MAGAZINE
+	matter = list(DEFAULT_WALL_MATERIAL = 600)
+	caliber = "9mm"
+	ammo_type = /obj/item/ammo_casing/c9mm
+	max_ammo = 12
+	multiple_sprites = 1
+
+
 /obj/item/ammo_magazine/mc9mm/empty
 	initial_ammo = 0
 
@@ -153,6 +165,18 @@
 	ammo_type = /obj/item/ammo_casing/a556
 	max_ammo = 10
 	multiple_sprites = 1
+
+/obj/item/ammo_magazine/a556army
+	name = "magazine (5.56mm)"
+	icon_state = "556army"
+	origin_tech = "combat=3"
+	mag_type = MAGAZINE
+	caliber = "a556"
+	matter = list(DEFAULT_WALL_MATERIAL = 1800)
+	ammo_type = /obj/item/ammo_casing/a556
+	max_ammo = 20
+	multiple_sprites = 1
+
 
 /obj/item/ammo_magazine/a556/empty
 	initial_ammo = 0
