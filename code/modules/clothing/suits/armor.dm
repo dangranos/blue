@@ -455,7 +455,7 @@
 	siemens_coefficient = 1
 
 /obj/item/clothing/suit/storage/vest/heavy/army
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|HANDS
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
 	name = "armor rig vest"
 	desc = "That's the tan armor vest with a lot of pockets."
 	icon_state = "armorarmy"
@@ -464,21 +464,19 @@
 	slowdown = 1
 
 /obj/item/clothing/suit/storage/vest/heavy/army/medic
-	body_parts_covered = UPPER_TORSO|HANDS
+	body_parts_covered = UPPER_TORSO|ARMS
 	icon_state = "armorarmy_medic"
 	item_state = "armorarmy_medic"
 	armor = list(melee = 25, bullet = 50, laser = 50, energy = 40, bomb = 40, bio = 0, rad = 0)
-	slowdown = 1
+	slowdown = 0
 
 /obj/item/clothing/suit/storage/vest/heavy/army/corporal
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|HANDS
 	icon_state = "armorarmy_corporal"
 	item_state = "armorarmy_corporal"
 	armor = list(melee = 35, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 0, rad = 0)
 	slowdown = 1
 
 /obj/item/clothing/suit/storage/vest/heavy/army/sergeant
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|HANDS
 	icon_state = "armorarmy_sergeant"
 	item_state = "armorarmy_sergeant"
 	armor = list(melee = 35, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 0, rad = 0)
