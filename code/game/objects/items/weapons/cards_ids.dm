@@ -284,6 +284,16 @@
 		access = get_all_centcom_access()
 		..()
 
+/obj/item/weapon/card/id/army
+	name = "\improper Army Identification Card"
+	desc = "An AID straight from NTCI"
+	icon_state = "centcom_old"
+	assignment = "NT Colonial Infantry"
+	New()
+		access = get_all_centcom_access()
+		..()
+
+
 /obj/item/weapon/card/id/centcom/ERT
 	name = "\improper Emergency Response Team ID"
 	assignment = "Emergency Response Team"
