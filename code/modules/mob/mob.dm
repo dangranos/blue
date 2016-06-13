@@ -713,25 +713,26 @@
 				anchored = 0
 				canmove = 1
 
-		else
-			if(stat || paralysis || sleeping || (status_flags & FAKEDEATH))
-				lying = 1
-				canmove = 0
+	else
+		if(stat || paralysis || sleeping || (status_flags & FAKEDEATH))
+			lying = 1
+			canmove = 0
+			downed = 1
+		else if(captured)
+			anchored = 1
+			canmove = 0
+			downed = 1
+		else if(weakened)
+			lying = 1
+			canmove = 0
+			if(prob(25))
 				downed = 1
-			if(weakened)
-				lying = 1
-				canmove = 0
-				if(prob(25))
-					downed = 1
-			if(resting)
-				lying = 1
-				canmove = 0
-			if(stunned)
-				canmove = 0
-			if(captured)
-				anchored = 1
-				canmove = 0
-				downed = 1
+		else if(resting)
+			lying = 1
+			canmove = 0
+		else if(stunned)
+			canmove = 0
+
 	src.lying = lying
 	src.canmove = canmove
 
