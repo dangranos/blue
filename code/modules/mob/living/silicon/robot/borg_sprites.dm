@@ -14,7 +14,7 @@
 var/global/list/borg_sprites = list(
 	MOD_STD = list(), MOD_SEC = list(), MOD_SRV = list(), MOD_CLR = list(),
 	MOD_MIN = list(), MOD_MED = list(), MOD_SRG = list(), MOD_CMB = list(),
-	MOD_ENG = list(), MOD_JAN = list(), MOD_SCI = list()
+	MOD_ENG = list(), MOD_JAN = list(), MOD_SCI = list(), MOD_SYN = list()
 )
 
 /hook/startup/proc/populate_cyborg_sprites()
@@ -247,6 +247,14 @@ var/global/list/borg_sprites = list(
 	eyes = "droid-surgeon-eyes"
 	eyes_color = "#cc33cc"
 	module = MOD_SCI
+
+/datum/borg_sprite/droid/syndie
+	icon_state = "droid-syndie"
+	module = MOD_SYN
+
+/datum/borg_sprite/droid/syndie/med
+	icon_state = "droid-syndi-medi"
+	name = "Droid alt"
 
 ////MARINA////
 /datum/borg_sprite/marina
