@@ -108,20 +108,24 @@
 
 /obj/item/weapon/card/emag/afterattack(var/obj/item/weapon/O as obj, mob/user as mob)
 
-	for(var/type in devices)
-		if(istype(O,type))
-			uses--
-			break
+	if(istype(user, /mob/living/silicon/robot))
+		var/obj/item/weapon/cell/cell = user:cell
+		cell.checked_use(1300)
+	else
+		for(var/type in devices)
+			if(istype(O,type))
+				uses--
+				break
 
-	if(uses<1)
-		user.visible_message("[src] fizzles and sparks - it seems it's been used once too often, and is now broken.")
-		user.drop_item()
-		var/obj/item/weapon/card/emag_broken/junk = new(user.loc)
-		junk.add_fingerprint(user)
-		qdel(src)
-		return
+		if(uses<1)
+			user.visible_message("[src] fizzles and sparks - it seems it's been used once too often, and is now broken.")
+			user.drop_item()
+			var/obj/item/weapon/card/emag_broken/junk = new(user.loc)
+			junk.add_fingerprint(user)
+			qdel(src)
+			return
 
-	..()
+		..()
 
 /obj/item/weapon/card/id
 	name = "identification card"

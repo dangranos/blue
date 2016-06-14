@@ -4,7 +4,7 @@ var/mob/living/silicon/robot/global/list/robot_modules = list(
 	"Clerical" 		= /obj/item/weapon/robot_module/clerical/general,
 	"Research" 		= /obj/item/weapon/robot_module/research,
 	"Miner" 		= /obj/item/weapon/robot_module/miner,
-	"Crisis" 		= /obj/item/weapon/robot_module/medical/crisis,
+	"Medical" 		= /obj/item/weapon/robot_module/medical/crisis,
 	"Surgeon" 		= /obj/item/weapon/robot_module/medical/surgeon,
 	"Security" 		= /obj/item/weapon/robot_module/security/general,
 	"Engineering"	= /obj/item/weapon/robot_module/engineering/general,
@@ -228,8 +228,8 @@ var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
 	..()
 
 /obj/item/weapon/robot_module/medical/crisis
-	name = "crisis robot module"
-	module_type = "Crisis"
+	name = "medical robot module"
+	module_type = "Medical"
 
 /obj/item/weapon/robot_module/medical/crisis/New()
 	..()
@@ -373,7 +373,8 @@ var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
 	src.modules += new /obj/item/weapon/gun/energy/taser/mounted/cyborg(src)
 	src.modules += new /obj/item/taperoll/police(src)
 	src.modules += new /obj/item/weapon/crowbar(src)
-	src.emag = new /obj/item/weapon/gun/energy/laser/mounted(src)
+	src.modules += new /obj/item/weapon/gun/energy/laser/mounted(src)
+	src.emag = new /obj/item/weapon/gun/energy/pulse_rifle(src)
 	return
 
 /obj/item/weapon/robot_module/security/respawn_consumable(var/mob/living/silicon/robot/R, var/amount)
@@ -533,7 +534,8 @@ var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
 	src.modules += new /obj/item/weapon/extinguisher(src)
 	src.modules += new /obj/item/weapon/reagent_containers/syringe(src)
 	src.modules += new /obj/item/weapon/reagent_containers/glass/beaker/large(src)
-	src.emag = new /obj/item/weapon/hand_tele(src)
+	src.modules += new /obj/item/weapon/hand_tele(src)
+	src.emag = new /obj/item/weapon/card/emag (src)
 
 	var/datum/matter_synth/nanite = new /datum/matter_synth/nanite(10000)
 	synths += nanite
@@ -548,6 +550,7 @@ var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
 
 /obj/item/weapon/robot_module/syndicate
 	name = "illegal robot module"
+	module_type = "Synicate"
 	languages = list(
 					LANGUAGE_SOL_COMMON = 1,
 					LANGUAGE_TRADEBAND = 1,
