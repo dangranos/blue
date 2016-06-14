@@ -206,3 +206,14 @@
 	w_class = 2
 	attack_verb = list("shocked")
 	slot_flags = SLOT_BELT
+
+/obj/item/weapon/melee/baton/shocker/New()
+	..()
+	update_icon()
+	return
+
+/obj/item/weapon/melee/baton/shocker/loaded/New()
+	..()
+	bcell = new/obj/item/weapon/cell/high(src)
+	update_icon()
+	return

@@ -176,7 +176,7 @@ It's not your time
 	item_state = "blue_hat"
 
 /obj/item/clothing/head/collectable/secelitetop
-	name = "security elite top hat"
-	desc = "security elite top hat."
+	name = "Internal security hat."
+	desc = "An old hat. A lot of time ago it was part of standard Internal Security gear, but now - its just memories "
 	icon_state = "secelitetop"
 	item_state = "secelitetop"
