@@ -154,6 +154,32 @@
 
 	custom_items["d00kn00kem"] = L
 
+
+
+///Eclipse///
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "solareclipse84"
+	current_data.character_name = "Dallas Brun"
+	current_data.item_path = /obj/item/clothing/suit/armor/hos/solyarkin
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "solareclipse84"
+	current_data.character_name = "Dallas Brun"
+	current_data.item_path = /obj/item/clothing/under/rank/head_of_security/solyarkin
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "solareclipse84"
+	current_data.character_name = "Dallas Brun"
+	current_data.item_path = /obj/item/clothing/head/helmet/HoS/solyarkin
+	L |= current_data
+
+	custom_items["solareclipse84"] = L
+
 ////Wajtswv////
 	L = list()
 

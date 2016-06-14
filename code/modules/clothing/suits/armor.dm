@@ -43,6 +43,12 @@
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.6
 
+/obj/item/clothing/suit/armor/hos/solyarkin
+	name = "Internal Security coat"
+	desc = "A lot of time ago this coat worn only internal security members. But now, nobody remember about those great men"
+	icon_state = "commi_coat"
+	item_state = "commi_coat"
+
 /obj/item/clothing/suit/armor/hos/jensen
 	name = "armored trenchcoat"
 	desc = "A trenchcoat augmented with a special alloy for some protection and style."
