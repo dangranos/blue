@@ -86,6 +86,12 @@
 	item_state = "dermal"
 	siemens_coefficient = 0.6
 
+/obj/item/clothing/head/helmet/HoS/solyarkin
+	name = "Internal security hat."
+	desc = "An old hat. A lot of time ago it was part of standard Internal Security gear, but now - its just memories "
+	icon_state = "secelitetop"
+	item_state = "secelitetop"
+
 /obj/item/clothing/head/helmet/warden
 	name = "warden's hat"
 	desc = "It's a special helmet issued to the Warden of a securiy force. Protects the head from impacts."
