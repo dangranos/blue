@@ -374,17 +374,18 @@ var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
 	src.modules += new /obj/item/taperoll/police(src)
 	src.modules += new /obj/item/weapon/crowbar(src)
 	src.modules += new /obj/item/weapon/gun/energy/laser/mounted(src)
-	src.emag = new /obj/item/weapon/gun/energy/pulse_rifle(src)
+	src.emag = new /obj/item/weapon/gun/energy/pulse_rifle/mounted(src)
 	return
 
 /obj/item/weapon/robot_module/security/respawn_consumable(var/mob/living/silicon/robot/R, var/amount)
 	..()
-	var/obj/item/weapon/gun/energy/taser/mounted/cyborg/T = locate() in src.modules
-	if(T.power_supply.charge < T.power_supply.maxcharge)
-		T.power_supply.give(T.charge_cost * amount)
-		T.update_icon()
-	else
-		T.charge_tick = 0
+	for(var/obj/item/weapon/gun/energy/E in src.modules)
+		if(E.power_supply.charge < E.power_supply.maxcharge)
+			E.power_supply.give(E.charge_cost * amount)
+			E.update_icon()
+		else
+			E.charge_tick = 0
+
 	var/obj/item/weapon/melee/baton/robot/B = locate() in src.modules
 	if(B && B.bcell)
 		B.bcell.give(amount)
