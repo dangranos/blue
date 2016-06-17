@@ -127,7 +127,7 @@
 				observer.icon = client.prefs.preview_icon
 				observer.alpha = 127
 
-				if(client.prefs.random_name)
+				if(client.prefs.random_name || jobban_isbanned(src, "Name"))
 					client.prefs.real_name = random_name(client.prefs.gender)
 				observer.real_name = client.prefs.real_name
 				observer.name = observer.real_name
