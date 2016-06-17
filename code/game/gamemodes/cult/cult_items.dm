@@ -5,7 +5,8 @@
 	item_state = "cultblade"
 	w_class = 4
 	force = 30
-	throwforce = 10
+	edge = 1
+	sharp = 1
 	attack_verb = list("attacked", "slashed", "stabbed", "sliced", "torn", "ripped", "diced", "cut")
 
 /obj/item/weapon/melee/cultblade/cultify()
