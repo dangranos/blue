@@ -27,7 +27,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 #define BE_ASSISTANT 1
 #define RETURN_TO_LOBBY 2
 
-datum/preferences
+/datum/preferences
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
@@ -1551,7 +1551,7 @@ datum/preferences
 	return 1
 
 /datum/preferences/proc/copy_to(mob/living/carbon/human/character, safety = 0)
-	if(random_name)
+	if(random_name || jobban_isbanned(usr, "Name"))
 		real_name = random_name(gender,species)
 
 	var/firstspace = findtext(real_name, " ")

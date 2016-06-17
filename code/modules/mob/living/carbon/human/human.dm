@@ -1149,7 +1149,7 @@
 
 	// Rebuild the HUD. If they aren't logged in then login() should reinstantiate it for them.
 	if(client && client.screen)
-		client.screen.len = null
+		client.screen.Cut()
 		if(hud_used)
 			qdel(hud_used)
 		hud_used = new /datum/hud(src)
