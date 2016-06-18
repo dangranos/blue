@@ -319,10 +319,15 @@
 /obj/machinery/mecha_part_fabricator/proc/output_part_cost(var/obj/item/part)
 	var/i = 0
 	var/output
+	var/tmp_output = ""
+	var/req_amount = 0
 	if(part.vars.Find("construction_time") && part.vars.Find("construction_cost"))//The most efficient way to go about this. Not all objects have these vars, but if they don't then they CANNOT be made by the mech fab. Doing it this way reduces a major amount of typecasting and switches, while cutting down maintenece for them as well -Sieve
 		for(var/c in part:construction_cost)//The check should ensure that anything without the var doesn't make it to this point
 			if(c in resources)
-				output += "[i?" | ":null][get_resource_cost_w_coeff(part,c)] [c]"
+				req_amount = get_resource_cost_w_coeff(part,c)
+				tmp_output = "[i?" | ":null][req_amount] [c]"
+				if(req_amount>resources[c]) tmp_output = "<span class='deficiency'>[tmp_output]</span>"
+				output+=tmp_output
 				i++
 		return output
 	else
@@ -581,6 +586,7 @@
 			  <head>
 			  <title>[src.name]</title>
 				<style>
+				span.deficiency{color: red}
 				.res_name {font-weight: bold; text-transform: capitalize;}
 				.red {color: #f00;}
 				.part {margin-bottom: 10px;}
