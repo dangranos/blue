@@ -508,6 +508,10 @@
 	name = "message"
 	info = "<B>Hi this Is 'Tim' at the bakery. The cookies that you ordered should be delivered by now... A list of ingredients are included... Make sure that you read them carefully!</B>"
 
+/obj/item/weapon/paper/objectives
+	name = "Objective of a Nuclear Operative"
+	info = "<b>Objective #1</b>: Destroy the station with a nuclear device."
+
 /obj/item/weapon/paper/flag
 	icon_state = "flag_neutral"
 	item_state = "paper"
