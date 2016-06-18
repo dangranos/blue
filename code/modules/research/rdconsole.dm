@@ -569,7 +569,8 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 		return
 
 	user.set_machine(src)
-	var/dat = "<style>span.req{padding-left: 20px; font-size: 90%}</style>"
+	var/dat = "<style>span.requirements{padding-left: 20px; font-size: 90%}\
+					  span.deficiency{color: red}</style>"
 	files.RefreshResearch()
 	switch(screen) //A quick check to make sure you get the right screen when a device is disconnected.
 		if(2 to 2.9)
@@ -780,7 +781,6 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				var/temp_dat
 				var/check_materials = 1
 				for(var/M in D.materials)
-					temp_dat += ", [D.materials[M]*linked_lathe.mat_efficiency] [CallMaterialName(M)]"
 					if(copytext(M, 1, 2) == "$")
 						switch(M)
 							if("$glass")
@@ -799,8 +799,12 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.diamond_amount) check_materials = 0
 					else if (!linked_lathe.reagents.has_reagent(M, D.materials[M]*linked_lathe.mat_efficiency))
 						check_materials = 0
+					if(check_materials)
+						temp_dat += ", [D.materials[M]*linked_lathe.mat_efficiency] [CallMaterialName(M)]"
+					else
+						temp_dat += ", <span class='deficiency'>[D.materials[M]*linked_lathe.mat_efficiency] [CallMaterialName(M)]</span>"
 				if(temp_dat)
-					temp_dat = "<br><span class='req'>\[[copytext(temp_dat,3)]\]</span>"
+					temp_dat = "<br><span class='requirements'>\[[copytext(temp_dat,3)]\]</span>"
 				if(check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];build=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else
@@ -876,7 +880,6 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 				var/temp_dat
 				var/check_materials = 1
 				for(var/M in D.materials)
-					temp_dat += ", [D.materials[M]*linked_imprinter.mat_efficiency] [CallMaterialName(M)]"
 					if(copytext(M, 1, 2) == "$")
 						switch(M)
 							if("$glass")
@@ -889,8 +892,12 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.uranium_amount) check_materials = 0
 					else if (!linked_imprinter.reagents.has_reagent(M, D.materials[M]*linked_imprinter.mat_efficiency))
 						check_materials = 0
+					if(check_materials)
+						temp_dat += ", [D.materials[M]*linked_imprinter.mat_efficiency] [CallMaterialName(M)]"
+					else
+						temp_dat += ", <span class ='deficiency'>[D.materials[M]*linked_imprinter.mat_efficiency] [CallMaterialName(M)]</span>"
 				if(temp_dat)
-					temp_dat = "<br><span class='req'>\[[copytext(temp_dat,3)]\]</span>"
+					temp_dat = "<br><span class='requirements'>\[[copytext(temp_dat,3)]\]</span>"
 				if (check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];imprint=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else
