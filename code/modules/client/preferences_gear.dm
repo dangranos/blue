@@ -1292,6 +1292,24 @@ datum/gear/collar_holo
 	cost = 1
 	slot = slot_shoes
 
+/datum/gear/footwraps
+	display_name = "footwraps"
+	path = /obj/item/clothing/shoes/footwraps
+	cost = 2
+	slot = slot_shoes
+
+/datum/gear/sandals_brown
+	display_name = "sandals, brown"
+	path = /obj/item/clothing/shoes/sandal/brown
+	cost = 2
+	slot = slot_shoes
+
+/datum/gear/sandals_pink
+	display_name = "sandals, pink"
+	path = /obj/item/clothing/shoes/sandal/pink
+	cost = 2
+	slot = slot_shoes
+
 // "Useful" items - I'm guessing things that might be used at work?
 
 /datum/gear/briefcase
