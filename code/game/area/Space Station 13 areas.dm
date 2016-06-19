@@ -1707,6 +1707,21 @@ area/crew_quarters/barman
 	name = "\improper Derelict Singularity Engine"
 	icon_state = "engine"
 
+//SHIPWRECK
+/area/shipwreck
+	name = "\improper Shipwreck"
+	icon_state = "yellow"
+
+//SHIP HEIST
+/area/shipheist
+	name = "Ship Heist"
+	icon_state = "bar"
+
+//DESOLATE BAR
+/area/desolatebar
+	name = "\improper Desolate Bar"
+	icon_state = "green"
+
 //HALF-BUILT STATION (REPLACES DERELICT IN BAYCODE, ABOVE IS LEFT FOR DOWNSTREAM)
 
 /area/shuttle/constructionsite
