@@ -56,6 +56,21 @@
 		name = T_BOARD_MECHA("Durand central control")
 		icon_state = "mainboard"
 
+/obj/item/weapon/circuitboard/mecha/phazon
+		origin_tech = "programming=4;bluespace=3"
+
+/obj/item/weapon/circuitboard/mecha/phazon/peripherals
+		name = T_BOARD_MECHA("Phazon peripherals control")
+		icon_state = "mcontroller"
+
+/obj/item/weapon/circuitboard/mecha/phazon/targeting
+		name = T_BOARD_MECHA("Phazon weapon control and targeting")
+		icon_state = "mcontroller"
+		origin_tech = "programming=4;combat=4;bluespace=6"
+
+/obj/item/weapon/circuitboard/mecha/phazon/main
+		name = T_BOARD_MECHA("Phazon central control")
+		icon_state = "mainboard"
 
 /obj/item/weapon/circuitboard/mecha/honker
 		origin_tech = "programming=4"
