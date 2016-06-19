@@ -879,6 +879,48 @@ var/global/list/gear_datums = list()
 	slot = slot_tie
 	cost = 2
 
+/datum/gear/collar_black
+	display_name = "collar, black"
+	path = /obj/item/clothing/accessory/collar_blk
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/collar_gold
+	display_name = "collar, gold"
+	path = /obj/item/clothing/accessory/collar_gld
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/collar_bell
+	display_name = "collar, bell"
+	path = /obj/item/clothing/accessory/collar_bell
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/shock_collar
+	display_name = "collar, shock"
+	path = /obj/item/clothing/accessory/shock_collar
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/collar_spike
+	display_name = "collar, spiked"
+	path = /obj/item/clothing/accessory/collar_spike
+	slot = slot_tie
+	cost = 1
+
+/datum/gear/collar_pink
+	display_name = "collar, pink"
+	path = /obj/item/clothing/accessory/collar_pink
+	slot = slot_tie
+	cost = 1
+
+datum/gear/collar_holo
+	display_name = "collar, holo"
+	path = /obj/item/clothing/accessory/collar_holo
+	slot = slot_tie
+	cost = 1
+
 // Suit slot
 
 /datum/gear/apron
@@ -1248,6 +1290,24 @@ var/global/list/gear_datums = list()
 	display_name = "shoes, yellow"
 	path = /obj/item/clothing/shoes/yellow
 	cost = 1
+	slot = slot_shoes
+
+/datum/gear/footwraps
+	display_name = "footwraps"
+	path = /obj/item/clothing/shoes/footwraps
+	cost = 2
+	slot = slot_shoes
+
+/datum/gear/sandals_brown
+	display_name = "sandals, brown"
+	path = /obj/item/clothing/shoes/sandal/brown
+	cost = 2
+	slot = slot_shoes
+
+/datum/gear/sandals_pink
+	display_name = "sandals, pink"
+	path = /obj/item/clothing/shoes/sandal/pink
+	cost = 2
 	slot = slot_shoes
 
 // "Useful" items - I'm guessing things that might be used at work?

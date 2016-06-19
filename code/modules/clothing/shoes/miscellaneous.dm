@@ -138,3 +138,26 @@
 /obj/item/clothing/shoes/men_shoes
 	name = "high men shoes"
 	icon_state = "high_men_shoes"
+
+/obj/item/clothing/shoes/footwraps
+	name = "Footwraps"
+	desc = "Just some rags that you wrap around your foot to feel more comfortable. Better than nothing."
+	icon_state = "footwraps"
+	item_state = "footwraps"
+	species_restricted = null
+
+/obj/item/clothing/shoes/sandal/brown
+	name = "Brown Sandals"
+	desc = "Sweet looking brown sandals. Do not wear them with socks!"
+
+	icon_state = "sandals-brown"
+	item_state = "sandals-brown"
+	species_restricted = null
+
+/obj/item/clothing/shoes/sandal/pink
+	name = "Pink Sandals"
+	desc = "They radiate a cheap plastic aroma like from hell ramen."
+
+	icon_state = "sandals-pink"
+	item_state = "sandals-pink"
+	species_restricted = null
