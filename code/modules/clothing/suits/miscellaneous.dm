@@ -423,6 +423,13 @@
 	min_cold_protection_temperature = T0C - 20
 	siemens_coefficient = 0.7
 
+/obj/item/clothing/suit/storage/toggle/bomber/niels
+	name = "black bomber jacket"
+	desc = "A well-worn leather bomber jacket. Looks like a part of some local law enforcement agency outfit."
+	icon_state = "niels_bomber"
+	item_state = "leather_jacket"
+	icon_open = "niels_bomber_open"
+	icon_closed = "niels_bomber"
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket
 	name = "leather jacket"
