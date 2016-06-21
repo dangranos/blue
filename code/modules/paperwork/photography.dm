@@ -78,6 +78,18 @@ var/global/photo_count = 0
 	return
 
 
+/obj/item/weapon/photo/custom/attack_self(mob/user as mob)
+	if(!img)
+		img = input("Set image for phote") as icon
+		var/icon/small_img = icon(img)
+		var/icon/ic = icon('icons/obj/items.dmi',"photo")
+		small_img.Scale(8, 8)
+		ic.Blend(small_img,ICON_OVERLAY, 10, 13)
+		icon = ic
+		name = input("Set name for phote", "New name", "photo") as text
+	else
+		return ..()
+
 /**************
 * photo album *
 **************/
