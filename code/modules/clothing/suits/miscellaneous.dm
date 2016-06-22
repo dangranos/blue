@@ -309,40 +309,6 @@
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	siemens_coefficient = 2.0
-//swimsuit
-/obj/item/clothing/under/swimsuit/
-	siemens_coefficient = 1
-	body_parts_covered = 0
-
-/obj/item/clothing/under/swimsuit/black
-	name = "black swimsuit"
-	desc = "An oldfashioned black swimsuit."
-	icon_state = "swim_black"
-	siemens_coefficient = 1
-
-/obj/item/clothing/under/swimsuit/blue
-	name = "blue swimsuit"
-	desc = "An oldfashioned blue swimsuit."
-	icon_state = "swim_blue"
-	siemens_coefficient = 1
-
-/obj/item/clothing/under/swimsuit/purple
-	name = "purple swimsuit"
-	desc = "An oldfashioned purple swimsuit."
-	icon_state = "swim_purp"
-	siemens_coefficient = 1
-
-/obj/item/clothing/under/swimsuit/green
-	name = "green swimsuit"
-	desc = "An oldfashioned green swimsuit."
-	icon_state = "swim_green"
-	siemens_coefficient = 1
-
-/obj/item/clothing/under/swimsuit/red
-	name = "red swimsuit"
-	desc = "An oldfashioned red swimsuit."
-	icon_state = "swim_red"
-	siemens_coefficient = 1
 
 /obj/item/clothing/suit/poncho
 	name = "poncho"
@@ -423,6 +389,13 @@
 	min_cold_protection_temperature = T0C - 20
 	siemens_coefficient = 0.7
 
+/obj/item/clothing/suit/storage/toggle/bomber/niels
+	name = "black bomber jacket"
+	desc = "A well-worn leather bomber jacket. Looks like a part of some local law enforcement agency outfit."
+	icon_state = "niels_bomber"
+	item_state = "leather_jacket"
+	icon_open = "niels_bomber_open"
+	icon_closed = "niels_bomber"
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket
 	name = "leather jacket"
@@ -432,6 +405,22 @@
 	icon_open = "leather_jacket_open"
 	icon_closed = "leather_jacket"
 	body_parts_covered = UPPER_TORSO|ARMS
+
+/obj/item/clothing/suit/storage/toggle/leather_jacket/fox
+	name = "fox leather jacket"
+	icon_state = "leather_jacket_fox"
+	icon_closed = "leather_jacket_fox_open"
+
+/obj/item/clothing/suit/storage/toggle/leather_jacket/skull
+	name = "skull leather jacket"
+	icon_state = "leather_jacket_skull"
+	icon_closed = "leather_jacket_skull_open"
+
+/obj/item/clothing/suit/storage/toggle/leather_jacket/cerberus
+	name = "cerberus leather jacket"
+	icon_state = "leather_jacket_cerberus"
+	icon_closed = "leather_jacket_cerberus_open"
+
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen
 	desc = "A black leather coat. The letters NT are proudly displayed on the back."

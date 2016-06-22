@@ -154,7 +154,29 @@
 
 	custom_items["d00kn00kem"] = L
 
+///Shamah///
 
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "shamah"
+	current_data.character_name = "Niels Johansson"
+	current_data.item_path = /obj/item/clothing/suit/storage/toggle/bomber/niels
+	L |= current_data
+
+	custom_items["shamah"] = L
+
+///Lethal Ghost///
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "lethalghost"
+	current_data.character_name = "April Evans"
+	current_data.item_path = /obj/item/weapon/photo/custom
+	L |= current_data
+
+	custom_items["lethalghost"] = L
 
 ///Eclipse///
 
