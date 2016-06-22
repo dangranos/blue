@@ -142,34 +142,33 @@
 	icon = 'icons/obj/clothing/belts.dmi'
 	icon_state = "suspenders"
 
-/obj/item/clothing/accessory/aquila
+/obj/item/clothing/accessory/amulet
+	slot_flags = SLOT_TIE|SLOT_MASK
+	desc = "An ancient amulet adorned with pictures"
+
+/obj/item/clothing/accessory/amulet/aquila
 	name = "aquila"
 	desc = "You can see the Emperor smiling in the reflection."
 	icon_state = "aquila"
 
-/obj/item/clothing/accessory/amulet_khorne
+/obj/item/clothing/accessory/amulet/khorne
 	name = "khorne amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "khorne_amulet"
 
-/obj/item/clothing/accessory/amulet_nurgle
+/obj/item/clothing/accessory/amulet/nurgle
 	name = "nurgle amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "nurgle_amulet"
 
-/obj/item/clothing/accessory/amulet_slaanesh
+/obj/item/clothing/accessory/amulet/slaanesh
 	name = "slaanesh amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "slaanesh_amulet"
 
-/obj/item/clothing/accessory/amulet_tzeench
+/obj/item/clothing/accessory/amulet/tzeench
 	name = "tzeench amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "tzeench_amulet"
 
-/obj/item/clothing/accessory/amulet_chaos
+/obj/item/clothing/accessory/amulet/chaos
 	name = "chaos undivided amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "chaos_amulet"
 
 /obj/item/clothing/accessory/stethoscope
