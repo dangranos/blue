@@ -17,7 +17,9 @@ var/global/list/citizenship_choices = list(
 	"Mars",
 	"Moghes",
 	"Ahdomai",
-	"Qerrbalak"
+	"Qerrbalak",
+	"Magnitka",
+	"Tiamat"
 	)
 
 var/global/list/home_system_choices = list(
@@ -25,7 +27,10 @@ var/global/list/home_system_choices = list(
 	"Nyx",
 	"Tau Ceti",
 	"Epsilon Ursae Majoris",
-	"S'randarr"
+	"Uueoa-Esa",
+	"S'randarr",
+	"Ursa System",
+	"Alpha Centauri"
 	)
 
 var/global/list/faction_choices = list(
