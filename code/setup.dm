@@ -579,18 +579,19 @@
 #define BE_TRAITOR    1
 #define BE_OPERATIVE  2
 #define BE_CHANGELING 4
-#define BE_WIZARD     8
-#define BE_MALF       16
-#define BE_REV        32
-#define BE_ALIEN      64
-#define BE_AI         128
-#define BE_CULTIST    256
-#define BE_MONKEY     512
-#define BE_NINJA      1024
-#define BE_RAIDER     2048
-#define BE_PLANT      4096
-#define BE_LOYALIST   8192
-#define BE_PAI        16384
+#define BE_MEME       8
+#define BE_WIZARD     16
+#define BE_MALF       32
+#define BE_REV        64
+#define BE_ALIEN      128
+#define BE_AI         256
+#define BE_CULTIST    512
+#define BE_MONKEY     1024
+#define BE_NINJA      2048
+#define BE_RAIDER     4096
+#define BE_PLANT      8192
+#define BE_LOYALIST   16384
+#define BE_PAI        32768
 
 var/list/be_special_flags = list(
 	"Traitor"          = BE_TRAITOR,
@@ -867,6 +868,7 @@ var/list/be_special_flags = list(
 #define MODE_LOYALIST "loyalist"
 #define MODE_MALFUNCTION "malf"
 #define MODE_TRAITOR "traitor"
+#define MODE_MEME "meme"
 
 #define MIN_SUPPLIED_LAW_NUMBER 15
 #define MAX_SUPPLIED_LAW_NUMBER 50
