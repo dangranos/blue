@@ -143,7 +143,7 @@
 
 	if(href_list["add_antagonist"])
 		var/datum/antagonist/antag = all_antag_types[href_list["add_antagonist"]]
-		if(antag) 
+		if(antag)
 			if(antag.add_antagonist(src, 1, 1, 0, 1, 1)) // Ignore equipment and role type for this.
 				log_admin("[key_name_admin(usr)] made [key_name(src)] into a [antag.role_text].")
 			else
@@ -527,3 +527,8 @@
 	..()
 	mind.assigned_role = "Juggernaut"
 	mind.special_role = "Cultist"
+
+/mob/living/parasite/meme/mind_initialize()
+	..()
+	mind.assigned_role = "Meme"
+	mind.special_role  = "Meme"
