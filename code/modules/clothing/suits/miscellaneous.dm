@@ -409,17 +409,20 @@
 /obj/item/clothing/suit/storage/toggle/leather_jacket/fox
 	name = "fox leather jacket"
 	icon_state = "leather_jacket_fox"
-	icon_closed = "leather_jacket_fox_open"
+	icon_closed = "leather_jacket_fox"
+	icon_open = "leather_jacket_fox_open"
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket/skull
 	name = "skull leather jacket"
 	icon_state = "leather_jacket_skull"
-	icon_closed = "leather_jacket_skull_open"
+	icon_closed = "leather_jacket_skull"
+	icon_open = "leather_jacket_skull_open"
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket/cerberus
 	name = "cerberus leather jacket"
 	icon_state = "leather_jacket_cerberus"
-	icon_closed = "leather_jacket_cerberus_open"
+	icon_closed = "leather_jacket_cerberus"
+	icon_open = "leather_jacket_cerberus_open"
 
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen
