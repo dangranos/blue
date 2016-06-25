@@ -21,7 +21,7 @@
 
 /obj/item/ammo_magazine/c38/rubber
 	name = "speed loader (.38 rubber)"
-	ammo_type = /obj/item/ammo_casing/c38r
+	ammo_type = /obj/item/ammo_casing/c38/rubber
 
 /obj/item/ammo_magazine/c45m
 	name = "magazine (.45)"
@@ -38,15 +38,15 @@
 
 /obj/item/ammo_magazine/c45m/rubber
 	name = "magazine (.45 rubber)"
-	ammo_type = /obj/item/ammo_casing/c45r
+	ammo_type = /obj/item/ammo_casing/c45/rubber
 
 /obj/item/ammo_magazine/c45m/practice
 	name = "magazine (.45 practice)"
-	ammo_type = /obj/item/ammo_casing/c45p
+	ammo_type = /obj/item/ammo_casing/c45/practice
 
 /obj/item/ammo_magazine/c45m/flash
 	name = "magazine (.45 flash)"
-	ammo_type = "/obj/item/ammo_casing/c45f"
+	ammo_type = /obj/item/ammo_casing/c45/flash
 
 /obj/item/ammo_magazine/carbine40
 	name = "carbine magazine (.40)"
@@ -77,11 +77,24 @@
 	max_ammo = 10
 	multiple_sprites = 1
 
+/obj/item/ammo_magazine/mc9mmarmy
+	name = "magazine (9mm)"
+	icon_state = "9x19army"
+	origin_tech = "combat=2"
+	mag_type = MAGAZINE
+	matter = list(DEFAULT_WALL_MATERIAL = 600)
+	caliber = "9mm"
+	ammo_type = /obj/item/ammo_casing/c9mm
+	max_ammo = 12
+	multiple_sprites = 1
+
+
 /obj/item/ammo_magazine/mc9mm/empty
 	initial_ammo = 0
 
 /obj/item/ammo_magazine/mc9mm/flash
-	ammo_type = /obj/item/ammo_casing/c9mmf
+	name = "magazine (9mm flash)"
+	ammo_type = /obj/item/ammo_casing/c9mm/flash
 
 /obj/item/ammo_magazine/c9mm
 	name = "ammunition Box (9mm)"
@@ -110,11 +123,11 @@
 
 /obj/item/ammo_magazine/mc9mmt/rubber
 	name = "top mounted magazine (9mm rubber)"
-	ammo_type = /obj/item/ammo_casing/c9mmr
+	ammo_type = /obj/item/ammo_casing/c9mm/rubber
 
 /obj/item/ammo_magazine/mc9mmt/practice
 	name = "top mounted magazine (9mm practice)"
-	ammo_type = /obj/item/ammo_casing/c9mmp
+	ammo_type = /obj/item/ammo_casing/a556/practice
 
 /obj/item/ammo_magazine/c45
 	name = "ammunition Box (.45)"
@@ -122,7 +135,7 @@
 	origin_tech = "combat=2"
 	caliber = ".45"
 	matter = list(DEFAULT_WALL_MATERIAL = 2250)
-	ammo_type = /obj/item/ammo_casing/c45
+	ammo_type = /obj/item/ammo_casing/c9mm/practice
 	max_ammo = 30
 
 /obj/item/ammo_magazine/c9mm/empty
@@ -153,12 +166,24 @@
 	max_ammo = 10
 	multiple_sprites = 1
 
+/obj/item/ammo_magazine/a556army
+	name = "magazine (5.56mm)"
+	icon_state = "556army"
+	origin_tech = "combat=3"
+	mag_type = MAGAZINE
+	caliber = "a556"
+	matter = list(DEFAULT_WALL_MATERIAL = 1800)
+	ammo_type = /obj/item/ammo_casing/a556
+	max_ammo = 20
+	multiple_sprites = 1
+
+
 /obj/item/ammo_magazine/a556/empty
 	initial_ammo = 0
 
 /obj/item/ammo_magazine/a556/practice
 	name = "magazine (5.56mm practice)"
-	ammo_type = /obj/item/ammo_casing/a556p
+	ammo_type = /obj/item/ammo_casing/a556/practice
 
 /obj/item/ammo_magazine/a50
 	name = "magazine (.50)"

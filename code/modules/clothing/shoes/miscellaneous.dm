@@ -138,3 +138,49 @@
 /obj/item/clothing/shoes/men_shoes
 	name = "high men shoes"
 	icon_state = "high_men_shoes"
+
+/obj/item/clothing/shoes/footwraps
+	name = "Footwraps"
+	desc = "Just some rags that you wrap around your foot to feel more comfortable. Better than nothing."
+	icon_state = "footwraps"
+	item_state = "footwraps"
+	species_restricted = null
+
+/obj/item/clothing/shoes/sandal/brown
+	name = "Brown Sandals"
+	desc = "Sweet looking brown sandals. Do not wear them with socks!"
+
+	icon_state = "sandals-brown"
+	item_state = "sandals-brown"
+	species_restricted = null
+
+/obj/item/clothing/shoes/sandal/pink
+	name = "Pink Sandals"
+	desc = "They radiate a cheap plastic aroma like from hell ramen."
+
+	icon_state = "sandals-pink"
+	item_state = "sandals-pink"
+	species_restricted = null
+
+/obj/item/clothing/shoes/ankleBracelets
+	desc = "Who needs shoes when you have bracelets?"
+	name = "gold ankle bracelets"
+	icon_state = "ankleBracelets"
+	slowdown = SHOES_SLOWDOWN+1
+	body_parts_covered = 0
+	species_restricted = list("Skrell", "Tajara", "Unathi")
+
+obj/item/clothing/shoes/cuffs
+	desc = "Ankle coverings for digitigrade creatures. Gilded!"
+	name = "gilded cuffs"
+	icon_state = "gildedcuffs"
+	body_parts_covered = 0
+	species_restricted = list("Skrell", "Tajara", "Unathi")
+
+obj/item/clothing/shoes/cuffs/silver
+	desc = "Ankle coverings for digitigrade creatures. Silvergilded!"
+	name = "silver gilded cuffs"
+	icon_state = "silvergildedcuffs"
+	body_parts_covered = 0
+	species_restricted = list("Skrell", "Tajara", "Unathi")
+

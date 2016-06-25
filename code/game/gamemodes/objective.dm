@@ -25,6 +25,10 @@ datum/objective
 		for(var/datum/mind/possible_target in ticker.minds)
 			if(possible_target != owner && ishuman(possible_target.current) && (possible_target.current.stat != 2))
 				possible_targets += possible_target
+
+		for(var/datum/objective/O in owner.objectives)
+			possible_targets -= O.target
+
 		if(possible_targets.len > 0)
 			target = pick(possible_targets)
 
@@ -182,15 +186,14 @@ datum/objective/debrain//I want braaaainssss
 	check_completion()
 		if(!target)//If it's a free objective.
 			return 1
+/*
 		if( !owner.current || owner.current.stat==DEAD )//If you're otherwise dead.
-			return 0
+			return 0									//Your dead isn't matter for employer
+*/
 		if( !target.current || !isbrain(target.current) )
 			return 0
-		var/atom/A = target.current
-		while(A.loc)			//check to see if the brainmob is on our person
-			A = A.loc
-			if(A == owner.current)
-				return 1
+		if(owner.current.check_contents_for(target.current))
+			return 1
 		return 0
 
 
@@ -246,7 +249,6 @@ datum/objective/hijack
 datum/objective/block
 	explanation_text = "Do not allow any organic lifeforms to escape on the shuttle alive."
 
-
 	check_completion()
 		if(!istype(owner.current, /mob/living/silicon))
 			return 0
@@ -259,7 +261,7 @@ datum/objective/block
 		for(var/mob/living/player in player_list)
 			if(player.type in protected_mobs)	continue
 			if (player.mind)
-				if (player.stat != 2)
+				if (player.stat != DEAD)
 					if (get_turf(player) in shuttle)
 						return 0
 		return 1
@@ -545,7 +547,6 @@ datum/objective/steal
 						if(istype(check_area, /area/shuttle/escape_pod5/centcom))
 							return 1
 			else
-
 				for(var/obj/I in all_items) //Check for items
 					if(istype(I, steal_target))
 						return 1
@@ -608,7 +609,6 @@ datum/objective/capture
 				captured_amount+=0.5
 				continue
 			captured_amount+=1
-
 
 		if(captured_amount<target_amount)
 			return 0

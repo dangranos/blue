@@ -27,8 +27,15 @@ var/global/list/limb_icon_cache = list()
 	var/obj/item/organ/eyes/eyes = owner.internal_organs_by_name["eyes"]
 	if(eyes) eyes.update_colour()
 
+/obj/item/organ/external/head
+	var/icon/hair_s
+	var/icon/facial_s
+
 /obj/item/organ/external/head/removed()
 	get_icon()
+	mob_icon.Blend(hair_s, ICON_OVERLAY)
+	mob_icon.Blend(facial_s, ICON_OVERLAY)
+	icon = mob_icon
 	..()
 
 /obj/item/organ/external/head/get_icon()
@@ -56,7 +63,7 @@ var/global/list/limb_icon_cache = list()
 	if(owner.f_style)
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[owner.f_style]
 		if(facial_hair_style && facial_hair_style.species_allowed && (owner.species.get_bodytype() in facial_hair_style.species_allowed))
-			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
+			facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
 			if(facial_hair_style.do_colouration)
 				facial_s.Blend(owner.facial_color, ICON_ADD)
 			overlays |= facial_s
@@ -64,11 +71,12 @@ var/global/list/limb_icon_cache = list()
 	if(owner.h_style && !(owner.head && (owner.head.flags & BLOCKHEADHAIR)))
 		var/datum/sprite_accessory/hair_style = hair_styles_list[owner.h_style]
 		if(hair_style && (owner.species.get_bodytype() in hair_style.species_allowed))
-			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+			hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
 			if(hair_style.do_colouration)
 				hair_s.Blend(owner.hair_color, ICON_ADD)
 			overlays |= hair_s
 
+	icon = mob_icon
 	return mob_icon
 
 /obj/item/organ/external/proc/get_icon(var/skeletal)

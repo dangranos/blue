@@ -167,6 +167,7 @@ datum/design/circuit/teleconsole
 	name = "teleporter control console"
 	id = "teleconsole"
 	req_tech = list("programming" = 3, "bluespace" = 2)
+	build_path = /obj/item/weapon/circuitboard/teleporter
 
 datum/design/circuit/emp_data
 	name = "employment records console"
@@ -508,6 +509,7 @@ datum/design/circuit/mecha/AssembleDesignName()
 datum/design/circuit/mecha/AssembleDesignDesc()
 	desc = "Allows for the construction of \a [name] module."
 
+//Ripley ==============================================================
 
 datum/design/circuit/mecha/ripley_main
 	name = "APLU 'Ripley' central control"
@@ -518,6 +520,8 @@ datum/design/circuit/mecha/ripley_peri
 	name = "APLU 'Ripley' peripherals control"
 	id = "ripley_peri"
 	build_path = /obj/item/weapon/circuitboard/mecha/ripley/peripherals
+
+//Odysseus==============================================================
 
 datum/design/circuit/mecha/odysseus_main
 	name = "'Odysseus' central control"
@@ -530,6 +534,8 @@ datum/design/circuit/mecha/odysseus_peri
 	id = "odysseus_peri"
 	req_tech = list("programming" = 3,"biotech" = 2)
 	build_path = /obj/item/weapon/circuitboard/mecha/odysseus/peripherals
+
+//Gygax==============================================================
 
 datum/design/circuit/mecha/gygax_main
 	name = "'Gygax' central control"
@@ -549,6 +555,8 @@ datum/design/circuit/mecha/gygax_targ
 	req_tech = list("programming" = 4, "combat" = 2)
 	build_path = /obj/item/weapon/circuitboard/mecha/gygax/targeting
 
+//Durand==============================================================
+
 datum/design/circuit/mecha/durand_main
 	name = "'Durand' central control"
 	id = "durand_main"
@@ -566,6 +574,30 @@ datum/design/circuit/mecha/durand_targ
 	id = "durand_targ"
 	req_tech = list("programming" = 4, "combat" = 2)
 	build_path = /obj/item/weapon/circuitboard/mecha/durand/targeting
+
+
+//Phazon==============================================================
+
+datum/design/circuit/mecha/phazon_main
+	name = "'Phazon' central control"
+	id = "phazon_main"
+	req_tech = list("programming" = 4, "bluespace" = 3)
+	build_path = /obj/item/weapon/circuitboard/mecha/phazon/main
+
+datum/design/circuit/mecha/phazon_peri
+	name = "'Phazon' peripherals control"
+	id = "phazon_peri"
+	req_tech = list("programming" = 4, "bluespace" = 3)
+	build_path = /obj/item/weapon/circuitboard/mecha/phazon/peripherals
+
+datum/design/circuit/mecha/phazon_targ
+	name = "'Phazon' weapon control and targeting"
+	id = "phazon_targ"
+	req_tech = list("programming" = 4, "combat" = 2, "bluespace" = 6)
+	build_path = /obj/item/weapon/circuitboard/mecha/phazon/targeting
+
+
+//HONK==============================================================
 
 datum/design/circuit/mecha/honker_main
 	name = "'H.O.N.K' central control"

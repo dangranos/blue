@@ -124,9 +124,9 @@
 					if("Imperial Cult")
 						B.icon_state = "imperial_cult"
 						B.item_state = "imperial_cult"
-						new /obj/item/clothing/accessory/aquila(B)
-						new /obj/item/clothing/accessory/aquila(B)
-						new /obj/item/clothing/accessory/aquila(B)
+						new /obj/item/clothing/accessory/amulet/aquila(B)
+						new /obj/item/clothing/accessory/amulet/aquila(B)
+						new /obj/item/clothing/accessory/amulet/aquila(B)
 					else
 						// if christian bible, revert to default
 						B.icon_state = "bible"

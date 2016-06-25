@@ -43,6 +43,12 @@
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.6
 
+/obj/item/clothing/suit/armor/hos/solyarkin
+	name = "Internal Security coat"
+	desc = "A lot of time ago this coat worn only internal security members. But now, nobody remember about those great men"
+	icon_state = "commi_coat"
+	item_state = "commi_coat"
+
 /obj/item/clothing/suit/armor/hos/jensen
 	name = "armored trenchcoat"
 	desc = "A trenchcoat augmented with a special alloy for some protection and style."
@@ -453,3 +459,31 @@
 	icon_state = "tdgreen"
 	item_state = "tdgreen"
 	siemens_coefficient = 1
+
+/obj/item/clothing/suit/storage/vest/heavy/army
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS
+	name = "armor rig vest"
+	desc = "That's the tan armor vest with a lot of pockets."
+	icon_state = "armorarmy"
+	item_state = "armorarmy"
+	armor = list(melee = 30, bullet = 55, laser = 55, energy = 40, bomb = 40, bio = 0, rad = 0)
+	slowdown = 1
+
+/obj/item/clothing/suit/storage/vest/heavy/army/medic
+	body_parts_covered = UPPER_TORSO|ARMS
+	icon_state = "armorarmy_medic"
+	item_state = "armorarmy_medic"
+	armor = list(melee = 25, bullet = 50, laser = 50, energy = 40, bomb = 40, bio = 0, rad = 0)
+	slowdown = 0
+
+/obj/item/clothing/suit/storage/vest/heavy/army/corporal
+	icon_state = "armorarmy_corporal"
+	item_state = "armorarmy_corporal"
+	armor = list(melee = 35, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 0, rad = 0)
+	slowdown = 1
+
+/obj/item/clothing/suit/storage/vest/heavy/army/sergeant
+	icon_state = "armorarmy_sergeant"
+	item_state = "armorarmy_sergeant"
+	armor = list(melee = 35, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 0, rad = 0)
+	slowdown = 1

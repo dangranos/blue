@@ -33,6 +33,7 @@
 		new /obj/item/clothing/suit/storage/hazardvest(src)
 		new /obj/item/clothing/mask/gas(src)
 		new /obj/item/device/multitool(src)
+		new /obj/item/weapon/melee/baton/shocker(src)
 		new /obj/item/device/flash(src)
 		new /obj/item/taperoll/engineering(src)
 		return
@@ -68,7 +69,7 @@
 /obj/structure/closet/secure_closet/engineering_welding
 	name = "welding supplies"
 	req_access = list(access_construction)
-	icon_state = "secureengweld1"
+	icon_state = "secureengweld"
 	icon_closed = "secureengweld"
 	icon_opened = "toolclosetopen"
 	icon_broken = "secureengweldbroken"

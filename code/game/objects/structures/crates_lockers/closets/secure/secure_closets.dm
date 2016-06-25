@@ -16,6 +16,18 @@
 	wall_mounted = 0 //never solid (You can always pass over it)
 	health = 200
 
+
+/obj/structure/closet/secure_closet/wall
+	name = "wall locker"
+	req_access = list(access_security)
+	density = 1
+	locked_overlay = "wall_locked"
+	anchored = 1
+	wall_mounted = 1
+	//too small to put a man in
+	large = 0
+
+
 /obj/structure/closet/secure_closet/New()
 	..()
 	update_icon()
@@ -41,7 +53,7 @@
 			if(!locked)
 				open()
 			else
-				src.req_access = list()
+				src.req_access.Cut()
 				src.req_access += pick(get_all_accesses())
 	..()
 
@@ -118,8 +130,7 @@
 			icon_state = icon_off
 		else
 			icon_state = icon_closed
-			if(locked)
-				overlays += locked_overlay
+			overlays += "[locked_overlay][locked?"1":"0"]"
 		if(welded)
 			overlays += "welded"
 

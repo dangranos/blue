@@ -142,40 +142,106 @@
 	icon = 'icons/obj/clothing/belts.dmi'
 	icon_state = "suspenders"
 
-/obj/item/clothing/accessory/aquila
+/obj/item/clothing/accessory/amulet
+	slot_flags = SLOT_TIE|SLOT_MASK
+	desc = "An ancient amulet adorned with pictures"
+
+/obj/item/clothing/accessory/amulet/aquila
 	name = "aquila"
 	desc = "You can see the Emperor smiling in the reflection."
 	icon_state = "aquila"
 
-/obj/item/clothing/accessory/amulet_khorne
+/obj/item/clothing/accessory/amulet/khorne
 	name = "khorne amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "khorne_amulet"
 
-/obj/item/clothing/accessory/amulet_nurgle
+/obj/item/clothing/accessory/amulet/nurgle
 	name = "nurgle amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "nurgle_amulet"
 
-/obj/item/clothing/accessory/amulet_slaanesh
+/obj/item/clothing/accessory/amulet/slaanesh
 	name = "slaanesh amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "slaanesh_amulet"
 
-/obj/item/clothing/accessory/amulet_tzeench
+/obj/item/clothing/accessory/amulet/tzeench
 	name = "tzeench amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "tzeench_amulet"
 
-/obj/item/clothing/accessory/amulet_chaos
+/obj/item/clothing/accessory/amulet/chaos
 	name = "chaos undivided amulet"
-	desc = "You can't see the Emperor smiling in the reflection."
 	icon_state = "chaos_amulet"
 
 /obj/item/clothing/accessory/stethoscope
 	name = "stethoscope"
 	desc = "An outdated medical apparatus for listening to the sounds of the human body. It also makes you look like you know what you're doing."
 	icon_state = "stethoscope"
+
+/obj/item/clothing/accessory/collar_blk
+	name = "Silver tag collar"
+	desc = "A collar for your little pets... or the big ones."
+	slot_flags = SLOT_TIE | SLOT_OCLOTHING
+	icon_state = "collar_blk"
+	item_state = "collar_blk"
+
+
+/obj/item/clothing/accessory/collar_gld
+	name = "Golden tag collar"
+	desc = "A collar for your little pets... or the big ones."
+	slot_flags = SLOT_TIE | SLOT_OCLOTHING
+	icon_state = "collar_gld"
+	item_state = "collar_gld"
+
+
+/obj/item/clothing/accessory/collar_bell
+	name = "Bell collar"
+	desc = "A collar with a tiny bell hanging from it, purrfect furr kitties."
+	slot_flags = SLOT_TIE | SLOT_OCLOTHING
+	icon_state = "collar_bell"
+	item_state = "collar_bell"
+
+
+/obj/item/clothing/accessory/shock_collar
+	name = "Shock collar"
+	desc = "A collar used to ease hungry predators."
+	slot_flags = SLOT_TIE | SLOT_OCLOTHING
+	icon_state = "collar_shk"
+	item_state = "collar_shk"
+
+/obj/item/clothing/accessory/collar_spike
+	name = "Spiked collar"
+	desc = "A collar with spikes that look as sharp as your teeth."
+	slot_flags = SLOT_TIE | SLOT_OCLOTHING
+	icon_state = "collar_spik"
+	item_state = "collar_spik"
+
+/obj/item/clothing/accessory/collar_pink
+	name = "Pink collar"
+	desc = "This collar will make your pets look FA-BU-LOUS."
+	slot_flags = SLOT_TIE | SLOT_OCLOTHING
+	icon_state = "collar_pnk"
+	item_state = "collar_pnk"
+
+/obj/item/clothing/accessory/collar_holo
+	name = "Holo-collar"
+	desc = "An expensive holo-collar for the modern day pet."
+	slot_flags = SLOT_TIE | SLOT_OCLOTHING
+	icon_state = "collar_holo"
+
+	item_state = "collar_holo"
+
+/obj/item/clothing/accessory/collar_holo/attack_self(mob/user as mob)
+	user << "<span class='notice'>[name]'s interface is projected onto your hand.</span>"
+
+	var/str = copytext(reject_bad_text(input(user,"Tag text?","Set tag","")),1,MAX_NAME_LEN)
+
+	if(!str || !length(str))
+		user << "<span class='notice'>[name]'s tag set to be blank.</span>"
+		name = initial(name)
+		desc = initial(desc)
+	else
+		user << "<span class='notice'>You set the [name]'s tag to '[str]'.</span>"
+		name = initial(name) + " ([str])"
+		desc = initial(desc) + " The tag says \"[str]\"."
 
 /obj/item/clothing/accessory/stethoscope/attack(mob/living/carbon/human/M, mob/living/user)
 	if(ishuman(M) && isliving(user))
