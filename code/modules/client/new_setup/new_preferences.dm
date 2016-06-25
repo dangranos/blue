@@ -346,8 +346,11 @@
 
 
 	else if(href_list["nt_relation"])
-		var/new_relation = input(user, "Choose your relation to NT. Note that this represents what others can find out about your character by researching your background,\
- not what your character actually thinks.", "Character Preference")  as null|anything in list("Loyal", "Supportive", "Neutral", "Skeptical", "Opposed")
+		var/new_relation = input(user, "Choose your relation to NT.\
+			Note that this represents what others can find out about your character by researching your background,\
+			not what your character actually thinks.", "Character Preference") \
+			as null|anything in list("Loyal", "Supportive", "Neutral", "Skeptical", "Opposed")
+
 		if(new_relation)
 			nanotrasen_relation = new_relation
 
@@ -483,6 +486,7 @@
 
 /datum/preferences/proc/check_childred_modifications(var/organ = "chest")
 	var/list/organ_data = organ_structure[organ]
+	if(!organ_data) return
 	var/datum/body_modification/mod = modifications_data[organ]
 	for(var/child_organ in organ_data["children"])
 		var/datum/body_modification/child_mod = get_modification(child_organ)
@@ -523,18 +527,18 @@
 
 	//limit     - The amount of jobs allowed per column. Defaults to 17 to make it look nice.
 	//splitJobs - Allows you split the table by job. You can make different tables for each department by including their heads. Defaults to CE to make it look nice.
-	var/limit = 18
+	var/limit = 17
 	var/list/splitJobs = list("Chief Medical Officer")
+	var/datum/job/lastJob
 
 
 	var/HTML = "<style>td.job{text-align:right; width:60%}</style><tt><center>"
-	HTML += "<b>Choose occupation chances</b><br>Unavailable occupations are crossed out.<br><br>"
+	HTML += "<b>Choose occupation chances</b><br>Unavailable occupations are crossed out.<br>"
 	HTML += "<table width='100%' cellpadding='1' cellspacing='0'><tr><td width='20%'>" // Table within a table for alignment, also allows you to easily add more colomns.
 	HTML += "<table width='100%' cellpadding='1' cellspacing='0'>"
 	var/index = -1
 
 	//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
-	var/datum/job/lastJob
 	if (!job_master)		return
 	var/mob/user = usr
 	for(var/datum/job/job in job_master.occupations)
@@ -544,16 +548,17 @@
 				//If the cells were broken up by a job in the splitJob list then it will fill in the rest of the cells with
 				//the last job's selection color. Creating a rather nice effect.
 				for(var/i = 0, i < (limit - index), i += 1)
-					HTML += "<tr bgcolor='[lastJob.selection_color]'><td class='job'><a>&nbsp</a></td><td><a>&nbsp</a></td></tr>"
+					HTML += "<tr bgcolor='[lastJob.selection_color]'><td width='60%' align='right'><a>&nbsp</a></td><td><a>&nbsp</a></td></tr>"
+
 			HTML += "</table></td><td width='20%'><table width='100%' cellpadding='1' cellspacing='0'>"
 			index = 0
 
 		HTML += "<tr bgcolor='[job.selection_color]'><td class='job'>"
 		var/rank = job.title
+		lastJob = job
 		var/job_name = rank
 		if(job.alt_titles)
-			job_name = "<a href=\"byond://?src=\ref[user];preference=job;task=alt_title;job=\ref[job]\">\[[GetPlayerAltTitle(job)]\]</a>"
-		lastJob = job
+			job_name = "<a href=\"byond://?src=\ref[src];task=alt_title;job=\ref[job]\">\[[GetPlayerAltTitle(job)]\]</a>"
 		if(jobban_isbanned(user, rank))
 			HTML += "<del>[job_name]</del></td><td><b> \[BANNED]</b></td></tr>"
 			continue
@@ -562,7 +567,7 @@
 			HTML += "<del>[job_name]</del></td><td> \[IN [(available_in_days)] DAYS]</td></tr>"
 			continue
 		if((job_civilian_low & ASSISTANT) && (rank != "Assistant"))
-			HTML += "<font color=orange>[job_name]</font></td><td></td></tr>"
+			HTML += "<font color=orange>[job_name]</font></td><td>\[NEVER]</td></tr>"
 			continue
 		if((rank in command_positions) || (rank == "AI"))//Bold head jobs
 			HTML += "<b>[job_name]</b>"
@@ -571,7 +576,7 @@
 
 		HTML += "</td><td width='40%'>"
 
-		HTML += "<a href='?_src_=prefs;preference=job;task=input;text=[rank]'>"
+		HTML += "<a href='?src=\ref[src];task=input;text=[rank]'>"
 
 		if(rank == "Assistant")//Assistant is special
 			if(job_civilian_low & ASSISTANT)
@@ -597,16 +602,37 @@
 
 	switch(alternate_option)
 		if(GET_RANDOM_JOB)
-			HTML += "<br><u><a href='?_src_=prefs;preference=job;task=random'><font color=green>Get random job if preferences unavailable</font></a></u><br>"
+			HTML += "<br><u><a href='?src=\ref[src];task=random'><font color=green>Get random job if preferences unavailable</font></a></u><br>"
 		if(BE_ASSISTANT)
-			HTML += "<br><u><a href='?_src_=prefs;preference=job;task=random'><font color=red>Be assistant if preference unavailable</font></a></u><br>"
+			HTML += "<br><u><a href='?src=\ref[src];task=random'><font color=red>Be assistant if preference unavailable</font></a></u><br>"
 		if(RETURN_TO_LOBBY)
-			HTML += "<br><u><a href='?_src_=prefs;preference=job;task=random'><font color=purple>Return to lobby if preference unavailable</font></a></u><br>"
+			HTML += "<br><u><a href='?src=\ref[src];task=random'><font color=purple>Return to lobby if preference unavailable</font></a></u><br>"
 
-	HTML += "<a href='?_src_=prefs;preference=job;task=reset'>\[Reset\]</a>"
+	HTML += "<a href='?src=\ref[src];task=reset'>\[Reset\]</a>"
 	HTML += "</center></tt>"
 
 	return HTML
+
+/datum/preferences/proc/HandleOccupationTopic(mob/new_player/user, list/href_list)
+	switch(href_list["task"])
+		if("random")
+			if(alternate_option == GET_RANDOM_JOB || alternate_option == BE_ASSISTANT)
+				alternate_option += 1
+			else if(alternate_option == RETURN_TO_LOBBY)
+				alternate_option = 0
+		if ("alt_title")
+			var/datum/job/job = locate(href_list["job"])
+			if (job)
+				var/choices = list(job.title) + job.alt_titles
+				var/choice = input("Pick a title for [job.title].", "Character Generation", GetPlayerAltTitle(job)) as anything in choices | null
+				if(choice)
+					SetPlayerAltTitle(job, choice)
+		if("input")
+			SetJob(user, href_list["text"])
+		if("reset")
+			ResetJobs()
+
+
 
 /datum/preferences/proc/GetSiliconPage()
 
@@ -617,7 +643,6 @@
 
 
 /datum/preferences/proc/HandleLoadOutTopic(mob/new_player/user, list/href_list)
-/datum/preferences/proc/HandleOccupationTopic(mob/new_player/user, list/href_list)
 /datum/preferences/proc/HandleSiliconTopic(mob/new_player/user, list/href_list)
 /datum/preferences/proc/HandlePrefsTopic(mob/new_player/user, list/href_list)
 /datum/preferences/proc/HandleSpeciesTopic(mob/new_player/user, list/href_list)

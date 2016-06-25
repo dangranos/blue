@@ -1304,8 +1304,8 @@ area/crew_quarters/barman
 	name = "\improper Isolation B"
 	icon_state = "patients"
 
-/area/medical/patient_c
-	name = "\improper Isolation C"
+/area/medical/shower
+	name = "\improper Medbay Toilet"
 	icon_state = "patients"
 
 /area/medical/patient_wing
@@ -1706,6 +1706,21 @@ area/crew_quarters/barman
 /area/derelict/singularity_engine
 	name = "\improper Derelict Singularity Engine"
 	icon_state = "engine"
+
+//SHIPWRECK
+/area/shipwreck
+	name = "\improper Shipwreck"
+	icon_state = "yellow"
+
+//SHIP HEIST
+/area/shipheist
+	name = "Ship Heist"
+	icon_state = "bar"
+
+//DESOLATE BAR
+/area/desolatebar
+	name = "\improper Desolate Bar"
+	icon_state = "green"
 
 //HALF-BUILT STATION (REPLACES DERELICT IN BAYCODE, ABOVE IS LEFT FOR DOWNSTREAM)
 

@@ -154,6 +154,57 @@
 
 	custom_items["d00kn00kem"] = L
 
+///Shamah///
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "shamah"
+	current_data.character_name = "Niels Johansson"
+	current_data.item_path = /obj/item/clothing/suit/storage/toggle/bomber/niels
+	L |= current_data
+
+	custom_items["shamah"] = L
+
+///Lethal Ghost///
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "lethalghost"
+	current_data.character_name = "April Evans"
+	current_data.item_path = /obj/item/weapon/photo/custom
+	L |= current_data
+
+	custom_items["lethalghost"] = L
+
+///Eclipse///
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "solareclipse84"
+	current_data.req_titles = list("Head of Security")
+	current_data.character_name = "Dallas Brun"
+	current_data.item_path = /obj/item/clothing/suit/armor/hos/solyarkin
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "solareclipse84"
+	current_data.req_titles = list("Head of Security")
+	current_data.character_name = "Dallas Brun"
+	current_data.item_path = /obj/item/clothing/under/rank/head_of_security/solyarkin
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "solareclipse84"
+	current_data.req_titles = list("Head of Security")
+	current_data.character_name = "Dallas Brun"
+	current_data.item_path = /obj/item/clothing/head/helmet/HoS/solyarkin
+	L |= current_data
+
+	custom_items["solareclipse84"] = L
+
 ////Wajtswv////
 	L = list()
 

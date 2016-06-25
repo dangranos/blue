@@ -309,6 +309,11 @@
 	if(custom_name)
 		return 0
 
+	if(jobban_isbanned(src, "Name"))
+		updatename()
+		custom_name = name
+		return
+
 	spawn(0)
 		var/newname
 		newname = sanitizeName(input(src,"You are a robot. Enter a name, or leave blank for the default name.", "Name change","") as text, MAX_NAME_LEN, 1)

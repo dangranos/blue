@@ -86,6 +86,12 @@
 	item_state = "dermal"
 	siemens_coefficient = 0.6
 
+/obj/item/clothing/head/helmet/HoS/solyarkin
+	name = "Internal security hat."
+	desc = "An old hat. A lot of time ago it was part of standard Internal Security gear, but now - its just memories "
+	icon_state = "secelitetop"
+	item_state = "secelitetop"
+
 /obj/item/clothing/head/helmet/warden
 	name = "warden's hat"
 	desc = "It's a special helmet issued to the Warden of a securiy force. Protects the head from impacts."
@@ -268,3 +274,15 @@
 	name = "emergency response team medical helmet"
 	desc = "A set of armor worn by medical members of the NanoTrasen Emergency Response Team. Has red and white highlights."
 	icon_state = "erthelmet_med"
+
+/obj/item/clothing/head/helmet/army
+	name = "army helmet"
+	desc = "That's the combat helmet with multiple attachments."
+	icon_state = "armyhelmet"
+	flags = HEADCOVERSEYES | THICKMATERIAL | HEADCOVERSMOUTH
+	item_state = "armyhelmet"
+	armor = list(melee = 40, bullet = 35, laser = 50,energy = 45, bomb = 45, bio = 0, rad = 0)
+	flags_inv = HIDEMASK|HIDEEARS
+	siemens_coefficient = 0.4
+	light_overlay = "helmet-army_light"
+	brightness_on = 4

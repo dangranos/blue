@@ -88,6 +88,8 @@
 	S["default_slot"]		<< default_slot
 	S["toggles"]			<< toggles
 	S["chat_toggles"]		<< chat_toggles
+	S["UI_style_color"]		<< UI_style_color
+	S["UI_style_alpha"]		<< UI_style_alpha
 
 	return 1
 
@@ -180,9 +182,6 @@
 
 	S["uplinklocation"] >> uplinklocation
 	S["exploit_record"]	>> exploit_record
-
-	S["UI_style_color"]		<< UI_style_color
-	S["UI_style_alpha"]		<< UI_style_alpha
 
 	//Sanitize
 	real_name		= sanitizeName(real_name)
@@ -313,9 +312,6 @@
 
 	S["uplinklocation"] << uplinklocation
 	S["exploit_record"]	<< exploit_record
-
-	S["UI_style_color"]		<< UI_style_color
-	S["UI_style_alpha"]		<< UI_style_alpha
 
 	return 1
 

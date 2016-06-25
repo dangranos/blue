@@ -569,7 +569,8 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 		return
 
 	user.set_machine(src)
-	var/dat = "<style>span.req{padding-left: 20px; font-size: 90%}</style>"
+	var/dat = "<style>span.requirements{padding-left: 20px; font-size: 90%}\
+					  span.deficiency{color: red}</style>"
 	files.RefreshResearch()
 	switch(screen) //A quick check to make sure you get the right screen when a device is disconnected.
 		if(2 to 2.9)
@@ -779,28 +780,48 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					continue
 				var/temp_dat
 				var/check_materials = 1
+				var/enough_material
 				for(var/M in D.materials)
-					temp_dat += ", [D.materials[M]*linked_lathe.mat_efficiency] [CallMaterialName(M)]"
+					enough_material = 1
 					if(copytext(M, 1, 2) == "$")
 						switch(M)
 							if("$glass")
-								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.g_amount) check_materials = 0
+								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.g_amount)
+									enough_material = 0
+									check_materials = 0
 							if("$metal")
-								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.m_amount) check_materials = 0
+								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.m_amount)
+									enough_material = 0
+									check_materials = 0
 							if("$gold")
-								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.gold_amount) check_materials = 0
+								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.gold_amount)
+									enough_material = 0
+									check_materials = 0
 							if("$silver")
-								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.silver_amount) check_materials = 0
+								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.silver_amount)
+									enough_material = 0
+									check_materials = 0
 							if("$phoron")
-								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.phoron_amount) check_materials = 0
+								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.phoron_amount)
+									enough_material = 0
+									check_materials = 0
 							if("$uranium")
-								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.uranium_amount) check_materials = 0
+								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.uranium_amount)
+									enough_material = 0
+									check_materials = 0
 							if("$diamond")
-								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.diamond_amount) check_materials = 0
+								if(D.materials[M]*linked_lathe.mat_efficiency > linked_lathe.diamond_amount)
+									enough_material = 0
+									check_materials = 0
 					else if (!linked_lathe.reagents.has_reagent(M, D.materials[M]*linked_lathe.mat_efficiency))
 						check_materials = 0
+						enough_material = 0
+					if(enough_material)
+						temp_dat += ", [D.materials[M]*linked_lathe.mat_efficiency] [CallMaterialName(M)]"
+					else
+						temp_dat += ", <span class='deficiency'>[D.materials[M]*linked_lathe.mat_efficiency] [CallMaterialName(M)]</span>"
 				if(temp_dat)
-					temp_dat = "<br><span class='req'>\[[copytext(temp_dat,3)]\]</span>"
+					temp_dat = "<br><span class='requirements'>\[[copytext(temp_dat,3)]\]</span>"
 				if(check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];build=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else
@@ -875,22 +896,36 @@ won't update every console in existence) but it's more of a hassle to do. Also, 
 					continue
 				var/temp_dat
 				var/check_materials = 1
+				var/enough_material
 				for(var/M in D.materials)
-					temp_dat += ", [D.materials[M]*linked_imprinter.mat_efficiency] [CallMaterialName(M)]"
+					enough_material = 1
 					if(copytext(M, 1, 2) == "$")
 						switch(M)
 							if("$glass")
-								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.g_amount) check_materials = 0
+								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.g_amount)
+									check_materials = 0
+									enough_material = 0
 							if("$gold")
-								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.gold_amount) check_materials = 0
+								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.gold_amount)
+									check_materials = 0
+									enough_material = 0
 							if("$diamond")
-								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.diamond_amount) check_materials = 0
+								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.diamond_amount)
+									check_materials = 0
+									enough_material = 0
 							if("$uranium")
-								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.uranium_amount) check_materials = 0
+								if(D.materials[M]*linked_imprinter.mat_efficiency > linked_imprinter.uranium_amount)
+									check_materials = 0
+									enough_material = 0
 					else if (!linked_imprinter.reagents.has_reagent(M, D.materials[M]*linked_imprinter.mat_efficiency))
 						check_materials = 0
+						enough_material = 0
+					if(enough_material)
+						temp_dat += ", [D.materials[M]*linked_imprinter.mat_efficiency] [CallMaterialName(M)]"
+					else
+						temp_dat += ", <span class ='deficiency'>[D.materials[M]*linked_imprinter.mat_efficiency] [CallMaterialName(M)]</span>"
 				if(temp_dat)
-					temp_dat = "<br><span class='req'>\[[copytext(temp_dat,3)]\]</span>"
+					temp_dat = "<br><span class='requirements'>\[[copytext(temp_dat,3)]\]</span>"
 				if (check_materials)
 					dat += "<LI><B><A href='?src=\ref[src];imprint=[D.id]'>[D.name]</A></B>[temp_dat]"
 				else
