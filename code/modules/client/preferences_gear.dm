@@ -790,36 +790,6 @@ var/global/list/gear_datums = list()
 	path = /obj/item/clothing/accessory/collar_blk
 	slot = slot_tie
 
-/datum/gear/collar_gold
-	display_name = "collar, gold"
-	path = /obj/item/clothing/accessory/collar_gld
-	slot = slot_tie
-
-/datum/gear/collar_bell
-	display_name = "collar, bell"
-	path = /obj/item/clothing/accessory/collar_bell
-	slot = slot_tie
-
-/datum/gear/shock_collar
-	display_name = "collar, shock"
-	path = /obj/item/clothing/accessory/shock_collar
-	slot = slot_tie
-
-/datum/gear/collar_spike
-	display_name = "collar, spiked"
-	path = /obj/item/clothing/accessory/collar_spike
-	slot = slot_tie
-
-/datum/gear/collar_pink
-	display_name = "collar, pink"
-	path = /obj/item/clothing/accessory/collar_pink
-	slot = slot_tie
-
-/datum/gear/collar_holo
-	display_name = "collar, holo"
-	path = /obj/item/clothing/accessory/collar_holo
-	slot = slot_tie
-
 // Suit slot
 
 /datum/gear/apron
