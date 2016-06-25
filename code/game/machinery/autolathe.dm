@@ -54,7 +54,8 @@
 	if(shocked)
 		shock(user, 50)
 
-	var/dat = "<style>span.box{display: inline-block; width: 20px; height: 10px; border:1px solid #000;}</style>"
+	var/dat = "<style>span.box{display: inline-block; width: 20px; height: 10px; border:1px solid #000;}\
+			   span.deficiency{color: red}</style>"
 	dat += "<center><h1>Autolathe Control Panel</h1><hr/>"
 
 	if(!disabled)
@@ -88,13 +89,15 @@
 					var/sheets = round(stored_material[material]/round(R.resources[material]*mat_efficiency))
 					if(isnull(max_sheets) || max_sheets > sheets)
 						max_sheets = sheets
-					if(!isnull(stored_material[material]) && stored_material[material] < round(R.resources[material]*mat_efficiency))
-						can_make = 0
 					if(!comma)
 						comma = 1
 					else
 						material_string += ", "
-					material_string += "[round(R.resources[material] * mat_efficiency)] [material]"
+					if(!isnull(stored_material[material]) && stored_material[material] < round(R.resources[material]*mat_efficiency))
+						can_make = 0
+						material_string += "<span class='deficiency'>[round(R.resources[material] * mat_efficiency)] [material]</span>"
+					else
+						material_string += "[round(R.resources[material] * mat_efficiency)] [material]"
 				material_string += ".<br></td>"
 				//Build list of multipliers for sheets.
 				if(R.is_stack)
