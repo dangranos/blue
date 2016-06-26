@@ -161,26 +161,3 @@
 	icon_state = "sandals-pink"
 	item_state = "sandals-pink"
 	species_restricted = null
-
-/obj/item/clothing/shoes/ankleBracelets
-	desc = "Who needs shoes when you have bracelets?"
-	name = "gold ankle bracelets"
-	icon_state = "ankleBracelets"
-	slowdown = SHOES_SLOWDOWN+1
-	body_parts_covered = 0
-	species_restricted = list("Skrell", "Tajara", "Unathi")
-
-obj/item/clothing/shoes/cuffs
-	desc = "Ankle coverings for digitigrade creatures. Gilded!"
-	name = "gilded cuffs"
-	icon_state = "gildedcuffs"
-	body_parts_covered = 0
-	species_restricted = list("Skrell", "Tajara", "Unathi")
-
-obj/item/clothing/shoes/cuffs/silver
-	desc = "Ankle coverings for digitigrade creatures. Silvergilded!"
-	name = "silver gilded cuffs"
-	icon_state = "silvergildedcuffs"
-	body_parts_covered = 0
-	species_restricted = list("Skrell", "Tajara", "Unathi")
-
