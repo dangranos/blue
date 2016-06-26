@@ -449,6 +449,11 @@
 		icon_state = "hair_reversemohawk"
 		gender = MALE
 
+	rows
+		name = "Rows"
+		icon_state = "hair_rows"
+		gender = MALE
+
 	sargeant
 		name = "Flat Top"
 		icon_state = "hair_sargeant"
@@ -777,6 +782,11 @@
 	taj_ears_mohawk
 		name = "Tajaran Mohawk"
 		icon_state = "hair_mohawk"
+		species_allowed = list("Tajara")
+
+	taj_ears_metal
+		name = "Tajaran Metal"
+		icon_state = "hair_metal"
 		species_allowed = list("Tajara")
 
 	taj_ears_plait
