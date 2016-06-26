@@ -785,11 +785,6 @@ var/global/list/gear_datums = list()
 	slot = slot_tie
 	cost = 2
 
-/datum/gear/collar_black
-	display_name = "collar, black"
-	path = /obj/item/clothing/accessory/collar_blk
-	slot = slot_tie
-
 // Suit slot
 
 /datum/gear/apron
