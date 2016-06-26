@@ -239,6 +239,12 @@
 	current_data = new()
 	current_data.assoc_key = "subber"
 	current_data.character_name = "Claire Sandford"
+	current_data.item_path = /obj/item/clothing/suit/ianshirt/ash
+	L|=current_data
+
+	current_data = new()
+	current_data.assoc_key = "subber"
+	current_data.character_name = "Claire Sandford"
 	current_data.item_path = /obj/item/toy/plushie/man
 	L|=current_data
 
