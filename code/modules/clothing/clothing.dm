@@ -164,6 +164,95 @@
 	item_state = "earmuffs"
 	slot_flags = SLOT_EARS | SLOT_TWOEARS
 
+/obj/item/clothing/ears/earmuffs/mp3
+	name = "Headphones with MP3"
+	desc = "It is a black portable wireless stereo head hanging, blue LCD display built-in FM radio Mp3 headset."
+	icon_state = "headphones_off"
+	item_state = "headphones_off"
+	slot_flags = SLOT_EARS | SLOT_TWOEARS
+	var/up = 0
+	icon_action_button = "action_music"
+
+
+/obj/item/clothing/ears/earmuffs/mp3/attack_self()
+	toggle()
+
+
+/obj/item/clothing/ears/earmuffs/mp3/verb/toggle()
+	set category = "Object"
+	set name = "Adjust headphones"
+	set src in usr
+
+	if(usr.canmove && !usr.stat && !usr.restrained())
+		if(src.up)
+			src.up = !src.up
+			icon_state = "headphones_off"
+			usr << sound(null, channel = 0)
+			usr << "You turn off [src]"
+		else
+			src.up = !src.up
+			icon_state = "headphones_on"
+			OpenInterface(usr)
+//			usr << browse(Body,Options)
+			usr << "You turn on [src]"
+		update_clothing_icon()	//so our mob-overlays update
+
+/obj/item/clothing/ears/earmuffs/mp3/dropped()
+	usr << sound(null, channel = 0)
+
+/obj/item/clothing/ears/earmuffs/mp3/proc/OpenInterface(mob/user as mob)
+	user.set_machine(src)
+	var/dat = "MP3 player<BR>"
+
+	dat += "Space Oddy        <a href='byond://?src=\ref[src];music1=1'>Play</a><br>"
+	dat += "Space Dwarfs      <a href='byond://?src=\ref[src];music2=1'>Play</a><br>"
+	dat += "Space Faunts      <a href='byond://?src=\ref[src];music3=1'>Play</a><br>"
+	dat += "Space Fly         <a href='byond://?src=\ref[src];music4=1'>Play</a><br>"
+	dat += "Space Solus       <a href='byond://?src=\ref[src];music5=1'>Play</a><br>"
+	dat += "Space Asshole     <a href='byond://?src=\ref[src];music6=1'>Play</a><br>"
+	dat += "Space Thunderdome <a href='byond://?src=\ref[src];music1=1'>Play</a><br>"
+	dat += "Space Title1      <a href='byond://?src=\ref[src];music8=1'>Play</a><br>"
+	dat += "Space Title2      <a href='byond://?src=\ref[src];music9=1'>Play</a><br>"
+	dat += "Space Traitor     <a href='byond://?src=\ref[src];music10=1'>Play</a><br>"
+	dat += "Space Undertale   <a href='byond://?src=\ref[src];music11=1'>Play</a><br>"
+
+	dat += "Stop Music <a href='byond://?src=\ref[src];music12=1'>Stop</a><br>"
+
+	user << browse(dat, "window=mp3")
+	onclose(user, "mp3")
+	return
+
+
+/obj/item/clothing/ears/earmuffs/mp3/Topic(href, href_list)
+	usr << sound(null, channel = 0)
+	if(href_list["music1"])
+		playsound(usr.loc, 'sound/music/space_oddity.ogg', 100)
+	else if(href_list["music2"])
+		playsound(usr.loc, 'sound/music/b12_combined_start.ogg', 100)
+	else if(href_list["music3"])
+		playsound(usr.loc, 'sound/music/faunts-das_malefitz.ogg', 100)
+	else if(href_list["music4"])
+		playsound(usr.loc, 'sound/music/main.ogg', 100)
+	else if(href_list["music5"])
+		playsound(usr.loc, 'sound/music/space.ogg', 100)
+	else if(href_list["music6"])
+		playsound(usr.loc, 'sound/music/space_asshole.ogg', 100)
+	else if(href_list["music7"])
+		playsound(usr.loc, 'sound/music/THUNDERDOME.ogg', 100)
+	else if(href_list["music8"])
+		playsound(usr.loc, 'sound/music/title1.ogg', 100)
+	else if(href_list["music9"])
+		playsound(usr.loc, 'sound/music/title2.ogg', 100)
+	else if(href_list["music10"])
+		playsound(usr.loc, 'sound/music/traitor.ogg', 100)
+	else if(href_list["music11"])
+		playsound(usr.loc, 'sound/music/undertale.ogg', 100)
+	else if(href_list["music12"])
+		usr << sound(null, channel = 0)
+
+	updateUsrDialog()
+
+
 ///////////////////////////////////////////////////////////////////////
 //Glasses
 /*
