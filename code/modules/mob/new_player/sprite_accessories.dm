@@ -841,6 +841,16 @@
 		icon_state = "soghun_horns"
 		species_allowed = list("Unathi")
 
+	una_horns_ram
+		name = "Unathi Ram Horns"
+		icon_state = "soghun_ramhorns"
+		species_allowed = list("Unathi")
+
+	una_horns_curled
+		name = "Unathi Curled Horns"
+		icon_state = "soghun_curledhorns"
+		species_allowed = list("Unathi")
+
 	una_spines_long
 		name = "Long Unathi Spines"
 		icon_state = "soghun_longspines"
