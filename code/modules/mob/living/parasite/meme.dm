@@ -234,7 +234,7 @@ mob/living/parasite/meme/verb/Thought()
 	if(!(src.host in candidates))
 		candidates.Add(src.host)
 
-	var/mob/target = select_indoctrinated("Thought", "Select a target which will hear your thought.")
+	var/mob/target = select_indoctrinated("Thought", "Select a target which will hear your thought.") as null|anything in candidates
 
 	if(!target) return
 
