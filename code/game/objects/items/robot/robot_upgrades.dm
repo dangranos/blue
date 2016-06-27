@@ -52,9 +52,16 @@
 /obj/item/borg/upgrade/rename/action(var/mob/living/silicon/robot/R)
 	if(..()) return 0
 	R.notify_ai(ROBOT_NOTIFICATION_NEW_NAME, R.name, heldname)
-	R.name = heldname
-	R.custom_name = heldname
-	R.real_name = heldname
+	if(heldname)
+		R.name = heldname
+		if(heldname == "default name")
+			R.custom_name = ""
+		else
+			R.custom_name = heldname
+		R.real_name = heldname
+	else
+		R.custom_name = ""
+
 
 	return 1
 

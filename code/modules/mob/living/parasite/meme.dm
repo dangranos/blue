@@ -187,36 +187,27 @@ mob/living/parasite/meme/proc/use_points(amount)
 
 // Let the meme choose one of his indoctrinated mobs as target
 mob/living/parasite/meme/proc/select_indoctrinated(var/title, var/message)
-	var/list/candidates
 
 	// Can only affect other mobs thant he host if not blinded
 	if(blinded)
-		candidates = list()
 		src << "\red You are blinded, so you can not affect mobs other than your host."
-	else
-		candidates = indoctrinated.Copy()
+		return
 
+	var/list/candidates = indoctrinated.Copy()
 	candidates.Add(src.host)
 
-	var/mob/target = null
-	if(candidates.len == 1)
-		target = candidates[1]
-	else
-		var/selected
+	var/selected
+	var/list/text_candidates = list()
+	var/list/map_text_to_mob = list()
 
-		var/list/text_candidates = list()
-		var/list/map_text_to_mob = list()
+	for(var/mob/living/carbon/human/M in candidates)
+		text_candidates += M.real_name
+		map_text_to_mob[M.real_name] = M
 
-		for(var/mob/living/carbon/human/M in candidates)
-			text_candidates += M.real_name
-			map_text_to_mob[M.real_name] = M
+	selected = input(message,title) as null|anything in text_candidates
+	if(!selected) return null
 
-		selected = input(message,title) as null|anything in text_candidates
-		if(!selected) return null
-
-		target = map_text_to_mob[selected]
-
-	return target
+	return map_text_to_mob[selected]
 
 
 // A meme can make people hear things with the thought ability
@@ -235,7 +226,6 @@ mob/living/parasite/meme/verb/Thought()
 		candidates.Add(src.host)
 
 	var/mob/target = select_indoctrinated("Thought", "Select a target which will hear your thought.")
-
 	if(!target) return
 
 	var/speaker = input("Select the voice in which you would like to make yourself heard.", "Voice") as null|text
