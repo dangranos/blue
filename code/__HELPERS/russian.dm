@@ -64,6 +64,7 @@ sanitize_simple(var/t,var/list/repl_chars = list("\n"="#","\t"="#","ÿ"="&#255;",
 /proc/cp1251_to_utf8(msg)
 	return replacetext(msg, "&#255;", "&#1103;")
 
+//Prepare text for edit. Replace "ÿ" with "\ß" for edition. Don't forget to call post_edit().
 /proc/edit_cp1251(msg)
 	return replacetext(msg, "&#255;", "\\ß")
 
@@ -86,8 +87,9 @@ var/global/list/rkeys = list(
 	"ü" = "m", "ÿ" = "z"
 )
 
-//RKEY2KEY
-/proc/rkey2key(t)
+//Transform keys from russian keyboard layout to eng analogues and lowertext it.
+/proc/sanitize_key(t)
+	t = rlowertext(t)
 	if(t in rkeys) return rkeys[t]
 	return (t)
 

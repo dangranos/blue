@@ -219,7 +219,7 @@
 		if(L && (L in languages))
 			var/new_key = "  "
 			while(length(new_key) > 1)
-				new_key = rkey2key(rlowertext(input("Specify new key for [L.name]. Space for dropkey. Empty for exit.", "New key for [L.name]") as text))
+				new_key = sanitize_key(input("Specify new key for [L.name]. Space for dropkey. Empty for exit.", "New key for [L.name]") as text)
 			if(new_key)
 				if(new_key == " ") drop_language_key(L)
 				else if(set_language_key(L, new_key))
