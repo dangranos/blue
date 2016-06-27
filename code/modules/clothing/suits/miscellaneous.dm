@@ -203,6 +203,11 @@
 	item_state = "ianshirt"
 	body_parts_covered = UPPER_TORSO|ARMS
 
+/obj/item/clothing/suit/ianshirt/ash
+	name = "Ash t-shirt"
+	desc = "A t-shirt with a picture of some guy. Good for sleeping in. Smells like obsession."
+	icon_state = "ashshirt"
+
 //pyjamas
 //originally intended to be pinstripes >.>
 
