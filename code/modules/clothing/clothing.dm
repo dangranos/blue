@@ -187,24 +187,27 @@
 		if(src.up)
 			src.up = !src.up
 			icon_state = "headphones_off"
-			usr << sound(null, channel = 0)
+			usr << sound(null, channel = 4)
+			usr << browse(null, "window=mp3")
 			usr << "You turn off [src]"
 		else
 			src.up = !src.up
 			icon_state = "headphones_on"
-			OpenInterface(usr)
+			if (istype(usr:l_ear,/obj/item/clothing/ears/earmuffs/mp3))
+				OpenInterface(usr)
 //			usr << browse(Body,Options)
 			usr << "You turn on [src]"
 		update_clothing_icon()	//so our mob-overlays update
 
 /obj/item/clothing/ears/earmuffs/mp3/dropped()
-	usr << sound(null, channel = 0)
+	usr << sound(null, channel = 4)
+	usr << browse(null, "window=mp3")
 
 /obj/item/clothing/ears/earmuffs/mp3/proc/OpenInterface(mob/user as mob)
-	user.set_machine(src)
+
 	var/dat = "MP3 player<BR>"
 
-	dat += "Space Oddy        <a href='byond://?src=\ref[src];music1=1'>Play</a><br>"
+	dat += "Space Oddity        <a href='byond://?src=\ref[src];music1=1'>Play</a><br>"
 	dat += "Space Dwarfs      <a href='byond://?src=\ref[src];music2=1'>Play</a><br>"
 	dat += "Space Faunts      <a href='byond://?src=\ref[src];music3=1'>Play</a><br>"
 	dat += "Space Fly         <a href='byond://?src=\ref[src];music4=1'>Play</a><br>"
@@ -224,31 +227,33 @@
 
 
 /obj/item/clothing/ears/earmuffs/mp3/Topic(href, href_list)
-	usr << sound(null, channel = 0)
-	if(href_list["music1"])
-		playsound(usr.loc, 'sound/music/space_oddity.ogg', 100)
-	else if(href_list["music2"])
-		playsound(usr.loc, 'sound/music/b12_combined_start.ogg', 100)
-	else if(href_list["music3"])
-		playsound(usr.loc, 'sound/music/faunts-das_malefitz.ogg', 100)
-	else if(href_list["music4"])
-		playsound(usr.loc, 'sound/music/main.ogg', 100)
-	else if(href_list["music5"])
-		playsound(usr.loc, 'sound/music/space.ogg', 100)
-	else if(href_list["music6"])
-		playsound(usr.loc, 'sound/music/space_asshole.ogg', 100)
-	else if(href_list["music7"])
-		playsound(usr.loc, 'sound/music/THUNDERDOME.ogg', 100)
-	else if(href_list["music8"])
-		playsound(usr.loc, 'sound/music/title1.ogg', 100)
-	else if(href_list["music9"])
-		playsound(usr.loc, 'sound/music/title2.ogg', 100)
-	else if(href_list["music10"])
-		playsound(usr.loc, 'sound/music/traitor.ogg', 100)
-	else if(href_list["music11"])
-		playsound(usr.loc, 'sound/music/undertale.ogg', 100)
-	else if(href_list["music12"])
-		usr << sound(null, channel = 0)
+	if (istype(usr:l_ear,/obj/item/clothing/ears/earmuffs/mp3))
+		usr << sound(null, channel = 1)
+		if(href_list["music1"])
+			usr << sound('sound/music/space_oddity.ogg',channel=4, volume=100);
+		else if(href_list["music2"])
+			usr << sound('sound/music/b12_combined_start.ogg',channel=4, volume=100);
+		else if(href_list["music3"])
+			usr << sound('sound/music/faunts-das_malefitz.ogg',channel=4, volume=100);
+		else if(href_list["music4"])
+			usr << sound('sound/music/main.ogg',channel=4, volume=100);
+		else if(href_list["music5"])
+			usr << sound('sound/music/space.ogg',channel=4, volume=100);
+		else if(href_list["music6"])
+			usr << sound('sound/music/space_asshole.ogg',channel=4, volume=100);
+		else if(href_list["music7"])
+			usr << sound('sound/music/THUNDERDOME.ogg',channel=4, volume=100);
+		else if(href_list["music8"])
+			usr << sound('sound/music/title1.ogg',channel=4, volume=100);
+		else if(href_list["music9"])
+			usr << sound('sound/music/title2.ogg',channel=4, volume=100);
+		else if(href_list["music10"])
+			usr << sound('sound/music/traitor.ogg',channel=4, volume=100);
+		else if(href_list["music11"])
+			usr << sound('sound/music/undertale.ogg',channel=4, volume=100);
+		else if(href_list["music12"])
+			usr << sound(null, channel = 4)
+
 
 	updateUsrDialog()
 
