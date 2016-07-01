@@ -233,6 +233,17 @@
 
 	custom_items["tertiumdatur"] = L
 
+////Nikiss2000////
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "nikiss2000"
+	current_data.character_name = "Hayaya Chatahahita"
+	current_data.item_path = /obj/item/clothing/head/vox_cap
+	L |= current_data
+
+	custom_items["nikiss2000"] = L
+
 ////Subber////
 	L = list()
 
