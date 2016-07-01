@@ -9,6 +9,9 @@
 	var/colour = "#F00000"
 	var/open = 0
 
+	New()
+		update_icon()
+		..()
 
 /obj/item/weapon/lipstick/purple
 	name = "purple lipstick"
@@ -22,6 +25,13 @@
 	name = "black lipstick"
 	colour = "#56352F"
 
+/obj/item/weapon/lipstick/colorise
+	name = "multicolor lipctick"
+
+/obj/item/weapon/lipstick/colorise/attack_self(mob/user)
+	if(!open)
+		colour = input("Select new color!", "Color", colour) as color
+	..()
 
 /obj/item/weapon/lipstick/random
 	name = "lipstick"
@@ -31,19 +41,23 @@
 	var/picked_color = pick(colors)
 	name = "[picked_color] lipstick"
 	colour = colors[picked_color]
+	..()
 
 
 /obj/item/weapon/lipstick/attack_self(mob/user as mob)
-	user << "<span class='notice'>You twist \the [src] [open ? "closed" : "open"].</span>"
 	open = !open
+	user << "<span class='notice'>You twist \the [src] [open ? "open" : "closed"].</span>"
+	update_icon()
+
+/obj/item/weapon/lipstick/update_icon()
+	overlays.Cut()
 	if(open)
-		icon_state = "[initial(icon_state)]_open"
-		var/icon/stick = new/icon(icon = 'icons/obj/items.dmi', icon_state = "lipstick_open_color")
-		stick.Blend(colour, ICON_MULTIPLY)
+		var/image/stick = image(icon = 'icons/obj/items.dmi', icon_state = "lipstick_open")
+		stick.color = colour
 		overlays += stick
 	else
-		overlays.Cut()
-		icon_state = initial(icon_state)
+		overlays += "lipstick_closed"
+
 
 /obj/item/weapon/lipstick/attack(mob/M as mob, mob/user as mob)
 	if(!open)	return
