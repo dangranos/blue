@@ -38,6 +38,11 @@
 	desc = "Stylish red shoes."
 	icon_state = "red"
 
+/obj/item/clothing/shoes/red_boots
+	name = "red boots"
+	desc = "Stylish red boots. All the rage!"
+	icon_state = "red_boots"
+
 /obj/item/clothing/shoes/white
 	name = "white shoes"
 	icon_state = "white"
