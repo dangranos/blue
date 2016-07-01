@@ -188,6 +188,18 @@
  * Misc
  */
 
+/obj/item/clothing/suit/storage/pullover
+	name = "pullover"
+	desc = "Common space pullover"
+	icon_state = "pullover"
+	body_parts_covered = UPPER_TORSO|ARMS
+
+/obj/item/clothing/suit/storage/cardigan
+	name = "cardigan"
+	desc = "Common space cardigan"
+	icon_state = "cardigan"
+	body_parts_covered = UPPER_TORSO|ARMS
+
 /obj/item/clothing/suit/straight_jacket
 	name = "straight jacket"
 	desc = "A suit that completely restrains the wearer."

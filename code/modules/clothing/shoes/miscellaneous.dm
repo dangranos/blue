@@ -43,8 +43,12 @@
 	icon_state = "wizard"
 	species_restricted = null
 	body_parts_covered = 0
-
 	wizard_garb = 1
+
+/obj/item/clothing/shoes/gazelle
+	name = "gazelle"
+	desc = "A pair of common space gazelle"
+	icon_state = "gazelle"
 
 //ZONE-tan Loadout
 /obj/item/clothing/shoes/zone

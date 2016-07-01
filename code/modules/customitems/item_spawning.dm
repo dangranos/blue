@@ -206,6 +206,7 @@
 	custom_items["solareclipse84"] = L
 
 ////Wajtswv////
+
 	L = list()
 
 	current_data = new()
@@ -217,6 +218,7 @@
 	custom_items["wajtswv"] = L
 
 ////Tertiumdatur////
+
 	L = list()
 
 	current_data = new()
@@ -245,6 +247,7 @@
 	custom_items["nikiss2000"] = L
 
 ////Subber////
+
 	L = list()
 
 	current_data = new()
@@ -262,34 +265,58 @@
 	custom_items["subber"] = L
 
 ////MarcusAga////
+
 	L = list()
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/under/french
+	current_data.item_path = /obj/item/clothing/under/pants/sweaterj
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/suit/storage/orange_bomber
+	current_data.item_path = /obj/item/clothing/suit/storage/pullover
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/shoes/men_shoes
+	current_data.item_path = /obj/item/clothing/shoes/red_boots
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/gloves/black/half
+	current_data.item_path = /obj/item/device/pda/chrome
 	L |= current_data
 
 	custom_items["marcusaga"] = L
 
+////Affectuum////
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "affectuum"
+	current_data.character_name = "Sasha Winter"
+	current_data.item_path = /obj/item/clothing/under/pants/blouse
+	L|=current_data
+
+	current_data = new()
+	current_data.assoc_key = "affectuum"
+	current_data.character_name = "Sasha Winter"
+	current_data.item_path = /obj/item/clothing/suit/storage/cardigan
+	L|=current_data
+
+	current_data = new()
+	current_data.assoc_key = "affectuum"
+	current_data.character_name = "Sasha Winter"
+	current_data.item_path = /obj/item/clothing/shoes/gazelle
+	L|=current_data
+
+	custom_items["affectuum"] = L
 
 	return 1
 
