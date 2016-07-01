@@ -2,9 +2,31 @@
 	name = "Mech Bay Recharge Station"
 	icon = 'icons/mecha/mech_bay.dmi'
 	icon_state = "recharge_floor"
-	var/obj/machinery/mech_bay_recharge_port/recharge_port
-	var/obj/machinery/computer/mech_bay_power_console/recharge_console
-	var/obj/mecha/recharging_mecha = null
+	var/tmp/obj/machinery/mech_bay_recharge_port/recharge_port
+	var/tmp/obj/machinery/computer/mech_bay_power_console/recharge_console
+	var/tmp/obj/mecha/recharging_mecha = null
+	var/tmp/last_message_time = 0
+
+/turf/simulated/floor/mech_bay_recharge_floor/New()
+	. = ..()
+	spawn(3)
+		init_devices()
+
+/turf/simulated/floor/mech_bay_recharge_floor/proc/check_pass(var/obj/O)
+	if(recharge_console.locked)
+		if(istype(O, /obj/mecha))
+			if(last_message_time + 50 >= world.time)
+				last_message_time = world.time
+				O:occupant_message("<font color='red'>Recharger is locked.</font>")
+			return 0
+		else if(istype(O, /obj/item/mecha_parts/chassis))
+			return 0
+	return 1
+
+
+/turf/simulated/floor/mech_bay_recharge_floor/Enter(atom)
+	if(!check_pass(atom)) return 0
+	return ..(atom)
 
 /turf/simulated/floor/mech_bay_recharge_floor/Entered(var/obj/mecha/mecha)
 	. = ..()
@@ -20,6 +42,10 @@
 		else if(!recharge_port)
 			mecha.occupant_message("<font color='red'>Power port not found. Terminating.</font>")
 	return
+
+/turf/simulated/floor/mech_bay_recharge_floor/Exit(atom)
+	if(!check_pass(atom)) return 0
+	return ..(atom)
 
 /turf/simulated/floor/mech_bay_recharge_floor/Exited(atom)
 	. = ..()
@@ -53,16 +79,15 @@
 	else
 		icon_state = "support_lattice"
 
-
 /obj/machinery/mech_bay_recharge_port
 	name = "Mech Bay Power Port"
 	density = 1
 	anchored = 1
 	icon = 'icons/mecha/mech_bay.dmi'
 	icon_state = "recharge_port"
-	var/turf/simulated/floor/mech_bay_recharge_floor/recharge_floor
-	var/obj/machinery/computer/mech_bay_power_console/recharge_console
-	var/datum/global_iterator/mech_bay_recharger/pr_recharger
+	var/tmp/turf/simulated/floor/mech_bay_recharge_floor/recharge_floor
+	var/tmp/obj/machinery/computer/mech_bay_power_console/recharge_console
+	var/tmp/datum/global_iterator/mech_bay_recharger/pr_recharger
 
 /obj/machinery/mech_bay_recharge_port/New()
 	..()
@@ -143,8 +168,9 @@
 	circuit = /obj/item/weapon/circuitboard/mech_bay_power_console
 	var/autostart = 1
 	var/voltage = 45
-	var/turf/simulated/floor/mech_bay_recharge_floor/recharge_floor
-	var/obj/machinery/mech_bay_recharge_port/recharge_port
+	var/tmp/turf/simulated/floor/mech_bay_recharge_floor/recharge_floor
+	var/tmp/obj/machinery/mech_bay_recharge_port/recharge_port
+	var/locked = 0
 
 /obj/machinery/computer/mech_bay_power_console/proc/mecha_in(var/obj/mecha/mecha)
 	if(stat&(NOPOWER|BROKEN))
@@ -193,10 +219,18 @@
 			F.init_devices()
 	ui_interact(user)
 
+/obj/machinery/computer/mech_bay_power_console/attackby(I as obj, user as mob)
+	if(istype(I, /obj/item/weapon/card/id) || istype(I, /obj/item/device/pda))
+		if(allowed(user))
+			locked = !locked
+	else if(istype(I, /obj/item/weapon/card/emag) && locked)
+		locked = 0
+
 /obj/machinery/computer/mech_bay_power_console/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	var/list/data = list()
 	data["has_floor"] = recharge_floor
 	data["has_port"] = recharge_port
+	data["locked"] = locked
 	if(recharge_floor && recharge_floor.recharging_mecha && recharge_floor.recharging_mecha.cell)
 		data["has_mech"] = 1
 		data["mecha_name"] = recharge_floor.recharging_mecha || "None"
@@ -216,3 +250,19 @@
 		ui.open()
 		// auto update every Master Controller tick
 		ui.set_auto_update(1)
+
+/*
+/obj/mech_locker
+	name = "Mech locker"
+	icon_state = "mech_locker_on"
+	anchored = 1
+	layer = 5
+
+/obj/mech_locker/Cross(atom/movable/O)
+	return ..(O)
+
+/obj/mech_locker/Uncross(atom/movable/O)
+	if(istype(O, /obj/mecha)|| istype(O, /obj/item/mecha_parts/chassis))
+		return 0
+	return ..(O)
+*/

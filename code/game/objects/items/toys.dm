@@ -901,6 +901,15 @@
 	desc = "A very generic small plushie. It seems to not want to exist."
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "nymphplushie"
+	attack_verb = list("attacked", "hitted", "bashed", "smashed")
+	no_attack_log = 1
+
+/obj/item/toy/plushie/attack(mob/living/carbon/target as mob, mob/user as mob)
+	if(istype(target))
+		user.visible_message("<span class='notice'><b>[target] has been [pick(attack_verb)] with [src] by [user]!</b></span>")
+		return 1
+
+	return ..()
 
 /obj/item/toy/plushie/attack_self(mob/user as mob)
 	if(user.a_intent == I_HELP)
@@ -946,6 +955,11 @@
 	name = "Ash Blackburn"
 	desc = "Totally what you think it is"
 	icon_state = "ashplushie"
+
+/obj/item/toy/plushie/pillow
+	name = "pillow"
+	desc = "Common white pillow. Useful for pillow-fight"
+	icon_state = "pillow"
 
 //Toy cult sword
 /obj/item/toy/cultsword

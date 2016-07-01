@@ -15,6 +15,32 @@
 /*
  * Soap
  */
+/obj/item/weapon/soap
+	name = "soap"
+	desc = "A cheap bar of soap. Doesn't smell."
+	gender = PLURAL
+	icon = 'icons/obj/items.dmi'
+	icon_state = "soap"
+	w_class = 2.0
+	throwforce = 0
+	throw_speed = 4
+	throw_range = 20
+
+/obj/item/weapon/soap/nanotrasen
+	desc = "A Nanotrasen brand bar of soap. Smells of phoron."
+	icon_state = "soapnt"
+
+/obj/item/weapon/soap/deluxe
+	icon_state = "soapdeluxe"
+
+/obj/item/weapon/soap/deluxe/New()
+	desc = "A deluxe Waffle Co. brand bar of soap. Smells of [pick("lavender", "vanilla", "strawberry", "chocolate" ,"space")]."
+	return ..()
+
+/obj/item/weapon/soap/syndie
+	desc = "An untrustworthy bar of soap. Smells of fear."
+	icon_state = "soapsyndie"
+
 /obj/item/weapon/soap/Crossed(AM as mob|obj) //EXACTLY the same as bananapeel for now, so it makes sense to put it in the same dm -- Urist
 	if (istype(AM, /mob/living))
 		var/mob/living/M =	AM
@@ -41,12 +67,27 @@
 /obj/item/weapon/soap/attack(mob/target as mob, mob/user as mob)
 	if(target && user && ishuman(target) && ishuman(user) && !target.stat && !user.stat && user.zone_sel &&user.zone_sel.selecting == "mouth" )
 		user.visible_message("\red \the [user] washes \the [target]'s mouth out with soap!")
-		return
-	..()
+		return 1
+	return 0
+//	..()
 
 /*
  * Bike Horns
  */
+/obj/item/weapon/bikehorn
+	name = "bike horn"
+	desc = "A horn off of a bicycle."
+	icon = 'icons/obj/items.dmi'
+	icon_state = "bike_horn"
+	item_state = "bike_horn"
+	throwforce = 3
+	w_class = 2
+	throw_speed = 3
+	throw_range = 15
+	attack_verb = list("HONKED")
+	var/spam_flag = 0
+
+
 /obj/item/weapon/bikehorn/attack_self(mob/user as mob)
 	if (spam_flag == 0)
 		spam_flag = 1

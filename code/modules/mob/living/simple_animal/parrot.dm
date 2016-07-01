@@ -323,8 +323,8 @@
 						if(prob(50))
 							useradio = 1
 
-						if(copytext(possible_phrase,1,3) in department_radio_keys)
-							possible_phrase = "[useradio?pick(available_channels):""] [copytext(possible_phrase,3,length(possible_phrase)+1)]" //crop out the channel prefix
+						if((copytext(possible_phrase, 1 ,2) in list(":",".","#")) && (copytext(possible_phrase,2,3) in department_radio_keys))
+							possible_phrase = "[useradio?pick(available_channels):""] [copytext(possible_phrase,3)]" //crop out the channel prefix
 						else
 							possible_phrase = "[useradio?pick(available_channels):""] [possible_phrase]"
 
@@ -332,8 +332,8 @@
 
 				else //If we have no headset or channels to use, dont try to use any!
 					for(var/possible_phrase in speak)
-						if(copytext(possible_phrase,1,3) in department_radio_keys)
-							possible_phrase = "[copytext(possible_phrase,3,length(possible_phrase)+1)]" //crop out the channel prefix
+						if((copytext(possible_phrase, 1 ,2) in list(":",".","#")) && (copytext(possible_phrase,2,3) in department_radio_keys))
+							possible_phrase = "[copytext(possible_phrase,3)]" //crop out the channel prefix
 						newspeak.Add(possible_phrase)
 				speak = newspeak
 
@@ -677,7 +677,7 @@
 /mob/living/simple_animal/parrot/Poly
 	name = "Poly"
 	desc = "Poly the Parrot. An expert on quantum cracker theory."
-	speak = list("Poly wanna cracker!", ":e Check the supermatter, you chucklefucks!",":e Wire the solars, you lazy bums!",":e WHO TOOK THE DAMN HARDSUITS?",":e OH GOD ITS OVERHEATED EJECT EJECT!")
+	speak = list("Poly wanna cracker!", ":eCheck the supermatter, you chucklefucks!",":eWire the solars, you lazy bums!",":eWHO TOOK THE DAMN HARDSUITS?",":eOH GOD ITS OVERHEATED EJECT EJECT!")
 
 /mob/living/simple_animal/parrot/Poly/New()
 	ears = new /obj/item/device/radio/headset/headset_eng(src)
@@ -713,7 +713,6 @@
 		if(message_mode in radiochannels)
 			if(ears && istype(ears,/obj/item/device/radio))
 				ears.talk_into(src,sanitize(message), message_mode, verb, null)
-
 
 	..(message)
 
