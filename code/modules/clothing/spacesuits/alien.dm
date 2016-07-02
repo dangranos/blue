@@ -31,6 +31,44 @@
 	icon_state = "skrell_suit_black"
 	item_state = "skrell_suit_black"
 
+/obj/item/clothing/head/helmet/space/void/unathi_engineering
+	name = "unathi engineering voidsuit helmet"
+	desc = "Lighter version of the unathi engineering voidsuit helmet."
+	icon_state = "rig0-unathi_engineering"
+	item_state = "rig0-unathi_engineering"
+	light_overlay = "helmet_light_dual"
+	armor = list(melee = 35, bullet = 5, laser = 15,energy = 5, bomb = 35, bio = 100, rad = 80)
+	species_restricted = list("Unathi")
+
+/obj/item/clothing/suit/space/void/unathi_engineering
+	name = "unathi engineering voidsut"
+	desc = "Lighter version of the unathi engineering voidsuit."
+	icon_state = "rig-unathi_engineering"
+	slowdown = 0.5
+	item_state = "rig-unathi_engineering"
+	armor = list(malee = armor = list(melee = 35, bullet = 5, laser = 15,energy = 5, bomb = 35, bio = 100, rad = 80)
+	species_restricted = list("Unathi")
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/bag/ore,/obj/item/device/t_scanner,/obj/item/weapon/pickaxe, /obj/item/weapon/rcd)
+
+/obj/item/clothing/head/helmet/space/void/atmos_special
+	name = "dark brown voidsuit helmet"
+	desc = "Military modification of the ordinary atmos voidsiut helmet. This one seems to be refitted for tajaran."
+	icon_state = "rig0-atmos_special"
+	item_state = "rig0-atmos_special"
+	armor = list(melee = 45, bullet = 10, laser = 25,energy = 5, bomb = 35, bio = 100, rad = 50)
+	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
+	light_overlay = "helmet_light_dual"
+	species_restricted = list("Tajara")
+
+/obj/item/clothing/suit/space/void/atmos_special
+	name = "dark brown voidsuit"
+	desc = "Military modification of the ordinary atmos voidsiut. This one seems to be refitted for tajaran."
+	icon_state = "rig-atmos_special"
+	item_state = "rig-atmos_special"
+	armor = list(melee = 45, bullet = 10, laser = 25,energy = 5, bomb = 35, bio = 100, rad = 50)
+	species_restricted = list("Tajara")
+	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/bag/ore,/obj/item/device/t_scanner,/obj/item/weapon/pickaxe, /obj/item/weapon/rcd)
+
 // Vox space gear (vaccuum suit, low pressure armour)
 // Can't be equipped by any other species due to bone structure and vox cybernetics.
 /obj/item/clothing/suit/space/vox

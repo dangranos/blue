@@ -223,6 +223,18 @@
 
 	current_data = new()
 	current_data.assoc_key = "tertiumdatur"
+	current_data.character_name = "Morlaiaschorr Ilirka"
+	current_data.item_path = /obj/item/clothing/head/helmet/space/void/atmos_special
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "tertiumdatur"
+	current_data.character_name = "Morlaiaschorr Ilirka"
+	current_data.item_path = obj/item/clothing/suit/space/void/atmos_special
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "tertiumdatur"
 	current_data.character_name = "Karamzi Khis'san"
 	current_data.item_path = /obj/item/clothing/head/floral_crown
 	L |= current_data
