@@ -46,7 +46,7 @@
 	icon_state = "rig-unathi_engineering"
 	slowdown = 0.5
 	item_state = "rig-unathi_engineering"
-	armor = list(malee = armor = list(melee = 35, bullet = 5, laser = 15,energy = 5, bomb = 35, bio = 100, rad = 80)
+	armor = list(melee = 35, bullet = 5, laser = 15,energy = 5, bomb = 35, bio = 100, rad = 80)
 	species_restricted = list("Unathi")
 	allowed = list(/obj/item/device/flashlight,/obj/item/weapon/tank,/obj/item/device/suit_cooling_unit,/obj/item/weapon/storage/bag/ore,/obj/item/device/t_scanner,/obj/item/weapon/pickaxe, /obj/item/weapon/rcd)
 
