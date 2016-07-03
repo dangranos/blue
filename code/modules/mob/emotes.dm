@@ -34,7 +34,10 @@ var/global/list/emotes_list = list()
 	var/range = null
 
 	proc/get_target(var/mob/living/carbon/human/H)
-		return input(H) as null|mob in view(H, range ? range : world.view)
+		var/list/targets = list()
+		for(var/mob/living/L in view(H, range ? range : world.view))
+			targets += L
+		return input(H) as null|mob in targets
 
 	act(var/mob/living/carbon/human/H)
 		var/russified = H.client && (H.client.prefs.toggles & RUS_AUTOEMOTES)
@@ -49,6 +52,9 @@ var/global/list/emotes_list = list()
 				return H.custom_emote(m_type, replacetext(r_target_message,"@target", target))
 			else
 				return H.custom_emote(m_type, replacetext(target_message,"@target", target))
+
+/datum/emote/select/local
+	range = 1
 
 /*
 /datum/emote/select/ask
@@ -75,7 +81,7 @@ var/global/list/emotes_list = list()
 /datum/emote/airguitar
 	key = "airguitar"
 	message = "is strumming the air and headbanging like a safari chimp."
-	r_message = "ГЁГЈГ°Г ГҐГІ Г­Г  ГўГ®Г®ГЎГ°Г Г¦Г ГҐГ¬Г®Г© ГЈГЁГІГ Г°ГҐ ГЁ ГІГ°&#255;Г±ВёГІ ГЈГ®Г«Г®ГўГ®Г© Гў ГІГ ГЄГІ."
+	r_message = "играет на воображаемой гитаре и тр&#255;сёт головой в такт."
 	act(var/mob/living/carbon/human/H)
 		if(!H.restrained())
 			return ..()
@@ -84,32 +90,34 @@ var/global/list/emotes_list = list()
 /datum/emote/blink
 	key = "blink"
 	message = "blinks."
-	r_message = "Г¬Г®Г°ГЈГ ГҐГІ."
+	r_message = "моргает."
 
 /datum/emote/blink_r
 	key = "blink_r"
 	message = "blinks rapidly."
-	r_message = "Г·Г Г±ГІГ® Г¬Г®Г°ГЈГ ГҐГІ."
+	r_message = "часто моргает."
 
 /datum/emote/blush
 	key = "blush"
 	message = "blushes."
-	r_message = "ГЄГ°Г Г±Г­ГҐГҐГІ."
+	r_message = "краснеет."
 
 /datum/emote/choke
 	key = "choke"
 	message = "chokes!"
-	r_message = "Г§Г Г¤Г»ГµГ ГҐГІГ±&#255;!"
+	r_message = "задыхаетс&#255;!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/chuckle
 	key = "chuckle"
 	message = "chuckles."
-	r_message = "ГЇГ®Г±Г¬ГҐГЁГўГ ГҐГІГ±&#255;."
+	r_message = "посмеиваетс&#255;."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/clap
 	key = "clap"
 	message = "claps."
-	r_message = "ГµГ«Г®ГЇГ ГҐГІ Гў Г«Г Г¤Г®ГёГЁ."
+	r_message = "хлопает в ладоши."
 	m_type = EMOTE_HEARABLE
 	act(var/mob/living/carbon/human/H)
 		if (!H.restrained())
@@ -118,12 +126,13 @@ var/global/list/emotes_list = list()
 /datum/emote/clear
 	key = "clear"
 	message = "clears /his throat"
-	r_message = "ГЇГ°Г®Г·ГЁГ№Г ГҐГІ Г±ГўГ®ГҐ ГЈГ®Г°Г«Г®."
+	r_message = "прочищает свое горло."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/collapse
 	key = "collapse"
 	message = "collapses!"
-	r_message = "ГЇГ Г¤Г ГҐГІ!"
+	r_message = "падает!"
 	m_type = EMOTE_HEARABLE
 	act(var/mob/living/carbon/human/H)
 		H.Paralyse(2)
@@ -132,32 +141,35 @@ var/global/list/emotes_list = list()
 /datum/emote/cough
 	key = "cough"
 	message = "coughs!"
-	r_message = "ГЄГ ГёГ«&#255;ГҐГІ!"
+	r_message = "кашл&#255;ет!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/cry
 	key = "cry"
 	message = "cries."
-	r_message = "ГЇГ«Г Г·ГҐГІ."
+	r_message = "плачет."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/deathgasp
 	key = "deathgasp"
+	m_type = EMOTE_HEARABLE
 	act(var/mob/living/carbon/human/H)
 		return H.custom_emote(EMOTE_VISIBLE, H.species.death_message)
 
 /datum/emote/drool
 	key = "drool"
 	message = "drools."
-	r_message = "ГЇГіГ±ГЄГ ГҐГІ Г±Г«ГѕГ­ГЁ."
+	r_message = "пускает слюни."
 
 /datum/emote/eyebrow
 	key = "eyebrow"
 	message = "raises an eyebrow."
-	r_message = "ГўГ®ГЇГ°Г®Г±ГЁГІГҐГ«ГјГ­Г® ГЇГ®Г¤Г­ГЁГ¬Г ГҐГІ ГЎГ°Г®ГўГј."
+	r_message = "вопросительно поднимает бровь."
 
 /datum/emote/faint
 	key = "faint"
 	message = "faints."
-	r_message = "ГЇГ Г¤Г ГҐГІ Гў Г®ГЎГ¬Г®Г°Г®ГЄ."
+	r_message = "падает в обморок."
 	act(var/mob/living/carbon/human/H)
 		if(!H.sleeping)
 			. = ..()
@@ -166,7 +178,8 @@ var/global/list/emotes_list = list()
 /datum/emote/flap
 	key= "flap"
 	message = "flaps wings."
-	r_message = "ГµГ«Г®ГЇГ ГҐГІ ГЄГ°Г»Г«Гј&#255;Г¬ГЁ."
+	r_message = "хлопает крыль&#255;ми."
+	m_type = EMOTE_HEARABLE
 	act(var/mob/living/carbon/human/H)
 		if (!H.restrained())
 			return ..()
@@ -174,7 +187,8 @@ var/global/list/emotes_list = list()
 /datum/emote/flap_a
 	key = "flap_a"
 	message = "flaps wings ANGRILY!"
-	r_message = "Г“ГѓГђГЋГ†ГЂГћГ™Г… ГµГ«Г®ГЇГ ГҐГІ ГЄГ°Г»Г«Гј&#255;Г¬ГЁ!"
+	r_message = "УГРОЖАЮЩЕ хлопает крыль&#255;ми!"
+	m_type = EMOTE_HEARABLE
 	act(var/mob/living/carbon/human/H)
 		if (!H.restrained())
 			return ..()
@@ -182,73 +196,81 @@ var/global/list/emotes_list = list()
 /datum/emote/frown
 	key = "frown"
 	message = "frowns."
-	r_message = "ГµГ¬ГіГ°ГЁГІГ±&#255;."
+	r_message = "хмуритс&#255;."
 
 /datum/emote/gasp
 	key = "gasp"
 	message = "gasps!"
-	r_message = "Г§Г Г¤Г»ГµГ ГҐГІГ±&#255;!"
+	r_message = "пытаетс&#255; вдохнуть!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/giggle
 	key = "giggle"
 	message = "giggles."
-	r_message = "ГµГЁГµГЁГЄГ ГҐГІ."
+	r_message = "хихикает."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/grin
 	key = "grin"
 	message = "grins."
-	r_message = "ГіГµГ¬Г»Г«&#255;ГҐГІГ±&#255;."
+	r_message = "ухмыл&#255;етс&#255;."
 
 /datum/emote/groan
 	key = "groan"
 	message = "groans!"
-	r_message = "ГіГ±ГІГ Г«Г® Г±ГІГ®Г­ГҐГІ!"
+	r_message = "отчаено стонет!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/grumble
 	key = "grumble"
 	message = "grumbles!"
-	r_message = "ГўГ®Г°Г·ГЁГІ!"
+	r_message = "ворчит!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/hem
 	key = "hem"
 	message = "hems"
-	r_message = "ГµГ¬Г»ГЄГ ГҐГІ."
+	r_message = "хмыкает."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/hum
 	key = "hum"
 	message = "hums."
-	r_message = "Г­Г ГЇГҐГўГ ГҐГІ Г±ГҐГЎГҐ ГЇГ®Г¤ Г­Г®Г±."
+	r_message = "напевает себе под нос."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/laugh
 	key = "laugh"
 	message = "laughs."
-	r_message = "Г±Г¬ГҐВёГІГ±&#255;."
+	r_message = "смеётс&#255;."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/moan
 	key = "moan"
 	message = "moans!"
-	r_message = "Г±ГІГ®Г­ГҐГІ!"
+	r_message = "стонет!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/mumble
 	key = "mumble"
 	message = "mumbles!"
-	r_message = "ГЎГ®Г°Г¬Г®Г·ГҐГІ Г·ГІГ®-ГІГ® Г­ГҐГўГ­&#255;ГІГ­Г®ГҐ."
+	r_message = "бормочет что-то невн&#255;тное."
 	m_type = EMOTE_HEARABLE
 
 /datum/emote/nod
 	key = "nod"
 	message = "nods."
-	r_message = "ГЄГЁГўГ ГҐГІ."
+	r_message = "кивает."
 
 /datum/emote/pale
 	key = "pale"
 	message = "goes pale for a second."
-	r_message = "ГЎГ«ГҐГ¤Г­ГҐГҐГІ."
+	r_message = "бледнеет."
 
 /datum/emote/raise
 	key = "raise"
 	message = "raises a hand."
-	r_message = "ГЇГ®Г¤Г­ГЁГ¬Г ГҐГІ Г°ГіГЄГі ГўГўГҐГ°Гµ."
+	r_message = "поднимает руку вверх."
 	act(var/mob/living/carbon/human/H)
 		if (!H.restrained())
 			return ..()
@@ -256,89 +278,94 @@ var/global/list/emotes_list = list()
 /datum/emote/scream
 	key = "scream"
 	message = "screams!"
-	r_message = "ГЄГ°ГЁГ·ГЁГІ!"
+	r_message = "кричит!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/shake
 	key = "shake"
 	message = "shakes head."
-	r_message = "ГЇГ®ГЄГ Г·ГЁГўГ ГҐГІ ГЈГ®Г«Г®ГўГ®Г©."
+	r_message = "покачивает головой."
 
 /datum/emote/shiver
 	key = "shiver"
 	message = "shivers."
-	r_message = "Г¤Г°Г®Г¦ГЁГІ."
-	m_type = EMOTE_HEARABLE
+	r_message = "дрожит."
 
 /datum/emote/shrug
 	key = "shrug"
 	message = "shrugs."
-	r_message = "ГЇГ®Г¦ГЁГ¬Г ГҐГІ ГЇГ«ГҐГ·Г Г¬ГЁ."
+	r_message = "пожимает плечами."
 
 /datum/emote/sigh
 	key = "sigh"
 	message = "sighs."
-	r_message = "ГўГ§Г¤Г»ГµГ ГҐГІ."
+	r_message = "вздыхает."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/smile
 	key = "smile"
 	message = "smiles."
-	r_message = "ГіГ«Г»ГЎГ ГҐГІГ±&#255;."
+	r_message = "улыбаетс&#255;."
 
 /datum/emote/sneeze
 	key = "sneeze"
 	message = "sneezes."
-	r_message = "Г·ГЁГµГ ГҐГІ."
+	r_message = "чихает."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/sniff
 	key = "sniff"
 	message = "sniffs."
-	r_message = "ГёГ¬Г»ГЈГ ГҐГІ Г­Г®Г±Г®Г¬."
+	r_message = "шмыгает носом."
 	m_type = EMOTE_HEARABLE
 
 /datum/emote/snore
 	key = "snore"
 	message = "snores."
-	r_message = "Г±Г®ГЇГЁГІ."
+	r_message = "сопит."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/tremble
 	key = "tremble"
 	message = "trembles in fear!"
-	r_message = "Г¤Г°Г®Г¦ГЁГІ Г®ГІ ГіГ¦Г Г±Г !"
+	r_message = "дрожит от ужаса!"
 
 /datum/emote/twitch
 	key = "twitch"
 	message = "twitches violently."
-	r_message = "&#255;Г°Г®Г±ГІГ­Г® Г¤ГҐГ°ГЈГ ГҐГІГ±&#255;."
+	r_message = "резко дергаетс&#255;."
 
 /datum/emote/twitch_s
 	key = "twitch_s"
 	message = "twitches."
-	r_message = "Г¤ГҐГ°ГЈГ ГҐГІГ±&#255;."
+	r_message = "дергаетс&#255;."
 
 /datum/emote/wave
 	key = "wave"
 	message = "waves."
-	r_message = "Г¬Г ГёГҐГІ Г°ГіГЄГ®Г©."
+	r_message = "машет рукой."
 
 /datum/emote/whimper
 	key = "whimper"
 	message = "whimpers."
-	r_message = "ГўГ±ГµГ«ГЁГЇГ»ГўГ ГҐГІ."
+	r_message = "всхлипывает."
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/whistle
 	key = "whistle"
 	message = "whistles!"
-	r_message = "Г±ГўГЁГ±ГІГЁГІ!"
+	r_message = "свистит!"
+	m_type = EMOTE_HEARABLE
 
 /datum/emote/wink
 	key = "wink"
 	message = "winks."
-	message = "ГЇГ®Г¤Г¬ГЁГЈГЁГўГ ГҐГІ."
+	r_message = "подмигивает."
 
 /datum/emote/yawn
 	key = "yawn"
 	message = "yawns."
-	r_message = "Г§ГҐГўГ ГҐГІ."
+	r_message = "зевает."
 	m_type = EMOTE_HEARABLE
 	act(var/mob/living/carbon/human/H)
 		if (!istype(H.wear_mask, /obj/item/clothing/mask/muzzle))
@@ -349,9 +376,9 @@ var/global/list/emotes_list = list()
 /datum/emote/select/airkiss
 	key = "airkiss"
 	message = "blowing a kiss."
-	r_message = "Г®ГІГЇГ°Г ГўГ«&#255;ГҐГІ ГўГ®Г§Г¤ГіГёГ­Г»Г© ГЇГ®Г¶ГҐГ«ГіГ©."
+	r_message = "отправл&#255;ет воздушный поцелуй."
 	target_message = "blowing a kiss to @target."
-	r_target_message = "Г®ГІГЇГ°Г ГўГ«&#255;ГҐГІ ГўГ®Г§Г¤ГіГёГ­Г»Г© ГЇГ®Г¶ГҐГ«ГіГ© @target."
+	r_target_message = "отправл&#255;ет воздушный поцелуй @target."
 	act(var/mob/living/carbon/human/H)
 		if(!H.handcuffed)
 			return ..()
@@ -359,9 +386,9 @@ var/global/list/emotes_list = list()
 /datum/emote/select/bow
 	key = "bow"
 	message = "bows."
-	r_message = "ГЄГ«Г Г­&#255;ГҐГІГ±&#255;."
+	r_message = "клан&#255;етс&#255;."
 	target_message = "bows to @target."
-	r_target_message = "ГЄГ«Г Г­&#255;ГҐГІГ±&#255; @target."
+	r_target_message = "клан&#255;етс&#255; @target."
 	act(var/mob/living/carbon/human/H)
 		if(!H.buckled)
 			return ..()
@@ -369,23 +396,23 @@ var/global/list/emotes_list = list()
 /datum/emote/select/glare
 	key = "glare"
 	message = "glares."
-	r_message = "Г§Г«Г®ГЎГ­Г® Г±Г¬Г®ГІГ°ГЁГІ."
+	r_message = "злобно смотрит."
 	target_message = "glares at @target."
-	r_target_message = "Г±Г¬Г®ГІГ°ГЁГІ Г­Г  @target Г±Г® Г§Г«Г®ГЎГ®Г©."
+	r_target_message = "смотрит на @target со злобой."
 
 /datum/emote/select/look
 	key = "look"
 	message = "looks."
-	r_message = "Г®Г±Г¬Г ГІГ°ГЁГўГ ГҐГІГ±&#255;."
+	r_message = "осматриваетс&#255;."
 	target_message = "looks at @target."
-	r_target_message = "Г±Г¬Г®ГІГ°ГЁГІ Г­Г В @target."
+	r_target_message = "смотрит на @target."
 
 /datum/emote/select/salute
 	key = "salute"
 	message = "salutes."
-	r_message = "Г®ГІГ¤Г ГҐГІ Г·ГҐГ±ГІГј."
+	r_message = "отдает честь."
 	target_message = "salutes to @target."
-	r_target_message = "Г®ГІГ¤Г ГҐГІ Г·ГҐГ±ГІГј @target."
+	r_target_message = "отдает честь @target."
 	act(var/mob/living/carbon/human/H)
 		if(!H.handcuffed)
 			return ..()
@@ -393,16 +420,16 @@ var/global/list/emotes_list = list()
 /datum/emote/select/stare
 	key = "stare"
 	message = "stares."
-	r_message = "ГўГ­ГЁГ¬Г ГІГҐГ«ГјГ­Г® Г±Г¬Г®ГІГ°ГЁГІ Г­Г  ГЇГ°Г®ГЁГ±ГµГ®Г¤&#255;Г№ГҐГҐ."
+	r_message = "внимательно смотрит на происход&#255;щее."
 	target_message = "stares at @target."
-	r_target_message = "ГЇ&#255;Г«ГЁГІГ±&#255; Г­Г  @target."
+	r_target_message = "п&#255;литс&#255; на @target."
 
 ////SELECT LOCAL////
 
 /datum/emote/select/local/cuddle
 	key = "cuddle"
 	target_message = "cuddles @target."
-	r_target_message = "ГЇГ°ГЁГ¦ГЁГ¬Г ГҐГІГ±&#255; ГЄ @target."
+	r_target_message = "прижимаетс&#255; к @target."
 	act(var/mob/living/carbon/human/H)
 		if(!H.restrained())
 			..()
@@ -410,9 +437,9 @@ var/global/list/emotes_list = list()
 /datum/emote/select/local/dap
 	key = "dap"
 	message = "sadly can't find anybody to give daps to, and daps himself. Shameful."
-	r_message = "Г­ГҐ Г­Г Г©Г¤&#255; Г­ГЁГЄГ®ГЈГ® Г°&#255;Г¤Г®Г¬ Г± Г±Г®ГЎГ®Г©, Г¤ГҐГ«Г ГҐГІ  ГЎГ°Г®ГґГЁГ±ГІ Г±Г Г¬ Г± Г±Г®ГЎГ®Г©.  Г†Г Г«ГЄГ®ГҐ Г§Г°ГҐГ«ГЁГ№ГҐ."
+	r_message = "не найд&#255; никого р&#255;дом с собой, делает  брофист сам с собой.  Жалкое зрелище."
 	target_message = "gives daps to @target."
-	r_target_message = "Г¤ГҐГ«Г ГҐГІ ГЎГ°Г®ГґГЁГ±ГІ Г± @target."
+	r_target_message = "делает брофист с @target."
 	act(var/mob/living/carbon/human/H)
 		if(!H.restrained())
 			..()
@@ -420,31 +447,31 @@ var/global/list/emotes_list = list()
 /datum/emote/select/local/handshake
 	key = "handshake"
 	target_message = "shakes hands with @target."
-	r_target_message = "Г¦Г¬ГҐГІ Г°ГіГЄГЁ Г± @target."
+	r_target_message = "жмет руки с @target."
 
 /datum/emote/select/local/highfive
 	key = "five"
 	message = "can't find anybody to give high five to."
-	r_message = "Г­ГҐ Г­Г ГµГ®Г¤ГЁГІ Г­ГЁГЄГ®ГЈГ®, ГЄГ®Г¬Гі Г¬Г®Г¦Г­Г® ГЎГ»Г«Г® ГЎГ» Г¤Г ГІГј ГЇ&#255;ГІГј."
+	r_message = "не находит никого, кому можно было бы дать п&#255;ть."
 	target_message = "gives hihg five to @target."
-	r_target_message = "Г¤Г ГҐГІ ГЇ&#255;ГІГј @target"
+	r_target_message = "дает п&#255;ть @target"
 
 /datum/emote/select/local/hug
 	key = "hug"
 	message = "hugs itself."
-	r_message = "Г®ГЎГ­ГЁГ¬Г ГҐГІ Г±ГҐГЎ&#255;."
+	r_message = "обнимает себ&#255;."
 	target_message = "hugs @target."
-	r_target_message = "Г®ГЎГ­ГЁГ¬Г ГҐГІ @target."
+	r_target_message = "обнимает @target."
 
 /datum/emote/select/local/kiss
 	key = "kiss"
 	target_message = "kisses @target."
-	r_target_message = "Г¶ГҐГ«ГіГҐГІ @target."
+	r_target_message = "целует @target."
 
 /datum/emote/select/local/snuggle
 	key = "snuggle"
 	target_message = "snuggles @target."
-	r_target_message = "ГЇГ°ГЁГ¦ГЁГ¬Г ГҐГІ @target ГЄ Г±ГҐГЎГҐ."
+	r_target_message = "прижимает @target к себе."
 
 ////Special////
 
@@ -465,18 +492,18 @@ var/global/list/emotes_list = list()
 					if(!russified)
 						return H.custom_emote(m_type, "raises [t1] finger\s.")
 					else
-						var/emote = "ГЇГ®Г¤Г­ГЁГ¬Г ГҐГІ [t1] ГЇГ Г«ГјГ¶ГҐГў"
+						var/emote = "поднимает [t1] пальцев"
 						switch(t1)
-							if(1)   emote = "ГЇГ®Г¤Г­ГЁГ¬Г ГҐГІ [t1] ГЇГ Г«ГҐГ¶."
-							if(2 to 4) emote = "ГЇГ®Г¤Г­ГЁГ¬Г ГҐГІ [t1] ГЇГ Г«ГҐГ¶Г ."
-							if(5)   emote = "ГЇГ®Г¤Г­ГЁГ¬Г ГҐГІ [t1] ГЇГ Г«ГјГ¶ГҐГў."
+							if(1)   emote = "поднимает [t1] палец."
+							if(2 to 4) emote = "поднимает [t1] палеца."
+							if(5)   emote = "поднимает [t1] пальцев."
 						return H.custom_emote(m_type, emote)
 				if (6 to 10)
 					if((H.r_hand || !H.get_organ("r_hand")) || (H.l_hand  || !H.get_organ("l_hand")))
 						H << "<span class='warning'>Your need at least two free hands for this</span>"
 						return
 					if(russified)
-						return H.custom_emote(m_type, "ГЇГ®Г¤Г­ГЁГ¬Г ГҐГІ [t1] ГЇГ Г«ГјГ¶ГҐГў.")
+						return H.custom_emote(m_type, "поднимает [t1] пальцев.")
 					else
 						return H.custom_emote(m_type, "raises [t1] fingers.")
 
