@@ -224,13 +224,19 @@
 	current_data = new()
 	current_data.assoc_key = "tertiumdatur"
 	current_data.character_name = "Morlaiaschorr Ilirka"
-	current_data.item_path = /obj/item/clothing/head/helmet/space/void/atmos_special
+	current_data.item_desc = "A kit for modifying a voidsuit."
+	current_data.name = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.item_path = /obj/item/device/kit/suit
+	current_data.req_titles = list("Atmospheric Technician", "Station Engineer")
+	current_data.kit_name = "dark brown voidsuit"
+	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.kit_icon = "rig-atmos_special"
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "tertiumdatur"
 	current_data.character_name = "Morlaiaschorr Ilirka"
-	current_data.item_path = /obj/item/clothing/suit/space/void/atmos_special
+	current_data.item_path = /obj/item/clothing/glasses/hud/engi
 	L |= current_data
 
 	current_data = new()
