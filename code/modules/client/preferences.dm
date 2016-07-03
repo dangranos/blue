@@ -556,7 +556,9 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	dat += "</table><center><hr/>"
 
 	var/restricted = 0
-	if(config.usealienwhitelist) //If we're using the whitelist, make sure to check it!
+	if(jobban_isbanned(user, current_species.name))
+		restricted = 1
+	else if(config.usealienwhitelist) //If we're using the whitelist, make sure to check it!
 		if(!(current_species.flags & CAN_JOIN))
 			restricted = 2
 		else if((current_species.flags & IS_WHITELISTED) && !is_alien_whitelisted(user,current_species))

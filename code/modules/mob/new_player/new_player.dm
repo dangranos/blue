@@ -158,7 +158,10 @@
 				return
 
 			if(client.prefs.species != "Human" && !check_rights(R_ADMIN, 0))
-				if(!is_alien_whitelisted(src, client.prefs.species) && config.usealienwhitelist)
+				if(jobban_isbanned(src, client.prefs.species))
+					src << alert("You are currently banned from play [client.prefs.species].")
+					return 0
+				else if(!is_alien_whitelisted(src, client.prefs.species) && config.usealienwhitelist)
 					src << alert("You are currently not whitelisted to play [client.prefs.species].")
 					return 0
 
