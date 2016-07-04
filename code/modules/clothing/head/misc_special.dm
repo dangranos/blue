@@ -180,4 +180,5 @@ obj/item/clothing/head/welding/blue
 	name = "vox captain's hat"
 	desc = "KHAAAAK!"
 	icon_state = "vox-captain_hat"
+	item_state = "vox-captain_hat"
 	species_restricted = list("Vox")
