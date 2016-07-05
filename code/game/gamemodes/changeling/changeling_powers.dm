@@ -204,6 +204,9 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 	force = 40
 	attack_verb = list("attacked", "slashed", "sliced", "torn", "ripped", "diced", "cut")
 
+	dropped(var/mob/user)
+		return attack_self(user)
+
 /obj/item/weapon/armblade/attack_self(var/mob/user)
 	user.visible_message("With a sickening crunch, [user] reforms their arm blade into an arm!",\
 						"We assimilate the weapon back into our body.",\
