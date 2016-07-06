@@ -784,9 +784,9 @@
 		icon_state = "hair_mohawk"
 		species_allowed = list("Tajara")
 
-	taj_ears_metal
-		name = "Tajaran Metal"
-		icon_state = "hair_metal"
+	taj_ears_curly
+		name = "Tajaran Curly"
+		icon_state = "hair_curly"
 		species_allowed = list("Tajara")
 
 	taj_ears_plait
@@ -815,15 +815,25 @@
 		species_allowed = list("Tajara")
 
 	taj_ears_victory
-		name = "Tajara Victory"
+		name = "Tajara Victory Curls"
 		icon_state = "hair_victory"
 		gender = FEMALE
 		species_allowed = list("Tajara")
 
 	taj_ears_wife
-		name = "Tajara Wife"
+		name = "Tajara Housewife"
 		icon_state = "hair_wife"
 		gender = FEMALE
+		species_allowed = list("Tajara")
+
+	taj_ears_bob
+		name = "Tajara Bob"
+		icon_state = "hair_tbob"
+		species_allowed = list("Tajara")
+
+	taj_ears_fingercurl
+		name = "Tajara Finger Curls"
+		icon_state = "hair_fingerwave"
 		species_allowed = list("Tajara")
 
 	una_frills_long
