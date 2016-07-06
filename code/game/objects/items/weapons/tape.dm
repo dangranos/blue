@@ -42,12 +42,18 @@
 			user.visible_message("\red <B>[user] is trying to close up [C]'s mouth with [src]!</B>")
 
 			if (ishuman(C))
+				var/can_use = 0
+				for (var/obj/item/weapon/grab/G in C.grabbed_by)
+					if (G.loc == user && G.state >= GRAB_AGGRESSIVE)
+						can_use = 1
+						break
+				if(!can_use) return
 				var/mob/living/carbon/human/H = C
 				if (!H.has_organ_for_slot(slot_wear_mask))
 					in_action = 0
 					return
 
-				spawn(8)
+				spawn(12)
 					if(!C)
 						in_action = 0
 						return
