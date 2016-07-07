@@ -8,7 +8,7 @@
 	var/list/hud_list[10]
 	var/embedded_flag	  //To check if we've need to roll for damage on movement while an item is imbedded in us.
 
-/mob/living/carbon/human/New(var/new_loc, var/new_species = null)
+/mob/living/carbon/human/New(var/new_loc, var/new_species = null, var/datum/preferences/prefs = null)
 
 	if(!dna)
 		dna = new /datum/dna(null)
@@ -16,15 +16,14 @@
 
 	if(!species)
 		if(new_species)
-			set_species(new_species,1)
+			set_species(new_species,1,prefs)
 		else
-			set_species()
+			set_species(prefs = prefs)
 
-	if(species)
-		real_name = species.get_random_name(gender)
-		name = real_name
-		if(mind)
-			mind.name = real_name
+	real_name = species.get_random_name(gender)
+	name = real_name
+	if(mind)
+		mind.name = real_name
 
 	hud_list[HEALTH_HUD]      = image('icons/mob/hud.dmi', src, "hudhealth100")
 	hud_list[STATUS_HUD]      = image('icons/mob/hud.dmi', src, "hudhealthy")
@@ -51,7 +50,6 @@
 	return ..()
 
 /mob/living/carbon/human/proc/equip_survival_gear(var/custom_survival_gear)
-	if(!species) return 0
 	species.equip_survival_gear(src, custom_survival_gear)
 
 /mob/living/carbon/human/Stat()
@@ -59,12 +57,12 @@
 	if(statpanel("Status"))
 		stat(null, "Intent: [a_intent]")
 		stat(null, "Move Mode: [m_intent]")
-		/*if(emergency_shuttle)
+		if(emergency_shuttle)
 			var/eta_status = emergency_shuttle.get_status_panel_eta()
 			if(eta_status)
 				stat(null, eta_status)
 
-		if (internal)
+		/*if (internal)
 			if (!internal.air_contents)
 				qdel(internal)
 			else
@@ -151,21 +149,7 @@
 				update |= temp.take_damage(b_loss * 0.2, f_loss * 0.2, used_weapon = weapon_message)
 			if("chest")
 				update |= temp.take_damage(b_loss * 0.4, f_loss * 0.4, used_weapon = weapon_message)
-			if("l_arm")
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
-			if("r_arm")
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
-			if("l_leg")
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
-			if("r_leg")
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
-			if("r_foot")
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
-			if("l_foot")
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
-			if("r_arm")
-				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
-			if("l_arm")
+			if("l_arm","r_arm","l_leg","r_leg","r_foot","l_foot","r_arm","l_arm")
 				update |= temp.take_damage(b_loss * 0.05, f_loss * 0.05, used_weapon = weapon_message)
 	if(update)	UpdateDamageIcon()
 
@@ -205,10 +189,10 @@
 	L.part = affected
 	L.implanted(src)
 
-/mob/living/carbon/human/proc/is_loyalty_implanted(mob/living/carbon/human/M)
-	for(var/L in M.contents)
+/mob/living/carbon/human/proc/is_loyalty_implanted()
+	for(var/L in contents)
 		if(istype(L, /obj/item/weapon/implant/loyalty))
-			for(var/obj/item/organ/external/O in M.organs)
+			for(var/obj/item/organ/external/O in organs)
 				if(L in O.implants)
 					return 1
 	return 0
@@ -276,13 +260,9 @@
 // called when something steps onto a human
 // this handles mulebots and vehicles
 /mob/living/carbon/human/Crossed(var/atom/movable/AM)
-	if(istype(AM, /obj/machinery/bot/mulebot))
-		var/obj/machinery/bot/mulebot/MB = AM
-		MB.RunOver(src)
+	if(istype(AM, /obj/machinery/bot/mulebot) || istype(AM, /obj/vehicle))
+		AM:RunOver(src)
 
-	if(istype(AM, /obj/vehicle))
-		var/obj/vehicle/V = AM
-		V.RunOver(src)
 
 // Get rank from ID, ID inside PDA, PDA, ID in wallet, etc.
 /mob/living/carbon/human/proc/get_authentification_rank(var/if_no_id = "No id", var/if_no_job = "No job")
@@ -687,7 +667,7 @@
 		return 2
 
 	if(internal_organs_by_name["eyes"]) // Eyes are fucked, not a 'weak point'.
-		var/obj/item/organ/I = internal_organs_by_name["eyes"]
+		var/obj/item/organ/internal/I = internal_organs_by_name["eyes"]
 		if(I.status & ORGAN_CUT_AWAY)
 			return 2
 	else
@@ -937,7 +917,7 @@
 	species.create_organs(src)
 
 	if(!client || !key) //Don't boot out anyone already in the mob.
-		for (var/obj/item/organ/brain/H in world)
+		for (var/obj/item/organ/internal/brain/H in world)
 			if(H.brainmob)
 				if(H.brainmob.real_name == src.real_name)
 					if(H.brainmob.mind)
@@ -957,11 +937,11 @@
 	..()
 
 /mob/living/carbon/human/proc/is_lung_ruptured()
-	var/obj/item/organ/lungs/L = internal_organs_by_name["lungs"]
+	var/obj/item/organ/internal/lungs/L = internal_organs_by_name["lungs"]
 	return L && L.is_bruised()
 
 /mob/living/carbon/human/proc/rupture_lung()
-	var/obj/item/organ/lungs/L = internal_organs_by_name["lungs"]
+	var/obj/item/organ/internal/lungs/L = internal_organs_by_name["lungs"]
 
 	if(L && !L.is_bruised())
 		src.custom_pain("You feel a stabbing pain in your chest!", 1)
@@ -1090,7 +1070,7 @@
 	else
 		usr << "\blue [self ? "Your" : "[src]'s"] pulse is [src.get_pulse(GETPULSE_HAND)]."
 
-/mob/living/carbon/human/proc/set_species(var/new_species, var/default_colour)
+/mob/living/carbon/human/proc/set_species(var/new_species, var/default_colour, var/datum/preferences/prefs = null)
 
 	if(!dna)
 		if(!new_species)
@@ -1106,7 +1086,6 @@
 		new_species = "Human"
 
 	if(species)
-
 		if(species.name && species.name == new_species)
 			return
 		if(species.language)
@@ -1129,14 +1108,14 @@
 		//Apply colour.
 		skin_color = species.base_color
 	else
-		skin_color = "#000000"
+		skin_color = (prefs!=null) ? prefs.skin_color : "#000000"
 
 	if(species.holder_type)
 		holder_type = species.holder_type
 
 	icon_state = lowertext(species.name)
 
-	species.create_organs(src)
+	species.create_organs(src, prefs)
 
 	species.handle_post_spawn(src)
 
@@ -1236,15 +1215,15 @@
 
 /mob/living/carbon/human/print_flavor_text(var/shrink = 1)
 	var/list/equipment = list(src.head,src.wear_mask,src.glasses,src.w_uniform,src.wear_suit,src.gloves,src.shoes)
-	var/list/exposed = list( \
-	"head" = 1,\
-	"face" = 1,\
-	"eyes" = 1,\
-	"torso" = 1,\
-	"arms" = 1,\
-	"legs" = 1,\
-	"hands" = 1,\
-	"feet" = 1\
+	var/list/exposed = list(
+		"head" = 1,
+		"face" = 1,
+		"eyes" = 1,
+		"torso" = 1,
+		"arms" = 1,
+		"legs" = 1,
+		"hands" = 1,
+		"feet" = 1
 	)
 
 	for(var/obj/item/clothing/C in equipment)
@@ -1254,11 +1233,6 @@
 			exposed["face"] = 0
 		if(C.body_parts_covered & EYES)
 			exposed["eyes"] = 0
-			exposed["mech_eyes"] = 0
-		else
-			var/obj/item/organ/eyes/E = src.internal_organs_by_name["eyes"]
-			if( E && E.robotic >= 2 ) 	exposed["eyes"] = 0
-			else					exposed["mech_eyes"] = 0
 		if(C.body_parts_covered & UPPER_TORSO)
 			exposed["torso"] = 0
 		if(C.body_parts_covered & ARMS)
@@ -1294,14 +1268,14 @@
 
 /mob/living/carbon/human/has_brain()
 	if(internal_organs_by_name["brain"])
-		var/obj/item/organ/brain = internal_organs_by_name["brain"]
+		var/obj/item/organ/internal/brain = internal_organs_by_name["brain"]
 		if(brain && istype(brain))
 			return 1
 	return 0
 
 /mob/living/carbon/human/has_eyes()
 	if(internal_organs_by_name["eyes"])
-		var/obj/item/organ/eyes = internal_organs_by_name["eyes"]
+		var/obj/item/organ/internal/eyes = internal_organs_by_name["eyes"]
 		if(eyes && istype(eyes) && !(eyes.status & ORGAN_CUT_AWAY))
 			return 1
 	return 0

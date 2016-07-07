@@ -43,11 +43,11 @@
 	vision_flags = SEE_SELF|SEE_MOBS
 
 	has_organ = list(
-		"heart" =           /obj/item/organ/heart,
-		"brain" =           /obj/item/organ/brain/xeno,
-		"plasma vessel" =   /obj/item/organ/xenos/plasmavessel,
-		"hive node" =       /obj/item/organ/xenos/hivenode,
-		"nutrient vessel" = /obj/item/organ/diona/nutrients
+		"heart" =           /obj/item/organ/internal/heart,
+		"brain" =           /obj/item/organ/internal/brain/xeno,
+		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel,
+		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
+		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
 		)
 
 	bump_flag = ALIEN
@@ -97,7 +97,7 @@
 
 	if(environment.gas["phoron"] > 0 || locate(/obj/effect/alien/weeds) in T)
 		if(!regenerate(H))
-			var/obj/item/organ/xenos/plasmavessel/P = H.internal_organs_by_name["plasma vessel"]
+			var/obj/item/organ/internal/xenos/plasmavessel/P = H.internal_organs_by_name["plasma vessel"]
 			P.stored_plasma += weeds_plasma_rate
 			P.stored_plasma = min(max(P.stored_plasma,0),P.max_plasma)
 	..()
@@ -120,7 +120,7 @@
 		return 1
 
 	//next internal organs
-	for(var/obj/item/organ/I in H.internal_organs)
+	for(var/obj/item/organ/internal/I in H.internal_organs)
 		if(I.damage > 0)
 			I.damage = max(I.damage - heal_rate, 0)
 			if (prob(5))
@@ -146,7 +146,7 @@
 	..()
 
 /datum/species/xenos/Stat(var/mob/living/carbon/human/H)
-	var/obj/item/organ/xenos/plasmavessel/P = H.internal_organs_by_name["plasma vessel"]
+	var/obj/item/organ/internal/xenos/plasmavessel/P = H.internal_organs_by_name["plasma vessel"]
 	if(P)
 		stat("Phoron Stored:", " [P.stored_plasma]/[P.max_plasma]")
 	return
@@ -164,13 +164,13 @@
 	deform =  'icons/mob/human_races/xenos/r_xenos_drone.dmi'
 
 	has_organ = list(
-		"heart" =           /obj/item/organ/heart,
-		"brain" =           /obj/item/organ/brain/xeno,
-		"plasma vessel" =   /obj/item/organ/xenos/plasmavessel/queen,
-		"acid gland" =      /obj/item/organ/xenos/acidgland,
-		"hive node" =       /obj/item/organ/xenos/hivenode,
-		"resin spinner" =   /obj/item/organ/xenos/resinspinner,
-		"nutrient vessel" = /obj/item/organ/diona/nutrients
+		"heart" =           /obj/item/organ/internal/heart,
+		"brain" =           /obj/item/organ/internal/brain/xeno,
+		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel/queen,
+		"acid gland" =      /obj/item/organ/internal/xenos/acidgland,
+		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
+		"resin spinner" =   /obj/item/organ/internal/xenos/resinspinner,
+		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
 		)
 
 	inherent_verbs = list(
@@ -203,11 +203,11 @@
 	deform =  'icons/mob/human_races/xenos/r_xenos_hunter.dmi'
 
 	has_organ = list(
-		"heart" =           /obj/item/organ/heart,
-		"brain" =           /obj/item/organ/brain/xeno,
-		"plasma vessel" =   /obj/item/organ/xenos/plasmavessel/hunter,
-		"hive node" =       /obj/item/organ/xenos/hivenode,
-		"nutrient vessel" = /obj/item/organ/diona/nutrients
+		"heart" =           /obj/item/organ/internal/heart,
+		"brain" =           /obj/item/organ/internal/brain/xeno,
+		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel/hunter,
+		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
+		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
 		)
 
 	inherent_verbs = list(
@@ -231,12 +231,12 @@
 	deform =  'icons/mob/human_races/xenos/r_xenos_sentinel.dmi'
 
 	has_organ = list(
-		"heart" =           /obj/item/organ/heart,
-		"brain" =           /obj/item/organ/brain/xeno,
-		"plasma vessel" =   /obj/item/organ/xenos/plasmavessel/sentinel,
-		"acid gland" =      /obj/item/organ/xenos/acidgland,
-		"hive node" =       /obj/item/organ/xenos/hivenode,
-		"nutrient vessel" = /obj/item/organ/diona/nutrients
+		"heart" =           /obj/item/organ/internal/heart,
+		"brain" =           /obj/item/organ/internal/brain/xeno,
+		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel/sentinel,
+		"acid gland" =      /obj/item/organ/internal/xenos/acidgland,
+		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
+		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
 		)
 
 	inherent_verbs = list(
@@ -263,14 +263,14 @@
 	deform =  'icons/mob/human_races/xenos/r_xenos_queen.dmi'
 
 	has_organ = list(
-		"heart" =           /obj/item/organ/heart,
-		"brain" =           /obj/item/organ/brain/xeno,
-		"egg sac" =         /obj/item/organ/xenos/eggsac,
-		"plasma vessel" =   /obj/item/organ/xenos/plasmavessel/queen,
-		"acid gland" =      /obj/item/organ/xenos/acidgland,
-		"hive node" =       /obj/item/organ/xenos/hivenode,
-		"resin spinner" =   /obj/item/organ/xenos/resinspinner,
-		"nutrient vessel" = /obj/item/organ/diona/nutrients
+		"heart" =           /obj/item/organ/internal/heart,
+		"brain" =           /obj/item/organ/internal/brain/xeno,
+		"egg sac" =         /obj/item/organ/internal/xenos/eggsac,
+		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel/queen,
+		"acid gland" =      /obj/item/organ/internal/xenos/acidgland,
+		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
+		"resin spinner" =   /obj/item/organ/internal/xenos/resinspinner,
+		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
 		)
 
 	inherent_verbs = list(

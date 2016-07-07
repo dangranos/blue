@@ -406,7 +406,7 @@
 			dat += "<td>[e.name]</td><td>-</td><td>-</td><td>Not Found</td>"
 		dat += "</tr>"
 
-	for(var/obj/item/organ/i in occ["internal_organs"])
+	for(var/obj/item/organ/internal/i in occ["internal_organs"])
 
 		var/mech = ""
 		if(i.robotic == 1)

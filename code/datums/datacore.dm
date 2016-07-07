@@ -172,7 +172,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 	var/icon/eyes
 
 	if (H.species.flags & HAS_EYE_COLOR)
-		var/obj/item/organ/eyes/E = H.internal_organs_by_name["eyes"]
+		var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name["eyes"]
 		if( E )
 			eyes = new/icon("icon" = icobase, "icon_state" = "eyes_[H.body_build]")
 			eyes.Blend(H.eyes_color, ICON_ADD)

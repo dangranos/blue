@@ -172,10 +172,10 @@
 
 		affected.createwound(BRUISE, 20)
 		affected.fracture()
-		
+
 		if(affected.internal_organs && affected.internal_organs.len)
 			if(prob(40))
-				var/obj/item/organ/O = pick(affected.internal_organs) //TODO weight by organ size
+				var/obj/item/organ/internal/O = pick(affected.internal_organs) //TODO weight by organ size
 				user.visible_message("<span class='danger'>A wayward piece of [target]'s [affected.encased] pierces \his [O.name]!</span>")
 				O.bruise()
 

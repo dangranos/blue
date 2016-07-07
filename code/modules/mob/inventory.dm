@@ -111,7 +111,7 @@ var/list/slot_equipment_priority = list( \
 	if(!l_hand)
 		if(istype(src, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = src
-			var/obj/item/organ/external/hand/hand = H.organs_by_name["l_hand"]
+			var/obj/item/organ/external/tiny/hand = H.organs_by_name["l_hand"]
 			if(!hand || !hand.is_usable()) return 0
 		W.forceMove(src)		//TODO: move to equipped?
 		l_hand = W
@@ -131,7 +131,7 @@ var/list/slot_equipment_priority = list( \
 	if(!r_hand)
 		if(istype(src, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = src
-			var/obj/item/organ/external/hand/hand = H.organs_by_name["r_hand"]
+			var/obj/item/organ/external/tiny/hand = H.organs_by_name["r_hand"]
 			if(!hand || !hand.is_usable()) return 0
 		W.forceMove(src)
 		r_hand = W

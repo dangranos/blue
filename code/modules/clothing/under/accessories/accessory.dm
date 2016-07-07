@@ -190,7 +190,7 @@
 				var/sound_strength = "cannot hear"
 				var/heartbeat = 0
 				if(M.species && M.species.has_organ["heart"])
-					var/obj/item/organ/heart/heart = M.internal_organs_by_name["heart"]
+					var/obj/item/organ/internal/heart/heart = M.internal_organs_by_name["heart"]
 					if(heart && !heart.robotic)
 						heartbeat = 1
 				if(M.stat == DEAD || (M.status_flags&FAKEDEATH))
@@ -202,7 +202,7 @@
 							sound_strength = "hear"
 							sound = "no heartbeat"
 							if(heartbeat)
-								var/obj/item/organ/heart/heart = M.internal_organs_by_name["heart"]
+								var/obj/item/organ/internal/heart/heart = M.internal_organs_by_name["heart"]
 								if(heart.is_bruised() || M.getOxyLoss() > 50)
 									sound = "[pick ("odd noises", "spasmodic")] heartbeat"
 								else if(heart.is_hurt())
@@ -212,7 +212,7 @@
 								else
 									sound = "healthy heartbeat"
 
-							var/obj/item/organ/heart/L = M.internal_organs_by_name["lungs"]
+							var/obj/item/organ/internal/heart/L = M.internal_organs_by_name["lungs"]
 							if(!L || M.losebreath)
 								sound += " and no respiration"
 							else if(M.is_lung_ruptured() || M.getOxyLoss() > 50)

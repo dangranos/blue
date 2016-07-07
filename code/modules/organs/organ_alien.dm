@@ -41,69 +41,17 @@
 	body_part = LOWER_TORSO
 	parent_organ = "chest"
 
-/obj/item/organ/external/diona/arm
-	name = "left upper tendril"
-	limb_name = "l_arm"
+/obj/item/organ/external/diona/limb
 	health = 35
 	min_broken_damage = 20
-	body_part = ARM_LEFT
-	parent_organ = "chest"
-	can_grasp = 1
-
-/obj/item/organ/external/diona/arm/right
-	name = "right upper tendril"
-	limb_name = "r_arm"
-	body_part = ARM_RIGHT
-
-/obj/item/organ/external/diona/leg
-	name = "left lower tendril"
-	limb_name = "l_leg"
-	health = 35
-	min_broken_damage = 20
-	body_part = LEG_LEFT
-	icon_position = LEFT
-	parent_organ = "groin"
-	can_stand = 1
-
-/obj/item/organ/external/diona/leg/right
-	name = "right lower tendril"
-	limb_name = "r_leg"
-	body_part = LEG_RIGHT
-	icon_position = RIGHT
 
 /obj/item/organ/external/diona/foot
-	name = "left foot"
-	limb_name = "l_foot"
 	health = 20
 	min_broken_damage = 10
-	body_part = FOOT_LEFT
-	icon_position = LEFT
-	parent_organ = "l_leg"
-	can_stand = 1
-
-/obj/item/organ/external/diona/foot/right
-	name = "right foot"
-	limb_name = "r_foot"
-	body_part = FOOT_RIGHT
-	icon_position = RIGHT
-	parent_organ = "r_leg"
-	joint = "right ankle"
-	amputation_point = "right ankle"
 
 /obj/item/organ/external/diona/hand
-	name = "left grasper"
-	limb_name = "l_hand"
 	health = 30
 	min_broken_damage = 15
-	body_part = HAND_LEFT
-	parent_organ = "l_arm"
-	can_grasp = 1
-
-/obj/item/organ/external/diona/hand/right
-	name = "right grasper"
-	limb_name = "r_hand"
-	body_part = HAND_RIGHT
-	parent_organ = "r_arm"
 
 /obj/item/organ/external/diona/head
 	limb_name = "head"
@@ -128,40 +76,40 @@
 	if(prob(50) && spawn_diona_nymph_from_organ(src))
 		qdel(src)
 
-/obj/item/organ/diona/process()
+/obj/item/organ/internal/diona/process()
 	return
 
-/obj/item/organ/diona/strata
+/obj/item/organ/internal/diona/strata
 	name = "neural strata"
 	parent_organ = "chest"
 
-/obj/item/organ/diona/bladder
+/obj/item/organ/internal/diona/bladder
 	name = "gas bladder"
 	parent_organ = "head"
 
-/obj/item/organ/diona/polyp
+/obj/item/organ/internal/diona/polyp
 	name = "polyp segment"
 	parent_organ = "groin"
 
-/obj/item/organ/diona/ligament
+/obj/item/organ/internal/diona/ligament
 	name = "anchoring ligament"
 	parent_organ = "groin"
 
-/obj/item/organ/diona/node
+/obj/item/organ/internal/diona/node
 	name = "receptor node"
 	parent_organ = "head"
 
-/obj/item/organ/diona/nutrients
+/obj/item/organ/internal/diona/nutrients
 	name = "nutrient vessel"
 	parent_organ = "chest"
 
-/obj/item/organ/diona
+/obj/item/organ/internal/diona
 	name = "diona nymph"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "nymph"
 	organ_tag = "special" // Turns into a nymph instantly, no transplanting possible.
 
-/obj/item/organ/diona/removed(var/mob/living/user)
+/obj/item/organ/internal/diona/removed(var/mob/living/user)
 	var/mob/living/carbon/human/H = owner
 	..()
 	if(!istype(H) || !H.organs || !H.organs.len)
@@ -171,31 +119,31 @@
 
 // These are different to the standard diona organs as they have a purpose in other
 // species (absorbing radiation and light respectively)
-/obj/item/organ/diona/nutrients
+/obj/item/organ/internal/diona/nutrients
 	name = "nutrient vessel"
 	organ_tag = "nutrient vessel"
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "claw"
 
-/obj/item/organ/diona/nutrients/removed()
+/obj/item/organ/internal/diona/nutrients/removed()
 	return
 
-/obj/item/organ/diona/node
+/obj/item/organ/internal/diona/node
 	name = "receptor node"
 	organ_tag = "receptor node"
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "claw"
 
-/obj/item/organ/diona/node/removed()
+/obj/item/organ/internal/diona/node/removed()
 	return
 
 //CORTICAL BORER ORGANS.
-/obj/item/organ/borer
+/obj/item/organ/internal/borer
 	name = "cortical borer"
 	parent_organ = "head"
 	vital = 1
 
-/obj/item/organ/borer/process()
+/obj/item/organ/internal/borer/process()
 
 	// Borer husks regenerate health, feel no pain, and are resistant to stuns and brainloss.
 	for(var/chem in list("tricordrazine","tramadol","hyperzine","alkysine"))
@@ -217,14 +165,14 @@
 			goo.basecolor = "#412464"
 			goo.update_icon()
 
-/obj/item/organ/borer
+/obj/item/organ/internal/borer
 	name = "cortical borer"
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "borer"
 	organ_tag = "brain"
 	desc = "A disgusting space slug."
 
-/obj/item/organ/borer/removed(var/mob/living/user)
+/obj/item/organ/internal/borer/removed(var/mob/living/user)
 
 	..()
 
@@ -237,74 +185,74 @@
 		qdel(src)
 
 //XENOMORPH ORGANS
-/obj/item/organ/xenos/eggsac
+/obj/item/organ/internal/xenos/eggsac
 	name = "egg sac"
 	parent_organ = "groin"
 
-/obj/item/organ/xenos/plasmavessel
+/obj/item/organ/internal/xenos/plasmavessel
 	name = "plasma vessel"
 	parent_organ = "chest"
 	var/stored_plasma = 0
 	var/max_plasma = 500
 
-/obj/item/organ/xenos/plasmavessel/queen
+/obj/item/organ/internal/xenos/plasmavessel/queen
 	name = "bloated plasma vessel"
 	stored_plasma = 200
 	max_plasma = 500
 
-/obj/item/organ/xenos/plasmavessel/sentinel
+/obj/item/organ/internal/xenos/plasmavessel/sentinel
 	stored_plasma = 100
 	max_plasma = 250
 
-/obj/item/organ/xenos/plasmavessel/hunter
+/obj/item/organ/internal/xenos/plasmavessel/hunter
 	name = "tiny plasma vessel"
 	stored_plasma = 100
 	max_plasma = 150
 
-/obj/item/organ/xenos/acidgland
+/obj/item/organ/internal/xenos/acidgland
 	name = "acid gland"
 	parent_organ = "head"
 
-/obj/item/organ/xenos/hivenode
+/obj/item/organ/internal/xenos/hivenode
 	name = "hive node"
 	parent_organ = "chest"
 
-/obj/item/organ/xenos/resinspinner
+/obj/item/organ/internal/xenos/resinspinner
 	name = "resin spinner"
 	parent_organ = "head"
 
-/obj/item/organ/xenos
+/obj/item/organ/internal/xenos
 	name = "xeno organ"
 	icon = 'icons/effects/blood.dmi'
 	desc = "It smells like an accident in a chemical factory."
 
-/obj/item/organ/xenos/eggsac
+/obj/item/organ/internal/xenos/eggsac
 	name = "egg sac"
 	icon_state = "xgibmid1"
 	organ_tag = "egg sac"
 
-/obj/item/organ/xenos/plasmavessel
+/obj/item/organ/internal/xenos/plasmavessel
 	name = "plasma vessel"
 	icon_state = "xgibdown1"
 	organ_tag = "plasma vessel"
 
-/obj/item/organ/xenos/acidgland
+/obj/item/organ/internal/xenos/acidgland
 	name = "acid gland"
 	icon_state = "xgibtorso"
 	organ_tag = "acid gland"
 
-/obj/item/organ/xenos/hivenode
+/obj/item/organ/internal/xenos/hivenode
 	name = "hive node"
 	icon_state = "xgibmid2"
 	organ_tag = "hive node"
 
-/obj/item/organ/xenos/resinspinner
+/obj/item/organ/internal/xenos/resinspinner
 	name = "hive node"
 	icon_state = "xgibmid2"
 	organ_tag = "resin spinner"
 
 //VOX ORGANS.
-/obj/item/organ/stack
+/obj/item/organ/internal/stack
 	name = "cortical stack"
 	parent_organ = "head"
 	robotic = 2
@@ -312,22 +260,20 @@
 	var/backup_time = 0
 	var/datum/mind/backup
 
-/obj/item/organ/stack/process()
+/obj/item/organ/internal/stack/process()
 	if(owner && owner.stat != 2 && !is_broken())
 		backup_time = world.time
 		if(owner.mind) backup = owner.mind
 
-/obj/item/organ/stack/vox
+/obj/item/organ/internal/stack/vox
 
-/obj/item/organ/stack/vox/stack
-
-/obj/item/organ/stack
+/obj/item/organ/internal/stack
 	name = "cortical stack"
 	icon_state = "brain-prosthetic"
 	organ_tag = "stack"
 	robotic = 2
 
-/obj/item/organ/stack/vox
+/obj/item/organ/internal/stack/vox
 	name = "vox cortical stack"
 
 // Slime limbs.
@@ -339,35 +285,11 @@
 	cannot_break = 1
 	dislocated = -1
 
-/obj/item/organ/external/arm/slime
+/obj/item/organ/external/limb/slime
 	cannot_break = 1
 	dislocated = -1
 
-/obj/item/organ/external/arm/right/slime
-	cannot_break = 1
-	dislocated = -1
-
-/obj/item/organ/external/leg/slime
-	cannot_break = 1
-	dislocated = -1
-
-/obj/item/organ/external/leg/right/slime
-	cannot_break = 1
-	dislocated = -1
-
-/obj/item/organ/external/foot/slime
-	cannot_break = 1
-	dislocated = -1
-
-/obj/item/organ/external/foot/right/slime
-	cannot_break = 1
-	dislocated = -1
-
-/obj/item/organ/external/hand/slime
-	cannot_break = 1
-	dislocated = -1
-
-/obj/item/organ/external/hand/right/slime
+/obj/item/organ/external/tiny/slime
 	cannot_break = 1
 	dislocated = -1
 

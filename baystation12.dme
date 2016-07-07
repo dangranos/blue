@@ -1396,6 +1396,7 @@
 #include "code\modules\organs\body_modifications.dm"
 #include "code\modules\organs\organ.dm"
 #include "code\modules\organs\organ_alien.dm"
+#include "code\modules\organs\organ_description.dm"
 #include "code\modules\organs\organ_external.dm"
 #include "code\modules\organs\organ_icon.dm"
 #include "code\modules\organs\organ_internal.dm"

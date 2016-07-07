@@ -8,7 +8,7 @@
 
 /mob/proc/arachna_power(var/needweb=0, var/needfood=0)
 	var/mob/living/carbon/human/M = src
-	var/obj/item/organ/arachna/silk_gland/P = M.internal_organs_by_name["silk_gland"]
+	var/obj/item/organ/internal/arachna/silk_gland/P = M.internal_organs_by_name["silk_gland"]
 	if(!P)
 		src << "<span class='warning'>Problem witch silk gland.</span>"
 		return 0
