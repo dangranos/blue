@@ -1122,9 +1122,10 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 /obj/item/organ/external/head/removed()
 	if(owner)
+		var/mob/living/carbon/human/last_owner = owner
 		name = "[owner.real_name]'s head"
 		spawn(1)
-			owner.update_hair()
+			last_owner.update_hair()
 	return ..()
 
 /obj/item/organ/external/head/take_damage(brute, burn, sharp, edge, used_weapon = null, list/forbidden_limbs = list())

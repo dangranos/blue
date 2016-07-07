@@ -61,12 +61,6 @@
 	body_part = HEAD
 	parent_organ = "chest"
 
-/obj/item/organ/external/diona/head/removed()
-	if(owner)
-		owner.u_equip(owner.head)
-		owner.u_equip(owner.l_ear)
-	..()
-
 //DIONA ORGANS.
 /obj/item/organ/external/diona/removed()
 	var/mob/living/carbon/human/H = owner
