@@ -34,7 +34,8 @@
 	icon_state = "l_arm"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=18000)
-	part = list("l_arm","l_hand")
+	part = list("l_arm" = /obj/item/organ/external/limb/robotic,
+				"l_hand"= /obj/item/organ/external/tiny/robotic)
 	model_info = 1
 
 /obj/item/robot_parts/r_arm
@@ -43,7 +44,8 @@
 	icon_state = "r_arm"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=18000)
-	part = list("r_arm","r_hand")
+	part = list("r_arm" = /obj/item/organ/external/limb/robotic,
+				"r_hand"= /obj/item/organ/external/tiny/robotic)
 	model_info = 1
 
 /obj/item/robot_parts/l_leg
@@ -52,7 +54,8 @@
 	icon_state = "l_leg"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=15000)
-	part = list("l_leg","l_foot")
+	part = list("l_leg" = /obj/item/organ/external/limb/robotic,
+				"l_foot"= /obj/item/organ/external/tiny/robotic)
 	model_info = 1
 
 /obj/item/robot_parts/r_leg
@@ -61,7 +64,8 @@
 	icon_state = "r_leg"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=15000)
-	part = list("r_leg","r_foot")
+	part = list("r_leg" = /obj/item/organ/external/limb/robotic,
+				"r_foot"= /obj/item/organ/external/tiny/robotic)
 	model_info = 1
 
 /obj/item/robot_parts/chest

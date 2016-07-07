@@ -20,20 +20,20 @@
 */
 
 // Brain is defined in brain_item.dm.
-/obj/item/organ/heart/arachna // Heart in spider abdomen
+/obj/item/organ/internal/heart/arachna // Heart in spider abdomen
 	icon_state = "heart-on"
 	parent_organ = "groin"
 
-/obj/item/organ/kidneys/arachna
+/obj/item/organ/internal/kidneys/arachna
 	parent_organ = "chest"
 
-/obj/item/organ/liver/arachna
+/obj/item/organ/internal/liver/arachna
 	parent_organ = "chest"
 
-/obj/item/organ/appendix/arachna
+/obj/item/organ/internal/appendix/arachna
 	parent_organ = "chest"
 
-/obj/item/organ/arachna/poison_gland
+/obj/item/organ/internal/arachna/poison_gland
 	name = "poison_gland"
 	organ_tag = "poison_gland"
 	parent_organ = "head"
@@ -41,19 +41,19 @@
 	var/delay = 0
 	var/bite_ready = 0
 
-/*/obj/item/organ/arachna/poison_gland/New()
+/*/obj/item/organ/internal/arachna/poison_gland/New()
 	..()
 	create_reagents(0)*/
 
 
-/obj/item/organ/arachna/poison_gland/proc/init(var/list/init_reagents)
+/obj/item/organ/internal/arachna/poison_gland/proc/init(var/list/init_reagents)
 	del(reagents)
 	create_reagents(init_reagents.len * 5)
 	poisons = init_reagents
 	for (var/reagent in init_reagents)
 		reagents.add_reagent(reagent, 5)
 
-/obj/item/organ/arachna/poison_gland/process()
+/obj/item/organ/internal/arachna/poison_gland/process()
 	..()
 	if(!owner || owner.stat || !reagents  || (!poisons.len))// если не в хоз€ине или хоз€ин мертв или не инциализирован список реагентов или не выбраны реагенты
 		return
@@ -69,7 +69,7 @@
 	return
 
 
-/obj/item/organ/arachna/silk_gland
+/obj/item/organ/internal/arachna/silk_gland
 	name = "silk_gland"
 	organ_tag = "silk_gland"
 	parent_organ = "groin"
@@ -77,7 +77,7 @@
 	var/silk_max=100
 	var/delay = 0
 
-/obj/item/organ/arachna/silk_gland/process()
+/obj/item/organ/internal/arachna/silk_gland/process()
 	..()
 	if(!owner || owner.stat)// если не в хоз€ине или хоз€ин мертв
 		//owner << "\red silk gland not work."

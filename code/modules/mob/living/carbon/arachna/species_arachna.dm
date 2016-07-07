@@ -17,29 +17,29 @@
 	)
 
 	has_organ = list(
-		"lungs" =        /obj/item/organ/lungs,
-		"heart" =        /obj/item/organ/heart/arachna,
-		"kidneys" =      /obj/item/organ/kidneys/arachna,
-		"eyes" =         /obj/item/organ/eyes,
-		"liver" =        /obj/item/organ/liver,
-		"appendix" =     /obj/item/organ/appendix,
-		"poison_gland" = /obj/item/organ/arachna/poison_gland,
-		"silk_gland" =   /obj/item/organ/arachna/silk_gland,
-		"brain" =        /obj/item/organ/brain
+		"lungs" =        /obj/item/organ/internal/lungs,
+		"heart" =        /obj/item/organ/internal/heart/arachna,
+		"kidneys" =      /obj/item/organ/internal/kidneys/arachna,
+		"eyes" =         /obj/item/organ/internal/eyes,
+		"liver" =        /obj/item/organ/internal/liver,
+		"appendix" =     /obj/item/organ/internal/appendix,
+		"poison_gland" = /obj/item/organ/internal/arachna/poison_gland,
+		"silk_gland" =   /obj/item/organ/internal/arachna/silk_gland,
+		"brain" =        /obj/item/organ/internal/brain
 		)
 
 	has_limbs = list(
-		"chest" =    list("path" = /obj/item/organ/external/chest),
-		"groin" =  list("path" = /obj/item/organ/external/groin/arachna),
-		"head" =     list("path" = /obj/item/organ/external/head),
-		"l_arm" =    list("path" = /obj/item/organ/external/arm),
-		"r_arm" =    list("path" = /obj/item/organ/external/arm/right),
-		"l_hand" =   list("path" = /obj/item/organ/external/hand),
-		"r_hand" =   list("path" = /obj/item/organ/external/hand/right),
-		"l_leg" =  list("path" = /obj/item/organ/external/leg),
-		"l_foot" = list("path" = /obj/item/organ/external/foot),
-		"r_leg" =  list("path" = /obj/item/organ/external/leg/right),
-		"r_foot" = list("path" = /obj/item/organ/external/foot/right),
+		"chest" =  /datum/organ_description,
+		"groin" =  /datum/organ_description/groin/arachna,
+		"head"   = /datum/organ_description/head,
+		"l_arm"  = /datum/organ_description/arm/left,
+		"r_arm"  = /datum/organ_description/arm/right,
+		"l_leg"  = /datum/organ_description/leg/left,
+		"r_leg"  = /datum/organ_description/leg/right,
+		"l_hand" = /datum/organ_description/hand/left,
+		"r_hand" = /datum/organ_description/hand/right,
+		"l_foot" = /datum/organ_description/foot/left,
+		"r_foot" = /datum/organ_description/foot/right
 	)
 
 	/*has_limbs = list(
@@ -113,7 +113,7 @@
 
 datum/species/arachna/Stat(var/mob/living/carbon/human/H)
 	..()
-	var/obj/item/organ/arachna/P = H.internal_organs_by_name["poison_gland"]
+	var/obj/item/organ/internal/arachna/P = H.internal_organs_by_name["poison_gland"]
 	if(P)
 		stat("Poison Stored:", " [P.reagents.total_volume]/[P.reagents.maximum_volume]")
 	P = H.internal_organs_by_name["silk_gland"]

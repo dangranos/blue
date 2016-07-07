@@ -24,7 +24,7 @@ var/global/list/limb_icon_cache = list()
 
 /obj/item/organ/external/head/sync_colour_to_human(var/mob/living/carbon/human/human)
 	..()
-	var/obj/item/organ/eyes/eyes = owner.internal_organs_by_name["eyes"]
+	var/obj/item/organ/internal/eyes/eyes = owner.internal_organs_by_name["eyes"]
 	if(eyes) eyes.update_colour()
 
 /obj/item/organ/external/head
@@ -45,12 +45,14 @@ var/global/list/limb_icon_cache = list()
 	if(!owner || !owner.species)
 		return
 	if(owner.species.has_organ["eyes"])
-		var/obj/item/organ/eyes/eyes = owner.internal_organs_by_name["eyes"]
-		var/icon/eyes_icon = new/icon(owner.species.icobase, "eyes_[owner.body_build]")
+		var/obj/item/organ/internal/eyes/eyes = owner.internal_organs_by_name["eyes"]
+		var/icon/eyes_icon
 		if(eyes)
-			eyes_icon.Blend(eyes.eye_colour, ICON_ADD)
+			eyes_icon = eyes.get_icon()
 		else
+			eyes_icon = new/icon(owner.species.icobase, "eyes_[owner.body_build]")
 			eyes_icon.Blend(rgb(128,0,0), ICON_ADD)
+
 		mob_icon.Blend(eyes_icon, ICON_OVERLAY)
 		overlays |= eyes_icon
 

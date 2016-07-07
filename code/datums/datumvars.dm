@@ -866,7 +866,7 @@ client
 			return
 
 		new new_organ(M)
-	
+
 
 	else if(href_list["remorgan"])
 		if(!check_rights(R_SPAWN))	return
@@ -876,7 +876,7 @@ client
 			usr << "This can only be done to instances of type /mob/living/carbon"
 			return
 
-		var/obj/item/organ/rem_organ = input("Please choose an organ to remove.","Organ",null) as null|anything in M.internal_organs
+		var/obj/item/organ/internal/rem_organ = input("Please choose an organ to remove.","Organ",null) as null|anything in M.internal_organs
 
 		if(!M)
 			usr << "Mob doesn't exist anymore"

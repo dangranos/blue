@@ -20,8 +20,7 @@
 		"\blue You have attached [target]'s head to the body.")
 		var/obj/item/organ/external/head = tool
 		user.drop_from_inventory(head)
-		head.replaced(target)
-		head.loc = target
+		head.install(target)
 		head.status = 0
 		target.update_body()
 		target.update_hair()

@@ -1568,16 +1568,8 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	if(character.dna)
 		character.dna.real_name = character.real_name
 
-	character.flavor_texts["general"] = flavor_texts["general"]
-	character.flavor_texts["head"] = flavor_texts["head"]
-	character.flavor_texts["face"] = flavor_texts["face"]
-	character.flavor_texts["eyes"] = flavor_texts["eyes"]
-	character.flavor_texts["mech_eyes"] = flavor_texts["mech_eyes"]
-	character.flavor_texts["torso"] = flavor_texts["torso"]
-	character.flavor_texts["arms"] = flavor_texts["arms"]
-	character.flavor_texts["hands"] = flavor_texts["hands"]
-	character.flavor_texts["legs"] = flavor_texts["legs"]
-	character.flavor_texts["feet"] = flavor_texts["feet"]
+	for (var/T in flavor_texts)
+		character.flavor_texts[T] = flavor_texts[T]
 
 	character.med_record = med_record
 	character.sec_record = sec_record
@@ -1605,9 +1597,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	character.religion = religion
 
 	// Destroy/cyborgize organs
-
 	for(var/name in organ_data|tattoo_data)
-
 		var/status = organ_data[name]
 		var/tattoo = tattoo_data[name]
 		var/tattoo2 = tattoo_data["[name]2"]
@@ -1631,7 +1621,7 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 				O.tattoo = tattoo
 				O.tattoo2 = tattoo2 ? tattoo2 : 0
 		else
-			var/obj/item/organ/I = character.internal_organs_by_name[name]
+			var/obj/item/organ/internal/I = character.internal_organs_by_name[name]
 			if(I)
 				if(status == "assisted")
 					I.mechassist()
