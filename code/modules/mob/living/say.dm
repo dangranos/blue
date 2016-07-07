@@ -323,6 +323,7 @@ proc/get_radio_key_from_channel(var/channel)
 	if(sdisabilities & DEAF || ear_deaf)
 		if(prob(20))
 			src << "<span class='warning'>You feel your headset vibrate but can hear nothing from it!</span>"
+		return
 
 	if(sleeping || stat==1) //If unconscious or sleeping
 		hear_sleep(message)
