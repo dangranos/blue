@@ -326,12 +326,11 @@
 	src.update_icon()
 	src.updateUsrDialog()
 
-	var/i //our counter
-	for(i=0,i<4,i++)
+	for(var/i=0,i<4,i++)
 		sleep(50)
 		if(src.OCCUPANT)
 			OCCUPANT.radiation += 50
-			var/obj/item/organ/internal/diona/nutrients/rad_organ = locate() in OCCUPANT.internal_organs
+			var/obj/item/organ/internal/nutrients/rad_organ = locate() in OCCUPANT.internal_organs
 			if (!rad_organ)
 				if(src.issuperUV)
 					var/burndamage = rand(28,35)

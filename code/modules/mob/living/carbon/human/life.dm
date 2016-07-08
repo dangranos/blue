@@ -281,7 +281,7 @@
 		radiation = Clamp(radiation,0,100)
 
 		if (radiation)
-			var/obj/item/organ/internal/diona/nutrients/rad_organ = locate() in internal_organs
+			var/obj/item/organ/internal/nutrients/rad_organ = locate() in internal_organs
 			if(rad_organ && !rad_organ.is_broken())
 				var/rads = radiation/25
 				radiation -= rads
@@ -893,7 +893,7 @@
 
 		if(status_flags & GODMODE)	return 0	//godmode
 
-		var/obj/item/organ/internal/diona/node/light_organ = locate() in internal_organs //LETHALGHOST: Check this.
+		var/obj/item/organ/internal/node/light_organ = locate() in internal_organs //LETHALGHOST: Check this.
 		if(light_organ && !light_organ.is_broken())
 			var/light_amount = 0 //how much light there is in the place, affects receiving nutrition and healing
 			if(isturf(loc)) //else, there's considered to be no light

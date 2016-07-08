@@ -299,9 +299,9 @@
 	water and other radiation."
 
 	has_organ = list(
-		"nutrient channel" =   /obj/item/organ/internal/diona/nutrients,
+		"nutrient channel" =   /obj/item/organ/internal/nutrients,
 		"neural strata" =      /obj/item/organ/internal/diona/strata,
-		"response node" =      /obj/item/organ/internal/diona/node,
+		"response node" =      /obj/item/organ/internal/node,
 		"gas bladder" =        /obj/item/organ/internal/diona/bladder,
 		"polyp segment" =      /obj/item/organ/internal/diona/polyp,
 		"anchoring ligament" = /obj/item/organ/internal/diona/ligament
@@ -315,8 +315,8 @@
 		"r_arm" =  /datum/organ_description/arm/right/diona,
 		"l_leg" =  /datum/organ_description/leg/left/diona,
 		"r_leg" =  /datum/organ_description/leg/right/diona,
-		"l_hand" = /datum/organ_description/leg/left/diona,
-		"r_hand" = /datum/organ_description/leg/right/diona,
+		"l_hand" = /datum/organ_description/hand/left/diona,
+		"r_hand" = /datum/organ_description/hand/right/diona,
 		"l_foot" = /datum/organ_description/foot/left/diona,
 		"r_foot" = /datum/organ_description/foot/right/diona,
 	)

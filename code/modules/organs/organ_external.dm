@@ -12,7 +12,6 @@
 	min_broken_damage = 30
 	max_damage = 0
 	dir = SOUTH
-	organ_tag = "limb"
 
 	var/brute_mod = 1
 	var/burn_mod = 1
@@ -74,6 +73,27 @@
 	spawn(1)
 		get_icon()
 
+/obj/item/organ/external/install(mob/living/carbon/human/H)
+	if(..()) return 1
+	H.organs += src
+	var/obj/item/organ/external/outdated = H.organs_by_name[limb_name]
+	if(outdated)
+		outdated.removed()
+	H.organs_by_name[limb_name] = src
+	var/obj/item/organ/external/E = H.organs_by_name[parent_organ]
+	if(E)
+		parent = E
+		if(E.children == null)
+			E.children = list()
+		E.children += src
+
+		//Remove all stump wounds since limb is not missing anymore
+		for(var/datum/wound/lost_limb/W in parent.wounds)
+			parent.wounds -= W
+			qdel(W)
+			break
+		parent.update_damages()
+
 /obj/item/organ/external/Destroy()
 	if(parent && parent.children)
 		parent.children -= src
@@ -89,6 +109,60 @@
 	owner.bad_external_organs -= src
 
 	return ..()
+
+/obj/item/organ/external/removed(mob/living/user)
+	if(!istype(owner)) return
+
+	owner.organs_by_name[limb_name] = null
+	owner.organs -= src
+	owner.bad_external_organs -= src
+
+	for(var/atom/movable/implant in implants)
+		//large items and non-item objs fall to the floor, everything else stays
+		var/obj/item/I = implant
+		if(istype(I) && I.w_class < 3)
+			implant.loc = get_turf(owner.loc)
+		else
+			implant.loc = src
+	implants.Cut()
+
+	release_restraints()
+
+	var/obj/item/dropped = null
+	for(var/slot in drop_on_remove)
+		dropped = owner.get_equipped_item(slot)
+		owner.u_equip(dropped)
+		owner.drop_from_inventory(dropped)
+
+	if(parent)
+		parent.children -= src
+		parent = null
+
+	if(children)
+		for(var/obj/item/organ/external/child in children)
+			child.removed()
+			child.loc = src
+
+	for(var/obj/item/organ/internal/organ in internal_organs)
+		organ.removed()
+		organ.loc = src
+
+	// Remove dat shit
+	if((flags & ORGAN_ROBOT) && sabotaged)
+		owner.visible_message(
+			"<span class='danger'>\The [owner]'s [src.name] explodes violently!</span>",\
+			"<span class='danger'>Your [src.name] explodes!</span>",\
+			"<span class='danger'>You hear an explosion!</span>")
+		explosion(get_turf(owner),-1,-1,2,3)
+		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
+		spark_system.set_up(5, 0, owner)
+		spark_system.attach(owner)
+		spark_system.start()
+		spawn(10)
+			qdel(spark_system)
+		qdel(src)
+
+	..()
 
 /obj/item/organ/external/attack_self(var/mob/user)
 	if(!contents.len)
