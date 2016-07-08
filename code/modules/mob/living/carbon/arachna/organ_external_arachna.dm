@@ -2,13 +2,15 @@
 				EXTERNAL ORGANS
 ****************************************************/
 
+/datum/organ_description/groin/arachna
+	name = "abdomen"
+	default_type = /obj/item/organ/external/groin/arachna
+
+
 /obj/item/organ/external/groin/arachna
 	name = "abdomen"
 //	limb_name = "groin"
 	encased = "chitin"
-
-/obj/item/organ/external/head/arachna
-
 
 ////////////////////LEGS////////////////
 /obj/item/organ/external/leg/arachna
@@ -34,7 +36,6 @@
 	name = "left front leg"
 //	body_part = LEG_LEFT //LEG_FRONT_LEFT
 	amputation_point = "left front coxa"
-
 
 /obj/item/organ/external/leg/arachna/right/f_leg
 	limb_name = "r_f_leg"

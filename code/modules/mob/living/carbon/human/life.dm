@@ -281,7 +281,7 @@
 		radiation = Clamp(radiation,0,100)
 
 		if (radiation)
-			var/obj/item/organ/diona/nutrients/rad_organ = locate() in internal_organs
+			var/obj/item/organ/internal/diona/nutrients/rad_organ = locate() in internal_organs
 			if(rad_organ && !rad_organ.is_broken())
 				var/rads = radiation/25
 				radiation -= rads
@@ -405,7 +405,7 @@
 
 		// Lung damage increases the minimum safe pressure.
 		if(species.has_organ["lungs"])
-			var/obj/item/organ/lungs/L = internal_organs_by_name["lungs"]
+			var/obj/item/organ/internal/lungs/L = internal_organs_by_name["lungs"]
 			if(isnull(L))
 				safe_pressure_min = INFINITY //No lungs, how are you breathing?
 			else if(L.is_broken())
@@ -893,7 +893,7 @@
 
 		if(status_flags & GODMODE)	return 0	//godmode
 
-		var/obj/item/organ/diona/node/light_organ = locate() in internal_organs
+		var/obj/item/organ/internal/diona/node/light_organ = locate() in internal_organs //LETHALGHOST: Check this.
 		if(light_organ && !light_organ.is_broken())
 			var/light_amount = 0 //how much light there is in the place, affects receiving nutrition and healing
 			if(isturf(loc)) //else, there's considered to be no light
@@ -1068,11 +1068,16 @@
 				ear_deaf = max(ear_deaf, 1)
 			else if(ear_deaf)			//deafness, heals slowly over time
 				ear_deaf = max(ear_deaf-1, 0)
-			else if(istype(l_ear, /obj/item/clothing/ears/earmuffs) || istype(r_ear, /obj/item/clothing/ears/earmuffs))	//resting your ears with earmuffs heals ear damage faster
-				ear_damage = max(ear_damage-0.15, 0)
-				ear_deaf = max(ear_deaf, 1)
+			else if(istype(l_ear, /obj/item/clothing/ears/earmuffs) || istype(r_ear, /obj/item/clothing/ears/earmuffs))
+				var/obj/item/clothing/ears/earmuffs/mp3/HeadPhone
+				if(istype(l_ear,/obj/item/clothing/ears/earmuffs/mp3))
+					HeadPhone = l_ear
+				if(!HeadPhone||(HeadPhone&&HeadPhone.up))
+					ear_damage = max(ear_damage-0.15, 0)
+					ear_deaf = max(ear_deaf, 1)
 			else if(ear_damage < 25)	//ear damage heals slowly under this threshold. otherwise you'll need earmuffs
 				ear_damage = max(ear_damage-0.05, 0)
+
 
 			//Resting
 			if(resting)
@@ -1550,7 +1555,7 @@
 		if(pulse == PULSE_NONE || !species.has_organ["heart"])
 			return
 
-		var/obj/item/organ/heart/H = internal_organs_by_name["heart"]
+		var/obj/item/organ/internal/heart/H = internal_organs_by_name["heart"]
 
 		if(!H || H.robotic >=2 )
 			return

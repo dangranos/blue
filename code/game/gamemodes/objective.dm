@@ -192,8 +192,11 @@ datum/objective/debrain//I want braaaainssss
 */
 		if( !target.current || !isbrain(target.current) )
 			return 0
-		if(owner.current.check_contents_for(target.current))
-			return 1
+		var/atom/A = target.current
+		while(A.loc)			//check to see if the brainmob is on our person
+			A = A.loc
+			if(A == owner.current)
+				return 1
 		return 0
 
 

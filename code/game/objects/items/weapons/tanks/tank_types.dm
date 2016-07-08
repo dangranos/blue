@@ -46,7 +46,7 @@
 	name = "anesthetic tank"
 	desc = "A tank with an N2O/O2 gas mix."
 	icon_state = "anesthetic"
-	item_state = "an_tank"
+	item_state = "anesthetic"
 
 /obj/item/weapon/tank/anesthetic/New()
 	..()

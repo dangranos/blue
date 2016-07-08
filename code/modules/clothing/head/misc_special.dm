@@ -5,7 +5,7 @@
  *		Ushanka
  *		Pumpkin head
  *		Kitty ears
- *
+ *		Vox Captain Hat
  */
 
 /*
@@ -175,3 +175,10 @@ obj/item/clothing/head/welding/blue
 	icon_state = "richard"
 	body_parts_covered = HEAD|FACE
 	flags = HEADCOVERSEYES|HEADCOVERSMOUTH|BLOCKHAIR
+
+/obj/item/clothing/head/vox_cap
+	name = "vox captain's hat"
+	desc = "KHAAAAK!"
+	icon_state = "vox-captain_hat"
+	item_state = "vox-captain_hat"
+	species_restricted = list("Vox")

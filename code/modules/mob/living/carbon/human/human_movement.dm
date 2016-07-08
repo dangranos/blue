@@ -4,9 +4,6 @@
 
 	var/tally = 0
 
-	if(species.slowdown)
-		tally = species.slowdown
-
 	if(embedded_flag)
 		handle_embedded_objects() //Moving with objects stuck in you can cause bad times.
 
@@ -16,23 +13,28 @@
 	if (!(species && (species.flags & NO_PAIN)))
 		if(halloss >= 10) tally += (halloss / 10) //halloss shouldn't slow you down if you can't even feel it
 
-	if( !(CE_SPEEDBOOST in chem_effects) && !(mRun in mutations) )
+	if( !(CE_SPEEDBOOST in chem_effects || mRun in mutations) )
+		if(species.slowdown)
+			tally += species.slowdown
+
 		var/hungry = (500 - nutrition)/5 // So overeat would be 100 and default level would be 80
 		if (hungry >= 70) tally += hungry/50
 
 		if(wear_suit)
 			tally += wear_suit.slowdown
+
 		if(back)
 			tally += back.slowdown
 
-		if(shock_stage >= 10) tally += 3
-
 		if(FAT in src.mutations)
 			tally += 1.5
+
 		if (bodytemperature < 283.222)
 			tally += (283.222 - bodytemperature) / 10 * 1.75
 
-		tally += max(2 * stance_damage, 0) //damaged/missing feet or legs is slow
+	if(shock_stage >= 10) tally += 3
+
+	tally += max(2 * stance_damage, 0) //damaged/missing feet or legs is slow
 
 
 	if(istype(buckled, /obj/structure/bed/chair/wheelchair))

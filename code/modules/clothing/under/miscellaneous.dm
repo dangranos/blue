@@ -615,6 +615,16 @@
 	icon_state = "jeans"
 	item_state = "jeansc"
 
+/obj/item/clothing/under/pants/sweaterj
+	name = "sweaterj"
+	desc = "Common space sweater."
+	icon_state = "sweaterj"
+
+/obj/item/clothing/under/pants/blouse
+	name = "blouse"
+	desc = "Common space blouse."
+	icon_state = "blouse"
+
 /obj/item/clothing/under/pants/khaki
 	name = "khaki pants"
 	desc = "A pair of dust beige khaki pants."

@@ -35,3 +35,8 @@ var/global/datum/robolimb/basic_robolimb
 	company = "Xion Manufacturing Group"
 	desc = "This limb has a minimalist black and red casing."
 	icon = 'icons/mob/human_races/cyberlimbs/xion.dmi'
+
+/datum/robolimb/cyber
+	company = "Cyber Industries"
+	desc = "This limb has a dark metal casing and looks a bit brutal."
+	icon = 'icons/mob/human_races/cyberlimbs/cyber.dmi'

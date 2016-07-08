@@ -32,6 +32,14 @@
 	body_parts_covered = 0
 	var/global/list/jobs[0]
 
+/obj/item/clothing/glasses/hud/engi
+	name = "Engineereing HUD"
+	desc = "A heads-up display that scans walls, floors, and stuff to provide accurate data about station condition"
+	icon_state = "engihud"
+	item_state = "engihud"
+	body_parts_covered = 0
+	vision_flags = SEE_TURFS
+
 /obj/item/clothing/glasses/hud/security/jensenshades
 	name = "Augmented shades"
 	desc = "Polarized bioneural eyewear, designed to augment your vision."

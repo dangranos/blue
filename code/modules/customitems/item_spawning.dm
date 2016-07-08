@@ -206,6 +206,7 @@
 	custom_items["solareclipse84"] = L
 
 ////Wajtswv////
+
 	L = list()
 
 	current_data = new()
@@ -217,7 +218,26 @@
 	custom_items["wajtswv"] = L
 
 ////Tertiumdatur////
+
 	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "tertiumdatur"
+	current_data.character_name = "Morlaiaschorr Ilirka"
+	current_data.item_desc = "A kit for modifying a voidsuit."
+	current_data.name = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.item_path = /obj/item/device/kit/suit
+	current_data.req_titles = list("Atmospheric Technician", "Station Engineer")
+	current_data.kit_name = "dark brown voidsuit"
+	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.kit_icon = "rig-atmos_special"
+	L |= current_data
+
+	current_data = new()
+	current_data.assoc_key = "tertiumdatur"
+	current_data.character_name = "Morlaiaschorr Ilirka"
+	current_data.item_path = /obj/item/clothing/glasses/hud/engi
+	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "tertiumdatur"
@@ -233,8 +253,26 @@
 
 	custom_items["tertiumdatur"] = L
 
-////Subber////
+////Nikiss2000////
 	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "nikiss2000"
+	current_data.character_name = "Hayaya Chatahahita"
+	current_data.item_path = /obj/item/clothing/head/vox_cap
+	L |= current_data
+
+	custom_items["nikiss2000"] = L
+
+////Subber////
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "subber"
+	current_data.character_name = "Claire Sandford"
+	current_data.item_path = /obj/item/clothing/suit/ianshirt/ash
+	L|=current_data
 
 	current_data = new()
 	current_data.assoc_key = "subber"
@@ -245,34 +283,58 @@
 	custom_items["subber"] = L
 
 ////MarcusAga////
+
 	L = list()
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/under/french
+	current_data.item_path = /obj/item/clothing/under/pants/sweaterj
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/suit/storage/orange_bomber
+	current_data.item_path = /obj/item/clothing/suit/storage/pullover
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/shoes/men_shoes
+	current_data.item_path = /obj/item/clothing/shoes/red_boots
 	L |= current_data
 
 	current_data = new()
 	current_data.assoc_key = "marcusaga"
 	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/gloves/black/half
+	current_data.item_path = /obj/item/device/pda/chrome
 	L |= current_data
 
 	custom_items["marcusaga"] = L
 
+////Affectuum////
+
+	L = list()
+
+	current_data = new()
+	current_data.assoc_key = "affectuum"
+	current_data.character_name = "Sasha Winter"
+	current_data.item_path = /obj/item/clothing/under/pants/blouse
+	L|=current_data
+
+	current_data = new()
+	current_data.assoc_key = "affectuum"
+	current_data.character_name = "Sasha Winter"
+	current_data.item_path = /obj/item/clothing/suit/storage/cardigan
+	L|=current_data
+
+	current_data = new()
+	current_data.assoc_key = "affectuum"
+	current_data.character_name = "Sasha Winter"
+	current_data.item_path = /obj/item/clothing/shoes/gazelle
+	L|=current_data
+
+	custom_items["affectuum"] = L
 
 	return 1
 

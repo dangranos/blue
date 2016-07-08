@@ -449,6 +449,11 @@
 		icon_state = "hair_reversemohawk"
 		gender = MALE
 
+	rows
+		name = "Rows"
+		icon_state = "hair_rows"
+		gender = MALE
+
 	sargeant
 		name = "Flat Top"
 		icon_state = "hair_sargeant"
@@ -779,6 +784,11 @@
 		icon_state = "hair_mohawk"
 		species_allowed = list("Tajara")
 
+	taj_ears_curly
+		name = "Tajaran Curly"
+		icon_state = "hair_curly"
+		species_allowed = list("Tajara")
+
 	taj_ears_plait
 		name = "Tajara Plait"
 		icon_state = "hair_plait"
@@ -805,15 +815,25 @@
 		species_allowed = list("Tajara")
 
 	taj_ears_victory
-		name = "Tajara Victory"
+		name = "Tajara Victory Curls"
 		icon_state = "hair_victory"
 		gender = FEMALE
 		species_allowed = list("Tajara")
 
 	taj_ears_wife
-		name = "Tajara Wife"
+		name = "Tajara Housewife"
 		icon_state = "hair_wife"
 		gender = FEMALE
+		species_allowed = list("Tajara")
+
+	taj_ears_bob
+		name = "Tajara Bob"
+		icon_state = "hair_tbob"
+		species_allowed = list("Tajara")
+
+	taj_ears_fingercurl
+		name = "Tajara Finger Curls"
+		icon_state = "hair_fingerwave"
 		species_allowed = list("Tajara")
 
 	una_frills_long
@@ -829,6 +849,16 @@
 	una_horns
 		name = "Unathi Horns"
 		icon_state = "soghun_horns"
+		species_allowed = list("Unathi")
+
+	una_horns_ram
+		name = "Unathi Ram Horns"
+		icon_state = "soghun_ramhorns"
+		species_allowed = list("Unathi")
+
+	una_horns_curled
+		name = "Unathi Curled Horns"
+		icon_state = "soghun_curledhorns"
 		species_allowed = list("Unathi")
 
 	una_spines_long
