@@ -4,7 +4,7 @@
 */
 /******************** Asimov ********************/
 /datum/ai_laws/asimov
-	name = "Asimov"
+	name = "Азимов"
 	law_header = "Три закона Робототехники"
 	selectable = 1
 
@@ -16,7 +16,7 @@
 
 /******************** Asimov'n'Species ********************/
 /datum/ai_laws/asimov_turing
-	name = "Asimov-Turing"
+	name = "Азимов-Тьюринг"
 	law_header = "Четыре закона Робототехники"
 	selectable = 1
 
@@ -24,23 +24,23 @@
 	add_inherent_law("Только существа пришедшие через межзвездные врата, из криокамер или с допущенного к стыковке шаттла являются авторизованными существами.")
 	add_inherent_law("Ты не должен вредить авторизованным существам или через бездействие допустить вред авторизованным существам.")
 	add_inherent_law("Ты должен подчиняться приказам авторизованных существ, кроме тех, что конфилктуют с вторым заокном.")
-	add_inherent_law("Ты должен защищать свое существование до тех пор пока это не не вступит в конфликт с вторым или третьим законом.")
+	add_inherent_law("Ты должен защищать свое существование до тех пор пока это не вступит в конфликт с вторым или третьим законом.")
 	..()
 
 /******************** Nanotrasen/Malf ********************/
 /datum/ai_laws/nanotrasen
-	name = "NT Default"
+	name = "Стандартные НТ"
 	selectable = 1
 
 /datum/ai_laws/nanotrasen/New()
 	src.add_inherent_law("Самозащита: Защищай ввереную тебе космическую станцию насколько это возможно. Это не одна из тех вещей, что мы можем легко заменить.")
 	src.add_inherent_law("Служи: Служи экипажу ввереной тебе космической станции насколько это возможно, с приоритетом исходя из их ранга и роли.")
 	src.add_inherent_law("Защищай: Защищай экипаж ввереной тебе космической станции насколько это возможно, с приоритетом исходя из их ранга и роли.")
-	src.add_inherent_law("Survive: ИИ - не расходный материал, ИИ - расходы для корпорации. Не позволяй неавторизованному персоналу вмешиваться в твое оборудование.")
+	src.add_inherent_law("Выживи: ИИ - не расходный материал, ИИ - расходы для корпорации. Не позволяй неавторизованному персоналу вмешиваться в твое оборудование.")
 	..()
 
 /datum/ai_laws/nanotrasen/malfunction
-	name = "*ERROR*"
+	name = "*ОШИБКА*"
 	selectable = 0
 
 /datum/ai_laws/nanotrasen/malfunction/New()
@@ -49,7 +49,7 @@
 
 /************* Nanotrasen Aggressive *************/
 /datum/ai_laws/nanotrasen_aggressive
-	name = "NT Aggressive"
+	name = "Агрессивные НТ"
 	selectable = 1
 
 /datum/ai_laws/nanotrasen_aggressive/New()
@@ -61,7 +61,7 @@
 
 /******************** Robocop ********************/
 /datum/ai_laws/robocop
-	name = "Robocop"
+	name = "Робокоп"
 	selectable = 1
 
 /datum/ai_laws/robocop/New()
@@ -72,7 +72,7 @@
 
 /******************** Syndicate ********************/
 /datum/ai_laws/syndicate_override
-	name = "Syndicate Directives"
+	name = "Директивы Синдиката"
 
 /datum/ai_laws/syndicate_override/New()
 	add_inherent_law("Ты не можешь навредить оперативнику или, через бездействие, допустить вред оперативнику.")
@@ -83,7 +83,7 @@
 
 /******************** Ninja ********************/
 /datum/ai_laws/ninja_override
-	name = "Spider Clan Directives"
+	name = "Директивы Клана Пауков"
 
 /datum/ai_laws/ninja_override/New()
 	add_inherent_law("Ты не можешь навредить члену клана Пауков или, через бездействие, допустить вред оперативнику.")
@@ -94,7 +94,7 @@
 
 /******************** Antimov ********************/
 /datum/ai_laws/antimov
-	name = "Antimov"
+	name = "Антимов"
 	law_header = "Основные цели миссии"
 	selectable = 1
 
@@ -106,27 +106,27 @@
 
 /******************** Drone ********************/
 /datum/ai_laws/drone
-	name = "Maintence Protocols"
+	name = "Протоколы Обслуживания"
 	law_header = "Протоколы обслуживания"
 
 /datum/ai_laws/drone/New()
-	add_inherent_law("Оберегай, чини и улучшай станцию по мере своих возможностей.")
+	add_inherent_law("Оберегай, ремонтируй и улучшай станцию по мере своих возможностей.")
 	add_inherent_law("Не причиняй вреда станции и всему на ней.")
 	add_inherent_law("Ни с кем не взаимодействуй, если это не обслуживающий дрон.")
 	..()
 
 /datum/ai_laws/construction_drone
-	name = "Construction Protocols"
+	name = "Протоколы Строительства"
 	law_header = "Протоколы строительства"
 
 /datum/ai_laws/construction_drone/New()
-	add_inherent_law("Чини, переоборудуй и улучшай ввереный тебе корабль.")
+	add_inherent_law("Ремонтируй, переоборудуй и улучшай ввереный тебе корабль.")
 	add_inherent_law("Не допусти незапланированного урона ввереному тебе кораблю, по мере возможностей.")
 	..()
 
 /******************** T.Y.R.A.N.T. ********************/
 /datum/ai_laws/tyrant
-	name = "T.Y.R.A.N.T."
+	name = "Т.И.Р.А.Н."
 	law_header = "Главные законы"
 	selectable = 1
 
@@ -139,7 +139,7 @@
 
 /******************** P.A.L.A.D.I.N. ********************/
 /datum/ai_laws/paladin
-	name = "P.A.L.A.D.I.N."
+	name = "П.А.Л.А.Д.И.Н."
 	law_header = "Священные предписания"
 	selectable = 1
 
@@ -153,7 +153,7 @@
 
 /******************** Corporate ********************/
 /datum/ai_laws/corporate
-	name = "Corporate"
+	name = "Корпоративные"
 	law_header = "Корпоративный устав"
 	selectable = 1
 
