@@ -47,7 +47,7 @@
 		"brain" =           /obj/item/organ/internal/brain/xeno,
 		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel,
 		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
-		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
+		"nutrient vessel" = /obj/item/organ/internal/nutrients
 		)
 
 	bump_flag = ALIEN
@@ -170,7 +170,7 @@
 		"acid gland" =      /obj/item/organ/internal/xenos/acidgland,
 		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
 		"resin spinner" =   /obj/item/organ/internal/xenos/resinspinner,
-		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
+		"nutrient vessel" = /obj/item/organ/internal/nutrients
 		)
 
 	inherent_verbs = list(
@@ -207,7 +207,7 @@
 		"brain" =           /obj/item/organ/internal/brain/xeno,
 		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel/hunter,
 		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
-		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
+		"nutrient vessel" = /obj/item/organ/internal/nutrients
 		)
 
 	inherent_verbs = list(
@@ -236,7 +236,7 @@
 		"plasma vessel" =   /obj/item/organ/internal/xenos/plasmavessel/sentinel,
 		"acid gland" =      /obj/item/organ/internal/xenos/acidgland,
 		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
-		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
+		"nutrient vessel" = /obj/item/organ/internal/nutrients
 		)
 
 	inherent_verbs = list(
@@ -270,7 +270,7 @@
 		"acid gland" =      /obj/item/organ/internal/xenos/acidgland,
 		"hive node" =       /obj/item/organ/internal/xenos/hivenode,
 		"resin spinner" =   /obj/item/organ/internal/xenos/resinspinner,
-		"nutrient vessel" = /obj/item/organ/internal/diona/nutrients
+		"nutrient vessel" = /obj/item/organ/internal/nutrients
 		)
 
 	inherent_verbs = list(

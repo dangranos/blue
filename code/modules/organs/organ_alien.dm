@@ -75,27 +75,23 @@
 
 /obj/item/organ/internal/diona/strata
 	name = "neural strata"
+	organ_tag = "strata"
 	parent_organ = "chest"
 
 /obj/item/organ/internal/diona/bladder
 	name = "gas bladder"
+	organ_tag = "bladder"
 	parent_organ = "head"
 
 /obj/item/organ/internal/diona/polyp
 	name = "polyp segment"
+	organ_tag = "polyp"
 	parent_organ = "groin"
 
 /obj/item/organ/internal/diona/ligament
 	name = "anchoring ligament"
+	organ_tag = "ligament"
 	parent_organ = "groin"
-
-/obj/item/organ/internal/diona/node
-	name = "receptor node"
-	parent_organ = "head"
-
-/obj/item/organ/internal/diona/nutrients
-	name = "nutrient vessel"
-	parent_organ = "chest"
 
 /obj/item/organ/internal/diona
 	name = "diona nymph"
@@ -113,23 +109,17 @@
 
 // These are different to the standard diona organs as they have a purpose in other
 // species (absorbing radiation and light respectively)
-/obj/item/organ/internal/diona/nutrients
+/obj/item/organ/internal/nutrients
 	name = "nutrient vessel"
 	organ_tag = "nutrient vessel"
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "claw"
 
-/obj/item/organ/internal/diona/nutrients/removed()
-	return
-
-/obj/item/organ/internal/diona/node
+/obj/item/organ/internal/node
 	name = "receptor node"
 	organ_tag = "receptor node"
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "claw"
-
-/obj/item/organ/internal/diona/node/removed()
-	return
 
 //CORTICAL BORER ORGANS.
 /obj/item/organ/internal/borer

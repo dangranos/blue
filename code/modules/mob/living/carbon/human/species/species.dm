@@ -121,17 +121,18 @@
 		)
 
 	var/list/has_limbs = list(
-		"chest"  = /datum/organ_description,
-		"groin"  = /datum/organ_description/groin,
-		"head"   = /datum/organ_description/head,
-		"l_arm"  = /datum/organ_description/arm/left,
-		"r_arm"  = /datum/organ_description/arm/right,
-		"l_leg"  = /datum/organ_description/leg/left,
-		"r_leg"  = /datum/organ_description/leg/right,
-		"l_hand" = /datum/organ_description/hand/left,
-		"r_hand" = /datum/organ_description/hand/right,
-		"l_foot" = /datum/organ_description/foot/left,
-		"r_foot" = /datum/organ_description/foot/right	)
+		"chest"  = new /datum/organ_description,
+		"groin"  = new /datum/organ_description/groin,
+		"head"   = new /datum/organ_description/head,
+		"l_arm"  = new /datum/organ_description/arm/left,
+		"r_arm"  = new /datum/organ_description/arm/right,
+		"l_leg"  = new /datum/organ_description/leg/left,
+		"r_leg"  = new /datum/organ_description/leg/right,
+		"l_hand" = new /datum/organ_description/hand/left,
+		"r_hand" = new /datum/organ_description/hand/right,
+		"l_foot" = new /datum/organ_description/foot/left,
+		"r_foot" = new /datum/organ_description/foot/right
+	)
 
 	// Bump vars
 	var/bump_flag  = HUMAN	// What are we considered to be when bumped?
@@ -203,11 +204,6 @@
 	for(var/u_type in unarmed_types)
 		unarmed_attacks += new u_type()
 
-	var/organ_type
-	for(var/limb_type in has_limbs)
-		organ_type = has_limbs[limb_type]
-		has_limbs[limb_type] = new organ_type
-
 /datum/species/proc/get_station_variant()
 	return name
 
@@ -255,18 +251,10 @@
 	for(var/obj/item/organ/organ in (H.organs|H.internal_organs))
 		qdel(organ)
 
-	if(H.organs.len)
-		world.log << "##Generate organs. [H.real_name] organs list not empty()"
-		H.organs.Cut()
-	if(H.internal_organs.len)
-		world.log << "##Generate organs. [H.real_name] internal_organs list not empty()"
-		H.internal_organs.Cut()
-	if(H.organs_by_name.len)
-		world.log << "##Generate organs. [H.real_name] organs_by_name list not empty()"
-		H.organs_by_name.Cut()
-	if(H.internal_organs_by_name.len)
-		world.log << "##Generate organs. [H.real_name] internal_organs_by_name list not empty()"
-		H.internal_organs_by_name.Cut()
+	if(H.organs.len) H.organs.Cut()
+	if(H.internal_organs.len) H.internal_organs.Cut()
+	if(H.organs_by_name.len) H.organs_by_name.Cut()
+	if(H.internal_organs_by_name.len) H.internal_organs_by_name.Cut()
 
 	var/organ_type = null
 

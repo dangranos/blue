@@ -1,15 +1,49 @@
 #define PROCESS_ACCURACY 10
 
+/obj/item/organ/internal
+	var/organ_tag = "organ"
+
+/obj/item/organ/internal/install(mob/living/carbon/human/H)
+	if(..()) return 1
+	H.internal_organs += src
+	var/obj/item/organ/internal/outdated = H.internal_organs_by_name[organ_tag]
+	if(outdated)
+		outdated.removed()
+	H.internal_organs_by_name[organ_tag] = src
+	var/obj/item/organ/external/E = H.organs_by_name[src.parent_organ]
+	if(E)
+		E.internal_organs |= src
+	if(robotic)
+		status |= ORGAN_ROBOT
+
 /obj/item/organ/internal/Destroy()
 	if(parent)
 		parent.internal_organs -= src
 		parent = null
 	return ..()
 
+/obj/item/organ/internal/removed(mob/living/user)
+	if(!istype(owner)) return
+
+	owner.internal_organs_by_name[organ_tag] = null
+	owner.internal_organs -= src
+
+	var/datum/reagent/blood/transplant_blood = locate(/datum/reagent/blood) in reagents.reagent_list
+	transplant_data = list()
+	if(!transplant_blood)
+		transplant_data["species"] =    owner.species.name
+		transplant_data["blood_type"] = owner.dna.b_type
+		transplant_data["blood_DNA"] =  owner.dna.unique_enzymes
+	else
+		transplant_data["species"] =    transplant_blood.data["species"]
+		transplant_data["blood_type"] = transplant_blood.data["blood_type"]
+		transplant_data["blood_DNA"] =  transplant_blood.data["blood_DNA"]
+
+	..()
+
 /****************************************************
 				INTERNAL ORGANS DEFINES
 ****************************************************/
-
 
 // Brain is defined in brain_item.dm.
 /obj/item/organ/internal/heart
