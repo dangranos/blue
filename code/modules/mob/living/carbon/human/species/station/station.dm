@@ -308,17 +308,17 @@
 	)
 
 	has_limbs = list(
-		"chest" =  /datum/organ_description/diona,
-		"groin" =  /datum/organ_description/groin/diona,
-		"head" =   /datum/organ_description/head/diona,
-		"l_arm" =  /datum/organ_description/arm/left/diona,
-		"r_arm" =  /datum/organ_description/arm/right/diona,
-		"l_leg" =  /datum/organ_description/leg/left/diona,
-		"r_leg" =  /datum/organ_description/leg/right/diona,
-		"l_hand" = /datum/organ_description/hand/left/diona,
-		"r_hand" = /datum/organ_description/hand/right/diona,
-		"l_foot" = /datum/organ_description/foot/left/diona,
-		"r_foot" = /datum/organ_description/foot/right/diona,
+		"chest" =  new /datum/organ_description/diona,
+		"groin" =  new /datum/organ_description/groin/diona,
+		"head" =   new /datum/organ_description/head/diona,
+		"l_arm" =  new /datum/organ_description/arm/left/diona,
+		"r_arm" =  new /datum/organ_description/arm/right/diona,
+		"l_leg" =  new /datum/organ_description/leg/left/diona,
+		"r_leg" =  new /datum/organ_description/leg/right/diona,
+		"l_hand" = new /datum/organ_description/hand/left/diona,
+		"r_hand" = new /datum/organ_description/hand/right/diona,
+		"l_foot" = new /datum/organ_description/foot/left/diona,
+		"r_foot" = new /datum/organ_description/foot/right/diona,
 	)
 
 	inherent_verbs = list(
