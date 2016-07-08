@@ -30,17 +30,17 @@
 	push_flags = MONKEY|SLIME|SIMPLE_ANIMAL
 
 	has_limbs = list(
-		"chest" =  /datum/organ_description/slime,
-		"groin" =  /datum/organ_description/groin/slime,
-		"head" =   /datum/organ_description/head/slime,
-		"l_arm" =  /datum/organ_description/arm/left/slime,
-		"r_arm" =  /datum/organ_description/arm/right/slime,
-		"l_leg" =  /datum/organ_description/leg/left/slime,
-		"r_leg" =  /datum/organ_description/leg/right/slime,
-		"l_hand" = /datum/organ_description/hand/left/slime,
-		"r_hand" = /datum/organ_description/hand/right/slime,
-		"l_foot" = /datum/organ_description/foot/left/slime,
-		"r_foot" = /datum/organ_description/foot/right/slime
+		"chest" =  new /datum/organ_description/slime,
+		"groin" =  new /datum/organ_description/groin/slime,
+		"head" =   new /datum/organ_description/head/slime,
+		"l_arm" =  new /datum/organ_description/arm/left/slime,
+		"r_arm" =  new /datum/organ_description/arm/right/slime,
+		"l_leg" =  new /datum/organ_description/leg/left/slime,
+		"r_leg" =  new /datum/organ_description/leg/right/slime,
+		"l_hand" = new /datum/organ_description/hand/left/slime,
+		"r_hand" = new /datum/organ_description/hand/right/slime,
+		"l_foot" = new /datum/organ_description/foot/left/slime,
+		"r_foot" = new /datum/organ_description/foot/right/slime
 	)
 
 /datum/species/human/slime/handle_death(var/mob/living/carbon/human/H)
