@@ -83,7 +83,6 @@
 		/obj/item/clothing/head/surgery,
 		/obj/item/clothing/gloves/white/latex,
 		/obj/item/weapon/reagent_containers/hypospray,
-		/obj/item/weapon/syringe_cartridge,
 		/obj/item/clothing/glasses/hud/health,
 		/obj/item/weapon/crowbar,
 		/obj/item/device/flashlight,
