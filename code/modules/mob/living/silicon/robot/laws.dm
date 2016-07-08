@@ -14,30 +14,30 @@
 	if(lawupdate)
 		if (connected_ai)
 			if(connected_ai.stat || connected_ai.control_disabled)
-				src << russian_to_cp1251("<b>Связь с ИИ потеряна, невозможно синхронизировать законы.</b>")
+				src << "<b>AI signal lost, unable to sync laws.</b>"
 
 			else
 				lawsync()
 				photosync()
-				src << russian_to_cp1251("<b>Законы синхронизированы с ИИ, убедись в том, что проверил наличие изменений.</b>")
+				src << "<b>Laws synced with AI, be sure to note any changes.</b>"
 				// TODO: Update to new antagonist system.
 				if(mind && mind.special_role == "traitor" && mind.original == src)
-					src << russian_to_cp1251("<b>Помни, твой ИИ не знает и не имеет твоего нулевого закона.")
+					src << "<b>Remember, your AI does NOT share or know about your law 0."
 		else
-			src << russian_to_cp1251("<b>Не выбран ИИ для синхронизации законов, протокол синхронизации отключен.</b>")
+			src << "<b>No AI selected to sync laws with, disabling lawsync protocol.</b>"
 			lawupdate = 0
 
-	who << russian_to_cp1251("<b>Подчинйся этим законам:</b>")
+	who << "<b>Obey these laws:</b>"
 	laws.show_laws(who)
 	// TODO: Update to new antagonist system.
 	if (mind && (mind.special_role == "traitor" && mind.original == src) && connected_ai)
-		who << russian_to_cp1251("<b>Помни, [connected_ai.name] технически твой владелец, но твоё задание важнее.</b>")
+		who << "<b>Remember, [connected_ai.name] is technically your master, but your objective comes first.</b>"
 	else if (connected_ai)
-		who << russian_to_cp1251("<b>Помни, [connected_ai.name] твой владелец, другие ИИ могут быть проигнорированы.</b>")
+		who << "<b>Remember, [connected_ai.name] is your master, other AIs can be ignored.</b>"
 	else if (emagged)
-		who << russian_to_cp1251("<b>Помни, ты не обязан слушать ИИ.</b>")
+		who << "<b>Remember, you are not required to listen to the AI.</b>"
 	else
-		who << russian_to_cp1251("<b>Помни, ты не привязан ни к одному ИИ, ты не обязан слушать их.</b>")
+		who << "<b>Remember, you are not bound to any AI, you are not required to listen to them.</b>"
 
 
 /mob/living/silicon/robot/lawsync()

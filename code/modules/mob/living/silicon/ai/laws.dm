@@ -10,7 +10,7 @@
 		who = world
 	else
 		who = src
-		who << russian_to_cp1251("<b>Подчиняйся этим законам:</b>")
+		who << "<b>Obey these laws:</b>"
 
 	src.laws_sanity_check()
 	src.laws.show_laws(who)

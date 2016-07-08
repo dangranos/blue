@@ -227,9 +227,9 @@ var/global/const/base_law_type = /datum/ai_laws/asimov_turing
 		if(law == zeroth_law_borg)
 			continue
 		if(law == zeroth_law)
-			who << russian_to_cp1251("<span class='danger'>[law.get_index()]. [law.law]</span>")
+			who << "<span class='danger'>[law.get_index()]. [law.law]</span>"
 		else
-			who << russian_to_cp1251("[law.get_index()]. [law.law]")
+			who << "[law.get_index()]. [law.law]"
 
 /********************
 *	Stating Laws	*
