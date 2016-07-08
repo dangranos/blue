@@ -111,31 +111,30 @@
 	var/rarity_value = 1          // Relative rarity/collector value for this species.
 	                              // Determines the organs that the species spawns with and
 	var/list/has_organ = list(    // which required-organ checks are conducted.
-		"heart" =    /obj/item/organ/heart,
-		"lungs" =    /obj/item/organ/lungs,
-		"liver" =    /obj/item/organ/liver,
-		"kidneys" =  /obj/item/organ/kidneys,
-		"brain" =    /obj/item/organ/brain,
-		"appendix" = /obj/item/organ/appendix,
-		"eyes" =     /obj/item/organ/eyes
+		"heart" =    /obj/item/organ/internal/heart,
+		"lungs" =    /obj/item/organ/internal/lungs,
+		"liver" =    /obj/item/organ/internal/liver,
+		"kidneys" =  /obj/item/organ/internal/kidneys,
+		"brain" =    /obj/item/organ/internal/brain,
+		"appendix" = /obj/item/organ/internal/appendix,
+		"eyes" =     /obj/item/organ/internal/eyes
 		)
 
 	var/list/has_limbs = list(
-		"chest" =  list("path" = /obj/item/organ/external/chest),
-		"groin" =  list("path" = /obj/item/organ/external/groin),
-		"head" =   list("path" = /obj/item/organ/external/head),
-		"l_arm" =  list("path" = /obj/item/organ/external/arm),
-		"r_arm" =  list("path" = /obj/item/organ/external/arm/right),
-		"l_leg" =  list("path" = /obj/item/organ/external/leg),
-		"r_leg" =  list("path" = /obj/item/organ/external/leg/right),
-		"l_hand" = list("path" = /obj/item/organ/external/hand),
-		"r_hand" = list("path" = /obj/item/organ/external/hand/right),
-		"l_foot" = list("path" = /obj/item/organ/external/foot),
-		"r_foot" = list("path" = /obj/item/organ/external/foot/right)
-		)
+		"chest"  = /datum/organ_description,
+		"groin"  = /datum/organ_description/groin,
+		"head"   = /datum/organ_description/head,
+		"l_arm"  = /datum/organ_description/arm/left,
+		"r_arm"  = /datum/organ_description/arm/right,
+		"l_leg"  = /datum/organ_description/leg/left,
+		"r_leg"  = /datum/organ_description/leg/right,
+		"l_hand" = /datum/organ_description/hand/left,
+		"r_hand" = /datum/organ_description/hand/right,
+		"l_foot" = /datum/organ_description/foot/left,
+		"r_foot" = /datum/organ_description/foot/right	)
 
 	// Bump vars
-	var/bump_flag = HUMAN	// What are we considered to be when bumped?
+	var/bump_flag  = HUMAN	// What are we considered to be when bumped?
 	var/push_flags = ~HEAVY	// What can we push?
 	var/swap_flags = ~HEAVY	// What can we swap place with?
 
@@ -147,7 +146,6 @@
 
 	//Species Abilities
 	var/tmp/evolution_points = 0 //How many points race have for abilities
-
 
 
 	// Srites
@@ -205,6 +203,11 @@
 	for(var/u_type in unarmed_types)
 		unarmed_attacks += new u_type()
 
+	var/organ_type
+	for(var/limb_type in has_limbs)
+		organ_type = has_limbs[limb_type]
+		has_limbs[limb_type] = new organ_type
+
 /datum/species/proc/get_station_variant()
 	return name
 
@@ -247,43 +250,40 @@
 		H.equip_to_slot_or_del(new custom_survival_gear(H), slot_r_hand)
 
 
-/datum/species/proc/create_organs(var/mob/living/carbon/human/H) //Handles creation of mob organs.
+/datum/species/proc/create_organs(var/mob/living/carbon/human/H, var/datum/preferences/prefs = null) //Handles creation of mob organs.
 
-	for(var/obj/item/organ/organ in H.contents)
-		if((organ in H.organs) || (organ in H.internal_organs))
-			qdel(organ)
+	for(var/obj/item/organ/organ in (H.organs|H.internal_organs))
+		qdel(organ)
 
-	if(H.organs)                  H.organs.Cut()
-	if(H.internal_organs)         H.internal_organs.Cut()
-	if(H.organs_by_name)          H.organs_by_name.Cut()
-	if(H.internal_organs_by_name) H.internal_organs_by_name.Cut()
+	if(H.organs.len)
+		world.log << "##Generate organs. [H.real_name] organs list not empty()"
+		H.organs.Cut()
+	if(H.internal_organs.len)
+		world.log << "##Generate organs. [H.real_name] internal_organs list not empty()"
+		H.internal_organs.Cut()
+	if(H.organs_by_name.len)
+		world.log << "##Generate organs. [H.real_name] organs_by_name list not empty()"
+		H.organs_by_name.Cut()
+	if(H.internal_organs_by_name.len)
+		world.log << "##Generate organs. [H.real_name] internal_organs_by_name list not empty()"
+		H.internal_organs_by_name.Cut()
 
-	H.organs = list()
-	H.internal_organs = list()
-	H.organs_by_name = list()
-	H.internal_organs_by_name = list()
+	var/organ_type = null
 
 	for(var/limb_type in has_limbs)
-		var/list/organ_data = has_limbs[limb_type]
-		var/limb_path = organ_data["path"]
-		var/obj/item/organ/O = new limb_path(H)
-		organ_data["descriptor"] = O.name
+		var/datum/organ_description/OD = has_limbs[limb_type]
+		organ_type = OD.default_type
+		new organ_type(H, OD)
 
 	for(var/organ in has_organ)
-		var/organ_type = has_organ[organ]
-		H.internal_organs_by_name[organ] = new organ_type(H,1)
-
-	for(var/name in H.organs_by_name)
-		H.organs |= H.organs_by_name[name]
-
-	for(var/obj/item/organ/external/O in H.organs)
-		O.owner = H
+		organ_type = has_organ[organ]
+		new organ_type(H)
 
 	if(flags & IS_SYNTHETIC)
 		for(var/obj/item/organ/external/E in H.organs)
 			if(E.status & ORGAN_CUT_AWAY || E.status & ORGAN_DESTROYED) continue
 			E.robotize()
-		for(var/obj/item/organ/I in H.internal_organs)
+		for(var/obj/item/organ/internal/I in H.internal_organs)
 			I.robotize()
 
 /datum/species/proc/hug(var/mob/living/carbon/human/H,var/mob/living/target)
@@ -381,11 +381,6 @@
 	return
 
 /datum/species/proc/Stat(var/mob/living/carbon/human/H)
-	if(emergency_shuttle)
-		var/eta_status = emergency_shuttle.get_status_panel_eta()
-		if(eta_status)
-			stat(null, eta_status)
-
 	if (H.internal)
 		if (!H.internal.air_contents)
 			qdel(H.internal)

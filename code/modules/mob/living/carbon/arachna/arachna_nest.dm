@@ -43,10 +43,10 @@
 	var/mob/living/carbon/arachna = user
 	var/mob/living/carbon/victim = M
 
-	if(istype(victim) && locate(/obj/item/organ/arachna/silk_gland) in victim.internal_organs)
+	if(istype(victim) && locate(/obj/item/organ/internal/arachna/silk_gland) in victim.internal_organs)
 		return
 
-	if(istype(arachna) && !(locate(/obj/item/organ/arachna/silk_gland) in arachna.internal_organs))
+	if(istype(arachna) && !(locate(/obj/item/organ/internal/arachna/silk_gland) in arachna.internal_organs))
 		return
 
 	if(M == usr)

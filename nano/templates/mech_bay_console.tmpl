@@ -25,6 +25,18 @@
 	</div>
 	<div class="item">
 		<div class="itemLabel">
+			Locked:
+		</div>
+		<div class="itemContent">
+			{{if data.locked}}
+				<span class='bad'>LOCKED</span>
+			{{else}}
+				<span class='good'>OPEN</span>
+			{{/if}}
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemLabel">
 			Mecha:
 		</div>
 		<div class="itemContent">

@@ -188,6 +188,18 @@
  * Misc
  */
 
+/obj/item/clothing/suit/storage/pullover
+	name = "pullover"
+	desc = "Common space pullover"
+	icon_state = "pullover"
+	body_parts_covered = UPPER_TORSO|ARMS
+
+/obj/item/clothing/suit/storage/cardigan
+	name = "cardigan"
+	desc = "Common space cardigan"
+	icon_state = "cardigan"
+	body_parts_covered = UPPER_TORSO|ARMS
+
 /obj/item/clothing/suit/straight_jacket
 	name = "straight jacket"
 	desc = "A suit that completely restrains the wearer."
@@ -202,6 +214,11 @@
 	icon_state = "ianshirt"
 	item_state = "ianshirt"
 	body_parts_covered = UPPER_TORSO|ARMS
+
+/obj/item/clothing/suit/ianshirt/ash
+	name = "Ash t-shirt"
+	desc = "A t-shirt with a picture of some guy. Good for sleeping in. Smells like obsession."
+	icon_state = "ashshirt"
 
 //pyjamas
 //originally intended to be pinstripes >.>
@@ -409,17 +426,20 @@
 /obj/item/clothing/suit/storage/toggle/leather_jacket/fox
 	name = "fox leather jacket"
 	icon_state = "leather_jacket_fox"
-	icon_closed = "leather_jacket_fox_open"
+	icon_closed = "leather_jacket_fox"
+	icon_open = "leather_jacket_fox_open"
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket/skull
 	name = "skull leather jacket"
 	icon_state = "leather_jacket_skull"
-	icon_closed = "leather_jacket_skull_open"
+	icon_closed = "leather_jacket_skull"
+	icon_open = "leather_jacket_skull_open"
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket/cerberus
 	name = "cerberus leather jacket"
 	icon_state = "leather_jacket_cerberus"
-	icon_closed = "leather_jacket_cerberus_open"
+	icon_closed = "leather_jacket_cerberus"
+	icon_open = "leather_jacket_cerberus_open"
 
 
 /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen

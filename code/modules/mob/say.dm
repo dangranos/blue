@@ -101,14 +101,14 @@
 */
 
 /mob/proc/say_quote(var/message, var/datum/language/speaking = null)
-        var/verb = "says"
-        var/ending = copytext(message, length(message))
-        if(ending=="!")
-                verb=pick("exclaims","shouts","yells")
-        else if(ending=="?")
-                verb="asks"
+	var/verb = "says"
+	var/ending = copytext(message, length(message))
+	if(ending=="!")
+		verb=pick("exclaims","shouts","yells")
+	else if(ending=="?")
+		verb="asks"
 
-        return verb
+	return verb
 
 
 /mob/proc/emote(var/act, var/type, var/message)
@@ -138,8 +138,8 @@
 	if(length(message) >= 1 && copytext(message,1,2) == ";")
 		return standard_mode
 
-	if(length(message) >= 2)
-		var/channel_prefix = copytext(message, 1 ,3)
+	if(length(message) >= 2 && copytext(message, 1 ,2) in list(":",".","#"))
+		var/channel_prefix = sanitize_key(copytext(message, 2 ,3))
 		return department_radio_keys[channel_prefix]
 
 	return null
@@ -151,7 +151,7 @@
 		return all_languages["Noise"]
 
 	if(length(message) >= 2 && copytext(message, 1 ,2) in list(":",".","#"))
-		var/language_prefix = rkey2key(rlowertext(copytext(message, 2 ,3)))
+		var/language_prefix = sanitize_key(copytext(message, 2 ,3))
 		var/datum/language/L = language_keys[language_prefix]
 		if (can_speak(L))
 			return L

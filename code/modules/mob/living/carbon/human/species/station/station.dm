@@ -299,31 +299,31 @@
 	water and other radiation."
 
 	has_organ = list(
-		"nutrient channel" =   /obj/item/organ/diona/nutrients,
-		"neural strata" =      /obj/item/organ/diona/strata,
-		"response node" =      /obj/item/organ/diona/node,
-		"gas bladder" =        /obj/item/organ/diona/bladder,
-		"polyp segment" =      /obj/item/organ/diona/polyp,
-		"anchoring ligament" = /obj/item/organ/diona/ligament
-		)
+		"nutrient channel" =   /obj/item/organ/internal/diona/nutrients,
+		"neural strata" =      /obj/item/organ/internal/diona/strata,
+		"response node" =      /obj/item/organ/internal/diona/node,
+		"gas bladder" =        /obj/item/organ/internal/diona/bladder,
+		"polyp segment" =      /obj/item/organ/internal/diona/polyp,
+		"anchoring ligament" = /obj/item/organ/internal/diona/ligament
+	)
 
 	has_limbs = list(
-		"chest" =  list("path" = /obj/item/organ/external/diona/chest),
-		"groin" =  list("path" = /obj/item/organ/external/diona/groin),
-		"head" =   list("path" = /obj/item/organ/external/diona/head),
-		"l_arm" =  list("path" = /obj/item/organ/external/diona/arm),
-		"r_arm" =  list("path" = /obj/item/organ/external/diona/arm/right),
-		"l_leg" =  list("path" = /obj/item/organ/external/diona/leg),
-		"r_leg" =  list("path" = /obj/item/organ/external/diona/leg/right),
-		"l_hand" = list("path" = /obj/item/organ/external/diona/hand),
-		"r_hand" = list("path" = /obj/item/organ/external/diona/hand/right),
-		"l_foot" = list("path" = /obj/item/organ/external/diona/foot),
-		"r_foot" = list("path" = /obj/item/organ/external/diona/foot/right)
-		)
+		"chest" =  /datum/organ_description/diona,
+		"groin" =  /datum/organ_description/groin/diona,
+		"head" =   /datum/organ_description/head/diona,
+		"l_arm" =  /datum/organ_description/arm/left/diona,
+		"r_arm" =  /datum/organ_description/arm/right/diona,
+		"l_leg" =  /datum/organ_description/leg/left/diona,
+		"r_leg" =  /datum/organ_description/leg/right/diona,
+		"l_hand" = /datum/organ_description/leg/left/diona,
+		"r_hand" = /datum/organ_description/leg/right/diona,
+		"l_foot" = /datum/organ_description/foot/left/diona,
+		"r_foot" = /datum/organ_description/foot/right/diona,
+	)
 
 	inherent_verbs = list(
 		/mob/living/carbon/human/proc/diona_split_nymph
-		)
+	)
 
 	warning_low_pressure = 50
 	hazard_low_pressure = -1
@@ -459,12 +459,12 @@ datum/species/human/vatgrown
 
 //	toxins_mod =   1.1
 	has_organ = list(
-		"heart" =    /obj/item/organ/heart,
-		"lungs" =    /obj/item/organ/lungs,
-		"liver" =    /obj/item/organ/liver,
-		"kidneys" =  /obj/item/organ/kidneys,
-		"brain" =    /obj/item/organ/brain,
-		"eyes" =     /obj/item/organ/eyes
+		"heart" =    /obj/item/organ/internal/heart,
+		"lungs" =    /obj/item/organ/internal/lungs,
+		"liver" =    /obj/item/organ/internal/liver,
+		"kidneys" =  /obj/item/organ/internal/kidneys,
+		"brain" =    /obj/item/organ/internal/brain,
+		"eyes" =     /obj/item/organ/internal/eyes
 		)
 
 /datum/species/human/vatgrown/get_bodytype()
@@ -492,10 +492,10 @@ datum/species/human/android
 	burn_mod = 1
 
 	has_organ = list(                                     //TODO: Positronic brain.
-		"liver" =    /obj/item/organ/liver,
-		"heart" =    /obj/item/organ/heart,
-		"lungs" =    /obj/item/organ/lungs,
-		"kidneys" =  /obj/item/organ/kidneys,
+		"liver" =    /obj/item/organ/internal/liver,
+		"heart" =    /obj/item/organ/internal/heart,
+		"lungs" =    /obj/item/organ/internal/lungs,
+		"kidneys" =  /obj/item/organ/internal/kidneys,
 		)
 
 /datum/species/human/android/get_bodytype()

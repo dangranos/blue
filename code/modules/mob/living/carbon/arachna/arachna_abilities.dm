@@ -6,7 +6,7 @@ mob/living/carbon/human/arachna/proc/prepare_bite(mob/living/carbon/human/M as m
 	set desc = "Prepare to bite for poising someone"
 	set category = "Abilities"
 
-	var/obj/item/organ/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
+	var/obj/item/organ/internal/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
 
 	if(stat || paralysis || stunned || weakened || lying || restrained() || buckled || !I.reagents  || !I.poisons.len)
 		src << "You cannot bite in your current state."
@@ -24,7 +24,7 @@ mob/living/carbon/human/arachna/proc/prepare_bite(mob/living/carbon/human/M as m
 	set name = "Prepare Bite"
 	set desc = "Prepare to bite for poising someone"
 	set category = "Abilities"
-	var/obj/item/organ/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
+	var/obj/item/organ/internal/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
 	if(stat || paralysis || stunned || weakened || lying || restrained() || buckled || !I.reagents  || !I.poisons.len)
 		src << "You cannot bite in your current state."
 		return
@@ -39,7 +39,7 @@ mob/living/carbon/human/arachna/proc/prepare_bite(mob/living/carbon/human/M as m
 	return*/
 
 /*/mob/living/carbon/human/arachna/UnarmedAttack(mob/living/carbon/human/M as mob)
-	var/obj/item/organ/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
+	var/obj/item/organ/internal/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
 	if (src.bite_ready)
 		msg_admin_attack("[key_name_admin(src)] bite and poison [key_name_admin(M)] with [I.reagents.get_reagents()] (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>JMP</a>)")
 		I.reagents.trans_to_mob(M, I.reagents.total_volume, CHEM_BLOOD)
@@ -75,7 +75,7 @@ mob/living/carbon/human/arachna/verb/add_venom()
 		return
 	added_venoms.Add(choice)
 	venom_list.Remove(choice)
-	var/obj/item/organ/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
+	var/obj/item/organ/internal/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
 	I.init(added_venoms)
 
 mob/living/carbon/human/arachna/verb/remove_venom()
@@ -87,14 +87,14 @@ mob/living/carbon/human/arachna/verb/remove_venom()
 		return
 	added_venoms.Remove(choice)
 	venom_list.Add(choice)
-	var/obj/item/organ/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
+	var/obj/item/organ/internal/arachna/poison_gland/I = internal_organs_by_name["poison_gland"]
 	I.init(added_venoms)
 
 /mob/living/carbon/human/arachna/proc/use_silk_gland() // -- TLE
 	set name = "Use silk gland"
 	set desc = "Use you spider power to make you home!."
 	set category = "Abilities"
-	var/obj/item/organ/arachna/silk_gland/I = internal_organs_by_name["silk_gland"]
+	var/obj/item/organ/internal/arachna/silk_gland/I = internal_organs_by_name["silk_gland"]
 	if(stat || paralysis || stunned || weakened || lying || restrained() || buckled)
 		src << "You cannot use web in your current state."
 		return
@@ -130,7 +130,7 @@ mob/living/carbon/human/arachna/verb/remove_venom()
 		src << "<span class='alium'>You need to be closer.</span>"
 		return
 
-//	var/obj/item/organ/xenos/plasmavessel/I = M.internal_organs_by_name["plasma vessel"]
+//	var/obj/item/organ/internal/xenos/plasmavessel/I = M.internal_organs_by_name["plasma vessel"]
 //	if(!istype(I))
 //		src << "<span class='alium'>Their plasma vessel is missing.</span>"
 //		return

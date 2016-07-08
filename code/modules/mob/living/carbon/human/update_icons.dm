@@ -260,7 +260,7 @@ var/global/list/damage_icon_parts = list()
 		icon_key += lip_color
 	else
 		icon_key += "nolips"
-	var/obj/item/organ/eyes/eyes = internal_organs_by_name["eyes"]
+	var/obj/item/organ/internal/eyes/eyes = internal_organs_by_name["eyes"]
 	if(eyes)
 		icon_key += eyes.eye_colour
 	else

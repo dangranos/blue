@@ -61,7 +61,7 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		// Damaged heart virtually reduces the blood volume, as the blood isn't
 		// being pumped properly anymore.
 		if(species && species.has_organ["heart"])
-			var/obj/item/organ/heart/heart = internal_organs_by_name["heart"]
+			var/obj/item/organ/internal/heart/heart = internal_organs_by_name["heart"]
 
 			if(!heart)
 				blood_volume = 0

@@ -72,7 +72,7 @@
 		if(!affected)
 			return
 		var/is_organ_damaged = 0
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 			if(I.damage > 0 && I.robotic<2)
 				is_organ_damaged = 1
 				break
@@ -89,7 +89,7 @@
 			return
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 			if(I && I.damage > 0)
 				if(I.robotic < 2)
 					user.visible_message("[user] starts treating damage to [target]'s [I.name] with [tool_name].", \
@@ -109,7 +109,7 @@
 			return
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 			if(I && I.damage > 0)
 				if(I.robotic < 2)
 					user.visible_message("\blue [user] treats damage to [target]'s [I.name] with [tool_name].", \
@@ -134,7 +134,7 @@
 			target.adjustToxLoss(10)
 			affected.createwound(CUT, 5)
 
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 			if(I && I.damage > 0)
 				I.take_damage(dam_amt,0)
 
@@ -155,7 +155,7 @@
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 		if(!affected) return
 		var/is_organ_damaged = 0
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 			if(I.damage > 0 && I.robotic >= 2)
 				is_organ_damaged = 1
 				break
@@ -167,7 +167,7 @@
 			return
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 			if(I && I.damage > 0)
 				if(I.robotic >= 2)
 					user.visible_message("[user] starts mending the damage to [target]'s [I.name]'s mechanisms.", \
@@ -182,7 +182,7 @@
 			return
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 
 			if(I && I.damage > 0)
 				if(I.robotic >= 2)
@@ -202,7 +202,7 @@
 		target.adjustToxLoss(5)
 		affected.createwound(CUT, 5)
 
-		for(var/obj/item/organ/I in affected.internal_organs)
+		for(var/obj/item/organ/internal/I in affected.internal_organs)
 			if(I)
 				I.take_damage(rand(3,5),0)
 
@@ -227,7 +227,7 @@
 
 		var/list/attached_organs = list()
 		for(var/organ in target.internal_organs_by_name)
-			var/obj/item/organ/I = target.internal_organs_by_name[organ]
+			var/obj/item/organ/internal/I = target.internal_organs_by_name[organ]
 			if(I && !I.status && I.parent_organ == target_zone)
 				attached_organs |= organ
 
@@ -252,7 +252,7 @@
 		user.visible_message("\blue [user] has separated [target]'s [target.op_stage.current_organ] with \the [tool]." , \
 		"\blue You have separated [target]'s [target.op_stage.current_organ] with \the [tool].")
 
-		var/obj/item/organ/I = target.internal_organs_by_name[target.op_stage.current_organ]
+		var/obj/item/organ/internal/I = target.internal_organs_by_name[target.op_stage.current_organ]
 		if(I && istype(I))
 			I.status |= ORGAN_CUT_AWAY
 
@@ -282,7 +282,7 @@
 
 		var/list/removable_organs = list()
 		for(var/organ in target.internal_organs_by_name)
-			var/obj/item/organ/I = target.internal_organs_by_name[organ]
+			var/obj/item/organ/internal/I = target.internal_organs_by_name[organ]
 			if(I.status & ORGAN_CUT_AWAY && I.parent_organ == target_zone)
 				removable_organs |= organ
 
@@ -305,7 +305,7 @@
 
 		// Extract the organ!
 		if(target.op_stage.current_organ)
-			var/obj/item/organ/O = target.internal_organs_by_name[target.op_stage.current_organ]
+			var/obj/item/organ/internal/O = target.internal_organs_by_name[target.op_stage.current_organ]
 			if(O && istype(O))
 				O.removed(user)
 			target.op_stage.current_organ = null
@@ -326,7 +326,7 @@
 
 	can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 
-		var/obj/item/organ/O = tool
+		var/obj/item/organ/internal/O = tool
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 		if(!affected) return
 		var/organ_compatible
@@ -379,15 +379,15 @@
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 		user.visible_message("\blue [user] has transplanted \the [tool] into [target]'s [affected.name].", \
 		"\blue You have transplanted \the [tool] into [target]'s [affected.name].")
-		var/obj/item/organ/O = tool
+		var/obj/item/organ/internal/O = tool
 		if(istype(O))
 			user.remove_from_mob(O)
-			O.replaced(target,affected)
+			O.install(target)
 
 	fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 		user.visible_message("\red [user]'s hand slips, damaging \the [tool]!", \
 		"\red Your hand slips, damaging \the [tool]!")
-		var/obj/item/organ/I = tool
+		var/obj/item/organ/internal/I = tool
 		if(istype(I))
 			I.take_damage(rand(3,5),0)
 
@@ -409,7 +409,7 @@
 
 		var/list/removable_organs = list()
 		for(var/organ in target.internal_organs_by_name)
-			var/obj/item/organ/I = target.internal_organs_by_name[organ]
+			var/obj/item/organ/internal/I = target.internal_organs_by_name[organ]
 			if(I && I.status & ORGAN_CUT_AWAY && I.parent_organ == target_zone)
 				removable_organs |= organ
 
@@ -430,7 +430,7 @@
 		user.visible_message("\blue [user] has reattached [target]'s [target.op_stage.current_organ] with \the [tool]." , \
 		"\blue You have reattached [target]'s [target.op_stage.current_organ] with \the [tool].")
 
-		var/obj/item/organ/I = target.internal_organs_by_name[target.op_stage.current_organ]
+		var/obj/item/organ/internal/I = target.internal_organs_by_name[target.op_stage.current_organ]
 		if(I && istype(I))
 			I.status &= ~ORGAN_CUT_AWAY
 
