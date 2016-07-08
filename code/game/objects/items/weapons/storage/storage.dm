@@ -52,22 +52,22 @@
 		if (!(src.loc == usr) || (src.loc && src.loc.loc == usr))
 			return
 
-		if (( usr.restrained() ) || ( usr.stat ))
+		if (usr.restrained() || usr.stat)
 			return
 
 		switch(over_object.name)
 			if("r_hand")
-				if((src.loc != usr) || usr.unEquip(src))
+				if(usr.unEquip(src))
 					usr.put_in_r_hand(src)
 			if("l_hand")
-				if((src.loc != usr) || usr.unEquip(src))
+				if(usr.unEquip(src))
 					usr.put_in_l_hand(src)
 		src.add_fingerprint(usr)
 
 
 /obj/item/weapon/storage/proc/return_inv()
 
-	var/list/L = list(  )
+	var/list/L = list()
 
 	L += src.contents
 
@@ -271,8 +271,8 @@
 /obj/item/weapon/storage/proc/handle_item_insertion(obj/item/W as obj, prevent_warning = 0)
 	if(!istype(W)) return 0
 	if(usr)
-		usr.remove_from_mob(W)
-		usr.update_icons()	//update our overlays
+		if(!usr.unEquip(W))
+			return
 	W.loc = src
 	W.on_enter_storage(src)
 	if(usr)
