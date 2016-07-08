@@ -426,6 +426,7 @@
 
 	blood_color = "#1F181F"
 	flesh_color = "#575757"
+	allow_slim_fem = 1
 
 	has_organ = list() //TODO: Positronic brain.
 
