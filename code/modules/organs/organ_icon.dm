@@ -31,7 +31,7 @@ var/global/list/limb_icon_cache = list()
 	var/icon/hair_s
 	var/icon/facial_s
 
-/obj/item/organ/external/head/removed()
+/obj/item/organ/external/head/removed(user, delete_children)
 	get_icon()
 	mob_icon.Blend(hair_s, ICON_OVERLAY)
 	mob_icon.Blend(facial_s, ICON_OVERLAY)

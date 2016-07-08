@@ -95,22 +95,12 @@
 		parent.update_damages()
 
 /obj/item/organ/external/Destroy()
-	if(parent && parent.children)
-		parent.children -= src
+	sabotaged = 0
+	vital = 0
+	removed(delete_children = 1)
+	..()
 
-	if(children)
-		for(var/obj/item/organ/external/C in children)
-			qdel(C)
-
-	if(internal_organs)
-		for(var/obj/item/organ/internal/O in internal_organs)
-			qdel(O)
-
-	owner.bad_external_organs -= src
-
-	return ..()
-
-/obj/item/organ/external/removed(mob/living/user)
+/obj/item/organ/external/removed(mob/living/user, var/delete_children = 0)
 	if(!istype(owner)) return
 
 	owner.organs_by_name[limb_name] = null
@@ -128,11 +118,12 @@
 
 	release_restraints()
 
-	var/obj/item/dropped = null
-	for(var/slot in drop_on_remove)
-		dropped = owner.get_equipped_item(slot)
-		owner.u_equip(dropped)
-		owner.drop_from_inventory(dropped)
+	if(!delete_children)
+		var/obj/item/dropped = null
+		for(var/slot in drop_on_remove)
+			dropped = owner.get_equipped_item(slot)
+			owner.u_equip(dropped)
+			owner.drop_from_inventory(dropped)
 
 	if(parent)
 		parent.children -= src
@@ -140,12 +131,17 @@
 
 	if(children)
 		for(var/obj/item/organ/external/child in children)
-			child.removed()
-			child.loc = src
+			if(delete_children) qdel(child)
+			else
+				child.removed()
+				child.loc = src
 
-	for(var/obj/item/organ/internal/organ in internal_organs)
-		organ.removed()
-		organ.loc = src
+	if(internal_organs)
+		for(var/obj/item/organ/internal/organ in internal_organs)
+			if(delete_children) qdel(organ)
+			else
+				organ.removed()
+				organ.loc = src
 
 	// Remove dat shit
 	if((flags & ORGAN_ROBOT) && sabotaged)
@@ -1194,12 +1190,13 @@ Note that amputating the affected organ does in fact remove the infection from t
 	amputation_point = "neck"
 	encased = "skull"
 
-/obj/item/organ/external/head/removed()
+/obj/item/organ/external/head/removed(user, delete_children)
 	if(owner)
 		var/mob/living/carbon/human/last_owner = owner
 		name = "[owner.real_name]'s head"
 		spawn(1)
-			last_owner.update_hair()
+			if(last_owner)
+				last_owner.update_hair()
 	return ..()
 
 /obj/item/organ/external/head/take_damage(brute, burn, sharp, edge, used_weapon = null, list/forbidden_limbs = list())

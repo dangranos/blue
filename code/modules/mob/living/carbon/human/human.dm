@@ -44,6 +44,7 @@
 	make_blood()
 
 /mob/living/carbon/human/Destroy()
+	ghostize(0)
 	human_mob_list -= src
 	for(var/organ in organs)
 		qdel(organ)

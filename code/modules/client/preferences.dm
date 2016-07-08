@@ -1597,30 +1597,25 @@ var/global/list/special_roles = list( //keep synced with the defines BE_* in set
 	character.religion = religion
 
 	// Destroy/cyborgize organs
-	for(var/name in organ_data|tattoo_data)
+	for(var/name in character.organs_by_name)
 		var/status = organ_data[name]
-		var/tattoo = tattoo_data[name]
-		var/tattoo2 = tattoo_data["[name]2"]
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(O)
-			O.status = 0
 			if(status == "amputated")
-				character.organs_by_name[O.limb_name] = null
-				character.organs -= O
-				if(O.children) // This might need to become recursive.
-					for(var/obj/item/organ/external/child in O.children)
-						character.organs_by_name[child.limb_name] = null
-						character.organs -= child
-
+				qdel(O)
 			else if(status == "cyborg")
 				if(rlimb_data[name])
 					O.robotize(rlimb_data[name])
 				else
 					O.robotize()
 			else
-				O.tattoo = tattoo
+				var/tattoo = tattoo_data[name]
+				var/tattoo2 = tattoo_data["[name]2"]
+				O.tattoo = tattoo ? tattoo : 0
 				O.tattoo2 = tattoo2 ? tattoo2 : 0
-		else
+	for(var/name in character.internal_organs_by_name)
+		var/status = organ_data[name]
+		if(status)
 			var/obj/item/organ/internal/I = character.internal_organs_by_name[name]
 			if(I)
 				if(status == "assisted")

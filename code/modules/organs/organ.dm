@@ -26,8 +26,8 @@ var/list/organ_cache = list()
 	germ_level = 0
 
 /obj/item/organ/Destroy()
-	if(parent && parent.children)
-		parent.children -= src
+	vital = 0 // Easy way, to remove death message and handle deletion.
+	removed()
 	return ..()
 
 /obj/item/organ/proc/update_health()
@@ -55,13 +55,16 @@ var/list/organ_cache = list()
 	processing_objects -= src
 
 /obj/item/organ/proc/removed(var/mob/living/user)
+	if(!owner) return
+
 	processing_objects |= src
 	rejecting = null
+
 	var/datum/reagent/blood/organ_blood = locate(/datum/reagent/blood) in reagents.reagent_list
 	if(!organ_blood || !organ_blood.data["blood_DNA"])
 		owner.vessel.trans_to(src, 5, 1, 1)
 
-	if(owner && vital)
+	if(vital)
 		if(user)
 			user.attack_log += "\[[time_stamp()]\]<font color='red'> removed a vital organ ([src]) from [owner.name] ([owner.ckey]) (INTENT: [uppertext(user.a_intent)])</font>"
 			owner.attack_log += "\[[time_stamp()]\]<font color='orange'> had a vital organ ([src]) removed by [user.name] ([user.ckey]) (INTENT: [uppertext(user.a_intent)])</font>"
