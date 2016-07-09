@@ -228,6 +228,7 @@
 		last_pos = position
 		position = 0
 
+	playsound(user,'sound/machines/Conveyor_switch.wav',100,1)
 	operated = 1
 	update()
 
