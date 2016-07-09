@@ -519,6 +519,7 @@
 
 /datum/preferences/proc/GetLoadOutPage()
 //	loadout
+/datum/preferences/proc/HandleLoadOutTopic(mob/new_player/user, list/href_list)
 
 
 /datum/preferences/proc/GetOccupationPage()
@@ -532,10 +533,10 @@
 	var/datum/job/lastJob
 
 
-	var/HTML = "<style>td.job{text-align:right; width:60%}</style><tt><center>"
-	HTML += "<b>Choose occupation chances</b><br>Unavailable occupations are crossed out.<br>"
-	HTML += "<table width='100%' cellpadding='1' cellspacing='0'><tr><td width='20%'>" // Table within a table for alignment, also allows you to easily add more colomns.
-	HTML += "<table width='100%' cellpadding='1' cellspacing='0'>"
+	var/dat = "<style>td.job{text-align:right; width:60%}</style><tt><center>"
+	dat += "<b>Choose occupation chances</b><br>Unavailable occupations are crossed out.<br>"
+	dat += "<table width='100%' cellpadding='1' cellspacing='0'><tr><td width='20%'>" // Table within a table for alignment, also allows you to easily add more colomns.
+	dat += "<table width='100%' cellpadding='1' cellspacing='0'>"
 	var/index = -1
 
 	//The job before the current job. I only use this to get the previous jobs color when I'm filling in blank rows.
@@ -548,70 +549,70 @@
 				//If the cells were broken up by a job in the splitJob list then it will fill in the rest of the cells with
 				//the last job's selection color. Creating a rather nice effect.
 				for(var/i = 0, i < (limit - index), i += 1)
-					HTML += "<tr bgcolor='[lastJob.selection_color]'><td width='60%' align='right'><a>&nbsp</a></td><td><a>&nbsp</a></td></tr>"
+					dat += "<tr bgcolor='[lastJob.selection_color]'><td width='60%' align='right'><a>&nbsp</a></td><td><a>&nbsp</a></td></tr>"
 
-			HTML += "</table></td><td width='20%'><table width='100%' cellpadding='1' cellspacing='0'>"
+			dat += "</table></td><td width='20%'><table width='100%' cellpadding='1' cellspacing='0'>"
 			index = 0
 
-		HTML += "<tr bgcolor='[job.selection_color]'><td class='job'>"
+		dat += "<tr bgcolor='[job.selection_color]'><td class='job'>"
 		var/rank = job.title
 		lastJob = job
 		var/job_name = rank
 		if(job.alt_titles)
 			job_name = "<a href=\"byond://?src=\ref[src];task=alt_title;job=\ref[job]\">\[[GetPlayerAltTitle(job)]\]</a>"
 		if(jobban_isbanned(user, rank))
-			HTML += "<del>[job_name]</del></td><td><b> \[BANNED]</b></td></tr>"
+			dat += "<del>[job_name]</del></td><td><b> \[BANNED]</b></td></tr>"
 			continue
 		if(!job.player_old_enough(user.client))
 			var/available_in_days = job.available_in_days(user.client)
-			HTML += "<del>[job_name]</del></td><td> \[IN [(available_in_days)] DAYS]</td></tr>"
+			dat += "<del>[job_name]</del></td><td> \[IN [(available_in_days)] DAYS]</td></tr>"
 			continue
 		if((job_civilian_low & ASSISTANT) && (rank != "Assistant"))
-			HTML += "<font color=orange>[job_name]</font></td><td>\[NEVER]</td></tr>"
+			dat += "<font color=orange>[job_name]</font></td><td>\[NEVER]</td></tr>"
 			continue
 		if((rank in command_positions) || (rank == "AI"))//Bold head jobs
-			HTML += "<b>[job_name]</b>"
+			dat += "<b>[job_name]</b>"
 		else
-			HTML += "[job_name]"
+			dat += "[job_name]"
 
-		HTML += "</td><td width='40%'>"
+		dat += "</td><td width='40%'>"
 
-		HTML += "<a href='?src=\ref[src];task=input;text=[rank]'>"
+		dat += "<a href='?src=\ref[src];task=input;text=[rank]'>"
 
 		if(rank == "Assistant")//Assistant is special
 			if(job_civilian_low & ASSISTANT)
-				HTML += " <font color=green>\[Yes]</font>"
+				dat += " <font color=green>\[Yes]</font>"
 			else
-				HTML += " <font color=red>\[No]</font>"
-			HTML += "</a></td></tr>"
+				dat += " <font color=red>\[No]</font>"
+			dat += "</a></td></tr>"
 			continue
 
 		if(GetJobDepartment(job, 1) & job.flag)
-			HTML += " <font color=blue>\[High]</font>"
+			dat += " <font color=blue>\[High]</font>"
 		else if(GetJobDepartment(job, 2) & job.flag)
-			HTML += " <font color=green>\[Medium]</font>"
+			dat += " <font color=green>\[Medium]</font>"
 		else if(GetJobDepartment(job, 3) & job.flag)
-			HTML += " <font color=orange>\[Low]</font>"
+			dat += " <font color=orange>\[Low]</font>"
 		else
-			HTML += " <font color=red>\[NEVER]</font>"
-		HTML += "</a></td></tr>"
+			dat += " <font color=red>\[NEVER]</font>"
+		dat += "</a></td></tr>"
 
-	HTML += "</table></td></tr>"
+	dat += "</table></td></tr>"
 
-	HTML += "</table>"
+	dat += "</table>"
 
 	switch(alternate_option)
 		if(GET_RANDOM_JOB)
-			HTML += "<br><u><a href='?src=\ref[src];task=random'><font color=green>Get random job if preferences unavailable</font></a></u><br>"
+			dat += "<br><u><a href='?src=\ref[src];task=random'><font color=green>Get random job if preferences unavailable</font></a></u><br>"
 		if(BE_ASSISTANT)
-			HTML += "<br><u><a href='?src=\ref[src];task=random'><font color=red>Be assistant if preference unavailable</font></a></u><br>"
+			dat += "<br><u><a href='?src=\ref[src];task=random'><font color=red>Be assistant if preference unavailable</font></a></u><br>"
 		if(RETURN_TO_LOBBY)
-			HTML += "<br><u><a href='?src=\ref[src];task=random'><font color=purple>Return to lobby if preference unavailable</font></a></u><br>"
+			dat += "<br><u><a href='?src=\ref[src];task=random'><font color=purple>Return to lobby if preference unavailable</font></a></u><br>"
 
-	HTML += "<a href='?src=\ref[src];task=reset'>\[Reset\]</a>"
-	HTML += "</center></tt>"
+	dat += "<a href='?src=\ref[src];task=reset'>\[Reset\]</a>"
+	dat += "</center></tt>"
 
-	return HTML
+	return dat
 
 /datum/preferences/proc/HandleOccupationTopic(mob/new_player/user, list/href_list)
 	switch(href_list["task"])
@@ -635,16 +636,84 @@
 
 
 /datum/preferences/proc/GetSiliconPage()
+/datum/preferences/proc/HandleSiliconTopic(mob/new_player/user, list/href_list)
+
 
 /datum/preferences/proc/GetPrefsPage()
+	var/dat = "<table>"
+	dat += "<tr><td><b>UI:</b></td></tr>"
+	dat += "<tr><td></td><td>UI Style:</td><td><a href='?src=\ref[src];preference=ui'>[UI_style]</a></td></tr>"
+	dat += "<tr><td></td><td>Color:</td> <td><a href='?src=\ref[src];preference=UIcolor'><span class='box' style='background-color:[UI_style_color]'></span></a></td></tr>"
+	dat += "<tr><td></td><td>Alpha(transparency):</td> <td><a href='?src=\ref[src];preference=UIalpha'>[UI_style_alpha]</a></td></tr>"
+	dat += "<tr><td><b>SOUND:</b></td></tr>"
+	dat += "<tr><td></td><td>Play admin midis:</td> <td><a href='?src=\ref[src];preference=hear_midis'>[(toggles & SOUND_MIDI) ? "Yes" : "No"]</a></td></tr>"
+	dat += "<tr><td></td><td>Play lobby music:</td> <td><a href='?src=\ref[src];preference=lobby_music'>[(toggles & SOUND_LOBBY) ? "Yes" : "No"]</a></td></tr>"
+	dat += "<tr><td></td><td>Hear Ambience: </td> <td><a href='?src=\ref[src];preference=ambience'>[(toggles & SOUND_AMBIENCE) ? "Yes" : "No"]</a></td></tr>"
+	dat += "<tr><td><b>GHOST:</b></td></tr>"
+	dat += "<tr><td></td><td>Ghost ears:</td> <td><a href='?src=\ref[src];preference=ghost_ears'>[(chat_toggles & CHAT_GHOSTEARS) ? "All Speech" : "Nearest Creatures"]</a></td></tr>"
+	dat += "<tr><td></td><td>Ghost sight:</td> <td><a href=?src=\ref[src];preference=ghost_sight'>[(chat_toggles & CHAT_GHOSTSIGHT) ? "All Emotes" : "Nearest Creatures"]</a></td></tr>"
+	dat += "<tr><td></td><td>Ghost radio:</td> <td><a href='?src=\ref[src];preference=ghost_radio'>[(chat_toggles & CHAT_GHOSTRADIO) ? "All Chatter" : "Nearest Speakers"]</a></td></tr>"
+	dat += "<tr><td></td><td>Hear dead chat:</td> <td><a href='?src=\ref[src];preference=dead_chat'>[(chat_toggles & CHAT_DEAD) ? "Yes" : "No"]</a></td></tr>"
+	dat += "<tr><td><b>CHAT:</b></td></tr>"
+	dat += "<tr><td></td><td>Hear OOC:</td> <td><a href='?src=\ref[src];preference=head_ooc'>[(chat_toggles & CHAT_OOC) ? "Yes" : "No"]</a></td></tr>"
+	dat += "<tr><td></td><td>Hear LOOC:</td> <td><a href='?src=\ref[src];preference=head_looc'>[(chat_toggles & CHAT_LOOC) ? "Yes" : "No"]</a></td></tr>"
+	dat += "<tr><td></td><td>Hide Chat Tags:</td> <td><a href='?src=\ref[src];preference=chat_tags'>[(toggles & CHAT_NOICONS) ? "Yes" : "No"]</a></td></tr>"
+	dat += "<tr><td></td><td>Emote Localization:</td> <td><a href='?src=\ref[src];preference=emote_localization'>[(toggles & RUS_AUTOEMOTES) ? "Enabled" : "Disabled"]</a></td></tr>"
+	dat += "<tr><td></td><td>Show MOTD:</td> <td><a href='?src=\ref[src];preference=show_motd'>[(toggles & HIDE_MOTD) ? "Disabled" : "Enabled"]</a></td></tr>"
+	dat += "</table>"
+
+	return dat
+
+/datum/preferences/proc/HandlePrefsTopic(mob/new_player/user, list/href_list)
+	switch(href_list["preference"])
+		if("ui")
+			switch(UI_style)
+				if("Midnight")
+					UI_style = "Orange"
+				if("Orange")
+					UI_style = "old"
+				if("old")
+					UI_style = "White"
+				else
+					UI_style = "Midnight"
+		if("UIcolor")
+			var/UI_style_color_new = input(user, "Choose your UI color, dark colors are not recommended!") as color|null
+			if(!UI_style_color_new) return
+			UI_style_color = UI_style_color_new
+		if("UIalpha")
+			var/UI_style_alpha_new = input(user, "Select a new alpha(transparence) parametr for UI, between 50 and 255") as num
+			if(!UI_style_alpha_new || UI_style_alpha_new > 255 || UI_style_alpha_new < 50) return
+			UI_style_alpha = UI_style_alpha_new
+		if("hear_midis")
+			toggles ^= SOUND_MIDI
+		if("lobby_music")
+			toggles ^= SOUND_LOBBY
+			if(toggles & SOUND_LOBBY)
+				user << sound(ticker.login_music, repeat = 0, wait = 0, volume = 85, channel = 1)
+			else
+				user << sound(null, repeat = 0, wait = 0, volume = 85, channel = 1)
+		if("ghost_ears")
+			chat_toggles ^= CHAT_GHOSTEARS
+		if("ghost_sight")
+			chat_toggles ^= CHAT_GHOSTSIGHT
+		if("ghost_radio")
+			chat_toggles ^= CHAT_GHOSTRADIO
+		if("dead_chat")
+			chat_toggles ^= CHAT_DEAD
+		if("hear_ooc")
+			chat_toggles ^= CHAT_OOC
+		if("hear_looc")
+			chat_toggles ^= CHAT_LOOC
+		if("chat_tags")
+			toggles ^= CHAT_NOICONS
+		if("ambience")
+			toggles ^= SOUND_AMBIENCE
+		if("emote_localization")
+			toggles ^= RUS_AUTOEMOTES
+		if("show_motd")
+			toggles ^= HIDE_MOTD
 
 /datum/preferences/proc/GetSpeciesPage()
-
-
-
-/datum/preferences/proc/HandleLoadOutTopic(mob/new_player/user, list/href_list)
-/datum/preferences/proc/HandleSiliconTopic(mob/new_player/user, list/href_list)
-/datum/preferences/proc/HandlePrefsTopic(mob/new_player/user, list/href_list)
 /datum/preferences/proc/HandleSpeciesTopic(mob/new_player/user, list/href_list)
 
 
