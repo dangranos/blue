@@ -16,13 +16,11 @@
 	if(robotic)
 		status |= ORGAN_ROBOT
 
-/*
 /obj/item/organ/internal/Destroy()
 	if(parent)
 		parent.internal_organs -= src
 		parent = null
 	return ..()
-*/
 
 /obj/item/organ/internal/removed(mob/living/user)
 	if(!istype(owner)) return
