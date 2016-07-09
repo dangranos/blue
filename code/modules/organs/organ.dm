@@ -25,11 +25,6 @@ var/list/organ_cache = list()
 									  // links chemical IDs to number of ticks for which they'll stay in the blood
 	germ_level = 0
 
-/obj/item/organ/Destroy()
-	vital = 0 // Easy way, to remove death message and handle deletion.
-	removed()
-	return ..()
-
 /obj/item/organ/proc/update_health()
 	return
 
