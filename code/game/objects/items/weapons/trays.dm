@@ -153,7 +153,7 @@
 	var/val = 0 // value to return
 
 	for(var/obj/item/I in carrying)
-		if(I.w_class == 1.0)
+		if(I.w_class == 1.0 || I.w_class == 0)
 			val ++
 		else if(I.w_class == 2.0)
 			val += 3
@@ -170,7 +170,7 @@
 	for(var/obj/item/I in loc)
 		if( I != src && !I.anchored && !istype(I, /obj/item/clothing/under) && !istype(I, /obj/item/clothing/suit) && !istype(I, /obj/item/projectile) )
 			var/add = 0
-			if(I.w_class == 1.0)
+			if(I.w_class == 1.0 || I.w_class == 0)
 				add = 1
 			else if(I.w_class == 2.0)
 				add = 3
@@ -185,24 +185,7 @@
 
 /obj/item/weapon/tray/dropped(mob/user)
 
-	var/mob/living/M
-	for(M in src.loc) //to handle hand switching
-		return
-
-	var/foundtable = 0
-	for(var/obj/structure/table/T in loc)
-		foundtable = 1
-		break
-
 	overlays.Cut()
-
 	for(var/obj/item/I in carrying)
 		I.loc = loc
 		carrying.Remove(I)
-		if(!foundtable && isturf(loc))
-			// if no table, presume that the person just shittily dropped the tray on the ground and made a mess everywhere!
-			spawn()
-				for(var/i = 1, i <= rand(1,2), i++)
-					if(I)
-						step(I, pick(NORTH,SOUTH,EAST,WEST))
-						sleep(rand(2,4))
