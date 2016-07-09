@@ -92,6 +92,15 @@ var/global/list/ashtray_cache = list()
 		update_icon()
 	return ..()
 
+/obj/item/weapon/material/ashtray/attack_self(mob/user as mob)
+	if (contents.len)
+		for (var/obj/item/O in contents)
+			O.loc = get_turf(src)
+		user.visible_message("[user] empties \the [src]!")
+		update_icon()
+	else
+		user << "<span class='danger'>\The [src] is empty!</span>"
+
 /obj/item/weapon/material/ashtray/plastic/New(var/newloc)
 	..(newloc, "plastic")
 

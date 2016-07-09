@@ -35,7 +35,7 @@
 		else
 			src.up = !src.up
 			icon_state = "headphones_on"
-			if (istype(usr:l_ear,/obj/item/clothing/ears/earmuffs/mp3))
+			if (istype(usr:l_ear,/obj/item/clothing/ears/earmuffs/mp3)||istype(usr:r_ear,/obj/item/clothing/ears/earmuffs/mp3))
 				OpenInterface(usr)
 //			usr << browse(Body,Options)
 			usr << "You turn on [src]"
@@ -56,7 +56,7 @@
 	dat += "Space Fly         <a href='byond://?src=\ref[src];music4=1'>Play</a><br>"
 	dat += "Space Solus       <a href='byond://?src=\ref[src];music5=1'>Play</a><br>"
 	dat += "Space Asshole     <a href='byond://?src=\ref[src];music6=1'>Play</a><br>"
-	dat += "Space Thunderdome <a href='byond://?src=\ref[src];music1=1'>Play</a><br>"
+	dat += "Space Thunderdome <a href='byond://?src=\ref[src];music7=1'>Play</a><br>"
 	dat += "Space Title1      <a href='byond://?src=\ref[src];music8=1'>Play</a><br>"
 	dat += "Space Title2      <a href='byond://?src=\ref[src];music9=1'>Play</a><br>"
 	dat += "Space Traitor     <a href='byond://?src=\ref[src];music10=1'>Play</a><br>"
