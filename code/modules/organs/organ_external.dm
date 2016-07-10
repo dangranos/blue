@@ -1001,7 +1001,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 		var/datum/robolimb/R = all_robolimbs[company]
 		if(R)
 			force_icon = R.icon
-			name = "[R.company] [initial(name)]"
+			name = "[R.company] [name]"
 			desc = "[R.desc]"
 
 	dislocated = -1 //TODO, make robotic limbs a separate type, remove snowflake
