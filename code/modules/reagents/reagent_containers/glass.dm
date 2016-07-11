@@ -92,6 +92,8 @@
 
 	bullet_act(var/obj/item/projectile/bullet/Proj)
 		..()
+		if(!(Proj.damage_type == BRUTE))
+			return
 
 		if(reagents && reagents.total_volume)
 			reagents.splash(src.loc, reagents.total_volume)
@@ -108,8 +110,8 @@
 			B.pixel_x = pixel_x
 			B.pixel_y = pixel_y
 			var/image/hole = image('icons/effects/effects.dmi', "scorch")
-			hole.pixel_x = rand(-1,1)+15+pixel_x
-			hole.pixel_y = rand(-4,4)+15+pixel_y
+			hole.pixel_x = rand(-1,1)+1+pixel_x
+			hole.pixel_y = rand(-4,4)+1+pixel_y
 			B.overlays += hole
 		else
 			isGlass = 0
