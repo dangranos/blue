@@ -68,6 +68,7 @@ var/list/gamemode_cache = list()
 	var/mod_tempban_max = 1440
 	var/mod_job_tempban_max = 1440
 	var/load_jobs_from_txt = 0
+	var/panicbuner = 0
 	var/ToRban = 0
 	var/automute_on = 0					//enables automuting/spam prevention
 	var/jobs_have_minimal_access = 0	//determines whether jobs use minimal access or expanded access.

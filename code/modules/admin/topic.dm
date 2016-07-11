@@ -6,6 +6,11 @@
 		message_admins("[usr.key] has attempted to override the admin panel!")
 		return
 
+
+	else if(href_list["stickyban"])
+		stickyban(href_list["stickyban"],href_list)
+
+
 	if(ticker.mode && ticker.mode.check_antagonists_topic(href, href_list))
 		check_antagonists()
 		return
