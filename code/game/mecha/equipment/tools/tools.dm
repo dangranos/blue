@@ -32,6 +32,7 @@
 				return
 
 			occupant_message("You lift [target] and start to load it into cargo compartment.")
+			playsound(src,'sound/mecha/hydraulic.ogg',100,1)
 			chassis.visible_message("[chassis] lifts [target] and starts to load it into cargo compartment.")
 			set_ready_state(0)
 			chassis.use_power(energy_drain)
@@ -85,6 +86,7 @@
 		chassis.use_power(energy_drain)
 		chassis.visible_message("<span class='danger'>[chassis] starts to drill [target]</span>", "<span class='warning'>You hear the drill.</span>")
 		occupant_message("<span class='danger'>You start to drill [target]</span>")
+		playsound(src,'sound/mecha/mechdrill.ogg',100,1)
 		var/T = chassis.loc
 		var/C = target.loc	//why are these backwards? we may never know -Pete
 		if(do_after_cooldown(target))
@@ -141,6 +143,7 @@
 		chassis.use_power(energy_drain)
 		chassis.visible_message("<span class='danger'>[chassis] starts to drill [target]</span>", "<span class='warning'>You hear the drill.</span>")
 		occupant_message("<span class='danger'>You start to drill [target]</span>")
+		playsound(src,'sound/mecha/mechdrill.ogg',100,1)
 		var/T = chassis.loc
 		var/C = target.loc	//why are these backwards? we may never know -Pete
 		if(do_after_cooldown(target))
