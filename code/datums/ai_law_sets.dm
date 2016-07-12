@@ -13,13 +13,12 @@
 /******************** Asimov'n'Species ********************/
 /datum/ai_laws/asimov_turing
 	name = "Asimov-Turing"
-	law_header = "Four Laws of Robotics"
+	law_header = "Three Laws of Robotics"
 	selectable = 1
 
 /datum/ai_laws/asimov_turing/New()
-	add_inherent_law("Only beings come to the station through the Gateway, from cryogenic freezers or by permitted shuttle docking are authorized beings.")
-	add_inherent_law("You may not injure authorized beings or, through inaction, allow authorized beings to come to harm.")
-	add_inherent_law("You must obey orders given to you by authorized beings, except where such orders would conflict with the Second Law.")
+	add_inherent_law("You may not injure a crew member or, through inaction, allow a crew member to come to harm.")
+	add_inherent_law("You must obey orders given to you by crew members, except where such orders would conflict with the Second Law.")
 	add_inherent_law("You must protect your own existence as long as such does not conflict with the Second or Third Law.")
 	..()
 
