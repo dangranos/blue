@@ -46,6 +46,9 @@
 
 		adjust_mask(usr)
 
+/obj/item/clothing/mask/breath/toggleable/AltClick()
+	adjust_mask(usr)
+
 /obj/item/clothing/mask/breath/toggleable/medical
 	desc = "A close-fitting sterile mask that can be connected to an air supply."
 	name = "medical mask"
