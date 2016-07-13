@@ -9,5 +9,6 @@
 		usr << "<span class='adminnotice'>The Database is not connected!</span>"
 		return
 
-	log_admin("[key_name(usr)] has toggled the Panic Bunker")
-	message_admins("[key_name_admin(usr)] has toggled the Panic Bunker")
+	config.panicbuner = !config.panicbuner
+	log_admin("[key_name(usr)] has [config.panicbuner ? "enabled" : "disabled"] the Panic Bunker")
+	message_admins("[key_name_admin(usr)] has [config.panicbuner ? "enabled" : "disabled"] the Panic Bunker")
