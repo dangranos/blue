@@ -92,27 +92,24 @@
 
 	bullet_act(var/obj/item/projectile/bullet/Proj)
 		..()
-		if(!(Proj.damage_type == BRUTE))
+		if(Proj.damage_type != BRUTE)
 			return
 
 		if(reagents && reagents.total_volume)
 			reagents.splash(src.loc, reagents.total_volume)
+			qdel(reagents)
 
 		if(!isGlass)
 			visible_message("<span class = 'warning'>Bullet flies through the [src], splashing it's contents all around!</span>")
 
-			var/obj/item/weapon/pierced_container/B = new(loc)
-			B.name = "spoiled [name]"
-			B.force = src.force
-			B.icon = icon
-			B.icon_state = src.icon_state
-			B.item_state = src.item_state
-			B.pixel_x = pixel_x
-			B.pixel_y = pixel_y
+			name = "spoiled [name]"
+			desc = "It's kinda useless now, you know. Think first, shoot after."
+
 			var/image/hole = image('icons/effects/effects.dmi', "scorch")
-			hole.pixel_x = rand(-1,1)+1+pixel_x
-			hole.pixel_y = rand(-4,4)+1+pixel_y
-			B.overlays += hole
+			hole.pixel_x = rand(-3,3)+15
+			hole.pixel_y = rand(-5,5)+14
+			overlays += hole
+
 		else
 			isGlass = 0
 			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
@@ -132,8 +129,7 @@
 			playsound(src, "shatter", 70, 1)
 			if(prob(66))
 				new /obj/item/weapon/material/shard(src.loc)
-
-		qdel(src)
+			qdel(src)
 
 	throw_impact(var/atom/hit_atom)
 		..()
@@ -164,19 +160,6 @@
 			if(prob(50))
 				new /obj/item/weapon/material/shard(src.loc)
 			qdel(src)
-
-/obj/item/weapon/pierced_container
-
-	name = "Broken Can"
-	desc = "It's kinda useless now, you know. Think first, shoot after."
-	icon = 'icons/obj/drinks.dmi'
-	icon_state = "pierced_container"
-	force = 2.0
-	throwforce = 0
-	throw_speed = 3
-	throw_range = 5
-	item_state = "cola"
-
 
 /obj/item/weapon/reagent_containers/glass/beaker
 	name = "beaker"
