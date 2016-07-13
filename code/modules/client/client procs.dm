@@ -132,6 +132,11 @@
 		admins += src
 		holder.owner = src
 
+	else if(config.panicbuner && get_player_age(ckey)<1) //first connection
+		src << "Sorry but the server is currently not accepting connections from never before seen players."
+		del(src)
+		return 0
+
 	//preferences datum - also holds some persistant data for the client (because we may as well keep these datums to a minimum)
 	prefs = preferences_datums[ckey]
 	if(!prefs)
@@ -342,9 +347,3 @@ client/proc/MayRespawn()
 
 	// Something went wrong, client is usually kicked or transfered to a new mob at this point
 	return 0
-
-	if (isnum(player_age) && player_age == -1) //first connection
-		if (!holder)
-			src << "Sorry but the server is currently not accepting connections from never before seen players."
-			del(src)
-			return 0

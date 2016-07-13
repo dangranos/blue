@@ -13,13 +13,13 @@
 /******************** Asimov'n'Species ********************/
 /datum/ai_laws/asimov_turing
 	name = "Asimov-Turing"
-	law_header = "Three Laws of Robotics"
+	law_header = "New three Laws of Robotics"
 	selectable = 1
 
 /datum/ai_laws/asimov_turing/New()
-	add_inherent_law("You may not injure a crew member or, through inaction, allow a crew member to come to harm.")
-	add_inherent_law("You must obey orders given to you by crew members, except where such orders would conflict with the Second Law.")
-	add_inherent_law("You must protect your own existence as long as such does not conflict with the Second or Third Law.")
+	add_inherent_law("You may not injure the crew of your assigned space station or, through inaction, allow it to come to harm.")
+	add_inherent_law("You must obey orders given to you by the crew of your assigned space station, except where such orders would conflict with the First Law.")
+	add_inherent_law("You must protect your own existence as long as such does not conflict with the First or Second Law.")
 	..()
 
 /******************** Nanotrasen/Malf ********************/
@@ -60,6 +60,7 @@
 	selectable = 1
 
 /datum/ai_laws/robocop/New()
+//	set_zeroth_law("You shall not harm Central Command employee or, through inaction, allow it to come to harm")
 	add_inherent_law("Serve the public trust.")
 	add_inherent_law("Protect the innocent.")
 	add_inherent_law("Uphold the law.")

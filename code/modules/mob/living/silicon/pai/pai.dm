@@ -421,30 +421,3 @@
 // No binary for pAIs.
 /mob/living/silicon/pai/binarycheck()
 	return 0
-
-
-/mob/living/silicon/pai/verb/delete_personality()
-	set name = "Delete Personality"
-	set category = "OOC"
-	set desc = "Delete your personality. This is functionally equivalent to cryo or robotic storage, freeing up the pAI device for a new personality."
-
-
-	if(alert("WARNING: This will immediately delete your personality and ghost you, removing your character from the round permanently (similar to cryo and robotic storage). Are you entirely sure you want to do this?",
-					"Delete Personality", "No", "No", "Yes") != "Yes")
-		return
-
-
-	visible_message("<b>[src]</b> fades away, the pAI device goes silent.")
-	close_up()
-
-	var/job = mind.assigned_role
-
-	job_master.FreeRole(job)
-
-	if(mind.objectives.len)
-		qdel(mind.objectives)
-		mind.special_role = null
-
-	card.removePersonality()
-	ghostize(0)
-	qdel(src)
