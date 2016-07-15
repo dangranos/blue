@@ -161,7 +161,7 @@
 	permeability_coefficient = 0.05
 	species_restricted = list("Vox")
 
-/obj/item/clothing/shoes/magboots/vox
+/obj/item/clothing/shoes/magboots/toggleable/vox
 	desc = "A pair of heavy, jagged armoured foot pieces, seemingly suitable for a velociraptor."
 	name = "vox magclaws"
 	item_state = "boots-vox"
@@ -169,7 +169,7 @@
 	species_restricted = list("Vox")
 	action_button_name = "Toggle the magclaws"
 
-/obj/item/clothing/shoes/magboots/vox/attack_self(mob/user)
+/obj/item/clothing/shoes/magboots/toggleable/vox/attack_self(mob/user)
 	if(src.magpulse)
 		flags &= ~NOSLIP
 		magpulse = 0
@@ -192,7 +192,7 @@
 		user << "It would be hard to take off the [src] without relaxing your grip first."
 
 //In case they somehow come off while enabled.
-/obj/item/clothing/shoes/magboots/vox/dropped(mob/user as mob)
+/obj/item/clothing/shoes/magboots/toggleable/vox/dropped(mob/user as mob)
 	..()
 	if(src.magpulse)
 		user.visible_message("The [src] go limp as they are removed from [usr]'s feet.", "The [src] go limp as they are removed from your feet.")
@@ -200,7 +200,7 @@
 		magpulse = 0
 		canremove = 1
 
-/obj/item/clothing/shoes/magboots/vox/examine(mob/user, return_dist=1)
+/obj/item/clothing/shoes/magboots/toggleable/vox/examine(mob/user, return_dist=1)
 	. = ..()
 	if(magpulse && .<1)
 		user << "It would be hard to take these off without relaxing your grip first."

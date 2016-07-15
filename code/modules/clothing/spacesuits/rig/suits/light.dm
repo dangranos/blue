@@ -14,7 +14,7 @@
 
 	chest_type = /obj/item/clothing/suit/space/rig/light
 	helm_type =  /obj/item/clothing/head/helmet/space/rig/light
-	boot_type =  /obj/item/clothing/shoes/magboots/rig/light
+	boot_type =  /obj/item/clothing/shoes/magboots/toggleable/rig/light
 	glove_type = /obj/item/clothing/gloves/rig/light
 
 /obj/item/clothing/suit/space/rig/light
@@ -24,7 +24,7 @@
 /obj/item/clothing/gloves/rig/light
 	name = "gloves"
 
-/obj/item/clothing/shoes/magboots/rig/light
+/obj/item/clothing/shoes/magboots/toggleable/rig/light
 	name = "shoes"
 
 /obj/item/clothing/head/helmet/space/rig/light
@@ -40,7 +40,7 @@
 
 	airtight = 0
 	seal_delay = 5 //not being vaccum-proof has an upside I guess
-	
+
 	helm_type = /obj/item/clothing/head/lightrig/hacker
 	chest_type = /obj/item/clothing/suit/lightrig/hacker
 	glove_type = /obj/item/clothing/gloves/lightrig/hacker
