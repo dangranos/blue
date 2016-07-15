@@ -609,6 +609,8 @@ var/mob/living/silicon/robot/global/list/redcode_robot_modules = list(
 	src.modules += new /obj/item/weapon/soap(src)
 	src.modules += new /obj/item/device/t_scanner(src)
 	src.modules += new /obj/item/weapon/rpd/borg(src)
+	src.modules += new /obj/item/device/analyzer(src)
+	src.modules += new /obj/item/weapon/gripper/no_use/loader(src)
 	src.emag = new /obj/item/weapon/pickaxe/plasmacutter(src)
 	src.emag.name = "Plasma Cutter"
 
