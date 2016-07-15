@@ -21,7 +21,7 @@
 	species_restricted = null
 	gender = PLURAL
 
-/obj/item/clothing/shoes/magboots/rig
+/obj/item/clothing/shoes/magboots/toggleable/rig
 	name = "boots"
 	body_parts_covered = FEET
 	cold_protection = FEET
