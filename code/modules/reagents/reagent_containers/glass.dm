@@ -95,23 +95,31 @@
 		if(Proj.damage_type != BRUTE)
 			return
 
-		if(reagents && reagents.total_volume)
-			reagents.splash(src.loc, reagents.total_volume)
-			qdel(reagents)
-
 		if(!isGlass)
-			visible_message("<span class = 'warning'>Bullet flies through the [src], splashing it's contents all around!</span>")
-
-			name = "spoiled [name]"
-			desc = "It's kinda useless now, you know. Think first, shoot after."
+			if(reagents)
+				if(reagents.total_volume)
+					reagents.splash(src.loc, reagents.total_volume)
+					visible_message("<span class = 'warning'>Bullet flies through the [src], splashing it's contents all around!</span>")
+				else
+					visible_message("<span class = 'warning'>Bullet flies through the [src]!</span>")
+				qdel(reagents)
+				name = "spoiled [name]"
+				desc = "It's kinda useless now, you know. Think first, shoot after."
+			else
+				visible_message("<span class = 'warning'>Bullet flies through the [src]!</span>")
 
 			var/image/hole = image('icons/effects/effects.dmi', "scorch")
 			hole.pixel_x = rand(-3,3)+15
 			hole.pixel_y = rand(-5,5)+14
 			overlays += hole
+			return PROJECTILE_CONTINUE
 
 		else
 			isGlass = 0
+
+			if(reagents && reagents.total_volume)
+				reagents.splash(src.loc, reagents.total_volume)
+
 			visible_message("<span class = 'warning'>The [src] explodes in the shower of shards!</span>")
 
 			var/obj/item/weapon/broken_bottle/B = new(loc)
