@@ -97,7 +97,7 @@
 	if(isrobot(user))	return //Carn: fix for borgs dropping their modules on conveyor belts
 	if(I.loc != user)	return // This should stop mounted modules ending up outside the module.
 
-	user.unEquip(src.loc)
+	user.unEquip(I, src.loc)
 	return
 
 // attack with hand, move pulled object onto conveyor
