@@ -67,9 +67,9 @@ var/global/list/exclude_jobs = list(/datum/job/ai,/datum/job/cyborg)
 
 	//Tattoo
 var/global/list/tattoo_list = list(
-	"chest"  = list("Abstract" = 1, "Aquila" = 4),
+	"chest"  = list("Abstract" = 1),
 	"chest2" = list("Abstract" = 1, "Cross" = 2, "Skull" = 3, "Spades" = 4),
-	"head"   = list("Abstract" = 1, "Over left eye scar" = 2, "Over left eye scar" = 3),
+	"head"   = list("Abstract" = 1, "Over left eye scar" = 2, "Over right eye scar" = 3),
 	"groin"  = list("Abstract" = 1),
 	"l_arm"  = list("Abstract" = 1),
 	"l_hand" = list("Abstract" = 1),
