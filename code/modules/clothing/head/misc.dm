@@ -278,8 +278,8 @@
 /obj/item/clothing/head/beret/black
 	name = "black beret"
 	desc = "Usuall black beret. Nothing special."
-	icon_state = "blackberet"
-	item_state = "blackberet"
+	icon_state = "beret_black"
+	item_state = "beret_black"
 
 /obj/item/clothing/head/beret/army
 	name = "army beret"
@@ -293,3 +293,9 @@
 	icon_state = "armycap"
 	item_state = "armycap"
 	body_parts_covered = 0
+
+/obj/item/clothing/head/beret/white
+	desc = "Usuall black beret. Nothing special."
+	icon_state = "beret_white"
+	item_state = "beret_white"
+

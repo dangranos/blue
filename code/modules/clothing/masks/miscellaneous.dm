@@ -80,7 +80,7 @@
 		flags |= MASKCOVERSMOUTH
 		body_parts_covered = FACE|EYES
 	else
-		flags &= ~(MASKCOVERSMOUTH | AIRTIGHT)
+		flags &= ~MASKCOVERSMOUTH
 		body_parts_covered = HEAD
 
 /obj/item/clothing/mask/pig
@@ -136,6 +136,23 @@
 	icon_state = "ninja_scarf"
 	item_state = "ninja_scarf"
 	w_class = 2
+	gas_transfer_coefficient = 0.90
+	siemens_coefficient = 0
+
+/obj/item/clothing/mask/flagmask
+	name = "flgmask"
+	desc = "A simple cloth rag that bears the flag of the first nations."
+	icon_state = "flagmask"
+	item_state = "flagmask"
+	flags = MASKCOVERSMOUTH
+	w_class = 2
+	gas_transfer_coefficient = 0.90
+
+/obj/item/clothing/mask/tuskmask
+	name = "tuskmask"
+	desc = "Standart Boars mask."
+	icon_state = "tuskmask"
+	w_class = 1
 	gas_transfer_coefficient = 0.90
 	siemens_coefficient = 0
 

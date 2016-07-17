@@ -798,6 +798,10 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_wear_suit
 
+/datum/gear/brown_jacket/nt
+	display_name = "brown jacket, NanoTrasen"
+	path = /obj/item/clothing/suit/storage/toggle/brown_jacket/nanotrasen
+
 /datum/gear/leather_jacket
 	display_name = "leather jacket, black"
 	path = /obj/item/clothing/suit/storage/toggle/leather_jacket
@@ -810,6 +814,10 @@ var/global/list/gear_datums = list()
 	cost = 2
 	slot = slot_wear_suit
 
+/datum/gear/leather_jacket/boar
+	display_name = "leather jacket, boar"
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/boar
+
 /datum/gear/leather_jacket/cerber
 	display_name = "leather jacket, cerber"
 	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/cerberus
@@ -818,17 +826,25 @@ var/global/list/gear_datums = list()
 	display_name = "leather jacket, fox"
 	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/fox
 
-/datum/gear/leather_jacket/nt
-	display_name = "leather jacket, NanoTrasen, black"
-	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen
+/datum/gear/leather_jacket/mouse
+	display_name = "leather jacket, rat"
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/mouse
 
-/datum/gear/brown_jacket/nt
-	display_name = "leather jacket, NanoTrasen, brown"
-	path = /obj/item/clothing/suit/storage/toggle/brown_jacket/nanotrasen
+/datum/gear/leather_jacket/nt
+	display_name = "leather jacket, NanoTrasen"
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/nanotrasen
 
 /datum/gear/leather_jacket/skull
 	display_name = "leather jacket, skull"
 	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/skull
+
+/datum/gear/leather_jacket/snake
+	display_name = "leather jacket, snake"
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/snake
+
+/datum/gear/leather_jacket/wolf
+	display_name = "leather jacket, wolf"
+	path = /obj/item/clothing/suit/storage/toggle/leather_jacket/wolf
 
 /datum/gear/militaryjacket
 	display_name = "military jacket"

@@ -1,7 +1,8 @@
 /obj/item/clothing
 	name = "clothing"
 	siemens_coefficient = 0.9
-	var/list/species_restricted = null //Only these species can wear this kit.
+	var/on_mob_icon = "" 				//If set used instead icon_state for mob drawing.
+	var/list/species_restricted = null  //Only these species can wear this kit.
 
 	/*
 		Sprites used when the clothing item is refit. This is done by setting icon_override.
