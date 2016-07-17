@@ -34,6 +34,25 @@
 				usr << "You place your glasses into the normal position."
 			update_clothing_icon()	//so our mob-overlays update
 
+/obj/item/clothing/head/helmet/security/flasher
+	name = "security helmet"
+	icon_state = "hardhat_justice0"
+	brightness_on = 3
+
+	attack_self()
+		toggle()
+
+	verb/toggle()
+		set category = "Object"
+		set name = "Toggle flasher"
+		set src in usr
+		if(usr.canmove && !usr.stat && !usr.restrained())
+			on = !on
+			update_flashlight(usr)
+			icon_state = "hardhat_justice[on]"
+			usr << "You toggle [src] flasher"
+			update_clothing_icon()
+
 /obj/item/clothing/head/helmet/heavy
 	name = "combat helmet"
 	desc = "That's the tactical helmet with multiple attachments. Protects the head from impacts."

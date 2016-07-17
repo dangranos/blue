@@ -677,3 +677,20 @@
 	desc = "An oldfashioned red swimsuit."
 	icon_state = "swim_red"
 	siemens_coefficient = 1
+
+//pyjamas
+//originally intended to be pinstripes >.>
+
+/obj/item/clothing/under/bluepyjamas
+	name = "blue pyjamas"
+	desc = "Slightly old-fashioned sleepwear."
+	icon_state = "blue_pyjamas"
+	item_state = "blue_pyjamas"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS
+
+/obj/item/clothing/under/redpyjamas
+	name = "red pyjamas"
+	desc = "Slightly old-fashioned sleepwear."
+	icon_state = "red_pyjamas"
+	item_state = "red_pyjamas"
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|LEGS

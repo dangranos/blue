@@ -1089,7 +1089,6 @@ var/list/all_supply_groups = list("Operations","Security","Hospitality","Enginee
 					/obj/item/clothing/under/rank/mailman,
 					/obj/item/clothing/under/dress/dress_saloon,
 					/obj/item/clothing/accessory/suspenders,
-					/obj/item/clothing/suit/storage/toggle/labcoat/mad,
 					/obj/item/clothing/suit/bio_suit/plaguedoctorsuit,
 					/obj/item/clothing/under/schoolgirl,
 					/obj/item/clothing/under/owl,

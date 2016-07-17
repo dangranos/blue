@@ -688,10 +688,13 @@ var/global/list/damage_icon_parts = list()
 		wear_suit.screen_loc = ui_oclothing
 
 		var/image/standing
+		var/t_state = wear_suit.icon_state
+		if(istype(wear_suit, /obj/item/clothing) && wear_suit:on_mob_icon)
+			t_state = wear_suit:on_mob_icon
 		if(wear_suit.icon_override)
-			standing = image(icon = wear_suit.icon_override, icon_state = "[wear_suit.icon_state]")
+			standing = image(wear_suit.icon_override, t_state)
 		else
-			standing = get_suit_sprite(wear_suit.icon_state)
+			standing = get_suit_sprite(t_state)
 
 		if( istype(wear_suit, /obj/item/clothing/suit/straight_jacket) )
 			drop_from_inventory(handcuffed)
