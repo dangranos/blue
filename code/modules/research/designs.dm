@@ -503,26 +503,32 @@ datum/design/circuit/tcom/bluespacerelay
 /////////////////////////////////////
 datum/design/prosthesis/enforcer
 	build_type = MECHFAB
-	req_tech = list("material" = 3, "engineering" = 2, "combat" = 2, "biotech" = 3)
+	req_tech = list("materials" = 3, "engineering" = 2, "combat" = 2, "biotech" = 3)
 	category = "Prosthesis"
+	desc = "Fulllimb combat prosthesis with magboots and powerfists modules."
 
 datum/design/prosthesis/enforcer/AssembleDesignName()
 	name = "Prosthesis design of \"Enforcer Charge\" ([name])"
 
 datum/design/prosthesis/enforcer/r_arm
 	name = "right arm"
+	id = "enforcer_r_arm"
+	build_path = /obj/item/prosthesis/enforcer/r_arm
 
 datum/design/prosthesis/enforcer/l_arm
 	name = "left arm"
+	id = "enforcer_l_arm"
+	build_path = /obj/item/prosthesis/enforcer/l_arm
 
-datum/design/prosthesis/enforcer/leg/AssembleDesignDesc()
-	desc += "Fulllimb combat prosthesis with magboots and powerfists modules."
-
-datum/design/prosthesis/enforcer/leg/r_leg
+datum/design/prosthesis/enforcer/r_leg
 	name = "right leg"
+	id = "enforcer_r_leg"
+	build_path = /obj/item/prosthesis/enforcer/r_leg
 
-datum/design/prosthesis/enforcer/leg/l_leg
+datum/design/prosthesis/enforcer/l_leg
 	name = "left leg"
+	id = "enforcer_l_leg"
+	build_path = /obj/item/prosthesis/enforcer/l_leg
 
 
 
