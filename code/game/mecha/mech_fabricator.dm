@@ -295,7 +295,10 @@
 	var/output
 	var/tmp_output = ""
 	var/req_amount = 0
-	if(part.vars.Find("construction_time") && part.vars.Find("construction_cost"))//The most efficient way to go about this. Not all objects have these vars, but if they don't then they CANNOT be made by the mech fab. Doing it this way reduces a major amount of typecasting and switches, while cutting down maintenece for them as well -Sieve
+	//The most efficient way to go about this. Not all objects have these vars,
+	// but if they don't then they CANNOT be made by the mech fab. Doing it this way reduces a major amount of
+	// typecasting and switches, while cutting down maintenece for them as well -Sieve
+	if(part.vars.Find("construction_time") && part.vars.Find("construction_cost"))
 		for(var/c in part:construction_cost)//The check should ensure that anything without the var doesn't make it to this point
 			if(c in resources)
 				req_amount = get_resource_cost_w_coeff(part,c)
@@ -548,8 +551,10 @@
 		switch(screen)
 			if("main")
 				left_part = output_available_resources()+"<hr>"
+				left_part += "<a href='?src=\ref[src];sync=1'>Sync with R&D servers</a><hr>"
 				for(var/part_set in part_sets)
-					left_part += "<a href='?src=\ref[src];part_set=[part_set]'>[part_set]</a> - \[<a href='?src=\ref[src];partset_to_queue=[part_set]'>Add all parts to queue\]<br>"
+					left_part += "<a href='?src=\ref[src];part_set=[part_set]'>[part_set]</a> - "
+					left_part += "\[<a href='?src=\ref[src];partset_to_queue=[part_set]'>Add all parts to queue\]<br>"
 			if("parts")
 				left_part += output_parts_list(part_set)
 				left_part += "<hr><a href='?src=\ref[src];screen=main'>Return</a>"
