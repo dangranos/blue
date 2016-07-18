@@ -65,7 +65,7 @@ var/global/list/limb_icon_cache = list()
 	if(owner.f_style)
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[owner.f_style]
 		if(facial_hair_style && facial_hair_style.species_allowed && (owner.species.get_bodytype() in facial_hair_style.species_allowed))
-			facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
+			facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = facial_hair_style.icon_state)
 			if(facial_hair_style.do_colouration)
 				facial_s.Blend(owner.facial_color, ICON_ADD)
 			overlays |= facial_s
@@ -73,7 +73,7 @@ var/global/list/limb_icon_cache = list()
 	if(owner.h_style && !(owner.head && (owner.head.flags & BLOCKHEADHAIR)))
 		var/datum/sprite_accessory/hair_style = hair_styles_list[owner.h_style]
 		if(hair_style && (owner.species.get_bodytype() in hair_style.species_allowed))
-			hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+			hair_s = new/icon("icon" = hair_style.icon, "icon_state" = hair_style.icon_state)
 			if(hair_style.do_colouration)
 				hair_s.Blend(owner.hair_color, ICON_ADD)
 			overlays |= hair_s
@@ -83,40 +83,40 @@ var/global/list/limb_icon_cache = list()
 
 /obj/item/organ/external/proc/get_icon(var/skeletal)
 
-	var/gender = (owner && owner.gender == FEMALE)?"f":"m"
 	var/body_build = owner ? (owner.body_build) : 0
+	var/gender = (owner.gender == FEMALE)?"f":"m"
+	icon_state = "[limb_name]_[gendered ? gender : ""][body_build]"
 
 	if(force_icon)
-		mob_icon = new /icon(force_icon, "[limb_name]_[gender][body_build]")
+		mob_icon = new /icon(force_icon, icon_state)
 	else
-		if(!owner)
-			mob_icon = new /icon('icons/mob/human_races/r_human.dmi', "[limb_name]_m0")
+		if((status & ORGAN_ROBOT) && !(owner.species && owner.species.flags & IS_SYNTHETIC))
+			mob_icon = new /icon('icons/mob/human_races/robotic.dmi', icon_state)
+		else if(skeletal)
+			mob_icon = new /icon('icons/mob/human_races/r_skeleton.dmi', icon_state)
 		else
-			if(skeletal)
-				mob_icon = new /icon('icons/mob/human_races/r_skeleton.dmi', "[limb_name]_[gender][body_build]")
-			else if ((status & ORGAN_ROBOT) && !(owner.species && owner.species.flags & IS_SYNTHETIC))
-				mob_icon = new /icon('icons/mob/human_races/robotic.dmi', "[limb_name]_[gender][body_build]")
+			if (status & ORGAN_MUTATED)
+				mob_icon = new /icon(owner.species.deform, icon_state)
 			else
-				if (status & ORGAN_MUTATED)
-					mob_icon = new /icon(owner.species.deform, "[limb_name]_[gender][body_build]")
+				if(is_stump()) icon_state+="_s"
+				mob_icon = new /icon(owner.species.icobase, icon_state)
+
+			if(status & ORGAN_DEAD)
+				mob_icon.ColorTone(rgb(10,50,0))
+				mob_icon.SetIntensity(0.7)
+
+			if(!isnull(s_tone))
+				if(s_tone >= 0)
+					mob_icon.Blend(rgb(s_tone, s_tone, s_tone), ICON_ADD)
 				else
-					mob_icon = new /icon(owner.species.icobase, "[limb_name][is_stump()?"_s":""]_[gender][body_build]")
+					mob_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
+			else if(s_col)
+				mob_icon.Blend(s_col, ICON_ADD)
 
-				if(status & ORGAN_DEAD)
-					mob_icon.ColorTone(rgb(10,50,0))
-					mob_icon.SetIntensity(0.7)
-
-				if(!isnull(s_tone))
-					if(s_tone >= 0)
-						mob_icon.Blend(rgb(s_tone, s_tone, s_tone), ICON_ADD)
-					else
-						mob_icon.Blend(rgb(-s_tone,  -s_tone,  -s_tone), ICON_SUBTRACT)
-				else if(s_col)
-					mob_icon.Blend(s_col, ICON_ADD)
-				if(tattoo)
-					mob_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[limb_name]_[tattoo]_[body_build]"), ICON_OVERLAY)
-				if(tattoo2)
-					mob_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[limb_name]2_[tattoo2]_[body_build]"), ICON_OVERLAY)
+			if(tattoo)
+				mob_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[limb_name]_[tattoo]_[body_build]"), ICON_OVERLAY)
+			if(tattoo2)
+				mob_icon.Blend(new/icon('icons/mob/tattoo.dmi', "[limb_name]2_[tattoo2]_[body_build]"), ICON_OVERLAY)
 
 	dir = EAST
 	icon = mob_icon

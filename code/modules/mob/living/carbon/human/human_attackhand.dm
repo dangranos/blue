@@ -1,4 +1,19 @@
+// Called when using the shredding behavior.
+
+/mob/living/carbon/human/proc/can_shred(var/ignore_intent)
+	if(!ignore_intent && a_intent != I_HURT)
+		return 0
+
+	var/obj/item/organ/external/attack_organ = get_organ(hand ? "l_hand" : "r_hand")
+	if(attack_organ && attack_organ.attack && attack_organ.attack.shredding)
+		return 1
+	else return species.can_shred(src, ignore_intent)
+
 /mob/living/carbon/human/proc/get_unarmed_attack(var/mob/living/carbon/human/target, var/hit_zone)
+	var/obj/item/organ/external/attack_organ = get_organ(hand ? "l_hand" : "r_hand")
+	if(attack_organ && attack_organ.attack && attack_organ.attack.is_usable(src, target, hit_zone))
+		return attack_organ.attack
+
 	for(var/datum/unarmed_attack/u_attack in species.unarmed_attacks)
 		if(u_attack.is_usable(src, target, hit_zone))
 			return u_attack

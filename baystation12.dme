@@ -1407,6 +1407,8 @@
 #include "code\modules\organs\pain.dm"
 #include "code\modules\organs\robolimbs.dm"
 #include "code\modules\organs\wound.dm"
+#include "code\modules\organs\prothesis\organ_external_robotic.dm"
+#include "code\modules\organs\prothesis\prosthesis_obj.dm"
 #include "code\modules\overmap\_defines.dm"
 #include "code\modules\overmap\sectors.dm"
 #include "code\modules\overmap\ships\ship.dm"

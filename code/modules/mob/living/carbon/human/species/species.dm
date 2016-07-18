@@ -18,14 +18,14 @@
 	var/damage_mask = 'icons/mob/human_races/masks/dam_mask_human.dmi'
 	var/blood_mask = 'icons/mob/human_races/masks/blood_human.dmi'
 
-	var/prone_icon                                       // If set, draws this from icobase when mob is prone.
-	var/blood_color = "#A10808"                          // Red.
-	var/flesh_color = "#FFC896"                          // Pink.
-	var/base_color                                       // Used by changelings. Should also be used for icon previes..
-	var/tail                                             // Name of tail state in species effects icon file.
-	var/tail_animation                                   // If set, the icon to obtain tail animation states from.
-	var/race_key = 0       	                             // Used for mob icon cache string.
-	var/icon/icon_template                               // Used for mob icon generation for non-32x32 species.
+	var/prone_icon                           // If set, draws this from icobase when mob is prone.
+	var/blood_color = "#A10808"              // Red.
+	var/flesh_color = "#FFC896"              // Pink.
+	var/base_color                           // Used by changelings. Should also be used for icon previes..
+	var/tail                                 // Name of tail state in species effects icon file.
+	var/tail_animation                       // If set, the icon to obtain tail animation states from.
+	var/race_key = 0                         // Used for mob icon cache string.
+	var/icon/icon_template                   // Used for mob icon generation for non-32x32 species.
 	var/is_small
 	var/show_ssd = "fast asleep"
 
@@ -38,11 +38,10 @@
 
 	// Combat vars.
 	var/total_health = 100                   // Point at which the mob will enter crit.
-	var/list/unarmed_types = list(           // Possible unarmed attacks that the mob will use in combat.
-		/datum/unarmed_attack,
-		/datum/unarmed_attack/bite
+	var/list/unarmed_attacks = list(         // For empty hand harm-intent attack
+		new /datum/unarmed_attack,
+		new /datum/unarmed_attack/bite
 		)
-	var/list/unarmed_attacks = null          // For empty hand harm-intent attack
 	var/brute_mod = 1                        // Physical damage multiplier.
 	var/burn_mod = 1                         // Burn damage multiplier.
 	var/vision_flags = SEE_SELF              // Same flags as glasses.
@@ -101,7 +100,7 @@
 	var/has_fine_manipulation = 1 // Can use small items.
 	var/siemens_coefficient = 1   // The lower, the thicker the skin and better the insulation.
 	var/darksight = 2             // Native darksight distance.
-	var/toxins_mod =    1           // Toxloss modifier
+	var/toxins_mod = 1            // Toxloss modifier
 	var/flags = 0                 // Various specific features.
 	var/slowdown = 0              // Passive movement speed malus (or boost, if negative)
 	var/primitive_form            // Lesser form, if any (ie. monkey for humans)
@@ -199,10 +198,6 @@
 		hud = new hud_type()
 	else
 		hud = new()
-
-	unarmed_attacks = list()
-	for(var/u_type in unarmed_types)
-		unarmed_attacks += new u_type()
 
 /datum/species/proc/get_station_variant()
 	return name

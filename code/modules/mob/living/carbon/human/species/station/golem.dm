@@ -6,7 +6,11 @@
 	deform = 'icons/mob/human_races/r_golem.dmi'
 
 	language = "Sol Common" //todo?
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/punch)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/punch
+		)
 	flags = IS_RESTRICTED | NO_BREATHE | NO_PAIN | NO_BLOOD | NO_SCAN | NO_POISON
 	siemens_coefficient = 0
 

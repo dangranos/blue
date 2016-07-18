@@ -13,18 +13,18 @@
 	idle_power_usage = 20
 	active_power_usage = 5000
 	req_access = list(access_robotics)
-	var/current_manufacturer
 	var/time_coeff = 1.5 //can be upgraded with research
 	var/resource_coeff = 1.5 //can be upgraded with research
 	var/list/resources = list(
-										DEFAULT_WALL_MATERIAL=0,
-										"glass"=0,
-										"gold"=0,
-										"silver"=0,
-										"diamond"=0,
-										"phoron"=0,
-										"uranium"=0,
-										)
+		DEFAULT_WALL_MATERIAL=0,
+		"glass"=0,
+		"gold"=0,
+		"silver"=0,
+		"diamond"=0,
+		"phoron"=0,
+		"uranium"=0,
+	)
+
 	var/res_max_amount = 200000
 	var/datum/research/files
 	var/id
@@ -38,115 +38,124 @@
 	var/temp
 	var/output_dir = SOUTH	//the direction relative to the fabber at which completed parts appear.
 	var/list/part_sets = list( //set names must be unique
-	"Robot"=list(
-						/obj/item/robot_parts/robot_suit,
-						/obj/item/robot_parts/chest,
-						/obj/item/robot_parts/head,
-						/obj/item/robot_parts/l_arm,
-						/obj/item/robot_parts/r_arm,
-						/obj/item/robot_parts/l_leg,
-						/obj/item/robot_parts/r_leg,
-						/obj/item/robot_parts/robot_component/binary_communication_device,
-						/obj/item/robot_parts/robot_component/radio,
-						/obj/item/robot_parts/robot_component/actuator,
-						/obj/item/robot_parts/robot_component/diagnosis_unit,
-						/obj/item/robot_parts/robot_component/camera,
-						/obj/item/robot_parts/robot_component/armour
-					),
-	"Ripley"=list(
-						/obj/item/mecha_parts/chassis/ripley,
-						/obj/item/mecha_parts/part/ripley_torso,
-						/obj/item/mecha_parts/part/ripley_left_arm,
-						/obj/item/mecha_parts/part/ripley_right_arm,
-						/obj/item/mecha_parts/part/ripley_left_leg,
-						/obj/item/mecha_parts/part/ripley_right_leg
-					),
-//	"Hoverpod"=list(
-//						/obj/structure/largecrate/hoverpod // Doesn't work, even with required vars. Why? - Gamerofthegame
-//					),
-	"Odysseus"=list(
-						/obj/item/mecha_parts/chassis/odysseus,
-						/obj/item/mecha_parts/part/odysseus_torso,
-						/obj/item/mecha_parts/part/odysseus_head,
-						/obj/item/mecha_parts/part/odysseus_left_arm,
-						/obj/item/mecha_parts/part/odysseus_right_arm,
-						/obj/item/mecha_parts/part/odysseus_left_leg,
-						/obj/item/mecha_parts/part/odysseus_right_leg
-					),
+		"Robot"=list(
+			/obj/item/robot_parts/robot_suit,
+			/obj/item/robot_parts/chest,
+			/obj/item/robot_parts/head,
+			/obj/item/robot_parts/l_arm,
+			/obj/item/robot_parts/r_arm,
+			/obj/item/robot_parts/l_leg,
+			/obj/item/robot_parts/r_leg
+		),
 
-	"Gygax"=list(
-						/obj/item/mecha_parts/chassis/gygax,
-						/obj/item/mecha_parts/part/gygax_torso,
-						/obj/item/mecha_parts/part/gygax_head,
-						/obj/item/mecha_parts/part/gygax_left_arm,
-						/obj/item/mecha_parts/part/gygax_right_arm,
-						/obj/item/mecha_parts/part/gygax_left_leg,
-						/obj/item/mecha_parts/part/gygax_right_leg,
-						/obj/item/mecha_parts/part/gygax_armour
-					),
-	"Durand"=list(
-						/obj/item/mecha_parts/chassis/durand,
-						/obj/item/mecha_parts/part/durand_torso,
-						/obj/item/mecha_parts/part/durand_head,
-						/obj/item/mecha_parts/part/durand_left_arm,
-						/obj/item/mecha_parts/part/durand_right_arm,
-						/obj/item/mecha_parts/part/durand_left_leg,
-						/obj/item/mecha_parts/part/durand_right_leg,
-						/obj/item/mecha_parts/part/durand_armour
-					),
-	"Phazon"=list(
-						/obj/item/mecha_parts/chassis/phazon,
-						/obj/item/mecha_parts/part/phazon_torso,
-						/obj/item/mecha_parts/part/phazon_head,
-						/obj/item/mecha_parts/part/phazon_left_arm,
-						/obj/item/mecha_parts/part/phazon_right_arm,
-						/obj/item/mecha_parts/part/phazon_left_leg,
-						/obj/item/mecha_parts/part/phazon_right_leg,
-						/obj/item/mecha_parts/part/phazon_armor
-					),
-	/*"H.O.N.K"=list(
-						/obj/item/mecha_parts/chassis/honker,
-						/obj/item/mecha_parts/part/honker_torso,
-						/obj/item/mecha_parts/part/honker_head,
-						/obj/item/mecha_parts/part/honker_left_arm,
-						/obj/item/mecha_parts/part/honker_right_arm,
-						/obj/item/mecha_parts/part/honker_left_leg,
-						/obj/item/mecha_parts/part/honker_right_leg
-						), No need for HONK stuff*/
-	"Exosuit Equipment"=list(
-						/obj/item/mecha_parts/mecha_equipment/tool/hydraulic_clamp,
-						/obj/item/mecha_parts/mecha_equipment/tool/drill,
-						/obj/item/mecha_parts/mecha_equipment/tool/extinguisher,
-						/obj/item/mecha_parts/mecha_equipment/tool/cable_layer,
-						/obj/item/mecha_parts/mecha_equipment/tool/sleeper,
-						/obj/item/mecha_parts/mecha_equipment/tool/syringe_gun,
-						/obj/item/mecha_parts/mecha_equipment/tool/passenger,
-						/obj/item/mecha_parts/chassis/firefighter,
-						///obj/item/mecha_parts/mecha_equipment/repair_droid,
-						/obj/item/mecha_parts/mecha_equipment/generator,
-						/obj/item/mecha_parts/mecha_equipment/jetpack,
-						/obj/item/mecha_parts/mecha_equipment/weapon/energy/taser,
-						/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg,
-						///obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/banana_mortar/mousetrap_mortar, HONK-related mech part
-						///obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/banana_mortar, Also HONK-related
-						///obj/item/mecha_parts/mecha_equipment/weapon/honker Thirdly HONK-related
-						),
+		"Ripley"=list(
+			/obj/item/mecha_parts/chassis/ripley,
+			/obj/item/mecha_parts/part/ripley_torso,
+			/obj/item/mecha_parts/part/ripley_left_arm,
+			/obj/item/mecha_parts/part/ripley_right_arm,
+			/obj/item/mecha_parts/part/ripley_left_leg,
+			/obj/item/mecha_parts/part/ripley_right_leg
+		),
 
-	"Robotic Upgrade Modules" = list(
-						/obj/item/borg/upgrade/reset,
-						/obj/item/borg/upgrade/rename,
-						/obj/item/borg/upgrade/restart,
-						/obj/item/borg/upgrade/vtec,
-						/obj/item/borg/upgrade/tasercooler,
-						/obj/item/borg/upgrade/jetpack
-						),
+		"Odysseus"=list(
+			/obj/item/mecha_parts/chassis/odysseus,
+			/obj/item/mecha_parts/part/odysseus_torso,
+			/obj/item/mecha_parts/part/odysseus_head,
+			/obj/item/mecha_parts/part/odysseus_left_arm,
+			/obj/item/mecha_parts/part/odysseus_right_arm,
+			/obj/item/mecha_parts/part/odysseus_left_leg,
+			/obj/item/mecha_parts/part/odysseus_right_leg
+		),
 
+		"Gygax"=list(
+			/obj/item/mecha_parts/chassis/gygax,
+			/obj/item/mecha_parts/part/gygax_torso,
+			/obj/item/mecha_parts/part/gygax_head,
+			/obj/item/mecha_parts/part/gygax_left_arm,
+			/obj/item/mecha_parts/part/gygax_right_arm,
+			/obj/item/mecha_parts/part/gygax_left_leg,
+			/obj/item/mecha_parts/part/gygax_right_leg,
+			/obj/item/mecha_parts/part/gygax_armour
+		),
 
+		"Durand"=list(
+			/obj/item/mecha_parts/chassis/durand,
+			/obj/item/mecha_parts/part/durand_torso,
+			/obj/item/mecha_parts/part/durand_head,
+			/obj/item/mecha_parts/part/durand_left_arm,
+			/obj/item/mecha_parts/part/durand_right_arm,
+			/obj/item/mecha_parts/part/durand_left_leg,
+			/obj/item/mecha_parts/part/durand_right_leg,
+			/obj/item/mecha_parts/part/durand_armour
+		),
 
+		"Phazon"=list(
+			/obj/item/mecha_parts/chassis/phazon,
+			/obj/item/mecha_parts/part/phazon_torso,
+			/obj/item/mecha_parts/part/phazon_head,
+			/obj/item/mecha_parts/part/phazon_left_arm,
+			/obj/item/mecha_parts/part/phazon_right_arm,
+			/obj/item/mecha_parts/part/phazon_left_leg,
+			/obj/item/mecha_parts/part/phazon_right_leg,
+			/obj/item/mecha_parts/part/phazon_armor
+		),
 
+		/* No need for HONK stuff,
+		"H.O.N.K"=list(
+			/obj/item/mecha_parts/chassis/honker,
+			/obj/item/mecha_parts/part/honker_torso,
+			/obj/item/mecha_parts/part/honker_head,
+			/obj/item/mecha_parts/part/honker_left_arm,
+			/obj/item/mecha_parts/part/honker_right_arm,
+			/obj/item/mecha_parts/part/honker_left_leg,
+			/obj/item/mecha_parts/part/honker_right_leg
+		),
+		*/
 
+		"Exosuit Equipment"=list(
+			/obj/item/mecha_parts/mecha_equipment/tool/hydraulic_clamp,
+			/obj/item/mecha_parts/mecha_equipment/tool/drill,
+			/obj/item/mecha_parts/mecha_equipment/tool/extinguisher,
+			/obj/item/mecha_parts/mecha_equipment/tool/cable_layer,
+			/obj/item/mecha_parts/mecha_equipment/tool/sleeper,
+			/obj/item/mecha_parts/mecha_equipment/tool/syringe_gun,
+			/obj/item/mecha_parts/mecha_equipment/tool/passenger,
+			/obj/item/mecha_parts/chassis/firefighter,
+			///obj/item/mecha_parts/mecha_equipment/repair_droid,
+			/obj/item/mecha_parts/mecha_equipment/generator,
+			/obj/item/mecha_parts/mecha_equipment/jetpack,
+			/obj/item/mecha_parts/mecha_equipment/weapon/energy/taser,
+			/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/lmg,
+			///obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/banana_mortar/mousetrap_mortar, HONK-related mech part
+			///obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/banana_mortar, Also HONK-related
+			///obj/item/mecha_parts/mecha_equipment/weapon/honker Thirdly HONK-related
+		),
 
-	"Misc"=list(/obj/item/mecha_parts/mecha_tracking)
+		"Robotic Modules" = list(
+			/obj/item/borg/upgrade/reset,
+			/obj/item/borg/upgrade/rename,
+			/obj/item/borg/upgrade/restart,
+			/obj/item/borg/upgrade/vtec,
+			/obj/item/borg/upgrade/tasercooler,
+			/obj/item/borg/upgrade/jetpack,
+			/obj/item/robot_parts/robot_component/binary_communication_device,
+			/obj/item/robot_parts/robot_component/radio,
+			/obj/item/robot_parts/robot_component/actuator,
+			/obj/item/robot_parts/robot_component/diagnosis_unit,
+			/obj/item/robot_parts/robot_component/camera,
+			/obj/item/robot_parts/robot_component/armour
+		),
+
+		"Prosthesis" = list(
+			/obj/item/prosthesis/r_arm,
+			/obj/item/prosthesis/l_arm,
+			/obj/item/prosthesis/r_leg,
+			/obj/item/prosthesis/l_leg
+		),
+
+		"Misc"=list(
+			/obj/item/mecha_parts/mecha_tracking
+		)
 	)
 
 
@@ -164,27 +173,19 @@
 	component_parts += new /obj/item/weapon/stock_parts/console_screen(src)
 	RefreshParts()
 
-	//	part_sets["Cyborg Upgrade Modules"] = typesof(/obj/item/borg/upgrade/) - /obj/item/borg/upgrade/  // Eh.  This does it dymaically, but to support having the items referenced otherwhere in the code but not being constructable, going to do it manaully.
-
 	for(var/part_set in part_sets)
 		convert_part_set(part_set)
-	files = new /datum/research(src) //Setup the research data holder.
-	/*
-	if(!id)
-		for(var/obj/machinery/r_n_d/server/centcom/S in world)
-			S.initialize()
-			break
-	*/
-	return
 
-/obj/machinery/mecha_part_fabricator/initialize()
-	current_manufacturer = basic_robolimb.company
+	files = new /datum/research(src) //Setup the research data holder.
+
+	return
 
 /obj/machinery/mecha_part_fabricator/RefreshParts()
 	var/T = 0
 	for(var/obj/item/weapon/stock_parts/matter_bin/M in component_parts)
 		T += M.rating
 	res_max_amount = (187500+(T * 37500))
+
 	T = 0
 	for(var/obj/item/weapon/stock_parts/micro_laser/Ma in component_parts)
 		T += Ma.rating
@@ -194,6 +195,7 @@
 	diff = round(initial(resource_coeff) - (initial(resource_coeff)*(T))/25,0.01)
 	if(resource_coeff!=diff)
 		resource_coeff = diff
+
 	T = 0
 	for(var/obj/item/weapon/stock_parts/manipulator/Ml in component_parts)
 		T += Ml.rating
@@ -208,20 +210,6 @@
 		qdel(A)
 	..()
 	return
-
-/obj/machinery/mecha_part_fabricator/proc/operation_allowed(mob/M)
-	if(isrobot(M) || isAI(M))
-		return 1
-	if(!istype(req_access) || !req_access.len)
-		return 1
-	else if(istype(M, /mob/living/carbon/human))
-		var/mob/living/carbon/human/H = M
-		for(var/ID in list(H.get_active_hand(), H.wear_id, H.belt))
-			if(src.check_access(ID))
-				return 1
-	M << "<font color='red'>You don't have required permissions to use [src]</font>"
-	return 0
-
 
 /obj/machinery/mecha_part_fabricator/proc/emag()
 	sleep()
@@ -288,30 +276,6 @@
 		if(part_sets[i]==set_name)
 			part_sets.Cut(i,++i)
 	return
-/*
-	proc/sanity_check()
-		for(var/p in resources)
-			var/index = resources.Find(p)
-			index = resources.Find(p, ++index)
-			if(index) //duplicate resource
-				world << "Duplicate resource definition for [src](\ref[src])"
-				return 0
-		for(var/set_name in part_sets)
-			var/index = part_sets.Find(set_name)
-			index = part_sets.Find(set_name, ++index)
-			if(index) //duplicate part set
-				world << "Duplicate part set definition for [src](\ref[src])"
-				return 0
-		return 1
-*/
-/*
-	New()
-		..()
-		src.add_part_to_set("Test",list("result"="/obj/item/mecha_parts/part/gygax_armour","time"=600,"metal"=75000,"diamond"=10000))
-		src.add_part_to_set("Test",list("result"="/obj/item/mecha_parts/part/ripley_left_arm","time"=200,"metal"=25000))
-		src.remove_part_set("Gygax")
-		return
-*/
 
 /obj/machinery/mecha_part_fabricator/proc/output_parts_list(set_name)
 	var/output = ""
@@ -381,10 +345,7 @@
 	if( !(locate(part, src.contents)) || !(part.vars.Find("construction_time")) || !(part.vars.Find("construction_cost")) ) // these 3 are the current requirements for an object being buildable by the mech_fabricator
 		return
 
-	if(current_manufacturer)
-		src.being_built = new part.type(src, current_manufacturer)
-	else
-		src.being_built = new part.type(src, basic_robolimb.company)
+	src.being_built = new part.type(src)
 
 	src.desc = "It's building [src.being_built]."
 	src.remove_resources(part)
@@ -570,7 +531,8 @@
 	var/dat, left_part
 	if (..())
 		return
-	if(!operation_allowed(user))
+	if(!allowed(user))
+		user << "<font color='red'>You don't have required permissions to use [src]</font>"
 		return
 	user.set_machine(src)
 	var/turf/exit = get_step(src,output_dir)
@@ -586,7 +548,6 @@
 		switch(screen)
 			if("main")
 				left_part = output_available_resources()+"<hr>"
-				left_part += "<a href='?src=\ref[src];sync=1'>Sync with R&D servers</a> | <a href='?src=\ref[src];set_manufacturer=1'>Set manufacturer</a> ([current_manufacturer])<hr>"
 				for(var/part_set in part_sets)
 					left_part += "<a href='?src=\ref[src];part_set=[part_set]'>[part_set]</a> - \[<a href='?src=\ref[src];partset_to_queue=[part_set]'>Add all parts to queue\]<br>"
 			if("parts")
@@ -648,9 +609,6 @@
 		return
 
 	var/datum/topic_input/filter = new /datum/topic_input(href,href_list)
-	if(href_list["set_manufacturer"])
-		var/choice = input(usr, "Which manufacturer do you wish to use for this fabricator?") as null|anything in all_robolimbs
-		if(choice) current_manufacturer = choice
 	if(href_list["part_set"])
 		var/tpart_set = filter.getStr("part_set")
 		if(tpart_set)

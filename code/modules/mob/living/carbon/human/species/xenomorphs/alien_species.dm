@@ -5,7 +5,10 @@
 
 	default_language = "Xenomorph"
 	language = "Hivemind"
-	unarmed_types = list(/datum/unarmed_attack/claws/strong, /datum/unarmed_attack/bite/strong)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/claws/strong,
+		new /datum/unarmed_attack/bite/strong
+		)
 	hud_type = /datum/hud_data/alien
 	rarity_value = 3
 

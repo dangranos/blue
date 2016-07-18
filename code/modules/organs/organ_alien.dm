@@ -30,12 +30,14 @@
 	min_broken_damage = 50
 	body_part = UPPER_TORSO
 	vital = 1
+	gendered = 1
 	cannot_amputate = 1
 	parent_organ = null
 
 /obj/item/organ/external/diona/groin
 	name = "fork"
 	limb_name = "groin"
+	gendered = 1
 	health = 100
 	min_broken_damage = 50
 	body_part = LOWER_TORSO
@@ -56,6 +58,7 @@
 /obj/item/organ/external/diona/head
 	limb_name = "head"
 	name = "head"
+	gendered = 1
 	health = 50
 	min_broken_damage = 25
 	body_part = HEAD
@@ -169,13 +172,22 @@
 		qdel(src)
 
 //XENOMORPH ORGANS
+/obj/item/organ/internal/xenos
+	name = "xeno organ"
+	icon = 'icons/effects/blood.dmi'
+	desc = "It smells like an accident in a chemical factory."
+
 /obj/item/organ/internal/xenos/eggsac
 	name = "egg sac"
 	parent_organ = "groin"
+	icon_state = "xgibmid1"
+	organ_tag = "egg sac"
 
 /obj/item/organ/internal/xenos/plasmavessel
 	name = "plasma vessel"
 	parent_organ = "chest"
+	icon_state = "xgibdown1"
+	organ_tag = "plasma vessel"
 	var/stored_plasma = 0
 	var/max_plasma = 500
 
@@ -196,42 +208,18 @@
 /obj/item/organ/internal/xenos/acidgland
 	name = "acid gland"
 	parent_organ = "head"
-
-/obj/item/organ/internal/xenos/hivenode
-	name = "hive node"
-	parent_organ = "chest"
-
-/obj/item/organ/internal/xenos/resinspinner
-	name = "resin spinner"
-	parent_organ = "head"
-
-/obj/item/organ/internal/xenos
-	name = "xeno organ"
-	icon = 'icons/effects/blood.dmi'
-	desc = "It smells like an accident in a chemical factory."
-
-/obj/item/organ/internal/xenos/eggsac
-	name = "egg sac"
-	icon_state = "xgibmid1"
-	organ_tag = "egg sac"
-
-/obj/item/organ/internal/xenos/plasmavessel
-	name = "plasma vessel"
-	icon_state = "xgibdown1"
-	organ_tag = "plasma vessel"
-
-/obj/item/organ/internal/xenos/acidgland
-	name = "acid gland"
 	icon_state = "xgibtorso"
 	organ_tag = "acid gland"
 
 /obj/item/organ/internal/xenos/hivenode
 	name = "hive node"
+	parent_organ = "chest"
 	icon_state = "xgibmid2"
 	organ_tag = "hive node"
 
 /obj/item/organ/internal/xenos/resinspinner
-	name = "hive node"
+	name = "resin spinner"
+	parent_organ = "head"
 	icon_state = "xgibmid2"
 	organ_tag = "resin spinner"
 

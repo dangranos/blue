@@ -15,17 +15,20 @@
 		return !isnull(organ_data) && !(target_zone in list("head","groin","chest"))
 
 /datum/surgery_step/limb/attach
-	allowed_tools = list(/obj/item/robot_parts = 100)
+	allowed_tools = list(/obj/item/prosthesis = 100)
 
 	min_duration = 80
 	max_duration = 100
 
 	can_use(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 		if(..())
-			var/obj/item/robot_parts/p = tool
+			var/obj/item/prosthesis/p = tool
 			if (p.part)
 				if (!(target_zone in p.part))
 					return 0
+			if(target.body_build == BODY_SLIM && !tool:allow_slim_body)
+				user << "<span class = 'warning'>[target.name]'s spine and bones is too weak for using [tool].</span>"
+				return 0
 			return isnull(target.get_organ(target_zone))
 
 	begin_step(mob/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
@@ -33,7 +36,7 @@
 		"You start attaching \the [tool] to [target].")
 
 	end_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
-		var/obj/item/robot_parts/L = tool
+		var/obj/item/prosthesis/L = tool
 		user.visible_message("\blue [user] has attached \the [tool] to [target].",	\
 		"\blue You have attached \the [tool] to [target].")
 

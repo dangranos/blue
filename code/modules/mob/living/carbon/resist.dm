@@ -20,7 +20,7 @@
 		return
 
 	..()
-	
+
 	if(handcuffed)
 		spawn() escape_handcuffs()
 	else if(legcuffed)
@@ -144,7 +144,7 @@
 		update_inv_legcuffed()
 
 /mob/living/carbon/human/can_break_cuffs()
-	if(species.can_shred(src,1))
+	if(can_shred(1))
 		return 1
 	return ..()
 

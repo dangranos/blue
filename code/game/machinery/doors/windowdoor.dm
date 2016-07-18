@@ -156,7 +156,7 @@
 
 	if(istype(user,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
-		if(H.species.can_shred(H))
+		if(H.can_shred())
 			user.next_move = world.time + 8
 			playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
 			visible_message("\red <B>[user] smashes against the [src.name].</B>", 1)

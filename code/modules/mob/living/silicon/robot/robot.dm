@@ -710,7 +710,7 @@
 
 	if(istype(user,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
-		if(H.species.can_shred(H))
+		if(H.can_shred())
 			attack_generic(H, rand(30,50), "slashed")
 			return
 
