@@ -165,7 +165,7 @@
 
 /obj/item/clothing/accessory/amulet/tzeench
 	name = "tzeench amulet"
-	icon_state = "tzeench_amulet"
+	icon_state = "tzeentch_amulet"
 
 /obj/item/clothing/accessory/amulet/chaos
 	name = "chaos undivided amulet"
