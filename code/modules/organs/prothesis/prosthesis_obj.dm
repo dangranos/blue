@@ -6,6 +6,7 @@
 	icon_state = "blank"
 	flags = CONDUCT
 	slot_flags = SLOT_BELT
+	matter = list(DEFAULT_WALL_MATERIAL = 10000)
 	var/construction_time = 100
 	var/list/construction_cost = list(DEFAULT_WALL_MATERIAL=18000)
 	var/list/part = null // Order of args is important for installing robolimbs.
@@ -60,6 +61,7 @@
 
 /obj/item/prosthesis/enforcer
 	desc = "Full limb combat prosthesis module."
+	matter = list(DEFAULT_WALL_MATERIAL = 15000)
 	construction_cost = list(DEFAULT_WALL_MATERIAL=25000)
 	allow_slim_body = 0 // No sprites folks.
 
