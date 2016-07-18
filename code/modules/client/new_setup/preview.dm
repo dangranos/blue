@@ -12,10 +12,10 @@ datum/preferences
 		qdel(preview_east)
 		qdel(preview_west)
 
-		var/g = "m[body_build]"
+		var/g = "m"
 		if(gender == FEMALE)
-			g = "f[body_build]"
-		var/b=""
+			g = "f"
+		var/b="[body_build]"
 		g+=b
 
 		var/icon/icobase = current_species.icobase
@@ -30,7 +30,11 @@ datum/preferences
 		for(var/organ in organ_list)
 			var/datum/body_modification/mod = get_modification(organ)
 			if(!mod.replace_limb)
-				var/icon/organ_icon = new(icobase, "[organ]_[g]")
+				var/icon/organ_icon
+				if(organ in list("head", "chest", "groin"))
+					organ_icon = new(icobase, "[organ]_[g]")
+				else
+					organ_icon = new(icobase, "[organ]_[b]")
 				// Skin color
 				if(current_species && (current_species.flags & HAS_SKIN_COLOR))
 					organ_icon.Blend(skin_color, ICON_ADD)
