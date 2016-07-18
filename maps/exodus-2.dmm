@@ -1690,7 +1690,7 @@
 "Gz" = (/obj/machinery/camera/network/crescent{c_tag = "Crescent Bar West"; dir = 4},/turf/unsimulated/beach/sand{tag = "icon-desert"; icon_state = "desert"},/area/centcom/holding)
 "GA" = (/turf/unsimulated/beach/sand{tag = "icon-desert"; icon_state = "desert"},/obj/item/weapon/inflatable_duck,/turf/unsimulated/floor{tag = "icon-siding4"; name = "plating"; icon_state = "siding4"},/area/centcom/holding)
 "GB" = (/obj/structure/closet/secure_closet/cabinet/bar{req_access = list(25)},/turf/unsimulated/floor{icon_state = "grimy"},/area/centcom/holding)
-"GC" = (/obj/structure/table/woodentable{dir = 5},/obj/item/weapon/book/manual/barman_recipes,/obj/item/weapon/reagent_containers/glass/rag,/turf/unsimulated/floor{icon_state = "grimy"},/area/centcom/holding)
+"GC" = (/obj/structure/table/woodentable{dir = 5},/obj/item/weapon/book/manual/barman_recipes,/obj/item/weapon/reagent_containers/rag,/turf/unsimulated/floor{icon_state = "grimy"},/area/centcom/holding)
 "GD" = (/obj/structure/table/woodentable{dir = 5},/obj/machinery/chemical_dispenser/bar_alc/full,/turf/unsimulated/floor{icon_state = "grimy"},/area/centcom/holding)
 "GE" = (/obj/structure/table/woodentable{dir = 5},/obj/machinery/chemical_dispenser/bar_soft/full,/turf/unsimulated/floor{icon_state = "grimy"},/area/centcom/holding)
 "GF" = (/turf/unsimulated/floor{dir = 8; icon_state = "whitegreen"},/area/centcom/holding)

@@ -13,7 +13,7 @@
 /obj/item/clothing/shoes/
 	var/track_blood = 0
 
-/obj/item/weapon/reagent_containers/glass/rag
+/obj/item/weapon/reagent_containers/rag
 	name = "damp rag"
 	desc = "For cleaning up messes, you suppose."
 	w_class = 1
@@ -22,14 +22,13 @@
 	amount_per_transfer_from_this = 5
 	possible_transfer_amounts = list(5)
 	volume = 5
-	can_be_placed_into = null
 	flags = OPENCONTAINER | NOBLUDGEON
 	unacidable = 0
 
-/obj/item/weapon/reagent_containers/glass/rag/attack_self(mob/user as mob)
+/obj/item/weapon/reagent_containers/rag/attack_self(mob/user as mob)
 	return
 
-/obj/item/weapon/reagent_containers/glass/rag/attack(atom/target as obj|turf|area, mob/user as mob , flag)
+/obj/item/weapon/reagent_containers/rag/attack(atom/target as obj|turf|area, mob/user as mob , flag)
 	if(ismob(target) && target.reagents && reagents.total_volume)
 		user.visible_message("\red \The [target] has been smothered with \the [src] by \the [user]!", "\red You smother \the [target] with \the [src]!", "You hear some struggling and muffled cries of surprise")
 		reagents.trans_to_mob(target, reagents.total_volume, CHEM_INGEST)
@@ -37,7 +36,7 @@
 	else
 		..()
 
-/obj/item/weapon/reagent_containers/glass/rag/afterattack(atom/A as obj|turf|area, mob/user as mob, proximity)
+/obj/item/weapon/reagent_containers/rag/afterattack(atom/A as obj|turf|area, mob/user as mob, proximity)
 	if(!proximity) return
 	if(istype(A) && src in user)
 		user.visible_message("[user] starts to wipe down [A] with [src]!")
