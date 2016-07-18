@@ -7,26 +7,10 @@
 	slot_flags = SLOT_BELT
 	var/construction_time = 100
 	var/list/construction_cost = list(DEFAULT_WALL_MATERIAL=20000,"glass"=5000)
-	var/list/part = null // Order of args is important for installing robolimbs.
-	var/sabotaged = 0 //Emagging limbs can have repercussions when installed as prosthetics.
-	var/model_info
 	dir = SOUTH
 
 /obj/item/robot_parts/set_dir()
 	return
-
-/obj/item/robot_parts/New(var/newloc, var/model)
-	..(newloc)
-	if(model_info && model)
-		model_info = model
-		var/datum/robolimb/R = all_robolimbs[model]
-		if(R)
-			name = "[R.company] [initial(name)]"
-			desc = "[R.desc]"
-			if(icon_state in icon_states(R.icon))
-				icon = R.icon
-	else
-		name = "robot [initial(name)]"
 
 /obj/item/robot_parts/l_arm
 	name = "left arm"
@@ -34,9 +18,6 @@
 	icon_state = "l_arm"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=18000)
-	part = list("l_arm" = /obj/item/organ/external/limb/robotic,
-				"l_hand"= /obj/item/organ/external/tiny/robotic)
-	model_info = 1
 
 /obj/item/robot_parts/r_arm
 	name = "right arm"
@@ -44,9 +25,6 @@
 	icon_state = "r_arm"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=18000)
-	part = list("r_arm" = /obj/item/organ/external/limb/robotic,
-				"r_hand"= /obj/item/organ/external/tiny/robotic)
-	model_info = 1
 
 /obj/item/robot_parts/l_leg
 	name = "left leg"
@@ -54,9 +32,6 @@
 	icon_state = "l_leg"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=15000)
-	part = list("l_leg" = /obj/item/organ/external/limb/robotic,
-				"l_foot"= /obj/item/organ/external/tiny/robotic)
-	model_info = 1
 
 /obj/item/robot_parts/r_leg
 	name = "right leg"
@@ -64,9 +39,6 @@
 	icon_state = "r_leg"
 	construction_time = 200
 	construction_cost = list(DEFAULT_WALL_MATERIAL=15000)
-	part = list("r_leg" = /obj/item/organ/external/limb/robotic,
-				"r_foot"= /obj/item/organ/external/tiny/robotic)
-	model_info = 1
 
 /obj/item/robot_parts/chest
 	name = "torso"
@@ -120,10 +92,8 @@
 		src.overlays += "head+o"
 
 /obj/item/robot_parts/robot_suit/proc/check_completion()
-	if(src.l_arm && src.r_arm)
-		if(src.l_leg && src.r_leg)
-			if(src.chest && src.head)
-				return 1
+	if(src.l_arm && src.r_arm && src.l_leg && src.r_leg && src.chest && src.head)
+		return 1
 	return 0
 
 /obj/item/robot_parts/robot_suit/attackby(obj/item/W as obj, mob/user as mob)
@@ -320,14 +290,3 @@
 		W.loc = src
 		src.flash1 = W
 		user << "<span class='notice'>You insert the flash into the eye socket!</span>"
-
-
-/obj/item/robot_parts/attackby(obj/item/W as obj, mob/user as mob)
-	if(istype(W,/obj/item/weapon/card/emag))
-		if(sabotaged)
-			user << "\red [src] is already sabotaged!"
-		else
-			user << "\red You slide [W] into the dataport on [src] and short out the safeties."
-			sabotaged = 1
-		return
-	..()

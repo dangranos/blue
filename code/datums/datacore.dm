@@ -365,7 +365,7 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 
 	//Tail
 	if(H.species.tail)
-		var/icon/temp = new/icon("icon" = 'icons/effects/species.dmi', "icon_state" = "[H.species.tail]_s")
+		var/icon/temp = new/icon(H.species.icobase, "tail")
 
 		if(H.species.flags & HAS_SKIN_TONE)
 			if (H.s_tone >= 0)
@@ -383,12 +383,12 @@ proc/get_id_photo(var/mob/living/carbon/human/H)
 
 	var/datum/sprite_accessory/hair_style = hair_styles_list[H.h_style]
 	if(hair_style)
-		temp = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+		temp = new/icon(hair_style.icon, hair_style.icon_state)
 		temp.Blend(H.hair_color, ICON_ADD)
 
 	hair_style = facial_hair_styles_list[H.f_style]
 	if(hair_style)
-		var/icon/facial = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+		var/icon/facial = new/icon(hair_style.icon, hair_style.icon_state)
 		facial.Blend(H.facial_color, ICON_ADD)
 		if(temp)
 			temp.Blend(facial, ICON_OVERLAY)

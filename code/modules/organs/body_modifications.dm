@@ -156,7 +156,7 @@ var/global/list/modifications_types = list(
 	desc = "Prosthesis with militaristic black and green casing with gold stripes."
 
 	get_mob_icon(organ, body_build = 0)
-		return new/icon('icons/mob/human_races/cyberlimbs/hesphaistos.dmi', "[organ]_f[body_build]")
+		return new/icon('icons/mob/human_races/cyberlimbs/hesphaistos.dmi', "[organ]_[body_build]")
 
 /datum/body_modification/prosthesis/zenghu
 	name = "Zeng-Hu"
@@ -165,7 +165,7 @@ var/global/list/modifications_types = list(
 	allow_slim_body = 0
 
 	get_mob_icon(organ, body_build = 0)
-		return new/icon('icons/mob/human_races/cyberlimbs/zenghu.dmi', "[organ]_m[body_build]")
+		return new/icon('icons/mob/human_races/cyberlimbs/zenghu.dmi', "[organ]_[body_build]")
 
 /datum/body_modification/prosthesis/xion
 	name = "Xion"
@@ -173,7 +173,7 @@ var/global/list/modifications_types = list(
 	desc = "Prosthesis with minimalist black and red casing."
 
 	get_mob_icon(organ, body_build = 0)
-		return new/icon('icons/mob/human_races/cyberlimbs/xion.dmi', "[organ]_f[body_build]")
+		return new/icon('icons/mob/human_races/cyberlimbs/xion.dmi', "[organ]_[body_build]")
 
 /datum/body_modification/prosthesis/enforcer_charge
 	name = "Enforcer Charge"

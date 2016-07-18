@@ -6,7 +6,10 @@
 	deform = 'icons/mob/human_races/r_shadow.dmi'
 
 	language = "Sol Common" //todo?
-	unarmed_types = list(/datum/unarmed_attack/claws/strong, /datum/unarmed_attack/bite/sharp)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/claws/strong,
+		new /datum/unarmed_attack/bite/sharp
+		)
 	light_dam = 2
 	darksight = 8
 	has_organ = list()

@@ -498,6 +498,34 @@ datum/design/circuit/tcom/bluespacerelay
 	req_tech = list("programming" = 4, "bluespace" = 4)
 	build_path = /obj/item/weapon/circuitboard/bluespacerelay
 
+/////////////////////////////////////
+////////////PROSTHESIS////////////////
+/////////////////////////////////////
+datum/design/prosthesis/enforcer
+	build_type = MECHFAB
+	req_tech = list("material" = 3, "engineering" = 2, "combat" = 2, "biotech" = 3)
+	category = "Prosthesis"
+
+datum/design/prosthesis/enforcer/AssembleDesignName()
+	name = "Prosthesis design of \"Enforcer Charge\" ([name])"
+
+datum/design/prosthesis/enforcer/r_arm
+	name = "right arm"
+
+datum/design/prosthesis/enforcer/l_arm
+	name = "left arm"
+
+datum/design/prosthesis/enforcer/leg/AssembleDesignDesc()
+	desc += "Fulllimb combat prosthesis with magboots and powerfists modules."
+
+datum/design/prosthesis/enforcer/leg/r_leg
+	name = "right leg"
+
+datum/design/prosthesis/enforcer/leg/l_leg
+	name = "left leg"
+
+
+
 ///////////////////////////////////
 ////////////Mecha Modules//////////
 ///////////////////////////////////

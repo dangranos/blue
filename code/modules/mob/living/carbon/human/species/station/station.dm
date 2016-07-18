@@ -3,7 +3,12 @@
 	name_plural = "Humans"
 	language = "Sol Common"
 	primitive_form = "Monkey"
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/punch, /datum/unarmed_attack/bite)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/punch,
+		new /datum/unarmed_attack/bite
+		)
 	blurb = "Humanity originated in the Sol system, and over the last five centuries has spread \
 	colonies across a wide swathe of space. They hold a wide range of forms and creeds.<br/><br/> \
 	While the central Sol government maintains control of its far-flung people, powerful corporate \
@@ -114,7 +119,12 @@
 	language = "Sinta'unathi"
 	tail = "sogtail"
 	tail_animation = 'icons/mob/species/unathi/tail.dmi'
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/claws,
+		new /datum/unarmed_attack/bite/sharp
+		)
 	primitive_form = "Stok"
 	darksight = 3
 	gluttonous = 1
@@ -188,7 +198,12 @@
 	language = "Siik'tajr"
 	tail = "tajtail"
 	tail_animation = 'icons/mob/species/tajaran/tail.dmi'
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/claws,
+		new /datum/unarmed_attack/bite/sharp
+		)
 	darksight = 8
 	slowdown = -0.75
 	brute_mod = 1.2
@@ -252,7 +267,9 @@
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
 	language = "Skrellian"
 	primitive_form = "Neaera"
-	unarmed_types = list(/datum/unarmed_attack/punch)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/punch
+		)
 	blurb = "An amphibious species, Skrell come from the star system known as Qerr'Vallis, which translates to 'Star of \
 	the royals' or 'Light of the Crown'.<br/><br/>Skrell are a highly advanced and logical race who live under the rule \
 	of the Qerr'Katish, a caste within their society which keeps the empire of the Skrell running smoothly. Skrell are \
@@ -281,7 +298,11 @@
 	icobase = 'icons/mob/human_races/r_diona.dmi'
 	deform = 'icons/mob/human_races/r_def_plant.dmi'
 	language = "Rootspeak"
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/diona)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/diona
+		)
 	//primitive_form = "Nymph"
 	slowdown = 7
 	rarity_value = 3
@@ -402,7 +423,9 @@
 	icobase = 'icons/mob/human_races/r_machine.dmi'
 	deform = 'icons/mob/human_races/r_machine.dmi'
 	language = "EAL"
-	unarmed_types = list(/datum/unarmed_attack/punch)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/punch
+		)
 	rarity_value = 2
 
 	brute_mod = 0.5

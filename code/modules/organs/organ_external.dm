@@ -18,6 +18,7 @@
 
 	var/body_part = null
 	var/icon_position = 0
+	var/gendered = 0
 	var/model
 	var/force_icon
 	var/damage_state = "00"
@@ -37,6 +38,7 @@
 	var/perma_injury = 0
 	var/list/children
 	var/list/internal_organs = list() 	// Internal organs of this body part
+	var/datum/unarmed_attack/attack = null
 	var/damage_msg = "\red You feel an intense pain"
 	var/broken_description
 	var/open = 0
@@ -57,21 +59,28 @@
 
 /obj/item/organ/external/New(mob/living/carbon/human/holder, var/datum/organ_description/desc = null)
 	if(desc)
-		src.name = desc.name
+		// Mandatory part
 		src.limb_name = desc.limb_name
 		src.body_part = desc.body_part
-		src.amputation_point = desc.amputation_point
-		src.joint = desc.joint
 		src.parent_organ = desc.parent_organ
 		src.icon_position = desc.icon_position
 		src.can_grasp = desc.can_grasp
 		src.can_stand = desc.can_stand
 		src.drop_on_remove = desc.drop_on_remove
+
+		// Decorative part (depend on organ type)
+		set_description(desc)
+
 	..(holder)
 	if(owner)
 		sync_colour_to_human(owner)
 	spawn(1)
 		get_icon()
+
+/obj/item/organ/external/proc/set_description(var/datum/organ_description/desc)
+	src.name = desc.name
+	src.amputation_point = desc.amputation_point
+	src.joint = desc.joint
 
 /obj/item/organ/external/install(mob/living/carbon/human/H)
 	if(..()) return 1
@@ -94,13 +103,28 @@
 			break
 		parent.update_damages()
 
+	return outdated
+
 /obj/item/organ/external/Destroy()
-	sabotaged = 0
-	vital = 0
-	removed(delete_children = 1)
+	if(owner)
+		owner.organs_by_name[limb_name] = null
+		owner.organs -= src
+		owner.bad_external_organs -= src
+
+	if(parent)
+		parent.children -= src
+		parent = null
+
+	if(children)
+		for(var/obj/item/organ/external/child in children)
+			qdel(child)
+
+	if(internal_organs)
+		for(var/obj/item/organ/internal/organ in internal_organs)
+			qdel(organ)
 	..()
 
-/obj/item/organ/external/removed(mob/living/user, var/delete_children = 0)
+/obj/item/organ/external/removed(mob/living/user)
 	if(!istype(owner)) return
 
 	owner.organs_by_name[limb_name] = null
@@ -118,12 +142,11 @@
 
 	release_restraints()
 
-	if(!delete_children)
-		var/obj/item/dropped = null
-		for(var/slot in drop_on_remove)
-			dropped = owner.get_equipped_item(slot)
-			owner.u_equip(dropped)
-			owner.drop_from_inventory(dropped)
+	var/obj/item/dropped = null
+	for(var/slot in drop_on_remove)
+		dropped = owner.get_equipped_item(slot)
+		owner.u_equip(dropped)
+		owner.drop_from_inventory(dropped)
 
 	if(parent)
 		parent.children -= src
@@ -131,32 +154,13 @@
 
 	if(children)
 		for(var/obj/item/organ/external/child in children)
-			if(delete_children) qdel(child)
-			else
-				child.removed()
-				child.loc = src
+			child.removed()
+			child.loc = src
 
 	if(internal_organs)
 		for(var/obj/item/organ/internal/organ in internal_organs)
-			if(delete_children) qdel(organ)
-			else
-				organ.removed()
-				organ.loc = src
-
-	// Remove dat shit
-	if((flags & ORGAN_ROBOT) && sabotaged)
-		owner.visible_message(
-			"<span class='danger'>\The [owner]'s [src.name] explodes violently!</span>",\
-			"<span class='danger'>Your [src.name] explodes!</span>",\
-			"<span class='danger'>You hear an explosion!</span>")
-		explosion(get_turf(owner),-1,-1,2,3)
-		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
-		spark_system.set_up(5, 0, owner)
-		spark_system.attach(owner)
-		spark_system.start()
-		spawn(10)
-			qdel(spark_system)
-		qdel(src)
+			organ.removed()
+			organ.loc = src
 
 	..()
 
@@ -250,29 +254,6 @@
 /obj/item/organ/external/update_health()
 	damage = min(max_damage, (brute_dam + burn_dam))
 	return
-/*
-/obj/item/organ/external/replaced(var/mob/living/carbon/human/target)
-	owner = target
-	forceMove(owner)
-	if(istype(owner))
-		owner.organs_by_name[limb_name] = src
-		owner.organs |= src
-		for(var/obj/item/organ/internal/organ in src)
-			organ.replaced(owner,src)
-
-	if(parent_organ)
-		parent = owner.organs_by_name[src.parent_organ]
-		if(parent)
-			if(!parent.children)
-				parent.children = list()
-			parent.children.Add(src)
-			//Remove all stump wounds since limb is not missing anymore
-			for(var/datum/wound/lost_limb/W in parent.wounds)
-				parent.wounds -= W
-				qdel(W)
-				break
-			parent.update_damages()
-*/
 
 /obj/item/organ/external/robotize()
 	..()
@@ -427,10 +408,8 @@ This function completely restores a damaged organ to perfect condition.
 */
 /obj/item/organ/external/rejuvenate()
 	damage_state = "00"
-	if(status & 128)	//Robotic organs stay robotic.  Fix because right click rejuvinate makes IPC's organs organic.
-		status = 128
-	else
-		status = 0
+	//Robotic organs stay robotic.  Fix because right click rejuvinate makes IPC's organs organic.
+	status = status & (ORGAN_ROBOT|ORGAN_ASSISTED)
 	perma_injury = 0
 	brute_dam = 0
 	burn_dam = 0
@@ -1008,9 +987,8 @@ Note that amputating the affected organ does in fact remove the infection from t
 	cannot_break = 1
 	get_icon()
 	unmutate()
-	for (var/obj/item/organ/external/T in children)
-		if(T)
-			T.robotize()
+	for(var/obj/item/organ/external/T in children)
+		T.robotize()
 
 /obj/item/organ/external/proc/mutate()
 	if(src.status & ORGAN_ROBOT)
@@ -1136,6 +1114,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	w_class = 5
 	body_part = UPPER_TORSO
 	vital = 1
+	gendered = 1
 	amputation_point = "spine"
 	joint = "neck"
 	dislocated = -1
@@ -1151,6 +1130,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	w_class = 5
 	body_part = LOWER_TORSO
 	vital = 1
+	gendered = 1
 	parent_organ = "chest"
 	amputation_point = "lumbar"
 	joint = "hip"
@@ -1165,18 +1145,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 	min_broken_damage = 15
 	w_class = 2
 
-/obj/item/organ/external/limb/robotic
-	dislocated = -1
-	cannot_break = 1
-	robotic = 2
-	status = ORGAN_ROBOT|ORGAN_ASSISTED
-
-/obj/item/organ/external/tiny/robotic
-	dislocated = -1
-	cannot_break = 1
-	robotic = 2
-	status = ORGAN_ROBOT|ORGAN_ASSISTED
-
 /obj/item/organ/external/head
 	limb_name = "head"
 	name = "head"
@@ -1185,6 +1153,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	w_class = 3
 	body_part = HEAD
 	vital = 1
+	gendered = 1
 	parent_organ = "chest"
 	joint = "jaw"
 	amputation_point = "neck"

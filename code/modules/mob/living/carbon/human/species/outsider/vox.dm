@@ -5,7 +5,12 @@
 	deform = 'icons/mob/human_races/r_def_vox.dmi'
 	default_language = "Vox-pidgin"
 	language = "Galactic Common"
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick,  /datum/unarmed_attack/claws/strong, /datum/unarmed_attack/bite/strong)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/claws/strong,
+		new /datum/unarmed_attack/bite/strong
+		)
 	rarity_value = 4
 	gluttonous = 1
 
@@ -125,7 +130,12 @@
 	cold_level_2 = 100
 	cold_level_3 = 60
 
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick,  /datum/unarmed_attack/claws, /datum/unarmed_attack/bite)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/claws,
+		new /datum/unarmed_attack/bite
+		)
 
 	// Pariahs have no stack.
 	has_organ = list(
@@ -137,10 +147,6 @@
 		"eyes" =     /obj/item/organ/internal/eyes
 		)
 	flags = IS_RESTRICTED | NO_SCAN | HAS_EYE_COLOR
-
-// No combat skills for you.
-/datum/species/vox/pariah/can_shred(var/mob/living/carbon/human/H, var/ignore_intent)
-	return 0
 
 // Pariahs are really gross.
 /datum/species/vox/pariah/handle_environment_special(var/mob/living/carbon/human/H)

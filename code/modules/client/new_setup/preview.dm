@@ -46,7 +46,7 @@ datum/preferences
 
 		//Tail
 		if(current_species.tail)
-			var/icon/temp = new/icon("icon" = 'icons/effects/species.dmi', "icon_state" = "[current_species.tail]_s")
+			var/icon/temp = new/icon(icobase, "tail")
 			// Skin color
 			if(current_species && (current_species.flags & HAS_SKIN_COLOR))
 				temp.Blend(skin_color, ICON_ADD)
@@ -63,7 +63,7 @@ datum/preferences
 		var/icon/eyes = new /icon('icons/mob/human.dmi', "blank")
 		var/datum/body_modification/mod = get_modification("eyes")
 		if(!mod.replace_limb)
-			eyes.Blend(new/icon("icon" = icobase, "icon_state" = "eyes_[body_build]"), ICON_OVERLAY)
+			eyes.Blend(new/icon(icobase, "eyes_[body_build]"), ICON_OVERLAY)
 			if((current_species && (current_species.flags & HAS_EYE_COLOR)))
 				eyes.Blend(eyes_color, ICON_ADD)
 		eyes.Blend(mod.get_mob_icon("eyes", body_build, modifications_colors["eyes"]), ICON_OVERLAY)
@@ -71,13 +71,13 @@ datum/preferences
 		// Hair Style'n'Color
 		var/datum/sprite_accessory/hair_style = hair_styles_list[h_style]
 		if(hair_style)
-			var/icon/hair = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+			var/icon/hair = new/icon(hair_style.icon, hair_style.icon_state)
 			hair.Blend(hair_color, ICON_ADD)
 			eyes.Blend(hair, ICON_OVERLAY)
 
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[f_style]
 		if(facial_hair_style)
-			var/icon/facial = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
+			var/icon/facial = new/icon(facial_hair_style.icon, facial_hair_style.icon_state)
 			facial.Blend(facial_color, ICON_ADD)
 			eyes.Blend(facial, ICON_OVERLAY)
 

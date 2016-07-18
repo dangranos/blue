@@ -113,7 +113,7 @@
 	if(!istype(user))
 		return
 
-	if(user.species.can_shred(user))
+	if(user.can_shred())
 		set_status(0)
 		user.do_attack_animation(src)
 		visible_message("<span class='warning'>\The [user] slashes at [src]!</span>")

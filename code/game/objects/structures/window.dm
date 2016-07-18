@@ -183,11 +183,9 @@
 		shatter()
 
 	else if (usr.a_intent == I_HURT)
-
 		if (istype(usr,/mob/living/carbon/human))
 			var/mob/living/carbon/human/H = usr
-			// LETHALGHOST: replace with H.can_shred()
-			if(H.species.can_shred(H))
+			if(H.can_shred())
 				attack_generic(H,25)
 				return
 

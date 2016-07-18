@@ -359,25 +359,25 @@ var/global/list/damage_icon_parts = list()
 		return
 
 	//base icons
-	var/icon/face_standing	= new /icon('icons/mob/human_face.dmi',"bald_s")
+	var/icon/face_standing	= new /icon('icons/mob/human_face.dmi',"bald")
 
 	if(f_style)
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[f_style]
 		if(facial_hair_style && facial_hair_style.species_allowed && (src.species.get_bodytype() in facial_hair_style.species_allowed))
-			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
+			var/icon/facial = new/icon(facial_hair_style.icon, facial_hair_style.icon_state)
 			if(facial_hair_style.do_colouration)
-				facial_s.Blend(facial_color, ICON_ADD)
+				facial.Blend(facial_color, ICON_ADD)
 
-			face_standing.Blend(facial_s, ICON_OVERLAY)
+			face_standing.Blend(facial, ICON_OVERLAY)
 
 	if(h_style && !(head && (head.flags & BLOCKHEADHAIR)))
 		var/datum/sprite_accessory/hair_style = hair_styles_list[h_style]
 		if(hair_style && (src.species.get_bodytype() in hair_style.species_allowed))
-			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+			var/icon/hair = new/icon(hair_style.icon, hair_style.icon_state)
 			if(hair_style.do_colouration)
-				hair_s.Blend(hair_color, ICON_ADD)
+				hair.Blend(hair_color, ICON_ADD)
 
-			face_standing.Blend(hair_s, ICON_OVERLAY)
+			face_standing.Blend(hair, ICON_OVERLAY)
 
 	overlays_standing[HAIR_LAYER]	= image(face_standing)
 
@@ -920,20 +920,20 @@ var/global/list/damage_icon_parts = list()
 
 	if(species.tail && !(wear_suit && wear_suit.flags_inv & HIDETAIL))
 		var/icon/tail_s = get_tail_icon()
-		overlays_standing[TAIL_LAYER] = image(tail_s, icon_state = "[species.tail]_s")
+		overlays_standing[TAIL_LAYER] = image(tail_s, "tail")
 		animate_tail_reset(0)
 
 	if(update_icons)
 		update_icons()
 
 /mob/living/carbon/human/proc/get_tail_icon()
-	var/icon_key = "[species.race_key][skin_color]"
+	var/icon_key = "[species.race_key][skin_color][s_tone]"
 
 	var/icon/tail_icon = tail_icon_cache[icon_key]
 	if(!tail_icon)
 
 		//generate a new one
-		tail_icon = new/icon(icon = (species.tail_animation? species.tail_animation : 'icons/effects/species.dmi'))
+		tail_icon = new/icon(icon = (species.tail_animation? species.tail_animation : species.icobase))
 		tail_icon.Blend(skin_color, ICON_ADD)
 
 		tail_icon_cache[icon_key] = tail_icon
