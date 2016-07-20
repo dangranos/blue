@@ -5,6 +5,7 @@
 	icon_state = "biogen-stand"
 	density = 1
 	anchored = 1
+	circuit = /obj/item/weapon/circuitboard/biogenerator
 	use_power = 1
 	idle_power_usage = 40
 	var/processing = 0
@@ -20,10 +21,10 @@
 	var/datum/reagents/R = new/datum/reagents(1000)
 	reagents = R
 	R.my_atom = src
-	beaker = new /obj/item/weapon/reagent_containers/glass/beaker/bottle(src)
 
+	beaker = new /obj/item/weapon/reagent_containers/glass/beaker(src)
+	circuit = new circuit(src)
 	component_parts = list()
-	component_parts += new /obj/item/weapon/circuitboard/biogenerator(src)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
 	component_parts += new /obj/item/weapon/stock_parts/manipulator(src)
 
@@ -108,9 +109,9 @@
 					dat += "<A href='?src=\ref[src];action=create;item=milk;cost=20'>10 milk</A> <FONT COLOR=blue>([round(20/build_eff)])</FONT><BR>"
 					dat += "<A href='?src=\ref[src];action=create;item=meat;cost=50'>Slab of meat</A> <FONT COLOR=blue>([round(50/build_eff)])</FONT><BR>"
 					dat += "Nutrient<BR>"
-					dat += "<A href='?src=\ref[src];action=create;item=ez;cost=10'>E-Z-Nutrient</A> <FONT COLOR=blue>([round(10/build_eff)])</FONT> | <A href='?src=\ref[src];action=create;item=ez5;cost=50'>x5</A><BR>"
-					dat += "<A href='?src=\ref[src];action=create;item=l4z;cost=20'>Left 4 Zed</A> <FONT COLOR=blue>([round(20/build_eff)])</FONT> | <A href='?src=\ref[src];action=create;item=l4z5;cost=100'>x5</A><BR>"
-					dat += "<A href='?src=\ref[src];action=create;item=rh;cost=25'>Robust Harvest</A> <FONT COLOR=blue>([round(25/build_eff)])</FONT> | <A href='?src=\ref[src];action=create;item=rh5;cost=125'>x5</A><BR>"
+					dat += "<A href='?src=\ref[src];action=create;item=ez;cost=60'>E-Z-Nutrient</A> <FONT COLOR=blue>([round(10/build_eff)])</FONT> | <A href='?src=\ref[src];action=create;item=ez5;cost=300'>x5</A><BR>"
+					dat += "<A href='?src=\ref[src];action=create;item=l4z;cost=120'>Left 4 Zed</A> <FONT COLOR=blue>([round(20/build_eff)])</FONT> | <A href='?src=\ref[src];action=create;item=l4z5;cost=600'>x5</A><BR>"
+					dat += "<A href='?src=\ref[src];action=create;item=rh;cost=150'>Robust Harvest</A> <FONT COLOR=blue>([round(25/build_eff)])</FONT> | <A href='?src=\ref[src];action=create;item=rh5;cost=750'>x5</A><BR>"
 					dat += "Leather<BR>"
 					dat += "<A href='?src=\ref[src];action=create;item=wallet;cost=100'>Wallet</A> <FONT COLOR=blue>([round(100/build_eff)])</FONT><BR>"
 					dat += "<A href='?src=\ref[src];action=create;item=gloves;cost=250'>Botanical gloves</A> <FONT COLOR=blue>([round(250/build_eff)])</FONT><BR>"
@@ -119,9 +120,6 @@
 					dat += "<A href='?src=\ref[src];action=create;item=cashbag;cost=400'>Cash Bag</A> <FONT COLOR=blue>([round(400/build_eff)])</FONT><BR>"
 					//dat += "Other<BR>"
 					//dat += "<A href='?src=\ref[src];action=create;item=monkey;cost=500'>Monkey</A> <FONT COLOR=blue>(500)</FONT><BR>"
-					dat += "Medical<BR>"
-					dat += "<A href='?src=\ref[src];action=create;item=gauze;cost=200'>roll of gauze</A> <FONT COLOR=blue>([round(200/build_eff)])</FONT><BR>"
-					dat += "<A href='?src=\ref[src];action=create;item=ointment;cost=200'>ointment</A> <FONT COLOR=blue>([round(200/build_eff)])</FONT><BR>"
 				else
 					dat += "<BR><FONT COLOR=red>No beaker inside. Please insert a beaker.</FONT><BR>"
 			if("nopoints")
@@ -184,29 +182,29 @@
 		if("meat")
 			new/obj/item/weapon/reagent_containers/food/snacks/meat(loc)
 		if("ez")
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/ez(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/eznutrient(loc)
 		if("l4z")
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/l4z(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/left4zed(loc)
 		if("rh")
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/rh(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/robustharvest(loc)
 		if("ez5") //It's not an elegant method, but it's safe and easy. -Cheridan
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/ez(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/ez(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/ez(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/ez(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/ez(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/eznutrient(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/eznutrient(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/eznutrient(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/eznutrient(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/eznutrient(loc)
 		if("l4z5")
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/l4z(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/l4z(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/l4z(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/l4z(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/l4z(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/left4zed(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/left4zed(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/left4zed(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/left4zed(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/left4zed(loc)
 		if("rh5")
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/rh(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/rh(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/rh(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/rh(loc)
-			new/obj/item/weapon/reagent_containers/glass/fertilizer/rh(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/robustharvest(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/robustharvest(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/robustharvest(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/robustharvest(loc)
+			new/obj/item/weapon/reagent_containers/glass/beaker/bottle/robustharvest(loc)
 		if("wallet")
 			new/obj/item/weapon/storage/wallet(loc)
 		if("gloves")
@@ -219,10 +217,6 @@
 			new/obj/item/weapon/storage/bag/cash(loc)
 		if("monkey")
 			new/mob/living/carbon/human/monkey(loc)
-		if("gauze")
-			new/obj/item/stack/medical/bruise_pack(loc)
-		if("ointment")
-			new/obj/item/stack/medical/ointment(loc)
 	processing = 0
 	menustat = "complete"
 	update_icon()

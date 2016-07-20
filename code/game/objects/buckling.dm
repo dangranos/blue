@@ -1,10 +1,10 @@
 /obj
 	var/can_buckle = 0
-	var/tmp/buckle_movable = 0
-	var/tmp/buckle_dir = 0
-	var/tmp/buckle_lying = -1 //bed-like behavior, forces mob.lying = buckle_lying if != -1
-	var/tmp/buckle_require_restraints = 0 //require people to be handcuffed before being able to buckle. eg: pipes
-	var/tmp/mob/living/buckled_mob = null
+	var/buckle_movable = 0
+	var/buckle_dir = 0
+	var/buckle_lying = -1 //bed-like behavior, forces mob.lying = buckle_lying if != -1
+	var/buckle_require_restraints = 0 //require people to be handcuffed before being able to buckle. eg: pipes
+	var/mob/living/buckled_mob = null
 
 /obj/attack_hand(mob/living/user)
 	. = ..()
@@ -29,12 +29,16 @@
 /obj/proc/buckle_mob(mob/living/M)
 	if(!can_buckle || !istype(M) || (M.loc != loc) || M.buckled || M.pinned.len || (buckle_require_restraints && !M.restrained()))
 		return 0
+	if(buckled_mob) //Handles trying to buckle yourself to the chair when someone is on it
+		M  << "<span class='notice'>\The [src] already has someone buckled to it.</span>"
+		return 0
 
 	M.buckled = src
 	M.facing_dir = null
 	M.set_dir(buckle_dir ? buckle_dir : dir)
 	M.update_canmove()
 	buckled_mob = M
+
 	post_buckle_mob(M)
 	return 1
 
@@ -56,7 +60,8 @@
 		user << "<span class='warning'>You can't buckle anyone in before the game starts.</span>"
 	if(!user.Adjacent(M) || user.restrained() || user.lying || user.stat || istype(user, /mob/living/silicon/pai))
 		return
-
+	if(M == buckled_mob)
+		return
 	if(istype(M, /mob/living/carbon/slime))
 		user << "<span class='warning'>The [M] is too squishy to buckle in.</span>"
 		return

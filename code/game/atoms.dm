@@ -2,16 +2,18 @@
 	layer = 2
 	var/level = 2
 	var/flags = 0
-	var/tmp/list/fingerprints
-	var/tmp/list/fingerprintshidden
-	var/tmp/fingerprintslast = null
+	var/list/fingerprints
+	var/list/fingerprintshidden
+	var/fingerprintslast = null
 	var/list/blood_DNA
+	var/was_bloodied
 	var/blood_color
-	var/tmp/last_bumped = 0
+	var/last_bumped = 0
 	var/pass_flags = 0
 	var/throwpass = 0
 	var/germ_level = GERM_LEVEL_AMBIENT // The higher the germ level, the more germ on the atom.
 	var/simulated = 1 //filter for actions - used by lighting overlays
+	var/fluorescent // Shows up under a UV light.
 
 	///Chemistry.
 	var/datum/reagents/reagents = null
@@ -22,6 +24,9 @@
 
 	//Detective Work, used for the duplicate data points kept in the scanners
 	var/list/original_atom
+
+/atom/proc/reveal_blood()
+	return
 
 /atom/proc/assume_air(datum/gas_mixture/giver)
 	return null
@@ -63,12 +68,11 @@
 		return flags & INSERT_CONTAINER
 */
 
-/atom/proc/meteorhit(obj/meteor as obj)
-	return
-
 /atom/proc/CheckExit()
 	return 1
 
+// If you want to use this, the atom must have the PROXMOVE flag, and the moving
+// atom must also have the PROXMOVE flag currently to help with lag. ~ ComicIronic
 /atom/proc/HasProximity(atom/movable/AM as mob|obj)
 	return
 
@@ -186,7 +190,7 @@ its easier to just keep the beam vertical.
 
 
 //All atoms
-/atom/proc/examine(mob/user, var/return_distance = 0, var/infix = "", var/suffix = "")
+/atom/proc/examine(mob/user, var/distance = -1, var/infix = "", var/suffix = "")
 	//This reformat names to get a/an properly working on item descriptions when they are bloody
 	var/f_name = "\a [src][infix]."
 	if(src.blood_DNA && !istype(src, /obj/effect/decal))
@@ -194,7 +198,7 @@ its easier to just keep the beam vertical.
 			f_name = "some "
 		else
 			f_name = "a "
-		if(blood_color != "#030303")
+		if(blood_color != SYNTH_BLOOD_COLOUR)
 			f_name += "<span class='danger'>blood-stained</span> [name][infix]!"
 		else
 			f_name += "oil-stained [name][infix]."
@@ -202,7 +206,7 @@ its easier to just keep the beam vertical.
 	user << "\icon[src] That's [f_name] [suffix]"
 	user << desc
 
-	return return_distance ? get_dist(src, user) : 0
+	return distance == -1 || (get_dist(src, user) <= distance)
 
 // called by mobs when e.g. having the atom as their machine, pulledby, loc (AKA mob being inside the atom) or buckled var set.
 // see code/modules/mob/mob_movement.dm for more.
@@ -217,8 +221,8 @@ its easier to just keep the beam vertical.
 /atom/proc/ex_act()
 	return
 
-/atom/proc/blob_act()
-	return
+/atom/proc/emag_act(var/remaining_charges, var/mob/user, var/emag_source)
+	return -1
 
 /atom/proc/fire_act()
 	return
@@ -289,10 +293,10 @@ its easier to just keep the beam vertical.
 
 		//Deal with gloves the pass finger/palm prints.
 		if(!ignoregloves)
-			if(H.gloves && H.gloves != src && !H.gloves:clipped)
-				if(prob(75) && istype(H.gloves, /obj/item/clothing/gloves/white/latex))
+			if(H.gloves != src)
+				if(prob(75) && istype(H.gloves, /obj/item/clothing/gloves/latex))
 					return 0
-				else if(H.gloves && !istype(H.gloves, /obj/item/clothing/gloves/white/latex))
+				else if(H.gloves && !istype(H.gloves, /obj/item/clothing/gloves/latex))
 					return 0
 
 		//More adminstuffz
@@ -305,7 +309,7 @@ its easier to just keep the beam vertical.
 			fingerprints = list()
 
 		//Hash this shit.
-		var/full_print = md5(H.dna.uni_identity)
+		var/full_print = H.get_full_print()
 
 		// Add the fingerprints
 		//
@@ -388,14 +392,14 @@ its easier to just keep the beam vertical.
 	if(!blood_DNA || !istype(blood_DNA, /list))	//if our list of DNA doesn't exist yet (or isn't a list) initialise it.
 		blood_DNA = list()
 
+	was_bloodied = 1
 	blood_color = "#A10808"
 	if(istype(M))
 		if (!istype(M.dna, /datum/dna))
 			M.dna = new /datum/dna(null)
 			M.dna.real_name = M.real_name
 		M.check_dna()
-		if (M.species)
-			blood_color = M.species.blood_color
+		blood_color = M.species.get_blood_colour(M)
 	. = 1
 	return 1
 
@@ -406,17 +410,15 @@ its easier to just keep the beam vertical.
 		// Make toxins vomit look different
 		if(toxvomit)
 			this.icon_state = "vomittox_[pick(1,4)]"
-		return this
-
 
 /atom/proc/clean_blood()
 	if(!simulated)
 		return
+	fluorescent = 0
 	src.germ_level = 0
 	if(istype(blood_DNA, /list))
 		blood_DNA = null
 		return 1
-
 
 /atom/proc/get_global_map_pos()
 	if(!islist(global_map) || isemptylist(global_map)) return
@@ -435,10 +437,53 @@ its easier to just keep the beam vertical.
 		return 0
 
 /atom/proc/checkpass(passflag)
-	return pass_flags&passflag
+	return (pass_flags&passflag)
 
 /atom/proc/isinspace()
 	if(istype(get_turf(src), /turf/space))
 		return 1
 	else
 		return 0
+
+// Show a message to all mobs and objects in sight of this atom
+// Use for objects performing visible actions
+// message is output to anyone who can see, e.g. "The [src] does something!"
+// blind_message (optional) is what blind people will hear e.g. "You hear something!"
+/atom/proc/visible_message(var/message, var/blind_message)
+
+	var/list/see = get_mobs_or_objects_in_view(world.view,src) | viewers(get_turf(src), null)
+
+	for(var/I in see)
+		if(isobj(I))
+			//spawn(0)
+			//if(I) //It's possible that it could be deleted in the meantime.
+			var/obj/O = I
+			O.show_message( message, 1, blind_message, 2)
+		else if(ismob(I))
+			var/mob/M = I
+			if(M.see_invisible >= invisibility) // Cannot view the invisible
+				M.show_message( message, 1, blind_message, 2)
+			else if (blind_message)
+				M.show_message(blind_message, 2)
+
+// Show a message to all mobs and objects in earshot of this atom
+// Use for objects performing audible actions
+// message is the message output to anyone who can hear.
+// deaf_message (optional) is what deaf people will see.
+// hearing_distance (optional) is the range, how many tiles away the message can be heard.
+/atom/proc/audible_message(var/message, var/deaf_message, var/hearing_distance)
+
+	var/range = world.view
+	if(hearing_distance)
+		range = hearing_distance
+	var/list/hear = get_mobs_or_objects_in_view(range,src)
+
+	for(var/I in hear)
+		if(isobj(I))
+			spawn(0)
+				if(I) //It's possible that it could be deleted in the meantime.
+					var/obj/O = I
+					O.show_message( message, 2, deaf_message, 1)
+		else if(ismob(I))
+			var/mob/M = I
+			M.show_message( message, 2, deaf_message, 1)

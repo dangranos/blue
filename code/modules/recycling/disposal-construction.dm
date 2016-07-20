@@ -12,7 +12,7 @@
 	pressure_resistance = 5*ONE_ATMOSPHERE
 	matter = list(DEFAULT_WALL_MATERIAL = 1850)
 	level = 2
-	var/sortTypes = list()
+	var/sortType = ""
 	var/ptype = 0
 	// 0=straight, 1=bent, 2=junction-j1, 3=junction-j2, 4=junction-y, 5=trunk, 6=disposal bin, 7=outlet, 8=inlet 9=pipe-j1s 10=pipe-j2s
 	var/subtype = 0
@@ -91,6 +91,9 @@
 
 		if(invisibility)				// if invisible, fade icon
 			alpha = 128
+		else
+			alpha = 255
+			//otherwise burying half-finished pipes under floors causes them to half-fade
 
 	// hide called by levelupdate if turf intact status changes
 	// change visibility status and force update of icon
@@ -219,7 +222,7 @@
 				ispipe = 1
 
 		var/turf/T = src.loc
-		if(T.intact)
+		if(!T.is_plating())
 			user << "You can only attach the [nicetype] if the floor plating is removed."
 			return
 
@@ -286,7 +289,7 @@
 							//Needs some special treatment ;)
 							if(ptype==9 || ptype==10)
 								var/obj/structure/disposalpipe/sortjunction/SortP = P
-								SortP.sortTypes = sortTypes
+								SortP.sortType = sortType
 								SortP.updatedir()
 								SortP.updatedesc()
 								SortP.updatename()
@@ -318,3 +321,9 @@
 			else
 				user << "You need to attach it to the plating first!"
 				return
+
+/obj/structure/disposalconstruct/hides_under_flooring()
+	if(anchored)
+		return 1
+	else
+		return 0

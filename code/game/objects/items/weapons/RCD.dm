@@ -13,8 +13,8 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = 3.0
+	origin_tech = list(TECH_ENGINEERING = 4, TECH_MATERIAL = 2)
 	matter = list(DEFAULT_WALL_MATERIAL = 50000)
-	origin_tech = "engineering=4;materials=2"
 	var/datum/effect/effect/system/spark_spread/spark_system
 	var/stored_matter = 0
 	var/working = 0
@@ -30,7 +30,7 @@
 	return (user.Adjacent(T) && user.get_active_hand() == src && !user.stat && !user.restrained())
 
 /obj/item/weapon/rcd/examine()
-	. = ..()
+	..()
 	if(src.type == /obj/item/weapon/rcd && loc == usr)
 		usr << "It currently holds [stored_matter]/30 matter-units."
 
@@ -100,23 +100,29 @@
 		build_delay = 50
 		build_type = "airlock"
 		build_other = /obj/machinery/door/airlock
-	else if(!deconstruct && istype(T,/turf/space))
+	else if(!deconstruct && (istype(T,/turf/space) || istype(T,get_base_turf_by_area(T))))
 		build_cost =  1
 		build_type =  "floor"
-		build_turf =  /turf/simulated/floor/plating/airless
+		build_turf =  /turf/simulated/floor/airless
+	else if(!deconstruct && istype(T,/turf/simulated/mineral/floor))
+		build_cost =  1
+		build_type =  "floor"
+		build_turf =  /turf/simulated/floor/plating
 	else if(deconstruct && istype(T,/turf/simulated/wall))
 		var/turf/simulated/wall/W = T
 		build_delay = deconstruct ? 50 : 40
 		build_cost =  5
 		build_type =  (!canRwall && W.reinf_material) ? null : "wall"
 		build_turf =  /turf/simulated/floor
-	else if(istype(T,/turf/simulated/floor))
+	else if(istype(T,/turf/simulated/floor) || (istype(T,/turf/simulated/mineral) && !T.density))
+		var/turf/simulated/F = T
 		build_delay = deconstruct ? 50 : 20
 		build_cost =  deconstruct ? 10 : 3
 		build_type =  deconstruct ? "floor" : "wall"
-		build_turf =  deconstruct ? /turf/space : /turf/simulated/wall
-	else
-		return 0
+		if(F.check_destroy_override(F))
+			build_turf =  deconstruct ? destroy_floor_override_path : /turf/simulated/wall
+		else
+			build_turf =  deconstruct ? /turf/space : /turf/simulated/wall
 
 	if(!build_type)
 		working = 0
@@ -156,7 +162,7 @@
 	icon_state = "rcd"
 	item_state = "rcdammo"
 	w_class = 2
-	origin_tech = "materials=2"
+	origin_tech = list(TECH_MATERIAL = 2)
 	matter = list(DEFAULT_WALL_MATERIAL = 30000,"glass" = 15000)
 
 /obj/item/weapon/rcd/borg

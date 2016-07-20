@@ -24,7 +24,30 @@
 			if(!O.completed && !O.check_completion())
 				result = 0
 		if(result && victory_text)
-			world << "<span class='danger'><font size = 3>[victory_text]</span>"
+			world << "<span class='danger'><font size = 3>[victory_text]</font></span>"
 		else if(loss_text)
-			world << "<span class='danger'><font size = 3>[loss_text]</span>"
+			world << "<span class='danger'><font size = 3>[loss_text]</font></span>"
 
+/mob/living/proc/write_ambition()
+	set name = "Set Ambition"
+	set category = "IC"
+	set src = usr
+
+	if(!mind)
+		return
+	if(!is_special_character(mind))
+		src << "<span class='warning'>While you may perhaps have goals, this verb's meant to only be visible \
+		to antagonists.  Please make a bug report!</span>"
+		return
+	var/new_ambitions = input(src, "Write a short sentence of what your character hopes to accomplish \
+	today as an antagonist.  Remember that this is purely optional.  It will be shown at the end of the \
+	round for everybody else.", "Ambitions", mind.ambitions) as null|message
+	if(isnull(new_ambitions))
+		return
+	new_ambitions = sanitize(new_ambitions)
+	mind.ambitions = new_ambitions
+	if(new_ambitions)
+		src << "<span class='notice'>You've set your goal to be '[new_ambitions]'.</span>"
+	else
+		src << "<span class='notice'>You leave your ambitions behind.</span>"
+	log_and_message_admins("has set their ambitions to now be: [new_ambitions].")

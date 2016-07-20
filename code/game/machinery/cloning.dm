@@ -16,7 +16,7 @@
 		//They need a brain!
 		if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/H = M
-			if(H.species.has_organ["brain"] && !H.has_brain())
+			if(!H.has_brain())
 				continue
 		if(M.ckey == find_key)
 			selected = M
@@ -30,6 +30,7 @@
 	desc = "An electronically-lockable pod for growing organic tissue."
 	density = 1
 	anchored = 1
+	circuit = /obj/item/weapon/circuitboard/clonepod
 	icon = 'icons/obj/cloning.dmi'
 	icon_state = "pod_0"
 	req_access = list(access_genetics) //For premature unlocking.
@@ -46,8 +47,8 @@
 
 /obj/machinery/clonepod/New()
 	..()
+	circuit = new circuit(src)
 	component_parts = list()
-	component_parts += new /obj/item/weapon/circuitboard/clonepod(src)
 	component_parts += new /obj/item/weapon/stock_parts/manipulator(src)
 	component_parts += new /obj/item/weapon/stock_parts/manipulator(src)
 	component_parts += new /obj/item/weapon/stock_parts/scanning_module(src)
@@ -87,7 +88,7 @@
 		if(ckey(clonemind.key) != R.ckey)
 			return 0
 	else
-		for(var/mob/dead/observer/G in player_list)
+		for(var/mob/observer/dead/G in player_list)
 			if(G.ckey == R.ckey)
 				if(G.can_reenter_corpse)
 					break
@@ -110,7 +111,6 @@
 
 	//Get the clone body ready
 	H.adjustCloneLoss(150) // New damage var so you can't eject a clone early then stab them to abuse the current damage system --NeoFite
-	H.adjustBrainLoss(80) // Even if healed to full health, it will have some brain damage
 	H.Paralyse(4)
 
 	//Here let's calculate their health so the pod doesn't immediately eject them!!!
@@ -131,6 +131,7 @@
 	else
 		H.dna = R.dna
 	H.UpdateAppearance()
+	H.sync_organ_dna()
 	if(heal_level < 60)
 		randmutb(H) //Sometimes the clones come out wrong.
 		H.dna.UpdateSE()
@@ -169,7 +170,7 @@
 			occupant.adjustCloneLoss(-2 * heal_rate)
 
 			//Premature clones may have brain damage.
-			occupant.adjustBrainLoss(-1 * heal_rate)
+			occupant.adjustBrainLoss(-(ceil(0.5*heal_rate)))
 
 			//So clones don't die of oxyloss in a running pod.
 			if(occupant.reagents.get_reagent_amount("inaprovaline") < 30)
@@ -182,6 +183,8 @@
 			return
 
 		else if((occupant.health >= heal_level) && (!eject_wait))
+			playsound(src.loc, 'sound/machines/ding.ogg', 50, 1)
+			src.audible_message("\The [src] signals that the cloning process is complete.")
 			connected_message("Cloning Process Complete.")
 			locked = 0
 			go_out()
@@ -216,13 +219,6 @@
 		else
 			locked = 0
 			user << "System unlocked."
-	else if(istype(W, /obj/item/weapon/card/emag))
-		if(isnull(occupant))
-			return
-		user << "You force an emergency ejection."
-		locked = 0
-		go_out()
-		return
 	else if(istype(W, /obj/item/weapon/reagent_containers/food/snacks/meat))
 		user << "<span class='notice'>\The [src] processes \the [W].</span>"
 		biomass += 50
@@ -251,6 +247,14 @@
 		return
 	else
 		..()
+
+/obj/machinery/clonepod/emag_act(var/remaining_charges, var/mob/user)
+	if(isnull(occupant))
+		return
+	user << "You force an emergency ejection."
+	locked = 0
+	go_out()
+	return 1
 
 //Put messages in the connected computer's temp var for display.
 /obj/machinery/clonepod/proc/connected_message(var/message)
@@ -306,7 +310,7 @@
 		occupant.client.perspective = MOB_PERSPECTIVE
 	occupant.loc = loc
 	eject_wait = 0 //If it's still set somehow.
-	domutcheck(occupant) //Waiting until they're out before possible monkeyizing.
+	domutcheck(occupant) //Waiting until they're out before possible transforming.
 	occupant = null
 
 	biomass -= CLONE_BIOMASS
@@ -420,6 +424,7 @@
 	read_only = 1
 
 	New()
+		..()
 		initializeDisk()
 		buf.types=DNA2_BUF_SE
 		var/list/new_SE=list(0x098,0x3E8,0x403,0x44C,0x39F,0x4B0,0x59D,0x514,0x5FC,0x578,0x5DC,0x640,0x6A4)
@@ -438,7 +443,7 @@
 	user << "You flip the write-protect tab to [read_only ? "protected" : "unprotected"]."
 
 /obj/item/weapon/disk/data/examine(mob/user)
-	. = ..()
+	..(user)
 	user << text("The write-protect tab is set to [read_only ? "protected" : "unprotected"].")
 	return
 

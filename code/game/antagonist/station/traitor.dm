@@ -5,6 +5,10 @@ var/datum/antagonist/traitor/traitors
 	id = MODE_TRAITOR
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Internal Affairs Agent", "Head of Security", "Captain")
 	flags = ANTAG_SUSPICIOUS | ANTAG_RANDSPAWN | ANTAG_VOTABLE
+	
+/datum/antagonist/traitor/auto
+	id = MODE_AUTOTRAITOR
+	allow_latejoin = 1
 
 /datum/antagonist/traitor/New()
 	..()
@@ -37,28 +41,27 @@ var/datum/antagonist/traitor/traitors
 			block_objective.owner = traitor
 			traitor.objectives += block_objective
 	else
-		for(var/i=rand(1,3), i>0, i--)
-			switch(rand(1,100))
-				if(1 to 33)
-					var/datum/objective/assassinate/kill_objective = new
-					kill_objective.owner = traitor
-					kill_objective.find_target()
-					traitor.objectives += kill_objective
-				if(34 to 50)
-					var/datum/objective/brig/brig_objective = new
-					brig_objective.owner = traitor
-					brig_objective.find_target()
-					traitor.objectives += brig_objective
-				if(51 to 66)
-					var/datum/objective/harm/harm_objective = new
-					harm_objective.owner = traitor
-					harm_objective.find_target()
-					traitor.objectives += harm_objective
-				else
-					var/datum/objective/steal/steal_objective = new
-					steal_objective.owner = traitor
-					steal_objective.find_target()
-					traitor.objectives += steal_objective
+		switch(rand(1,100))
+			if(1 to 33)
+				var/datum/objective/assassinate/kill_objective = new
+				kill_objective.owner = traitor
+				kill_objective.find_target()
+				traitor.objectives += kill_objective
+			if(34 to 50)
+				var/datum/objective/brig/brig_objective = new
+				brig_objective.owner = traitor
+				brig_objective.find_target()
+				traitor.objectives += brig_objective
+			if(51 to 66)
+				var/datum/objective/harm/harm_objective = new
+				harm_objective.owner = traitor
+				harm_objective.find_target()
+				traitor.objectives += harm_objective
+			else
+				var/datum/objective/steal/steal_objective = new
+				steal_objective.owner = traitor
+				steal_objective.find_target()
+				traitor.objectives += steal_objective
 		switch(rand(1,100))
 			if(1 to 100)
 				if (!(locate(/datum/objective/escape) in traitor.objectives))
@@ -82,6 +85,8 @@ var/datum/antagonist/traitor/traitors
 		return 0
 
 	spawn_uplink(traitor_mob)
+	traitor_mob.mind.tcrystals = DEFAULT_TELECRYSTAL_AMOUNT
+	traitor_mob.mind.accept_tcrystals = 1
 	// Tell them about people they might want to contact.
 	var/mob/living/carbon/human/M = get_nt_opposed()
 	if(M && M != traitor_mob)
@@ -138,17 +143,16 @@ var/datum/antagonist/traitor/traitors
 	if(istype(R,/obj/item/device/radio))
 		// generate list of radio freqs
 		var/obj/item/device/radio/target_radio = R
-		var/freq = 1441
+		var/freq = PUBLIC_LOW_FREQ
 		var/list/freqlist = list()
-		while (freq <= 1489)
+		while (freq <= PUBLIC_HIGH_FREQ)
 			if (freq < 1451 || freq > PUB_FREQ)
 				freqlist += freq
 			freq += 2
 			if ((freq % 2) == 0)
 				freq += 1
 		freq = freqlist[rand(1, freqlist.len)]
-		var/obj/item/device/uplink/hidden/T = new(R)
-		T.uplink_owner = traitor_mob.mind
+		var/obj/item/device/uplink/hidden/T = new(R, traitor_mob.mind)
 		target_radio.hidden_uplink = T
 		target_radio.traitor_frequency = freq
 		traitor_mob << "A portable object teleportation relay has been installed in your [R.name] [loc]. Simply dial the frequency [format_frequency(freq)] to unlock its hidden features."
@@ -157,8 +161,7 @@ var/datum/antagonist/traitor/traitors
 	else if (istype(R, /obj/item/device/pda))
 		// generate a passcode if the uplink is hidden in a PDA
 		var/pda_pass = "[rand(100,999)] [pick("Alpha","Bravo","Delta","Omega")]"
-		var/obj/item/device/uplink/hidden/T = new(R)
-		T.uplink_owner = traitor_mob.mind
+		var/obj/item/device/uplink/hidden/T = new(R, traitor_mob.mind)
 		R.hidden_uplink = T
 		var/obj/item/device/pda/P = R
 		P.lock_code = pda_pass

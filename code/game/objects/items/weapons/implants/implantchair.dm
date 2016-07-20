@@ -74,15 +74,15 @@
 			return
 
 
-	attackby(var/obj/item/weapon/grab/G as obj, var/mob/user as mob)
-		if(istype(G))
-			if(!(ismob(G.affecting)&& get_dist(src,G.affecting)<2))
+	attackby(var/obj/item/weapon/G as obj, var/mob/user as mob)
+		if(istype(G, /obj/item/weapon/grab))
+			if(!ismob(G:affecting))
 				return
-			for(var/mob/living/carbon/slime/M in range(1,G.affecting))
-				if(M.Victim == G.affecting)
-					usr << "[G.affecting:name] will not fit into the [src.name] because they have a slime latched onto their head."
+			for(var/mob/living/carbon/slime/M in range(1,G:affecting))
+				if(M.Victim == G:affecting)
+					usr << "[G:affecting:name] will not fit into the [src.name] because they have a slime latched onto their head."
 					return
-			var/mob/M = G.affecting
+			var/mob/M = G:affecting
 			if(put_mob(M))
 				qdel(G)
 		src.updateUsrDialog()
@@ -108,10 +108,10 @@
 
 	put_mob(mob/living/carbon/M as mob)
 		if(!iscarbon(M))
-			usr << "\red <B>The [src.name] cannot hold this!</B>"
+			usr << "<span class='warning'>\The [src] cannot hold this!</span>"
 			return
 		if(src.occupant)
-			usr << "\red <B>The [src.name] is already occupied!</B>"
+			usr << "<span class='warning'>\The [src] is already occupied!</span>"
 			return
 		if(M.client)
 			M.client.perspective = EYE_PERSPECTIVE
@@ -132,7 +132,7 @@
 			if(!imp)	continue
 			if(istype(imp, /obj/item/weapon/implant/loyalty))
 				for (var/mob/O in viewers(M, null))
-					O.show_message("\red [M] has been implanted by the [src.name].", 1)
+					O.show_message("<span class='warning'>\The [M] has been implanted by \the [src].</span>", 1)
 
 				if(imp.implanted(M))
 					imp.loc = M

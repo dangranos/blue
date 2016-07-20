@@ -1,10 +1,10 @@
 /obj/item/weapon/gun/energy/taser
 	name = "taser gun"
-	desc = "The NT Mk30 NL is a small, low capacity gun used for non-lethal takedowns. Produced by NT, it's actually a licensed version of a W-T design."
+	desc = "The NT Mk30 NL is a small gun used for non-lethal takedowns. Produced by NT, it's actually a licensed version of a W-T design."
 	icon_state = "taser"
 	item_state = null	//so the human update icon uses the icon_state instead.
 	fire_sound = 'sound/weapons/Taser.ogg'
-	max_shots = 5
+	max_shots = 10
 	projectile_type = /obj/item/projectile/beam/stun
 
 /obj/item/weapon/gun/energy/taser/mounted
@@ -15,7 +15,7 @@
 /obj/item/weapon/gun/energy/taser/mounted/cyborg
 	name = "taser gun"
 	max_shots = 6
-	recharge_time = 10 //Time it takes for shots to recharge (in ticks)
+	recharge_time = 7 //Time it takes for shots to recharge (in ticks)
 
 
 /obj/item/weapon/gun/energy/stunrevolver
@@ -24,8 +24,8 @@
 	icon_state = "stunrevolver"
 	item_state = "stunrevolver"
 	fire_sound = 'sound/weapons/Gunshot.ogg'
-	origin_tech = "combat=3;materials=3;powerstorage=2"
-	projectile_type = /obj/item/projectile/energy/electrode
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 3, TECH_POWER = 2)
+	projectile_type = /obj/item/projectile/energy/electrode/strong
 	max_shots = 8
 
 
@@ -35,8 +35,8 @@
 	icon_state = "crossbow"
 	w_class = 2.0
 	item_state = "crossbow"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MAGNET = 2, TECH_ILLEGAL = 5)
 	matter = list(DEFAULT_WALL_MATERIAL = 2000)
-	origin_tech = "combat=2;magnets=2;syndicate=5"
 	slot_flags = SLOT_BELT
 	silenced = 1
 	fire_sound = 'sound/weapons/Genhit.ogg'

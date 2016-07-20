@@ -2,7 +2,8 @@
 
 /obj/machinery/computer/engines
 	name = "engine control console"
-	icon_state = "id"
+	icon_keyboard = "tech_key"
+	icon_screen = "id"
 	var/state = "status"
 	var/list/engines = list()
 	var/obj/effect/map/ship/linked
@@ -14,7 +15,7 @@
 			linked.eng_control = src
 		testing("Engines console at level [z] found a corresponding overmap object '[linked.name]'.")
 	else
-		testing("Engines console at [x],[y],[z] was unable to find a corresponding overmap object.")
+		testing("Engines console at level [z] was unable to find a corresponding overmap object.")
 
 	for(var/datum/ship_engine/E in engines)
 		if (E.zlevel == z && !(E in engines))

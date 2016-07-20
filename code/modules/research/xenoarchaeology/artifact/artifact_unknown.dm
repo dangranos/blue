@@ -26,7 +26,7 @@ var/list/valid_primary_effect_types = list(\
 	/datum/artifact_effect/forcefield,\
 	/datum/artifact_effect/gasoxy,\
 	/datum/artifact_effect/gasplasma,\
-/*	/datum/artifact_effect/gassleeping,\*/
+//	/datum/artifact_effect/gassleeping,\
 	/datum/artifact_effect/heal,\
 	/datum/artifact_effect/hurt,\
 	/datum/artifact_effect/emp,\
@@ -45,7 +45,7 @@ var/list/valid_secondary_effect_types = list(\
 	/datum/artifact_effect/gasnitro,\
 	/datum/artifact_effect/gasoxy,\
 	/datum/artifact_effect/gasphoron,\
-/*	/datum/artifact_effect/gassleeping,\*/
+//	/datum/artifact_effect/gassleeping,\
 	/datum/artifact_effect/goodfeeling,\
 	/datum/artifact_effect/heal,\
 	/datum/artifact_effect/hurt,\
@@ -235,7 +235,7 @@ var/list/valid_secondary_effect_types = list(\
 	src.add_fingerprint(user)
 
 	if(my_effect.trigger == TRIGGER_TOUCH)
-		user << "<b>You touch [src].<b>"
+		user << "<b>You touch [src].</b>"
 		my_effect.ToggleActivate()
 	else
 		user << "<b>You touch [src],</b> [pick("but nothing of note happens","but nothing happens","but nothing interesting happens","but you notice nothing different","but nothing seems to have happened")]."
@@ -257,7 +257,7 @@ var/list/valid_secondary_effect_types = list(\
 				my_effect.ToggleActivate()
 			if(secondary_effect && secondary_effect.trigger == TRIGGER_WATER && prob(25))
 				secondary_effect.ToggleActivate(0)
-		else if(W.reagents.has_reagent("acid", 1) || W.reagents.has_reagent("pacid", 1) || W.reagents.has_reagent("diethylamine", 1))
+		else if(W.reagents.has_reagent("sacid", 1) || W.reagents.has_reagent("pacid", 1) || W.reagents.has_reagent("diethylamine", 1))
 			if(my_effect.trigger == TRIGGER_ACID)
 				my_effect.ToggleActivate()
 			if(secondary_effect && secondary_effect.trigger == TRIGGER_ACID && prob(25))
@@ -303,14 +303,9 @@ var/list/valid_secondary_effect_types = list(\
 				my_effect.ToggleActivate()
 			if(secondary_effect && secondary_effect.trigger == TRIGGER_FORCE && prob(25))
 				secondary_effect.ToggleActivate(0)
-	else if(ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if(H.gloves && istype(H.gloves,/obj/item/clothing/gloves) && !H.gloves:clipped)
-			return ..()
-		if(istype(H.wear_suit, /obj/item/clothing/suit/space))
-			return ..()
-
+	else if(ishuman(M) && !istype(M:gloves,/obj/item/clothing/gloves))
 		var/warn = 0
+
 		if (my_effect.trigger == TRIGGER_TOUCH && prob(50))
 			my_effect.ToggleActivate()
 			warn = 1
@@ -326,7 +321,7 @@ var/list/valid_secondary_effect_types = list(\
 			warn = 1
 
 		if(warn)
-			M << "<b>You accidentally touch [src].<b>"
+			M << "<b>You accidentally touch [src].</b>"
 	..()
 
 /obj/machinery/artifact/bullet_act(var/obj/item/projectile/P)

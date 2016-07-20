@@ -56,16 +56,19 @@
 			if (aiRestorePowerRoutine==2)
 				src << "Alert cancelled. Power has been restored without our assistance."
 				aiRestorePowerRoutine = 0
-				src.blind.alpha = 0
+				clear_fullscreen("blind")
+				updateicon()
 				return
 			else if (aiRestorePowerRoutine==3)
 				src << "Alert cancelled. Power has been restored."
 				aiRestorePowerRoutine = 0
-				src.blind.alpha = 0
+				clear_fullscreen("blind")
+				updateicon()
 				return
 			else if (APU_power)
 				aiRestorePowerRoutine = 0
-				src.blind.alpha = 0
+				clear_fullscreen("blind")
+				updateicon()
 				return
 		else
 			var/area/current_area = get_area(src)
@@ -75,10 +78,8 @@
 					aiRestorePowerRoutine = 1
 
 					//Blind the AI
-
-					src.blind.screen_loc = "1,1 to 15,15"
-					if (src.blind.alpha!=255)
-						src.blind.alpha=255
+					updateicon()
+					overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
 					src.sight = src.sight&~SEE_TURFS
 					src.sight = src.sight&~SEE_MOBS
 					src.sight = src.sight&~SEE_OBJS
@@ -96,7 +97,7 @@
 							if (!istype(T, /turf/space))
 								src << "Alert cancelled. Power has been restored without our assistance."
 								aiRestorePowerRoutine = 0
-								src.blind.alpha = 0
+								clear_fullscreen("blind")
 								return
 						src << "Fault confirmed: missing external power. Shutting down main control system to save power."
 						sleep(20)
@@ -126,7 +127,7 @@
 								if (!istype(T, /turf/space))
 									src << "Alert cancelled. Power has been restored without our assistance."
 									aiRestorePowerRoutine = 0
-									src.blind.alpha = 0 //This, too, is a fix to issue 603
+									clear_fullscreen("blind") //This, too, is a fix to issue 603
 									return
 							switch(PRP)
 								if (1) src << "APC located. Optimizing route to APC to avoid needless power waste."
@@ -143,11 +144,12 @@
 									aiRestorePowerRoutine = 3
 									src << "Here are your current laws:"
 									show_laws()
+									updateicon()
 							sleep(50)
 							theAPC = null
 
 	process_queued_alarms()
-	regular_hud_updates()
+	handle_regular_hud_updates()
 	switch(src.sensor_mode)
 		if (SEC_HUD)
 			process_sec_hud(src,0,src.eyeobj)

@@ -50,13 +50,11 @@
 		if (!( user.restrained() ) && !( user.stat ))
 			switch(over_object.name)
 				if("r_hand")
-					if(user.unEquip(master_item))
-						if(!user.put_in_r_hand(master_item))
-							user.drop_from_inventory(master_item)
+					user.u_equip(master_item)
+					user.put_in_r_hand(master_item)
 				if("l_hand")
-					if(user.unEquip(master_item))
-						if(!user.put_in_l_hand(master_item))
-							user.drop_from_inventory(master_item)
+					user.u_equip(master_item)
+					user.put_in_l_hand(master_item)
 			master_item.add_fingerprint(user)
 			return 0
 	return 0
@@ -86,13 +84,6 @@
 		if (M.s_active == src)
 			src.close(M)
 	return 1
-
-/obj/item/weapon/storage/internal/can_be_inserted(obj/item/W as obj, stop_messages = 0)
-	if(contents.len >= storage_slots)
-		if(!stop_messages)
-			usr << "<span class='notice'>[src] is full, make some space.</span>"
-		return 0 //Storage item is full
-	return ..()
 
 /obj/item/weapon/storage/internal/Adjacent(var/atom/neighbor)
 	return master_item.Adjacent(neighbor)

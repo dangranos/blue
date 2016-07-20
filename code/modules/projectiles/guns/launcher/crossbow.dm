@@ -26,7 +26,7 @@
 	item_state = "bolt"
 
 /obj/item/weapon/arrow/quill
-	name = "vox quill"
+	name = "alien quill"
 	desc = "A wickedly barbed quill from some bizarre animal."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "quill"
@@ -207,7 +207,7 @@
 	icon_state = "crossbowframe[buildstate]"
 
 /obj/item/weapon/crossbowframe/examine(mob/user)
-	.=..()
+	..(user)
 	switch(buildstate)
 		if(1) user << "It has a loose rod frame in place."
 		if(2) user << "It has a steel backbone welded in place."

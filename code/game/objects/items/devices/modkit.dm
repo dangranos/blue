@@ -49,7 +49,7 @@
 
 	playsound(user.loc, 'sound/items/Screwdriver.ogg', 100, 1)
 
-	user.visible_message("\red [user] opens \the [src] and modifies \the [O].","\red You open \the [src] and modify \the [O].")
+	user.visible_message("<span class='notice'>\The [user] opens \the [src] and modifies \the [O].</span>","<span class='notice'>You open \the [src] and modify \the [O].</span>")
 
 	I.refit_for_species(target_species)
 
@@ -63,7 +63,7 @@
 		qdel(src)
 
 /obj/item/device/modkit/examine(mob/user)
-	. = ..()
+	..(user)
 	user << "It looks as though it modifies hardsuits to fit [target_species] users."
 
 /obj/item/device/modkit/tajaran

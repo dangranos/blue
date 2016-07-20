@@ -10,7 +10,7 @@ nanoui is used to open and update nano browser uis
 	// the user who opened this ui
 	var/mob/user
 	// the object this ui "belongs" to
-	var/atom/movable/src_object
+	var/datum/src_object
 	// the title of this ui
 	var/title
 	// the key of this ui, this is to allow multiple (different) uis for each src_object
@@ -140,7 +140,8 @@ nanoui is used to open and update nano browser uis
   * @return nothing
   */
 /datum/nanoui/proc/update_status(var/push_update = 0)
-	var/new_status = src_object.CanUseTopic(user, state)
+	var/obj/host = src_object.nano_host()
+	var/new_status = host.CanUseTopic(user, state)
 	if(master_ui)
 		new_status = min(new_status, master_ui.status)
 
@@ -174,9 +175,11 @@ nanoui is used to open and update nano browser uis
   * @return /list config data
   */
 /datum/nanoui/proc/get_config_data()
+	var/name = "[src_object]"
+	name = sanitize(name)
 	var/list/config_data = list(
 			"title" = title,
-			"srcObject" = list("name" = src_object.name),
+			"srcObject" = list("name" = name),
 			"stateKey" = state_key,
 			"status" = status,
 			"autoUpdateLayout" = auto_update_layout,
@@ -344,18 +347,20 @@ nanoui is used to open and update nano browser uis
 
 	var/template_data_json = "{}" // An empty JSON object
 	if (templates.len > 0)
-		template_data_json = list2json(templates)
+		template_data_json = strip_improper(list2json(templates))
 
 	var/list/send_data = get_send_data(initial_data)
 	var/initial_data_json = replacetext(replacetext(list2json_usecache(send_data), "&#34;", "&amp;#34;"), "'", "&#39;")
+	initial_data_json = strip_improper(initial_data_json);
 
 	var/url_parameters_json = list2json(list("src" = "\ref[src]"))
 
 	return {"
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 	<head>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<script type='text/javascript'>
 			function receiveUpdateData(jsonString)
 			{
@@ -365,6 +370,10 @@ nanoui is used to open and update nano browser uis
 				{
 					NanoStateManager.receiveUpdateData(jsonString);
 				}
+				//else
+				//{
+				//	alert('browser.recieveUpdateData failed due to jQuery or NanoStateManager being unavailiable.');
+				//}
 			}
 		</script>
 		[head_content]
@@ -428,6 +437,9 @@ nanoui is used to open and update nano browser uis
 	user << browse(null, "window=[window_id]")
 	for(var/datum/nanoui/child in children)
 		child.close()
+	children.Cut()
+	state = null
+	master_ui = null
 
  /**
   * Set the UI window to call the nanoclose verb when the window is closed
@@ -454,8 +466,8 @@ nanoui is used to open and update nano browser uis
 
 	var/list/send_data = get_send_data(data)
 
-	//user << list2json(data) // used for debugging
-	user << output(list2params(list(list2json_usecache(send_data))),"[window_id].browser:receiveUpdateData")
+	//user << list2json_usecache(send_data) // used for debugging //NANO DEBUG HOOK
+	user << output(list2params(list(strip_improper(list2json_usecache(send_data)))),"[window_id].browser:receiveUpdateData")
 
  /**
   * This Topic() proc is called whenever a user clicks on a link within a Nano UI
@@ -479,7 +491,7 @@ nanoui is used to open and update nano browser uis
 		set_map_z_level(text2num(href_list["mapZLevel"]))
 		map_update = 1
 
-	if ((src_object && src_object.Topic(href, href_list, 0, state)) || map_update)
+	if ((src_object && src_object.Topic(href, href_list, state)) || map_update)
 		nanomanager.update_uis(src_object) // update all UIs attached to src_object
 
  /**

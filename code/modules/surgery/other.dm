@@ -27,7 +27,7 @@
 			internal_bleeding = 1
 			break
 
-		return affected.open >= 2 && internal_bleeding
+		return affected.open == (affected.encased ? 3 : 2) && internal_bleeding
 
 	begin_step(mob/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
@@ -70,7 +70,7 @@
 		if(!hasorgans(target))
 			return 0
 
-		if (target_zone == "mouth" || target_zone == "eyes")
+		if (target_zone == O_MOUTH || target_zone == O_EYES)
 			return 0
 
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
@@ -89,7 +89,6 @@
 		user.visible_message("\blue [user] has cut away necrotic tissue in [target]'s [affected.name] with \the [tool].", \
 			"\blue You have cut away necrotic tissue in [target]'s [affected.name] with \the [tool].")
 		affected.open = 3
-		playsound(target.loc, 'sound/effects/squelch1.ogg', 50, 1)
 
 	fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
@@ -101,10 +100,9 @@
 	priority = 2
 	allowed_tools = list(
 		/obj/item/weapon/reagent_containers/dropper = 100,
-		/obj/item/weapon/reagent_containers/glass/beaker/bottle = 75,
+		/obj/item/weapon/reagent_containers/glass/beaker/bucket = 50,
 		/obj/item/weapon/reagent_containers/glass/beaker = 75,
 		/obj/item/weapon/reagent_containers/spray = 50,
-		/obj/item/weapon/reagent_containers/glass/bucket = 50,
 	)
 
 	can_infect = 0
@@ -124,7 +122,7 @@
 		if(!hasorgans(target))
 			return 0
 
-		if (target_zone == "mouth" || target_zone == "eyes")
+		if (target_zone == O_MOUTH || target_zone == O_EYES)
 			return 0
 
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
@@ -150,6 +148,7 @@
 
 			if(container.reagents.has_reagent("peridaxon"))
 				affected.status &= ~ORGAN_DEAD
+				affected.owner.update_body(1)
 
 			user.visible_message("\blue [user] applies [trans] units of the solution to affected tissue in [target]'s [affected.name]", \
 				"\blue You apply [trans] units of the solution to affected tissue in [target]'s [affected.name] with \the [tool].")
@@ -187,9 +186,9 @@
 			return 0
 		if(istype(tool,/obj/item/weapon/weldingtool))
 			var/obj/item/weapon/weldingtool/welder = tool
-			if(!welder.isOn())
+			if(!welder.isOn() || !welder.remove_fuel(1,user))
 				return 0
-		return (target_zone == "chest") && istype(target.back, /obj/item/weapon/rig) && !(target.back.canremove)
+		return (target_zone == BP_TORSO) && istype(target.back, /obj/item/weapon/rig) && !(target.back.canremove)
 
 	begin_step(mob/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 		user.visible_message("[user] starts cutting through the support systems of [target]'s [target.back] with \the [tool]." , \

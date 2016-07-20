@@ -8,31 +8,14 @@
 	// a list of asset filenames which are to be sent to the client on user logon
 	var/list/asset_files = list()
 
- /**
+/**
   * Create a new nanomanager instance.
   * This proc generates a list of assets which are to be sent to each client on connect
   *
   * @return /nanomanager new nanomanager object
   */
+
 /datum/nanomanager/New()
-/*
-	var/list/nano_asset_dirs = list(\
-		"nano/css/",\
-		"nano/images/",\
-		"nano/js/",\
-		"nano/templates/"\
-	)
-
-	var/list/filenames = null
-	for (var/path in nano_asset_dirs)
-		filenames = flist(path)
-		for(var/filename in filenames)
-			if(copytext(filename, length(filename)) != "/") // filenames which end in "/" are actually directories, which we want to ignore
-				if(fexists(path + filename))
-					asset_files.Add(fcopy_rsc(path + filename)) // add this file to asset_files for sending to clients when they connect
-	return
-*/
-
 	asset_files = list(
 		'nano/css/icons.css',
 		'nano/css/layout_basic.css',
@@ -43,6 +26,7 @@
 		'nano/images/c_max.gif',
 		'nano/images/nanomapBackground.png',
 		'nano/images/nanomap_z1.png',
+		'nano/images/pills32.png',
 		'nano/images/uiBackground-Syndicate.png',
 		'nano/images/uiBackground.png',
 		'nano/images/uiBasicBackground.png',
@@ -50,22 +34,13 @@
 		'nano/images/uiIcons16Green.png',
 		'nano/images/uiIcons16Red.png',
 		'nano/images/uiIcons24.png',
+		'nano/images/uiIcons64.png',
 		'nano/images/uiLinkPendingIcon.gif',
 		'nano/images/uiMaskBackground.png',
 		'nano/images/uiNoticeBackground.jpg',
 		'nano/images/uiTitleFluff-Syndicate.png',
 		'nano/images/uiTitleFluff.png',
-		'nano/images/source/icon-eye.xcf',
-		'nano/images/source/NTLogoRevised.fla',
-		'nano/images/source/uiBackground-Syndicate.xcf',
-		'nano/images/source/uiBackground.fla',
-		'nano/images/source/uiBackground.xcf',
-		'nano/images/source/uiBasicBackground.xcf',
-		'nano/images/source/uiIcons16Green.xcf',
-		'nano/images/source/uiIcons16Red.xcf',
-		'nano/images/source/uiIcons24.xcf',
-		'nano/images/source/uiNoticeBackground.xcf',
-		'nano/images/source/uiTitleBackground.xcf',
+		'nano/js/libraries-old.min.js',
 		'nano/js/libraries.min.js',
 		'nano/js/nano_base_callbacks.js',
 		'nano/js/nano_base_helpers.js',
@@ -80,17 +55,24 @@
 		'nano/js/libraries/jquery.timers.js',
 		'nano/templates/accounts_terminal.tmpl',
 		'nano/templates/advanced_airlock_console.tmpl',
+		'nano/templates/adv_med.tmpl',
+		'nano/templates/agent_id_card.tmpl',
 		'nano/templates/aicard.tmpl',
 		'nano/templates/air_alarm.tmpl',
 		'nano/templates/alarm_monitor.tmpl',
 		'nano/templates/apc.tmpl',
 		'nano/templates/appearance_changer.tmpl',
+		'nano/templates/arcade_battle.tmpl',
 		'nano/templates/atmos_alert.tmpl',
 		'nano/templates/atmos_control.tmpl',
+		'nano/templates/atmo_control.tmpl',
 		'nano/templates/botany_editor.tmpl',
 		'nano/templates/botany_isolator.tmpl',
 		'nano/templates/canister.tmpl',
 		'nano/templates/chem_disp.tmpl',
+		'nano/templates/chem_master.tmpl',
+		'nano/templates/cloning.tmpl',
+		'nano/templates/communicator.tmpl',
 		'nano/templates/crew_monitor.tmpl',
 		'nano/templates/crew_monitor_map_content.tmpl',
 		'nano/templates/crew_monitor_map_header.tmpl',
@@ -106,23 +88,29 @@
 		'nano/templates/escape_pod_berth_console.tmpl',
 		'nano/templates/escape_pod_console.tmpl',
 		'nano/templates/escape_shuttle_control_console.tmpl',
+		'nano/templates/exonet_node.tmpl',
+		'nano/templates/fax.tmpl',
 		'nano/templates/freezer.tmpl',
 		'nano/templates/gas_pump.tmpl',
 		'nano/templates/generator.tmpl',
 		'nano/templates/geoscanner.tmpl',
+		'nano/templates/guest_pass.tmpl',
 		'nano/templates/hardsuit.tmpl',
 		'nano/templates/helm.tmpl',
+		'nano/templates/holodeck.tmpl',
 		'nano/templates/identification_computer.tmpl',
 		'nano/templates/isolation_centrifuge.tmpl',
 		'nano/templates/janitorcart.tmpl',
 		'nano/templates/jukebox.tmpl',
+		'nano/templates/laptop_vendor.tmpl',
 		'nano/templates/law_manager.tmpl',
 		'nano/templates/layout_basic.tmpl',
 		'nano/templates/layout_default.tmpl',
-		'nano/templates/mech_bay_console.tmpl',
+		'nano/templates/mechfab.tmpl',
 		'nano/templates/multi_docking_console.tmpl',
 		'nano/templates/omni_filter.tmpl',
 		'nano/templates/omni_mixer.tmpl',
+		'nano/templates/operating.tmpl',
 		'nano/templates/pacman.tmpl',
 		'nano/templates/pai_atmosphere.tmpl',
 		'nano/templates/pai_directives.tmpl',
@@ -136,11 +124,15 @@
 		'nano/templates/pai_signaller.tmpl',
 		'nano/templates/pathogenic_isolator.tmpl',
 		'nano/templates/pda.tmpl',
+		'nano/templates/photocopier.tmpl',
 		'nano/templates/portpump.tmpl',
 		'nano/templates/portscrubber.tmpl',
 		'nano/templates/power_monitor.tmpl',
 		'nano/templates/pressure_regulator.tmpl',
+		'nano/templates/radio_basic.tmpl',
 		'nano/templates/rcon.tmpl',
+		'nano/templates/request_console.tmpl',
+		'nano/templates/robot_control.tmpl',
 		'nano/templates/sec_camera.tmpl',
 		'nano/templates/sec_camera_map_content.tmpl',
 		'nano/templates/sec_camera_map_header.tmpl',
@@ -149,17 +141,22 @@
 		'nano/templates/simple_airlock_console.tmpl',
 		'nano/templates/simple_docking_console.tmpl',
 		'nano/templates/simple_docking_console_pod.tmpl',
+		'nano/templates/sleeper.tmpl',
 		'nano/templates/smartfridge.tmpl',
 		'nano/templates/smes.tmpl',
+		'nano/templates/supermatter_crystal.tmpl',
 		'nano/templates/tanks.tmpl',
 		'nano/templates/telescience_console.tmpl',
 		'nano/templates/TemplatesGuide.txt',
 		'nano/templates/transfer_valve.tmpl',
 		'nano/templates/turret_control.tmpl',
 		'nano/templates/uplink.tmpl',
-		'nano/templates/vending_machine.tmpl'
+		'nano/templates/vending_machine.tmpl',
+		'nano/templates/xenobio_computer.tmpl',
+		'nano/templates/xenobio_editor.tmpl',
+		'nano/templates/xenobio_isolator.tmpl'
 	)
-
+	return
 
  /**
   * Get an open /nanoui ui for the current user, src_object and ui_key and try to update it with data

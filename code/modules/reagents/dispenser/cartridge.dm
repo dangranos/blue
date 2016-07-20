@@ -22,7 +22,7 @@
 		setLabel(R.name)
 
 /obj/item/weapon/reagent_containers/chem_disp_cartridge/examine(mob/user)
-	.=..()
+	..()
 	user << "It has a capacity of [volume] units."
 	if(reagents.total_volume <= 0)
 		user << "It is empty."

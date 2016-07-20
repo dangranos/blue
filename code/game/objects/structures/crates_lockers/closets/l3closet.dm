@@ -8,24 +8,24 @@
 /obj/structure/closet/l3closet/general
 	icon_state = "bio_general"
 	icon_closed = "bio_general"
-	icon_opened = "bioopen"
+	icon_opened = "bio_generalopen"
 
 /obj/structure/closet/l3closet/general/New()
 	..()
-	new /obj/item/clothing/suit/bio_suit/general( src )
-	new /obj/item/clothing/head/bio_hood/general( src )
+	new /obj/item/clothing/suit/bio_suit/general(src)
+	new /obj/item/clothing/head/bio_hood/general(src)
 
 
 /obj/structure/closet/l3closet/virology
 	icon_state = "bio_virology"
 	icon_closed = "bio_virology"
-	icon_opened = "bioopen"
+	icon_opened = "bio_virologyopen"
 
 /obj/structure/closet/l3closet/virology/New()
 	..()
-	new /obj/item/clothing/suit/bio_suit/virology( src )
-	new /obj/item/clothing/head/bio_hood/virology( src )
-	new /obj/item/clothing/mask/breath/toggleable(src)
+	new /obj/item/clothing/suit/bio_suit/virology(src)
+	new /obj/item/clothing/head/bio_hood/virology(src)
+	new /obj/item/clothing/mask/gas(src)
 	new /obj/item/weapon/tank/oxygen(src)
 
 
@@ -36,8 +36,8 @@
 
 /obj/structure/closet/l3closet/security/New()
 	..()
-	new /obj/item/clothing/suit/bio_suit/security( src )
-	new /obj/item/clothing/head/bio_hood/security( src )
+	new /obj/item/clothing/suit/bio_suit/security(src)
+	new /obj/item/clothing/head/bio_hood/security(src)
 
 
 /obj/structure/closet/l3closet/janitor
@@ -47,8 +47,14 @@
 
 /obj/structure/closet/l3closet/janitor/New()
 	..()
-	new /obj/item/clothing/suit/bio_suit/janitor( src )
-	new /obj/item/clothing/head/bio_hood/janitor( src )
+	new /obj/item/clothing/suit/bio_suit/janitor(src)
+	new /obj/item/clothing/suit/bio_suit/janitor(src)
+	new /obj/item/clothing/head/bio_hood/janitor(src)
+	new /obj/item/clothing/head/bio_hood/janitor(src)
+	new /obj/item/clothing/mask/gas(src)
+	new /obj/item/clothing/mask/gas(src)
+	new /obj/item/weapon/tank/emergency_oxygen/engi(src)
+	new /obj/item/weapon/tank/emergency_oxygen/engi(src)
 
 
 /obj/structure/closet/l3closet/scientist
@@ -58,5 +64,23 @@
 
 /obj/structure/closet/l3closet/scientist/New()
 	..()
-	new /obj/item/clothing/suit/bio_suit/scientist( src )
-	new /obj/item/clothing/head/bio_hood/scientist( src )
+	new /obj/item/clothing/suit/bio_suit/scientist(src)
+	new /obj/item/clothing/head/bio_hood/scientist(src)
+
+
+/obj/structure/closet/l3closet/medical
+	icon_state = "bio_scientist"
+	icon_closed = "bio_scientist"
+	icon_opened = "bio_scientistopen"
+
+/obj/structure/closet/l3closet/medical/New()
+	..()
+	new /obj/item/clothing/suit/bio_suit/general(src)
+	new /obj/item/clothing/suit/bio_suit/general(src)
+	new /obj/item/clothing/suit/bio_suit/general(src)
+	new /obj/item/clothing/head/bio_hood/general(src)
+	new /obj/item/clothing/head/bio_hood/general(src)
+	new /obj/item/clothing/head/bio_hood/general(src)
+	new /obj/item/clothing/mask/gas(src)
+	new /obj/item/clothing/mask/gas(src)
+	new /obj/item/clothing/mask/gas(src)

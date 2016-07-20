@@ -3,8 +3,9 @@
 /obj/machinery/computer/prisoner
 	name = "prisoner management console"
 	icon = 'icons/obj/computer.dmi'
-	icon_state = "explosive"
-	light_color = "#a91515"
+	icon_keyboard = "security_key"
+	icon_screen = "explosive"
+	light_color = "#315ab4"
 	req_access = list(access_armory)
 	circuit = /obj/item/weapon/circuitboard/prisoner
 	var/id = 0.0
@@ -96,7 +97,7 @@
 				var/obj/item/weapon/implant/I = locate(href_list["warn"])
 				if((I)&&(I.imp_in))
 					var/mob/living/carbon/R = I.imp_in
-					R << "\green You hear a voice in your head saying: '[warning]'"
+					R << "<span class='notice'>You hear a voice in your head saying: '[warning]'</span>"
 
 			src.add_fingerprint(usr)
 		src.updateUsrDialog()

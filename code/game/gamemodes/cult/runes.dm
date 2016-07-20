@@ -159,11 +159,11 @@ var/list/sacrificed = list()
 							target << "<span class='cult'>Your entire broken soul and being is engulfed in corruption and flames as your mind shatters away into nothing.</span>"
 							target.hallucination += 5000
 							target.apply_effect(15, STUTTER)
-							target.adjustBrainLoss(rand(1,5))
+							target.adjustBrainLoss(1)
 
 				initial_message = 1
-				if (target.species && (target.species.flags & NO_PAIN))
-					target.visible_message("<span class='warning'>The markings below [target] glow a bloody red.</span>")
+				if (!target.can_feel_pain())
+					target.visible_message("<span class='warning'>The markings below \the [target] glow a bloody red.</span>")
 				else
 					target.visible_message("<span class='warning'>[target] writhes in pain as the markings below \him glow a bloody red.</span>", "<span class='danger'>AAAAAAHHHH!</span>", "<span class='warning'>You hear an anguished scream.</span>")
 
@@ -191,42 +191,29 @@ var/list/sacrificed = list()
 		tearreality()
 			if(!cult.allow_narsie)
 				return fizzle()
+
 			var/list/cultists = new()
 			for(var/mob/M in range(1,src))
 				if(iscultist(M) && !M.stat)
 					M.say("Tok-lyr rqa'nap g[pick("'","`")]lt-ulotf!")
-					cultists += M
+					if(istype(M, /mob/living/carbon/human/dummy)) //No manifest cheese.
+						continue
+					cultists.Add(M)
 			if(cultists.len >= 9)
-				var/list/whattosay = list (
-				";The time has come, to awaken him." = 0,
-				";I call upon the ancient lords of the underworld," = 0,
-				";To bring forth this beast and," = 0,
-				";Awaken," = 4,
-				";Take the land, that must be taken." = 0,
-				"; Awaken," = 4,
-				";Devour worlds, smite forsaken" = 0,
-				";Rise up from your thousandth year of sleep," = 0,
-				";Break forth from your grave eternally." = 0,
-				";I command you to" = 0,
-				";Rise" = 8
-				)
-				src.word1=null
-				src.word2=null
-				src.word3=null
-				log_and_message_admins_many(cultists, "summoned Nar-sie.")
-				for(var/speach in whattosay)
-					if (whattosay[speach])
-						for(var/i=1, i <= whattosay[speach], i++)
-							var/mob/M = cultists[rand(1,cultists.len)]
-							M.say(speach)
-							sleep(10)
-					else
-						var/mob/M = cultists[rand(1,cultists.len)]
-						M.say(speach)
-						sleep(20)
-				world << sound('sound/music/Dethklok_awaken.ogg', volume = 40, channel = 777)
-				sleep (5)
-				new /obj/singularity/narsie/large(src.loc)
+				if(!narsie_cometh)//so we don't initiate Hell more than one time.
+					world << "<font size='15' color='red'><b>THE VEIL HAS BEEN SHATTERED!</b></font>"
+					world << sound('sound/effects/wind/wind_5_1.ogg')
+
+					SetUniversalState(/datum/universal_state/hell)
+					narsie_cometh = 1
+
+					spawn(10 SECONDS)
+						if(emergency_shuttle)
+							emergency_shuttle.call_evac()
+							emergency_shuttle.launch_time = 0	// Cannot recall
+
+				log_and_message_admins_many(cultists, "summoned the end of days.")
+//				new /obj/singularity/narsie/large(src.loc)
 				return
 			else
 				return fizzle()
@@ -355,10 +342,11 @@ var/list/sacrificed = list()
 					usr << "<span class='warning'>The sacrifical corpse is not dead. You must free it from this world of illusions before it may be used.</span>"
 				return fizzle()
 
-			var/mob/dead/observer/ghost
-			for(var/mob/dead/observer/O in loc)
+			var/mob/observer/dead/ghost
+			for(var/mob/observer/dead/O in loc)
 				if(!O.client)	continue
 				if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+				if(!(O.client.prefs.be_special & BE_CULTIST)) continue
 				ghost = O
 				break
 
@@ -436,7 +424,7 @@ var/list/sacrificed = list()
 						L.ajourn=0
 						return
 					else
-						L.take_organ_damage(10, 0)
+						L.take_organ_damage(3, 0)
 					sleep(100)
 			return fizzle()
 
@@ -450,11 +438,12 @@ var/list/sacrificed = list()
 			src = null
 			if(usr.loc!=this_rune.loc)
 				return this_rune.fizzle()
-			var/mob/dead/observer/ghost
-			for(var/mob/dead/observer/O in this_rune.loc)
+			var/mob/observer/dead/ghost
+			for(var/mob/observer/dead/O in this_rune.loc)
 				if(!O.client)	continue
 				if(!O.MayRespawn()) continue
 				if(O.mind && O.mind.current && O.mind.current.stat != DEAD)	continue
+				if(!(O.client.prefs.be_special & BE_CULTIST)) continue
 				ghost = O
 				break
 			if(!ghost)
@@ -476,10 +465,11 @@ var/list/sacrificed = list()
 					break
 			D.universal_speak = 1
 			D.status_flags &= ~GODMODE
-			D.s_tone = 35
-			D.eyes_color = "#C8C8C8"
+			D.b_eyes = 200
+			D.r_eyes = 200
+			D.g_eyes = 200
 			D.update_eyes()
-			D.underwear = 0
+			D.all_underwear.Cut()
 			D.key = ghost.key
 			cult.add_antagonist(D.mind)
 
@@ -1061,7 +1051,7 @@ var/list/sacrificed = list()
 				for(var/mob/living/L in viewers(src))
 					if(iscarbon(L))
 						var/mob/living/carbon/C = L
-						flick("e_flash", C.flash)
+						C.flash_eyes()
 						if(C.stuttering < 1 && (!(HULK in C.mutations)))
 							C.stuttering = 1
 						C.Weaken(1)
@@ -1090,7 +1080,7 @@ var/list/sacrificed = list()
 						admin_attack_log(usr, T, "Used a stun rune.", "Was victim of a stun rune.", "used a stun rune on")
 					else if(iscarbon(T))
 						var/mob/living/carbon/C = T
-						flick("e_flash", C.flash)
+						C.flash_eyes()
 						if (!(HULK in C.mutations))
 							C.silent += 15
 						C.Weaken(25)

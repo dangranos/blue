@@ -46,32 +46,24 @@
 	ME.attach(src)
 	return
 
-/obj/mecha/working/ripley/lagan
-	desc = "ROW ROW FIGHT THE POWAH!"
-	name = "Lagan"
-	icon_state = "lagann"
-	initial_icon = "lagann"
-	step_in = 3
-	max_temperature = 35000
-	health = 300
-	wreckage = /obj/effect/decal/mecha_wreckage/ripley/lagan
+/obj/mecha/working/ripley/mining
+	desc = "An old, dusty mining ripley."
+	name = "APLU \"Miner\""
 
-/obj/mecha/working/ripley/lagan/New()
+/obj/mecha/working/ripley/mining/New()
 	..()
 	//Attach drill
-	var/obj/item/mecha_parts/mecha_equipment/tool/drill/diamonddrill/D = new /obj/item/mecha_parts/mecha_equipment/tool/drill/diamonddrill
-	D.attach(src)
+	if(prob(25)) //Possible diamond drill... Feeling lucky?
+		var/obj/item/mecha_parts/mecha_equipment/tool/drill/diamonddrill/D = new /obj/item/mecha_parts/mecha_equipment/tool/drill/diamonddrill
+		D.attach(src)
+	else
+		var/obj/item/mecha_parts/mecha_equipment/tool/drill/D = new /obj/item/mecha_parts/mecha_equipment/tool/drill
+		D.attach(src)
 
 	//Attach hydrolic clamp
 	var/obj/item/mecha_parts/mecha_equipment/tool/hydraulic_clamp/HC = new /obj/item/mecha_parts/mecha_equipment/tool/hydraulic_clamp
 	HC.attach(src)
 	for(var/obj/item/mecha_parts/mecha_tracking/B in src.contents)//Deletes the beacon so it can't be found easily
 		qdel (B)
-	
-	var/obj/item/mecha_parts/mecha_equipment/ME = new /obj/item/mecha_parts/mecha_equipment/tool/passenger
-	ME.attach(src)
-	ME = new /obj/item/mecha_parts/mecha_equipment/tool/passenger
-	ME.attach(src)
-	return
 
 

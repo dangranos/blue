@@ -1,14 +1,14 @@
 /****************************************************
 				BLOOD SYSTEM
 ****************************************************/
-//Blood levels
-var/const/BLOOD_VOLUME_SAFE = 501
-var/const/BLOOD_VOLUME_OKAY = 336
-var/const/BLOOD_VOLUME_BAD = 224
-var/const/BLOOD_VOLUME_SURVIVE = 122
+//Blood levels. These are percentages based on the species blood_volume far.
+var/const/BLOOD_VOLUME_SAFE =    85
+var/const/BLOOD_VOLUME_OKAY =    75
+var/const/BLOOD_VOLUME_BAD =     60
+var/const/BLOOD_VOLUME_SURVIVE = 40
 
-/mob/living/carbon/human/var/datum/reagents/vessel	//Container for blood and BLOOD ONLY. Do not transfer other chems here.
-/mob/living/carbon/human/var/var/pale = 0			//Should affect how mob sprite is drawn, but currently doesn't.
+/mob/living/carbon/human/var/datum/reagents/vessel // Container for blood and BLOOD ONLY. Do not transfer other chems here.
+/mob/living/carbon/human/var/var/pale = 0          // Should affect how mob sprite is drawn, but currently doesn't.
 
 //Initializes blood vessels
 /mob/living/carbon/human/proc/make_blood()
@@ -16,13 +16,13 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 	if(vessel)
 		return
 
-	vessel = new/datum/reagents(600)
+	vessel = new/datum/reagents(species.blood_volume)
 	vessel.my_atom = src
 
-	if(species && species.flags & NO_BLOOD) //We want the var for safety but we can do without the actual blood.
+	if(!should_have_organ(O_HEART)) //We want the var for safety but we can do without the actual blood.
 		return
 
-	vessel.add_reagent("blood",560)
+	vessel.add_reagent("blood",species.blood_volume)
 	spawn(1)
 		fixblood()
 
@@ -30,22 +30,25 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 /mob/living/carbon/human/proc/fixblood()
 	for(var/datum/reagent/blood/B in vessel.reagent_list)
 		if(B.id == "blood")
-			B.data = list(	"donor"=src,"viruses"=null,"species"=species.name,"blood_DNA"=dna.unique_enzymes,"blood_colour"= species.blood_color,"blood_type"=dna.b_type,	\
+			B.data = list(	"donor"=src,"viruses"=null,"species"=species.name,"blood_DNA"=dna.unique_enzymes,"blood_colour"= species.get_blood_colour(src),"blood_type"=dna.b_type,	\
 							"resistances"=null,"trace_chem"=null, "virus2" = null, "antibodies" = list())
 			B.color = B.data["blood_colour"]
 
 // Takes care blood loss and regeneration
-/mob/living/carbon/human/proc/handle_blood()
+/mob/living/carbon/human/handle_blood()
+	if(in_stasis)
+		return
 
-	if(species && species.flags & NO_BLOOD)
+	if(!should_have_organ(O_HEART))
 		return
 
 	if(stat != DEAD && bodytemperature >= 170)	//Dead or cryosleep people do not pump the blood.
 
-		var/blood_volume = round(vessel.get_reagent_amount("blood"))
+		var/blood_volume_raw = vessel.get_reagent_amount("blood")
+		var/blood_volume = round((blood_volume_raw/species.blood_volume)*100) // Percentage.
 
 		//Blood regeneration if there is some space
-		if(blood_volume < 560 && blood_volume)
+		if(blood_volume_raw < species.blood_volume)
 			var/datum/reagent/blood/B = locate() in vessel.reagent_list //Grab some blood
 			if(B) // Make sure there's some blood at all
 				if(B.data["donor"] != src) //If it's not theirs, then we look for theirs
@@ -60,8 +63,8 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 
 		// Damaged heart virtually reduces the blood volume, as the blood isn't
 		// being pumped properly anymore.
-		if(species && species.has_organ["heart"])
-			var/obj/item/organ/internal/heart/heart = internal_organs_by_name["heart"]
+		if(species && should_have_organ(O_HEART))
+			var/obj/item/organ/internal/heart/heart = internal_organs_by_name[O_HEART]
 
 			if(!heart)
 				blood_volume = 0
@@ -73,46 +76,45 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 				blood_volume *= 0.3
 
 		//Effects of bloodloss
-		switch(blood_volume)
-			if(BLOOD_VOLUME_SAFE to 10000)
-				if(pale)
-					pale = 0
-					update_body()
-			if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
-				if(!pale)
-					pale = 1
-					update_body()
-					var/word = pick("dizzy","woosey","faint")
-					src << "\red You feel [word]"
-				if(prob(1))
-					var/word = pick("dizzy","woosey","faint")
-					src << "\red You feel [word]"
-				if(oxyloss < 20)
-					oxyloss += 3
-			if(BLOOD_VOLUME_BAD to BLOOD_VOLUME_OKAY)
-				if(!pale)
-					pale = 1
-					update_body()
-				eye_blurry = max(eye_blurry,6)
-				if(oxyloss < 50)
-					oxyloss += 10
-				oxyloss += 1
-				if(prob(15))
-					Paralyse(rand(1,3))
-					var/word = pick("dizzy","woosey","faint")
-					src << "\red You feel extremely [word]"
-			if(BLOOD_VOLUME_SURVIVE to BLOOD_VOLUME_BAD)
-				oxyloss += 5
-				toxloss += 3
-				if(prob(15))
-					var/word = pick("dizzy","woosey","faint")
-					src << "\red You feel extremely [word]"
-			if(0 to BLOOD_VOLUME_SURVIVE)
-				// There currently is a strange bug here. If the mob is not below -100 health
-				// when death() is called, apparently they will be just fine, and this way it'll
-				// spam deathgasp. Adjusting toxloss ensures the mob will stay dead.
-				toxloss += 300 // just to be safe!
-				death()
+		if(blood_volume >= BLOOD_VOLUME_SAFE)
+			if(pale)
+				pale = 0
+				update_body()
+		else if(blood_volume >= BLOOD_VOLUME_OKAY)
+			if(!pale)
+				pale = 1
+				update_body()
+				var/word = pick("dizzy","woosey","faint")
+				src << "\red You feel [word]"
+			if(prob(1))
+				var/word = pick("dizzy","woosey","faint")
+				src << "\red You feel [word]"
+			if(oxyloss < 20)
+				oxyloss += 3
+		else if(blood_volume >= BLOOD_VOLUME_BAD)
+			if(!pale)
+				pale = 1
+				update_body()
+			eye_blurry = max(eye_blurry,6)
+			if(oxyloss < 50)
+				oxyloss += 10
+			oxyloss += 1
+			if(prob(15))
+				Paralyse(rand(1,3))
+				var/word = pick("dizzy","woosey","faint")
+				src << "\red You feel extremely [word]"
+		else if(blood_volume >= BLOOD_VOLUME_SURVIVE)
+			oxyloss += 5
+			toxloss += 3
+			if(prob(15))
+				var/word = pick("dizzy","woosey","faint")
+				src << "\red You feel extremely [word]"
+		else
+			// There currently is a strange bug here. If the mob is not below -100 health
+			// when death() is called, apparently they will be just fine, and this way it'll
+			// spam deathgasp. Adjusting toxloss ensures the mob will stay dead.
+			toxloss += 300 // just to be safe!
+			death()
 
 		// Without enough blood you slowly go hungry.
 		if(blood_volume < BLOOD_VOLUME_SAFE)
@@ -124,7 +126,7 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 		//Bleeding out
 		var/blood_max = 0
 		for(var/obj/item/organ/external/temp in organs)
-			if(!(temp.status & ORGAN_BLEEDING) || temp.status & ORGAN_ROBOT)
+			if(!(temp.status & ORGAN_BLEEDING) || (temp.robotic >= ORGAN_ROBOT))
 				continue
 			for(var/datum/wound/W in temp.wounds) if(W.bleeding())
 				blood_max += W.damage / 40
@@ -135,13 +137,7 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 //Makes a blood drop, leaking amt units of blood from the mob
 /mob/living/carbon/human/proc/drip(var/amt as num)
 
-	if(!isturf(loc))	//No drips, if we are in closet, or disposal pipe or anywhere else, but not on the floor
-		return
-
-	if(istype(loc, /turf/space))	//No drips in space
-		return
-
-	if(species && species.flags & NO_BLOOD) //TODO: Make drips come from the reagents instead.
+	if(!should_have_organ(O_HEART)) //TODO: Make drips come from the reagents instead.
 		return
 
 	if(!amt)
@@ -169,17 +165,12 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 	B.data["virus2"] |= virus_copylist(src.virus2)
 	B.data["antibodies"] = src.antibodies
 	B.data["blood_DNA"] = copytext(src.dna.unique_enzymes,1,0)
-	if(src.resistances && src.resistances.len)
-		if(B.data["resistances"])
-			B.data["resistances"] |= src.resistances.Copy()
-		else
-			B.data["resistances"] = src.resistances.Copy()
 	B.data["blood_type"] = copytext(src.dna.b_type,1,0)
 
 	// Putting this here due to return shenanigans.
 	if(istype(src,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = src
-		B.data["blood_colour"] = H.species.blood_color
+		B.data["blood_colour"] = H.species.get_blood_colour(H)
 		B.color = B.data["blood_colour"]
 
 	var/list/temp_chem = list()
@@ -192,7 +183,7 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 //For humans, blood does not appear from blue, it comes from vessels.
 /mob/living/carbon/human/take_blood(obj/item/weapon/reagent_containers/container, var/amount)
 
-	if(species && species.flags & NO_BLOOD)
+	if(!should_have_organ(O_HEART))
 		return null
 
 	if(vessel.get_reagent_amount("blood") < amount)
@@ -214,13 +205,13 @@ var/const/BLOOD_VOLUME_SURVIVE = 122
 	var/list/chems = list()
 	chems = params2list(injected.data["trace_chem"])
 	for(var/C in chems)
-		src.reagents.add_reagent(C, (text2num(chems[C]) / 560) * amount)//adds trace chemicals to owner's blood
+		src.reagents.add_reagent(C, (text2num(chems[C]) / species.blood_volume) * amount)//adds trace chemicals to owner's blood
 	reagents.update_total()
 
 //Transfers blood from reagents to vessel, respecting blood types compatability.
 /mob/living/carbon/human/inject_blood(var/datum/reagent/blood/injected, var/amount)
 
-	if(species && species.flags & NO_BLOOD)
+	if(!should_have_organ(O_HEART))
 		reagents.add_reagent("blood", amount, injected.data)
 		reagents.update_total()
 		return
@@ -275,9 +266,11 @@ proc/blood_splatter(var/target,var/datum/reagent/blood/source,var/large)
 	var/obj/effect/decal/cleanable/blood/B
 	var/decal_type = /obj/effect/decal/cleanable/blood/splatter
 	var/turf/T = get_turf(target)
+	var/synth = 0
 
 	if(istype(source,/mob/living/carbon/human))
 		var/mob/living/carbon/human/M = source
+		if(M.isSynthetic()) synth = 1
 		source = M.get_blood(M.vessel)
 
 	// Are we dripping or splattering?
@@ -306,6 +299,7 @@ proc/blood_splatter(var/target,var/datum/reagent/blood/source,var/large)
 	// Update appearance.
 	if(source.data["blood_colour"])
 		B.basecolor = source.data["blood_colour"]
+		B.synthblood = synth
 		B.update_icon()
 
 	// Update blood information.
@@ -320,4 +314,6 @@ proc/blood_splatter(var/target,var/datum/reagent/blood/source,var/large)
 	if(source.data["virus2"])
 		B.virus2 = virus_copylist(source.data["virus2"])
 
+	B.fluorescent  = 0
+	B.invisibility = 0
 	return B

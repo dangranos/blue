@@ -84,9 +84,6 @@
 			if(M.see_invisible < patient.invisibility)
 				continue
 			var/foundVirus = 0
-			for(var/datum/disease/D in patient.viruses)
-				if(!D.hidden[SCANNER])
-					foundVirus++
 
 			for (var/ID in patient.virus2)
 				if (ID in virusDB)
@@ -104,8 +101,6 @@
 			holder = patient.hud_list[STATUS_HUD]
 			if(patient.stat == 2)
 				holder.icon_state = "huddead"
-			else if(patient.status_flags & XENO_HOST)
-				holder.icon_state = "hudxeno"
 			else if(foundVirus)
 				holder.icon_state = "hudill"
 			else if(patient.has_brain_worms())

@@ -1,12 +1,22 @@
 /obj/item/weapon/material/harpoon
 	name = "harpoon"
 	sharp = 1
-	edge = 1
+	edge = 0
 	desc = "Tharr she blows!"
 	icon_state = "harpoon"
 	item_state = "harpoon"
 	force_divisor = 0.3 // 18 with hardness 60 (steel)
 	attack_verb = list("jabbed","stabbed","ripped")
+
+/obj/item/weapon/material/knuckledusters
+	name = "knuckle dusters"
+	desc = "A pair of brass knuckles. Generally used to enhance the user's punches."
+	icon_state = "knuckledusters"
+	gender = PLURAL
+	w_class = 2.0
+	force_divisor = 0.63
+	attack_verb = list("punched", "beaten", "struck")
+	applies_material_colour = 0
 
 /obj/item/weapon/material/hatchet
 	name = "hatchet"
@@ -31,16 +41,23 @@
 
 /obj/item/weapon/material/hatchet/tacknife
 	name = "tactical knife"
-	desc = "You'd be killing loads of people if this was Medal of Valor: Heroes of Nyx."
+	desc = "You'd be killing loads of people if this was Medal of Valor: Heroes of Space."
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "tacknife"
 	item_state = "knife"
 	attack_verb = list("stabbed", "chopped", "cut")
-	applies_material_colour = 0
+	applies_material_colour = 1
 
-/obj/item/weapon/material/hatchet/tacknife/thunder
-	force_divisor = 0.5
-	thrown_force_divisor = 0.6
+/obj/item/weapon/material/hatchet/tacknife/combatknife
+	name = "combat knife"
+	desc = "If only you had a boot to put it in."
+	icon = 'icons/obj/weapons.dmi'
+	icon_state = "tacknife"
+	item_state = "knife"
+	force_divisor = 0.34 // 20 with hardness 60 (steel)
+	thrown_force_divisor = 1.75 // 20 with weight 20 (steel)
+	attack_verb = list("sliced", "stabbed", "chopped", "cut")
+	applies_material_colour = 1
 
 /obj/item/weapon/material/minihoe // -- Numbers
 	name = "mini hoe"
@@ -48,7 +65,6 @@
 	icon = 'icons/obj/weapons.dmi'
 	icon_state = "hoe"
 	item_state = "hoe"
-	flags = CONDUCT | NOBLUDGEON
 	force_divisor = 0.25 // 5 with weight 20 (steel)
 	thrown_force_divisor = 0.25 // as above
 	w_class = 2
@@ -65,17 +81,6 @@
 	throw_speed = 1
 	throw_range = 3
 	w_class = 4
-	flags = NOSHIELD
 	slot_flags = SLOT_BACK
 	origin_tech = "materials=2;combat=2"
 	attack_verb = list("chopped", "sliced", "cut", "reaped")
-	
-	/obj/item/weapon/material/knuckles
-	icon_state = "knuckles"
-	name = "brass knuckles"
-	desc = "Prepare your teeth!"
-	hitsound = 'sound/weapons/genhit3.ogg'
-	force_divisor = 0.15
-	thrown_force_divisor = 0.1
-	w_class = 2
-	attack_verb = list("smashed", "bashed", "slammed")

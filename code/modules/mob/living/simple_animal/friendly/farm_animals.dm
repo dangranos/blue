@@ -167,7 +167,7 @@
 	health = 1
 	var/amount_grown = 0
 	pass_flags = PASSTABLE | PASSGRILLE
-	small = 1
+	mob_size = MOB_MINISCULE
 
 /mob/living/simple_animal/chick/New()
 	..()
@@ -199,7 +199,7 @@ var/global/chicken_count = 0
 	emote_see = list("pecks at the ground","flaps its wings viciously")
 	speak_chance = 2
 	turns_per_move = 3
-	meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat/rawchicken
+	meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat
 	meat_amount = 2
 	response_help  = "pets"
 	response_disarm = "gently pushes aside"
@@ -209,7 +209,7 @@ var/global/chicken_count = 0
 	var/eggsleft = 0
 	var/body_color
 	pass_flags = PASSTABLE
-	small = 1
+	mob_size = MOB_SMALL
 
 /mob/living/simple_animal/chicken/New()
 	..()

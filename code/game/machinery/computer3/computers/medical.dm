@@ -50,7 +50,7 @@
 		if(!interactable())
 			return
 		if (computer.z > 6)
-			usr << "\red <b>Unable to establish a connection</b>: \black You're too far away from the station!"
+			usr << "<span class='danger'>Unable to establish a connection:</span> You're too far away from the station!"
 			return
 		var/dat
 
@@ -117,15 +117,6 @@
 						dat += text("\n<A href='?src=\ref[];print_p=1'>Print Record</A><BR>\n<A href='?src=\ref[];screen=2'>Back</A><BR>", src, src)
 					if(5.0)
 						dat += "<CENTER><B>Virus Database</B></CENTER>"
-						/*	Advanced diseases is weak! Feeble! Glory to virus2!
-						for(var/Dt in typesof(/datum/disease/))
-							var/datum/disease/Dis = new Dt(0)
-							if(istype(Dis, /datum/disease/advance))
-								continue // TODO (tm): Add advance diseases to the virus database which no one uses.
-							if(!Dis.desc)
-								continue
-							dat += "<br><a href='?src=\ref[src];vir=[Dt]'>[Dis.name]</a>"
-						*/
 						for (var/ID in virusDB)
 							var/datum/data/record/v = virusDB[ID]
 							dat += "<br><a href='?src=\ref[src];vir=\ref[v]'>[v.fields["name"]]</a>"
@@ -181,7 +172,7 @@
 				scan = null
 			else
 				var/obj/item/I = usr.get_active_hand()
-				if (istype(I, /obj/item/weapon/card/id))
+				if (istype(I, /obj/item/weapon/card/id) && usr.drop_item(I))
 					computer.cardslot.insert(I, 1)
 					scan = I
 
@@ -194,7 +185,7 @@
 				scan2 = null
 			else
 				var/obj/item/I = usr.get_active_hand()
-				if (istype(I, /obj/item/weapon/card/id))
+				if (istype(I, /obj/item/weapon/card/id) && usr.drop_item(I))
 					computer.cardslot.insert(I, 2)
 					scan2 = I
 
@@ -470,7 +461,7 @@
 				var/counter = 1
 				while(src.active2.fields[text("com_[]", counter)])
 					counter++
-				src.active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD hh:mm:ss")], [game_year]<BR>[t1]")
+				src.active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD")] [worldtime2text()], [game_year]<BR>[t1]")
 
 			if (href_list["del_c"])
 				if ((istype(src.active2, /datum/data/record) && src.active2.fields[text("com_[]", href_list["del_c"])]))
@@ -482,9 +473,9 @@
 					return
 				src.active1 = null
 				src.active2 = null
-				t1 = lowertext(t1)
+				t1 = rlowertext(t1)
 				for(var/datum/data/record/R in data_core.medical)
-					if ((lowertext(R.fields["name"]) == t1 || t1 == lowertext(R.fields["id"]) || t1 == lowertext(R.fields["b_dna"])))
+					if ((rlowertext(R.fields["name"]) == t1 || t1 == rlowertext(R.fields["id"]) || t1 == rlowertext(R.fields["b_dna"])))
 						src.active2 = R
 					else
 						//Foreach continue //goto(3229)

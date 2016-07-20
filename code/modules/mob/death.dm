@@ -2,7 +2,7 @@
 //added different sort of gibs and animations. N
 /mob/proc/gib(anim="gibbed-m",do_gibs)
 	death(1)
-	monkeyizing = 1
+	transforming = 1
 	canmove = 0
 	icon = null
 	invisibility = 101
@@ -16,7 +16,7 @@
 	animation.master = src
 
 	flick(anim, animation)
-	if(do_gibs) gibs(loc, viruses, dna)
+	if(do_gibs) gibs(loc, dna)
 
 	spawn(15)
 		if(animation)	qdel(animation)
@@ -28,7 +28,7 @@
 /mob/proc/dust(anim="dust-m",remains=/obj/effect/decal/cleanable/ash)
 	death(1)
 	var/atom/movable/overlay/animation = null
-	monkeyizing = 1
+	transforming = 1
 	canmove = 0
 	icon = null
 	invisibility = 101
@@ -66,9 +66,6 @@
 
 	layer = MOB_LAYER
 
-	if(blind && client)
-		blind.alpha = 0
-
 	sight |= SEE_TURFS|SEE_MOBS|SEE_OBJS
 	see_in_dark = 8
 	see_invisible = SEE_INVISIBLE_LEVEL_TWO
@@ -85,6 +82,7 @@
 	dead_mob_list |= src
 
 	updateicon()
+	handle_regular_hud_updates()
 
 	if(ticker && ticker.mode)
 		ticker.mode.check_win()

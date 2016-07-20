@@ -14,12 +14,12 @@
 	possible_transfer_amounts = null
 	flags = OPENCONTAINER
 	slot_flags = SLOT_BELT
-	center_of_mass = list("x"=16, "y"=7)
 
-///obj/item/weapon/reagent_containers/hypospray/New() //comment this to make hypos start off empty
-//	..()
-//	reagents.add_reagent("tricordrazine", 30)
-//	return
+/obj/item/weapon/reagent_containers/hypospray/do_surgery(mob/living/carbon/M, mob/living/user)
+	if(user.a_intent != I_HELP) //in case it is ever used as a surgery tool
+		return ..()
+	attack(M, user)
+	return 1
 
 /obj/item/weapon/reagent_containers/hypospray/attack(mob/living/M as mob, mob/user as mob)
 	if(!reagents.total_volume)
@@ -27,9 +27,18 @@
 		return
 	if (!istype(M))
 		return
-	if(!M.can_inject(user, 1))
-		return
 
+	var/mob/living/carbon/human/H = M
+	if(istype(H))
+		var/obj/item/organ/external/affected = H.get_organ(user.zone_sel.selecting)
+		if(!affected)
+			user << "<span class='danger'>\The [H] is missing that limb!</span>"
+			return
+		else if(affected.robotic >= ORGAN_ROBOT)
+			user << "<span class='danger'>You cannot inject a robotic limb.</span>"
+			return
+
+	user.setClickCooldown(DEFAULT_QUICK_COOLDOWN)
 	user << "<span class='notice'>You inject [M] with [src].</span>"
 	M << "<span class='notice'>You feel a tiny prick!</span>"
 
@@ -48,7 +57,6 @@
 	item_state = "autoinjector"
 	amount_per_transfer_from_this = 5
 	volume = 5
-	center_of_mass = list("x"=16, "y"=16)
 
 /obj/item/weapon/reagent_containers/hypospray/autoinjector/New()
 	..()
@@ -70,20 +78,8 @@
 		icon_state = "[initial(icon_state)]0"
 
 /obj/item/weapon/reagent_containers/hypospray/autoinjector/examine(mob/user)
-	.=..()
+	..(user)
 	if(reagents && reagents.reagent_list.len)
 		user << "<span class='notice'>It is currently loaded.</span>"
 	else
 		user << "<span class='notice'>It is spent.</span>"
-
-
-/obj/item/weapon/reagent_containers/hypospray/autoinjector/combat
-	amount_per_transfer_from_this = 10
-	volume = 10
-	name = "autoinjector (combat)"
-	desc = "Contains stimulants."
-	New()
-		..()
-		reagents.add_reagent("tramadol", 5)
-		reagents.add_reagent("hyperzine",  5)
-		update_icon()

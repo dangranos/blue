@@ -22,6 +22,7 @@
 	var/trash_type                 // Garbage item produced when eaten.
 	var/splat_type = /obj/effect/decal/cleanable/fruit_smudge // Graffiti decal.
 	var/has_mob_product
+	var/force_layer
 
 /datum/seed/New()
 
@@ -48,11 +49,11 @@
 	set_trait(TRAIT_REQUIRES_NUTRIENTS,   1)            // The plant can starve.
 	set_trait(TRAIT_REQUIRES_WATER,       1)            // The plant can become dehydrated.
 	set_trait(TRAIT_WATER_CONSUMPTION,    3)            // Plant drinks this much per tick.
-	set_trait(TRAIT_LIGHT_TOLERANCE,      5)            // Departure from ideal that is survivable.
+	set_trait(TRAIT_LIGHT_TOLERANCE,      3)            // Departure from ideal that is survivable.
 	set_trait(TRAIT_TOXINS_TOLERANCE,     5)            // Resistance to poison.
 	set_trait(TRAIT_PEST_TOLERANCE,       5)            // Threshold for pests to impact health.
 	set_trait(TRAIT_WEED_TOLERANCE,       5)            // Threshold for weeds to impact health.
-	set_trait(TRAIT_IDEAL_LIGHT,          8)            // Preferred light level in luminosity.
+	set_trait(TRAIT_IDEAL_LIGHT,          5)            // Preferred light level in luminosity.
 	set_trait(TRAIT_HEAT_TOLERANCE,       20)           // Departure from ideal that is survivable.
 	set_trait(TRAIT_LOWKPA_TOLERANCE,     25)           // Low pressure capacity.
 	set_trait(TRAIT_ENDURANCE,            100)          // Maximum plant HP when growing.
@@ -112,7 +113,7 @@
 		return
 
 
-	if(!target_limb) target_limb = pick("l_foot","r_foot","l_leg","r_leg","l_hand","r_hand","l_arm", "r_arm","head","chest","groin")
+	if(!target_limb) target_limb = pick(BP_ALL)
 	var/obj/item/organ/external/affecting = target.get_organ(target_limb)
 	var/damage = 0
 
@@ -149,13 +150,12 @@
 		var/body_coverage = HEAD|FACE|EYES|UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
 
 		for(var/obj/item/clothing/clothes in target)
-			if(target.l_hand == clothes|| target.r_hand == clothes)
+			if(target.item_is_in_hands(clothes))
 				continue
 			body_coverage &= ~(clothes.body_parts_covered)
 
 		if(!body_coverage)
 			return
-
 		target << "<span class='danger'>You are stung by \the [fruit]!</span>"
 		for(var/rid in chems)
 			var/injecting = min(5,max(1,get_trait(TRAIT_POTENCY)/5))
@@ -180,9 +180,20 @@
 		for(var/mob/living/M in T.contents)
 			if(!M.reagents)
 				continue
-			for(var/chem in chems)
-				var/injecting = min(5,max(1,get_trait(TRAIT_POTENCY)/3))
-				M.reagents.add_reagent(chem,injecting)
+			var/body_coverage = HEAD|FACE|EYES|UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+			for(var/obj/item/clothing/clothes in M)
+				if(M.item_is_in_hands(clothes))
+					continue
+				body_coverage &= ~(clothes.body_parts_covered)
+			if(!body_coverage)
+				continue
+			var/datum/reagents/R = M.reagents
+			var/mob/living/carbon/human/H = M
+			if(istype(H))
+				R = H.touching
+			if(istype(R))
+				for(var/chem in chems)
+					R.add_reagent(chem,min(5,max(1,get_trait(TRAIT_POTENCY)/3)))
 
 //Applies an effect to a target atom.
 /datum/seed/proc/thrown_at(var/obj/item/thrown,var/atom/target, var/force_explode)
@@ -326,12 +337,50 @@
 
 	return impact
 
+/datum/seed/proc/generate_name()
+	var/prefix = ""
+	var/name = ""
+	if(prob(50)) //start with a prefix.
+		//These are various plant/mushroom genuses.
+		//I realize these might not be entirely accurate, but it could facilitate RP.
+		var/list/possible_prefixes
+		if(seed_noun == "cuttings" || seed_noun == "seeds" || (seed_noun == "nodes" && prob(50)))
+			possible_prefixes = list("amelanchier", "saskatoon",
+										"magnolia", "angiosperma", "osmunda", "scabiosa", "spigelia", "psydrax", "chastetree",
+										"strychnos", "treebine", "caper", "justica", "ragwortus", "everlasting", "combretum",
+										"loganiaceae", "gelsemium", "logania", "sabadilla", "neuburgia", "canthium", "rytigynia",
+										"chaste", "vitex", "cissus", "capparis", "senecio", "curry", "cycad", "liverwort", "charophyta",
+										"glaucophyte", "pinidae", "vascular", "embryophyte", "lillopsida")
+		else
+			possible_prefixes = list("bisporus", "bitorquis", "campestris", "crocodilinus", "agaricus",
+									"armillaria", "matsutake", "mellea", "ponderosa", "auricularia", "auricala",
+									"polytricha", "boletus", "badius", "edulis", "mirabilis", "zelleri",
+									"calvatia", "gigantea", "clitopilis", "prumulus", "entoloma", "abortivum",
+									"suillus", "tuber", "aestivum", "volvacea", "delica", "russula", "rozites")
+
+		possible_prefixes |= list("butter", "shad", "sugar", "june", "wild", "rigus", "curry", "hard", "soft", "dark", "brick", "stone", "red", "brown",
+								"black", "white", "paper", "slippery", "honey", "bitter")
+		prefix = pick(possible_prefixes)
+
+	var/num = rand(2,5)
+	var/list/possible_name = list("rhon", "cus", "quam", "met", "eget", "was", "reg", "zor", "fra", "rat", "sho", "ghen", "pa",
+								"eir", "lip", "sum", "lor", "em", "tem", "por", "invi", "dunt", "ut", "la", "bore", "mag", "na",
+								"al", "i", "qu", "yam", "er", "at", "sed", "di", "am", "vol", "up", "tua", "at", "ve", "ro", "eos",
+								"et", "ac", "cus")
+	for(var/i in 1 to num)
+		var/syl = pick(possible_name)
+		possible_name -= syl
+		name += syl
+
+	if(prefix)
+		name = "[prefix] [name]"
+	seed_name = name
+	display_name = name
+
 //Creates a random seed. MAKE SURE THE LINE HAS DIVERGED BEFORE THIS IS CALLED.
 /datum/seed/proc/randomize()
 
 	roundstart = 0
-	seed_name = "strange plant"     // TODO: name generator.
-	display_name = "strange plants" // TODO: name generator.
 	mysterious = 1
 	seed_noun = pick("spores","nodes","cuttings","seeds")
 
@@ -379,51 +428,18 @@
 	var/additional_chems = rand(0,5)
 
 	if(additional_chems)
-		var/list/possible_chems = list(
-			"woodpulp",
-			"bicaridine",
-			"hyperzine",
-			"cryoxadone",
-			"blood",
-			"water",
-			"potassium",
-			"plasticide",
-			"mutationtoxin",
-			"amutationtoxin",
-			"inaprovaline",
-			"space_drugs",
-			"paroxetine",
-			"mercury",
-			"sugar",
-			"radium",
-			"ryetalyn",
-			"alkysine",
-			"thermite",
-			"tramadol",
-			"cryptobiolin",
-			"dermaline",
-			"dexalin",
-			"phoron",
-			"synaptizine",
-			"impedrezene",
-			"hyronalin",
-			"peridaxon",
-			"toxin",
-			"rezadone",
-			"ethylredoxrazine",
-			"slimejelly",
-			"cyanide",
-			"mindbreaker",
-			"stoxin",
-			"acetone",
-			"hydrazine"
+
+		var/list/banned_chems = list(
+			"adminordrazine",
+			"nutriment"
 			)
 
 		for(var/x=1;x<=additional_chems;x++)
-			if(!possible_chems.len)
-				break
-			var/new_chem = pick(possible_chems)
-			possible_chems -= new_chem
+
+			var/new_chem = pick(chemical_reagents_list)
+			if(new_chem in banned_chems)
+				continue
+			banned_chems += new_chem
 			chems[new_chem] = list(rand(1,10),rand(10,20))
 
 	if(prob(90))
@@ -477,6 +493,8 @@
 	set_trait(TRAIT_YIELD,rand(3,15))
 	set_trait(TRAIT_MATURATION,rand(5,15))
 	set_trait(TRAIT_PRODUCTION,get_trait(TRAIT_MATURATION)+rand(2,5))
+
+	generate_name()
 
 //Returns a key corresponding to an entry in the global seed list.
 /datum/seed/proc/get_mutant_variant()
@@ -686,7 +704,6 @@
 					total_yield = get_trait(TRAIT_YIELD) + rand(yield_mod)
 				total_yield = max(1,total_yield)
 
-		currently_querying = list()
 		for(var/i = 0;i<total_yield;i++)
 			var/obj/item/product
 			if(has_mob_product)
@@ -714,9 +731,6 @@
 			if(istype(product,/mob/living))
 				product.visible_message("<span class='notice'>The pod disgorges [product]!</span>")
 				handle_living_product(product)
-				if(istype(product,/mob/living/simple_animal/mushroom)) // Gross.
-					var/mob/living/simple_animal/mushroom/mush = product
-					mush.seed = src
 
 // When the seed in this machine mutates/is modified, the tray seed value
 // is set to a new datum copied from the original. This datum won't actually

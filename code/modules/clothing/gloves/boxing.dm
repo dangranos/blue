@@ -21,3 +21,9 @@
 /obj/item/clothing/gloves/boxing/yellow
 	icon_state = "boxingyellow"
 	item_state = "boxingyellow"
+
+/obj/item/clothing/gloves/white
+	name = "white gloves"
+	desc = "These look pretty fancy."
+	icon_state = "latex"
+	item_state = "lgloves"

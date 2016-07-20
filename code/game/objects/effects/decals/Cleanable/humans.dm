@@ -15,16 +15,28 @@ var/global/list/image/splatter_cache=list()
 	icon_state = "mfloor1"
 	random_icon_states = list("mfloor1", "mfloor2", "mfloor3", "mfloor4", "mfloor5", "mfloor6", "mfloor7")
 	var/base_icon = 'icons/effects/blood.dmi'
-	var/list/viruses = list()
 	blood_DNA = list()
 	var/basecolor="#A10808" // Color when wet.
-	var/list/virus2 = list()
+	var/synthblood = 0
+	var/list/datum/disease2/disease/virus2 = list()
 	var/amount = 5
 	var/drytime
 
+/obj/effect/decal/cleanable/blood/reveal_blood()
+	if(!fluorescent)
+		fluorescent = 1
+		basecolor = COLOR_LUMINOL
+		update_icon()
+
+/obj/effect/decal/cleanable/blood/clean_blood()
+	fluorescent = 0
+	if(invisibility != 100)
+		invisibility = 100
+		amount = 0
+		processing_objects -= src
+	..(ignore=1)
+
 /obj/effect/decal/cleanable/blood/Destroy()
-	for(var/datum/disease/D in viruses)
-		D.cure(0)
 	processing_objects -= src
 	return ..()
 
@@ -50,6 +62,12 @@ var/global/list/image/splatter_cache=list()
 /obj/effect/decal/cleanable/blood/update_icon()
 	if(basecolor == "rainbow") basecolor = "#[get_random_colour(1)]"
 	color = basecolor
+	if(synthblood)
+		name = "synthetic blood"
+		desc = "It's quite greasy."
+	else
+		name = initial(name)
+		desc = initial(desc)
 
 /obj/effect/decal/cleanable/blood/Crossed(mob/living/carbon/human/perp)
 	if (!istype(perp))
@@ -60,7 +78,7 @@ var/global/list/image/splatter_cache=list()
 	var/obj/item/organ/external/l_foot = perp.get_organ("l_foot")
 	var/obj/item/organ/external/r_foot = perp.get_organ("r_foot")
 	var/hasfeet = 1
-	if((!l_foot || l_foot.status & ORGAN_DESTROYED) && (!r_foot || r_foot.status & ORGAN_DESTROYED))
+	if((!l_foot || l_foot.is_stump()) && (!r_foot || r_foot.is_stump()))
 		hasfeet = 0
 	if(perp.shoes && !perp.buckled)//Adding blood to shoes
 		var/obj/item/clothing/shoes/S = perp.shoes
@@ -152,8 +170,8 @@ var/global/list/image/splatter_cache=list()
 		icon_state = "writing1"
 
 /obj/effect/decal/cleanable/blood/writing/examine(mob/user)
-	. = ..()
-	user << "It reads: <font color='[basecolor]'>\"[message]\"<font>"
+	..(user)
+	user << "It reads: <font color='[basecolor]'>\"[message]\"</font>"
 
 /obj/effect/decal/cleanable/blood/gibs
 	name = "gibs"
@@ -164,7 +182,7 @@ var/global/list/image/splatter_cache=list()
 	layer = 2
 	icon = 'icons/effects/blood.dmi'
 	icon_state = "gibbl5"
-	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6")
+	random_icon_states = list("gib1", "gib2", "gib3", "gib5", "gib6")
 	var/fleshcolor = "#FFFFFF"
 
 /obj/effect/decal/cleanable/blood/gibs/update_icon()
@@ -207,10 +225,6 @@ var/global/list/image/splatter_cache=list()
                                 var/obj/effect/decal/cleanable/blood/b = PoolOrNew(/obj/effect/decal/cleanable/blood/splatter, src.loc)
                                 b.basecolor = src.basecolor
                                 b.update_icon()
-                                for(var/datum/disease/D in src.viruses)
-                                        var/datum/disease/ND = D.Copy(1)
-                                        b.viruses += ND
-                                        ND.holder = b
 
                         if (step_to(src, get_step(src, direction), 0))
                                 break

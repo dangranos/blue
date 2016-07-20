@@ -6,8 +6,8 @@
 	icon_state = "target_h"
 	density = 0
 	var/hp = 1800
-	var/tmp/icon/virtualIcon
-	var/tmp/list/bulletholes = list()
+	var/icon/virtualIcon
+	var/list/bulletholes = list()
 
 	Destroy()
 		// if a target is deleted and associated with a stake, force stake to forget
@@ -96,7 +96,7 @@
 		if(hp <= 0)
 			for(var/mob/O in oviewers())
 				if ((O.client && !( O.blinded )))
-					O << "\red [src] breaks into tiny pieces and collapses!"
+					O << "<span class='warning'>\The [src] breaks into tiny pieces and collapses!</span>"
 			qdel(src)
 
 		// Create a temporary object to represent the damage

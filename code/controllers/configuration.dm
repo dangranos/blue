@@ -2,9 +2,9 @@ var/list/gamemode_cache = list()
 
 /datum/configuration
 	var/server_name = null				// server name (for world name / status)
-	var/server_group = null				// server group (for world name / status)
-	var/server_group_url = null			// server group site (for status)
 	var/server_suffix = 0				// generate numeric suffix based on server port
+
+	var/nudge_script_path = "nudge.py"  // where the nudge.py script is located
 
 	var/log_ooc = 0						// log OOC channel
 	var/log_access = 0					// log login/logout
@@ -21,7 +21,8 @@ var/list/gamemode_cache = list()
 	var/log_pda = 0						// log pda messages
 	var/log_hrefs = 0					// logs all links clicked in-game. Could be used for debugging and tracking down exploits
 	var/log_runtime = 0					// logs world.log to a file
-	var/sql_enabled = 1					// for sql switching
+	var/log_world_output = 0			// log world.log << messages
+	var/sql_enabled = 0					// for sql switching
 	var/allow_admin_ooccolor = 0		// Allows admins with relevant permissions to have their own ooc colour
 	var/allow_vote_restart = 0 			// allow votes to restart
 	var/ert_admin_call_only = 0
@@ -36,15 +37,18 @@ var/list/gamemode_cache = list()
 	var/vote_autogamemode_timeleft = 100 //Length of time before round start when autogamemode vote is called (in seconds, default 100).
 	var/vote_no_default = 0				// vote does not default to nochange/norestart (tbi)
 	var/vote_no_dead = 0				// dead people can't vote (tbi)
+//	var/enable_authentication = 0		// goon authentication
 	var/del_new_on_log = 1				// del's new players if they log before they spawn in
 	var/feature_object_spell_system = 0 //spawns a spellbook which gives object-type spells instead of verb-type spells for the wizard
 	var/traitor_scaling = 0 			//if amount of traitors scales based on amount of players
 	var/objectives_disabled = 0 			//if objectives are disabled or not
 	var/protect_roles_from_antagonist = 0// If security and such can be traitor/cult/other
 	var/continous_rounds = 0			// Gamemodes which end instantly will instead keep on going until the round ends by escape shuttle or nuke.
+	var/allow_Metadata = 0				// Metadata is supported.
 	var/popup_admin_pm = 0				//adminPMs to non-admins show in a pop-up 'reply' window when set to 1.
-	var/Ticklag = 0.5
+	var/Ticklag = 0.9
 	var/Tickcomp = 0
+	var/socket_talk	= 0					// use socket_talk to communicate with other processes
 	var/list/resource_urls = null
 	var/antag_hud_allowed = 0			// Ghosts can turn on Antagovision to see a HUD of who is the bad guys this round.
 	var/antag_hud_restricted = 0                    // Ghosts that turn on Antagovision cannot rejoin the round.
@@ -52,23 +56,22 @@ var/list/gamemode_cache = list()
 	var/list/modes = list()				// allowed modes
 	var/list/votable_modes = list()		// votable modes
 	var/list/probabilities = list()		// relative probability of each mode
+	var/humans_need_surnames = 0
 	var/allow_random_events = 0			// enables random events mid-round when set to 1
 	var/allow_ai = 1					// allow ai job
 	var/hostedby = null
 	var/respawn = 1
-	var/respawn_time = 30
-	var/respawn_time_mouse = 5
 	var/guest_jobban = 1
 	var/usewhitelist = 0
 	var/kick_inactive = 0				//force disconnect for inactive players after this many minutes, if non-0
 	var/show_mods = 0
+	var/show_devs = 0
 	var/show_mentors = 0
 	var/mods_can_tempban = 0
 	var/mods_can_job_tempban = 0
 	var/mod_tempban_max = 1440
 	var/mod_job_tempban_max = 1440
 	var/load_jobs_from_txt = 0
-	var/panicbuner = 0
 	var/ToRban = 0
 	var/automute_on = 0					//enables automuting/spam prevention
 	var/jobs_have_minimal_access = 0	//determines whether jobs use minimal access or expanded access.
@@ -89,6 +92,7 @@ var/list/gamemode_cache = list()
 	var/limitalienplayers = 0
 	var/alien_to_human_ratio = 0.5
 	var/allow_extra_antags = 0
+	var/guests_allowed = 1
 	var/debugparanoid = 0
 
 	var/serverurl
@@ -97,6 +101,8 @@ var/list/gamemode_cache = list()
 	var/wikiurl
 	var/forumurl
 	var/githuburl
+	var/rulesurl
+	var/mapurl
 
 	//Alert level description
 	var/alert_desc_green = "All threats to the station have passed. Security may not have weapons visible, privacy laws are once again fully enforced."
@@ -134,6 +140,9 @@ var/list/gamemode_cache = list()
 
 	var/welder_vision = 1
 	var/generate_asteroid = 0
+	var/no_click_cooldown = 0
+
+	var/asteroid_z_levels = list()
 
 	//Used for modifying movement speed for mobs.
 	//Unversal modifiers
@@ -156,6 +165,7 @@ var/list/gamemode_cache = list()
 
 	var/use_recursive_explosions //Defines whether the server uses recursive or circular explosions.
 
+	var/assistant_maint = 0 //Do assistants get maint access?
 	var/gateway_delay = 18000 //How long the gateway takes before it activates. Default is half an hour.
 	var/ghost_interaction = 0
 
@@ -169,6 +179,7 @@ var/list/gamemode_cache = list()
 	var/list/admin_levels= list(2)					// Defines which Z-levels which are for admin functionality, for example including such areas as Central Command and the Syndicate Shuttle
 	var/list/contact_levels = list(1, 5)			// Defines which Z-levels which, for example, a Code Red announcement may affect
 	var/list/player_levels = list(1, 3, 4, 5, 6)	// Defines all Z-levels a character can typically reach
+	var/list/sealed_levels = list() 				// Defines levels that do not allow random transit at the edges.
 
 	// Event settings
 	var/expected_round_length = 3 * 60 * 60 * 10 // 3 hours
@@ -198,13 +209,9 @@ var/list/gamemode_cache = list()
 
 	var/aggressive_changelog = 0
 
-	//Population cap vars
-	var/soft_popcap				= 0
-	var/hard_popcap				= 0
-	var/extreme_popcap			= 0
-	var/soft_popcap_message		= "Be warned that the server is currently serving a high number of users, consider using alternative game servers."
-	var/hard_popcap_message		= "The server is currently serving a high number of users, You cannot currently join. You may wait for the number of living crew to decline, observe, or find alternative servers."
-	var/extreme_popcap_message	= "The server is currently serving a high number of users, find alternative servers."
+	var/list/language_prefixes = list(",","#","-")//Default language prefixes
+
+	var/show_human_death_message = 1
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -251,7 +258,7 @@ var/list/gamemode_cache = list()
 		if(type == "config")
 			switch (name)
 				if ("resource_urls")
-					config.resource_urls = text2list(value, " ")
+					config.resource_urls = splittext(value, " ")
 
 				if ("admin_legacy_system")
 					config.admin_legacy_system = 1
@@ -275,7 +282,7 @@ var/list/gamemode_cache = list()
 					config.log_access = 1
 
 				if ("sql_enabled")
-					config.sql_enabled = text2num(value)
+					config.sql_enabled = 1
 
 				if ("log_say")
 					config.log_say = 1
@@ -313,6 +320,9 @@ var/list/gamemode_cache = list()
 				if ("log_pda")
 					config.log_pda = 1
 
+				if ("log_world_output")
+					config.log_world_output = 1
+
 				if ("log_hrefs")
 					config.log_hrefs = 1
 
@@ -321,6 +331,15 @@ var/list/gamemode_cache = list()
 
 				if ("generate_asteroid")
 					config.generate_asteroid = 1
+
+				if ("asteroid_z_levels")
+					config.asteroid_z_levels = splittext(value, ";")
+					//Numbers get stored as strings, so we'll fix that right now.
+					for(var/z_level in config.asteroid_z_levels)
+						z_level = text2num(z_level)
+
+				if ("no_click_cooldown")
+					config.no_click_cooldown = 1
 
 				if("allow_admin_ooccolor")
 					config.allow_admin_ooccolor = 1
@@ -367,26 +386,20 @@ var/list/gamemode_cache = list()
 				if ("allow_ai")
 					config.allow_ai = 1
 
+//				if ("authentication")
+//					config.enable_authentication = 1
+
 				if ("norespawn")
 					config.respawn = 0
-
-				if ("respawn_time")
-					config.respawn_time = value
-
-				if ("respawn_time_mouse")
-					config.respawn_time_mouse = value
 
 				if ("servername")
 					config.server_name = value
 
-				if ("servergroup")
-					config.server_group = value
-
-				if ("servergroupurl")
-					config.server_group_url = value
-
 				if ("serversuffix")
 					config.server_suffix = 1
+
+				if ("nudge_script_path")
+					config.nudge_script_path = value
 
 				if ("hostedby")
 					config.hostedby = value
@@ -406,8 +419,19 @@ var/list/gamemode_cache = list()
 				if ("forumurl")
 					config.forumurl = value
 
+				if ("rulesurl")
+					config.rulesurl = value
+
+				if ("mapurl")
+					config.mapurl = value
+
 				if ("githuburl")
 					config.githuburl = value
+				if ("guest_jobban")
+					config.guest_jobban = 1
+
+				if ("guest_ban")
+					config.guests_allowed = 0
 
 				if ("disable_ooc")
 					config.ooc_allowed = 0
@@ -430,6 +454,9 @@ var/list/gamemode_cache = list()
 
 				if ("feature_object_spell_system")
 					config.feature_object_spell_system = 1
+
+				if ("allow_metadata")
+					config.allow_Metadata = 1
 
 				if ("traitor_scaling")
 					config.traitor_scaling = 1
@@ -469,6 +496,9 @@ var/list/gamemode_cache = list()
 
 				if("show_mods")
 					config.show_mods = 1
+
+				if("show_devs")
+					config.show_devs = 1
 
 				if("show_mentors")
 					config.show_mentors = 1
@@ -523,8 +553,14 @@ var/list/gamemode_cache = list()
 				if("antag_hud_restricted")
 					config.antag_hud_restricted = 1
 
+				if("socket_talk")
+					socket_talk = text2num(value)
+
 				if("tickcomp")
 					Tickcomp = 1
+
+				if("humans_need_surnames")
+					humans_need_surnames = 1
 
 				if("tor_ban")
 					ToRban = 1
@@ -532,33 +568,15 @@ var/list/gamemode_cache = list()
 				if("automute_on")
 					automute_on = 1
 
-				////BEGIN Plyaer-cap BEGIN////
-				if("soft_popcap")
-					config.soft_popcap = text2num(value)
-
-				if("hard_popcap")
-					config.hard_popcap = text2num(value)
-
-				if("extreme_popcap")
-					config.extreme_popcap = text2num(value)
-
-				if("soft_popcap_message")
-					config.soft_popcap_message = value
-
-				if("hard_popcap_message")
-					config.hard_popcap_message = value
-
-				if("extreme_popcap_message")
-					config.extreme_popcap_message = value
-				////END Plyaer-cap END////
-
-
 				if("usealienwhitelist")
 					usealienwhitelist = 1
 
 				if("alien_player_ratio")
 					limitalienplayers = 1
 					alien_to_human_ratio = text2num(value)
+
+				if("assistant_maint")
+					config.assistant_maint = 1
 
 				if("gateway_delay")
 					config.gateway_delay = text2num(value)
@@ -649,7 +667,7 @@ var/list/gamemode_cache = list()
 					config.starlight = value >= 0 ? value : 0
 
 				if("ert_species")
-					config.ert_species = text2list(value, ";")
+					config.ert_species = splittext(value, ";")
 					if(!config.ert_species.len)
 						config.ert_species += "Human"
 
@@ -658,6 +676,11 @@ var/list/gamemode_cache = list()
 
 				if("aggressive_changelog")
 					config.aggressive_changelog = 1
+
+				if("default_language_prefixes")
+					var/list/values = splittext(value, " ")
+					if(values.len > 0)
+						language_prefixes = values
 
 				else
 					log_misc("Unknown setting in configuration: '[name]'")
@@ -674,6 +697,8 @@ var/list/gamemode_cache = list()
 					config.health_threshold_softcrit = value
 				if("health_threshold_dead")
 					config.health_threshold_dead = value
+				if("show_human_death_message")
+					config.show_human_death_message = 1
 				if("revival_pod_plants")
 					config.revival_pod_plants = value
 				if("revival_cloning")

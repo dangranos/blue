@@ -6,7 +6,7 @@
 	anchored = 1
 	use_power = 1
 	idle_power_usage = 5
-	active_power_usage = 40000	//40 kW. (this the power drawn when charging)
+	active_power_usage = 60000	//60 kW. (this the power drawn when charging)
 	power_channel = EQUIP
 	var/obj/item/weapon/cell/charging = null
 	var/chargelevel = -1
@@ -28,10 +28,10 @@
 	else
 		overlays.Cut()
 
-/obj/machinery/cell_charger/examine(mob/user, return_dist = 1)
-	. = ..()
+/obj/machinery/cell_charger/examine(mob/user)
+	if(!..(user, 5))
+		return
 
-	if(.>5) return
 	user << "There's [charging ? "a" : "no"] cell in the charger."
 	if(charging)
 		user << "Current charge: [charging.charge]"
@@ -42,14 +42,14 @@
 
 	if(istype(W, /obj/item/weapon/cell) && anchored)
 		if(charging)
-			user << "\red There is already a cell in the charger."
+			user << "<span class='warning'>There is already a cell in the charger.</span>"
 			return
 		else
 			var/area/a = loc.loc // Gets our locations location, like a dream within a dream
 			if(!isarea(a))
 				return
 			if(a.power_equip == 0) // There's no APC in this area, don't try to cheat power!
-				user << "\red The [name] blinks red as you try to insert the cell!"
+				user << "<span class='warning'>The [name] blinks red as you try to insert the cell!</span>"
 				return
 
 			user.drop_item()
@@ -60,7 +60,7 @@
 		update_icon()
 	else if(istype(W, /obj/item/weapon/wrench))
 		if(charging)
-			user << "\red Remove the cell first!"
+			user << "<span class='warning'>Remove the cell first!</span>"
 			return
 
 		anchored = !anchored

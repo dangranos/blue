@@ -1,18 +1,39 @@
+///////////////////////////////////////////////////////////////////////
+//Glasses
+/*
+SEE_SELF  // can see self, no matter what
+SEE_MOBS  // can see all mobs, no matter what
+SEE_OBJS  // can see all objs, no matter what
+SEE_TURFS // can see all turfs (and areas), no matter what
+SEE_PIXELS// if an object is located on an unlit area, but some of its pixels are
+          // in a lit area (via pixel_x,y or smooth movement), can see those pixels
+BLIND     // can't see anything
+*/
+///////////////////////////////////////////////////////////////////////
+
 /obj/item/clothing/glasses
 	name = "glasses"
 	icon = 'icons/obj/clothing/glasses.dmi'
-	//w_class = 2.0
-	//flags = GLASSESCOVERSEYES
-	//slot_flags = SLOT_EYES
-	//var/vision_flags = 0
-	//var/darkness_view = 0//Base human is 2
+	w_class = 2.0
+	slot_flags = SLOT_EYES
+	var/vision_flags = 0
+	var/darkness_view = 0//Base human is 2
+	var/see_invisible = -1
 	var/prescription = 0
 	var/toggleable = 0
 	var/off_state = "degoggles"
 	var/active = 1
 	var/activation_sound = 'sound/items/goggles_charge.ogg'
 	var/obj/screen/overlay = null
-	body_parts_covered = EYES
+
+	sprite_sheets = list(
+		"Teshari" = 'icons/mob/species/seromi/eyes.dmi'
+		)
+
+/obj/item/clothing/glasses/update_clothing_icon()
+	if (ismob(src.loc))
+		var/mob/M = src.loc
+		M.update_inv_glasses()
 
 /obj/item/clothing/glasses/attack_self(mob/user)
 	if(toggleable)
@@ -25,17 +46,16 @@
 			active = 1
 			icon_state = initial(icon_state)
 			user.update_inv_glasses()
-			if(activation_sound)
-				usr << activation_sound
 			usr << "You activate the optical matrix on the [src]."
+		user.update_action_buttons()
 
 /obj/item/clothing/glasses/meson
 	name = "Optical Meson Scanner"
 	desc = "Used for seeing walls, floors, and stuff through anything."
 	icon_state = "meson"
 	item_state = "glasses"
-	icon_action_button = "action_meson" //This doesn't actually matter, the action button is generated from the current icon_state. But, this is the only way to get it to show up.
-	origin_tech = "magnets=2;engineering=2"
+	action_button_name = "Toggle Goggles"
+	origin_tech = list(TECH_MAGNET = 2, TECH_ENGINEERING = 2)
 	toggleable = 1
 	vision_flags = SEE_TURFS
 
@@ -54,7 +74,7 @@
 	icon_state = "purple"
 	item_state = "glasses"
 	toggleable = 1
-	icon_action_button = "action_science"
+	action_button_name = "Toggle Goggles"
 
 /obj/item/clothing/glasses/science/New()
 	..()
@@ -65,11 +85,11 @@
 	desc = "You can totally see in the dark now!"
 	icon_state = "night"
 	item_state = "glasses"
-	origin_tech = "magnets=2"
+	origin_tech = list(TECH_MAGNET = 2)
 	darkness_view = 7
 	toggleable = 1
-	see_invisible = SEE_INVISIBLE_OBSERVER_NOLIGHTING
-	icon_action_button = "action_nvg"
+	action_button_name = "Toggle Goggles"
+	see_invisible = SEE_INVISIBLE_NOLIGHTING
 	off_state = "denight"
 
 /obj/item/clothing/glasses/night/New()
@@ -82,6 +102,21 @@
 	icon_state = "eyepatch"
 	item_state = "eyepatch"
 	body_parts_covered = 0
+	var/eye = null
+
+/obj/item/clothing/glasses/eyepatch/verb/switcheye()
+	set name = "Switch Eyepatch"
+	set category = "Object"
+	set src in usr
+	if(!istype(usr, /mob/living)) return
+	if(usr.stat) return
+
+	eye = !eye
+	if(eye)
+		icon_state = "[icon_state]_r"
+	else
+		icon_state = initial(icon_state)
+	update_clothing_icon()
 
 /obj/item/clothing/glasses/monocle
 	name = "monocle"
@@ -95,9 +130,9 @@
 	desc = "Very confusing glasses."
 	icon_state = "material"
 	item_state = "glasses"
-	icon_action_button = "action_material"
-	origin_tech = "magnets=3;engineering=3"
+	origin_tech = list(TECH_MAGNET = 3, TECH_ENGINEERING = 3)
 	toggleable = 1
+	action_button_name = "Toggle Goggles"
 	vision_flags = SEE_OBJS
 
 /obj/item/clothing/glasses/regular
@@ -140,36 +175,13 @@
 	item_state = "sunglasses"
 	darkness_view = -1
 
-/obj/item/clothing/glasses/sunglasses/aviator
-	desc = "Strangely ancient technology used to help provide rudimentary eye cover. Enhanced shielding blocks many flashes."
-	name = "aviator sunglasses"
-	icon_state = "aviator"
-	item_state = "aviator"
-
-/obj/item/clothing/glasses/sunglasses/red
-	name = "crimson glasses"
-	desc = "They make you look like an elite agent."
-	icon_state = "red"
-	item_state = "red"
-
-/obj/item/clothing/glasses/orange
-	name = "orange glasses"
-	desc = "A sweet pair of orange shades."
-	icon_state = "orangeglasses"
-	item_state = "orangeglasses"
-
-/obj/item/clothing/glasses/red
-	name = "red glasses"
-	desc = "A sweet pair of red shades."
-	icon_state = "redglasses"
-	item_state = "redglasses"
-
 /obj/item/clothing/glasses/welding
 	name = "welding goggles"
 	desc = "Protects the eyes from welders, approved by the mad scientist association."
 	icon_state = "welding-g"
 	item_state = "welding-g"
-	icon_action_button = "action_welding_g"
+	action_button_name = "Flip Welding Goggles"
+	matter = list(DEFAULT_WALL_MATERIAL = 1500, "glass" = 1000)
 	var/up = 0
 
 /obj/item/clothing/glasses/welding/attack_self()
@@ -184,27 +196,24 @@
 	if(usr.canmove && !usr.stat && !usr.restrained())
 		if(src.up)
 			src.up = !src.up
-			src.flags |= GLASSESCOVERSEYES
 			flags_inv |= HIDEEYES
 			body_parts_covered |= EYES
 			icon_state = initial(icon_state)
 			usr << "You flip \the [src] down to protect your eyes."
 		else
 			src.up = !src.up
-			src.flags &= ~HEADCOVERSEYES
 			flags_inv &= ~HIDEEYES
 			body_parts_covered &= ~EYES
 			icon_state = "[initial(icon_state)]up"
 			usr << "You push \the [src] up out of your face."
-
 		update_clothing_icon()
+		usr.update_action_buttons()
 
 /obj/item/clothing/glasses/welding/superior
 	name = "superior welding goggles"
 	desc = "Welding goggles made from more expensive materials, strangely smells like potatoes."
 	icon_state = "rwelding-g"
 	item_state = "rwelding-g"
-	icon_action_button = "action_welding_g"
 
 /obj/item/clothing/glasses/sunglasses/blindfold
 	name = "blindfold"
@@ -212,6 +221,14 @@
 	icon_state = "blindfold"
 	item_state = "blindfold"
 	//vision_flags = BLIND  	// This flag is only supposed to be used if it causes permanent blindness, not temporary because of glasses
+
+/obj/item/clothing/glasses/sunglasses/blindfold/tape
+	name = "length of tape"
+	desc = "It's a robust DIY blindfold!"
+	icon = 'icons/obj/bureaucracy.dmi'
+	icon_state = "tape_cross"
+	item_state = null
+	w_class = 1
 
 /obj/item/clothing/glasses/sunglasses/prescription
 	name = "prescription sunglasses"
@@ -221,6 +238,12 @@
 	desc = "Strangely ancient technology used to help provide rudimentary eye cover. Larger than average enhanced shielding blocks many flashes."
 	icon_state = "bigsunglasses"
 	item_state = "bigsunglasses"
+
+/obj/item/clothing/glasses/fakesunglasses //Sunglasses without flash immunity
+	desc = "A pair of designer sunglasses. Doesn't seem like it'll block flashes."
+	name = "stylish sunglasses"
+	icon_state = "sun"
+	item_state = "sunglasses"
 
 /obj/item/clothing/glasses/sunglasses/sechud
 	name = "HUDSunglasses"
@@ -243,9 +266,9 @@
 	desc = "Thermals in the shape of glasses."
 	icon_state = "thermal"
 	item_state = "glasses"
-	origin_tech = "magnets=3"
+	origin_tech = list(TECH_MAGNET = 3)
 	toggleable = 1
-	icon_action_button = "action_thermal"
+	action_button_name = "Toggle Goggles"
 	vision_flags = SEE_MOBS
 
 	emp_act(severity)
@@ -270,17 +293,19 @@
 	name = "Optical Meson Scanner"
 	desc = "Used for seeing walls, floors, and stuff through anything."
 	icon_state = "meson"
-	origin_tech = "magnets=3;syndicate=4"
+	origin_tech = list(TECH_MAGNET = 3, TECH_ILLEGAL = 4)
 
 /obj/item/clothing/glasses/thermal/plain
 	toggleable = 0
 	activation_sound = null
-	icon_action_button = ""
+	action_button_name = null
 
 /obj/item/clothing/glasses/thermal/plain/monocle
 	name = "Thermoncle"
 	desc = "A monocle thermal."
 	icon_state = "thermoncle"
+	toggleable = 1
+	action_button_name = "Toggle Monocle"
 	flags = null //doesn't protect eyes because it's a monocle, duh
 
 	body_parts_covered = 0
@@ -291,6 +316,8 @@
 	icon_state = "eyepatch"
 	item_state = "eyepatch"
 	body_parts_covered = 0
+	toggleable = 1
+	action_button_name = "Toggle Eyepatch"
 
 /obj/item/clothing/glasses/thermal/plain/jensen
 	name = "Optical Thermal Implants"

@@ -43,11 +43,11 @@ obj/item/weapon/reagent_containers/glass/solution_tray/attackby(obj/item/weapon/
 		reagents.add_reagent("tungsten",50)
 		update_icon()
 
-/obj/item/weapon/reagent_containers/glass/beaker/acetone
-	name = "beaker 'acetone'"
+/obj/item/weapon/reagent_containers/glass/beaker/oxygen
+	name = "beaker 'oxygen'"
 	New()
 		..()
-		reagents.add_reagent("acetone",50)
+		reagents.add_reagent("oxygen",50)
 		update_icon()
 
 /obj/item/weapon/reagent_containers/glass/beaker/sodium
@@ -88,3 +88,33 @@ obj/item/weapon/reagent_containers/glass/solution_tray/attackby(obj/item/weapon/
 		..()
 		reagents.add_reagent("fuel",50)
 		update_icon()
+
+/obj/item/weapon/reagent_containers/glass/beaker/vial/small/tramadol
+	label_text = "analgesic"
+
+	New()
+		..()
+		reagents.add_reagent("tramadol",10)
+		update_icon()
+		update_name_label()
+
+/obj/item/weapon/reagent_containers/glass/beaker/vial/small/spaceacillin
+	label_text = "antibiotic"
+
+	New()
+		..()
+		reagents.add_reagent("spaceacillin",10)
+		update_icon()
+		update_name_label()
+
+
+/obj/item/weapon/reagent_containers/glass/beaker/vial/small/hemostatic
+	label_text = "hemostatic"
+
+	New()
+		..()
+		reagents.add_reagent("adrenaline",5)
+		reagents.add_reagent("bicaridine",5)
+		update_icon()
+		update_name_label()
+

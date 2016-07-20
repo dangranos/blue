@@ -47,7 +47,7 @@
 			else
 				user << "You failed to salvage anything valuable from [src]."
 		else
-			user << "\blue You need more welding fuel to complete this task."
+			user << "<span class='notice'>You need more welding fuel to complete this task.</span>"
 			return
 	if(istype(W, /obj/item/weapon/wirecutters))
 		if(salvage_num <= 0)
@@ -152,10 +152,6 @@
 /obj/effect/decal/mecha_wreckage/ripley/deathripley
 	name = "Death-Ripley wreckage"
 	icon_state = "deathripley-broken"
-	
-/obj/effect/decal/mecha_wreckage/ripley/lagan
-	name = "Lagann wreckage"
-	icon_state = "lagann-broken"
 
 /obj/effect/decal/mecha_wreckage/durand
 	name = "Durand wreckage"

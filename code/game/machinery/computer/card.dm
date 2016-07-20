@@ -2,8 +2,9 @@
 
 /obj/machinery/computer/card
 	name = "\improper ID card modification console"
-	desc = "Terminal for programming NanoTrasen employee ID cards to access parts of the station."
-	icon_state = "id"
+	desc = "Terminal for programming employee ID cards to access parts of the station."
+	icon_keyboard = "id_key"
+	icon_screen = "id"
 	light_color = "#0099ff"
 	req_access = list(access_change_ids)
 	circuit = /obj/item/weapon/circuitboard/card
@@ -40,13 +41,13 @@
 
 	if(scan)
 		usr << "You remove \the [scan] from \the [src]."
-		scan.loc = get_turf(src)
+		scan.forceMove(get_turf(src))
 		if(!usr.get_active_hand() && istype(usr,/mob/living/carbon/human))
 			usr.put_in_hands(scan)
 		scan = null
 	else if(modify)
 		usr << "You remove \the [modify] from \the [src]."
-		modify.loc = get_turf(src)
+		modify.forceMove(get_turf(src))
 		if(!usr.get_active_hand() && istype(usr,/mob/living/carbon/human))
 			usr.put_in_hands(modify)
 		modify = null
@@ -58,13 +59,13 @@
 	if(!istype(id_card))
 		return ..()
 
-	if(!scan && access_change_ids in id_card.access)
+	if(!scan && (access_change_ids in id_card.access) && user.unEquip(id_card))
 		user.drop_item()
-		id_card.loc = src
+		id_card.forceMove(src)
 		scan = id_card
 	else if(!modify)
 		user.drop_item()
-		id_card.loc = src
+		id_card.forceMove(src)
 		modify = id_card
 
 	nanomanager.update_uis(src)
@@ -147,35 +148,34 @@
 				data_core.manifest_modify(modify.registered_name, modify.assignment)
 				modify.name = text("[modify.registered_name]'s ID Card ([modify.assignment])")
 				if(ishuman(usr))
-					modify.loc = usr.loc
+					modify.forceMove(get_turf(src))
 					if(!usr.get_active_hand())
 						usr.put_in_hands(modify)
 					modify = null
 				else
-					modify.loc = loc
+					modify.forceMove(get_turf(src))
 					modify = null
 			else
 				var/obj/item/I = usr.get_active_hand()
-				if (istype(I, /obj/item/weapon/card/id))
-					usr.drop_item()
-					I.loc = src
+				if (istype(I, /obj/item/weapon/card/id) && usr.unEquip(I))
+					I.forceMove(src)
 					modify = I
 
 		if ("scan")
 			if (scan)
 				if(ishuman(usr))
-					scan.loc = usr.loc
+					scan.forceMove(get_turf(src))
 					if(!usr.get_active_hand())
 						usr.put_in_hands(scan)
 					scan = null
 				else
-					scan.loc = src.loc
+					scan.forceMove(get_turf(src))
 					scan = null
 			else
 				var/obj/item/I = usr.get_active_hand()
 				if (istype(I, /obj/item/weapon/card/id))
 					usr.drop_item()
-					I.loc = src
+					I.forceMove(src)
 					scan = I
 
 		if("access")
@@ -183,7 +183,7 @@
 				if(is_authenticated())
 					var/access_type = text2num(href_list["access_target"])
 					var/access_allowed = text2num(href_list["allowed"])
-					if(access_type in (is_centcom() ? get_all_centcom_access() : get_all_accesses()))
+					if(access_type in (is_centcom() ? get_all_centcom_access() : get_all_station_access()))
 						modify.access -= access_type
 						if(!access_allowed)
 							modify.access += access_type
@@ -208,7 +208,7 @@
 								jobdatum = J
 								break
 						if(!jobdatum)
-							usr << "\red No log exists for this job: [t1]"
+							usr << "<span class='warning'>No log exists for this job: [t1]</span>"
 							return
 
 						access = jobdatum.get_access()

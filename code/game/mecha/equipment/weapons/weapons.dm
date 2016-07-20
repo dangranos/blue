@@ -1,7 +1,7 @@
 /obj/item/mecha_parts/mecha_equipment/weapon
 	name = "mecha weapon"
 	range = RANGED
-	origin_tech = "materials=3;combat=3"
+	origin_tech = list(TECH_MATERIAL = 3, TECH_COMBAT = 3)
 	var/projectile //Type of projectile fired.
 	var/projectiles = 1 //Amount of projectiles loaded.
 	var/projectiles_per_shot = 1 //Amount of projectiles fired per single shot.
@@ -37,7 +37,7 @@
 		playsound(chassis, fire_sound, fire_volume, 1)
 		projectiles--
 		var/P = new projectile(curloc)
-		Fire(P, target, aimloc)
+		Fire(P, target)
 		if(fire_cooldown)
 			sleep(fire_cooldown)
 	if(auto_rearm)
@@ -46,16 +46,9 @@
 	do_after_cooldown()
 	return
 
-/obj/item/mecha_parts/mecha_equipment/weapon/proc/Fire(atom/A, atom/target, turf/aimloc)
+/obj/item/mecha_parts/mecha_equipment/weapon/proc/Fire(atom/A, atom/target)
 	var/obj/item/projectile/P = A
-	P.shot_from = src
-	P.original = target
-	P.starting = P.loc
-	P.current = P.loc
-	P.firer = chassis.occupant
-	P.yo = aimloc.y - P.loc.y
-	P.xo = aimloc.x - P.loc.x
-	P.process()
+	P.launch(target)
 
 /obj/item/mecha_parts/mecha_equipment/weapon/energy
 	name = "general energy weapon"
@@ -100,9 +93,9 @@
 	name = "eZ-13 mk2 heavy pulse rifle"
 	icon_state = "mecha_pulse"
 	energy_drain = 120
-	origin_tech = "materials=3;combat=6;powerstorage=4"
+	origin_tech = list(TECH_MATERIAL = 3, TECH_COMBAT = 6, TECH_POWER = 4)
 	projectile = /obj/item/projectile/beam/pulse/heavy
-	fire_sound = 'sound/weapons/marauder.ogg'
+	fire_sound = 'sound/weapons/gauss_shoot.ogg'
 
 /obj/item/projectile/beam/pulse/heavy
 	name = "heavy pulse laser"
@@ -212,7 +205,7 @@
 	icon_state = "mecha_uac2"
 	equip_cooldown = 10
 	projectile = /obj/item/projectile/bullet/pistol/medium
-	fire_sound = 'sound/weapons/Gunshot.ogg'
+	fire_sound = 'sound/weapons/machinegun.ogg'
 	projectiles = 300
 	projectiles_per_shot = 3
 	deviation = 0.3
@@ -226,16 +219,34 @@
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/Fire(atom/movable/AM, atom/target, turf/aimloc)
 	AM.throw_at(target,missile_range, missile_speed, chassis)
 
+/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/flare
+	name = "\improper BNI Flare Launcher"
+	icon_state = "mecha_flaregun"
+	projectile = /obj/item/device/flashlight/flare
+	fire_sound = 'sound/weapons/tablehit1.ogg'
+	auto_rearm = 1
+	fire_cooldown = 20
+	projectiles_per_shot = 1
+	projectile_energy_cost = 20
+	missile_speed = 1
+	missile_range = 15
+	required_type = /obj/mecha  //Why restrict it to just mining or combat mechs?
+
+/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/flare/Fire(atom/movable/AM, atom/target, turf/aimloc)
+	var/obj/item/device/flashlight/flare/fired = AM
+	fired.ignite()
+	..()
+
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/explosive
 	name = "\improper SRM-8 missile rack"
 	icon_state = "mecha_missilerack"
 	projectile = /obj/item/missile
-	fire_sound = 'sound/effects/bang.ogg'
+	fire_sound = 'sound/weapons/rpg.ogg'
 	projectiles = 8
 	projectile_energy_cost = 1000
 	equip_cooldown = 60
 
-/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/explosive/Fire(atom/movable/AM, atom/target, turf/aimloc)
+/obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/explosive/Fire(atom/movable/AM, atom/target)
 	var/obj/item/missile/M = AM
 	M.primed = 1
 	..()
@@ -274,7 +285,6 @@
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/flashbang/clusterbang//Because I am a heartless bastard -Sieve
 	name = "\improper SOP-6 grenade launcher"
 	projectile = /obj/item/weapon/grenade/flashbang/clusterbang
-	construction_cost = list(DEFAULT_WALL_MATERIAL=20000,"gold"=6000,"uranium"=6000)
 
 /obj/item/mecha_parts/mecha_equipment/weapon/ballistic/missile_rack/flashbang/clusterbang/limited/get_equip_info()//Limited version of the clusterbang launcher that can't reload
 	return "<span style=\"color:[equip_ready?"#0f0":"#f00"];\">*</span>&nbsp;[chassis.selected==src?"<b>":"<a href='?src=\ref[chassis];select_equip=\ref[src]'>"][src.name][chassis.selected==src?"</b>":"</a>"]\[[src.projectiles]\]"

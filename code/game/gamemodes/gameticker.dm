@@ -1,8 +1,7 @@
 var/global/datum/controller/gameticker/ticker
-var/list/donator_icons
 
 /datum/controller/gameticker
-	var/const/restart_timeout = 600
+	var/const/restart_timeout = 3 MINUTES //One minute is 600.
 	var/current_state = GAME_STATE_PREGAME
 
 	var/hide_mode = 0
@@ -34,29 +33,16 @@ var/list/donator_icons
 
 	var/round_end_announced = 0 // Spam Prevention. Announce round end only once.
 
-	var/queue_delay = 0
-	var/list/queued_players = list()		//used for join queues when the server exceeds the hard population cap
-
-
 /datum/controller/gameticker/proc/pregame()
-	login_music = pick(
-		/*'sound/music/halloween/skeletons.ogg',
-		'sound/music/halloween/halloween.ogg',
-		'sound/music/halloween/ghosts.ogg',*/
-		'sound/music/space.ogg',
-		'sound/music/traitor.ogg',
-		'sound/music/title2.ogg',
-		'sound/music/clouds.s3m',
-		'sound/music/david_bowie-space_oddity_original.ogg',
-		'sound/music/faunts-das_malefitz.ogg',
-		'sound/music/First_rendez-vous.ogg',
-		'sound/music/undertale.ogg',
-		'sound/music/space_oddity.ogg',
-		'sound/music/Welcome_to_Lunar_Industries.ogg',
-		'sound/music/Mind_Heist.ogg')
-
-	donator_icons = icon_states('icons/donator.dmi')
-
+	login_music = pick(\
+	/*'sound/music/halloween/skeletons.ogg',\
+	'sound/music/halloween/halloween.ogg',\
+	'sound/music/halloween/ghosts.ogg'*/
+	'sound/music/space.ogg',\
+	'sound/music/traitor.ogg',\
+	'sound/music/title2.ogg',\
+	'sound/music/clouds.s3m',\
+	'sound/music/space_oddity.ogg') //Ground Control to Major Tom, this song is cool, what's going on?
 	do
 		pregame_timeleft = 180
 		world << "<B><FONT color='blue'>Welcome to the pre-game lobby!</FONT></B>"
@@ -65,7 +51,7 @@ var/list/donator_icons
 			for(var/i=0, i<10, i++)
 				sleep(1)
 				vote.process()
-			if(going)
+			if(round_progressing)
 				pregame_timeleft--
 			if(pregame_timeleft == config.vote_autogamemode_timeleft)
 				if(!vote.time_remaining)
@@ -126,7 +112,7 @@ var/list/donator_icons
 				tmpmodes+=M.name
 			tmpmodes = sortList(tmpmodes)
 			if(tmpmodes.len)
-				world << "<B>Possibilities:</B> [english_list(tmpmodes)]"
+				world << "<B>Possibilities:</B> [english_list(tmpmodes, and_text= "; ", comma_text = "; ")]"
 	else
 		src.mode.announce()
 
@@ -154,8 +140,6 @@ var/list/donator_icons
 		Holiday_Game_Start()
 
 	processScheduler.start()
-
-	for(var/obj/multiz/ladder/L in world) L.connect() //Lazy hackfix for ladders. TODO: move this to an actual controller. ~ Z
 
 	return 1
 
@@ -298,34 +282,11 @@ var/list/donator_icons
 					M << "Captainship not forced on anyone."
 
 
-	proc/check_queue()
-		if(!queued_players.len || !config.hard_popcap)
-			return
-
-		queue_delay++
-		var/mob/new_player/next_in_line = queued_players[1]
-
-		switch(queue_delay)
-			if(5) //every 5 ticks check if there is a slot available
-				if(living_player_count() < config.hard_popcap)
-					if(next_in_line && next_in_line.client)
-						next_in_line << "<span class='userdanger'>A slot has opened! You have approximately 20 seconds to join. <a href='?src=\ref[next_in_line];late_join=override'>\>\>Join Game\<\<</a></span>"
-						next_in_line << sound('sound/misc/notice1.ogg')
-						next_in_line.LateChoices()
-						return
-					queued_players -= next_in_line //Client disconnected, remove he
-				queue_delay = 0 //No vacancy: restart timer
-			if(25 to INFINITY)  //No response from the next in line when a vacancy exists, remove he
-				next_in_line << "<span class='danger'>No response recieved. You have been removed from the line.</span>"
-				queued_players -= next_in_line
-				queue_delay = 0
-
 	proc/process()
 		if(current_state != GAME_STATE_PLAYING)
 			return 0
 
 		mode.process()
-		check_queue()
 
 //		emergency_shuttle.process() //handled in scheduler
 
@@ -347,21 +308,28 @@ var/list/donator_icons
 			spawn(50)
 				callHook("roundend")
 
+				var/time_left
+
 				if (mode.station_was_nuked)
+					time_left = 1 MINUTE //No point waiting five minutes if everyone's dead.
 					if(!delay_end)
-						world << "\blue <B>Rebooting due to destruction of station in [restart_timeout/10] seconds</B>"
+						world << "<span class='notice'><b>Rebooting due to destruction of station in [round(time_left/600)] minutes.</b></span>"
 				else
-					if(!delay_end)
-						world << "\blue <B>Restarting in [restart_timeout/10] seconds</B>"
+					time_left = round(restart_timeout)
 
 				if(!delay_end)
-					sleep(restart_timeout)
+					while(time_left > 0)
+						if(delay_end)
+							break
+						world << "<span class='notice'><b>Restarting in [round(time_left/600)] minute\s.</b></span>"
+						time_left -= 1 MINUTES
+						sleep(600)
 					if(!delay_end)
 						world.Reboot()
 					else
-						world << "\blue <B>An admin has delayed the round end</B>"
+						world << "<span class='notice'><b>An admin has delayed the round end.</b></span>"
 				else
-					world << "\blue <B>An admin has delayed the round end</B>"
+					world << "<span class='notice'><b>An admin has delayed the round end.</b></span>"
 
 		else if (mode_finished)
 			post_game = 1
@@ -371,7 +339,7 @@ var/list/donator_icons
 			//call a transfer shuttle vote
 			spawn(50)
 				if(!round_end_announced) // Spam Prevention. Now it should announce only once.
-					world << "\red The round has ended!"
+					world << "<span class='danger'>The round has ended!</span>"
 					round_end_announced = 1
 				vote.autotransfer()
 
@@ -395,8 +363,8 @@ var/list/donator_icons
 				else
 					Player << "<font color='blue'><b>You missed the crew transfer after the events on [station_name()] as [Player.real_name].</b></font>"
 			else
-				if(istype(Player,/mob/dead/observer))
-					var/mob/dead/observer/O = Player
+				if(istype(Player,/mob/observer/dead))
+					var/mob/observer/dead/O = Player
 					if(!O.started_as_observer)
 						Player << "<font color='red'><b>You did not survive the events on [station_name()]...</b></font>"
 				else
@@ -426,9 +394,9 @@ var/list/donator_icons
 
 		if (!robo.connected_ai)
 			if (robo.stat != 2)
-				world << "<b>[robo.name] (Played by: [robo.key]) survived as an AI-less borg! Its laws were:</b>"
+				world << "<b>[robo.name] (Played by: [robo.key]) survived as an AI-less synthetic! Its laws were:</b>"
 			else
-				world << "<b>[robo.name] (Played by: [robo.key]) was unable to survive the rigors of being a cyborg without an AI. Its laws were:</b>"
+				world << "<b>[robo.name] (Played by: [robo.key]) was unable to survive the rigors of being a synthetic without an AI. Its laws were:</b>"
 
 			if(robo) //How the hell do we lose robo between here and the world messages directly above this?
 				robo.laws.show_laws(world)

@@ -1,5 +1,3 @@
-/var/const/OPEN = 1
-/var/const/CLOSED = 2
 
 #define FIREDOOR_MAX_PRESSURE_DIFF 25 // kPa
 #define FIREDOOR_MAX_TEMP 50 // °C
@@ -64,11 +62,8 @@
 	A.all_doors.Add(src)
 	areas_added = list(A)
 
-	var/turf/neighbor = null
 	for(var/direction in cardinal)
-		neighbor = get_step(src,direction)
-		if(neighbor.blocks_air || !Adjacent(neighbor)) continue
-		A = get_area(neighbor)
+		A = get_area(get_step(src,direction))
 		if(istype(A) && !(A in areas_added))
 			A.all_doors.Add(src)
 			areas_added += A
@@ -81,9 +76,9 @@
 /obj/machinery/door/firedoor/get_material()
 	return get_material_by_name(DEFAULT_WALL_MATERIAL)
 
-/obj/machinery/door/firedoor/examine(mob/user, return_dist = 1)
-	. = ..()
-	if((.>1) || !density)
+/obj/machinery/door/firedoor/examine(mob/user)
+	. = ..(user, 1)
+	if(!. || !density)
 		return
 
 	if(pdiff >= FIREDOOR_MAX_PRESSURE_DIFF)
@@ -107,10 +102,7 @@
 			continue
 		var/celsius = convert_k2c(tile_info[index][1])
 		var/pressure = tile_info[index][2]
-		if(dir_alerts[index] & (FIREDOOR_ALERT_HOT|FIREDOOR_ALERT_COLD))
-			o += "<span class='warning'>"
-		else
-			o += "<span style='color:blue'>"
+		o += "<span class='[(dir_alerts[index] & (FIREDOOR_ALERT_HOT|FIREDOOR_ALERT_COLD)) ? "warning" : "color:blue"]'>"
 		o += "[celsius]&deg;C</span> "
 		o += "<span style='color:blue'>"
 		o += "[pressure]kPa</span></li>"
@@ -155,7 +147,7 @@
 	"\The [src]", "Yes, [density ? "open" : "close"]", "No")
 	if(answer == "No")
 		return
-	if(user.stat || user.stunned || user.weakened || user.paralysis || (!user.canmove && !user.isSilicon()) || (get_dist(src, user) > 1  && !isAI(user)))
+	if(user.incapacitated() || (get_dist(src, user) > 1  && !issilicon(user)))
 		user << "Sorry, you must remain able bodied and close to \the [src] in order to use it."
 		return
 	if(density && (stat & (BROKEN|NOPOWER))) //can still close without power
@@ -175,7 +167,7 @@
 		if(alarmed)
 			// Accountability!
 			users_to_open |= user.name
-			needs_to_close = !user.isSilicon()
+			needs_to_close = !issilicon(user)
 		spawn()
 			open()
 	else
@@ -189,7 +181,7 @@
 				if(A.fire || A.air_doors_activated)
 					alarmed = 1
 			if(alarmed)
-				nextstate = CLOSED
+				nextstate = FIREDOOR_CLOSED
 				close()
 
 /obj/machinery/door/firedoor/attackby(obj/item/weapon/C as obj, mob/user as mob)
@@ -229,7 +221,7 @@
 					if (stat & BROKEN)
 						new /obj/item/weapon/circuitboard/broken(src.loc)
 					else
-						new/obj/item/weapon/airalarm_electronics(src.loc)
+						new/obj/item/weapon/circuitboard/airalarm(src.loc)
 
 					var/obj/structure/firedoor_assembly/FA = new/obj/structure/firedoor_assembly(src.loc)
 					FA.anchored = 1
@@ -243,7 +235,7 @@
 		user << "<span class='danger'>\The [src] is welded shut!</span>"
 		return
 
-	if(istype(C, /obj/item/weapon/crowbar) || istype(C,/obj/item/weapon/material/twohanded/fireaxe))
+	if(C.pry == 1)
 		if(operating)
 			return
 
@@ -330,11 +322,11 @@
 	if(operating || !nextstate)
 		return
 	switch(nextstate)
-		if(OPEN)
+		if(FIREDOOR_OPEN)
 			nextstate = null
 
 			open()
-		if(CLOSED)
+		if(FIREDOOR_CLOSED)
 			nextstate = null
 			close()
 	return
@@ -435,3 +427,10 @@
 /obj/machinery/door/firedoor/multi_tile
 	icon = 'icons/obj/doors/DoorHazard2x1.dmi'
 	width = 2
+
+/obj/machinery/door/firedoor/glass
+	name = "\improper Emergency Glass Shutter"
+	desc = "Emergency air-tight shutter, capable of sealing off breached areas.  This one has a resilient glass window, allowing you to see the danger."
+	icon = 'icons/obj/doors/DoorHazardGlass.dmi'
+	icon_state = "door_open"
+	glass = 1

@@ -15,10 +15,22 @@
 	update_icon()
 
 /obj/item/weapon/clipboard/MouseDrop(obj/over_object as obj) //Quick clipboard fix. -Agouri
-	if(src.loc != over_object && !Adjacent(over_object) ) return 0
-	if(ishuman(usr) && over_object == usr )
-		add_fingerprint(usr)
-		return attack_self( usr )
+	if(ishuman(usr))
+		var/mob/M = usr
+		if(!(istype(over_object, /obj/screen) ))
+			return ..()
+
+		if(!M.restrained() && !M.stat)
+			switch(over_object.name)
+				if("r_hand")
+					M.u_equip(src)
+					M.put_in_r_hand(src)
+				if("l_hand")
+					M.u_equip(src)
+					M.put_in_l_hand(src)
+
+			add_fingerprint(usr)
+			return
 
 /obj/item/weapon/clipboard/update_icon()
 	overlays.Cut()
@@ -31,7 +43,7 @@
 	return
 
 /obj/item/weapon/clipboard/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
+	
 	if(istype(W, /obj/item/weapon/paper) || istype(W, /obj/item/weapon/photo))
 		user.drop_item()
 		W.loc = src
@@ -39,13 +51,6 @@
 			toppaper = W
 		user << "<span class='notice'>You clip the [W] onto \the [src].</span>"
 		update_icon()
-
-	else if(istype(W, /obj/item/weapon/pen))
-		if(!haspen)
-			usr.drop_item()
-			W.loc = src
-			haspen = W
-			usr << "<span class='notice'>You slot the pen into \the [src].</span>"
 
 	else if(istype(toppaper) && istype(W, /obj/item/weapon/pen))
 		toppaper.attackby(W, usr)
@@ -82,7 +87,7 @@
 	if((usr.stat || usr.restrained()))
 		return
 
-	if( (src.loc == usr) || (src.loc.Adjacent(usr)) )
+	if(src.loc == usr)
 
 		if(href_list["pen"])
 			if(istype(haspen) && (haspen.loc == src))
@@ -93,24 +98,28 @@
 		else if(href_list["addpen"])
 			if(!haspen)
 				var/obj/item/weapon/pen/W = usr.get_active_hand()
-				attackby(W, usr)
+				if(istype(W, /obj/item/weapon/pen))
+					usr.drop_item()
+					W.loc = src
+					haspen = W
+					usr << "<span class='notice'>You slot the pen into \the [src].</span>"
 
 		else if(href_list["write"])
 			var/obj/item/weapon/P = locate(href_list["write"])
-
+			
 			if(P && (P.loc == src) && istype(P, /obj/item/weapon/paper) && (P == toppaper) )
-
+				
 				var/obj/item/I = usr.get_active_hand()
-
+				
 				if(istype(I, /obj/item/weapon/pen))
-
+				
 					P.attackby(I, usr)
 
 		else if(href_list["remove"])
 			var/obj/item/P = locate(href_list["remove"])
-
+			
 			if(P && (P.loc == src) && (istype(P, /obj/item/weapon/paper) || istype(P, /obj/item/weapon/photo)) )
-
+			
 				P.loc = usr.loc
 				usr.put_in_hands(P)
 				if(P == toppaper)
@@ -120,25 +129,25 @@
 						toppaper = newtop
 					else
 						toppaper = null
-
+						
 		else if(href_list["rename"])
 			var/obj/item/weapon/O = locate(href_list["rename"])
-
+			
 			if(O && (O.loc == src))
 				if(istype(O, /obj/item/weapon/paper))
 					var/obj/item/weapon/paper/to_rename = O
 					to_rename.rename()
-
+					
 				else if(istype(O, /obj/item/weapon/photo))
 					var/obj/item/weapon/photo/to_rename = O
 					to_rename.rename()
 
 		else if(href_list["read"])
 			var/obj/item/weapon/paper/P = locate(href_list["read"])
-
+			
 			if(P && (P.loc == src) && istype(P, /obj/item/weapon/paper) )
-
-				if(!(istype(usr, /mob/living/carbon/human) || istype(usr, /mob/dead/observer) || istype(usr, /mob/living/silicon)))
+			
+				if(!(istype(usr, /mob/living/carbon/human) || istype(usr, /mob/observer/dead) || istype(usr, /mob/living/silicon)))
 					usr << browse("<HTML><HEAD><TITLE>[P.name]</TITLE></HEAD><BODY>[stars(P.info)][P.stamps]</BODY></HTML>", "window=[P.name]")
 					onclose(usr, "[P.name]")
 				else

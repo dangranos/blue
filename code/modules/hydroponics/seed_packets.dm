@@ -60,7 +60,7 @@ var/global/list/plant_seed_sprites = list()
 		src.desc = "It's labelled as coming from [seed.display_name]."
 
 /obj/item/seeds/examine(mob/user)
-	.=..()
+	..(user)
 	if(seed && !seed.roundstart)
 		user << "It's tagged as variety #[seed.uid]."
 
@@ -182,9 +182,6 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/plumpmycelium
 	seed_type = "plumphelmet"
 
-/obj/item/seeds/walkingmushroommycelium
-	seed_type = "walkingmushroom"
-
 /obj/item/seeds/nettleseed
 	seed_type = "nettle"
 
@@ -199,6 +196,9 @@ var/global/list/plant_seed_sprites = list()
 
 /obj/item/seeds/sunflowerseed
 	seed_type = "sunflowers"
+
+/obj/item/seeds/lavenderseed
+	seed_type = "lavender"
 
 /obj/item/seeds/brownmold
 	seed_type = "mold"

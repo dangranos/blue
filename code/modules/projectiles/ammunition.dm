@@ -7,10 +7,13 @@
 	slot_flags = SLOT_BELT | SLOT_EARS
 	throwforce = 1
 	w_class = 1
+
+	var/leaves_residue = 1
 	var/caliber = ""					//Which kind of guns it can be loaded into
+	var/caseless					//Does the ammo casing disappear after fired?
 	var/projectile_type					//The bullet type to create when New() is called
 	var/obj/item/projectile/BB = null	//The loaded bullet - make it so that the projectiles are created only when needed?
-	var/spent_icon = "s-casing-spent"
+//	var/spent_icon = null
 
 /obj/item/ammo_casing/New()
 	..()
@@ -23,6 +26,8 @@
 /obj/item/ammo_casing/proc/expend()
 	. = BB
 	BB = null
+	if(caseless) // I honestly wasn't sure where to stick this part.
+		del(src)
 	set_dir(pick(cardinal)) //spin spent casings
 	update_icon()
 
@@ -44,11 +49,13 @@
 			BB.name = "[initial(BB.name)] (\"[label_text]\")"
 
 /obj/item/ammo_casing/update_icon()
-	if(spent_icon && !BB)
-		icon_state = spent_icon
+/*	if(spent_icon && !BB)
+		icon_state = spent_icon*/
+	if(!BB) // This is really just a much better way of doing this.
+		icon_state = "[initial(icon_state)]-spent"
 
 /obj/item/ammo_casing/examine(mob/user)
-	.=..()
+	..()
 	if (!BB)
 		user << "This one is spent."
 
@@ -86,6 +93,7 @@
 	var/list/ammo_states = list()	//values
 
 /obj/item/ammo_magazine/New()
+	..()
 	if(multiple_sprites)
 		initialize_magazine_icondata(src)
 
@@ -110,6 +118,24 @@
 		C.loc = src
 		stored_ammo.Insert(1, C) //add to the head of the list
 		update_icon()
+	if(istype(W, /obj/item/ammo_magazine/clip))
+		var/obj/item/ammo_magazine/clip/L = W
+		if(L.caliber != caliber)
+			user << "<span class='warning'>The ammo in [L] does not fit into [src].</span>"
+			return
+		if(!L.stored_ammo.len)
+			user << "<span class='warning'>There's no more ammo [L]!</span>"
+			return
+		if(stored_ammo.len >= max_ammo)
+			user << "<span class='warning'>[src] is full!</span>"
+			return
+		var/obj/item/ammo_casing/AC = L.stored_ammo[1] //select the next casing.
+		L.stored_ammo -= AC //Remove this casing from loaded list of the clip.
+		AC.loc = src
+		stored_ammo.Insert(1, AC) //add it to the head of our magazine's list
+		L.update_icon()
+	playsound(user.loc, 'sound/weapons/flipblade.ogg', 50, 1)
+	update_icon()
 
 /obj/item/ammo_magazine/attack_self(mob/user)
 	if(!stored_ammo.len)
@@ -134,7 +160,7 @@
 		icon_state = (new_state)? new_state : initial(icon_state)
 
 /obj/item/ammo_magazine/examine(mob/user)
-	.=..()
+	..()
 	user << "There [(stored_ammo.len == 1)? "is" : "are"] [stored_ammo.len] round\s left!"
 
 //magazine icon state caching

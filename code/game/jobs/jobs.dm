@@ -2,11 +2,11 @@
 var/const/ENGSEC			=(1<<0)
 
 var/const/CAPTAIN			=(1<<0)
-var/const/HOS				=(1<<1)
-var/const/WARDEN			=(1<<2)
+var/const/SECCHIEF			=(1<<1)
+var/const/OVERSEER			=(1<<2)
 var/const/DETECTIVE			=(1<<3)
-var/const/FORENTEC			=(1<<4)
-var/const/OFFICER			=(1<<5)
+var/const/CONSTABLE			=(1<<4)
+var/const/SENCONSTABLE		=(1<<5)
 var/const/CHIEF				=(1<<6)
 var/const/ENGINEER			=(1<<7)
 var/const/ATMOSTECH			=(1<<8)
@@ -57,8 +57,7 @@ var/list/command_positions = list(
 	"Head of Security",
 	"Chief Engineer",
 	"Research Director",
-	"Chief Medical Officer",
-	"Internal Affairs Agent"
+	"Chief Medical Officer"
 )
 
 
@@ -88,6 +87,12 @@ var/list/science_positions = list(
 )
 
 //BS12 EDIT
+var/list/cargo_positions = list(
+	"Quartermaster",
+	"Cargo Technician",
+	"Shaft Miner"
+)
+
 var/list/civilian_positions = list(
 	"Head of Personnel",
 	"Bartender",
@@ -95,9 +100,6 @@ var/list/civilian_positions = list(
 	"Chef",
 	"Janitor",
 	"Librarian",
-	"Quartermaster",
-	"Cargo Technician",
-	"Shaft Miner",
 	"Lawyer",
 	"Chaplain",
 	"Assistant"
@@ -105,19 +107,18 @@ var/list/civilian_positions = list(
 
 
 var/list/security_positions = list(
-	"Head of Security",
-	"Warden",
+	"Security Commissioner",
+	"Brig Overseer",
 	"Detective",
-	"Forensic Technician",
-	"Security Officer"
-
+	"Colonial Officer",
+	"Colonial Senior Officer"
 )
 
 
 var/list/nonhuman_positions = list(
 	"AI",
 	"Cyborg",
-	"Drone"
+	"pAI"
 )
 
 

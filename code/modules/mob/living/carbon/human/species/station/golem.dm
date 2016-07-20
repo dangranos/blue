@@ -6,12 +6,9 @@
 	deform = 'icons/mob/human_races/r_golem.dmi'
 
 	language = "Sol Common" //todo?
-	unarmed_attacks = list(
-		new /datum/unarmed_attack/stomp,
-		new /datum/unarmed_attack/kick,
-		new /datum/unarmed_attack/punch
-		)
-	flags = IS_RESTRICTED | NO_BREATHE | NO_PAIN | NO_BLOOD | NO_SCAN | NO_POISON
+	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/punch)
+	flags = NO_PAIN | NO_SCAN | NO_POISON | NO_MINOR_CUT
+	spawn_flags = SPECIES_IS_RESTRICTED
 	siemens_coefficient = 0
 
 	breath_type = null
@@ -25,6 +22,8 @@
 		)
 
 	death_message = "becomes completely motionless..."
+
+	genders = list(NEUTER)
 
 /datum/species/golem/handle_post_spawn(var/mob/living/carbon/human/H)
 	if(H.mind)

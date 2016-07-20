@@ -1,6 +1,7 @@
 var/global/list/seen_citizenships = list()
 var/global/list/seen_systems = list()
 var/global/list/seen_factions = list()
+var/global/list/seen_antag_factions = list()
 var/global/list/seen_religions = list()
 
 //Commenting this out for now until I work the lists it into the event generator/journalist/chaplain.
@@ -17,20 +18,17 @@ var/global/list/citizenship_choices = list(
 	"Mars",
 	"Moghes",
 	"Ahdomai",
-	"Qerrbalak",
-	"Magnitka",
-	"Tiamat"
+	"Qerrbalak"
 	)
 
 var/global/list/home_system_choices = list(
 	"Sol",
+	starsys_name,
 	"Nyx",
 	"Tau Ceti",
-	"Epsilon Ursae Majoris",
-	"Uueoa-Esa",
-	"S'randarr",
-	"Ursa System",
-	"Alpha Centauri"
+	"Qerr'Vallis",
+	"Epsilon Ursae Minoris",
+	"S'randarr"
 	)
 
 var/global/list/faction_choices = list(
@@ -45,6 +43,14 @@ var/global/list/faction_choices = list(
 	"Aether Atmospherics",
 	"Zeng-Hu Pharmaceuticals",
 	"Hesphaistos Industries"
+	)
+	
+var/global/list/antag_faction_choices = list()	//Should be populated after brainstorming. Leaving as blank in case brainstorming does not occur.
+
+var/global/list/antag_visiblity_choices = list(
+	"Hidden",
+	"Shared",
+	"Known"
 	)
 
 var/global/list/religion_choices = list(

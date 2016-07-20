@@ -7,7 +7,7 @@
 	item_state = "plasticx"
 	flags = NOBLUDGEON
 	w_class = 2.0
-	origin_tech = "syndicate=2"
+	origin_tech = list(TECH_ILLEGAL = 2)
 	var/datum/wires/explosive/c4/wires = null
 	var/timer = 10
 	var/atom/target = null
@@ -18,6 +18,11 @@
 	wires = new(src)
 	image_overlay = image('icons/obj/assemblies.dmi', "plastic-explosive2")
 	..()
+
+/obj/item/weapon/plastique/Destroy()
+	qdel(wires)
+	wires = null
+	return ..()
 
 /obj/item/weapon/plastique/attackby(var/obj/item/I, var/mob/user)
 	if(istype(I, /obj/item/weapon/screwdriver))
@@ -41,6 +46,7 @@
 	if (ismob(target) || istype(target, /turf/unsimulated) || istype(target, /turf/simulated/shuttle) || istype(target, /obj/item/weapon/storage/) || istype(target, /obj/item/clothing/accessory/storage/) || istype(target, /obj/item/clothing/under))
 		return
 	user << "Planting explosives..."
+	user.do_attack_animation(target)
 
 	if(do_after(user, 50) && in_range(user, target))
 		user.drop_item()
@@ -73,7 +79,7 @@
 	if(target)
 		if (istype(target, /turf/simulated/wall))
 			var/turf/simulated/wall/W = target
-			W.dismantle_wall(1)
+			W.dismantle_wall(1,1,1)
 		else if(istype(target, /mob/living))
 			target.ex_act(2) // c4 can't gib mobs anymore.
 		else

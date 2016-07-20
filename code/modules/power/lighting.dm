@@ -26,10 +26,12 @@
 	..()
 	if (fixture_type == "bulb")
 		icon_state = "bulb-construct-stage1"
+	if (fixture_type == "flamp")
+		icon_state = "flamp-construct-stage1"
 
-/obj/machinery/light_construct/examine(mob/user, return_dist=1)
-	.=..()
-	if(.>2) return
+/obj/machinery/light_construct/examine(mob/user)
+	if(!..(user, 2))
+		return
 
 	switch(src.stage)
 		if(1)
@@ -71,6 +73,8 @@
 				src.icon_state = "tube-construct-stage1"
 			if("bulb")
 				src.icon_state = "bulb-construct-stage1"
+			if("flamp")
+				src.icon_state = "flamp-construct-stage1"
 		new /obj/item/stack/cable_coil(get_turf(src.loc), 1, "red")
 		user.visible_message("[user.name] removes the wiring from [src].", \
 			"You remove the wiring from [src].", "You hear a noise.")
@@ -86,6 +90,8 @@
 					src.icon_state = "tube-construct-stage2"
 				if("bulb")
 					src.icon_state = "bulb-construct-stage2"
+				if("flamp")
+					src.icon_state = "flamp-construct-stage2"
 			src.stage = 2
 			user.visible_message("[user.name] adds wires to [src].", \
 				"You add wires to [src].")
@@ -98,6 +104,8 @@
 					src.icon_state = "tube-empty"
 				if("bulb")
 					src.icon_state = "bulb-empty"
+				if("flamp")
+					src.icon_state = "flamp-empty"
 			src.stage = 3
 			user.visible_message("[user.name] closes [src]'s casing.", \
 				"You close [src]'s casing.", "You hear a noise.")
@@ -109,6 +117,8 @@
 					newlight = new /obj/machinery/light/built(src.loc)
 				if ("bulb")
 					newlight = new /obj/machinery/light/small/built(src.loc)
+				if ("flamp")
+					newlight = new /obj/machinery/light/flamp/built(src.loc)
 
 			newlight.dir = src.dir
 			src.transfer_fingerprints_to(newlight)
@@ -127,6 +137,17 @@
 	fixture_type = "bulb"
 	sheets_refunded = 1
 
+/obj/machinery/light_construct/flamp
+	name = "floor light fixture frame"
+	desc = "A floor light fixture under construction."
+	icon = 'icons/obj/lighting.dmi'
+	icon_state = "flamp-construct-stage1"
+	anchored = 0
+	layer = OBJ_LAYER
+	stage = 1
+	fixture_type = "flamp"
+	sheets_refunded = 2
+
 // the standard tube light fixture
 /obj/machinery/light
 	name = "light fixture"
@@ -141,8 +162,7 @@
 	active_power_usage = 20
 	power_channel = LIGHT //Lights are calc'd via area so they dont need to be in the machine list
 	var/on = 0					// 1 if on, 0 if off
-	var/on_gs = 0
-	var/brightness_range = 8	// luminosity when on, also used in power calculation
+	var/brightness_range = 10	// luminosity when on, also used in power calculation
 	var/brightness_power = 3
 	var/brightness_color = null
 	var/status = LIGHT_OK		// LIGHT_OK, _EMPTY, _BURNED or _BROKEN
@@ -160,11 +180,23 @@
 	icon_state = "bulb1"
 	base_state = "bulb"
 	fitting = "bulb"
-	brightness_range = 4
+	brightness_range = 6
 	brightness_power = 2
-	brightness_color = "#a0a080"
+	brightness_color = "#FFF4E5"
 	desc = "A small lighting fixture."
 	light_type = /obj/item/weapon/light/bulb
+
+/obj/machinery/light/flamp
+	icon_state = "flamp1"
+	base_state = "flamp"
+	fitting = "bulb"
+	brightness_range = 5
+	brightness_power = 2
+	layer = OBJ_LAYER
+	brightness_color = "#FFF4E5"
+	desc = "A floor lamp."
+	light_type = /obj/item/weapon/light/bulb
+	var/lamp_shade = 1
 
 /obj/machinery/light/small/emergency
 	brightness_range = 6
@@ -185,6 +217,12 @@
 
 /obj/machinery/light/small/built/New()
 	status = LIGHT_EMPTY
+	update(0)
+	..()
+
+/obj/machinery/light/flamp/built/New()
+	status = LIGHT_EMPTY
+	lamp_shade = 0
 	update(0)
 	..()
 
@@ -228,9 +266,29 @@
 			on = 0
 	return
 
+/obj/machinery/light/flamp/update_icon()
+	if(lamp_shade)
+		base_state = "flampshade"
+		switch(status)		// set icon_states
+			if(LIGHT_OK)
+				icon_state = "[base_state][on]"
+			if(LIGHT_EMPTY)
+				on = 0
+				icon_state = "[base_state][on]"
+			if(LIGHT_BURNED)
+				on = 0
+				icon_state = "[base_state][on]"
+			if(LIGHT_BROKEN)
+				on = 0
+				icon_state = "[base_state][on]"
+		return
+	else
+		base_state = "flamp"
+		..()
+
+
 // update the icon_state and luminosity of the light depending on its state
 /obj/machinery/light/proc/update(var/trigger = 1)
-
 	update_icon()
 	if(on)
 		if(light_range != brightness_range || light_power != brightness_power || light_color != brightness_color)
@@ -245,7 +303,7 @@
 			else if( prob( min(60, switchcount*switchcount*0.01) ) )
 				if(status == LIGHT_OK && trigger)
 					status = LIGHT_BURNED
-					icon_state = "[base_state]-burned"
+					update_icon()
 					on = 0
 					set_light(0)
 			else
@@ -255,9 +313,8 @@
 		use_power = 1
 		set_light(0)
 
-	active_power_usage = ((light_range + light_power) * 10)
-	if(on != on_gs)
-		on_gs = on
+	active_power_usage = light_range * light_power
+
 
 /obj/machinery/light/attack_generic(var/mob/user, var/damage)
 	if(!damage)
@@ -280,16 +337,15 @@
 
 // examine verb
 /obj/machinery/light/examine(mob/user)
-	.=..()
 	switch(status)
 		if(LIGHT_OK)
-			user << "It is turned [on? "on" : "off"]."
+			user << "[desc] It is turned [on? "on" : "off"]."
 		if(LIGHT_EMPTY)
-			user << "The [fitting] has been removed."
+			user << "[desc] The [fitting] has been removed."
 		if(LIGHT_BURNED)
-			user << "The [fitting] is burnt out."
+			user << "[desc] The [fitting] is burnt out."
 		if(LIGHT_BROKEN)
-			user << "The [fitting] has been smashed."
+			user << "[desc] The [fitting] has been smashed."
 
 
 
@@ -374,6 +430,11 @@
 				if("bulb")
 					newlight = new /obj/machinery/light_construct/small(src.loc)
 					newlight.icon_state = "bulb-construct-stage2"
+
+				if("flamp")
+					newlight = new /obj/machinery/light_construct/flamp(src.loc)
+					newlight.icon_state = "flamp-construct-stage2"
+
 			newlight.dir = src.dir
 			newlight.stage = 2
 			newlight.fingerprints = src.fingerprints
@@ -391,12 +452,43 @@
 			if (prob(75))
 				electrocute_mob(user, get_area(src), src, rand(0.7,1.0))
 
+/obj/machinery/light/flamp/attackby(obj/item/W, mob/user)
+	if(istype(W, /obj/item/weapon/wrench))
+		anchored = !anchored
+		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+		user << "<span class='notice'>You [anchored ? "wrench" : "unwrench"] \the [src].</span>"
+
+	if(!lamp_shade)
+		if(istype(W, /obj/item/weapon/lampshade))
+			lamp_shade = 1
+			qdel(W)
+			update_icon()
+			return
+
+	else
+		if(istype(W, /obj/item/weapon/screwdriver))
+			playsound(src.loc, 'sound/items/Screwdriver.ogg', 75, 1)
+			user.visible_message("[user.name] removes [src]'s lamp shade.", \
+				"You remove [src]'s lamp shade.", "You hear a noise.")
+			lamp_shade = 0
+			new /obj/item/weapon/lampshade(src.loc)
+			update_icon()
+			return
+
+	..()
 
 // returns whether this light has power
 // true if area has power and lightswitch is on
 /obj/machinery/light/proc/has_power()
 	var/area/A = get_area(src)
 	return A && A.lightswitch && (!A.requires_power || A.power_light)
+
+/obj/machinery/light/flamp/has_power()
+	var/area/A = get_area(src)
+	if(lamp_shade)
+		return A && (!A.requires_power || A.power_light)
+	else
+		return A && A.lightswitch && (!A.requires_power || A.power_light)
 
 /obj/machinery/light/proc/flicker(var/amount = rand(10, 20))
 	if(flickering) return
@@ -418,6 +510,10 @@
 	src.flicker(1)
 	return
 
+/obj/machinery/light/flamp/attack_ai(mob/user)
+	attack_hand()
+	return
+
 // attack with hand - remove tube/bulb
 // if hands aren't protected and the light is on, burn the player
 /obj/machinery/light/attack_hand(mob/user)
@@ -430,7 +526,7 @@
 
 	if(istype(user,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
-		if(H.can_shred())
+		if(H.species.can_shred(H))
 			for(var/mob/M in viewers(src))
 				M.show_message("\red [user.name] smashed the light!", 3, "You hear a tinkle of breaking glass", 2)
 			broken()
@@ -481,6 +577,21 @@
 
 	status = LIGHT_EMPTY
 	update()
+
+/obj/machinery/light/flamp/attack_hand(mob/user)
+	if(lamp_shade)
+		if(status == LIGHT_EMPTY)
+			user << "There is no [fitting] in this light."
+			return
+
+		if(on)
+			on = 0
+			update()
+		else
+			on = has_power()
+			update()
+	else
+		..()
 
 
 /obj/machinery/light/attack_tk(mob/user)
@@ -549,10 +660,6 @@
 
 //blob effect
 
-/obj/machinery/light/blob_act()
-	if(prob(75))
-		broken()
-
 
 // timed process
 // use power
@@ -595,7 +702,7 @@
 	icon = 'icons/obj/lighting.dmi'
 	force = 2
 	throwforce = 5
-	w_class = 2
+	w_class = 1
 	var/status = 0		// LIGHT_OK, LIGHT_BURNED or LIGHT_BROKEN
 	var/base_state
 	var/switchcount = 0	// number of times switched
@@ -713,3 +820,11 @@
 		sharp = 1
 		playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
 		update()
+
+//Lamp Shade
+/obj/item/weapon/lampshade
+	name = "lamp shade"
+	desc = "A lamp shade for a lamp."
+	icon = 'icons/obj/lighting.dmi'
+	icon_state = "lampshade"
+	w_class = 1

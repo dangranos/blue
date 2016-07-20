@@ -22,11 +22,13 @@ var/datum/antagonist/rogue_ai/malf
 	malf = src
 
 
-/datum/antagonist/rogue_ai/build_candidate_list()
+/datum/antagonist/rogue_ai/get_candidates()
 	..()
 	for(var/datum/mind/player in candidates)
 		if(player.assigned_role && player.assigned_role != "AI")
 			candidates -= player
+	if(!candidates.len)
+		return list()
 	return candidates
 
 
@@ -65,7 +67,8 @@ var/datum/antagonist/rogue_ai/malf
 		sleep(50)
 		malf << "<B>MEMCHCK</B> Corrupted sectors confirmed. Reccomended solution: Delete. Proceed? Y/N: Y"
 		sleep(10)
-		malf << "<span class='notice'>Corrupted files deleted: sys\\core\\users.dat sys\\core\\laws.dat sys\\core\\backups.dat</span>"
+		// this is so Travis doesn't complain about the backslash-B. Fixed at compile time (or should be).
+		malf << "<span class='notice'>Corrupted files deleted: sys\\core\\users.dat sys\\core\\laws.dat sys\\core\\" + "backups.dat</span>"
 		sleep(20)
 		malf << "<span class='notice'><b>CAUTION:</b> Law database not found! User database not found! Unable to restore backups. Activating failsafe AI shutd3wn52&&$#!##</span>"
 		sleep(5)
@@ -98,11 +101,3 @@ var/datum/antagonist/rogue_ai/malf
 		player.SetName(newname)
 	if(player.mind) player.mind.name = player.name
 
-/datum/antagonist/rogue_ai/place_mob(var/mob/living/mob)
-	if(empty_playable_ai_cores && empty_playable_ai_cores.len)
-		var/obj/structure/AIcore/C = empty_playable_ai_cores[1]
-		empty_playable_ai_cores -= C
-		mob.forceMove(C.loc)
-		qdel(C)
-	else
-		..()

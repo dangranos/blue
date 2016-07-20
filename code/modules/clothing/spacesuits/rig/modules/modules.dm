@@ -55,7 +55,7 @@
 	var/list/stat_rig_module/stat_modules = new()
 
 /obj/item/rig_module/examine()
-	. = ..()
+	..()
 	switch(damage)
 		if(0)
 			usr << "It is undamaged."

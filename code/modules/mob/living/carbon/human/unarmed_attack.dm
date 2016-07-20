@@ -1,3 +1,5 @@
+var/global/list/sparring_attack_cache = list()
+
 //Species unarmed attacks
 /datum/unarmed_attack
 	var/attack_verb = list("attack")	// Empty hand hurt intent verb.
@@ -9,8 +11,17 @@
 	var/sharp = 0
 	var/edge = 0
 
+	var/deal_halloss
+	var/sparring_variant_type = /datum/unarmed_attack/light_strike
+
 	var/eye_attack_text
 	var/eye_attack_text_victim
+
+/datum/unarmed_attack/proc/get_sparring_variant()
+	if(sparring_variant_type)
+		if(!sparring_attack_cache[sparring_variant_type])
+			sparring_attack_cache[sparring_variant_type] = new sparring_variant_type()
+		return sparring_attack_cache[sparring_variant_type]
 
 /datum/unarmed_attack/proc/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
 	if(user.restrained())
@@ -18,11 +29,11 @@
 
 	// Check if they have a functioning hand.
 	var/obj/item/organ/external/E = user.organs_by_name["l_hand"]
-	if(E && !(E.status & ORGAN_DESTROYED))
+	if(E && !E.is_stump())
 		return 1
 
 	E = user.organs_by_name["r_hand"]
-	if(E && !(E.status & ORGAN_DESTROYED))
+	if(E && !E.is_stump())
 		return 1
 
 	return 0
@@ -32,29 +43,26 @@
 
 /datum/unarmed_attack/proc/apply_effects(var/mob/living/carbon/human/user,var/mob/living/carbon/human/target,var/armour,var/attack_damage,var/zone)
 
-	if(target.stat == DEAD)
-		return
-
 	var/stun_chance = rand(0, 100)
 
 	if(attack_damage >= 5 && armour < 2 && !(target == user) && stun_chance <= attack_damage * 5) // 25% standard chance
 		switch(zone) // strong punches can have effects depending on where they hit
-			if("head", "mouth", "eyes")
+			if(BP_HEAD, O_EYES, O_MOUTH)
 				// Induce blurriness
 				target.visible_message("<span class='danger'>[target] looks momentarily disoriented.</span>", "<span class='danger'>You see stars.</span>")
 				target.apply_effect(attack_damage*2, EYE_BLUR, armour)
-			if("l_arm", "l_hand")
+			if(BP_L_ARM, BP_L_HAND)
 				if (target.l_hand)
 					// Disarm left hand
-					//Urist McAssistant dropped the macguffin with a scream just sounds odd. Plus it doesn't work with NO_PAIN
+					//Urist McAssistant dropped the macguffin with a scream just sounds odd.
 					target.visible_message("<span class='danger'>\The [target.l_hand] was knocked right out of [target]'s grasp!</span>")
 					target.drop_l_hand()
-			if("r_arm", "r_hand")
+			if(BP_R_ARM, BP_R_HAND)
 				if (target.r_hand)
 					// Disarm right hand
 					target.visible_message("<span class='danger'>\The [target.r_hand] was knocked right out of [target]'s grasp!</span>")
 					target.drop_r_hand()
-			if("chest")
+			if(BP_TORSO)
 				if(!target.lying)
 					var/turf/T = get_step(get_turf(target), get_dir(get_turf(user), get_turf(target)))
 					if(!T.density)
@@ -65,7 +73,7 @@
 					if(prob(50))
 						target.set_dir(reverse_dir[target.dir])
 					target.apply_effect(attack_damage * 0.4, WEAKEN, armour)
-			if("groin")
+			if(BP_GROIN)
 				target.visible_message("<span class='warning'>[target] looks like \he is in pain!</span>", "<span class='warning'>[(target.gender=="female") ? "Oh god that hurt!" : "Oh no, not your[pick("testicles", "crown jewels", "clockweights", "family jewels", "marbles", "bean bags", "teabags", "sweetmeats", "goolies")]!"]</span>")
 				target.apply_effects(stutter = attack_damage * 2, agony = attack_damage* 3, blocked = armour)
 			if("l_leg", "l_foot", "r_leg", "r_foot")
@@ -85,11 +93,14 @@
 	playsound(user.loc, attack_sound, 25, 1, -1)
 
 /datum/unarmed_attack/proc/handle_eye_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target)
-	var/obj/item/organ/internal/eyes/eyes = target.internal_organs_by_name["eyes"]
-	eyes.take_damage(rand(3,4), 1)
-
-	user.visible_message("<span class='danger'>[user] presses \his [eye_attack_text] into [target]'s [eyes.name]!</span>")
-	target << "<span class='danger'>You experience[(target.species.flags & NO_PAIN)? "" : " immense pain as you feel" ] [eye_attack_text_victim] being pressed into your [eyes.name][(target.species.flags & NO_PAIN)? "." : "!"]</span>"
+	var/obj/item/organ/internal/eyes/eyes = target.internal_organs_by_name[O_EYES]
+	if(eyes)
+		eyes.take_damage(rand(3,4), 1)
+		user.visible_message("<span class='danger'>[user] presses \his [eye_attack_text] into [target]'s [eyes.name]!</span>")
+		var/eye_pain = eyes.can_feel_pain()
+		target << "<span class='danger'>You experience[(eye_pain) ? "" : " immense pain as you feel" ] [eye_attack_text_victim] being pressed into your [eyes.name][(eye_pain)? "." : "!"]</span>"
+		return
+	user.visible_message("<span class='danger'>[user] attempts to press \his [eye_attack_text] into [target]'s eyes, but they don't have any!</span>")
 
 /datum/unarmed_attack/bite
 	attack_verb = list("bit")
@@ -101,9 +112,9 @@
 
 /datum/unarmed_attack/bite/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
 
-	if (user.wear_mask && istype(user.wear_mask, /obj/item/clothing/mask/muzzle))
+	if (user.is_muzzled())
 		return 0
-	if (user == target && (zone == "head" || zone == "eyes" || zone == "mouth"))
+	if (user == target && (zone == BP_HEAD || zone == O_EYES || zone == O_MOUTH))
 		return 0
 	return 1
 
@@ -126,7 +137,7 @@
 
 	if(!target.lying)
 		switch(zone)
-			if("head", "mouth", "eyes")
+			if(BP_HEAD, O_MOUTH, O_EYES)
 				// ----- HEAD ----- //
 				switch(attack_damage)
 					if(1 to 2)
@@ -166,15 +177,15 @@
 	if (user.legcuffed)
 		return 0
 
-	if(!(zone in list("l_leg", "r_leg", "l_foot", "r_foot", "groin")))
+	if(!(zone in list("l_leg", "r_leg", "l_foot", "r_foot", BP_GROIN)))
 		return 0
 
 	var/obj/item/organ/external/E = user.organs_by_name["l_foot"]
-	if(E && !(E.status & ORGAN_DESTROYED))
+	if(E && !E.is_stump())
 		return 1
 
 	E = user.organs_by_name["r_foot"]
-	if(E && !(E.status & ORGAN_DESTROYED))
+	if(E && !E.is_stump())
 		return 1
 
 	return 0
@@ -214,11 +225,11 @@
 		if(target.grabbed_by == user && target.lying)
 			return 0
 		var/obj/item/organ/external/E = user.organs_by_name["l_foot"]
-		if(E && !(E.status & ORGAN_DESTROYED))
+		if(E && !E.is_stump())
 			return 1
 
 		E = user.organs_by_name["r_foot"]
-		if(E && !(E.status & ORGAN_DESTROYED))
+		if(E && !E.is_stump())
 			return 1
 
 		return 0
@@ -238,8 +249,8 @@
 		if(1 to 4)	user.visible_message("<span class='danger'>[pick("[user] stomped on", "[user] slammed \his [shoes ? copytext(shoes.name, 1, -1) : "foot"] down onto")] [target]'s [organ]!</span>")
 		if(5)		user.visible_message("<span class='danger'>[pick("[user] landed a powerful stomp on", "[user] stomped down hard on", "[user] slammed \his [shoes ? copytext(shoes.name, 1, -1) : "foot"] down hard onto")] [target]'s [organ]!</span>") //Devastated lol. No. We want to say that the stomp was powerful or forceful, not that it /wrought devastation/
 
-
 /datum/unarmed_attack/light_strike
+	deal_halloss = 3
 	attack_noun = list("tap","light strike")
 	attack_verb = list("tapped", "lightly struck")
 	damage = 2

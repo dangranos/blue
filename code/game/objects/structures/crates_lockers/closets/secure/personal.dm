@@ -7,10 +7,10 @@
 /obj/structure/closet/secure_closet/personal/New()
 	..()
 	spawn(2)
-		switch(pick(1,2,3))
-			if(1) new /obj/item/weapon/storage/backpack(src)
-			if(2) new /obj/item/weapon/storage/backpack/satchel_norm(src)
-			if(3) new /obj/item/weapon/storage/backpack/duffle(src)
+		if(prob(50))
+			new /obj/item/weapon/storage/backpack(src)
+		else
+			new /obj/item/weapon/storage/backpack/satchel/norm(src)
 		new /obj/item/device/radio/headset( src )
 	return
 
@@ -28,12 +28,27 @@
 		new /obj/item/clothing/shoes/white( src )
 	return
 
+
+
 /obj/structure/closet/secure_closet/personal/cabinet
 	icon_state = "cabinetdetective_locked"
 	icon_closed = "cabinetdetective"
+	icon_locked = "cabinetdetective_locked"
 	icon_opened = "cabinetdetective_open"
 	icon_broken = "cabinetdetective_broken"
 	icon_off = "cabinetdetective_broken"
+
+/obj/structure/closet/secure_closet/personal/cabinet/update_icon()
+	if(broken)
+		icon_state = icon_broken
+	else
+		if(!opened)
+			if(locked)
+				icon_state = icon_locked
+			else
+				icon_state = icon_closed
+		else
+			icon_state = icon_opened
 
 /obj/structure/closet/secure_closet/personal/cabinet/New()
 	..()
@@ -51,38 +66,44 @@
 			src.MouseDrop_T(W:affecting, user)      //act like they were dragged onto the closet
 		user.drop_item()
 		if (W) W.forceMove(src.loc)
-	else if(istype(W, /obj/item/weapon/card/id))
+	else if(W.GetID())
+		var/obj/item/weapon/card/id/I = W.GetID()
+
 		if(src.broken)
 			user << "<span class='warning'>It appears to be broken.</span>"
 			return
-		var/obj/item/weapon/card/id/I = W
 		if(!I || !I.registered_name)	return
 		if(src.allowed(user) || !src.registered_name || (istype(I) && (src.registered_name == I.registered_name)))
 			//they can open all lockers, or nobody owns this, or they own this locker
 			src.locked = !( src.locked )
-			update_icon()
+			if(src.locked)	src.icon_state = src.icon_locked
+			else	src.icon_state = src.icon_closed
 
 			if(!src.registered_name)
 				src.registered_name = I.registered_name
 				src.desc = "Owned by [I.registered_name]."
 		else
-			user << "\red Access Denied"
-	else if( (istype(W, /obj/item/weapon/card/emag)||istype(W, /obj/item/weapon/melee/energy/blade)) && !src.broken)
-		broken = 1
-		locked = 0
-		desc = "It appears to be broken."
-		update_icon()
-		if(istype(W, /obj/item/weapon/melee/energy/blade))
+			user << "<span class='warning'>Access Denied</span>"
+	else if(istype(W, /obj/item/weapon/melee/energy/blade))
+		if(emag_act(INFINITY, user, "The locker has been sliced open by [user] with \an [W]!", "You hear metal being sliced and sparks flying."))
 			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
 			spark_system.set_up(5, 0, src.loc)
 			spark_system.start()
 			playsound(src.loc, 'sound/weapons/blade1.ogg', 50, 1)
 			playsound(src.loc, "sparks", 50, 1)
-			for(var/mob/O in viewers(user, 3))
-				O.show_message("\blue The locker has been sliced open by [user] with an energy blade!", 1, "\red You hear metal being sliced and sparks flying.", 2)
 	else
-		user << "\red Access Denied"
+		user << "<span class='warning'>Access Denied</span>"
 	return
+
+/obj/structure/closet/secure_closet/personal/emag_act(var/remaining_charges, var/mob/user, var/visual_feedback, var/audible_feedback)
+	if(!broken)
+		broken = 1
+		locked = 0
+		desc = "It appears to be broken."
+		icon_state = src.icon_broken
+		if(visual_feedback)
+			visible_message("<span class='warning'>[visual_feedback]</span>", "<span class='warning'>[audible_feedback]</span>")
+		return 1
 
 /obj/structure/closet/secure_closet/personal/verb/reset()
 	set src in oview(1) // One square distance
@@ -93,15 +114,15 @@
 	if(ishuman(usr))
 		src.add_fingerprint(usr)
 		if (src.locked || !src.registered_name)
-			usr << "\red You need to unlock it first."
+			usr << "<span class='warning'>You need to unlock it first.</span>"
 		else if (src.broken)
-			usr << "\red It appears to be broken."
+			usr << "<span class='warning'>It appears to be broken.</span>"
 		else
 			if (src.opened)
 				if(!src.close())
 					return
 			src.locked = 1
-			update_icon()
+			src.icon_state = src.icon_locked
 			src.registered_name = null
 			src.desc = "It's a secure locker for personnel. The first card swiped gains control."
 	return

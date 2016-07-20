@@ -368,7 +368,7 @@ datum/gas_mixture/proc/check_recombustability(list/fuel_objs)
 
 	if(total_combustables > 0)
 		//slows down the burning when the concentration of the reactants is low
-		var/damping_multiplier = min(1, active_combustables * group_multiplier / total_moles) // TODO: How the hell group_multiplier become equil to zero?
+		var/damping_multiplier = min(1, active_combustables / (total_moles/group_multiplier))
 
 		//weight the damping mult so that it only really brings down the firelevel when the ratio is closer to 0
 		damping_multiplier = 2*damping_multiplier - (damping_multiplier*damping_multiplier)
@@ -406,7 +406,7 @@ datum/gas_mixture/proc/check_recombustability(list/fuel_objs)
 	//Get heat transfer coefficients for clothing.
 
 	for(var/obj/item/clothing/C in src)
-		if(l_hand == C || r_hand == C)
+		if(item_is_in_hands(C))
 			continue
 
 		if( C.max_heat_protection_temperature >= last_temperature )
@@ -425,10 +425,10 @@ datum/gas_mixture/proc/check_recombustability(list/fuel_objs)
 
 	//Always check these damage procs first if fire damage isn't working. They're probably what's wrong.
 
-	apply_damage(2.5*mx*head_exposure, BURN, "head", 0, 0, "Fire")
-	apply_damage(2.5*mx*chest_exposure, BURN, "chest", 0, 0, "Fire")
-	apply_damage(2.0*mx*groin_exposure, BURN, "groin", 0, 0, "Fire")
-	apply_damage(0.6*mx*legs_exposure, BURN, "l_leg", 0, 0, "Fire")
-	apply_damage(0.6*mx*legs_exposure, BURN, "r_leg", 0, 0, "Fire")
-	apply_damage(0.4*mx*arms_exposure, BURN, "l_arm", 0, 0, "Fire")
-	apply_damage(0.4*mx*arms_exposure, BURN, "r_arm", 0, 0, "Fire")
+	apply_damage(2.5*mx*head_exposure,  BURN, BP_HEAD,  0, 0, "Fire")
+	apply_damage(2.5*mx*chest_exposure, BURN, BP_TORSO, 0, 0, "Fire")
+	apply_damage(2.0*mx*groin_exposure, BURN, BP_GROIN, 0, 0, "Fire")
+	apply_damage(0.6*mx*legs_exposure,  BURN, BP_L_LEG, 0, 0, "Fire")
+	apply_damage(0.6*mx*legs_exposure,  BURN, BP_R_LEG, 0, 0, "Fire")
+	apply_damage(0.4*mx*arms_exposure,  BURN, BP_L_ARM, 0, 0, "Fire")
+	apply_damage(0.4*mx*arms_exposure,  BURN, BP_R_ARM, 0, 0, "Fire")

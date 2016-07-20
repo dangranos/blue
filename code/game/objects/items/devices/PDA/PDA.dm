@@ -11,8 +11,10 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	item_state = "electronic"
 	w_class = 2.0
 	slot_flags = SLOT_ID | SLOT_BELT
+	sprite_sheets = list("Teshari" = 'icons/mob/species/seromi/id.dmi')
 
 	//Main variables
+	var/pdachoice = 1
 	var/owner = null
 	var/default_cartridge = 0 // Access level defined by cartridge
 	var/obj/item/weapon/cartridge/cartridge = null //current cartridge
@@ -62,9 +64,8 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 	var/obj/item/device/paicard/pai = null	// A slot for a personal AI device
 
-/obj/item/device/pda/examine(mob/user, return_dist = 1)
-	. = ..()
-	if(.<=1)
+/obj/item/device/pda/examine(mob/user)
+	if(..(user, 1))
 		user << "The time [worldtime2text()] is displayed in the corner of the screen."
 
 /obj/item/device/pda/medical
@@ -150,7 +151,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	default_cartridge = /obj/item/weapon/cartridge/captain
 	icon_state = "pda-h"
 	detonate = 0
-	hidden = 1
+//	hidden = 1
 
 /obj/item/device/pda/cargo
 	default_cartridge = /obj/item/weapon/cartridge/quartermaster
@@ -162,6 +163,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 /obj/item/device/pda/shaftminer
 	icon_state = "pda-miner"
+	default_cartridge = /obj/item/weapon/cartridge/miner
 
 /obj/item/device/pda/syndicate
 	default_cartridge = /obj/item/weapon/cartridge/syndicate
@@ -171,6 +173,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	hidden = 1
 
 /obj/item/device/pda/chaplain
+	default_cartridge = /obj/item/weapon/cartridge/service
 	icon_state = "pda-holy"
 	ttone = "holy"
 
@@ -180,13 +183,15 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	ttone = "..."
 
 /obj/item/device/pda/botanist
-	//default_cartridge = /obj/item/weapon/cartridge/botanist
+	default_cartridge = /obj/item/weapon/cartridge/service
 	icon_state = "pda-hydro"
 
 /obj/item/device/pda/roboticist
+	default_cartridge = /obj/item/weapon/cartridge/signal/science
 	icon_state = "pda-robot"
 
 /obj/item/device/pda/librarian
+	default_cartridge = /obj/item/weapon/cartridge/service
 	icon_state = "pda-libb"
 	desc = "A portable microcomputer by Thinktronic Systems, LTD. This is model is a WGW-11 series e-reader."
 	note = "Congratulations, your station has chosen the Thinktronic 5290 WGW-11 Series E-reader and Personal Data Assistant!"
@@ -199,9 +204,11 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	note = "Congratulations, you have chosen the Thinktronic 5230 Personal Data Assistant Deluxe Special Max Turbo Limited Edition!"
 
 /obj/item/device/pda/chef
+	default_cartridge = /obj/item/weapon/cartridge/service
 	icon_state = "pda-chef"
 
 /obj/item/device/pda/bar
+	default_cartridge = /obj/item/weapon/cartridge/service
 	icon_state = "pda-bar"
 
 /obj/item/device/pda/atmos
@@ -215,9 +222,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 /obj/item/device/pda/geneticist
 	default_cartridge = /obj/item/weapon/cartridge/medical
 	icon_state = "pda-gene"
-
-/obj/item/device/pda/chrome
-	icon_state = "pda_chrome"
 
 
 // Special AI/pAI PDAs that cannot explode.
@@ -237,7 +241,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		ownrank = ownjob
 	name = newname + " (" + ownjob + ")"
 
-
 //AI verb and proc for sending PDA messages.
 /obj/item/device/pda/ai/verb/cmd_send_pdamesg()
 	set category = "AI IM"
@@ -254,7 +257,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		var/selected = plist[c]
 		create_message(usr, selected, 0)
 
-
 /obj/item/device/pda/ai/verb/cmd_toggle_pda_receiver()
 	set category = "AI IM"
 	set name = "Toggle Sender/Receiver"
@@ -264,7 +266,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		return
 	toff = !toff
 	usr << "<span class='notice'>PDA sender/receiver toggled [(toff ? "Off" : "On")]!</span>"
-
 
 /obj/item/device/pda/ai/verb/cmd_toggle_pda_silent()
 	set category = "AI IM"
@@ -309,17 +310,119 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	ttone = "assist"
 
 
+// Used for the PDA multicaster, which mirrors messages sent to it to a specific department,
+/obj/item/device/pda/multicaster
+	ownjob = "Relay"
+	icon_state = "NONE"
+	ttone = "data"
+	detonate = 0
+	news_silent = 1
+	var/list/cartridges_to_send_to = list()
+
+// This is what actually mirrors the message,
+/obj/item/device/pda/multicaster/new_message(var/sending_unit, var/sender, var/sender_job, var/message)
+	if(sender)
+		var/list/targets = list()
+		for(var/obj/item/device/pda/pda in PDAs)
+			if(pda.cartridge && pda.owner && is_type_in_list(pda.cartridge, cartridges_to_send_to))
+				targets |= pda
+		if(targets.len)
+			for(var/obj/item/device/pda/target in targets)
+				create_message(target, sender, sender_job, message)
+
+// This has so much copypasta,
+/obj/item/device/pda/multicaster/create_message(var/obj/item/device/pda/P, var/original_sender, var/original_job, var/t)
+	t = sanitize(t, MAX_MESSAGE_LEN, 0)
+	t = replace_characters(t, list("&#34;" = "\""))
+	if (!t || !istype(P))
+		return
+
+	if (isnull(P)||P.toff || toff)
+		return
+
+	last_text = world.time
+	var/datum/reception/reception = get_reception(src, P, t)
+	t = reception.message
+
+	if(reception.message_server && (reception.telecomms_reception & TELECOMMS_RECEPTION_SENDER)) // only send the message if it's stable,
+		if(reception.telecomms_reception & TELECOMMS_RECEPTION_RECEIVER == 0) // Does our recipient have a broadcaster on their level?,
+			return
+		var/send_result = reception.message_server.send_pda_message("[P.owner]","[owner]","[t]")
+		if (send_result)
+			return
+
+		P.tnote.Add(list(list("sent" = 0, "owner" = "[owner]", "job" = "[ownjob]", "message" = "[t]", "target" = "\ref[src]")))
+
+		if(!P.conversations.Find("\ref[src]"))
+			P.conversations.Add("\ref[src]")
+
+		P.new_message(src, "[original_sender] \[Relayed\]", original_job, t, 0)
+
+	else
+		return
+
+/obj/item/device/pda/multicaster/command/New()
+	..()
+	owner = "Command Department"
+	name = "Command Department (Relay)"
+	cartridges_to_send_to = command_cartridges
+
+/obj/item/device/pda/multicaster/security/New()
+	..()
+	owner = "Security Department"
+	name = "Security Department (Relay)"
+	cartridges_to_send_to = security_cartridges
+
+/obj/item/device/pda/multicaster/engineering/New()
+	..()
+	owner = "Engineering Department"
+	name = "Engineering Department (Relay)"
+	cartridges_to_send_to = engineering_cartridges
+
+/obj/item/device/pda/multicaster/medical/New()
+	..()
+	owner = "Medical Department"
+	name = "Medical Department (Relay)"
+	cartridges_to_send_to = medical_cartridges
+
+/obj/item/device/pda/multicaster/research/New()
+	..()
+	owner = "Research Department"
+	name = "Research Department (Relay)"
+	cartridges_to_send_to = research_cartridges
+
+/obj/item/device/pda/multicaster/cargo/New()
+	..()
+	owner = "Cargo Department"
+	name = "Cargo Department (Relay)"
+	cartridges_to_send_to = cargo_cartridges
+
+/obj/item/device/pda/multicaster/civilian/New()
+	..()
+	owner = "Civilian Services Department"
+	name = "Civilian Services Department (Relay)"
+	cartridges_to_send_to = civilian_cartridges
+
 /*
  *	The Actual PDA
  */
 
-/obj/item/device/pda/New()
+/obj/item/device/pda/New(var/mob/living/carbon/human/H)
 	..()
 	PDAs += src
 	PDAs = sortAtom(PDAs)
 	if(default_cartridge)
 		cartridge = new default_cartridge(src)
 	new /obj/item/weapon/pen(src)
+	pdachoice = isnull(H) ? 1 : (ishuman(H) ? H.pdachoice : 1)
+	switch(pdachoice)
+		if(1) icon = 'icons/obj/pda.dmi'
+		if(2) icon = 'icons/obj/pda_slim.dmi'
+		if(3) icon = 'icons/obj/pda_old.dmi'
+		else
+			icon = 'icons/obj/pda_old.dmi'
+			log_debug("Invalid switch for PDA, defaulting to old PDA icons. [pdachoice] chosen.")
+
 
 /obj/item/device/pda/proc/can_use()
 
@@ -413,8 +516,8 @@ var/global/list/obj/item/device/pda/PDAs = list()
 					cartdata["radio"] = 1
 				if(istype(cartridge.radio, /obj/item/radio/integrated/signal))
 					cartdata["radio"] = 2
-				if(istype(cartridge.radio, /obj/item/radio/integrated/mule))
-					cartdata["radio"] = 3
+				//if(istype(cartridge.radio, /obj/item/radio/integrated/mule))
+				//	cartdata["radio"] = 3
 
 		if(mode == 2)
 			cartdata["charges"] = cartridge.charges ? cartridge.charges : 0
@@ -458,7 +561,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				data["convo_job"] = sanitize(c["job"])
 				break
 	if(mode==41)
-		data_core.get_manifest_json()
+		data_core.get_manifest_list()
 
 
 	if(mode==3)
@@ -527,7 +630,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 		data["feed"] = feed
 
-	data["manifest"] = list("__json_cache" = ManifestJSON)
+	data["manifest"] = PDA_Manifest
 
 	nanoUI = data
 	// update the ui if it exists, returns null if no ui is passed/found
@@ -704,7 +807,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 			var/t = input(U, "Please enter new ringtone", name, ttone) as text
 			if (in_range(src, U) && loc == U)
 				if (t)
-					if(src.hidden_uplink && hidden_uplink.check_trigger(U, lowertext(t), lowertext(lock_code)))
+					if(src.hidden_uplink && hidden_uplink.check_trigger(U, rlowertext(t), rlowertext(lock_code)))
 						U << "The PDA softly beeps."
 						ui.close()
 					else
@@ -874,7 +977,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 
 	overlays.Cut()
 	if(new_message || new_news)
-		overlays += image('icons/obj/pda.dmi', "pda-r")
+		overlays += image(icon, "pda-r")
 
 /obj/item/device/pda/proc/detonate_act(var/obj/item/device/pda/P)
 	//TODO: sometimes these attacks show up on the message server
@@ -929,7 +1032,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		message += "Your [P] bleeps loudly."
 		j = prob(10)
 
-	if(j) //This kills the PDA
+	if(j && detonate) //This kills the PDA
 		qdel(P)
 		if(message)
 			message += "It melts in a puddle of plastic."
@@ -953,7 +1056,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 /obj/item/device/pda/proc/create_message(var/mob/living/U = usr, var/obj/item/device/pda/P, var/tap = 1)
 	if(tap)
 		U.visible_message("<span class='notice'>\The [U] taps on \his PDA's screen.</span>")
-	U.last_target_click = world.time
 	var/t = input(U, "Please enter message", P.name, null) as text
 	t = sanitize(t)
 	//t = readd_quotes(t)
@@ -988,10 +1090,10 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		tnote.Add(list(list("sent" = 1, "owner" = "[P.owner]", "job" = "[P.ownjob]", "message" = "[t]", "target" = "\ref[P]")))
 		P.tnote.Add(list(list("sent" = 0, "owner" = "[owner]", "job" = "[ownjob]", "message" = "[t]", "target" = "\ref[src]")))
 		for(var/mob/M in player_list)
-			if(M.stat == DEAD && M.client && (M.client.prefs.chat_toggles & CHAT_GHOSTEARS)) // src.client is so that ghosts don't have to listen to mice
+			if(M.stat == DEAD && M.client && (M.is_preference_enabled(/datum/client_preference/ghost_ears))) // src.client is so that ghosts don't have to listen to mice
 				if(istype(M, /mob/new_player))
 					continue
-				M.show_message("<span class='game say'>PDA Message - <span class='name'>[owner]</span> -> <span class='name'>[P.owner]</span>: <span class='message'>[reception.message]</span></span>")
+				M.show_message("<span class='game say'>PDA Message - <span class='name'>[owner]</span> -> <span class='name'>[P.owner]</span>: <span class='message'>[t]</span></span>")
 
 		if(!conversations.Find("\ref[P]"))
 			conversations.Add("\ref[P]")
@@ -1044,8 +1146,8 @@ var/global/list/obj/item/device/pda/PDAs = list()
 /obj/item/device/pda/proc/new_message_from_pda(var/obj/item/device/pda/sending_device, var/message)
 	new_message(sending_device, sending_device.owner, sending_device.ownjob, message)
 
-/obj/item/device/pda/proc/new_message(var/sending_unit, var/sender, var/sender_job, var/message)
-	var/reception_message = "\icon[src] <b>Message from [sender] ([sender_job]), </b>\"[utf8_to_cp1251(message)]\" (<a href='byond://?src=\ref[src];choice=Message;skiprefresh=1;target=\ref[sending_unit]'>Reply</a>)"
+/obj/item/device/pda/proc/new_message(var/sending_unit, var/sender, var/sender_job, var/message, var/reply = 1)
+	var/reception_message = "\icon[src] <b>Message from [sender] ([sender_job]), </b>\"[utf8_to_cp1251(message)]\" ([reply ? "<a href='byond://?src=\ref[src];choice=Message;skiprefresh=1;target=\ref[sending_unit]'>Reply</a>" : "Unable to Reply"])"
 	new_info(message_silent, ttone, reception_message)
 
 	log_pda("[usr] (PDA: [sending_unit]) sent \"[message]\" to [name]")
@@ -1144,21 +1246,22 @@ var/global/list/obj/item/device/pda/PDAs = list()
 	if(choice == 1)
 		if (id)
 			remove_id()
+			return 1
 		else
 			var/obj/item/I = user.get_active_hand()
-			if (istype(I, /obj/item/weapon/card/id))
-				user.drop_item()
+			if (istype(I, /obj/item/weapon/card/id) && user.unEquip(I))
 				I.loc = src
 				id = I
+			return 1
 	else
 		var/obj/item/weapon/card/I = user.get_active_hand()
-		if (istype(I, /obj/item/weapon/card/id) && I:registered_name)
+		if (istype(I, /obj/item/weapon/card/id) && I:registered_name && user.unEquip(I))
 			var/obj/old_id = id
-			user.drop_item()
 			I.loc = src
 			id = I
 			user.put_in_hands(old_id)
-	return
+			return 1
+	return 0
 
 // access to status display signals
 /obj/item/device/pda/attackby(obj/item/C as obj, mob/user as mob)
@@ -1186,9 +1289,9 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		else
 			//Basic safety check. If either both objects are held by user or PDA is on ground and card is in hand.
 			if(((src in user.contents) && (C in user.contents)) || (istype(loc, /turf) && in_range(src, user) && (C in user.contents)) )
-				id_check(user, 2)
-				user << "<span class='notice'>You put the ID into \the [src]'s slot.</span>"
-				updateSelfDialog()//Update self dialog on success.
+				if(id_check(user, 2))
+					user << "<span class='notice'>You put the ID into \the [src]'s slot.</span>"
+					updateSelfDialog()//Update self dialog on success.
 			return	//Return in case of failed check or when successful.
 		updateSelfDialog()//For the non-input related code.
 	else if(istype(C, /obj/item/device/paicard) && !src.pai)
@@ -1238,10 +1341,6 @@ var/global/list/obj/item/device/pda/PDAs = list()
 					else
 						user.show_message("<span class='notice'>    Limbs are OK.</span>",1)
 
-				for(var/datum/disease/D in C.viruses)
-					if(!D.hidden[SCANNER])
-						user.show_message("<span class='warning'><b>Warning: [D.form] Detected</b>\nName: [D.name].\nType: [D.spread].\nStage: [D.stage]/[D.max_stages].\nPossible Cure: [D.cure]</span>")
-
 			if(2)
 				if (!istype(C:dna, /datum/dna))
 					user << "<span class='notice'>No fingerprints found on [C]</span>"
@@ -1286,40 +1385,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 				user << "<span class='notice'>No significant chemical agents found in [A].</span>"
 
 		if(5)
-			if((istype(A, /obj/item/weapon/tank)) || (istype(A, /obj/machinery/portable_atmospherics)))
-				var/obj/icon = A
-				for (var/mob/O in viewers(user, null))
-					O << "\red [user] has used [src] on \icon[icon] [A]"
-				var/pressure = A:air_contents.return_pressure()
-
-				var/total_moles = A:air_contents.total_moles
-
-				user << "\blue Results of analysis of \icon[icon]"
-				if (total_moles>0)
-					user << "\blue Pressure: [round(pressure,0.1)] kPa"
-					for(var/g in A:air_contents.gas)
-						user << "\blue [gas_data.name[g]]: [round((A:air_contents.gas[g] / total_moles) * 100)]%"
-					user << "\blue Temperature: [round(A:air_contents.temperature-T0C)]&deg;C"
-				else
-					user << "\blue Tank is empty!"
-
-			if (istype(A, /obj/machinery/atmospherics/pipe/tank))
-				var/obj/icon = A
-				for (var/mob/O in viewers(user, null))
-					O << "\red [user] has used [src] on \icon[icon] [A]"
-
-				var/obj/machinery/atmospherics/pipe/tank/T = A
-				var/pressure = T.parent.air.return_pressure()
-				var/total_moles = T.parent.air.total_moles
-
-				user << "\blue Results of analysis of \icon[icon]"
-				if (total_moles>0)
-					user << "\blue Pressure: [round(pressure,0.1)] kPa"
-					for(var/g in T.parent.air.gas)
-						user << "\blue [gas_data.name[g]]: [round((T.parent.air.gas[g] / total_moles) * 100)]%"
-					user << "\blue Temperature: [round(T.parent.air.temperature-T0C)]&deg;C"
-				else
-					user << "\blue Tank is empty!"
+			analyze_gases(A, user)
 
 	if (!scanmode && istype(A, /obj/item/weapon/paper) && owner)
 		// JMO 20140705: Makes scanned document show up properly in the notes. Not pretty for formatted documents,
@@ -1336,7 +1402,7 @@ var/global/list/obj/item/device/pda/PDAs = list()
 		// Until we run out of complete tags...
 		while(tag_start&&tag_stop)
 			var/pre = copytext(raw_scan,1,tag_start) // Get the stuff that comes before the tag
-			var/tag = lowertext(copytext(raw_scan,tag_start+1,tag_stop)) // Get the tag so we can do intellegent replacement
+			var/tag = rlowertext(copytext(raw_scan,tag_start+1,tag_stop)) // Get the tag so we can do intellegent replacement
 			var/tagend = findtext(tag," ") // Find the first space in the tag if there is one.
 
 			// Anything that's before the tag can just be added as is.

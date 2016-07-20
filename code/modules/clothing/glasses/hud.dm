@@ -1,8 +1,8 @@
 /obj/item/clothing/glasses/hud
 	name = "HUD"
 	desc = "A heads-up display that provides important info in (almost) real time."
-	flags = null //doesn't protect eyes because it's a monocle, duh
-	origin_tech = "magnets=3;biotech=2"
+	flags = 0 //doesn't protect eyes because it's a monocle, duh
+	origin_tech = list(TECH_MAGNET = 3, TECH_BIO = 2)
 	var/list/icon/current = list() //the current hud icons
 
 	proc
@@ -17,10 +17,11 @@
 	body_parts_covered = 0
 
 /obj/item/clothing/glasses/hud/health/prescription
-	name = "Prescription Medical HUD Glasses"
-	desc = "Medical HUD glasses with prescription lenses."
-	icon_state = "glasseshealth"
+	name = "Prescription Health Scanner HUD"
+	desc = "A medical HUD integrated with a set of prescription glasses"
 	prescription = 1
+	icon_state = "healthhudpresc"
+	item_state = "healthhudpresc"
 
 /obj/item/clothing/glasses/hud/health/process_hud(var/mob/M)
 	process_med_hud(M, 1)
@@ -32,20 +33,20 @@
 	body_parts_covered = 0
 	var/global/list/jobs[0]
 
-/obj/item/clothing/glasses/hud/engi
-	name = "Engineereing HUD"
-	desc = "A heads-up display that scans walls, floors, and stuff to provide accurate data about station condition"
-	icon_state = "engihud"
-	item_state = "engihud"
-	body_parts_covered = 0
-	vision_flags = SEE_TURFS
+/obj/item/clothing/glasses/hud/security/prescription
+	name = "Prescription Security HUD"
+	desc = "A security HUD integrated with a set of prescription glasses"
+	prescription = 1
+	icon_state = "sechudpresc"
+	item_state = "sechudpresc"
 
 /obj/item/clothing/glasses/hud/security/jensenshades
 	name = "Augmented shades"
 	desc = "Polarized bioneural eyewear, designed to augment your vision."
 	icon_state = "jensenshades"
 	item_state = "jensenshades"
-	darkness_view = -1
+	vision_flags = SEE_MOBS
+	see_invisible = SEE_INVISIBLE_NOLIGHTING
 
 /obj/item/clothing/glasses/hud/security/process_hud(var/mob/M)
 	process_sec_hud(M, 1)

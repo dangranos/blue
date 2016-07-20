@@ -2,7 +2,6 @@
 	attack_verb = list("bit", "chomped on")
 	attack_sound = 'sound/weapons/bite.ogg'
 	shredding = 0
-	damage = 5
 	sharp = 1
 	edge = 1
 
@@ -11,7 +10,6 @@
 	attack_noun = list("tendril")
 	eye_attack_text = "a tendril"
 	eye_attack_text_victim = "a tendril"
-	damage = 5
 
 /datum/unarmed_attack/claws
 	attack_verb = list("scratched", "clawed", "slashed")
@@ -20,13 +18,14 @@
 	eye_attack_text_victim = "sharp claws"
 	attack_sound = 'sound/weapons/slice.ogg'
 	miss_sound = 'sound/weapons/slashmiss.ogg'
-	damage = 5
 	sharp = 1
 	edge = 1
 
 /datum/unarmed_attack/claws/show_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone, var/attack_damage)
+	var/skill = user.skills["combat"]
 	var/obj/item/organ/external/affecting = target.get_organ(zone)
 
+	if(!skill)	skill = 1
 	attack_damage = Clamp(attack_damage, 1, 5)
 
 	if(target == user)
@@ -34,7 +33,7 @@
 		return 0
 
 	switch(zone)
-		if("head", "mouth", "eyes")
+		if(BP_HEAD, O_MOUTH, O_EYES)
 			// ----- HEAD ----- //
 			switch(attack_damage)
 				if(1 to 2)
@@ -55,19 +54,30 @@
 
 /datum/unarmed_attack/claws/strong
 	attack_verb = list("slashed")
-	damage = 10
+	damage = 5
 	shredding = 1
 
 /datum/unarmed_attack/bite/strong
 	attack_verb = list("mauled")
-	damage = 15
+	damage = 8
 	shredding = 1
 
 /datum/unarmed_attack/slime_glomp
 	attack_verb = list("glomped")
 	attack_noun = list("body")
-	damage = 0
+	damage = 2
 
-/datum/unarmed_attack/slime_glomp/apply_effects()
-	//Todo, maybe have a chance of causing an electrical shock?
-	return
+/datum/unarmed_attack/slime_glomp/apply_effects(var/mob/living/carbon/human/user,var/mob/living/carbon/human/target,var/armour,var/attack_damage,var/zone)
+	..()
+	user.apply_stored_shock_to(target)
+
+/datum/unarmed_attack/stomp/weak
+	attack_verb = list("jumped on")
+
+/datum/unarmed_attack/stomp/weak/get_unarmed_damage()
+	return damage
+
+/datum/unarmed_attack/stomp/weak/show_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone, var/attack_damage)
+	var/obj/item/organ/external/affecting = target.get_organ(zone)
+	user.visible_message("<span class='warning'>[user] jumped up and down on \the [target]'s [affecting.name]!</span>")
+	playsound(user.loc, attack_sound, 25, 1, -1)

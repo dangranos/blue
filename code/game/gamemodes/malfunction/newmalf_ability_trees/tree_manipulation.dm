@@ -18,21 +18,21 @@
 
 /datum/malf_research_ability/manipulation/hack_camera
 	ability = new/datum/game_mode/malfunction/verb/hack_camera()
-	price = 400
+	price = 1200
 	next = new/datum/malf_research_ability/manipulation/emergency_forcefield()
 	name = "Hack Camera"
 
 
 /datum/malf_research_ability/manipulation/emergency_forcefield
 	ability = new/datum/game_mode/malfunction/verb/emergency_forcefield()
-	price = 800
+	price = 3000
 	next = new/datum/malf_research_ability/manipulation/machine_overload()
 	name = "Emergency Forcefield"
 
 
 /datum/malf_research_ability/manipulation/machine_overload
 	ability = new/datum/game_mode/malfunction/verb/machine_overload()
-	price = 1200
+	price = 7500
 	name = "Machine Overload"
 
 // END RESEARCH DATUMS

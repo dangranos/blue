@@ -6,12 +6,12 @@
 
 /obj/item/clothing/accessory/badge
 	name = "detective's badge"
-	desc = "NanoTrasen Security Department detective's badge, made from gold."
+	desc = "Security Department detective's badge, made from gold."
 	icon_state = "badge"
 	slot_flags = SLOT_BELT | SLOT_TIE
 
 	var/stored_name
-	var/badge_string = "NanoTrasen Security Department"
+	var/badge_string = "Themis Security"
 
 /obj/item/clothing/accessory/badge/old
 	name = "faded badge"
@@ -38,6 +38,8 @@
 /obj/item/clothing/accessory/badge/attack(mob/living/carbon/human/M, mob/living/user)
 	if(isliving(user))
 		user.visible_message("<span class='danger'>[user] invades [M]'s personal space, thrusting [src] into their face insistently.</span>","<span class='danger'>You invade [M]'s personal space, thrusting [src] into their face insistently.</span>")
+		user.do_attack_animation(M)
+		user.setClickCooldown(DEFAULT_QUICK_COOLDOWN) //to prevent spam
 
 //.Holobadges.
 /obj/item/clothing/accessory/badge/holo
@@ -48,7 +50,7 @@
 
 /obj/item/clothing/accessory/badge/holo/cord
 	icon_state = "holobadge-cord"
-	slot_flags = SLOT_MASK | SLOT_TIE
+	slot_flags = SLOT_MASK | SLOT_TIE | SLOT_BELT
 
 /obj/item/clothing/accessory/badge/holo/attack_self(mob/user as mob)
 	if(!stored_name)
@@ -56,18 +58,17 @@
 		return
 	return ..()
 
+/obj/item/clothing/accessory/badge/holo/emag_act(var/remaining_charges, var/mob/user)
+	if (emagged)
+		user << "<span class='danger'>\The [src] is already cracked.</span>"
+		return
+	else
+		emagged = 1
+		user << "<span class='danger'>You crack the holobadge security checks.</span>"
+		return 1
+
 /obj/item/clothing/accessory/badge/holo/attackby(var/obj/item/O as obj, var/mob/user as mob)
-
-	if (istype(O, /obj/item/weapon/card/emag))
-		if (emagged)
-			user << "<span class='danger'>[src] is already cracked.</span>"
-			return
-		else
-			emagged = 1
-			user << "<span class='danger'>You swipe [O] and crack the holobadge security checks.</span>"
-			return
-
-	else if(istype(O, /obj/item/weapon/card/id) || istype(O, /obj/item/device/pda))
+	if(istype(O, /obj/item/weapon/card/id) || istype(O, /obj/item/device/pda))
 
 		var/obj/item/weapon/card/id/id_card = null
 
@@ -97,3 +98,34 @@
 		new /obj/item/clothing/accessory/badge/holo/cord(src)
 		..()
 		return
+
+
+/obj/item/clothing/accessory/badge/sec/constable
+	name = " constable's badge"
+	desc = "A silver Themis Security badge. Stamped with the words 'Constable.'"
+	icon_state = "constablebadge"
+	slot_flags = SLOT_TIE | SLOT_BELT
+
+/obj/item/clothing/accessory/badge/sec/seniorconstable
+	name = "senior constable's badge"
+	desc = "A silver Themis Security badge. Stamped with the words 'Senior Constable.'"
+	icon_state = "constablebadge"
+	slot_flags = SLOT_TIE | SLOT_BELT
+
+/obj/item/clothing/accessory/badge/sec/overseer
+	name = "overseer's badge"
+	desc = "A silver Themis Security badge. Stamped with the words 'Overseer.'"
+	icon_state = "overseerbadge"
+	slot_flags = SLOT_TIE | SLOT_BELT
+
+/obj/item/clothing/accessory/badge/sec/secchief
+	name = "head of security's badge"
+	desc = "An immaculately polished gold security badge. Labeled 'Head of Security.'"
+	icon_state = "secchiefbadge"
+	slot_flags = SLOT_TIE | SLOT_BELT
+
+/obj/item/clothing/accessory/badge/sec/detective
+	name = "detective's badge"
+	desc = "An immaculately polished gold security badge on leather. Labeled 'Detective.'"
+	icon_state = "badge"
+	slot_flags = SLOT_TIE | SLOT_BELT

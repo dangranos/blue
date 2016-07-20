@@ -8,6 +8,7 @@
 	desc = "A conveyor belt."
 	layer = 2			// so they appear under stuff
 	anchored = 1
+	circuit = /obj/item/weapon/circuitboard/conveyor
 	var/operating = 0	// 1 if running forward, -1 if backwards, 0 if off
 	var/operable = 1	// true if can operate (no broken segments in this belt run)
 	var/forwards		// this is the default (forward) direction, set by the map dir
@@ -25,40 +26,33 @@
 	..(loc)
 	if(newdir)
 		set_dir(newdir)
-	switch(dir)
-		if(NORTH)
-			forwards = NORTH
-			backwards = SOUTH
-		if(SOUTH)
-			forwards = SOUTH
-			backwards = NORTH
-		if(EAST)
-			forwards = EAST
-			backwards = WEST
-		if(WEST)
-			forwards = WEST
-			backwards = EAST
-		if(NORTHEAST)
-			forwards = EAST
-			backwards = SOUTH
-		if(NORTHWEST)
-			forwards = SOUTH
-			backwards = WEST
-		if(SOUTHEAST)
-			forwards = NORTH
-			backwards = EAST
-		if(SOUTHWEST)
-			forwards = WEST
-			backwards = NORTH
+
+	if(dir & (dir-1)) // Diagonal. Forwards is *away* from dir, curving to the right.
+		forwards = turn(dir, 135)
+		backwards = turn(dir, 45)
+	else
+		forwards = dir
+		backwards = turn(dir, 180)
+
 	if(on)
 		operating = 1
 		setmove()
 
+	circuit = new circuit(src)
+	component_parts = list()
+	component_parts += new /obj/item/weapon/stock_parts/gear(src)
+	component_parts += new /obj/item/weapon/stock_parts/motor(src)
+	component_parts += new /obj/item/weapon/stock_parts/gear(src)
+	component_parts += new /obj/item/weapon/stock_parts/motor(src)
+	component_parts += new /obj/item/stack/cable_coil(src,5)
+	RefreshParts()
+
 /obj/machinery/conveyor/proc/setmove()
 	if(operating == 1)
 		movedir = forwards
-	else
+	else if(operating == -1)
 		movedir = backwards
+	else operating = 0
 	update()
 
 /obj/machinery/conveyor/proc/update()
@@ -97,16 +91,33 @@
 	if(isrobot(user))	return //Carn: fix for borgs dropping their modules on conveyor belts
 	if(I.loc != user)	return // This should stop mounted modules ending up outside the module.
 
-	user.unEquip(I, src.loc)
+	if(default_deconstruction_screwdriver(user, I))
+		return
+	if(default_deconstruction_crowbar(user, I))
+		return
+
+	if(istype(I, /obj/item/device/multitool))
+		if(panel_open)
+			var/input = sanitize(input(usr, "What id would you like to give this conveyor?", "Multitool-Conveyor interface", id))
+			if(!input)
+				usr << "No input found please hang up and try your call again."
+				return
+			id = input
+			for(var/obj/machinery/conveyor_switch/C in world)
+				if(C.id == id)
+					C.conveyors += src
+			return
+
+	user.drop_item(get_turf(src))
 	return
 
 // attack with hand, move pulled object onto conveyor
 /obj/machinery/conveyor/attack_hand(mob/user as mob)
-	if (!user.canmove || user.restrained() || !user.pulling)
+	if ((!( user.canmove ) || user.restrained() || !( user.pulling )))
 		return
 	if (user.pulling.anchored)
 		return
-	if (user.pulling.loc != user.loc && get_dist(user, user.pulling) > 1)
+	if ((user.pulling.loc != user.loc && get_dist(user, user.pulling) > 1))
 		return
 	if (ismob(user.pulling))
 		var/mob/M = user.pulling
@@ -213,12 +224,9 @@
 
 // attack with hand, switch position
 /obj/machinery/conveyor_switch/attack_hand(mob/user)
-
 	if(!allowed(user))
 		user << "<span class='warning'>Access denied.</span>"
 		return
-
-	playsound(user,'sound/machines/Conveyor_switch.wav',100,1)
 
 	if(position == 0)
 		if(last_pos < 0)
@@ -240,13 +248,42 @@
 			S.position = position
 			S.update()
 
+/obj/machinery/conveyor_switch/attackby(var/obj/item/I, mob/user)
+	if(default_deconstruction_screwdriver(user, I))
+		return
+
+	if(istype(I, /obj/item/weapon/weldingtool))
+		if(panel_open)
+			var/obj/item/weapon/weldingtool/WT = I
+			if(!WT.remove_fuel(0, user))
+				user << "The welding tool must be on to complete this task."
+				return
+			playsound(src.loc, 'sound/items/Welder.ogg', 50, 1)
+			if(do_after(user, 20))
+				if(!src || !WT.isOn()) return
+				user << "<span class='notice'>You deconstruct the frame.</span>"
+				new /obj/item/stack/material/steel( src.loc, 2 )
+				qdel(src)
+				return
+
+	if(istype(I, /obj/item/device/multitool))
+		if(panel_open)
+			var/input = sanitize(input(usr, "What id would you like to give this conveyor switch?", "Multitool-Conveyor interface", id))
+			if(!input)
+				usr << "No input found please hang up and try your call again."
+				return
+			id = input
+			for(var/obj/machinery/conveyor/C in world)
+				if(C.id == id)
+					conveyors += C
+			return
+
 /obj/machinery/conveyor_switch/oneway
 	var/convdir = 1 //Set to 1 or -1 depending on which way you want the convayor to go. (In other words keep at 1 and set the proper dir on the belts.)
 	desc = "A conveyor control switch. It appears to only go in one direction."
 
 // attack with hand, switch position
 /obj/machinery/conveyor_switch/oneway/attack_hand(mob/user)
-	playsound(user,'sound/machines/Conveyor_switch.wav',100,1)
 	if(position == 0)
 		position = convdir
 	else

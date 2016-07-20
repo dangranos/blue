@@ -4,7 +4,6 @@
 	name = "Inaprovaline"
 	id = "inaprovaline"
 	description = "Inaprovaline is a synaptic stimulant and cardiostimulant. Commonly used to stabilize patients."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#00BFFF"
 	overdose = REAGENTS_OVERDOSE * 2
@@ -15,14 +14,11 @@
 	if(alien != IS_DIONA)
 		M.add_chemical_effect(CE_STABLE)
 		M.add_chemical_effect(CE_PAINKILLER, 25)
-	M.add_chemical_effect(CE_PULSE, 1)
 
 /datum/reagent/bicaridine
 	name = "Bicaridine"
 	id = "bicaridine"
 	description = "Bicaridine is an analgesic medication and can be used to treat blunt trauma."
-	taste_description = "bitterness"
-	taste_mult = 3
 	reagent_state = LIQUID
 	color = "#BF0000"
 	overdose = REAGENTS_OVERDOSE
@@ -36,7 +32,6 @@
 	name = "Kelotane"
 	id = "kelotane"
 	description = "Kelotane is a drug used to treat burns."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#FFA800"
 	overdose = REAGENTS_OVERDOSE
@@ -50,8 +45,6 @@
 	name = "Dermaline"
 	id = "dermaline"
 	description = "Dermaline is the next step in burn medication. Works twice as good as kelotane and enables the body to restore even the direst heat-damaged tissue."
-	taste_description = "sour-bitterness"
-	taste_mult = 1.5
 	reagent_state = LIQUID
 	color = "#FF8000"
 	overdose = REAGENTS_OVERDOSE * 0.5
@@ -65,7 +58,6 @@
 	name = "Dylovene"
 	id = "anti_toxin"
 	description = "Dylovene is a broad-spectrum antitoxin."
-	taste_description = "sweetness"
 	reagent_state = LIQUID
 	color = "#00A000"
 	scannable = 1
@@ -80,7 +72,6 @@
 	name = "Dexalin"
 	id = "dexalin"
 	description = "Dexalin is used in the treatment of oxygen deprivation."
-	taste_description = "sourness"
 	reagent_state = LIQUID
 	color = "#0080FF"
 	overdose = REAGENTS_OVERDOSE
@@ -98,7 +89,6 @@
 	name = "Dexalin Plus"
 	id = "dexalinp"
 	description = "Dexalin Plus is used in the treatment of oxygen deprivation. It is highly effective."
-	taste_description = "sour and refreshing slime"
 	reagent_state = LIQUID
 	color = "#0040FF"
 	overdose = REAGENTS_OVERDOSE * 0.5
@@ -116,7 +106,6 @@
 	name = "Tricordrazine"
 	id = "tricordrazine"
 	description = "Tricordrazine is a highly potent stimulant, originally derived from cordrazine. Can be used to treat a wide range of injuries."
-	taste_description = "sour"
 	reagent_state = LIQUID
 	color = "#8040FF"
 	scannable = 1
@@ -131,7 +120,6 @@
 	name = "Cryoxadone"
 	id = "cryoxadone"
 	description = "A chemical mixture with almost magical healing powers. Its main limitation is that the targets body temperature must be under 170K for it to metabolise correctly."
-	taste_description = "fizzy toxin"
 	reagent_state = LIQUID
 	color = "#8080FF"
 	metabolism = REM * 0.5
@@ -143,13 +131,11 @@
 		M.adjustOxyLoss(-10 * removed)
 		M.heal_organ_damage(10 * removed, 10 * removed)
 		M.adjustToxLoss(-10 * removed)
-		M.add_chemical_effect(CE_PULSE, -2)
 
 /datum/reagent/clonexadone
 	name = "Clonexadone"
 	id = "clonexadone"
 	description = "A liquid compound similar to that used in the cloning process. Can be used to 'finish' the cloning process when used in conjunction with a cryo tube."
-	taste_description = "fizzy and slimy toxin"
 	reagent_state = LIQUID
 	color = "#80BFFF"
 	metabolism = REM * 0.5
@@ -161,7 +147,6 @@
 		M.adjustOxyLoss(-30 * removed)
 		M.heal_organ_damage(30 * removed, 30 * removed)
 		M.adjustToxLoss(-30 * removed)
-		M.add_chemical_effect(CE_PULSE, -2)
 
 /* Painkillers */
 
@@ -169,7 +154,6 @@
 	name = "Paracetamol"
 	id = "paracetamol"
 	description = "Most probably know this as Tylenol, but this chemical is a mild, simple painkiller."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	overdose = 60
@@ -187,7 +171,6 @@
 	name = "Tramadol"
 	id = "tramadol"
 	description = "A simple, yet effective painkiller."
-	taste_description = "sourness"
 	reagent_state = LIQUID
 	color = "#CB68FC"
 	overdose = 30
@@ -205,7 +188,6 @@
 	name = "Oxycodone"
 	id = "oxycodone"
 	description = "An effective and very addictive painkiller."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#800080"
 	overdose = 20
@@ -225,7 +207,6 @@
 	name = "Synaptizine"
 	id = "synaptizine"
 	description = "Synaptizine is used to treat various diseases."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#99CCFF"
 	metabolism = REM * 0.05
@@ -241,28 +222,13 @@
 	M.AdjustWeakened(-1)
 	holder.remove_reagent("mindbreaker", 5)
 	M.hallucination = max(0, M.hallucination - 10)
-	M.adjustToxLoss(50 * removed) // ~It used to be incredibly deadly due to an oversight. Not anymore!~ Still as deadly
+	M.adjustToxLoss(5 * removed) // It used to be incredibly deadly due to an oversight. Not anymore!
 	M.add_chemical_effect(CE_PAINKILLER, 40)
-
-/datum/reagent/synaptirex
-	name = "Synaptirex"
-	id = "synaptirex"
-	description = "Synaptirex is used for cleaning blood from synaptizine"
-	taste_description = "recovery"
-	reagent_state = LIQUID
-	color = "#99CCAA"
-	overdose = REAGENTS_OVERDOSE
-	scannable = 1
-
-/datum/reagent/synaptirex/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
-	holder.remove_reagent("synaptizine", 2*REM)
-	..()
 
 /datum/reagent/alkysine
 	name = "Alkysine"
 	id = "alkysine"
 	description = "Alkysine is a drug used to lessen the damage to neurological tissue after a catastrophic injury. Can heal brain tissue."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#FFFF66"
 	metabolism = REM * 0.25
@@ -279,7 +245,6 @@
 	name = "Imidazoline"
 	id = "imidazoline"
 	description = "Heals eye damage"
-	taste_description = "dull toxin"
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	overdose = REAGENTS_OVERDOSE
@@ -290,16 +255,19 @@
 	M.eye_blind = max(M.eye_blind - 5, 0)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name["eyes"]
-		if(E && istype(E))
+		var/obj/item/organ/internal/eyes/E = H.internal_organs_by_name[O_EYES]
+		if(istype(E))
+			if(E.robotic >= ORGAN_ROBOT)
+				return
 			if(E.damage > 0)
 				E.damage = max(E.damage - 5 * removed, 0)
+			if(E.damage <= 5 && E.organ_tag == O_EYES)
+				H.sdisabilities &= ~BLIND
 
 /datum/reagent/peridaxon
 	name = "Peridaxon"
 	id = "peridaxon"
 	description = "Used to encourage recovery of internal organs and nervous systems. Medicate cautiously."
-	taste_description = "luscious sweetness"
 	reagent_state = LIQUID
 	color = "#561EC3"
 	overdose = 10
@@ -308,16 +276,18 @@
 /datum/reagent/peridaxon/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-
-		for(var/obj/item/organ/internal/I in H.internal_organs)
-			if((I.damage > 0) && (I.robotic != 2)) //Peridaxon heals only non-robotic organs
+		for(var/obj/item/organ/I in H.internal_organs)
+			if(I.robotic >= ORGAN_ROBOT)
+				continue
+			if(I.damage > 0) //Peridaxon heals only non-robotic organs
 				I.damage = max(I.damage - removed, 0)
+			if(I.damage <= 5 && I.organ_tag == O_EYES)
+				H.sdisabilities &= ~BLIND
 
 /datum/reagent/ryetalyn
 	name = "Ryetalyn"
 	id = "ryetalyn"
 	description = "Ryetalyn can cure all genetic abnomalities via a catalytic process."
-	taste_description = "acid"
 	reagent_state = SOLID
 	color = "#004000"
 	overdose = REAGENTS_OVERDOSE
@@ -338,7 +308,6 @@
 	name = "Hyperzine"
 	id = "hyperzine"
 	description = "Hyperzine is a highly effective, long lasting, muscle stimulant."
-	taste_description = "acid"
 	reagent_state = LIQUID
 	color = "#FF3300"
 	metabolism = REM * 0.15
@@ -350,7 +319,6 @@
 	if(prob(5))
 		M.emote(pick("twitch", "blink_r", "shiver"))
 	M.add_chemical_effect(CE_SPEEDBOOST, 1)
-	M.add_chemical_effect(CE_PULSE, 2)
 
 /datum/reagent/ethylredoxrazine
 	name = "Ethylredoxrazine"
@@ -376,7 +344,6 @@
 	name = "Hyronalin"
 	id = "hyronalin"
 	description = "Hyronalin is a medicinal drug used to counter the effect of radiation poisoning."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#408000"
 	metabolism = REM * 0.25
@@ -406,7 +373,6 @@
 	name = "Spaceacillin"
 	id = "spaceacillin"
 	description = "An all-purpose antiviral agent."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#C1C1C1"
 	metabolism = REM * 0.05
@@ -417,12 +383,10 @@
 	name = "Sterilizine"
 	id = "sterilizine"
 	description = "Sterilizes wounds in preparation for surgery and thoroughly removes blood."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	touch_met = 5
 
-/*Âåðíóòü, åñëè ïåðåíåñåì êðèìèíàëèñòèêó
 /datum/reagent/sterilizine/affect_touch(var/mob/living/carbon/M, var/alien, var/removed)
 	M.germ_level -= min(removed*20, M.germ_level)
 	for(var/obj/item/I in M.contents)
@@ -439,13 +403,11 @@
 		I.was_bloodied = null
 	for(var/obj/effect/decal/cleanable/blood/B in T)
 		qdel(B)
-*/
 
 /datum/reagent/leporazine
 	name = "Leporazine"
 	id = "leporazine"
 	description = "Leporazine can be use to stabilize an individuals body temperature."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#C8A5DC"
 	overdose = REAGENTS_OVERDOSE
@@ -465,7 +427,6 @@
 	name = "Methylphenidate"
 	id = "methylphenidate"
 	description = "Improves the ability to concentrate."
-	taste_description = "sourness"
 	reagent_state = LIQUID
 	color = "#BF80BF"
 	metabolism = 0.01
@@ -486,7 +447,6 @@
 	name = "Citalopram"
 	id = "citalopram"
 	description = "Stabilizes the mind a little."
-	taste_description = "bitterness"
 	reagent_state = LIQUID
 	color = "#FF80FF"
 	metabolism = 0.01
@@ -531,7 +491,6 @@
 	name = "Rezadone"
 	id = "rezadone"
 	description = "A powder with almost magical properties, this substance can effectively treat genetic damage in humanoids, though excessive consumption has side effects."
-	taste_description = "sickness"
 	reagent_state = SOLID
 	color = "#669900"
 	overdose = REAGENTS_OVERDOSE

@@ -5,14 +5,15 @@
 var/datum/global_hud/global_hud = new()
 var/list/global_huds = list(
 		global_hud.druggy,
-		global_hud.horny, //Stolaire stuff
 		global_hud.blurry,
+		global_hud.whitense,
 		global_hud.vimpaired,
 		global_hud.darkMask,
 		global_hud.nvg,
 		global_hud.thermal,
 		global_hud.meson,
-		global_hud.science)
+		global_hud.science
+		)
 
 /datum/hud/var/obj/screen/grab_intent
 /datum/hud/var/obj/screen/hurt_intent
@@ -21,8 +22,8 @@ var/list/global_huds = list(
 
 /datum/global_hud
 	var/obj/screen/druggy
-	var/obj/screen/horny //Stolaire stuff
 	var/obj/screen/blurry
+	var/obj/screen/whitense
 	var/list/vimpaired
 	var/list/darkMask
 	var/obj/screen/nvg
@@ -37,29 +38,31 @@ var/list/global_huds = list(
 	screen.icon_state = icon_state
 	screen.layer = SCREEN_LAYER
 	screen.mouse_opacity = 0
+
 	return screen
 
 /datum/global_hud/New()
 	//420erryday psychedellic colours screen overlay for when you are high
 	druggy = new /obj/screen()
-	druggy.screen_loc = "WEST,SOUTH to EAST,NORTH"
+	druggy.screen_loc = ui_entire_screen
 	druggy.icon_state = "druggy"
 	druggy.layer = 17
 	druggy.mouse_opacity = 0
 
-	//Stolaire stuff
-	horny = new /obj/screen()
-	horny.screen_loc = "WEST,SOUTH to EAST,NORTH"
-	horny.icon_state = "horny"
-	horny.layer = 17
-	horny.mouse_opacity = 0
-
 	//that white blurry effect you get when you eyes are damaged
 	blurry = new /obj/screen()
-	blurry.screen_loc = "WEST,SOUTH to EAST,NORTH"
+	blurry.screen_loc = ui_entire_screen
 	blurry.icon_state = "blurry"
 	blurry.layer = 17
 	blurry.mouse_opacity = 0
+
+	//static overlay effect for cameras and the like
+	whitense = new /obj/screen()
+	whitense.screen_loc = ui_entire_screen
+	whitense.icon = 'icons/effects/static.dmi'
+	whitense.icon_state = "1 light"
+	whitense.layer = 17
+	whitense.mouse_opacity = 0
 
 	nvg = setup_overlay("nvg_hud")
 	thermal = setup_overlay("thermal_hud")
@@ -82,21 +85,21 @@ var/list/global_huds = list(
 	//welding mask overlay black/dither
 	darkMask = newlist(/obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen, /obj/screen)
 	O = darkMask[1]
-	O.screen_loc = "3,3 to 5,13"
+	O.screen_loc = "WEST+2,SOUTH+2 to WEST+4,NORTH-2"
 	O = darkMask[2]
-	O.screen_loc = "5,3 to 10,5"
+	O.screen_loc = "WEST+4,SOUTH+2 to EAST-5,SOUTH+4"
 	O = darkMask[3]
-	O.screen_loc = "6,11 to 10,13"
+	O.screen_loc = "WEST+5,NORTH-4 to EAST-5,NORTH-2"
 	O = darkMask[4]
-	O.screen_loc = "11,3 to 13,13"
+	O.screen_loc = "EAST-4,SOUTH+2 to EAST-2,NORTH-2"
 	O = darkMask[5]
-	O.screen_loc = "1,1 to 15,2"
+	O.screen_loc = "WEST,SOUTH to EAST,SOUTH+1"
 	O = darkMask[6]
-	O.screen_loc = "1,3 to 2,15"
+	O.screen_loc = "WEST,SOUTH+2 to WEST+1,NORTH"
 	O = darkMask[7]
-	O.screen_loc = "14,3 to 15,15"
+	O.screen_loc = "EAST-1,SOUTH+2 to EAST,NORTH"
 	O = darkMask[8]
-	O.screen_loc = "3,14 to 13,15"
+	O.screen_loc = "WEST+2,NORTH-1 to EAST-2,NORTH"
 
 	for(i = 1, i <= 4, i++)
 		O = vimpaired[i]
@@ -136,15 +139,13 @@ var/list/global_huds = list(
 	var/obj/screen/l_hand_hud_object
 	var/obj/screen/action_intent
 	var/obj/screen/move_intent
-	var/obj/screen/toggle_lights
-	var/obj/screen/state_laws
-	var/obj/screen/send_message
 
 	var/list/adding
 	var/list/other
 	var/list/obj/screen/hotkeybuttons
 
-	var/list/obj/screen/item_action/item_action_list = list()	//Used for the item action ui buttons.
+	var/obj/screen/movable/action_button/hide_toggle/hide_actions_toggle
+	var/action_buttons_hidden = 0
 
 datum/hud/New(mob/owner)
 	mymob = owner
@@ -167,7 +168,7 @@ datum/hud/New(mob/owner)
 	adding = null
 	other = null
 	hotkeybuttons = null
-	item_action_list = null
+//	item_action_list = null // ?
 	mymob = null
 
 /datum/hud/proc/hidden_inventory_update()
@@ -216,8 +217,6 @@ datum/hud/New(mob/owner)
 						if(H.wear_suit) H.wear_suit.screen_loc = null
 					if(slot_wear_mask)
 						if(H.wear_mask) H.wear_mask.screen_loc = null
-		for(var/obj/item/clothing/hidden/item in list(H.h_socks, H.h_underwear, H.undershirt))
-			if(item) item.screen_loc = null
 
 
 /datum/hud/proc/persistant_inventory_update()
@@ -256,8 +255,7 @@ datum/hud/New(mob/owner)
 						if(H.l_store) H.l_store.screen_loc = null
 					if(slot_r_store)
 						if(H.r_store) H.r_store.screen_loc = null
-		for(var/obj/item/clothing/hidden/item in list(H.h_socks, H.h_underwear, H.undershirt))
-			if(item) item.screen_loc = null
+
 
 /datum/hud/proc/instantiate()
 	if(!ismob(mymob)) return 0
@@ -268,18 +266,16 @@ datum/hud/New(mob/owner)
 
 	if(ishuman(mymob))
 		human_hud(ui_style, ui_color, ui_alpha, mymob) // Pass the player the UI style chosen in preferences
-	else if(issmall(mymob))
-		monkey_hud(ui_style)
+	else if(isrobot(mymob))
+		robot_hud(ui_style, ui_color, ui_alpha, mymob)
 	else if(isbrain(mymob))
-		brain_hud(ui_style)
+		mymob.instantiate_hud(src)
 	else if(isalien(mymob))
 		larva_hud()
 	else if(isslime(mymob))
 		slime_hud()
 	else if(isAI(mymob))
 		ai_hud()
-	else if(isrobot(mymob))
-		robot_hud()
 	else if(isobserver(mymob))
 		ghost_hud()
 	else
@@ -294,11 +290,11 @@ datum/hud/New(mob/owner)
 	set hidden = 1
 
 	if(!hud_used)
-		usr << "\red This mob type does not use a HUD."
+		usr << "<span class='warning'>This mob type does not use a HUD.</span>"
 		return
 
 	if(!ishuman(src))
-		usr << "\red Inventory hiding is currently only supported for human mobs, sorry."
+		usr << "<span class='warning'>Inventory hiding is currently only supported for human mobs, sorry.</span>"
 		return
 
 	if(!client) return
@@ -312,8 +308,6 @@ datum/hud/New(mob/owner)
 			src.client.screen -= src.hud_used.other
 		if(src.hud_used.hotkeybuttons)
 			src.client.screen -= src.hud_used.hotkeybuttons
-		if(src.hud_used.item_action_list)
-			src.client.screen -= src.hud_used.item_action_list
 
 		//Due to some poor coding some things need special treatment:
 		//These ones are a part of 'adding', 'other' or 'hotkeybuttons' but we want them to stay
@@ -371,8 +365,6 @@ datum/hud/New(mob/owner)
 			src.client.screen -= src.hud_used.other
 		if(src.hud_used.hotkeybuttons)
 			src.client.screen -= src.hud_used.hotkeybuttons
-		if(src.hud_used.item_action_list)
-			src.client.screen -= src.hud_used.item_action_list
 		src.client.screen -= src.internals
 		src.client.screen += src.hud_used.action_intent		//we want the intent swticher visible
 	else
@@ -390,3 +382,9 @@ datum/hud/New(mob/owner)
 	hud_used.hidden_inventory_update()
 	hud_used.persistant_inventory_update()
 	update_action_buttons()
+
+/mob/proc/add_click_catcher()
+	client.screen += client.void
+
+/mob/new_player/add_click_catcher()
+	return

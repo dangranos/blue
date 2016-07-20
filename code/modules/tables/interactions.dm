@@ -10,6 +10,8 @@
 			return 1
 	if(istype(mover) && mover.checkpass(PASSTABLE))
 		return 1
+	if(locate(/obj/structure/table/bench) in get_turf(mover))
+		return 0
 	if(locate(/obj/structure/table) in get_turf(mover))
 		return 1
 	return 0
@@ -60,7 +62,7 @@
 
 /obj/structure/table/MouseDrop_T(obj/O as obj, mob/user as mob)
 
-	if ((!( istype(O, /obj/item/weapon) ) || user.get_active_hand() != O))
+	if(!istype(O, /obj/item/weapon) || user.get_active_hand() != O)
 		return ..()
 	if(isrobot(user))
 		return
@@ -76,7 +78,7 @@
 	// Handle harm intent grabbing/tabling.
 	if(istype(W, /obj/item/weapon/grab) && get_dist(src,user)<2)
 		var/obj/item/weapon/grab/G = W
-		if (istype(G.affecting, /mob/living) && get_dist(src,G.affecting)<2)
+		if (istype(G.affecting, /mob/living))
 			var/mob/living/M = G.affecting
 			var/obj/occupied = turf_is_crowded()
 			if(occupied)
@@ -85,7 +87,7 @@
 			if (G.state < 2)
 				if(user.a_intent == I_HURT)
 					if (prob(15))	M.Weaken(5)
-					M.apply_damage(8,def_zone = "head")
+					M.apply_damage(8,def_zone = BP_HEAD)
 					visible_message("<span class='danger'>[G.assailant] slams [G.affecting]'s face against \the [src]!</span>")
 					if(material)
 						playsound(loc, material.tableslam_noise, 50, 1)
@@ -97,9 +99,9 @@
 						if(prob(50))
 							M.visible_message("<span class='danger'>\The [S] slices [M]'s face messily!</span>",
 							                   "<span class='danger'>\The [S] slices your face messily!</span>")
-							M.apply_damage(10, def_zone = "head")
+							M.apply_damage(10, def_zone = BP_HEAD)
 							if(prob(2))
-								M.embed(S, def_zone = "head")
+								M.embed(S, def_zone = BP_HEAD)
 				else
 					user << "<span class='danger'>You need a better grip to do that!</span>"
 					return
@@ -127,11 +129,17 @@
 		break_to_parts()
 		return
 
+	if(istype(W, /obj/item/weapon/melee/arm_blade))
+		user.visible_message("<span class='danger'>\The [src] was sliced apart by [user]!</span>")
+		break_to_parts()
+		return
+
 	if(can_plate && !material)
 		user << "<span class='warning'>There's nothing to put \the [W] on! Try adding plating to \the [src] first.</span>"
 		return
 
-	user.drop_item(src.loc)
+	if(item_place)
+		user.drop_item(src.loc)
 	return
 
 /obj/structure/table/attack_tk() // no telehulk sorry

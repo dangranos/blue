@@ -12,7 +12,7 @@
 
   9   1   5
 	\ | /
-  8 - 0 - 4
+  8 - 0 - 4,
 	/ | \
   10  2   6
 
@@ -21,6 +21,27 @@ If d1 = 0 and d2 = dir, it's a O-X cable, getting from the center of the tile to
 If d1 = dir1 and d2 = dir2, it's a full X-X cable, getting from dir1 to dir2
 By design, d1 is the smallest direction and d2 is the highest
 */
+var/list/possible_cable_coil_colours = list(
+		"White" = COLOR_WHITE,
+		"Silver" = COLOR_SILVER,
+		"Gray" = COLOR_GRAY,
+		"Black" = COLOR_BLACK,
+		"Red" = COLOR_RED,
+		"Maroon" = COLOR_MAROON,
+		"Yellow" = COLOR_YELLOW,
+		"Olive" = COLOR_OLIVE,
+		"Lime" = COLOR_GREEN,
+		"Green" = COLOR_LIME,
+		"Cyan" = COLOR_CYAN,
+		"Teal" = COLOR_TEAL,
+		"Blue" = COLOR_BLUE,
+		"Navy" = COLOR_NAVY,
+		"Pink" = COLOR_PINK,
+		"Purple" = COLOR_PURPLE,
+		"Orange" = COLOR_ORANGE,
+		"Beige" = COLOR_BEIGE,
+		"Brown" = COLOR_BROWN
+	)
 
 /obj/structure/cable
 	level = 1
@@ -50,7 +71,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	color = COLOR_YELLOW
 
 /obj/structure/cable/green
-	color = COLOR_GREEN
+	color = COLOR_LIME
 
 /obj/structure/cable/blue
 	color = COLOR_BLUE
@@ -70,7 +91,6 @@ By design, d1 is the smallest direction and d2 is the highest
 /obj/structure/cable/New()
 	..()
 
-
 	// ensure d1 & d2 reflect the icon_state for entering and exiting cable
 
 	var/dash = findtext(icon_state, "-")
@@ -80,8 +100,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	d2 = text2num( copytext( icon_state, dash+1 ) )
 
 	var/turf/T = src.loc			// hide if turf is not intact
-
-	if(level==1) hide(T.intact)
+	if(level==1) hide(!T.is_plating())
 	cable_list += src //add it to the global cable list
 
 
@@ -97,10 +116,12 @@ By design, d1 is the smallest direction and d2 is the highest
 
 //If underfloor, hide the cable
 /obj/structure/cable/hide(var/i)
-
-	if(level == 1 && istype(loc, /turf))
+	if(istype(loc, /turf))
 		invisibility = i ? 101 : 0
 	updateicon()
+
+/obj/structure/cable/hides_under_flooring()
+	return 1
 
 /obj/structure/cable/proc/updateicon()
 	icon_state = "[d1]-[d2]"
@@ -119,18 +140,18 @@ By design, d1 is the smallest direction and d2 is the highest
 //   - Cable coil : merge cables
 //   - Multitool : get the power currently passing through the cable
 //
+
 /obj/structure/cable/attackby(obj/item/W, mob/user)
 
 	var/turf/T = src.loc
-	if(T.intact)
+	if(!T.is_plating())
 		return
 
 	if(istype(W, /obj/item/weapon/wirecutters))
-///// Z-Level Stuff
-		if(src.d1 == 12 || src.d2 == 12)
+		if(d1 == 12 || d2 == 12)
 			user << "<span class='warning'>You must cut this cable from above.</span>"
 			return
-///// Z-Level Stuff
+
 		if(breaker_box)
 			user << "\red This cable is connected to nearby breaker box. Use breaker box to interact with it."
 			return
@@ -146,16 +167,13 @@ By design, d1 is the smallest direction and d2 is the highest
 		for(var/mob/O in viewers(src, null))
 			O.show_message("<span class='warning'>[user] cuts the cable.</span>", 1)
 
-///// Z-Level Stuff
-		if(src.d1 == 11 || src.d2 == 11)
-			var/turf/controllerlocation = locate(1, 1, z)
-			for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-				if(controller.down)
-					var/turf/below = locate(src.x, src.y, controller.down_target)
-					for(var/obj/structure/cable/c in below)
-						if(c.d1 == 12 || c.d2 == 12)
-							qdel(c)
-///// Z-Level Stuff
+		if(d1 == 11 || d2 == 11)
+			var/turf/turf = GetBelow(src)
+			if(turf)
+				for(var/obj/structure/cable/c in turf)
+					if(c.d1 == 12 || c.d2 == 12)
+						qdel(c)
+
 		investigate_log("was cut by [key_name(usr, usr.client)] in [user.loc.loc]","wires")
 
 		qdel(src)
@@ -347,64 +365,51 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	. = list()	// this will be a list of all connected power objects
 	var/turf/T
 
-///// Z-Level Stuff
-	if (d1 == 11 || d1 == 12)
-		var/turf/controllerlocation = locate(1, 1, z)
-		for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-			if(controller.up && d1 == 12)
-				T = locate(src.x, src.y, controller.up_target)
-				if(T)
-					. += power_list(T, src, 11, 1)
-			if(controller.down && d1 == 11)
-				T = locate(src.x, src.y, controller.down_target)
-				if(T)
-					. += power_list(T, src, 12, 1)
-///// Z-Level Stuff
-	//get matching cables from the first direction
-	else if(d1) //if not a node cable
-		T = get_step(src, d1)
+	// Handle up/down cables
+	if(d1 == 11 || d2 == 11)
+		T = GetBelow(src)
 		if(T)
-			. += power_list(T, src, turn(d1, 180), powernetless_only) //get adjacents matching cables
-
-	if(d1&(d1-1)) //diagonal direction, must check the 4 possibles adjacents tiles
-		T = get_step(src,d1&3) // go north/south
+			. += power_list(T, src, 12, 1)
+	if(d1 == 12 || d1 == 12)
+		T = GetAbove(src)
 		if(T)
-			. += power_list(T, src, d1 ^ 3, powernetless_only) //get diagonally matching cables
-		T = get_step(src,d1&12) // go east/west
+			. += power_list(T, src, 11, 1)
+
+	// Handle standard cables in adjacent turfs
+	for(var/cable_dir in list(d1, d2))
+		if(cable_dir == 11 || cable_dir == 12 || cable_dir == 0)
+			continue
+		var/reverse = reverse_dir[cable_dir]
+		T = get_step(src, cable_dir)
 		if(T)
-			. += power_list(T, src, d1 ^ 12, powernetless_only) //get diagonally matching cables
-
-	. += power_list(loc, src, d1, powernetless_only) //get on turf matching cables
-
-///// Z-Level Stuff
-	if(d2 == 11 || d2 == 12)
-		var/turf/controllerlocation = locate(1, 1, z)
-		for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-			if(controller.up && d2 == 12)
-				T = locate(src.x, src.y, controller.up_target)
+			for(var/obj/structure/cable/C in T)
+				if((C.d1 && C.d1 == reverse) || (C.d2 && C.d2 == reverse))
+					. += C
+		if(cable_dir & (cable_dir - 1)) // Diagonal, check for /\/\/\ style cables along cardinal directions
+			for(var/pair in list(NORTH|SOUTH, EAST|WEST))
+				T = get_step(src, cable_dir & pair)
 				if(T)
-					. += power_list(T, src, 11, 1)
-			if(controller.down && d2 == 11)
-				T = locate(src.x, src.y, controller.down_target)
-				if(T)
-					. += power_list(T, src, 12, 1)
-///// Z-Level Stuff
-	else
-		//do the same on the second direction (which can't be 0)
-		T = get_step(src, d2)
-		if(T)
-			. += power_list(T, src, turn(d2, 180), powernetless_only) //get adjacents matching cables
+					var/req_dir = cable_dir ^ pair
+					for(var/obj/structure/cable/C in T)
+						if((C.d1 && C.d1 == req_dir) || (C.d2 && C.d2 == req_dir))
+							. += C
 
-		if(d2&(d2-1)) //diagonal direction, must check the 4 possibles adjacents tiles
-			T = get_step(src,d2&3) // go north/south
-			if(T)
-				. += power_list(T, src, d2 ^ 3, powernetless_only) //get diagonally matching cables
-			T = get_step(src,d2&12) // go east/west
-			if(T)
-				. += power_list(T, src, d2 ^ 12, powernetless_only) //get diagonally matching cables
-		. += power_list(loc, src, d2, powernetless_only) //get on turf matching cables
+	// Handle cables on the same turf as us
+	for(var/obj/structure/cable/C in loc)
+		if(C.d1 == d1 || C.d2 == d1 || C.d1 == d2 || C.d2 == d2) // if either of C's d1 and d2 match either of ours
+			. += C
 
-	return .
+	if(d1 == 0)
+		for(var/obj/machinery/power/P in loc)
+			if(P.powernet == 0) continue // exclude APCs with powernet=0
+			if(!powernetless_only || !P.powernet)
+				. += P
+
+	// if the caller asked for powernetless cables only, dump the ones with powernets
+	if(powernetless_only)
+		for(var/obj/structure/cable/C in .)
+			if(C.powernet)
+				. -= C
 
 //should be called after placing a cable which extends another cable, creating a "smooth" cable that no longer terminates in the centre of a turf.
 //needed as this can, unlike other placements, disconnect cables
@@ -480,6 +485,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	slot_flags = SLOT_BELT
 	item_state = "coil"
 	attack_verb = list("whipped", "lashed", "disciplined", "flogged")
+	stacktype = /obj/item/stack/cable_coil
 
 /obj/item/stack/cable_coil/cyborg
 	name = "cable coil synthesizer"
@@ -488,7 +494,6 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	matter = null
 	uses_charge = 1
 	charge_costs = list(1)
-	stacktype = /obj/item/stack/cable_coil
 
 /obj/item/stack/cable_coil/suicide_act(mob/user)
 	if(locate(/obj/item/weapon/stool) in user.loc)
@@ -512,31 +517,25 @@ obj/structure/cable/proc/cableColor(var/colorC)
 ///////////////////////////////////
 
 //you can use wires to heal robotics
-/obj/item/stack/cable_coil/attack(mob/M as mob, mob/user as mob)
-	if(istype(M,/mob/living/carbon/human))
-		var/mob/living/carbon/human/H = M
-		var/obj/item/organ/external/S = H.get_organ(user.zone_sel.selecting)
-		if(!S)
-			user << "<span class='warning'>[M] miss that body part!</span>"
-			return
+/obj/item/stack/cable_coil/attack(var/atom/A, var/mob/living/user, var/def_zone)
+	if(ishuman(A) && user.a_intent == I_HELP)
+		var/mob/living/carbon/human/H = A
+		var/obj/item/organ/external/S = H.organs_by_name[user.zone_sel.selecting]
 
-		if(!(S.status & ORGAN_ROBOT) || user.a_intent != "help")
+		if(!S || S.robotic < ORGAN_ROBOT || S.open == 3)
 			return ..()
 
-		if(S.burn_dam > 0 && use(1))
-			S.heal_damage(0,15,0,1)
-			user.visible_message("\red \The [user] repairs some burn damage on \the [M]'s [S.name] with \the [src].")
-			return
-		else
-			user << "Nothing to fix!"
+		var/use_amt = min(src.amount, ceil(S.burn_dam/3), 5)
+		if(can_use(use_amt))
+			if(S.robo_repair(3*use_amt, BURN, "some damaged wiring", src, user))
+				src.use(use_amt)
 
 	else
 		return ..()
 
-
 /obj/item/stack/cable_coil/update_icon()
 	if (!color)
-		color = pick(COLOR_RED, COLOR_BLUE, COLOR_GREEN, COLOR_ORANGE, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN)
+		color = pick(COLOR_RED, COLOR_BLUE, COLOR_LIME, COLOR_ORANGE, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN)
 	if(amount == 1)
 		icon_state = "coil1"
 		name = "cable piece"
@@ -547,15 +546,26 @@ obj/structure/cable/proc/cableColor(var/colorC)
 		icon_state = "coil"
 		name = "cable coil"
 
+/obj/item/stack/cable_coil/proc/set_cable_color(var/selected_color, var/user)
+	if(!selected_color)
+		return
+
+	var/final_color = possible_cable_coil_colours[selected_color]
+	if(!final_color)
+		final_color = possible_cable_coil_colours["Red"]
+		selected_color = "red"
+	color = final_color
+	user << "<span class='notice'>You change \the [src]'s color to [lowertext(selected_color)].</span>"
+
 /obj/item/stack/cable_coil/proc/update_wclass()
 	if(amount == 1)
 		w_class = 1.0
 	else
 		w_class = 2.0
 
-/obj/item/stack/cable_coil/examine(mob/user, return_dist=1)
-	.=..()
-	if(.>1) return
+/obj/item/stack/cable_coil/examine(mob/user)
+	if(get_dist(src, user) > 1)
+		return
 
 	if(get_amount() == 1)
 		user << "A short piece of power cable."
@@ -587,42 +597,16 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	set name = "Change Colour"
 	set category = "Object"
 
-	var/list/possible_colours = list ("Yellow", "Green", "Pink", "Blue", "Orange", "Cyan", "Red")
-	var/selected_type = input("Pick new colour.", "Cable Colour", null, null) as null|anything in possible_colours
-
-	if(selected_type)
-		switch(selected_type)
-			if("Yellow")
-				color = COLOR_YELLOW
-			if("Green")
-				color = COLOR_GREEN
-			if("Pink")
-				color = COLOR_PINK
-			if("Blue")
-				color = COLOR_BLUE
-			if("Orange")
-				color = COLOR_ORANGE
-			if("Cyan")
-				color = COLOR_CYAN
-			else
-				color = COLOR_RED
-		usr << "You change your cable coil's colour to [selected_type]"
+	var/selected_type = input("Pick new colour.", "Cable Colour", null, null) as null|anything in possible_cable_coil_colours
+	set_cable_color(selected_type, usr)
 
 // Items usable on a cable coil :
 //   - Wirecutters : cut them duh !
 //   - Cable coil : merge cables
-/obj/item/stack/cable_coil/proc/can_merge(var/obj/item/stack/cable_coil/C)
-	return color == C.color
-
-/obj/item/stack/cable_coil/cyborg/can_merge()
-	return 1
 
 /obj/item/stack/cable_coil/transfer_to(obj/item/stack/cable_coil/S)
 	if(!istype(S))
 		return
-	if(!can_merge(S))
-		return
-
 	..()
 
 /obj/item/stack/cable_coil/use()
@@ -652,7 +636,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 		user << "You can't lay cable at a place that far away."
 		return
 
-	if(F.intact)		// Ff floor is intact, complain
+	if(!F.is_plating())		// Ff floor is intact, complain
 		user << "You can't lay cable there unless the floor tiles are removed."
 		return
 
@@ -670,15 +654,14 @@ obj/structure/cable/proc/cableColor(var/colorC)
 				return
 ///// Z-Level Stuff
 		// check if the target is open space
-		if(istype(F, /turf/simulated/floor/open))
+		if(istype(F, /turf/simulated/open))
 			for(var/obj/structure/cable/LC in F)
 				if((LC.d1 == dirn && LC.d2 == 11 ) || ( LC.d2 == dirn && LC.d1 == 11))
 					user << "<span class='warning'>There's already a cable at that position.</span>"
 					return
 
-			var/turf/simulated/floor/open/temp = F
 			var/obj/structure/cable/C = new(F)
-			var/obj/structure/cable/D = new(temp.floorbelow)
+			var/obj/structure/cable/D = new(GetBelow(F))
 
 			C.cableColor(color)
 
@@ -747,7 +730,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 
 	var/turf/T = C.loc
 
-	if(!isturf(T) || T.intact)		// sanity checks, also stop use interacting with T-scanner revealed cable
+	if(!isturf(T) || !T.is_plating())		// sanity checks, also stop use interacting with T-scanner revealed cable
 		return
 
 	if(get_dist(C, user) > 1)		// make sure it's close enough
@@ -763,7 +746,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 
 	// one end of the clicked cable is pointing towards us
 	if(C.d1 == dirn || C.d2 == dirn)
-		if(U.intact)						// can't place a cable if the floor is complete
+		if(!U.is_plating())						// can't place a cable if the floor is complete
 			user << "You can't lay cable there unless the floor tiles are removed."
 			return
 		else
@@ -870,26 +853,78 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	update_wclass()
 
 /obj/item/stack/cable_coil/yellow
+	stacktype = /obj/item/stack/cable_coil
 	color = COLOR_YELLOW
 
 /obj/item/stack/cable_coil/blue
+	stacktype = /obj/item/stack/cable_coil
 	color = COLOR_BLUE
 
 /obj/item/stack/cable_coil/green
-	color = COLOR_GREEN
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_LIME
 
 /obj/item/stack/cable_coil/pink
+	stacktype = /obj/item/stack/cable_coil
 	color = COLOR_PINK
 
 /obj/item/stack/cable_coil/orange
+	stacktype = /obj/item/stack/cable_coil
 	color = COLOR_ORANGE
 
 /obj/item/stack/cable_coil/cyan
+	stacktype = /obj/item/stack/cable_coil
 	color = COLOR_CYAN
 
 /obj/item/stack/cable_coil/white
+	stacktype = /obj/item/stack/cable_coil
 	color = COLOR_WHITE
 
+/obj/item/stack/cable_coil/silver
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_SILVER
+
+/obj/item/stack/cable_coil/gray
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_GRAY
+
+/obj/item/stack/cable_coil/black
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_BLACK
+
+/obj/item/stack/cable_coil/maroon
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_MAROON
+
+/obj/item/stack/cable_coil/olive
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_OLIVE
+
+/obj/item/stack/cable_coil/lime
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_LIME
+
+/obj/item/stack/cable_coil/teal
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_TEAL
+
+/obj/item/stack/cable_coil/navy
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_NAVY
+
+/obj/item/stack/cable_coil/purple
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_PURPLE
+
+/obj/item/stack/cable_coil/beige
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_BEIGE
+
+/obj/item/stack/cable_coil/brown
+	stacktype = /obj/item/stack/cable_coil
+	color = COLOR_BROWN
+
 /obj/item/stack/cable_coil/random/New()
-	color = pick(COLOR_RED, COLOR_BLUE, COLOR_GREEN, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN)
+	stacktype = /obj/item/stack/cable_coil
+	color = pick(COLOR_RED, COLOR_BLUE, COLOR_LIME, COLOR_WHITE, COLOR_PINK, COLOR_YELLOW, COLOR_CYAN, COLOR_SILVER, COLOR_GRAY, COLOR_BLACK, COLOR_MAROON, COLOR_OLIVE, COLOR_LIME, COLOR_TEAL, COLOR_NAVY, COLOR_PURPLE, COLOR_BEIGE, COLOR_BROWN)
 	..()

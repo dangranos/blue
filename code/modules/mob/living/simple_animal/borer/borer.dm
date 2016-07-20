@@ -8,6 +8,7 @@
 	response_disarm = "prods"
 	response_harm   = "stomps on"
 	icon_state = "brainslug"
+	item_state = "brainslug"
 	icon_living = "brainslug"
 	icon_dead = "brainslug_dead"
 	speed = 5
@@ -82,7 +83,7 @@
 					return
 
 				if(prob(5))
-					host.adjustBrainLoss(rand(1,2))
+					host.adjustBrainLoss(0.1)
 
 				if(prob(host.brainloss/20))
 					host.say("*[pick(list("blink","blink_r","choke","aflap","drool","twitch","twitch_s","gasp"))]")
@@ -105,7 +106,7 @@
 
 	if(istype(host,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = host
-		var/obj/item/organ/external/head = H.get_organ("head")
+		var/obj/item/organ/external/head = H.get_organ(BP_HEAD)
 		head.implants -= src
 
 	controlling = 0
@@ -172,7 +173,7 @@
 
 //Procs for grabbing players.
 /mob/living/simple_animal/borer/proc/request_player()
-	for(var/mob/dead/observer/O in player_list)
+	for(var/mob/observer/dead/O in player_list)
 		if(jobban_isbanned(O, "Borer"))
 			continue
 		if(O.client)

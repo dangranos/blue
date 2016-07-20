@@ -1,10 +1,11 @@
 /obj/structure
 	icon = 'icons/obj/structures.dmi'
+	w_class = 10
 
 	var/climbable
 	var/breakable
 	var/parts
-	var/tmp/list/climbers = list()
+	var/list/climbers = list()
 
 /obj/structure/Destroy()
 	if(parts)
@@ -18,7 +19,7 @@
 			attack_generic(user,1,"smashes")
 		else if(istype(user,/mob/living/carbon/human))
 			var/mob/living/carbon/human/H = user
-			if(H.can_shred(user))
+			if(H.species.can_shred(user))
 				attack_generic(user,1,"slices")
 
 	if(climbers.len && !(user in climbers))
@@ -27,13 +28,6 @@
 		structure_shaken()
 
 	return ..()
-
-/obj/structure/blob_act()
-	if(prob(50))
-		qdel(src)
-
-/obj/structure/meteorhit(obj/O as obj)
-	qdel(src)
 
 /obj/structure/attack_tk()
 	return
@@ -49,9 +43,6 @@
 				return
 		if(3.0)
 			return
-
-/obj/structure/meteorhit(obj/O as obj)
-	qdel(src)
 
 /obj/structure/New()
 	..()
@@ -79,7 +70,7 @@
 		return ..()
 
 /obj/structure/proc/can_climb(var/mob/living/user, post_climb_check=0)
-	if (!can_touch(user) || !climbable || (!post_climb_check && (user in climbers)))
+	if (!climbable || !can_touch(user) || (!post_climb_check && (user in climbers)))
 		return 0
 
 	if (!user.Adjacent(src))
@@ -111,7 +102,7 @@
 	usr.visible_message("<span class='warning'>[user] starts climbing onto \the [src]!</span>")
 	climbers |= user
 
-	if(!do_after(user,50))
+	if(!do_after(user,(issmall(user) ? 20 : 34)))
 		climbers -= user
 		return
 
@@ -150,15 +141,15 @@
 
 			switch(pick(list("ankle","wrist","head","knee","elbow")))
 				if("ankle")
-					affecting = H.get_organ(pick("l_foot", "r_foot"))
+					affecting = H.get_organ(pick(BP_L_FOOT, BP_R_FOOT))
 				if("knee")
-					affecting = H.get_organ(pick("l_leg", "r_leg"))
+					affecting = H.get_organ(pick(BP_L_LEG, BP_R_LEG))
 				if("wrist")
-					affecting = H.get_organ(pick("l_hand", "r_hand"))
+					affecting = H.get_organ(pick(BP_L_HAND, BP_R_HAND))
 				if("elbow")
-					affecting = H.get_organ(pick("l_arm", "r_arm"))
+					affecting = H.get_organ(pick(BP_L_ARM, BP_R_ARM))
 				if("head")
-					affecting = H.get_organ("head")
+					affecting = H.get_organ(BP_HEAD)
 
 			if(affecting)
 				M << "<span class='danger'>You land heavily on your [affecting.name]!</span>"
@@ -178,7 +169,7 @@
 		return 0
 	if(!Adjacent(user))
 		return 0
-	if (user.restrained() && user.buckled)
+	if (user.restrained() || user.buckled)
 		user << "<span class='notice'>You need your hands and legs free for this.</span>"
 		return 0
 	if (user.stat || user.paralysis || user.sleeping || user.lying || user.weakened)

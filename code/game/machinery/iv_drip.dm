@@ -3,9 +3,11 @@
 	icon = 'icons/obj/iv_drip.dmi'
 	anchored = 0
 	density = 1
-	var/mob/living/carbon/human/attached = null
-	var/mode = 1 // 1 is injecting, 0 is taking blood.
-	var/obj/item/weapon/reagent_containers/beaker = null
+
+
+/obj/machinery/iv_drip/var/mob/living/carbon/human/attached = null
+/obj/machinery/iv_drip/var/mode = 1 // 1 is injecting, 0 is taking blood.
+/obj/machinery/iv_drip/var/obj/item/weapon/reagent_containers/beaker = null
 
 /obj/machinery/iv_drip/update_icon()
 	if(src.attached)
@@ -34,15 +36,19 @@
 			overlays += filling
 
 /obj/machinery/iv_drip/MouseDrop(over_object, src_location, over_location)
-	if(!istype(usr, /mob/living/carbon/human)) return
-	if(in_range(src, usr) && ishuman(over_object) && get_dist(over_object, src) <= 1)
-		if(attached)
-			visible_message("[src.attached] is detached from \the [src]")
-			src.attached = null
-		else
-			visible_message("[usr] attaches \the [src] to \the [over_object].")
-			src.attached = over_object
+	..()
+	if(!isliving(usr))
+		return
 
+	if(attached)
+		visible_message("[src.attached] is detached from \the [src]")
+		src.attached = null
+		src.update_icon()
+		return
+
+	if(in_range(src, usr) && ishuman(over_object) && get_dist(over_object, src) <= 1)
+		visible_message("[usr] attaches \the [src] to \the [over_object].")
+		src.attached = over_object
 		src.update_icon()
 
 
@@ -57,6 +63,19 @@
 		src.beaker = W
 		user << "You attach \the [W] to \the [src]."
 		src.update_icon()
+		return
+
+	if(istype(W, /obj/item/weapon/screwdriver))
+		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
+		user << "<span class='notice'>You start to dismantle the IV drip.</span>"
+		if(do_after(user, 15))
+			user << "<span class='notice'>You dismantle the IV drip.</span>"
+			var/obj/item/stack/rods/A = new /obj/item/stack/rods( src.loc )
+			A.amount = 6
+			if(src.beaker)
+				src.beaker.loc = get_turf(src)
+				src.beaker = null
+			qdel(src)
 		return
 	else
 		return ..()
@@ -102,11 +121,11 @@
 			if(NOCLONE in T.mutations)
 				return
 
-			if(T.species && T.species.flags & NO_BLOOD)
+			if(!T.should_have_organ(O_HEART))
 				return
 
 			// If the human is losing too much blood, beep.
-			if(T.vessel.get_reagent_amount("blood") < BLOOD_VOLUME_SAFE) if(prob(5))
+			if(((T.vessel.get_reagent_amount("blood")/T.species.blood_volume)*100) < BLOOD_VOLUME_SAFE)
 				visible_message("\The [src] beeps loudly.")
 
 			var/datum/reagent/B = T.take_blood(beaker,amount)
@@ -142,19 +161,21 @@
 	mode = !mode
 	usr << "The IV drip is now [mode ? "injecting" : "taking blood"]."
 
-/obj/machinery/iv_drip/examine(mob/user, return_dist = 1)
-	. = ..()
-	if (. <= 2)
-		user << "The IV drip is [mode ? "injecting" : "taking blood"]."
-		if(beaker)
-			if(beaker.reagents && beaker.reagents.reagent_list.len)
-				usr << "<span class='notice'>Attached is \a [beaker] with [beaker.reagents.total_volume] units of liquid.</span>"
-			else
-				usr << "<span class='notice'>Attached is an empty [beaker].</span>"
-		else
-			usr << "<span class='notice'>No chemicals are attached.</span>"
+/obj/machinery/iv_drip/examine(mob/user)
+	..(user)
+	if (!(user in view(2)) && user!=src.loc) return
 
-		usr << "<span class='notice'>[attached ? attached : "No one"] is attached.</span>"
+	user << "The IV drip is [mode ? "injecting" : "taking blood"]."
+
+	if(beaker)
+		if(beaker.reagents && beaker.reagents.reagent_list.len)
+			usr << "<span class='notice'>Attached is \a [beaker] with [beaker.reagents.total_volume] units of liquid.</span>"
+		else
+			usr << "<span class='notice'>Attached is an empty [beaker].</span>"
+	else
+		usr << "<span class='notice'>No chemicals are attached.</span>"
+
+	usr << "<span class='notice'>[attached ? attached : "No one"] is attached.</span>"
 
 /obj/machinery/iv_drip/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
 	if(height && istype(mover) && mover.checkpass(PASSTABLE)) //allow bullets, beams, thrown objects, mice, drones, and the like through.

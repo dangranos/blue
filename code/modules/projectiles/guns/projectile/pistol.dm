@@ -1,25 +1,40 @@
 /obj/item/weapon/gun/projectile/colt
-	name = "vintage .45 pistol"
+	var/unique_reskin
+	name = ".45 pistol"
 	desc = "A cheap Martian knock-off of a Colt M1911. Uses .45 rounds."
 	magazine_type = /obj/item/ammo_magazine/c45m
+	allowed_magazines = list(/obj/item/ammo_magazine/c45m)
 	icon_state = "colt"
 	caliber = ".45"
-	origin_tech = "combat=2;materials=2"
-	fire_sound = 'sound/weapons/gunshotpistol.ogg'
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2)
+	fire_sound = 'sound/weapons/semiauto.ogg'
 	load_method = MAGAZINE
 
 /obj/item/weapon/gun/projectile/colt/detective
-	desc = "A cheap Martian knock-off of a Colt M1911. Uses .45 rounds."
+	desc = "A Martian recreation of an old Terran pistol. Uses .45 rounds."
 	magazine_type = /obj/item/ammo_magazine/c45m/rubber
+
+/obj/item/weapon/gun/projectile/colt/detective/update_icon()
+	if(ammo_magazine)
+		if(unique_reskin)
+			icon_state = unique_reskin
+		else
+			icon_state = initial(icon_state)
+	else
+		if(unique_reskin)
+			icon_state = "[unique_reskin]-e"
+		else
+			icon_state = "[initial(icon_state)]-e"
 
 /obj/item/weapon/gun/projectile/colt/detective/verb/rename_gun()
 	set name = "Name Gun"
 	set category = "Object"
-	set desc = "Rename your gun. If you're the detective."
+	set desc = "Rename your gun. If you're Security."
 
 	var/mob/M = usr
 	if(!M.mind)	return 0
-	if(!M.mind.assigned_role == "Detective")
+	var/job = M.mind.assigned_role
+	if(job != "Detective" && job != "Security Officer" && job != "Warden" && job != "Head of Security")
 		M << "<span class='notice'>You don't feel cool enough to name this gun, chump.</span>"
 		return 0
 
@@ -30,80 +45,60 @@
 		M << "You name the gun [input]. Say hello to your new friend."
 		return 1
 
+/obj/item/weapon/gun/projectile/colt/detective/verb/reskin_gun()
+	set name = "Resprite gun"
+	set category = "Object"
+	set desc = "Click to choose a sprite for your gun."
+
+	var/mob/M = usr
+	var/list/options = list()
+	options["NT Mk. 58"] = "secguncomp"
+	options["NT Mk. 58 Custom"] = "secgundark"
+	options["Colt M1911"] = "colt"
+	options["FiveSeven"] = "fnseven"
+	options["USP"] = "usp"
+	options["H&K VP"] = "VP78"
+	options["P08 Luger"] = "p08"
+	options["P08 Luger, Brown"] = "p08b"
+	var/choice = input(M,"What do you want the gun's sprite to be?","Resprite Gun") in options
+	if(src && choice && !M.stat && in_range(M,src))
+		icon_state = options[choice]
+		unique_reskin = options[choice]
+		M << "Your gun is now sprited as [choice]. Say hello to your new friend."
+		return 1
+
 /obj/item/weapon/gun/projectile/sec
-	desc = "The NT Mk58 is a NanoTrasen designed sidearm, found pretty much everywhere humans are. Uses .45 rounds."
 	name = ".45 pistol"
+	desc = "The NT Mk58 is a cheap, ubiquitous sidearm, produced by a NanoTrasen subsidiary. Found pretty much everywhere humans are. Uses .45 rounds."
 	icon_state = "secguncomp"
 	magazine_type = /obj/item/ammo_magazine/c45m/rubber
 	caliber = ".45"
-	origin_tech = "combat=2;materials=2"
-	fire_sound = 'sound/weapons/gunshotpistol.ogg'
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2)
+	fire_sound = 'sound/weapons/semiauto.ogg'
 	load_method = MAGAZINE
-	fire_delay = 2
-	accuracy = 1
 
 /obj/item/weapon/gun/projectile/sec/update_icon()
 	..()
-	icon_state = (ammo_magazine)? "secguncomp" : "secguncomp-empty"
-	update_held_icon()
-
+	if(ammo_magazine)
+		icon_state = "secguncomp"
+	else
+		icon_state = "secguncomp-e"
 
 /obj/item/weapon/gun/projectile/sec/flash
 	name = ".45 signal pistol"
 	magazine_type = /obj/item/ammo_magazine/c45m/flash
 
 /obj/item/weapon/gun/projectile/sec/wood
-	desc = "The NT Mk58 is a designed sidearm, this one is made of light materials and doesn't have any recoil. Uses .45 rounds."
-	name = "custom .45 pistol (LW)"
-	icon_state = "secgunlight"
-	recoil = 0
-	fire_delay = 3
+	desc = "The NT Mk58 is a cheap, ubiquitous sidearm, produced by a NanoTrasen subsidiary. This one has a sweet wooden grip. Uses .45 rounds."
+	name = "custom .45 Pistol"
+	icon_state = "secgundark"
 
 /obj/item/weapon/gun/projectile/sec/wood/update_icon()
 	..()
-	icon_state = (ammo_magazine)? "secgunlight" : "secgunlight-empty"
-	update_held_icon()
-
-/obj/item/weapon/gun/projectile/sec/longbarrel
-	desc = "The NT Mk58 is a designed sidearm, this one has a long barrel and will be more accurate. Uses .45 rounds."
-	name = "custom .45 pistol (LB)"
-	icon_state = "secgunlongbarrel"
-	recoil = 2
-	fire_delay = 4
-	accuracy = 2
-	fire_sound = 'sound/weapons/revolver_shoot.ogg'
-
-/obj/item/weapon/gun/projectile/sec/longbarrel/update_icon()
-	..()
-	icon_state = (ammo_magazine)? "secgunlongbarrel" : "secgunlongbarrel-empty"
-	update_held_icon()
-
-/obj/item/weapon/gun/projectile/sec/shortbarrel
-	desc = "The NT Mk58 is a designed sidearm, this one has a shortened barrel and must fit into a pocket. Uses .45 rounds."
-	name = "custom .45 pistol (SB)"
-	icon_state = "secgunshortbarrel"
-	recoil = 1
-	fire_delay = 2
-	accuracy = 0
-	w_class = 2
-
-/obj/item/weapon/gun/projectile/sec/shortbarrel/update_icon()
-	..()
-	icon_state = (ammo_magazine)? "secgunshortbarrel" : "secgunshortbarrel-empty"
-	update_held_icon()
-
-/obj/item/weapon/gun/projectile/sec/tactical
-	desc = "The NT Mk58 is a designed sidearm, this one has a system of automated magazine drop. Uses .45 rounds."
-	name = "custom .45 pistol (T)"
-	icon_state = "secguntactical"
-	fire_delay = 4
-	auto_eject = 1
-
-/obj/item/weapon/gun/projectile/sec/tactical/update_icon()
-	..()
-	icon_state = (ammo_magazine)? "secguntactical" : "secguntactical-empty"
-	update_held_icon()
-
+	if(ammo_magazine)
+		icon_state = "secgundark"
+	else
+		icon_state = "secgundark-e"
 
 /obj/item/weapon/gun/projectile/silenced
 	name = "silenced pistol"
@@ -112,45 +107,72 @@
 	w_class = 3
 	caliber = ".45"
 	silenced = 1
-	origin_tech = "combat=2;materials=2;syndicate=8"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2, TECH_ILLEGAL = 8)
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/c45m
+	allowed_magazines = list(/obj/item/ammo_magazine/c45m)
 
 /obj/item/weapon/gun/projectile/deagle
 	name = "desert eagle"
-	desc = "A robust handgun that uses .50 AE ammo"
+	desc = "A robust handgun that uses .50 AE rounds."
 	icon_state = "deagle"
 	item_state = "deagle"
 	force = 14.0
 	caliber = ".50"
 	load_method = MAGAZINE
+	fire_sound = 'sound/weapons/deagle.ogg'
 	magazine_type = /obj/item/ammo_magazine/a50
-	auto_eject = 1
+	allowed_magazines = list(/obj/item/ammo_magazine/a50)
+
+/obj/item/weapon/gun/projectile/deagle/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "[initial(icon_state)]"
+	else
+		icon_state = "[initial(icon_state)]-e"
 
 /obj/item/weapon/gun/projectile/deagle/gold
-	desc = "A gold plated gun folded over a million times by superior martian gunsmiths. Uses .50 AE ammo."
+	desc = "A gold plated gun folded over a million times by superior martian gunsmiths. Uses .50 AE rounds."
 	icon_state = "deagleg"
 	item_state = "deagleg"
 
 /obj/item/weapon/gun/projectile/deagle/camo
-	desc = "A Deagle brand Deagle for operators operating operationally. Uses .50 AE ammo."
+	desc = "A Deagle brand Deagle for operators operating operationally. Uses .50 AE rounds."
 	icon_state = "deaglecamo"
 	item_state = "deagleg"
-	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
 
+/*
+/obj/item/weapon/gun/projectile/fiveseven
+	name = "\improper WT-AP57"
+	desc = "This tacticool pistol made by Ward-Takahashi trades stopping power for armor piercing and a high capacity. Uses 5mm rounds."
+	icon_state = "fnseven"
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 2)
+	caliber = "5mm"
+	load_method = MAGAZINE
+	fire_sound = 'sound/weapons/semiauto.ogg'
+	magazine_type = /obj/item/ammo_magazine/c5mm
+	allowed_magazines = list(/obj/item/ammo_magazine/c5mm)
 
+/obj/item/weapon/gun/projectile/fiveseven/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "fnseven"
+	else
+		icon_state = "fnseven-empty"
+*/
 
-/obj/item/weapon/gun/projectile/gyropistol
+/obj/item/weapon/gun/projectile/gyropistol // Does this even appear anywhere outside of admin abuse?
 	name = "gyrojet pistol"
-	desc = "A bulky pistol designed to fire self propelled rounds"
+	desc = "Speak softly, and carry a big gun. Fires rare .75 caliber self-propelled exploding bolts--because fuck you and everything around you."
 	icon_state = "gyropistol"
 	max_shells = 8
 	caliber = "75"
-	fire_sound = 'sound/effects/Explosion1.ogg'
-	origin_tech = "combat=3"
+	fire_sound = 'sound/weapons/rpg.ogg'
+	origin_tech = list(TECH_COMBAT = 3)
 	ammo_type = "/obj/item/ammo_casing/a75"
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/a75
+	allowed_magazines = list(/obj/item/ammo_magazine/a75)
 	auto_eject = 1
 	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
 
@@ -162,27 +184,27 @@
 		icon_state = "gyropistol"
 
 /obj/item/weapon/gun/projectile/pistol
-	name = "\improper holdout pistol"
-	desc = "The Lumoco Arms P3 Whisper. small, easily concealable gun. Uses 9mm rounds."
+	name = "holdout pistol"
+	desc = "The Lumoco Arms P3 Whisper. A small, easily concealable gun. Uses 9mm rounds."
 	icon_state = "pistol"
 	item_state = null
 	w_class = 2
 	caliber = "9mm"
 	silenced = 0
-	origin_tech = "combat=2;materials=2;syndicate=2"
-	fire_sound = 'sound/weapons/Gunshot_light.ogg'
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2, TECH_ILLEGAL = 2)
+	fire_sound = 'sound/weapons/semiauto.ogg'
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/mc9mm
+	allowed_magazines = list(/obj/item/ammo_magazine/mc9mm)
 
 /obj/item/weapon/gun/projectile/pistol/flash
-	name = "\improper Stechtkin signal pistol"
-	desc = "A small, easily concealable gun. Uses 9mm rounds."
+	name = "holdout signal pistol"
 	magazine_type = /obj/item/ammo_magazine/mc9mm/flash
 
-/obj/item/weapon/gun/projectile/pistol/attack_hand(mob/user as mob)
+/obj/item/weapon/gun/projectile/pistol/attack_hand(mob/living/user as mob)
 	if(user.get_inactive_hand() == src)
 		if(silenced)
-			if(user.l_hand != src && user.r_hand != src)
+			if(!user.item_is_in_hands(src))
 				..()
 				return
 			user << "<span class='notice'>You unscrew [silenced] from [src].</span>"
@@ -193,9 +215,9 @@
 			return
 	..()
 
-/obj/item/weapon/gun/projectile/pistol/attackby(obj/item/I as obj, mob/user as mob)
+/obj/item/weapon/gun/projectile/pistol/attackby(obj/item/I as obj, mob/living/user as mob)
 	if(istype(I, /obj/item/weapon/silencer))
-		if(user.l_hand != src && user.r_hand != src)	//if we're not in his hands
+		if(!user.item_is_in_hands(src))	//if we're not in his hands
 			user << "<span class='notice'>You'll need [src] in your hands to do that.</span>"
 			return
 		user.drop_item()
@@ -222,7 +244,7 @@
 	w_class = 2
 
 /obj/item/weapon/gun/projectile/pirate
-	name = "zipgun"
+	name = "zip gun"
 	desc = "Little more than a barrel, handle, and firing mechanism, cheap makeshift firearms like this one are not uncommon in frontier systems."
 	icon_state = "sawnshotgun"
 	item_state = "sawnshotgun"
@@ -232,9 +254,9 @@
 
 	var/global/list/ammo_types = list(
 		/obj/item/ammo_casing/a357              = ".357",
-		/obj/item/ammo_casing/c9mm/flash        = "9mm",
-		/obj/item/ammo_casing/c45/flash         = ".45",
-		/obj/item/ammo_casing/a12mm             = "12mm",
+		/obj/item/ammo_casing/c9mmf             = "9mm",
+		/obj/item/ammo_casing/c45f              = ".45",
+		/obj/item/ammo_casing/a10mm             = "10mm",
 		/obj/item/ammo_casing/shotgun           = "12 gauge",
 		/obj/item/ammo_casing/shotgun           = "12 gauge",
 		/obj/item/ammo_casing/shotgun/pellet    = "12 gauge",
@@ -255,37 +277,71 @@
 	caliber = initial(ammo.caliber)
 	..()
 
-/obj/item/weapon/gun/projectile/legalist
-	name = "Legalist MKI"
-	desc = "A robust handgun that uses 12.5x45 CL ammo"
-	icon_state = "legalist"
-	item_state = "deagle"
-	force = 10.0
-	caliber = "12.5x45"
-	load_method = MAGAZINE
-	magazine_type = /obj/item/ammo_magazine/legalist
-	ammo_type = /obj/item/ammo_casing/c125
-	auto_eject = 1
-	fire_delay = 3
-	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+/obj/item/weapon/gun/projectile/derringer
+	name = "derringer"
+	desc = "It's not size of your gun that matters, just the size of your load. Uses .357 rounds." //OHHH MYYY~
+	icon_state = "derringer"
+	item_state = "concealed"
+	w_class = 2
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2, TECH_ILLEGAL = 3)
+	handle_casings = CYCLE_CASINGS //player has to take the old casing out manually before reloading
+	load_method = SINGLE_CASING
+	max_shells = 2
+	ammo_type = /obj/item/ammo_casing/a357
 
-/obj/item/weapon/gun/projectile/legalist/update_icon()
-	..()
-	icon_state = (ammo_magazine)? "legalist" : "legalist-empty"
-	update_held_icon()
-
-/obj/item/weapon/gun/projectile/mk15
-	name = "\improper service pistol"
-	desc = "That's the Mk.15, standard-issue secondary weapon of NT colonial infantry. Uses 9mm rounds."
-	icon_state = "mk15"
-	item_state = "mk15"
-	w_class = 3
+/obj/item/weapon/gun/projectile/luger
+	name = "\improper P08 Luger"
+	desc = "Not some cheap Scheisse .45 caliber Martian knockoff! This Luger is an authentic reproduction by RauMauser. Accuracy, easy handling, and its signature appearance make it popular among historic gun collectors. Uses 9mm rounds."
+	icon_state = "p08"
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 2)
 	caliber = "9mm"
-	fire_sound = 'sound/weapons/eventpistol.ogg'
 	load_method = MAGAZINE
-	magazine_type = /obj/item/ammo_magazine/mc9mmarmy
+	fire_sound = 'sound/weapons/semiauto.ogg'
+	magazine_type = /obj/item/ammo_magazine/mc9mm
+	allowed_magazines = list(/obj/item/ammo_magazine/mc9mm)
 
-/obj/item/weapon/gun/projectile/mk15/update_icon()
+/obj/item/weapon/gun/projectile/luger/update_icon()
 	..()
-	icon_state = (ammo_magazine)? "mk15" : "mk15-empty"
-	update_held_icon()
+	if(ammo_magazine)
+		icon_state = "[initial(icon_state)]"
+	else
+		icon_state = "[initial(icon_state)]-e"
+
+/obj/item/weapon/gun/projectile/luger/brown
+	icon_state = "p08b"
+
+/obj/item/weapon/gun/projectile/impulsetrauma
+	name = "\improper 10mm impulse pistol"
+	desc = "That's a Diemaco Guardian, an impulse traumatic pistol popular among the Themis Security employees. Uses 10x45mm rounds."
+	icon_state = "traumaticpistol"
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 2)
+	caliber = "10x45"
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/a10x45/
+	fire_sound = 'sound/weapons/fireimpulsepistol.wav'
+	allowed_magazines = list(/obj/item/ammo_magazine/a10x45/, /obj/item/ammo_magazine/a10x45/hp)
+
+/obj/item/weapon/gun/projectile/impulsetrauma/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "[initial(icon_state)]"
+	else
+		icon_state = "[initial(icon_state)]-empty"
+
+/obj/item/weapon/gun/projectile/impulsesec
+	name = "\improper 5.7mm impulse pistol"
+	desc = "That's a H&R M26, an impulse semi-automatic pistol popular among the Themis Security employees. Uses 5.7x28mm rounds."
+	icon_state = "secpistol"
+	origin_tech = list(TECH_COMBAT = 5, TECH_MATERIAL = 3)
+	caliber = "5.7x28"
+	load_method = MAGAZINE
+	fire_sound = 'sound/weapons/fireimpulsepistol.wav'
+	magazine_type = /obj/item/ammo_magazine/a57x28
+	allowed_magazines = list(/obj/item/ammo_magazine/a57x28, /obj/item/ammo_magazine/a57x28/ap)
+
+/obj/item/weapon/gun/projectile/impulsesec/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "[initial(icon_state)]"
+	else
+		icon_state = "[initial(icon_state)]-empty"

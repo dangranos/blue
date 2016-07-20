@@ -1,16 +1,65 @@
-obj/item/weapon/reagent_containers/syringe/throw_impact(atom/hit_atom, var/speed)
-	..()
-	//check speed to see if we hit hard enough to trigger the rapid injection
-	//incidentally, this means syringe_cartridges can be used with the pneumatic launcher
-	if(speed >= 10 && isliving(hit_atom))
-		var/mob/living/L = hit_atom
-		//unfortuately we don't know where the dart will actually hit, since that's done by the parent.
-		if(L.can_inject() && reagents)
-			var/reagent_log = reagents.get_reagents()
-			reagents.trans_to_mob(L, 15, CHEM_BLOOD)
-			admin_inject_log(thrower, L, src, reagent_log, 15, violent=1)
+/obj/item/weapon/syringe_cartridge
+	name = "syringe gun cartridge"
+	desc = "An impact-triggered compressed gas cartridge that can be fitted to a syringe for rapid injection."
+	icon = 'icons/obj/ammo.dmi'
+	icon_state = "syringe-cartridge"
+	var/icon_flight = "syringe-cartridge-flight" //so it doesn't look so weird when shot
+	matter = list(DEFAULT_WALL_MATERIAL = 125, "glass" = 375)
+	flags = CONDUCT
+	slot_flags = SLOT_BELT | SLOT_EARS
+	throwforce = 3
+	force = 3
+	w_class = 1
+	var/obj/item/weapon/reagent_containers/syringe/syringe
 
-	break_syringe(iscarbon(hit_atom)? hit_atom : null)
+/obj/item/weapon/syringe_cartridge/update_icon()
+	underlays.Cut()
+	if(syringe)
+		underlays += image(syringe.icon, src, syringe.icon_state)
+		underlays += syringe.filling
+
+/obj/item/weapon/syringe_cartridge/attackby(obj/item/I, mob/user)
+	if(istype(I, /obj/item/weapon/reagent_containers/syringe))
+		syringe = I
+		user << "<span class='notice'>You carefully insert [syringe] into [src].</span>"
+		user.remove_from_mob(syringe)
+		syringe.loc = src
+		sharp = 1
+		name = "syringe dart"
+		update_icon()
+
+/obj/item/weapon/syringe_cartridge/attack_self(mob/user)
+	if(syringe)
+		user << "<span class='notice'>You remove [syringe] from [src].</span>"
+		playsound(src.loc, 'sound/weapons/empty.ogg', 50, 1)
+		user.put_in_hands(syringe)
+		syringe = null
+		sharp = initial(sharp)
+		name = initial(name)
+		update_icon()
+
+/obj/item/weapon/syringe_cartridge/proc/prime()
+	//the icon state will revert back when update_icon() is called from throw_impact()
+	icon_state = icon_flight
+	underlays.Cut()
+
+/obj/item/weapon/syringe_cartridge/throw_impact(atom/hit_atom, var/speed)
+	..() //handles embedding for us. Should have a decent chance if thrown fast enough
+	if(syringe)
+		//check speed to see if we hit hard enough to trigger the rapid injection
+		//incidentally, this means syringe_cartridges can be used with the pneumatic launcher
+		if(speed >= 10 && isliving(hit_atom))
+			var/mob/living/L = hit_atom
+			//unfortuately we don't know where the dart will actually hit, since that's done by the parent.
+			if(L.can_inject() && syringe.reagents)
+				var/reagent_log = syringe.reagents.get_reagents()
+				syringe.reagents.trans_to_mob(L, 15, CHEM_BLOOD)
+				admin_inject_log(thrower, L, src, reagent_log, 15, violent=1)
+
+		syringe.break_syringe(iscarbon(hit_atom)? hit_atom : null)
+		syringe.update_icon()
+
+	icon_state = initial(icon_state) //reset icon state
 	update_icon()
 
 /obj/item/weapon/gun/launcher/syringe
@@ -31,10 +80,11 @@ obj/item/weapon/reagent_containers/syringe/throw_impact(atom/hit_atom, var/speed
 
 	var/list/darts = list()
 	var/max_darts = 1
-	var/obj/item/weapon/reagent_containers/syringe/next
+	var/obj/item/weapon/syringe_cartridge/next
 
 /obj/item/weapon/gun/launcher/syringe/consume_next_projectile()
 	if(next)
+		next.prime()
 		return next
 	return null
 
@@ -61,23 +111,24 @@ obj/item/weapon/reagent_containers/syringe/throw_impact(atom/hit_atom, var/speed
 		if(next)
 			user << "<span class='warning'>[src]'s cover is locked shut.</span>"
 			return
-		var/obj/item/weapon/reagent_containers/syringe/S = darts[1]
-		darts -= S
-		user.put_in_hands(S)
-		user.visible_message("[user] removes \a [S] from [src].", "<span class='notice'>You remove \a [S] from [src].</span>")
+		var/obj/item/weapon/syringe_cartridge/C = darts[1]
+		darts -= C
+		user.put_in_hands(C)
+		user.visible_message("[user] removes \a [C] from [src].", "<span class='notice'>You remove \a [C] from [src].</span>")
+		playsound(src.loc, 'sound/weapons/empty.ogg', 50, 1)
 	else
 		..()
 
 /obj/item/weapon/gun/launcher/syringe/attackby(var/obj/item/A as obj, mob/user as mob)
-	if(istype(A, /obj/item/weapon/reagent_containers/syringe))
-		var/obj/item/weapon/reagent_containers/syringe/S = A
+	if(istype(A, /obj/item/weapon/syringe_cartridge))
+		var/obj/item/weapon/syringe_cartridge/C = A
 		if(darts.len >= max_darts)
 			user << "<span class='warning'>[src] is full!</span>"
 			return
-		user.remove_from_mob(S)
-		S.loc = src
-		darts += S //add to the end
-		user.visible_message("[user] inserts \a [S] into [src].", "<span class='notice'>You insert \a [S] into [src].</span>")
+		user.remove_from_mob(C)
+		C.loc = src
+		darts += C //add to the end
+		user.visible_message("[user] inserts \a [C] into [src].", "<span class='notice'>You insert \a [C] into [src].</span>")
 	else
 		..()
 
@@ -87,3 +138,28 @@ obj/item/weapon/reagent_containers/syringe/throw_impact(atom/hit_atom, var/speed
 	icon_state = "rapidsyringegun"
 	item_state = "rapidsyringegun"
 	max_darts = 5
+
+/obj/item/weapon/gun/launcher/syringe/rifle
+	name = "tranquilizer rifle"
+	desc = "A spring loaded rifle designed to fit syringes, designed to incapacitate scumbags without using of a lethal force."
+	icon_state = "tranqrifle"
+	item_state = "tranqrifle"
+	w_class = 5
+	force = 10
+	matter = list(DEFAULT_WALL_MATERIAL = 3500)
+	slot_flags = SLOT_BACK
+	fire_sound = 'sound/weapons/empty.ogg'
+	fire_sound_text = "a metallic thunk"
+	recoil = 0
+	release_force = 20
+	throw_distance = 20
+	accuracy = 0
+	scoped_accuracy = 3
+	max_darts = 4
+
+/obj/item/weapon/gun/launcher/syringe/rifle/verb/scope()
+	set category = "Object"
+	set name = "Use Scope"
+	set popup_menu = 1
+
+	toggle_scope(2.0)

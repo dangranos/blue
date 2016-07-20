@@ -22,7 +22,6 @@
 
 	var/obj/item/inventory_head
 	var/obj/item/inventory_back
-	var/facehugger
 
 //IAN! SQUEEEEEEEEE~
 /mob/living/simple_animal/corgi/Ian
@@ -124,12 +123,6 @@
 		if(back_icon)
 			overlays += back_icon
 
-	if(facehugger)
-		if(istype(src, /mob/living/simple_animal/corgi/puppy))
-			overlays += image('icons/mob/mask.dmi',"facehugger_corgipuppy")
-		else
-			overlays += image('icons/mob/mask.dmi',"facehugger_corgi")
-
 	return
 
 
@@ -203,25 +196,22 @@
 					set_dir(i)
 					sleep(1)
 
-/mob/living/simple_animal/corgi/sasha
-	name = "Sasha"
-	real_name = "Sasha"
+//Technically this should be like, its own file or something or a subset of dog but whatever. Not a coder.
+/mob/living/simple_animal/corgi/tamaskan
+	name = "\improper tamaskan"
+	real_name = "tamaskan"
+	desc = "It's a tamaskan."
+	icon_state = "tamaskan"
+	icon_living = "tamaskan"
+	icon_dead = "tamaskan_dead"
+
+/mob/living/simple_animal/corgi/tamaskan/spice
+	name = "Spice"
+	real_name = "Spice"	//Intended to hold the name without altering it.
 	gender = FEMALE
-	desc = "It's a doberman, how intimidating!"
-	icon_state = "doby"
-	icon_living = "doby"
-	icon_dead = "doby_dead"
+	desc = "It's a tamaskan, the name Spice can be found on its collar."
+	var/turns_since_scan = 0
+	var/obj/movement_target
 	response_help  = "pets"
 	response_disarm = "bops"
 	response_harm   = "kicks"
-	speak = list("YAP", "Woof!", "Bark!", "AUUUUUU")
-	speak_emote = list("barks", "woofs")
-	emote_hear = list("barks", "woofs", "yaps","pants")
-	emote_see = list("shakes its head", "shivers")
-
-//Sasha can't wear hats!
-/mob/living/simple_animal/corgi/sasha/Topic(href, href_list)
-	if(href_list["remove_inv"] || href_list["add_inv"])
-		usr << "\red You can't fit this on [src]"
-		return
-	..()

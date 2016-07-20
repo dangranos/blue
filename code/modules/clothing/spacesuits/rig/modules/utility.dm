@@ -12,6 +12,11 @@
  * /obj/item/rig_module/chem_dispenser
  * /obj/item/rig_module/chem_dispenser/injector
  * /obj/item/rig_module/voice
+ * /obj/item/rig_module/device/paperdispenser
+ * /obj/item/rig_module/device/pen
+ * /obj/item/rig_module/device/stamp
+ * /obj/item/rig_module/mounted/mop
+ * /obj/item/rig_module/cleaner_launcher
  */
 
 /obj/item/rig_module/device
@@ -33,6 +38,7 @@
 	interface_desc = "A self-sustaining plasma arc capable of cutting through walls."
 	suit_overlay_active = "plasmacutter"
 	suit_overlay_inactive = "plasmacutter"
+	use_power_cost = 0.5
 
 	device_type = /obj/item/weapon/pickaxe/plasmacutter
 
@@ -53,6 +59,7 @@
 	interface_desc = "A diamond-tipped industrial drill."
 	suit_overlay_active = "mounted-drill"
 	suit_overlay_inactive = "mounted-drill"
+	use_power_cost = 0.1
 
 	device_type = /obj/item/weapon/pickaxe/diamonddrill
 
@@ -94,7 +101,6 @@
 	if(device_type) device = new device_type(src)
 
 /obj/item/rig_module/device/engage(atom/target)
-
 	if(!..() || !device)
 		return 0
 
@@ -133,7 +139,7 @@
 		list("dexalin plus",  "dexalinp",      0, 80),
 		list("antibiotics",   "spaceacillin",  0, 80),
 		list("antitoxins",    "anti_toxin",    0, 80),
-		list("nutrients",     "nutriment",     0, 80),
+		list("nutrients",     "glucose",     0, 80),
 		list("hyronalin",     "hyronalin",     0, 80),
 		list("radium",        "radium",        0, 80)
 		)
@@ -150,7 +156,7 @@
 		list("dexalin plus",  "dexalinp",      0, 20),
 		list("antibiotics",   "spaceacillin",  0, 20),
 		list("antitoxins",    "anti_toxin",    0, 20),
-		list("nutrients",     "nutriment",     0, 80),
+		list("nutrients",     "glucose",     0, 80),
 		list("hyronalin",     "hyronalin",     0, 20),
 		list("radium",        "radium",        0, 20)
 		)
@@ -239,7 +245,7 @@
 		list("synaptizine",   "synaptizine",   0, 30),
 		list("hyperzine",     "hyperzine",     0, 30),
 		list("oxycodone",     "oxycodone",     0, 30),
-		list("nutrients",     "nutriment",     0, 80),
+		list("nutrients",     "glucose",     0, 80),
 		)
 
 	interface_name = "combat chem dispenser"
@@ -378,3 +384,213 @@
 	jets.ion_trail.set_up(jets)
 
 /obj/item/rig_module/foam_sprayer
+
+
+//Deployable Mop
+
+/obj/item/rig_module/mounted/mop
+
+	name = "mop projector"
+	desc = "A powerful mop projector."
+	icon_state = "mop"
+
+	activate_string = "Project Mop"
+	deactivate_string = "Cancel Mop"
+
+	interface_name = "mop projector"
+	interface_desc = "A mop that can be deployed from the hand of the wearer."
+
+	usable = 0
+	selectable = 1
+	toggleable = 1
+	use_power_cost = 0
+	active_power_cost = 0
+	passive_power_cost = 0
+
+	gun = /obj/item/weapon/reagent_containers/spray/cleaner
+
+//obj/item/weapon/reagent_containers/spray/cleaner
+//	spary =
+
+/obj/item/rig_module/mounted/engage(atom/target)
+
+	if(!..())
+		return 0
+
+	if(!target)
+		gun.attack_self(holder.wearer)
+		return 1
+
+	gun.Fire(target,holder.wearer)
+	return 1
+
+/obj/item/rig_module/mounted/mop/process()
+
+	if(holder && holder.wearer)
+		if(!(locate(/obj/item/weapon/mop_deploy) in holder.wearer))
+			deactivate()
+			return 0
+
+	return ..()
+
+/obj/item/rig_module/mounted/mop/activate()
+
+	..()
+
+	var/mob/living/M = holder.wearer
+
+	if(M.l_hand && M.r_hand)
+		M << "<span class='danger'>Your hands are full.</span>"
+		deactivate()
+		return
+
+	var/obj/item/weapon/mop_deploy/blade = new(M)
+	blade.creator = M
+	M.put_in_hands(blade)
+
+/obj/item/rig_module/mounted/mop/deactivate()
+
+	..()
+
+	var/mob/living/M = holder.wearer
+
+	if(!M)
+		return
+
+	for(var/obj/item/weapon/mop_deploy/blade in M.contents)
+		M.drop_from_inventory(blade)
+		del(blade)
+
+
+	//Space Cleaner Launcher
+
+/obj/item/rig_module/cleaner_launcher
+
+	name = "mounted space cleaner launcher"
+	desc = "A shoulder-mounted micro-cleaner dispenser."
+	selectable = 1
+	icon_state = "grenade_launcher"
+
+	interface_name = "integrated cleaner launcher"
+	interface_desc = "Discharges loaded cleaner grenades against the wearer's location."
+
+	var/fire_force = 30
+	var/fire_distance = 10
+
+	charges = list(
+		list("cleaner grenade",   "cleaner grenade",   /obj/item/weapon/grenade/chem_grenade/cleaner,  9),
+		)
+
+/obj/item/rig_module/cleaner_launcher/accepts_item(var/obj/item/input_device, var/mob/living/user)
+
+	if(!istype(input_device) || !istype(user))
+		return 0
+
+	var/datum/rig_charge/accepted_item
+	for(var/charge in charges)
+		var/datum/rig_charge/charge_datum = charges[charge]
+		if(input_device.type == charge_datum.product_type)
+			accepted_item = charge_datum
+			break
+
+	if(!accepted_item)
+		return 0
+
+	if(accepted_item.charges >= 5)
+		user << "<span class='danger'>Another grenade of that type will not fit into the module.</span>"
+		return 0
+
+	user << "<font color='blue'><b>You slot \the [input_device] into the suit module.</b></font>"
+	user.drop_from_inventory(input_device)
+	del(input_device)
+	accepted_item.charges++
+	return 1
+
+/obj/item/rig_module/cleaner_launcher/engage(atom/target)
+
+	if(!..())
+		return 0
+
+	if(!target)
+		return 0
+
+	var/mob/living/carbon/human/H = holder.wearer
+
+	if(!charge_selected)
+		H << "<span class='danger'>You have not selected a grenade type.</span>"
+		return 0
+
+	var/datum/rig_charge/charge = charges[charge_selected]
+
+	if(!charge)
+		return 0
+
+	if(charge.charges <= 0)
+		H << "<span class='danger'>Insufficient grenades!</span>"
+		return 0
+
+	charge.charges--
+	var/obj/item/weapon/grenade/new_grenade = new charge.product_type(get_turf(H))
+	H.visible_message("<span class='danger'>[H] launches \a [new_grenade]!</span>")
+	new_grenade.activate(H)
+	new_grenade.throw_at(target,fire_force,fire_distance)
+
+/obj/item/rig_module/device/paperdispenser
+	name = "hardsuit paper dispenser"
+	desc = "Crisp sheets."
+	icon_state = "paper"
+	interface_name = "paper dispenser"
+	interface_desc = "Dispenses warm, clean, and crisp sheets of paper."
+	engage_string = "Dispense"
+	usable = 1
+	selectable = 0
+	device_type = /obj/item/weapon/paper_bin
+
+/obj/item/rig_module/device/paperdispenser/engage(atom/target)
+
+	if(!..() || !device)
+		return 0
+
+	if(!target)
+		device.attack_hand(holder.wearer)
+		return 1
+
+/obj/item/rig_module/device/pen
+	name = "mounted pen"
+	desc = "For mecha John Hancocks."
+	icon_state = "pen"
+	interface_name = "mounted pen"
+	interface_desc = "Signatures with style(tm)."
+	engage_string = "Change color"
+	usable = 1
+	device_type = /obj/item/weapon/pen/multi
+
+/obj/item/rig_module/device/stamp
+	name = "mounted internal affairs stamp"
+	desc = "DENIED."
+	icon_state = "stamp"
+	interface_name = "mounted stamp"
+	interface_desc = "Leave your mark."
+	engage_string = "Toggle stamp type"
+	usable = 1
+	var/iastamp
+	var/deniedstamp
+
+/obj/item/rig_module/device/stamp/New()
+	..()
+	iastamp = new /obj/item/weapon/stamp/internalaffairs(src)
+	deniedstamp = new /obj/item/weapon/stamp/denied(src)
+	device = iastamp
+
+/obj/item/rig_module/device/stamp/engage(atom/target)
+	if(!..() || !device)
+		return 0
+
+	if(!target)
+		if(device == iastamp)
+			device = deniedstamp
+			holder.wearer << "<span class='notice'>Switched to denied stamp.</span>"
+		else if(device == deniedstamp)
+			device = iastamp
+			holder.wearer << "<span class='notice'>Switched to internal affairs stamp.</span>"
+		return 1

@@ -1,3 +1,13 @@
+//This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:32
+
+datum/track
+	var/title
+	var/sound
+
+datum/track/New(var/title_name, var/audio)
+	title = title_name
+	sound = audio
+
 /obj/machinery/media/jukebox/
 	name = "space jukebox"
 	icon = 'icons/obj/jukebox.dmi'
@@ -9,38 +19,31 @@
 	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 100
+	circuit = /obj/item/weapon/circuitboard/jukebox
 
 	var/playing = 0
 
-	var/current_track = ""
-	var/list/tracks = list(
-		"Beyond"			= list('sound/ambience/ambispace.ogg'),
-		"Clouds of Fire"	= list('sound/music/clouds.s3m'),
-		"D`Bert"			= list('sound/music/title2.ogg'),
-		"D`Fort"			= list('sound/ambience/song_game.ogg'),
-		"Floating"			= list('sound/music/main.ogg'),
-		"Endless Space"		= list('sound/music/space.ogg'),
-		"Part A"			= list('sound/misc/TestLoop1.ogg'),
-		"Scratch"			= list('sound/music/title1.ogg'),
-		"Trai`Tor"			= list('sound/music/traitor.ogg'),
-		"Callista-Omega"	= list('sound/jukebox/club_afterlife-callista_omega.ogg'),
-		"Lone Digger"		= list('sound/jukebox/Caravan_Palace_-Lone_Digger.ogg'),
-		"Magic Fly"			= list('sound/jukebox/magic_fly.ogg'),
-		"THUNDERDROME"		= list('sound/music/THUNDERDOME.ogg'),
-		"Staying Alive"		= list('sound/jukebox/staying_alive.ogg'),
-		"Space Oddity"		= list('sound/music/david_bowie-space_oddity_original.ogg'),
-		"Fascination"		= list('sound/jukebox/Keep_Feeling.ogg'),
-		"Resist"			= list('sound/jukebox/Old_Friends.ogg'),
-		"Turf"				= list('sound/jukebox/Turf.ogg'),
-		"Don't You Want?"	= list('sound/jukebox/Somebody_to_Love.ogg'),
-		"Who Knows?"		= list('sound/jukebox/TheManWhoSoldTheWorld.ogg'),
-		"See You Tomorrow?"	= list('sound/jukebox/See_You_Tomorrow.ogg'),
-		"Lovesong"			= list('sound/jukebox/lovesong.ogg'),
-		"Judge"				= list('sound/jukebox/Judge_Bitch.ogg'),
-		"Hishmaliin"		= list('sound/jukebox/dvar_hishmaliin.ogg'),
-		"Mystyrious Song"	= list('sound/jukebox/gay_bar.ogg'),
-		"Keep"				= list('sound/jukebox/aritus-keep.ogg')
+	var/datum/track/current_track
+	var/list/datum/track/tracks = list(
+		new/datum/track("Beyond", 'sound/ambience/ambispace.ogg'),
+		new/datum/track("Clouds of Fire", 'sound/music/clouds.s3m'),
+		new/datum/track("D`Bert", 'sound/music/title2.ogg'),
+		new/datum/track("D`Fort", 'sound/ambience/song_game.ogg'),
+		new/datum/track("Floating", 'sound/music/main.ogg'),
+		new/datum/track("Endless Space", 'sound/music/space.ogg'),
+		new/datum/track("Part A", 'sound/misc/TestLoop1.ogg'),
+		new/datum/track("Scratch", 'sound/music/title1.ogg'),
+		new/datum/track("Trai`Tor", 'sound/music/traitor.ogg'),
 	)
+
+/obj/machinery/media/jukebox/New()
+	..()
+	circuit = new circuit(src)
+	component_parts = list()
+	component_parts += new /obj/item/weapon/stock_parts/capacitor(src)
+	component_parts += new /obj/item/weapon/stock_parts/console_screen(src)
+	component_parts += new /obj/item/stack/cable_coil(src, 5)
+	RefreshParts()
 
 /obj/machinery/media/jukebox/Destroy()
 	StopPlaying()
@@ -84,20 +87,19 @@
 		return
 
 	if(href_list["change_track"])
-		var/T = href_list["title"]
-		if(T)
-			current_track = T
-			StartPlaying()
+		for(var/datum/track/T in tracks)
+			if(T.title == href_list["title"])
+				current_track = T
+				StartPlaying()
+				break
 	else if(href_list["stop"])
 		StopPlaying()
 	else if(href_list["play"])
 		if(emagged)
 			playsound(src.loc, 'sound/items/AirHorn.ogg', 100, 1)
 			for(var/mob/living/carbon/M in ohearers(6, src))
-				if(istype(M, /mob/living/carbon/human))
-					var/mob/living/carbon/human/H = M
-					if(istype(H.l_ear, /obj/item/clothing/ears/earmuffs) || istype(H.r_ear, /obj/item/clothing/ears/earmuffs))
-						continue
+				if(M.get_ear_protection() >= 2)
+					continue
 				M.sleeping = 0
 				M.stuttering += 20
 				M.ear_deaf += 30
@@ -109,7 +111,7 @@
 					M.make_jittery(500)
 			spawn(15)
 				explode()
-		else if(!current_track)
+		else if(current_track == null)
 			usr << "No track selected."
 		else
 			StartPlaying()
@@ -128,12 +130,12 @@
 	var/data[0]
 
 	if(!(stat & (NOPOWER|BROKEN)))
-		data["current_track"] = current_track ? current_track : ""
+		data["current_track"] = current_track != null ? current_track.title : ""
 		data["playing"] = playing
 
-		var/list/nano_tracks = list()
-		for(var/T in tracks)
-			nano_tracks += T
+		var/list/nano_tracks = new
+		for(var/datum/track/T in tracks)
+			nano_tracks[++nano_tracks.len] = list("track" = T.title)
 
 		data["tracks"] = nano_tracks
 
@@ -170,6 +172,10 @@
 /obj/machinery/media/jukebox/attackby(obj/item/W as obj, mob/user as mob)
 	src.add_fingerprint(user)
 
+	if(default_deconstruction_screwdriver(user, W))
+		return
+	if(default_deconstruction_crowbar(user, W))
+		return
 	if(istype(W, /obj/item/weapon/wrench))
 		if(playing)
 			StopPlaying()
@@ -179,16 +185,15 @@
 		power_change()
 		update_icon()
 		return
-	if(istype(W, /obj/item/weapon/card/emag))
-		if(!emagged)
-			emagged = 1
-			StopPlaying()
-			visible_message("<span class='danger'>\the [src] makes a fizzling sound.</span>")
-			log_and_message_admins("emagged \the [src]")
-			update_icon()
-			return
-
 	return ..()
+
+/obj/machinery/media/jukebox/emag_act(var/remaining_charges, var/mob/user)
+	if(!emagged)
+		emagged = 1
+		StopPlaying()
+		visible_message("<span class='danger'>\The [src] makes a fizzling sound.</span>")
+		update_icon()
+		return 1
 
 /obj/machinery/media/jukebox/proc/StopPlaying()
 	var/area/main_area = get_area(src)
@@ -204,11 +209,11 @@
 
 /obj/machinery/media/jukebox/proc/StartPlaying()
 	StopPlaying()
-	if(!current_track || !(current_track in tracks))
+	if(!current_track)
 		return
 
 	var/area/main_area = get_area(src)
-	main_area.forced_ambience = list(pick(tracks[current_track]))
+	main_area.forced_ambience = list(current_track.sound)
 	for(var/mob/living/M in mobs_in_area(main_area))
 		if(M.mind)
 			main_area.play_ambience(M)

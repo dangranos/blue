@@ -14,6 +14,10 @@
 /obj/item/weapon/spellbook/attack_self(mob/user = usr)
 	if(!user)
 		return
+	if((user.mind && !wizards.is_antagonist(user.mind)))
+		usr << "<span class='warning'>You stare at the book but cannot make sense of the markings!</span>"
+		return
+
 	user.set_machine(src)
 	var/dat
 	if(temp)
@@ -38,8 +42,6 @@
 			<I>This spell temporarly blinds a single person and does not require wizard garb.</I><BR>
 			<A href='byond://?src=\ref[src];spell_choice=subjugation'>Subjugation</A> (30)<BR>
 			<I>This spell temporarily subjugates a target's mind and does not require wizard garb.</I><BR>
-			<A href='byond://?src=\ref[src];spell_choice=mindswap'>Mind Transfer</A> (60)<BR>
-			<I>This spell allows the user to switch bodies with a target. Careful to not lose your memory in the process.</I><BR>
 			<A href='byond://?src=\ref[src];spell_choice=forcewall'>Forcewall</A> (10)<BR>
 			<I>This spell creates an unbreakable wall that lasts for 30 seconds and does not need wizard garb.</I><BR>
 			<A href='byond://?src=\ref[src];spell_choice=blink'>Blink</A> (2)<BR>
@@ -52,16 +54,11 @@
 			<I>This spell creates your ethereal form, temporarily making you invisible and able to pass through walls.</I><BR>
 			<A href='byond://?src=\ref[src];spell_choice=knock'>Knock</A> (10)<BR>
 			<I>This spell opens nearby doors and does not require wizard garb.</I><BR>
-			<A href='byond://?src=\ref[src];spell_choice=horseman'>Curse of the Horseman</A> (15)<BR>
-			<I>This spell will curse a person to wear an unremovable horse mask (it has glue on the inside) and speak like a horse. It does not require wizard garb.</I><BR>
 			<A href='byond://?src=\ref[src];spell_choice=noclothes'>Remove Clothes Requirement</A> <b>Warning: this takes away 2 spell choices.</b><BR>
 			<HR>
 			<B>Artefacts:</B><BR>
 			Powerful items imbued with eldritch magics. Summoning one will count towards your maximum number of spells.<BR>
 			It is recommended that only experienced wizards attempt to wield such artefacts.<BR>
-			<HR>
-			<A href='byond://?src=\ref[src];spell_choice=staffchange'>Staff of Change</A><BR>
-			<I>An artefact that spits bolts of coruscating energy which cause the target's very form to reshape itself.</I><BR>
 			<HR>
 			<A href='byond://?src=\ref[src];spell_choice=mentalfocus'>Mental Focus</A><BR>
 			<I>An artefact that channels the will of the user into destructive bolts of force.</I><BR>
@@ -165,9 +162,9 @@
 						if("subjugation")
 							H.add_spell(new/spell/targeted/subjugation)
 							temp = "You have learned subjugate."
-						if("mindswap")
-							H.add_spell(new/spell/targeted/mind_transfer)
-							temp = "You have learned mindswap."
+//						if("mindswap")
+//							H.add_spell(new/spell/targeted/mind_transfer)
+//							temp = "You have learned mindswap."
 						if("forcewall")
 							H.add_spell(new/spell/aoe_turf/conjure/forcewall)
 							temp = "You have learned forcewall."
@@ -186,13 +183,9 @@
 						if("knock")
 							H.add_spell(new/spell/aoe_turf/knock)
 							temp = "You have learned knock."
-						if("horseman")
-							H.add_spell(new/spell/targeted/equip_item/horsemask)
-							temp = "You have learned curse of the horseman."
-						if("staffchange")
-							new /obj/item/weapon/gun/energy/staff(get_turf(H))
-							temp = "You have purchased a staff of change."
-							max_uses--
+//						if("horseman")
+//							H.add_spell(new/spell/targeted/equip_item/horsemask)
+//							temp = "You have learned curse of the horseman."
 						if("mentalfocus")
 							new /obj/item/weapon/gun/energy/staff/focus(get_turf(H))
 							temp = "An artefact that channels the will of the user into destructive bolts of force."
@@ -220,7 +213,7 @@
 								H.sight |= (SEE_MOBS|SEE_OBJS|SEE_TURFS)
 								H.see_in_dark = 8
 								H.see_invisible = SEE_INVISIBLE_LEVEL_TWO
-								H << "span class='notice'>The walls suddenly disappear.</span>"
+								H << "<span class='notice'>The walls suddenly disappear.</span>"
 							temp = "You have purchased a scrying orb, and gained x-ray vision."
 							max_uses--
 		else
@@ -343,7 +336,7 @@
 		for(var/V in stored_swap.mind.special_verbs)
 			stored_swap.verbs -= V
 
-	var/mob/dead/observer/ghost = stored_swap.ghostize(0)
+	var/mob/observer/dead/ghost = stored_swap.ghostize(0)
 	ghost.spell_list = stored_swap.spell_list
 
 	user.mind.transfer_to(stored_swap)

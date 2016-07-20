@@ -11,7 +11,7 @@
 
 /obj/item/projectile/change/proc/wabbajack(var/mob/M)
 	if(istype(M, /mob/living) && M.stat != DEAD)
-		if(M.monkeyizing)
+		if(M.transforming)
 			return
 		if(M.has_brain_worms())
 			return //Borer stuff - RR
@@ -30,7 +30,7 @@
 		var/mob/living/new_mob
 
 		var/options = list("robot", "slime")
-		for(var/t in playable_species)
+		for(var/t in all_species)
 			options += t
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
@@ -65,16 +65,20 @@
 				if(M.gender == MALE)
 					H.gender = MALE
 					H.name = pick(first_names_male)
-				else
+				else if(M.gender == FEMALE)
 					H.gender = FEMALE
 					H.name = pick(first_names_female)
+				else
+					H.gender = NEUTER
+					H.name = pick(first_names_female|first_names_male)
+
 				H.name += " [pick(last_names)]"
 				H.real_name = H.name
 
 				H.set_species(randomize)
 				H.universal_speak = 1
 				var/datum/preferences/A = new() //Randomize appearance for the human
-				A.randomize_appearance_for(H)
+				A.randomize_appearance_and_body_for(H)
 
 		if(new_mob)
 			for (var/spell/S in M.spell_list)

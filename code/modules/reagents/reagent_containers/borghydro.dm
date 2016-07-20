@@ -13,15 +13,15 @@
 	var/charge_tick = 0
 	var/recharge_time = 5 //Time it takes for shots to recharge (in seconds)
 
-	var/list/reagent_ids = list("tricordrazine", "inaprovaline", "spaceacillin")
+	var/list/reagent_ids = list("tricordrazine", "inaprovaline", "tramadol", "dexalin" ,"spaceacillin")
 	var/list/reagent_volumes = list()
 	var/list/reagent_names = list()
 
 /obj/item/weapon/reagent_containers/borghypo/surgeon
-	reagent_ids = list("bicaridine", "inaprovaline", "dexalin")
+	reagent_ids = list("tricordrazine", "inaprovaline", "tramadol", "dexalin" ,"spaceacillin")
 
 /obj/item/weapon/reagent_containers/borghypo/crisis
-	reagent_ids = list("tricordrazine", "inaprovaline", "tramadol")
+	reagent_ids = list("tricordrazine", "inaprovaline", "tramadol", "dexalin" ,"spaceacillin")
 
 /obj/item/weapon/reagent_containers/borghypo/New()
 	..()
@@ -59,7 +59,17 @@
 		user << "<span class='warning'>The injector is empty.</span>"
 		return
 
-	if(M.can_inject(user, 1))
+	var/mob/living/carbon/human/H = M
+	if(istype(H))
+		var/obj/item/organ/external/affected = H.get_organ(user.zone_sel.selecting)
+		if(!affected)
+			user << "<span class='danger'>\The [H] is missing that limb!</span>"
+			return
+		else if(affected.robotic >= ORGAN_ROBOT)
+			user << "<span class='danger'>You cannot inject a robotic limb.</span>"
+			return
+
+	if (M.can_inject(user, 1))
 		user << "<span class='notice'>You inject [M] with the injector.</span>"
 		M << "<span class='notice'>You feel a tiny prick!</span>"
 
@@ -95,10 +105,12 @@
 			usr << "<span class='notice'>Synthesizer is now producing '[R.name]'.</span>"
 
 /obj/item/weapon/reagent_containers/borghypo/examine(mob/user)
-	.=..()
-	if(.<=2)
-		var/datum/reagent/R = chemical_reagents_list[reagent_ids[mode]]
-		user << "<span class='notice'>It is currently producing [R.name] and has [reagent_volumes[reagent_ids[mode]]] out of [volume] units left.</span>"
+	if(!..(user, 2))
+		return
+
+	var/datum/reagent/R = chemical_reagents_list[reagent_ids[mode]]
+
+	user << "<span class='notice'>It is currently producing [R.name] and has [reagent_volumes[reagent_ids[mode]]] out of [volume] units left.</span>"
 
 /obj/item/weapon/reagent_containers/borghypo/service
 	name = "cyborg drink synthesizer"
@@ -109,7 +121,7 @@
 	recharge_time = 3
 	volume = 60
 	possible_transfer_amounts = list(5, 10, 20, 30)
-	reagent_ids = list("beer", "kahlua", "whiskey", "wine", "vodka", "gin", "rum", "tequilla", "vermouth", "cognac", "ale", "mead", "water", "sugar", "ice", "tea", "icetea", "cola", "spacemountainwind", "dr_gibb", "space_up", "tonic", "sodawater", "lemon_lime", "orangejuice", "limejuice", "watermelonjuice")
+	reagent_ids = list("beer", "kahlua", "whiskey", "specialwhiskey", "wine", "vodka", "gin", "rum", "tequilla", "vermouth", "cognac", "ale", "mead", "water", "sugar", "ice", "tea", "icetea", "cola", "spacemountainwind", "dr_gibb", "space_up", "tonic", "sodawater", "lemon_lime", "orangejuice", "limejuice", "watermelonjuice")
 
 /obj/item/weapon/reagent_containers/borghypo/service/attack(var/mob/M, var/mob/user)
 	return

@@ -1,15 +1,31 @@
+
+/*
+	The initialization of the game happens roughly like this:
+
+	1. All global variables are initialized (including the global_init instance).
+	2. The map is initialized, and map objects are created.
+	3. world/New() runs, creating the process scheduler (and the old master controller) and spawning their setup.
+	4. processScheduler/setup() runs, creating all the processes. game_controller/setup() runs, calling initialize() on all movable atoms in the world.
+	5. The gameticker is created.
+
+*/
 var/global/datum/global_init/init = new ()
 
 /*
 	Pre-map initialization stuff should go here.
 */
 /datum/global_init/New()
-	load_mute()
+
 	makeDatumRefLists()
 	load_configuration()
 
-	qdel(src)
+	initialize_chemical_reagents()
+	initialize_chemical_reactions()
 
+	qdel(src) //we're done
+
+/datum/global_init/Destroy()
+	return 1
 
 /world
 	mob = /mob/new_player
@@ -48,17 +64,42 @@ var/global/datum/global_init/init = new ()
 
 	. = ..()
 
+#if UNIT_TEST
+	log_unit_test("Unit Tests Enabled.  This will destroy the world when testing is complete.")
+	log_unit_test("If you did not intend to enable this please check code/__defines/unit_testing.dm")
+#else
 	sleep_offline = 1
+#endif
 
 	// Set up roundstart seed list.
 	plant_controller = new()
 
+	// Set up roundstart gene masking
+	xenobio_controller = new()
+
 	// This is kinda important. Set up details of what the hell things are made of.
 	populate_material_list()
 
-	//Create the asteroid Z-level.
 	if(config.generate_asteroid)
-		new /datum/random_map(null,13,32,5,217,223)
+		// These values determine the specific area that the map is applied to.
+		// Because we do not use Bay's default map, we check the config file to see if custom parameters are needed, so we need to avoid hardcoding.
+		if(config.asteroid_z_levels)
+			for(var/z_level in config.asteroid_z_levels)
+				// In case we got fed a string instead of a number...
+				z_level = text2num(z_level)
+				if(!isnum(z_level))
+					// If it's still not a number, we probably got fed some nonsense string.
+					admin_notice("<span class='danger'>Error: ASTEROID_Z_LEVELS config wasn't given a number.</span>")
+				// Now for the actual map generating.  This occurs for every z-level defined in the config.
+				new /datum/random_map/automata/cave_system(null,1,1,z_level,300,300)
+				// Let's add ore too.
+				new /datum/random_map/noise/ore(null, 1, 1, z_level, 64, 64)
+		else
+			admin_notice("<span class='danger'>Error: No asteroid z-levels defined in config!</span>")
+		// Update all turfs to ensure everything looks good post-generation. Yes,
+		// it's brute-forcey, but frankly the alternative is a mine turf rewrite.
+		for(var/turf/simulated/mineral/M in world) // Ugh.
+			M.update_icon()
 
 	// Create autolathe recipes, as above.
 	populate_lathe_recipes()
@@ -66,14 +107,15 @@ var/global/datum/global_init/init = new ()
 	// Create robolimbs for chargen.
 	populate_robolimb_list()
 
-	generate_body_modification_lists()
-
 	processScheduler = new
 	master_controller = new /datum/controller/game_controller()
 	spawn(1)
 		processScheduler.deferSetupFor(/datum/controller/process/ticker)
 		processScheduler.setup()
 		master_controller.setup()
+#if UNIT_TEST
+		initialize_unit_tests()
+#endif
 
 	spawn(3000)		//so we aren't adding to the round-start lag
 		if(config.ToRban)
@@ -116,7 +158,7 @@ var/world_topic_spam_protect_time = world.timeofday
 		// This is dumb, but spacestation13.com's banners break if player count isn't the 8th field of the reply, so... this has to go here.
 		s["players"] = 0
 		s["stationtime"] = worldtime2text()
-		s["roundduration"] = round_duration()
+		s["roundduration"] = round_duration_as_text()
 
 		if(input["status"] == "2")
 			var/list/players = list()
@@ -158,6 +200,7 @@ var/world_topic_spam_protect_time = world.timeofday
 				"eng" = engineering_positions,
 				"med" = medical_positions,
 				"sci" = science_positions,
+				"car" = cargo_positions,
 				"civ" = civilian_positions,
 				"bot" = nonhuman_positions
 			)
@@ -184,6 +227,12 @@ var/world_topic_spam_protect_time = world.timeofday
 
 		return list2params(positions)
 
+	else if(T == "revision")
+		if(revdata.revision)
+			return list2params(list(branch = revdata.branch, date = revdata.date, revision = revdata.revision))
+		else
+			return "unknown"
+
 	else if(copytext(T,1,5) == "info")
 		var/input[] = params2list(T)
 		if(input["key"] != config.comms_password)
@@ -198,18 +247,32 @@ var/world_topic_spam_protect_time = world.timeofday
 
 			return "Bad Key"
 
-		var/search = input["info"]
-		var/ckey = ckey(search)
+		var/list/search = params2list(input["info"])
+		var/list/ckeysearch = list()
+		for(var/text in search)
+			ckeysearch += ckey(text)
 
 		var/list/match = list()
 
 		for(var/mob/M in mob_list)
-			if(findtext(M.name, search))
-				match += M
-			else if(M.ckey == ckey)
-				match += M
-			else if(M.mind && findtext(M.mind.assigned_role, search))
-				match += M
+			var/strings = list(M.name, M.ckey)
+			if(M.mind)
+				strings += M.mind.assigned_role
+				strings += M.mind.special_role
+			for(var/text in strings)
+				if(ckey(text) in ckeysearch)
+					match[M] += 10 // an exact match is far better than a partial one
+				else
+					for(var/searchstr in search)
+						if(findtext(text, searchstr))
+							match[M] += 1
+
+		var/maxstrength = 0
+		for(var/mob/M in match)
+			maxstrength = max(match[M], maxstrength)
+		for(var/mob/M in match)
+			if(match[M] < maxstrength)
+				match -= M
 
 		if(!match.len)
 			return "No matches"
@@ -362,6 +425,10 @@ var/world_topic_spam_protect_time = world.timeofday
 	return 1
 
 /world/proc/load_mode()
+	if(!fexists("data/mode.txt"))
+		return
+
+
 	var/list/Lines = file2list("data/mode.txt")
 	if(Lines.len)
 		if(Lines[1])
@@ -400,7 +467,7 @@ var/world_topic_spam_protect_time = world.timeofday
 		if (!text)
 			error("Failed to load config/mods.txt")
 		else
-			var/list/lines = text2list(text, "\n")
+			var/list/lines = splittext(text, "\n")
 			for(var/line in lines)
 				if (!line)
 					continue
@@ -421,7 +488,7 @@ var/world_topic_spam_protect_time = world.timeofday
 		if (!text)
 			error("Failed to load config/mentors.txt")
 		else
-			var/list/lines = text2list(text, "\n")
+			var/list/lines = splittext(text, "\n")
 			for(var/line in lines)
 				if (!line)
 					continue
@@ -438,22 +505,16 @@ var/world_topic_spam_protect_time = world.timeofday
 /world/proc/update_status()
 	var/s = ""
 
-	if (config && config.server_group)
-		if (config && config.server_group_url)
-			s += "<b>\[<a href=\"[config.server_group_url]\">[config.server_group]</a>\] - </b>"
-		else
-			s += "<b>\[[config.server_group]\] - </b>"
-
 	if (config && config.server_name)
 		s += "<b>[config.server_name]</b> &#8212; "
 
 	s += "<b>[station_name()]</b>";
-//	s += " ("
-//	s += "<a href=\"http://\">" //Change this to wherever you want the hub to link to.
+	s += " ("
+	s += "<a href=\"http://\">" //Change this to wherever you want the hub to link to.
 //	s += "[game_version]"
-//	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
-//	s += "</a>"
-//	s += ")"
+	s += "Default"  //Replace this with something else. Or ever better, delete it and uncomment the game version.
+	s += "</a>"
+	s += ")"
 
 	var/list/features = list()
 
@@ -484,17 +545,12 @@ var/world_topic_spam_protect_time = world.timeofday
 	else if (n > 0)
 		features += "~[n] player"
 
-	/*
-	is there a reason for this? the byond site shows 'hosted by X' when there is a proper host already.
-	if (host)
-		features += "hosted by <b>[host]</b>"
-	*/
 
-	if (!host && config && config.hostedby)
+	if (config && config.hostedby)
 		features += "hosted by <b>[config.hostedby]</b>"
 
 	if (features)
-		s += ": [list2text(features, ", ")]"
+		s += ": [jointext(features, ", ")]"
 
 	/* does this help? I do not know */
 	if (src.status != s)
@@ -502,9 +558,12 @@ var/world_topic_spam_protect_time = world.timeofday
 
 #define FAILED_DB_CONNECTION_CUTOFF 5
 var/failed_db_connections = 0
+var/failed_old_db_connections = 0
 
 /hook/startup/proc/connectDB()
-	if(!setup_database_connection())
+	if(!config.sql_enabled)
+		world.log << "SQL connection disabled in config."
+	else if(!setup_database_connection())
 		world.log << "Your server failed to establish a connection with the feedback database."
 	else
 		world.log << "Feedback database connection established."

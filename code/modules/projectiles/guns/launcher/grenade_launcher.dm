@@ -35,22 +35,24 @@
 		M << "<span class='warning'>You pump [src], but the magazine is empty.</span>"
 	update_icon()
 
-/obj/item/weapon/gun/launcher/grenade/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=2)
+/obj/item/weapon/gun/launcher/grenade/examine(mob/user)
+	if(..(user, 2))
 		var/grenade_count = grenades.len + (chambered? 1 : 0)
 		user << "Has [grenade_count] grenade\s remaining."
 		if(chambered)
 			user << "\A [chambered] is chambered."
 
 /obj/item/weapon/gun/launcher/grenade/proc/load(obj/item/weapon/grenade/G, mob/user)
-	if(grenades.len >= max_grenades)
-		user << "<span class='warning'>[src] is full.</span>"
+	if(G.loadable)
+		if(grenades.len >= max_grenades)
+			user << "<span class='warning'>[src] is full.</span>"
+			return
+		user.remove_from_mob(G)
+		G.loc = src
+		grenades.Insert(1, G) //add to the head of the list, so that it is loaded on the next pump
+		user.visible_message("[user] inserts \a [G] into [src].", "<span class='notice'>You insert \a [G] into [src].</span>")
 		return
-	user.remove_from_mob(G)
-	G.loc = src
-	grenades.Insert(1, G) //add to the head of the list, so that it is loaded on the next pump
-	user.visible_message("[user] inserts \a [G] into [src].", "<span class='notice'>You insert \a [G] into [src].</span>")
+	user << "<span class='warning'>[G] doesn't seem to fit in the [src]!</span>"
 
 /obj/item/weapon/gun/launcher/grenade/proc/unload(mob/user)
 	if(grenades.len)
@@ -58,6 +60,7 @@
 		grenades.len--
 		user.put_in_hands(G)
 		user.visible_message("[user] removes \a [G] from [src].", "<span class='notice'>You remove \a [G] from [src].</span>")
+		playsound(src.loc, 'sound/weapons/empty.ogg', 50, 1)
 	else
 		user << "<span class='warning'>[src] is empty.</span>"
 
@@ -100,18 +103,22 @@
 
 //load and unload directly into chambered
 /obj/item/weapon/gun/launcher/grenade/underslung/load(obj/item/weapon/grenade/G, mob/user)
-	if(chambered)
-		user << "<span class='warning'>[src] is already loaded.</span>"
+	if(G.loadable)
+		if(chambered)
+			user << "<span class='warning'>[src] is already loaded.</span>"
+			return
+		user.remove_from_mob(G)
+		G.loc = src
+		chambered = G
+		user.visible_message("[user] load \a [G] into [src].", "<span class='notice'>You load \a [G] into [src].</span>")
 		return
-	user.remove_from_mob(G)
-	G.loc = src
-	chambered = G
-	user.visible_message("[user] load \a [G] into [src].", "<span class='notice'>You load \a [G] into [src].</span>")
+	user << "<span class='warning'>[G] doesn't seem to fit in the [src]!</span>"
 
 /obj/item/weapon/gun/launcher/grenade/underslung/unload(mob/user)
 	if(chambered)
 		user.put_in_hands(chambered)
 		user.visible_message("[user] removes \a [chambered] from [src].", "<span class='notice'>You remove \a [chambered] from [src].</span>")
+		playsound(src.loc, 'sound/weapons/empty.ogg', 50, 1)
 		chambered = null
 	else
 		user << "<span class='warning'>[src] is empty.</span>"

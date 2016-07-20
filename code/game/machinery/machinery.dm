@@ -96,6 +96,8 @@ Class Procs:
 /obj/machinery
 	name = "machinery"
 	icon = 'icons/obj/stationobjs.dmi'
+	w_class = 10
+
 	var/stat = 0
 	var/emagged = 0
 	var/use_power = 1
@@ -105,11 +107,13 @@ Class Procs:
 	var/idle_power_usage = 0
 	var/active_power_usage = 0
 	var/power_channel = EQUIP //EQUIP, ENVIRON or LIGHT
-	var/list/component_parts = list() //list of all the parts used to build it, if made from certain kinds of frames.
+	var/list/component_parts = null //list of all the parts used to build it, if made from certain kinds of frames.
 	var/uid
 	var/panel_open = 0
 	var/global/gl_uid = 1
 	var/interact_offline = 0 // Can the machine be interacted with while de-powered.
+	var/circuit = null
+	var/frame_type = "machine"
 
 /obj/machinery/New(l, d=0)
 	..(l)
@@ -132,7 +136,7 @@ Class Procs:
 	if(contents) // The same for contents.
 		for(var/atom/A in contents)
 			qdel(A)
-	..()
+	return ..()
 
 /obj/machinery/process()//If you dont use process or power why are you here
 	if(!(use_power || idle_power_usage || active_power_usage))
@@ -171,10 +175,6 @@ Class Procs:
 		else
 	return
 
-/obj/machinery/blob_act()
-	if(prob(50))
-		qdel(src)
-
 //sets the use_power var and then forces an area power update
 /obj/machinery/proc/update_use_power(var/new_use_power)
 	use_power = new_use_power
@@ -195,10 +195,7 @@ Class Procs:
 	return (stat & (NOPOWER|BROKEN|additional_flags))
 
 /obj/machinery/CanUseTopic(var/mob/user)
-	if(stat & BROKEN)
-		return STATUS_CLOSE
-
-	if(!interact_offline && (stat & NOPOWER))
+	if(!interact_offline && (stat & (NOPOWER|BROKEN)))
 		return STATUS_CLOSE
 
 	return ..()
@@ -228,20 +225,15 @@ Class Procs:
 		return 1
 	if ( ! (istype(usr, /mob/living/carbon/human) || \
 			istype(usr, /mob/living/silicon)))
-		usr << "\red You don't have the dexterity to do this!"
+		usr << "<span class='warning'>You don't have the dexterity to do this!</span>"
 		return 1
-/*
-	//distance checks are made by atom/proc/DblClick
-	if ((get_dist(src, user) > 1 || !istype(src.loc, /turf)) && !istype(user, /mob/living/silicon))
-		return 1
-*/
 	if (ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(H.getBrainLoss() >= 60)
-			visible_message("\red [H] stares cluelessly at [src] and drools.")
+		if(H.getBrainLoss() >= 55)
+			visible_message("<span class='warning'>[H] stares cluelessly at [src].</span>")
 			return 1
 		else if(prob(H.getBrainLoss()))
-			user << "\red You momentarily forget how to use [src]."
+			user << "<span class='warning'>You momentarily forget how to use [src].</span>"
 			return 1
 
 	src.add_fingerprint(user)
@@ -285,33 +277,16 @@ Class Procs:
 			return 1
 	return 0
 
-/obj/machinery/proc/default_deconstruction_crowbar(var/mob/user, var/obj/item/weapon/crowbar/C)
-	if(!istype(C))
-		return 0
-	if(!panel_open)
-		return 0
-	. = dismantle()
-
-/obj/machinery/proc/default_deconstruction_screwdriver(var/mob/user, var/obj/item/weapon/screwdriver/S)
-	if(!istype(S))
-		return 0
-	playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
-	panel_open = !panel_open
-	user << "<span class='notice'>You [panel_open ? "open" : "close"] the maintenance hatch of [src].</span>"
-	update_icon()
-	return 1
-
 /obj/machinery/proc/default_part_replacement(var/mob/user, var/obj/item/weapon/storage/part_replacer/R)
 	if(!istype(R))
 		return 0
 	if(!component_parts)
 		return 0
 	if(panel_open)
-		var/obj/item/weapon/circuitboard/CB = locate(/obj/item/weapon/circuitboard) in component_parts
+		var/obj/item/weapon/circuitboard/CB = circuit
 		var/P
 		for(var/obj/item/weapon/stock_parts/A in component_parts)
-			for(var/D in CB.req_components)
-				var/T = text2path(D)
+			for(var/T in CB.req_components)
 				if(ispath(A.type, T))
 					P = T
 					break
@@ -333,15 +308,47 @@ Class Procs:
 			user << "<span class='notice'>    [C.name]</span>"
 	return 1
 
+/obj/machinery/proc/default_deconstruction_crowbar(var/mob/user, var/obj/item/weapon/crowbar/C)
+	if(!istype(C))
+		return 0
+	if(!panel_open)
+		return 0
+	. = dismantle()
+
+/obj/machinery/proc/default_deconstruction_screwdriver(var/mob/user, var/obj/item/weapon/screwdriver/S)
+	if(!istype(S))
+		return 0
+	playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
+	panel_open = !panel_open
+	user << "<span class='notice'>You [panel_open ? "open" : "close"] the maintenance hatch of [src].</span>"
+	update_icon()
+	return 1
+
 /obj/machinery/proc/dismantle()
 	playsound(loc, 'sound/items/Crowbar.ogg', 50, 1)
-	var/obj/machinery/constructable_frame/machine_frame/M = new /obj/machinery/constructable_frame/machine_frame(loc)
-	M.set_dir(src.dir)
-	M.state = 2
-	M.icon_state = "box_1"
-	for(var/obj/I in component_parts)
-		if(I.reliability != 100 && crit_fail)
-			I.crit_fail = 1
-		I.loc = loc
+	var/obj/structure/frame/A = new /obj/structure/frame( src.loc )
+	var/obj/item/weapon/circuitboard/M = circuit
+	A.circuit = M
+	A.anchored = 1
+	A.density = 1
+	A.frame_type = M.board_type
+	if(A.frame_type in A.no_circuit)
+		A.need_circuit = 0
+	for (var/obj/D in src.component_parts)
+		D.forceMove(loc)
+	if(A.components)
+		A.components.Cut()
+	else
+		A.components = list()
+	component_parts = list()
+	A.icon_state = "[A.frame_type]_3"
+	A.state = 3
+	A.dir = dir
+	A.pixel_x = pixel_x
+	A.pixel_y = pixel_y
+	A.check_components()
+	A.update_desc()
+	M.loc = null
+	M.deconstruct(src)
 	qdel(src)
 	return 1

@@ -16,8 +16,7 @@
 	create_objectives(target)
 	update_icons_added(target)
 	greet(target)
-	if(!gag_announcement)
-		announce_antagonist_spawn()
+	announce_antagonist_spawn()
 
 /datum/antagonist/proc/create_default(var/mob/source)
 	var/mob/living/M
@@ -35,10 +34,9 @@
 
 	var/obj/item/weapon/card/id/W = new id_type(player)
 	if(!W) return
-	W.name = "[player.real_name]'s ID Card"
 	W.access |= default_access
 	W.assignment = "[assignment]"
-	W.registered_name = player.real_name
+	player.set_id_info(W)
 	if(equip) player.equip_to_slot_or_del(W, slot_wear_id)
 	return W
 
@@ -78,7 +76,7 @@
 			P.info = "The nuclear authorization code is: <b>[code]</b>"
 			P.name = "nuclear bomb code"
 			if(leader && leader.current)
-				if(get_turf(P) == get_turf(leader.current) && !(leader.current.l_hand && leader.current.r_hand))
+				if(get_turf(P) == get_turf(leader.current))
 					leader.current.put_in_hands(P)
 
 		if(!code_owner && leader)
@@ -101,17 +99,14 @@
 		player.current << "<span class='notice'>[leader_welcome_text]</span>"
 	else
 		player.current << "<span class='notice'>[welcome_text]</span>"
+	if (config.objectives_disabled)
+		player.current << "<span class='notice'>[antag_text]</span>"
 
 	if((flags & ANTAG_HAS_NUKE) && !spawned_nuke)
 		create_nuke()
 
-	show_objectives(player)
-
-	// Clown clumsiness check, I guess downstream might use it.
-	if (player.current.mind)
-		if (player.current.mind.assigned_role == "Clown")
-			player.current << "You have evolved beyond your clownish nature, allowing you to wield weapons without harming yourself."
-			player.current.mutations.Remove(CLUMSY)
+	if (!config.objectives_disabled)
+		show_objectives(player)
 	return 1
 
 /datum/antagonist/proc/set_antag_name(var/mob/living/player)

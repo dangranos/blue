@@ -8,6 +8,17 @@
 	var/product
 	var/metaltag
 
+/datum/alloy/durasteel
+	metaltag = "durasteel"
+	requires = list(
+		"diamond" = 1,
+		"platinum" = 1,
+		"carbon" = 2,
+		"hematite" = 2
+		)
+	product_mod = 0.3
+	product = /obj/item/stack/material/durasteel
+
 /datum/alloy/plasteel
 	metaltag = "plasteel"
 	requires = list(
@@ -25,3 +36,11 @@
 		"hematite" = 1
 		)
 	product = /obj/item/stack/material/steel
+
+/datum/alloy/borosilicate
+	metaltag = "borosilicate glass"
+	requires = list(
+		"platinum" = 1,
+		"sand" = 2
+		)
+	product = /obj/item/stack/material/glass/phoronglass

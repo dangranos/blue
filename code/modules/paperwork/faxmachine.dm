@@ -1,5 +1,5 @@
 var/list/obj/machinery/photocopier/faxmachine/allfaxes = list()
-var/list/admin_departments = list("Central Command", "Sol Government")
+var/list/admin_departments = list("[boss_name]", "Sif Governmental Authority", "Supply")
 var/list/alldepartments = list()
 
 var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
@@ -9,82 +9,60 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 	icon = 'icons/obj/library.dmi'
 	icon_state = "fax"
 	insert_anim = "faxsend"
-	req_one_access = list(access_lawyer, access_heads, access_armory) //Warden needs to be able to Fax solgov too.
+	req_one_access = list(access_lawyer, access_heads, access_armory, access_qm)
 
 	use_power = 1
 	idle_power_usage = 30
 	active_power_usage = 200
-	density = 0
+	circuit = /obj/item/weapon/circuitboard/fax
 
 	var/obj/item/weapon/card/id/scan = null // identification
 	var/authenticated = 0
 	var/sendcooldown = 0 // to avoid spamming fax messages
-
 	var/department = "Unknown" // our department
+	var/destination = null // the department we're sending to
 
-	var/destination = "Central Command" // the department we're sending to
-
-	pass_flags = PASSTABLE
-
-/obj/machinery/photocopier/faxmachine/New(new_loc, new_department)
-	if(new_department && istext(new_department)) department = new_department
-	..(new_loc)
+/obj/machinery/photocopier/faxmachine/New()
 	allfaxes += src
-
+	if(!destination) destination = "[boss_name]"
 	if( !(("[department]" in alldepartments) || ("[department]" in admin_departments)) )
 		alldepartments |= department
+	..()
 
 /obj/machinery/photocopier/faxmachine/attack_hand(mob/user as mob)
 	user.set_machine(src)
 
-	var/dat = "Fax Machine<BR>"
+	ui_interact(user)
 
-	var/scan_name
+/**
+ *  Display the NanoUI window for the fax machine.
+ *
+ *  See NanoUI documentation for details.
+ */
+/obj/machinery/photocopier/faxmachine/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
+	user.set_machine(src)
+
+	var/list/data = list()
 	if(scan)
-		scan_name = scan.name
+		data["scanName"] = scan.name
 	else
-		scan_name = "--------"
-
-	dat += "Confirm Identity: <a href='byond://?src=\ref[src];scan=1'>[scan_name]</a><br>"
-
-	if(authenticated)
-		dat += "<a href='byond://?src=\ref[src];logout=1'>{Log Out}</a>"
+		data["scanName"] = null
+	data["bossName"] = boss_name
+	data["authenticated"] = authenticated
+	data["copyItem"] = copyitem
+	if(copyitem)
+		data["copyItemName"] = copyitem.name
 	else
-		dat += "<a href='byond://?src=\ref[src];auth=1'>{Log In}</a>"
+		data["copyItemName"] = null
+	data["cooldown"] = sendcooldown
+	data["destination"] = destination
 
-	dat += "<hr>"
-
-	if(authenticated)
-		dat += "<b>Logged in to:</b> Central Command Quantum Entanglement Network<br><br>"
-
-		if(copyitem)
-			dat += "<a href='byond://?src=\ref[src];remove=1'>Remove Item</a><br><br>"
-
-			if(sendcooldown)
-				dat += "<b>Transmitter arrays realigning. Please stand by.</b><br>"
-
-			else
-
-				dat += "<a href='byond://?src=\ref[src];send=1'>Send</a><br>"
-				dat += "<b>Currently sending:</b> [copyitem.name]<br>"
-				dat += "<b>Sending to:</b> <a href='byond://?src=\ref[src];dept=1'>[destination]</a><br>"
-
-		else
-			if(sendcooldown)
-				dat += "Please insert paper to send via secure connection.<br><br>"
-				dat += "<b>Transmitter arrays realigning. Please stand by.</b><br>"
-			else
-				dat += "Please insert paper to send via secure connection.<br><br>"
-
-	else
-		dat += "Proper authentication is required to use this device.<br><br>"
-
-		if(copyitem)
-			dat += "<a href ='byond://?src=\ref[src];remove=1'>Remove Item</a><br>"
-
-	user << browse(dat, "window=copier")
-	onclose(user, "copier")
-	return
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	if (!ui)
+		ui = new(user, src, ui_key, "fax.tmpl", src.name, 500, 500)
+		ui.set_initial_data(data)
+		ui.open()
+		ui.set_auto_update(10) //this machine is so unimportant let's not have it update that often.
 
 /obj/machinery/photocopier/faxmachine/Topic(href, href_list)
 	if(href_list["send"])
@@ -104,7 +82,6 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 			usr.put_in_hands(copyitem)
 			usr << "<span class='notice'>You take \the [copyitem] out of \the [src].</span>"
 			copyitem = null
-			updateUsrDialog()
 
 	if(href_list["scan"])
 		if (scan)
@@ -118,8 +95,7 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 				scan = null
 		else
 			var/obj/item/I = usr.get_active_hand()
-			if (istype(I, /obj/item/weapon/card/id))
-				usr.drop_item()
+			if (istype(I, /obj/item/weapon/card/id) && usr.unEquip(I))
 				I.loc = src
 				scan = I
 		authenticated = 0
@@ -137,7 +113,7 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 	if(href_list["logout"])
 		authenticated = 0
 
-	updateUsrDialog()
+	nanomanager.update_uis(src)
 
 /obj/machinery/photocopier/faxmachine/proc/sendfax(var/destination)
 	if(stat & (BROKEN|NOPOWER))
@@ -164,7 +140,7 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 		return 0	//You can't send faxes to "Unknown"
 
 	flick("faxreceive", src)
-	playsound(loc, "sound/items/polaroid1.ogg", 50, 1)
+	playsound(loc, "sound/effects/printer.ogg", 50, 1)
 
 	// give the sprite some time to flick
 	sleep(20)
@@ -203,11 +179,13 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 
 	//message badmins that a fax has arrived
 	switch(destination)
-		if ("Central Command")
-			message_admins(sender, "CENTCOMM FAX", rcvdcopy, "CentcommFaxReply", "#006100")
-		if ("Sol Government")
-			message_admins(sender, "SOL GOVERNMENT FAX", rcvdcopy, "CentcommFaxReply", "#1F66A0")
+		if (boss_name)
+			message_admins(sender, "[ruppertext(boss_short)] FAX", rcvdcopy, "CentcommFaxReply", "#006100")
+		if ("Sif Governmental Authority")
+			message_admins(sender, "SIF GOVERNMENT FAX", rcvdcopy, "CentcommFaxReply", "#1F66A0")
 			//message_admins(sender, "SOL GOVERNMENT FAX", rcvdcopy, "SolGovFaxReply", "#1F66A0")
+		if ("Supply")
+			message_admins(sender, "[ruppertext(boss_short)] SUPPLY FAX", rcvdcopy, "CentcommFaxReply", "#5F4519")
 
 	sendcooldown = 1800
 	sleep(50)
@@ -215,8 +193,9 @@ var/list/adminfaxes = list()	//cache for faxes that have been sent to admins
 
 
 /obj/machinery/photocopier/faxmachine/proc/message_admins(var/mob/sender, var/faxname, var/obj/item/sent, var/reply_type, font_colour="#006100")
-	var/msg = "\blue <b><font color='[font_colour]'>[faxname]: </font>[key_name(sender, 1)] (<A HREF='?_src_=holder;adminplayeropts=\ref[sender]'>PP</A>) (<A HREF='?_src_=vars;Vars=\ref[sender]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=\ref[sender]'>SM</A>) (<A HREF='?_src_=holder;adminplayerobservejump=\ref[sender]'>JMP</A>) (<A HREF='?_src_=holder;secretsadmin=check_antagonist'>CA</A>) (<a href='?_src_=holder;[reply_type]=\ref[sender];originfax=\ref[src]'>REPLY</a>)</b>: Receiving '[sent.name]' via secure connection ... <a href='?_src_=holder;AdminFaxView=\ref[sent]'>view message</a>"
+	var/msg = "\blue <b><font color='[font_colour]'>[faxname]: </font>[key_name(sender, 1)] (<A HREF='?_src_=holder;adminplayeropts=\ref[sender]'>PP</A>) (<A HREF='?_src_=vars;Vars=\ref[sender]'>VV</A>) (<A HREF='?_src_=holder;subtlemessage=\ref[sender]'>SM</A>) ([admin_jump_link(sender, src)]) (<A HREF='?_src_=holder;secretsadmin=check_antagonist'>CA</A>) (<a href='?_src_=holder;[reply_type]=\ref[sender];originfax=\ref[src]'>REPLY</a>)</b>: Receiving '[sent.name]' via secure connection ... <a href='?_src_=holder;AdminFaxView=\ref[sent]'>view message</a>"
 
 	for(var/client/C in admins)
 		if(R_ADMIN & C.holder.rights)
 			C << msg
+			C << 'sound/effects/printer.ogg'

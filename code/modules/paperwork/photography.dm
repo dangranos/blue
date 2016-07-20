@@ -48,10 +48,10 @@ var/global/photo_count = 0
 			scribble = txt
 	..()
 
-/obj/item/weapon/photo/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=1)
+/obj/item/weapon/photo/examine(mob/user)
+	if(in_range(user, src))
 		show(user)
+		user << desc
 	else
 		user << "<span class='notice'>It is too far away.</span>"
 
@@ -78,18 +78,6 @@ var/global/photo_count = 0
 	return
 
 
-/obj/item/weapon/photo/custom/attack_self(mob/user as mob)
-	if(!img)
-		img = input("Set image for phote") as icon
-		var/icon/small_img = icon(img)
-		var/icon/ic = icon('icons/obj/items.dmi',"photo")
-		small_img.Scale(8, 8)
-		ic.Blend(small_img,ICON_OVERLAY, 10, 13)
-		icon = ic
-		name = input("Set name for phote", "New name", "photo") as text
-	else
-		return ..()
-
 /**************
 * photo album *
 **************/
@@ -103,7 +91,7 @@ var/global/photo_count = 0
 /obj/item/weapon/storage/photo_album/MouseDrop(obj/over_object as obj)
 
 	if((istype(usr, /mob/living/carbon/human)))
-		var/mob/M = usr
+		var/mob/living/carbon/human/M = usr
 		if(!( istype(over_object, /obj/screen) ))
 			return ..()
 		playsound(loc, "rustle", 50, 1, -5)

@@ -98,9 +98,8 @@ var/global/list/rad_collectors = list()
 		return 1
 	return ..()
 
-/obj/machinery/power/rad_collector/examine(mob/user, return_dist=1)
-	.=..()
-	if (.<=4)
+/obj/machinery/power/rad_collector/examine(mob/user)
+	if (..(user, 3))
 		user << "The meter indicates that \the [src] is collecting [last_power] W."
 		return 1
 

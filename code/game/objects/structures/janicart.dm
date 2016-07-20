@@ -19,9 +19,8 @@
 	create_reagents(100)
 
 
-/obj/structure/janitorialcart/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=1)
+/obj/structure/janitorialcart/examine(mob/user)
+	if(..(user, 1))
 		user << "[src] \icon[src] contains [reagents.total_volume] unit\s of liquid!"
 	//everything else is visible, so doesn't need to be mentioned
 
@@ -38,7 +37,7 @@
 	else if(istype(I, /obj/item/weapon/mop))
 		if(I.reagents.total_volume < I.reagents.maximum_volume)	//if it's not completely soaked we assume they want to wet it, otherwise store it
 			if(reagents.total_volume < 1)
-				user << "[src] is out of water!</span>"
+				user << "<span class='warning'>[src] is out of water!</span>"
 			else
 				reagents.trans_to_obj(I, 5)	//
 				user << "<span class='notice'>You wet [I] in [src].</span>"
@@ -179,9 +178,8 @@
 	update_layer()
 
 
-/obj/structure/bed/chair/janicart/examine(mob/user, return_dist=1)
-	.=..()
-	if(.>1)
+/obj/structure/bed/chair/janicart/examine(mob/user)
+	if(!..(user, 1))
 		return
 
 	user << "\icon[src] This [callme] contains [reagents.total_volume] unit\s of water!"
@@ -215,10 +213,10 @@
 		..()
 
 
-/obj/structure/bed/chair/janicart/relaymove(mob/user, direction)
+/obj/structure/bed/chair/janicart/relaymove(mob/living/user, direction)
 	if(user.stat || user.stunned || user.weakened || user.paralysis)
 		unbuckle_mob()
-	if(istype(user.l_hand, /obj/item/key) || istype(user.r_hand, /obj/item/key))
+	if(user.get_type_in_hands(/obj/item/key))
 		step(src, direction)
 		update_mob()
 	else

@@ -146,7 +146,7 @@
 		verbs += /obj/vehicle/train/cargo/engine/verb/stop_engine
 
 /obj/vehicle/train/cargo/RunOver(var/mob/living/carbon/human/H)
-	var/list/parts = list("head", "chest", "l_leg", "r_leg", "l_arm", "r_arm")
+	var/list/parts = list(BP_HEAD, BP_TORSO, BP_L_LEG, BP_R_LEG, BP_L_ARM, BP_R_ARM)
 
 	H.apply_effects(5, 5)
 	for(var/i = 0, i < rand(1,3), i++)
@@ -185,11 +185,15 @@
 	else
 		return ..()
 
-/obj/vehicle/train/cargo/engine/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=1 && istype(usr, /mob/living/carbon/human))
-		user << "The power light is [on ? "on" : "off"].\nThere are[key ? "" : " no"] keys in the ignition."
-		user << "The charge meter reads [cell? round(cell.percent(), 0.01) : 0]%"
+/obj/vehicle/train/cargo/engine/examine(mob/user)
+	if(!..(user, 1))
+		return
+
+	if(!istype(usr, /mob/living/carbon/human))
+		return
+
+	user << "The power light is [on ? "on" : "off"].\nThere are[key ? "" : " no"] keys in the ignition."
+	user << "The charge meter reads [cell? round(cell.percent(), 0.01) : 0]%"
 
 /obj/vehicle/train/cargo/engine/verb/start_engine()
 	set name = "Start engine"

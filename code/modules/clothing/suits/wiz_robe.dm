@@ -2,6 +2,10 @@
 	name = "wizard hat"
 	desc = "Strange-looking hat-wear that most certainly belongs to a real magic user."
 	icon_state = "wizard"
+	item_state_slots = list(
+		slot_l_hand_str = "wizhat",
+		slot_r_hand_str = "wizhat",
+		)
 	//Not given any special protective value since the magic robes are full-body protection --NEO
 	siemens_coefficient = 0.8
 	body_parts_covered = 0
@@ -11,18 +15,6 @@
 	name = "red wizard hat"
 	desc = "Strange-looking, red, hat-wear that most certainly belongs to a real magic user."
 	icon_state = "redwizard"
-	siemens_coefficient = 0.8
-
-/obj/item/clothing/head/wizard/green
-	name = "green wizard hat"
-	desc = "Strange-looking, green, hat-wear that most certainly belongs to a real magic user."
-	icon_state = "greenwizard"
-	siemens_coefficient = 0.8
-
-/obj/item/clothing/head/wizard/necrohood
-	name = "Necromancer Hood"
-	desc = "Strange-looking hood-wear, makes you want to revive the dead."
-	icon_state = "necrohood"
 	siemens_coefficient = 0.8
 
 /obj/item/clothing/head/wizard/fake
@@ -42,6 +34,10 @@
 	desc = "A mysterious helmet that hums with an unearthly power"
 	icon_state = "magus"
 	item_state = "magus"
+	item_state_slots = list(
+		slot_l_hand_str = "helmet",
+		slot_r_hand_str = "helmet",
+		)
 	siemens_coefficient = 0.8
 	body_parts_covered = HEAD|FACE|EYES
 
@@ -49,12 +45,20 @@
 	name = "psychic amplifier"
 	desc = "A crown-of-thorns psychic amplifier. Kind of looks like a tiara having sex with an industrial robot."
 	icon_state = "amp"
+	item_state_slots = list(
+		slot_l_hand_str = "helmet",
+		slot_r_hand_str = "helmet",
+		)
 	siemens_coefficient = 0.8
 
 /obj/item/clothing/head/wizard/cap
 	name = "Gentlemans Cap"
 	desc = "A checkered gray flat cap woven together with the rarest of threads."
 	icon_state = "gentcap"
+	item_state_slots = list(
+		slot_l_hand_str = "det_hat",
+		slot_r_hand_str = "det_hat",
+		)
 	siemens_coefficient = 0.8
 
 /obj/item/clothing/suit/wizrobe
@@ -76,11 +80,6 @@
 	icon_state = "redwizard"
 	item_state = "redwizrobe"
 
-/obj/item/clothing/suit/wizrobe/green
-	name = "green wizard robe"
-	desc = "A magnificant, green robe that seems to radiate power."
-	icon_state = "greenwizrobe"
-	item_state = "greenwizrobe"
 
 /obj/item/clothing/suit/wizrobe/marisa
 	name = "Witch Robe"
@@ -101,12 +100,6 @@
 	icon_state = "magusred"
 	item_state = "magusred"
 	body_parts_covered = UPPER_TORSO|LOWER_TORSO|ARMS|HANDS|LEGS|FEET
-
-/obj/item/clothing/suit/wizrobe/necromancer
-	name = "Necromancer Robe"
-	desc = "A set of elegant robes that seem to radiate a dark power"
-	icon_state = "necrorobe"
-	item_state = "necrorobe"
 
 /obj/item/clothing/suit/wizrobe/psypurple
 	name = "purple robes"

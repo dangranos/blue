@@ -7,10 +7,13 @@
 	icon = 'icons/obj/power.dmi'
 	icon_state = "light1"
 	anchored = 1.0
+	use_power = 1
+	idle_power_usage = 10
+	power_channel = LIGHT
 	var/on = 1
 	var/area/area = null
 	var/otherarea = null
-	//	luminosity = 1
+	var/image/overlay
 
 /obj/machinery/light_switch/New()
 	..()
@@ -29,14 +32,21 @@
 
 
 /obj/machinery/light_switch/proc/updateicon()
+	if(!overlay)
+		overlay = image(icon, "light1-overlay", LIGHTING_LAYER+0.1)
+
+	overlays.Cut()
 	if(stat & NOPOWER)
 		icon_state = "light-p"
+		set_light(0)
 	else
 		icon_state = "light[on]"
+		overlay.icon_state = "light[on]-overlay"
+		overlays += overlay
+		set_light(2, 0.1, on ? "#82FF4C" : "#F86060")
 
-/obj/machinery/light_switch/examine(mob/user, return_dist = 1)
-	. = ..(user)
-	if(. <= 1)
+/obj/machinery/light_switch/examine(mob/user)
+	if(..(user, 1))
 		user << "A light switch. It is [on? "on" : "off"]."
 
 /obj/machinery/light_switch/attack_hand(mob/user)

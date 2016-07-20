@@ -7,15 +7,9 @@
 	feedback_tag = "changeling_objective"
 	restricted_jobs = list("AI", "Cyborg")
 	protected_jobs = list("Security Officer", "Warden", "Detective", "Head of Security", "Captain")
-	welcome_text = "Use say \":g message\" to communicate with your fellow changelings. Remember: you get all of their absorbed DNA if you absorb them."
+	welcome_text = "Use say \"#g message\" to communicate with your fellow changelings. Remember: you get all of their absorbed DNA if you absorb them."
 	flags = ANTAG_SUSPICIOUS | ANTAG_RANDSPAWN | ANTAG_VOTABLE
 	antaghud_indicator = "hudchangeling"
-
-/datum/antagonist/changeling/can_become_antag(var/datum/mind/player, var/ignore_role)
-	if(player.current && istype(player.current, /mob/living/carbon/human))
-		var/datum/species/S = player.current:species
-		if(S.flags & (NO_SCAN|IS_SYNTHETIC)) return 0
-	return ..()
 
 /datum/antagonist/changeling/get_special_objective_text(var/datum/mind/player)
 	return "<br><b>Changeling ID:</b> [player.changeling.changelingID].<br><b>Genomes Absorbed:</b> [player.changeling.absorbedcount]"
@@ -60,3 +54,33 @@
 				survive_objective.owner = changeling
 				changeling.objectives += survive_objective
 	return
+
+/datum/antagonist/changeling/can_become_antag(var/datum/mind/player, var/ignore_role)
+	if(..())
+		if(player.current)
+			if(ishuman(player.current))
+				var/mob/living/carbon/human/H = player.current
+				if(H.isSynthetic())
+					return 0
+				if(H.species.flags & NO_SCAN)
+					return 0
+				return 1
+			else if(isnewplayer(player.current))
+				if(player.current.client && player.current.client.prefs)
+					var/datum/species/S = all_species[player.current.client.prefs.species]
+					if(S && (S.flags & NO_SCAN))
+						return 0
+					if(player.current.client.prefs.organ_data["torso"] == "cyborg") // Full synthetic.
+						return 0
+					return 1
+	return 0
+
+/datum/antagonist/changeling/print_player_full(var/datum/mind/ply)
+	var/text = print_player_lite(ply)
+
+	if(ply.changeling)
+		var/datum/changeling/ling_datum = ply.changeling
+		text += " (had [ling_datum.max_geneticpoints] genomes)"
+		text += "<br>Bought [english_list(ling_datum.purchased_powers_history)]."
+
+	return text
