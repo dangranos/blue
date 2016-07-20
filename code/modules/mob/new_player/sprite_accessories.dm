@@ -48,63 +48,18 @@
 	icon = 'icons/mob/Human_face.dmi'	  // default icon for all hairs
 
 	bald
-		name = "Bald"
+		name = "Bald"	  // try to capatilize the names please~
 		icon_state = "bald"
 		gender = MALE
 		species_allowed = list("Human","Unathi")
 
 	short
-		name = "Short Hair"	  // try to capatilize the names please~
-		icon_state = "hair_a" // you do not need to define _s or _l sub-states, game automatically does this for you
+		name = "Short Hair"
+		icon_state = "hair_a"
 
 	short2
 		name = "Short Hair 2"
 		icon_state = "hair_shorthair3"
-
-	teshari
-		name = "Teshari Default"
-		icon_state = "seromi_default"
-		species_allowed = list("Teshari")
-
-	teshari_altdefault
-		name = "Teshari Alt. Default"
-		icon_state = "seromi_ears"
-		species_allowed = list("Teshari")
-
-	teshari_tight
-		name = "Teshari Tight"
-		icon_state = "seromi_tight"
-		species_allowed = list("Teshari")
-
-	teshari_excited
-		name = "Teshari Spiky"
-		icon_state = "seromi_spiky"
-		species_allowed = list("Teshari")
-
-	teshari_spike
-		name = "Teshari Spike"
-		icon_state = "seromi_spike"
-		species_allowed = list("Teshari")
-
-	teshari_long
-		name = "Teshari Overgrown"
-		icon_state = "seromi_long"
-		species_allowed = list("Teshari")
-
-	teshari_burst
-		name = "Teshari Starburst"
-		icon_state = "seromi_burst"
-		species_allowed = list("Teshari")
-
-	teshari_shortburst
-		name = "Teshari Short Starburst"
-		icon_state = "seromi_burst_short"
-		species_allowed = list("Teshari")
-
-	teshari_mohawk
-		name = "Teshari Mohawk"
-		icon_state = "seromi_mohawk"
-		species_allowed = list("Teshari")
 
 	cut
 		name = "Cut Hair"
@@ -114,7 +69,7 @@
 		name = "Flaired Hair"
 		icon_state = "hair_flair"
 
-	long
+	shoulderlength
 		name = "Shoulder-length Hair"
 		icon_state = "hair_b"
 
@@ -178,7 +133,7 @@
 		name = "Side Ponytail"
 		icon_state = "hair_stail"
 
-	sideponytail4 //Not happy about this... but it's for the save files.
+	sideponytail4
 		name = "Side Ponytail 2"
 		icon_state = "hair_ponytailf"
 
@@ -260,6 +215,10 @@
 		name = "Buzzcut"
 		icon_state = "hair_buzzcut"
 		species_allowed = list("Human","Unathi")
+
+	messy_bun
+		name = "Messy bun"
+		icon_state = "hair_messybun"
 
 	crew
 		name = "Crewcut"
@@ -507,6 +466,44 @@
 	doublebun
 		name = "Double-Bun"
 		icon_state = "hair_doublebun"
+
+	teshari
+		name = "Teshari Default"
+		icon_state = "seromi_default"
+		species_allowed = list("Teshari")
+
+		altdefault
+			name = "Teshari Alt. Default"
+			icon_state = "seromi_ears"
+
+		tight
+			name = "Teshari Tight"
+			icon_state = "seromi_tight"
+
+		excited
+			name = "Teshari Spiky"
+			icon_state = "seromi_spiky"
+
+		spike
+			name = "Teshari Spike"
+			icon_state = "seromi_spike"
+
+		long
+			name = "Teshari Overgrown"
+			icon_state = "seromi_long"
+
+		burst
+			name = "Teshari Starburst"
+			icon_state = "seromi_burst"
+
+		shortburst
+			name = "Teshari Short Starburst"
+			icon_state = "seromi_burst_short"
+
+		mohawk
+			name = "Teshari Mohawk"
+			icon_state = "seromi_mohawk"
+
 
 
 /*
