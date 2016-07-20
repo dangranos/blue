@@ -150,9 +150,6 @@
 /obj/structure/foamedmetal/ex_act(severity)
 	qdel(src)
 
-/obj/structure/foamedmetal/blob_act()
-	qdel(src)
-
 /obj/structure/foamedmetal/bullet_act()
 	if(metal == 1 || prob(50))
 		qdel(src)
@@ -166,10 +163,8 @@
 	return
 
 /obj/structure/foamedmetal/attackby(var/obj/item/I, var/mob/user)
-	if(istype(I, /obj/item/weapon/grab) )
+	if(istype(I, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = I
-		if(get_dist(src,G.affecting)>=2)
-			return
 		G.affecting.loc = src.loc
 		visible_message("<span class='warning'>[G.assailant] smashes [G.affecting] through the foamed metal wall.</span>")
 		qdel(I)

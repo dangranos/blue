@@ -14,7 +14,7 @@
 	flags = CONDUCT
 	matter = list(DEFAULT_WALL_MATERIAL = 3000)
 	var/list/carrying = list() // List of things on the tray. - Doohl
-	var/max_carry = 8
+	var/max_carry = 10
 
 /obj/item/weapon/tray/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
 
@@ -32,7 +32,7 @@
 
 
 	if((CLUMSY in user.mutations) && prob(50))              //What if he's a clown?
-		M << "\red You accidentally slam yourself with the [src]!"
+		M << "<span class='warning'>You accidentally slam yourself with the [src]!</span>"
 		M.Weaken(1)
 		user.take_organ_damage(2)
 		if(prob(50))
@@ -45,7 +45,7 @@
 	var/mob/living/carbon/human/H = M      ///////////////////////////////////// /Let's have this ready for later.
 
 
-	if(!(user.zone_sel.selecting == ("eyes" || "head"))) //////////////hitting anything else other than the eyes
+	if(!(user.zone_sel.selecting == (O_EYES || BP_HEAD))) //////////////hitting anything else other than the eyes
 		if(prob(33))
 			src.add_blood(H)
 			var/turf/location = H.loc
@@ -64,17 +64,24 @@
 		if(prob(50))
 			playsound(M, 'sound/items/trayhit1.ogg', 50, 1)
 			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red <B>[] slams [] with the tray!</B>", user, M), 1)
+				O.show_message(text("<span class='danger'>[] slams [] with the tray!</span>", user, M), 1)
 			return
 		else
 			playsound(M, 'sound/items/trayhit2.ogg', 50, 1)  //we applied the damage, we played the sound, we showed the appropriate messages. Time to return and stop the proc
 			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red <B>[] slams [] with the tray!</B>", user, M), 1)
+				O.show_message(text("<span class='danger'>[] slams [] with the tray!</span>", user, M), 1)
 			return
 
 
-	if(istype(M, /mob/living/carbon/human) && ((H.head && H.head.flags & HEADCOVERSEYES) || (H.wear_mask && H.wear_mask.flags & MASKCOVERSEYES) || (H.glasses && H.glasses.flags & GLASSESCOVERSEYES)))
-		M << "\red You get slammed in the face with the tray, against your mask!"
+	var/protected = 0
+	for(var/slot in list(slot_head, slot_wear_mask, slot_glasses))
+		var/obj/item/protection = M.get_equipped_item(slot)
+		if(istype(protection) && (protection.body_parts_covered & FACE))
+			protected = 1
+			break
+
+	if(protected)
+		M << "<span class='warning'>You get slammed in the face with the tray, against your mask!</span>"
 		if(prob(33))
 			src.add_blood(H)
 			if (H.wear_mask)
@@ -90,11 +97,11 @@
 		if(prob(50))
 			playsound(M, 'sound/items/trayhit1.ogg', 50, 1)
 			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red <B>[] slams [] with the tray!</B>", user, M), 1)
+				O.show_message(text("<span class='danger'>[] slams [] with the tray!</span>", user, M), 1)
 		else
 			playsound(M, 'sound/items/trayhit2.ogg', 50, 1)  //sound playin'
 			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red <B>[] slams [] with the tray!</B>", user, M), 1)
+				O.show_message(text("<span class='danger'>[] slams [] with the tray!</span>", user, M), 1)
 		if(prob(10))
 			M.Stun(rand(1,3))
 			M.take_organ_damage(3)
@@ -104,7 +111,7 @@
 			return
 
 	else //No eye or head protection, tough luck!
-		M << "\red You get slammed in the face with the tray!"
+		M << "<span class='warning'>You get slammed in the face with the tray!</span>"
 		if(prob(33))
 			src.add_blood(M)
 			var/turf/location = H.loc
@@ -114,11 +121,11 @@
 		if(prob(50))
 			playsound(M, 'sound/items/trayhit1.ogg', 50, 1)
 			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red <B>[] slams [] in the face with the tray!</B>", user, M), 1)
+				O.show_message(text("<span class='danger'>[] slams [] in the face with the tray!</span>", user, M), 1)
 		else
 			playsound(M, 'sound/items/trayhit2.ogg', 50, 1)  //sound playin' again
 			for(var/mob/O in viewers(M, null))
-				O.show_message(text("\red <B>[] slams [] in the face with the tray!</B>", user, M), 1)
+				O.show_message(text("<span class='danger'>[] slams [] in the face with the tray!</span>", user, M), 1)
 		if(prob(30))
 			M.Stun(rand(2,4))
 			M.take_organ_damage(4)
@@ -153,7 +160,12 @@
 	var/val = 0 // value to return
 
 	for(var/obj/item/I in carrying)
-		val += I.w_class
+		if(I.w_class == 1.0)
+			val ++
+		else if(I.w_class == 2.0)
+			val += 3
+		else
+			val += 5
 
 	return val
 
@@ -164,19 +176,41 @@
 
 	for(var/obj/item/I in loc)
 		if( I != src && !I.anchored && !istype(I, /obj/item/clothing/under) && !istype(I, /obj/item/clothing/suit) && !istype(I, /obj/item/projectile) )
-			if(calc_carry() + I.w_class >= max_carry)
+			var/add = 0
+			if(I.w_class == 1.0)
+				add = 1
+			else if(I.w_class == 2.0)
+				add = 3
+			else
+				add = 5
+			if(calc_carry() + add >= max_carry)
 				break
-
+			var/image/Img = new(src.icon)
 			I.loc = src
 			carrying.Add(I)
-			overlays += image("icon" = I.icon, "icon_state" = I.icon_state, "layer" = 30 + I.layer)
+			Img.icon = I.icon
+			Img.icon_state = I.icon_state
+			Img.layer = 30 + I.layer
+			if(istype(I, /obj/item/weapon/material))
+				var/obj/item/weapon/material/O = I
+				if(O.applies_material_colour)
+					Img.color = O.color
+			overlays += Img
 
 /obj/item/weapon/tray/dropped(mob/user)
-	spawn()
-		if(src.loc == user) //to handle hand switching
-			return
-
-		overlays.Cut()
-		for(var/obj/item/I in carrying)
-			I.loc = loc
-			carrying.Remove(I)
+	var/noTable = null
+	
+	spawn() //Allows the tray to udpate location, rather than just checking against mob's location
+		if(isturf(src.loc) && !(locate(/obj/structure/table) in src.loc))
+			noTable = 1
+		
+		if(isturf(loc) && !(locate(/mob/living) in src.loc))
+			overlays.Cut()
+			for(var/obj/item/I in carrying)
+				I.forceMove(src.loc)
+				carrying.Remove(I)
+				if(noTable)
+					for(var/i = 1, i <= rand(1,2), i++)
+						if(I)
+							step(I, pick(NORTH,SOUTH,EAST,WEST))
+							sleep(rand(2,4))

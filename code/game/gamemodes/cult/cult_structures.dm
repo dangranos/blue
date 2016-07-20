@@ -8,18 +8,18 @@
 
 /obj/structure/cult/talisman
 	name = "Altar"
-	desc = "A bloodstained altar dedicated to Nar-Sie"
+	desc = "A bloodstained altar dedicated to Nar-Sie."
 	icon_state = "talismanaltar"
 
 
 /obj/structure/cult/forge
 	name = "Daemon forge"
-	desc = "A forge used in crafting the unholy weapons used by the armies of Nar-Sie"
+	desc = "A forge used in crafting the unholy weapons used by the armies of Nar-Sie."
 	icon_state = "forge"
 
 /obj/structure/cult/pylon
 	name = "Pylon"
-	desc = "A floating crystal that hums with an unearthly energy"
+	desc = "A floating crystal that hums with an unearthly energy."
 	icon_state = "pylon"
 	var/isbroken = 0
 	light_range = 5
@@ -39,7 +39,7 @@
 	if(!isbroken)
 		if(prob(1+ damage * 5))
 			user.visible_message(
-				"<span class='danger'>[user] smashed the pylon!</span>", 
+				"<span class='danger'>[user] smashed the pylon!</span>",
 				"<span class='warning'>You hit the pylon, and its crystal breaks apart!</span>",
 				"You hear a tinkle of crystal shards"
 				)
@@ -71,7 +71,7 @@
 
 /obj/structure/cult/tome
 	name = "Desk"
-	desc = "A desk covered in arcane manuscripts and tomes in unknown languages. Looking at the text makes your skin crawl"
+	desc = "A desk covered in arcane manuscripts and tomes in unknown languages. Looking at the text makes your skin crawl."
 	icon_state = "tomealtar"
 
 //sprites for this no longer exist	-Pete
@@ -86,7 +86,7 @@
 
 /obj/effect/gateway
 	name = "gateway"
-	desc = "You're pretty sure that abyss is staring back"
+	desc = "You're pretty sure that abyss is staring back."
 	icon = 'icons/obj/cult.dmi'
 	icon_state = "hole"
 	density = 1
@@ -137,39 +137,4 @@
 
 	var/mob/living/M = A
 
-	if(M.stat != DEAD)
-		if(M.monkeyizing)
-			return
-		if(M.has_brain_worms())
-			return //Borer stuff - RR
-
-		if(iscultist(M)) return
-		if(!ishuman(M) && !isrobot(M)) return
-
-		M.monkeyizing = 1
-		M.canmove = 0
-		M.icon = null
-		M.overlays.len = 0
-		M.invisibility = 101
-
-		if(istype(M, /mob/living/silicon/robot))
-			var/mob/living/silicon/robot/Robot = M
-			if(Robot.mmi)
-				qdel(Robot.mmi)
-		else
-			for(var/obj/item/W in M)
-				if(istype(W, /obj/item/weapon/implant))
-					qdel(W)
-					continue
-				W.layer = initial(W.layer)
-				W.loc = M.loc
-				W.dropped(M)
-
-		var/mob/living/new_mob = new /mob/living/simple_animal/corgi(A.loc)
-		new_mob.a_intent = I_HURT
-		if(M.mind)
-			M.mind.transfer_to(new_mob)
-		else
-			new_mob.key = M.key
-
-		new_mob << "<B>Your form morphs into that of a corgi.</B>"	//Because we don't have cluwnes
+	M << "<span class='danger'>Walking into \the [src] is probably a bad idea, you think.</span>"

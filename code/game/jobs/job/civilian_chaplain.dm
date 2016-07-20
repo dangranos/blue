@@ -8,19 +8,25 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the head of personnel"
-	selection_color = "#dddddd"
+	selection_color = "#515151"
+	idtype = /obj/item/weapon/card/id/civilian
 	access = list(access_morgue, access_chapel_office, access_crematorium, access_maint_tunnels)
 	minimal_access = list(access_morgue, access_chapel_office, access_crematorium)
 	alt_titles = list("Counselor")
 
-	uniform = /obj/item/clothing/under/rank/chaplain
-	pda = /obj/item/device/pda/chaplain
 
-	equip(var/mob/living/carbon/human/H)
-		if(!..())	return 0
+	equip(var/mob/living/carbon/human/H, var/alt_title, var/ask_questions = TRUE)
+		if(!H)	return 0
 
 		var/obj/item/weapon/storage/bible/B = new /obj/item/weapon/storage/bible(H) //BS12 EDIT
 		H.equip_to_slot_or_del(B, slot_l_hand)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/chaplain(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/device/pda/chaplain(H), slot_belt)
+		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
+		if(!ask_questions)
+			return 1
+
+
 		spawn(0)
 			var/religion_name = "Christianity"
 			var/new_religion = sanitize(input(H, "You are the crew services officer. Would you like to change your religion? Default is Christianity, in SPACE.", "Name change", religion_name), MAX_NAME_LEN)
@@ -28,7 +34,7 @@
 			if (!new_religion)
 				new_religion = religion_name
 
-			switch(lowertext(new_religion))
+			switch(rlowertext(new_religion))
 				if("christianity")
 					B.name = pick("The Holy Bible","The Dead Sea Scrolls")
 				if("satanism")
@@ -47,9 +53,9 @@
 					B.name = "Toolbox Manifesto"
 				if("homosexuality")
 					B.name = "Guys Gone Wild"
-				if("lol", "wtf", "gay", "penis", "ass", "poo", "badmin", "shitmin", "deadmin", "cock", "cocks")
-					B.name = pick("Woodys Got Wood: The Aftermath", "War of the Cocks", "Sweet Bro and Hella Jef: Expanded Edition")
-					H.setBrainLoss(100)
+				//if("lol", "wtf", "gay", "penis", "ass", "poo", "badmin", "shitmin", "deadmin", "cock", "cocks")
+				//	B.name = pick("Woodys Got Wood: The Aftermath", "War of the Cocks", "Sweet Bro and Hella Jef: Expanded Edition")
+				//	H.setBrainLoss(100) // starts off retarded as fuck
 				if("science")
 					B.name = pick("Principle of Relativity", "Quantum Enigma: Physics Encounters Consciousness", "Programming the Universe", "Quantum Physics and Theology", "String Theory for Dummies", "How To: Build Your Own Warp Drive", "The Mysteries of Bluespace", "Playing God: Collector's Edition")
 				else
@@ -71,7 +77,7 @@
 
 			while(!accepted)
 				if(!B) break // prevents possible runtime errors
-				new_book_style = input(H,"Which bible style would you like?") in list("Bible", "Koran", "Scrapbook", "Creeper", "White Bible", "Holy Light", "Athiest", "Tome", "The King in Yellow", "Ithaqua", "Scientology", "the bible melts", "Necronomicon", "Imperial Cult")
+				new_book_style = input(H,"Which bible style would you like?") in list("Bible", "Koran", "Scrapbook", "Creeper", "White Bible", "Holy Light", "Athiest", "Tome", "The King in Yellow", "Ithaqua", "Scientology", "the bible melts", "Necronomicon")
 				switch(new_book_style)
 					if("Koran")
 						B.icon_state = "koran"
@@ -101,7 +107,7 @@
 									T.set_dir(10)
 					if("Tome")
 						B.icon_state = "tome"
-						B.item_state = "tome"
+						B.item_state = "syringe_kit"
 					if("The King in Yellow")
 						B.icon_state = "kingyellow"
 						B.item_state = "kingyellow"
@@ -121,12 +127,6 @@
 					if("Necronomicon")
 						B.icon_state = "necronomicon"
 						B.item_state = "necronomicon"
-					if("Imperial Cult")
-						B.icon_state = "imperial_cult"
-						B.item_state = "imperial_cult"
-						new /obj/item/clothing/accessory/amulet/aquila(B)
-						new /obj/item/clothing/accessory/amulet/aquila(B)
-						new /obj/item/clothing/accessory/amulet/aquila(B)
 					else
 						// if christian bible, revert to default
 						B.icon_state = "bible"
@@ -152,3 +152,6 @@
 				ticker.Bible_name = B.name
 				ticker.Bible_deity_name = B.deity_name
 		return 1
+
+/datum/job/chaplain/equip_preview(var/mob/living/carbon/human/H, var/alt_title)
+	return equip(H, alt_title, FALSE)

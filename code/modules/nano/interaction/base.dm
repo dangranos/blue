@@ -1,7 +1,10 @@
-/atom/proc/nano_host()
+/datum/proc/nano_host()
 	return src
 
-/atom/proc/CanUseTopic(var/mob/user, var/datum/topic_state/state)
+/datum/proc/nano_container()
+	return src
+
+/datum/proc/CanUseTopic(var/mob/user, var/datum/topic_state/state)
 	var/src_object = nano_host()
 	return state.can_use_topic(src_object, user)
 
@@ -14,7 +17,7 @@
 /mob/proc/shared_nano_interaction()
 	if (src.stat || !client)
 		return STATUS_CLOSE						// no updates, close the interface
-	else if (restrained() || lying || stat || stunned || weakened)	// TODO: Change to incapaciated() on merge
+	else if (incapacitated())
 		return STATUS_UPDATE					// update only (orange visibility)
 	return STATUS_INTERACTIVE
 
@@ -27,8 +30,8 @@
 
 /mob/living/silicon/robot/shared_nano_interaction()
 	. = STATUS_INTERACTIVE
-	if(!cell || cell.charge <= 0)
+	if(cell.charge <= 0)
 		return STATUS_CLOSE
-	if(lockcharge)
+	if(lockdown)
 		. = STATUS_DISABLED
 	return min(., ..())

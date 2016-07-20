@@ -41,7 +41,7 @@
 				var/mob/living/carbon/human/H = target
 	//			if (M.health <= 0) return
 
-				var/obj/item/organ/external/temp = H.get_organ(pick("chest", "chest", "chest", "head"))
+				var/obj/item/organ/external/temp = H.get_organ(pick(BP_TORSO, BP_TORSO, BP_TORSO, BP_HEAD))
 				if(temp)
 					var/update = 0
 					switch(damtype)
@@ -99,7 +99,7 @@
 						target:attackby(src,src.occupant)
 					else if(prob(5))
 						target:dismantle_wall(1)
-						src.occupant_message("\blue You smash through the wall.")
+						src.occupant_message("<span class='notice'>You smash through the wall.</span>")
 						src.visible_message("<b>[src.name] smashes through the wall</b>")
 						playsound(src, 'sound/weapons/smash.ogg', 50, 1)
 					melee_can_hit = 0

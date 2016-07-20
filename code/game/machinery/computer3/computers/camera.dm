@@ -26,7 +26,7 @@
 	New()
 		..(built=0)
 		os = program
-		circuit.OS = os
+		circuitb.OS = os
 
 
 /obj/machinery/computer3/security/mining
@@ -187,7 +187,7 @@
 
 /datum/file/program/security
 	name			= "camera monitor"
-	desc			= "Connects to the Nanotrasen Camera Network"
+	desc			= "Connects to the station camera network."
 	image			= 'icons/ntos/camera.png'
 	active_state	= "camera-static"
 

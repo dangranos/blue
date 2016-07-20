@@ -46,6 +46,16 @@
 
 #define GEAR_EVA 15
 
+
+/var/list/economic_species_modifier = list(
+										/datum/species/human	= 10,
+										/datum/species/skrell	= 12,
+										/datum/species/teshari	= 9, // Skrell sponsored,
+										/datum/species/tajaran	= 7,
+										/datum/species/unathi	= 7,
+										/datum/species/diona 	= 7
+											)
+
 //---- The following corporations are friendly with NanoTrasen and loosely enable trade and travel:
 //Corporation NanoTrasen - Generalised / high tech research and phoron exploitation.
 //Corporation Vessel Contracting - Ship and station construction, materials research.
@@ -71,13 +81,14 @@ var/global/list/datum/money_account/department_accounts = list()
 var/global/num_financial_terminals = 1
 var/global/next_account_number = 0
 var/global/list/all_money_accounts = list()
+var/global/list/transaction_devices = list()
 var/global/economy_init = 0
 
 /proc/setup_economy()
 	if(economy_init)
 		return 2
 
-	news_network.CreateFeedChannel("Nyx Daily", "CentComm Minister of Information", 1, 1)
+	news_network.CreateFeedChannel("The "+starsys_name+" Times", starsys_name+" Times ExoNode - "+station_orig, 1, 1)
 	news_network.CreateFeedChannel("The Gibson Gazette", "Editor Mike Hammers", 1, 1)
 
 	for(var/loc_type in typesof(/datum/trade_destination) - /datum/trade_destination)
@@ -91,6 +102,13 @@ var/global/economy_init = 0
 		create_department_account(department)
 	create_department_account("Vendor")
 	vendor_account = department_accounts["Vendor"]
+
+	for(var/obj/item/device/retail_scanner/RS in transaction_devices)
+		if(RS.account_to_connect)
+			RS.linked_account = department_accounts[RS.account_to_connect]
+	for(var/obj/machinery/cash_register/CR in transaction_devices)
+		if(CR.account_to_connect)
+			CR.linked_account = department_accounts[CR.account_to_connect]
 
 	current_date_string = "[num2text(rand(1,31))] [pick("January","February","March","April","May","June","July","August","September","October","November","December")], [game_year]"
 

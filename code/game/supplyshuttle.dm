@@ -4,7 +4,7 @@
 #define SUPPLY_STATION_AREATYPE "/area/supply/station" //Type of the supply shuttle area for station
 #define SUPPLY_DOCK_AREATYPE "/area/supply/dock"	//Type of the supply shuttle area for dock
 
-//Supply packs are in /code/datums/supplypacks.dm
+//Supply packs are in /code/defines/obj/supplypacks.dm
 //Computers are in /code/game/machinery/computer/supply.dm
 
 var/datum/controller/supply/supply_controller = new()
@@ -31,11 +31,13 @@ var/list/mechtoys = list(
 	name = "Supply Shuttle"
 	icon_state = "shuttle3"
 	requires_power = 0
+	base_turf = /turf/space
 
 /area/supply/dock
 	name = "Supply Shuttle"
 	icon_state = "shuttle3"
 	requires_power = 0
+	base_turf = /turf/space
 
 /obj/structure/plasticflaps //HOW DO YOU CALL THOSE THINGS ANYWAY
 	name = "\improper plastic flaps"
@@ -47,10 +49,25 @@ var/list/mechtoys = list(
 	layer = 4
 	explosion_resistance = 5
 	var/list/mobs_can_pass = list(
+		/mob/living/bot,
 		/mob/living/carbon/slime,
 		/mob/living/simple_animal/mouse,
 		/mob/living/silicon/robot/drone
 		)
+
+/obj/structure/plasticflaps/attackby(obj/item/P, mob/user)
+	if(istype(P, /obj/item/weapon/wirecutters))
+		playsound(src.loc, 'sound/items/Wirecutter.ogg', 50, 1)
+		user << "<span class='notice'>You start to cut the plastic flaps.</span>"
+		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+		if(do_after(user, 10))
+			user << "<span class='notice'>You cut the plastic flaps.</span>"
+			var/obj/item/stack/material/plastic/A = new /obj/item/stack/material/plastic( src.loc )
+			A.amount = 4
+			qdel(src)
+		return
+	else
+		return
 
 /obj/structure/plasticflaps/CanPass(atom/A, turf/T)
 	if(istype(A) && A.checkpass(PASSGLASS))
@@ -70,11 +87,7 @@ var/list/mechtoys = list(
 		for(var/mob_type in mobs_can_pass)
 			if(istype(A, mob_type))
 				return ..()
-		if(istype(A, /mob/living/carbon/human))
-			var/mob/living/carbon/human/H = M
-			if(H.species.is_small)
-				return ..()
-		return 0
+		return issmall(M)
 
 	return ..()
 
@@ -121,7 +134,6 @@ var/list/mechtoys = list(
 	var/datum/supply_packs/object = null
 	var/orderedby = null
 	var/comment = null
-	var/cost = 0
 
 /datum/controller/supply
 	//supply points
@@ -143,7 +155,7 @@ var/list/mechtoys = list(
 	New()
 		ordernum = rand(1,9000)
 
-		for(var/typepath in (typesof(/datum/supply_packs) - /datum/supply_packs - /datum/supply_packs/custom))
+		for(var/typepath in (typesof(/datum/supply_packs) - /datum/supply_packs))
 			var/datum/supply_packs/P = new typepath()
 			supply_packs[P.name] = P
 
@@ -240,7 +252,6 @@ var/list/mechtoys = list(
 			var/datum/supply_packs/SP = SO.object
 
 			var/obj/A = new SP.containertype(pickedloc)
-			if(istype(SP, /datum/supply_packs/custom)) A.contents.Cut()
 			A.name = "[SP.containername] [SO.comment ? "([SO.comment])":"" ]"
 
 			//supply manifest generation begin
@@ -277,9 +288,11 @@ var/list/mechtoys = list(
 
 			for(var/typepath in contains)
 				if(!typepath)	continue
-				var/atom/B2 = new typepath(A)
-				if(SP.amount && B2:amount) B2:amount = SP.amount
-				if(slip) slip.info += "<li>[B2.name]</li>" //add the item to the manifest
+				var/number_of_items = max(1, contains[typepath])
+				for(var/j = 1 to number_of_items)
+					var/atom/B2 = new typepath(A)
+					if(SP.amount && B2:amount) B2:amount = SP.amount
+					if(slip) slip.info += "<li>[B2.name]</li>" //add the item to the manifest
 
 			//manifest finalisation
 			if(slip)

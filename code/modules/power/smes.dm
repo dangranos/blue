@@ -1,7 +1,7 @@
 // the SMES
 // stores power
 
-#define SMESRATE 0.05
+#define SMESRATE 0.03333		//translates Watt into Kilowattminutes with respect to machinery schedule_interval ~(2s*1W*1min/60s)
 #define SMESMAXCHARGELEVEL 250000
 #define SMESMAXOUTPUT 250000
 
@@ -12,6 +12,7 @@
 	density = 1
 	anchored = 1
 	use_power = 0
+	circuit = /obj/item/weapon/circuitboard/smes
 
 	var/capacity = 5e6 // maximum charge
 	var/charge = 1e6 // actual charge
@@ -204,7 +205,7 @@
 		user << "<span class='warning'>You can't build a terminal on space.</span>"
 		return 1
 	else if (istype(tempLoc))
-		if(tempLoc.intact)
+		if(!tempLoc.is_plating())
 			user << "<span class='warning'>You must remove the floor plating first.</span>"
 			return 1
 	user << "<span class='notice'>You start adding cable to the [src].</span>"
@@ -223,10 +224,7 @@
 
 
 /obj/machinery/power/smes/attack_ai(mob/user)
-	add_fingerprint(user)
-	ui_interact(user)
-
-/obj/machinery/power/smes/attack_ghost(mob/user)
+	add_hiddenprint(user)
 	ui_interact(user)
 
 /obj/machinery/power/smes/attack_hand(mob/user)
@@ -246,7 +244,7 @@
 			return 0
 
 	if (!open_hatch)
-		user << "<span class='warning'>You need to open access hatch on [src] first!</spann>"
+		user << "<span class='warning'>You need to open access hatch on [src] first!</span>"
 		return 0
 
 	if(istype(W, /obj/item/stack/cable_coil) && !terminal && !building_terminal)
@@ -272,7 +270,7 @@
 		building_terminal = 1
 		var/turf/tempTDir = terminal.loc
 		if (istype(tempTDir))
-			if(tempTDir.intact)
+			if(!tempTDir.is_plating())
 				user << "<span class='warning'>You must remove the floor plating first.</span>"
 			else
 				user << "<span class='notice'>You begin to cut the cables...</span>"
@@ -303,14 +301,17 @@
 	var/data[0]
 	data["nameTag"] = name_tag
 	data["storedCapacity"] = round(100.0*charge/capacity, 0.1)
+	data["storedCapacityAbs"] = round(charge/(1000*60), 0.1)
+	data["storedCapacityMax"] = round(capacity/(1000*60))
 	data["charging"] = inputting
 	data["chargeMode"] = input_attempt
-	data["chargeLevel"] = input_level
-	data["chargeMax"] = input_level_max
+	data["chargeLevel"] = round(input_level/1000, 0.1)
+	data["chargeMax"] = round(input_level_max/1000)
+	data["chargeLoad"] = round(terminal.powernet.avail/1000, 0.1)
 	data["outputOnline"] = output_attempt
-	data["outputLevel"] = output_level
-	data["outputMax"] = output_level_max
-	data["outputLoad"] = round(output_used)
+	data["outputLevel"] = round(output_level/1000, 0.1)
+	data["outputMax"] = round(output_level_max/1000)
+	data["outputLoad"] = round(output_used/1000, 0.1)
 
 	if(outputting)
 		data["outputting"] = 2			// smes is outputting
@@ -353,7 +354,7 @@
 			if("max")
 				input_level = input_level_max
 			if("set")
-				input_level = input(usr, "Enter new input level (0-[input_level_max])", "SMES Input Power Control", input_level) as num
+				input_level = (input(usr, "Enter new input level (0-[input_level_max/1000] kW)", "SMES Input Power Control", input_level/1000) as num) * 1000
 		input_level = max(0, min(input_level_max, input_level))	// clamp to range
 
 	else if( href_list["output"] )
@@ -363,10 +364,10 @@
 			if("max")
 				output_level = output_level_max
 			if("set")
-				output_level = input(usr, "Enter new output level (0-[output_level_max])", "SMES Output Power Control", output_level) as num
+				output_level = (input(usr, "Enter new output level (0-[output_level_max/1000] kW)", "SMES Output Power Control", output_level/1000) as num) * 1000
 		output_level = max(0, min(output_level_max, output_level))	// clamp to range
 
-	investigate_log("input/output; [input_level>output_level?"<font color='green'>":"<font color='red'>"][input_level]/[output_level]</font> | Output-mode: [output_attempt?"<font color='green'>on</font>":"<font color='red'>off</font>"] | Input-mode: [input_attempt?"<font color='green'>auto</font>":"<font color='red'>off</font>"] by [usr.key]","singulo")
+	investigate_log("input/output; <font color='[input_level>output_level?"green":"red"][input_level]/[output_level]</font> | Output-mode: [output_attempt?"<font color='green'>on</font>":"<font color='red'>off</font>"] | Input-mode: [input_attempt?"<font color='green'>auto</font>":"<font color='red'>off</font>"] by [usr.key]","singulo")
 
 	return 1
 

@@ -8,7 +8,7 @@
 	name = "gas mask"
 	desc = "A face-covering mask that can be connected to an air supply. It seems to house some odd electronics."
 	var/obj/item/voice_changer/changer
-	origin_tech = "syndicate=4"
+	origin_tech = list(TECH_ILLEGAL = 4)
 
 /obj/item/clothing/mask/gas/voice/verb/Toggle_Voice_Changer()
 	set category = "Object"
@@ -29,22 +29,3 @@
 /obj/item/clothing/mask/gas/voice/New()
 	..()
 	changer = new(src)
-
-/obj/item/clothing/mask/gas/batman
-	name = "batman mask"
-	icon_state = "batman"
-	desc = "A face-covering mask that can be connected to an air supply. It seems to house some odd electronics."
-	var/obj/item/voice_changer/changer
-
-/obj/item/clothing/mask/gas/batman/New()
-	..()
-	changer = new(src)
-	changer.voice = "Batman"
-
-/obj/item/clothing/mask/gas/batman/verb/Toggle_Voice_Changer()
-	set category = "Object"
-	set src in usr
-
-	changer.active = !changer.active
-	usr << "<span class='notice'>You [changer.active ? "enable" : "disable"] the voice module in \the [src].</span>"
-

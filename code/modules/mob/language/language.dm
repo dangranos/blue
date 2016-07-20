@@ -5,21 +5,21 @@
 */
 
 /datum/language
-	var/name = "an unknown language" // Fluff name of language if any.
-	var/desc = "A language."         // Short description for 'Check Languages'.
-	var/speech_verb = "says"         // 'says', 'hisses', 'farts'.
-	var/ask_verb = "asks"            // Used when sentence ends in a ?
-	var/exclaim_verb = "exclaims"    // Used when sentence ends in a !
-	var/whisper_verb                 // Optional. When not specified speech_verb + quietly/softly is used instead.
-	var/signlang_verb = list()       // list of emotes that might be displayed if this language has NONVERBAL or SIGNLANG flags
-	var/colour = "body"              // CSS style to use for strings in this language.
-	var/key = "x"                    // Character used to speak in language eg. :o for Unathi.
-	var/flags = 0                    // Various language flags.
-	var/native                       // If set, non-native speakers will have trouble speaking.
-	var/list/syllables               // Used when scrambling text for a non-speaker.
-	var/list/space_chance = 55       // Likelihood of getting a space in the random scramble string.
+	var/name = "an unknown language"  // Fluff name of language if any.
+	var/desc = "A language."          // Short description for 'Check Languages'.
+	var/speech_verb = "says"          // 'says', 'hisses', 'farts'.
+	var/ask_verb = "asks"             // Used when sentence ends in a ?
+	var/exclaim_verb = "exclaims"     // Used when sentence ends in a !
+	var/whisper_verb                  // Optional. When not specified speech_verb + quietly/softly is used instead.
+	var/signlang_verb = list("signs", "gestures") // list of emotes that might be displayed if this language has NONVERBAL or SIGNLANG flags
+	var/colour = "body"               // CSS style to use for strings in this language.
+	var/key = "x"                     // Character used to speak in language eg. :o for Unathi.
+	var/flags = 0                     // Various language flags.
+	var/native                        // If set, non-native speakers will have trouble speaking.
+	var/list/syllables                // Used when scrambling text for a non-speaker.
+	var/list/space_chance = 55        // Likelihood of getting a space in the random scramble string
 
-/datum/language/proc/get_random_name(var/gender, name_count=2, syllable_count=4)
+/datum/language/proc/get_random_name(var/gender, name_count=2, syllable_count=4, syllable_divisor=2)
 	if(!syllables || !syllables.len)
 		if(gender==FEMALE)
 			return capitalize(pick(first_names_female)) + " " + capitalize(pick(last_names))
@@ -31,7 +31,7 @@
 
 	for(var/i = 0;i<name_count;i++)
 		new_name = ""
-		for(var/x = rand(Floor(syllable_count/2),syllable_count);x>0;x--)
+		for(var/x = rand(Floor(syllable_count/syllable_divisor),syllable_count);x>0;x--)
 			new_name += pick(syllables)
 		full_name += " [capitalize(lowertext(new_name))]"
 
@@ -101,11 +101,24 @@
 	log_say("[key_name(speaker)] : ([name]) [message]")
 
 	if(!speaker_mask) speaker_mask = speaker.name
-	var/msg = "<i><span class='game say'>[name], <span class='name'>[speaker_mask]</span> [format_message(message, get_spoken_verb(message))]</span></i>"
+	message = format_message(message, get_spoken_verb(message))
 
 	for(var/mob/player in player_list)
-		if(istype(player,/mob/dead) || ((src in player.languages) && check_special_condition(player)))
-			player << msg
+		player.hear_broadcast(src, speaker, speaker_mask, message)
+
+/mob/proc/hear_broadcast(var/datum/language/language, var/mob/speaker, var/speaker_name, var/message)
+	if((language in languages) && language.check_special_condition(src))
+		var/msg = "<i><span class='game say'>[language.name], <span class='name'>[speaker_name]</span> [message]</span></i>"
+		src << msg
+
+/mob/new_player/hear_broadcast(var/datum/language/language, var/mob/speaker, var/speaker_name, var/message)
+	return
+
+/mob/observer/dead/hear_broadcast(var/datum/language/language, var/mob/speaker, var/speaker_name, var/message)
+	if(speaker.name == speaker_name || antagHUD)
+		src << "<i><span class='game say'>[language.name], <span class='name'>[speaker_name]</span> ([ghost_follow_link(speaker, src)]) [message]</span></i>"
+	else
+		src << "<i><span class='game say'>[language.name], <span class='name'>[speaker_name]</span> [message]</span></i>"
 
 /datum/language/proc/check_special_condition(var/mob/other)
 	return 1
@@ -117,6 +130,9 @@
 		if("?")
 			return ask_verb
 	return speech_verb
+
+/datum/language/proc/can_speak_special(var/mob/speaker)
+	return 1
 
 // Language handling.
 /mob/proc/add_language(var/language)
@@ -131,16 +147,16 @@
 	return 1
 
 /mob/proc/set_language_key(var/datum/language/language, var/key = "")
-	// We don't know that language!
+	// If we don't know that language or key have wrong format
 	if(!language in languages || length(key)>1) return 0
 
 	if(!key)
-		for(var/n_key in default_lang_keys)
+		for(var/n_key in list("2", "3", "4", "5", "6", "7", "8", "9"))
 			if(!n_key in language_keys)
 				key = n_key
 				break
-	drop_language_key(language)
-	language_keys[key] = language
+	else drop_language_key(language)
+	if(key) language_keys[key] = language
 	return 1
 
 /mob/living/carbon/human/set_language_key(var/datum/language/language, var/key = "")
@@ -167,8 +183,12 @@
 
 // Can we speak this language, as opposed to just understanding it?
 /mob/proc/can_speak(datum/language/speaking)
-
-	return (universal_speak || (speaking && speaking.flags & INNATE) || speaking in src.languages)
+	//Prevents someone from speaking a null language.
+	if(speaking)
+		return (speaking.can_speak_special(src) && (universal_speak || (speaking && (speaking.flags & INNATE)) || speaking in src.languages))
+	else
+		log_debug("[src] attempted to speak a null language.")
+		return 0
 
 //TBD
 /mob/verb/check_languages()

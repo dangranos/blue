@@ -3,53 +3,41 @@
 	name = "breath mask"
 	icon_state = "breath"
 	item_state = "breath"
-	flags = MASKCOVERSMOUTH | AIRTIGHT
-	body_parts_covered = 0
+	item_flags = AIRTIGHT|FLEXIBLEMATERIAL
+	body_parts_covered = FACE
 	w_class = 2
 	gas_transfer_coefficient = 0.10
 	permeability_coefficient = 0.50
-
-/obj/item/clothing/mask/breath/vox
-	icon_state = "breath_vox"
-	flags = AIRTIGHT
-	species_restricted = list("Vox")
-
-/obj/item/clothing/mask/breath/toggleable
 	var/hanging = 0
 
-/obj/item/clothing/mask/breath/toggleable/proc/adjust_mask(mob/user)
+/obj/item/clothing/mask/breath/proc/adjust_mask(mob/user)
 	if(user.canmove && !user.stat)
-		if(!src.hanging)
-			src.hanging = !src.hanging
-			gas_transfer_coefficient = 1 //gas is now escaping to the turf and vice versa
-			flags &= ~(MASKCOVERSMOUTH | AIRTIGHT)
-			body_parts_covered = 0
+		src.hanging = !src.hanging
+		if (src.hanging)
+			gas_transfer_coefficient = 1
+			body_parts_covered = body_parts_covered & ~FACE
+			item_flags = item_flags & ~AIRTIGHT
 			icon_state = "breathdown"
 			user << "Your mask is now hanging on your neck."
-
 		else
-			src.hanging = !src.hanging
 			gas_transfer_coefficient = initial(gas_transfer_coefficient)
-			flags |= MASKCOVERSMOUTH | AIRTIGHT
 			body_parts_covered = initial(body_parts_covered)
-			icon_state = "breath"
+			item_flags = initial(item_flags)
+			icon_state = initial(icon_state)
 			user << "You pull the mask up to cover your face."
 		update_clothing_icon()
 
-/obj/item/clothing/mask/breath/toggleable/attack_self(mob/user)
+/obj/item/clothing/mask/breath/attack_self(mob/user)
 	adjust_mask(user)
 
-/obj/item/clothing/mask/breath/toggleable/verb/toggle()
+/obj/item/clothing/mask/breath/verb/toggle()
 		set category = "Object"
 		set name = "Adjust mask"
 		set src in usr
 
 		adjust_mask(usr)
 
-/obj/item/clothing/mask/breath/toggleable/AltClick()
-	adjust_mask(usr)
-
-/obj/item/clothing/mask/breath/toggleable/medical
+/obj/item/clothing/mask/breath/medical
 	desc = "A close-fitting sterile mask that can be connected to an air supply."
 	name = "medical mask"
 	icon_state = "medical"

@@ -26,19 +26,19 @@ var/global/vs_control/vsc = new
 	var/airflow_light_pressure_NAME = "Airflow - Medium Movement Threshold %"
 	var/airflow_light_pressure_DESC = "Percent of 1 Atm. at which items with the medium weight classes will move."
 
-	var/airflow_medium_pressure =60
+	var/airflow_medium_pressure = 50
 	var/airflow_medium_pressure_NAME = "Airflow - Heavy Movement Threshold %"
 	var/airflow_medium_pressure_DESC = "Percent of 1 Atm. at which items with the largest weight classes will move."
 
-	var/airflow_heavy_pressure = 55
+	var/airflow_heavy_pressure = 65
 	var/airflow_heavy_pressure_NAME = "Airflow - Mob Movement Threshold %"
 	var/airflow_heavy_pressure_DESC = "Percent of 1 Atm. at which mobs will move."
 
-	var/airflow_dense_pressure = 50
+	var/airflow_dense_pressure = 85
 	var/airflow_dense_pressure_NAME = "Airflow - Dense Movement Threshold %"
 	var/airflow_dense_pressure_DESC = "Percent of 1 Atm. at which items with canisters and closets will move."
 
-	var/airflow_stun_pressure = 80
+	var/airflow_stun_pressure = 60
 	var/airflow_stun_pressure_NAME = "Airflow - Mob Stunning Threshold %"
 	var/airflow_stun_pressure_DESC = "Percent of 1 Atm. at which mobs will be stunned by airflow."
 
@@ -46,27 +46,23 @@ var/global/vs_control/vsc = new
 	var/airflow_stun_cooldown_NAME = "Aiflow Stunning - Cooldown"
 	var/airflow_stun_cooldown_DESC = "How long, in tenths of a second, to wait before stunning them again."
 
-	var/airflow_stun = 2
+	var/airflow_stun = 1
 	var/airflow_stun_NAME = "Airflow Impact - Stunning"
 	var/airflow_stun_DESC = "How much a mob is stunned when hit by an object."
 
-	var/airflow_damage = 5
+	var/airflow_damage = 2
 	var/airflow_damage_NAME = "Airflow Impact - Damage"
 	var/airflow_damage_DESC = "Damage from airflow impacts."
 
-	var/airflow_speed_decay = 0.8
+	var/airflow_speed_decay = 1.5
 	var/airflow_speed_decay_NAME = "Airflow Speed Decay"
 	var/airflow_speed_decay_DESC = "How rapidly the speed gained from airflow decays."
 
-	var/airflow_delay = 20
+	var/airflow_delay = 30
 	var/airflow_delay_NAME = "Airflow Retrigger Delay"
 	var/airflow_delay_DESC = "Time in deciseconds before things can be moved by airflow again."
 
-	var/airflow_mob_delay = 10
-	var/airflow_mob_delay_NAME = "Airflow Retrigger Delay (Mob)"
-	var/airflow_mob_delay_DESC = "Time in deciseconds before mob can be moved by airflow again."
-
-	var/airflow_mob_slowdown = 3
+	var/airflow_mob_slowdown = 1
 	var/airflow_mob_slowdown_NAME = "Airflow Slowdown"
 	var/airflow_mob_slowdown_DESC = "Time in tenths of a second to add as a delay to each movement by a mob if they are fighting the pull of the airflow."
 
@@ -352,7 +348,7 @@ var/global/vs_control/vsc = new
 		else if(istext(vars["[V]_RANDOM"]))
 			var/txt = vars["[V]_RANDOM"]
 			if(findtextEx(txt,"PROB"))
-				txt = text2list(txt,"/")
+				txt = splittext(txt,"/")
 				txt[1] = replacetext(txt[1],"PROB","")
 				var/p = text2num(txt[1])
 				var/r = txt[2]
@@ -362,7 +358,7 @@ var/global/vs_control/vsc = new
 					newvalue = vars[V]
 			else if(findtextEx(txt,"PICK"))
 				txt = replacetext(txt,"PICK","")
-				txt = text2list(txt,",")
+				txt = splittext(txt,",")
 				newvalue = pick(txt)
 			else
 				newvalue = roll(txt)

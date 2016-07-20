@@ -1,32 +1,31 @@
 /*
 	Defines a firing mode for a gun.
 
-	burst			number of shots fired when the gun is used
-	burst_delay 	tick delay between shots in a burst
-	fire_delay		tick delay after the last shot before the gun may be used again
-	move_delay		tick delay after the last shot before the player may move
-	dispersion		dispersion of each shot in the burst measured in tiles per 7 tiles angle ratio
-	accuracy		accuracy modifier applied to each shot in tiles.
-					applied on top of the base weapon accuracy.
+	A firemode is created from a list of fire mode settings. Each setting modifies the value of the gun var with the same name.
+	If the fire mode value for a setting is null, it will be replaced with the initial value of that gun's variable when the firemode is created.
+	Obviously not compatible with variables that take a null value. If a setting is not present, then the corresponding var will not be modified.
 */
 /datum/firemode
 	var/name = "default"
-	var/burst = 1
-	var/burst_delay = null
-	var/fire_delay = null
-	var/move_delay = 1
-	var/list/accuracy = list(0)
-	var/list/dispersion = list(0)
+	var/list/settings = list()
 
-//using a list makes defining fire modes for new guns much nicer,
-//however we convert the lists to datums in part so that firemodes can be VVed if necessary.
-/datum/firemode/New(list/properties = null)
+/datum/firemode/New(obj/item/weapon/gun/gun, list/properties = null)
 	..()
 	if(!properties) return
 
-	for(var/propname in vars)
-		if(!isnull(properties[propname]))
-			src.vars[propname] = properties[propname]
+	for(var/propname in properties)
+		var/propvalue = properties[propname]
+
+		if(propname == "mode_name")
+			name = propvalue
+		if(isnull(propvalue))
+			settings[propname] = gun.vars[propname] //better than initial() as it handles list vars like burst_accuracy
+		else
+			settings[propname] = propvalue
+
+/datum/firemode/proc/apply_to(obj/item/weapon/gun/gun)
+	for(var/propname in settings)
+		gun.vars[propname] = settings[propname]
 
 //Parent gun type. Guns are weapons that can be aimed at mobs and act over a distance
 /obj/item/weapon/gun
@@ -47,12 +46,14 @@
 	throw_speed = 4
 	throw_range = 5
 	force = 5
-	origin_tech = "combat=1"
+	origin_tech = list(TECH_COMBAT = 1)
 	attack_verb = list("struck", "hit", "bashed")
 	zoomdevicename = "scope"
 
+	var/burst = 1
 	var/fire_delay = 6 	//delay after shooting before the gun can be used again
 	var/burst_delay = 2	//delay between shots, if firing in bursts
+	var/move_delay = 1
 	var/fire_sound = 'sound/weapons/Gunshot.ogg'
 	var/fire_sound_text = "gunshot"
 	var/recoil = 0		//screen shake
@@ -60,12 +61,17 @@
 	var/muzzle_flash = 3
 	var/accuracy = 0   //accuracy is measured in tiles. +1 accuracy means that everything is effectively one tile closer for the purpose of miss chance, -1 means the opposite. launchers are not supported, at the moment.
 	var/scoped_accuracy = null
+	var/list/burst_accuracy = list(0) //allows for different accuracies for each shot in a burst. Applied on top of accuracy
+	var/list/dispersion = list(0)
+	var/mode_name = null
+	var/requires_two_hands
+	var/wielded_icon = "gun_wielded"
+	var/one_handed_penalty = 0 // Penalty applied if someone fires a two-handed gun with one hand.
 
 	var/next_fire_time = 0
 
 	var/sel_mode = 1 //index of the currently selected mode
 	var/list/firemodes = list()
-	var/firemode_type = /datum/firemode //for subtypes that need custom firemode data
 
 	//aiming system stuff
 	var/keep_aim = 1 	//1 for keep shooting until aim is lowered
@@ -76,28 +82,64 @@
 	var/tmp/told_cant_shoot = 0 //So that it doesn't spam them with the fact they cannot hit them.
 	var/tmp/lock_time = -100
 
+	var/dna_lock = 0				//whether or not the gun is locked to dna
+	var/list/stored_dna = list()	//list of the dna stored in the gun, used to allow users to use it or not
+	var/safety_level = 0			//either 0 or 1, at 0 the game buzzes and tells the user they can't use it, at 1 it self destructs after 10 seconds
+	var/controller_dna = null		//The dna of the person who is the primary controller of the gun
+	var/controller_lock = 0			//whether or not the gun is locked by the primar controller, 0 or 1, at 1 it is locked and does not allow
+	var/exploding = 0
+
 /obj/item/weapon/gun/New()
 	..()
-	if(!firemodes.len)
-		firemodes += new firemode_type
-	else
-		for(var/i in 1 to firemodes.len)
-			firemodes[i] = new firemode_type(firemodes[i])
+	for(var/i in 1 to firemodes.len)
+		firemodes[i] = new /datum/firemode(src, firemodes[i])
 
 	if(isnull(scoped_accuracy))
 		scoped_accuracy = accuracy
+
+	if(!dna_lock)
+		verbs -= /obj/item/weapon/gun/verb/remove_dna
+		verbs -= /obj/item/weapon/gun/verb/give_dna
+		verbs -= /obj/item/weapon/gun/verb/allow_dna
+
+/obj/item/weapon/gun/update_held_icon()
+	if(requires_two_hands)
+		var/mob/living/M = loc
+		if(istype(M))
+			if(M.item_is_in_hands(src) && !M.hands_are_full())
+				name = "[initial(name)] (wielded)"
+				item_state = wielded_icon
+			else
+				name = initial(name)
+				item_state = initial(item_state)
+				update_icon(ignore_inhands=1) // In case item_state is set somewhere else.
+	..()
 
 //Checks whether a given mob can use the gun
 //Any checks that shouldn't result in handle_click_empty() being called if they fail should go here.
 //Otherwise, if you want handle_click_empty() to be called, check in consume_next_projectile() and return null there.
 /obj/item/weapon/gun/proc/special_check(var/mob/user)
+
 	if(!istype(user, /mob/living))
 		return 0
 	if(!user.IsAdvancedToolUser())
 		return 0
 
 	var/mob/living/M = user
-
+	if(dna_lock && stored_dna)
+		if(!authorized_user(user))
+			if(safety_level == 0)
+				M << "<span class='danger'>\The [src] buzzes in dissapoint and displays an invalid DNA symbol.</span>"
+				return 0
+			if(!exploding)
+				if(safety_level == 1)
+					M << "<span class='danger'>\The [src] hisses in dissapointment.</span>"
+					visible_message("<span class='game say'><span class='name'>\The [src]</span> announces, \"Self-destruct occurring in ten seconds.\"</span>", "<span class='game say'><span class='name'>\The [src]</span> announces, \"Self-destruct occurring in ten seconds.\"</span>")
+					sleep(100)
+					explosion(src, -1, 0, 2, 3, 0)
+					exploding = 1
+					qdel(src)
+					return 0
 	if(HULK in M.mutations)
 		M << "<span class='danger'>Your fingers are much too large for the trigger guard!</span>"
 		return 0
@@ -107,7 +149,7 @@
 			if(process_projectile(P, user, user, pick("l_foot", "r_foot")))
 				handle_post_fire(user, user)
 				user.visible_message(
-					"<span class='danger'>[user] shoots \himself in the foot with \the [src]!</span>",
+					"<span class='danger'>\The [user] shoots \himself in the foot with \the [src]!</span>",
 					"<span class='danger'>You shoot yourself in the foot with \the [src]!</span>"
 					)
 				M.drop_item()
@@ -123,20 +165,20 @@
 /obj/item/weapon/gun/afterattack(atom/A, mob/living/user, adjacent, params)
 	if(adjacent) return //A is adjacent, is the user, or is on the user's person
 
-	//decide whether to aim or shoot normally
-	var/aiming = 0
-	if(user && user.client && !(A in aim_targets))
-		if(user.client.gun_mode)
-			aiming = PreFire(A,user,params) //They're using the new gun system, locate what they're aiming at.
+	if(!user.aiming)
+		user.aiming = new(user)
 
-	if (!aiming)
-		if(user && user.a_intent == I_HELP) //regardless of what happens, refuse to shoot if help intent is on
-			user << "\red You refrain from firing your [src] as your intent is set to help."
-		else
-			Fire(A,user,params) //Otherwise, fire normally.
+	if(user && user.client && user.aiming && user.aiming.active && user.aiming.aiming_at != A)
+		PreFire(A,user,params) //They're using the new gun system, locate what they're aiming at.
+		return
+
+	if(user && user.a_intent == I_HELP && user.is_preference_enabled(/datum/client_preference/safefiring)) //regardless of what happens, refuse to shoot if help intent is on
+		user << "<span class='warning'>You refrain from firing your [src] as your intent is set to help.</span>"
+	else
+		Fire(A,user,params) //Otherwise, fire normally.
 
 /obj/item/weapon/gun/attack(atom/A, mob/living/user, def_zone)
-	if (A == user && user.zone_sel.selecting == "mouth" && !mouthshoot)
+	if (A == user && user.zone_sel.selecting == O_MOUTH && !mouthshoot)
 		handle_suicide(user)
 	else if(user.a_intent == I_HURT) //point blank shooting
 		Fire(A, user, pointblank=1)
@@ -148,6 +190,8 @@
 
 	add_fingerprint(user)
 
+	user.break_cloak()
+
 	if(!special_check(user))
 		return
 
@@ -156,28 +200,28 @@
 			user << "<span class='warning'>[src] is not ready to fire again!</span>"
 		return
 
-	//unpack firemode data
-	var/datum/firemode/firemode = firemodes[sel_mode]
-	var/_burst = firemode.burst
-	var/_burst_delay = isnull(firemode.burst_delay)? src.burst_delay : firemode.burst_delay
-	var/_fire_delay = isnull(firemode.fire_delay)? src.fire_delay : firemode.fire_delay
-	var/_move_delay = firemode.move_delay
-
-	var/shoot_time = (_burst - 1)*_burst_delay
-	user.next_move = world.time + shoot_time  //no clicking on things while shooting
-	if(user.client) user.client.move_delay = world.time + shoot_time //no moving while shooting either
+	var/shoot_time = (burst - 1)* burst_delay
+	user.setClickCooldown(shoot_time) //no clicking on things while shooting
+	user.setMoveCooldown(shoot_time) //no moving while shooting either
 	next_fire_time = world.time + shoot_time
+
+	var/held_acc_mod = 0
+	var/held_disp_mod = 0
+	if(requires_two_hands)
+		if(user.item_is_in_hands(src) && user.hands_are_full())
+			held_acc_mod = held_acc_mod - one_handed_penalty
+			held_disp_mod = held_disp_mod - round(one_handed_penalty / 2)
 
 	//actually attempt to shoot
 	var/turf/targloc = get_turf(target) //cache this in case target gets deleted during shooting, e.g. if it was a securitron that got destroyed.
-	for(var/i in 1 to _burst)
+	for(var/i in 1 to burst)
 		var/obj/projectile = consume_next_projectile(user)
 		if(!projectile)
 			handle_click_empty(user)
 			break
 
-		var/acc = firemode.accuracy[min(i, firemode.accuracy.len)]
-		var/disp = firemode.dispersion[min(i, firemode.dispersion.len)]
+		var/acc = burst_accuracy[min(i, burst_accuracy.len)] + held_acc_mod
+		var/disp = dispersion[min(i, dispersion.len)] + held_disp_mod
 		process_accuracy(projectile, user, target, acc, disp)
 
 		if(pointblank)
@@ -187,19 +231,25 @@
 			handle_post_fire(user, target, pointblank, reflex)
 			update_icon()
 
-		if(i < _burst)
-			sleep(_burst_delay)
+		if(i < burst)
+			sleep(burst_delay)
 
 		if(!(target && target.loc))
 			target = targloc
 			pointblank = 0
 
-	update_held_icon()
+	// We do this down here, so we don't get the message if we fire an empty gun.
+	if(requires_two_hands)
+		if(user.item_is_in_hands(src) && user.hands_are_full())
+			if(one_handed_penalty >= 2)
+				user << "<span class='warning'>You struggle to keep \the [src] pointed at the correct position with just one hand!</span>"
+
+	admin_attack_log(usr, attacker_message="Fired [src]", admin_message="fired a gun ([src]) (MODE: [src.mode_name]) [reflex ? "by reflex" : "manually"].")
 
 	//update timing
-	user.next_move = world.time + 4
-	if(user.client) user.client.move_delay = world.time + _move_delay
-	next_fire_time = world.time + _fire_delay
+	user.setClickCooldown(DEFAULT_QUICK_COOLDOWN)
+	user.setMoveCooldown(move_delay)
+	next_fire_time = world.time + fire_delay
 
 	if(muzzle_flash)
 		set_light(0)
@@ -233,7 +283,7 @@
 
 		if(reflex)
 			user.visible_message(
-				"<span class='reflex_shoot'><b>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""] by reflex!<b></span>",
+				"<span class='reflex_shoot'><b>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""] by reflex!</b></span>",
 				"<span class='reflex_shoot'>You fire \the [src] by reflex!</span>",
 				"You hear a [fire_sound_text]!"
 			)
@@ -269,7 +319,7 @@
 			for(var/obj/item/weapon/grab/G in M.grabbed_by)
 				grabstate = max(grabstate, G.state)
 			if(grabstate >= GRAB_NECK)
-				damage_mult = 3.0
+				damage_mult = 2.5
 			else if(grabstate >= GRAB_AGGRESSIVE)
 				damage_mult = 1.5
 	P.damage *= damage_mult
@@ -311,7 +361,15 @@
 			y_offset = rand(-1,1)
 			x_offset = rand(-1,1)
 
-	return !P.launch(target, user, src, target_zone, x_offset, y_offset)
+	return !P.launch_from_gun(target, user, src, target_zone, x_offset, y_offset)
+
+//apart of reskins that have two sprites, touching may result in frustration and breaks
+/obj/item/weapon/gun/projectile/colt/detective/attack_hand(var/mob/living/user)
+	if(!unique_reskin && loc == user)
+		reskin_gun(user)
+		return
+	..()
+
 
 //Suicide handling.
 /obj/item/weapon/gun/var/mouthshoot = 0 //To stop people from suiciding twice... >.>
@@ -340,6 +398,7 @@
 
 		in_chamber.on_hit(M)
 		if (in_chamber.damage_type != HALLOSS)
+			log_and_message_admins("[key_name(user)] commited suicide using \a [src]")
 			user.apply_damage(in_chamber.damage*2.5, in_chamber.damage_type, "head", used_weapon = "Point blank shot in the mouth with \a [in_chamber]", sharp=1)
 			user.death()
 		else
@@ -373,20 +432,98 @@
 		accuracy = initial(accuracy)
 		recoil = initial(recoil)
 
-/obj/item/weapon/gun/examine(mob/user, return_dist=1)
-	.=..()
-	if(firemodes.len > 1 && .<=4)
+/obj/item/weapon/gun/examine(mob/user)
+	..()
+	if(firemodes.len > 1)
 		var/datum/firemode/current_mode = firemodes[sel_mode]
 		user << "The fire selector is set to [current_mode.name]."
 
-/obj/item/weapon/gun/proc/switch_firemodes(mob/user=null)
+/obj/item/weapon/gun/proc/switch_firemodes(mob/user)
+	if(firemodes.len <= 1)
+		return null
+
 	sel_mode++
 	if(sel_mode > firemodes.len)
 		sel_mode = 1
 	var/datum/firemode/new_mode = firemodes[sel_mode]
-	user << "<span class='notice'>\The [src] is now set to [new_mode.name].</span>"
+	new_mode.apply_to(src)
+	user << "<span class='notice'>\The [src] is now set to [mode_name].</span>"
+
+	return new_mode
 
 /obj/item/weapon/gun/attack_self(mob/user)
-	if(firemodes.len > 1)
-		switch_firemodes(user)
+	switch_firemodes(user)
 
+/obj/item/weapon/gun/proc/get_dna(mob/user)
+	var/mob/living/M = user
+	if(!controller_lock)
+
+		if(!stored_dna && !(M.dna in stored_dna))
+			M << "<span class='warning'>\The [src] buzzes and displays a symbol showing the gun already contains your DNA.</span>"
+			return 0
+		else
+			stored_dna += M.dna
+			M << "<span class='notice'>\The [src] pings and a needle flicks out from the grip, taking a DNA sample from you.</span>"
+			if(!controller_dna)
+				controller_dna = M.dna
+				M << "<span class='notice'>\The [src] processes the dna sample and pings, acknowledging you as the primary controller.</span>"
+			return 1
+	else
+		M << "<span class='warning'>\The [src] buzzes and displays a locked symbol. It is not allowing DNA samples at this time.</span>"
+		return 0
+
+/obj/item/weapon/gun/verb/give_dna()
+	set name = "Give DNA"
+	set category = "Object"
+	set src in usr
+	get_dna(usr)
+
+/obj/item/weapon/gun/proc/clear_dna(mob/user)
+	var/mob/living/M = user
+	if(!controller_lock)
+		if(!authorized_user(M))
+			M << "<span class='warning'>\The [src] buzzes and displays an invalid user symbol.</span>"
+			return 0
+		else
+			stored_dna -= user.dna
+			M << "<span class='notice'>\The [src] beeps and clears the DNA it has stored.</span>"
+			if(M.dna == controller_dna)
+				controller_dna = null
+				M << "<span class='notice'>\The [src] beeps and removes you as the primary controller.</span>"
+				if(controller_lock)
+					controller_lock = 0
+			return 1
+	else
+		M << "<span class='warning'>\The [src] buzzes and displays a locked symbol. It is not allowing DNA modifcation at this time.</span>"
+		return 0
+
+/obj/item/weapon/gun/verb/remove_dna()
+	set name = "Remove DNA"
+	set category = "Object"
+	set src in usr
+	clear_dna(usr)
+
+/obj/item/weapon/gun/proc/toggledna(mob/user)
+	var/mob/living/M = user
+	if(authorized_user(M) && user.dna == controller_dna)
+		if(!controller_lock)
+			controller_lock = 1
+			M << "<span class='notice'>\The [src] beeps and displays a locked symbol, informing you it will no longer allow DNA samples.</span>"
+		else
+			controller_lock = 0
+			M << "<span class='notice'>\The [src] beeps and displays an unlocked symbol, informing you it will now allow DNA samples.</span>"
+	else
+		M << "<span class='warning'>\The [src] buzzes and displays an invalid user symbol.</span>"
+
+/obj/item/weapon/gun/verb/allow_dna()
+	set name = "Toggle DNA Samples Allowance"
+	set category = "Object"
+	set src in usr
+	toggledna(usr)
+
+/obj/item/weapon/gun/proc/authorized_user(mob/user)
+	if(!stored_dna || !stored_dna.len)
+		return 1
+	if(!(user.dna in stored_dna))
+		return 0
+	return 1

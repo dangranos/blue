@@ -7,37 +7,29 @@
 	total_positions = -1
 	spawn_positions = -1
 	supervisors = "absolutely everyone"
-	selection_color = "#dddddd"
+	selection_color = "#515151"
+	economic_modifier = 1
 	access = list()			//See /datum/job/assistant/get_access()
 	minimal_access = list()	//See /datum/job/assistant/get_access()
-	alt_titles = list("Security Cadet","Technical Assistant","Medical Intern","Research Assistant","Visitor","Private Eye")
+	alt_titles = list("Technical Assistant","Medical Intern","Research Assistant","Visitor", "Resident")
 
-	uniform = /obj/item/clothing/under/color/grey
-	pda = /obj/item/device/pda
-	ear = /obj/item/device/radio/headset
-	shoes = /obj/item/clothing/shoes/black
-
-	equip(var/mob/living/carbon/human/H)
-		if(!H)	return 0
-		if (H.mind && H.mind.role_alt_title)
-			switch(H.mind.role_alt_title)
-				if("Security Cadet")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/security2(H), slot_w_uniform)
-				if("Technical Assistant")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/lightbrown(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/hazardvest(H), slot_wear_suit)
-				if("Medical Intern")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/lightblue(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat(H), slot_wear_suit)
-				if ("Research Assistant")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/scientist_new(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/toggle/labcoat(H), slot_wear_suit)
-				if ("Private Eye")
-					H.equip_to_slot_or_del(new /obj/item/clothing/under/color/black(H), slot_w_uniform)
-					H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/leathercoat(H), slot_wear_suit)
-					H.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(H), slot_shoes)
-					H.equip_to_slot_or_del(new /obj/item/weapon/flame/lighter/zippo(H), slot_in_backpack)
-		return ..()
+/datum/job/assistant/equip(var/mob/living/carbon/human/H, var/alt_title)
+	if(!H)	return 0
+	switch(H.backbag)
+		if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack(H), slot_back)
+		if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel/norm(H), slot_back)
+		if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
+	if(has_alt_title(H, alt_title,"Visitor")) //I doubt someone visiting the station would want to wear an ugly grey uniform
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/assistantformal(H), slot_w_uniform)
+	else if(has_alt_title(H, alt_title,"Resident"))
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/color/white(H), slot_w_uniform)
+	else
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/color/grey(H), slot_w_uniform)
+	H.equip_to_slot_or_del(new /obj/item/clothing/shoes/black(H), slot_shoes)
+	return 1
 
 /datum/job/assistant/get_access()
-	return list(access_maint_tunnels)
+	if(config.assistant_maint)
+		return list(access_maint_tunnels)
+	else
+		return list()

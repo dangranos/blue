@@ -14,6 +14,7 @@
 	throw_speed = 2
 	throw_range = 8
 	var/empty = 0
+	max_storage_space = 14
 
 
 /obj/item/weapon/storage/firstaid/fire
@@ -130,7 +131,9 @@
 
 /obj/item/weapon/storage/firstaid/surgery
 	name = "surgery kit"
-	desc = "Contains tools for surgery. Has precise foam fitting for safe transport."
+	desc = "Contains tools for surgery."
+	max_storage_space = 21
+	max_w_class = 3
 
 /obj/item/weapon/storage/firstaid/surgery/New()
 	..()
@@ -145,8 +148,7 @@
 	new /obj/item/weapon/bonegel(src)
 	new /obj/item/weapon/FixOVein(src)
 	new /obj/item/stack/medical/advanced/bruise_pack(src)
-
-	make_exact_fit()
+	return
 
 /*
  * Pill Bottles
@@ -161,8 +163,9 @@
 	can_hold = list(/obj/item/weapon/reagent_containers/pill,/obj/item/weapon/dice,/obj/item/weapon/paper)
 	allow_quick_gather = 1
 	use_to_pickup = 1
-	storage_slots = 14
 	use_sound = null
+	max_storage_space = 14
+	max_w_class = 1
 
 /obj/item/weapon/storage/pill_bottle/antitox
 	name = "bottle of Dylovene pills"
@@ -303,3 +306,21 @@
 		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
 		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
 		new /obj/item/weapon/reagent_containers/pill/citalopram( src )
+
+/obj/item/weapon/storage/firstaid/sec
+	name = "personal medical kit"
+	desc = "That's a personal medkit used by Themis Security personnel."
+	icon_state = "secmedpack"
+	item_state = "contsolid"
+	max_storage_space = 6
+	w_class = 2
+
+	New()
+		..()
+		new /obj/item/weapon/reagent_containers/syringe( src )
+		new /obj/item/stack/medical/bruise_pack/sec( src )
+		new /obj/item/weapon/reagent_containers/glass/beaker/vial/small/spaceacillin( src )
+		new /obj/item/weapon/reagent_containers/glass/beaker/vial/small/tramadol( src )
+		new /obj/item/weapon/reagent_containers/glass/beaker/vial/small/hemostatic( src )
+		return
+

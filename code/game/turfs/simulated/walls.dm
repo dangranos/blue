@@ -1,5 +1,3 @@
-var/list/global/wall_cache = list()
-
 /turf/simulated/wall
 	name = "wall"
 	desc = "A huge chunk of metal used to seperate rooms."
@@ -20,6 +18,13 @@ var/list/global/wall_cache = list()
 	var/material/reinf_material
 	var/last_state
 	var/construction_stage
+
+	var/list/wall_connections = list("0", "0", "0", "0")
+
+// Walls always hide the stuff below them.
+/turf/simulated/wall/levelupdate()
+	for(var/obj/O in src)
+		O.hide(1)
 
 /turf/simulated/wall/New(var/newloc, var/materialtype, var/rmaterialtype)
 	..(newloc)
@@ -49,12 +54,30 @@ var/list/global/wall_cache = list()
 	else if(istype(Proj,/obj/item/projectile/ion))
 		burn(500)
 
-	// Tasers and stuff? No thanks. Also no clone or tox damage crap.
-	if(!(Proj.damage_type == BRUTE || Proj.damage_type == BURN))
-		return
+	var/proj_damage = Proj.get_structure_damage()
 
 	//cap the amount of damage, so that things like emitters can't destroy walls in one hit.
-	var/damage = min(Proj.damage, 100)
+	var/damage = min(proj_damage, 100)
+
+	if(istype(Proj,/obj/item/projectile/beam))
+		if(material && material.reflectivity >= 0.5) // Time to reflect lasers.
+			var/new_damage = damage * material.reflectivity
+			var/outgoing_damage = damage - new_damage
+			damage = new_damage
+			Proj.damage = outgoing_damage
+
+			visible_message("<span class='danger'>\The [src] reflects \the [Proj]!</span>")
+
+			// Find a turf near or on the original location to bounce to
+			var/new_x = Proj.starting.x + pick(0, 0, 0, -1, 1, -2, 2)
+			var/new_y = Proj.starting.y + pick(0, 0, 0, -1, 1, -2, 2)
+			//var/turf/curloc = get_turf(src)
+			var/turf/curloc = get_step(src, get_dir(src, Proj.starting))
+
+			Proj.penetrating += 1 // Needed for the beam to get out of the wall.
+
+			// redirect the projectile
+			Proj.redirect(new_x, new_y, curloc, null)
 
 	take_damage(damage)
 	return
@@ -87,7 +110,7 @@ var/list/global/wall_cache = list()
 
 //Appearance
 /turf/simulated/wall/examine(mob/user)
-	. = ..()
+	. = ..(user)
 
 	if(!damage)
 		user << "<span class='notice'>It looks fully intact.</span>"
@@ -135,7 +158,7 @@ var/list/global/wall_cache = list()
 		cap = cap / 10
 
 	if(damage >= cap)
-		dismantle_wall(no_product = 1)
+		dismantle_wall()
 	else
 		update_icon()
 
@@ -159,7 +182,10 @@ var/list/global/wall_cache = list()
 			reinf_material.place_dismantled_girder(src, reinf_material)
 		else
 			material.place_dismantled_girder(src)
-		material.place_dismantled_product(src,devastated)
+		if(!devastated)
+			material.place_dismantled_product(src)
+			if (!reinf_material)
+				material.place_dismantled_product(src)
 
 	for(var/obj/O in src.contents) //Eject contents!
 		if(istype(O,/obj/structure/sign/poster))
@@ -171,15 +197,17 @@ var/list/global/wall_cache = list()
 	clear_plants()
 	material = get_material_by_name("placeholder")
 	reinf_material = null
-	check_relatives()
+	update_connections(1)
 
 	ChangeTurf(/turf/simulated/floor/plating)
 
 /turf/simulated/wall/ex_act(severity)
 	switch(severity)
 		if(1.0)
-			src.ChangeTurf(/turf/space)
-			return
+			if(check_destroy_override())
+				src.ChangeTurf(destroy_floor_override_path)
+			else
+				src.ChangeTurf(/turf/space)
 		if(2.0)
 			if(prob(75))
 				take_damage(rand(150, 250))
@@ -188,11 +216,7 @@ var/list/global/wall_cache = list()
 		if(3.0)
 			take_damage(rand(0, 250))
 		else
-	return
-
-/turf/simulated/wall/blob_act()
-	take_damage(rand(75, 125))
-	return
+			return
 
 // Wall-rot effect, a nasty fungus that destroys walls.
 /turf/simulated/wall/proc/rot()
@@ -231,16 +255,6 @@ var/list/global/wall_cache = list()
 			qdel(O)
 //	F.sd_LumReset()		//TODO: ~Carn
 	return
-
-/turf/simulated/wall/meteorhit(obj/M as obj)
-	var/rotting = (locate(/obj/effect/overlay/wallrot) in src)
-	if (prob(15) && !rotting)
-		dismantle_wall()
-	else if(prob(70) && !rotting)
-		ChangeTurf(/turf/simulated/floor/plating)
-	else
-		ReplaceWithLattice()
-	return 0
 
 /turf/simulated/wall/proc/radiate()
 	var/total_radiation = material.radioactivity + (reinf_material ? reinf_material.radioactivity / 2 : 0)

@@ -16,9 +16,8 @@ RSF
 	var/mode = 1
 	w_class = 3.0
 
-/obj/item/weapon/rsf/examine(mob/user, return_dist = 1)
-	.=..()
-	if(.<1)
+/obj/item/weapon/rsf/examine(mob/user)
+	if(..(user, 0))
 		user << "It currently holds [stored_matter]/30 fabrication-units."
 
 /obj/item/weapon/rsf/attackby(obj/item/weapon/W as obj, mob/user as mob)
@@ -83,7 +82,7 @@ RSF
 			product = new /obj/item/clothing/mask/smokable/cigarette()
 			used_energy = 10
 		if(2)
-			product = new /obj/item/weapon/reagent_containers/glass/drinks/drinkingglass()
+			product = new /obj/item/weapon/reagent_containers/glass/drinking()
 			used_energy = 50
 		if(3)
 			product = new /obj/item/weapon/paper()

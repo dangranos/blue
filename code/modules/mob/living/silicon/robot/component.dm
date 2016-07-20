@@ -75,7 +75,7 @@
 /datum/robot_component/armour
 	name = "armour plating"
 	external_type = /obj/item/robot_parts/robot_component/armour
-	max_damage = 60
+	max_damage = 90
 
 
 // ACTUATOR
@@ -217,8 +217,6 @@
 /obj/item/robot_parts/robot_component
 	icon = 'icons/obj/robot_component.dmi'
 	icon_state = "working"
-	construction_time = 200
-	construction_cost = list(DEFAULT_WALL_MATERIAL=5000)
 	var/brute = 0
 	var/burn = 0
 	var/icon_state_broken = "broken"

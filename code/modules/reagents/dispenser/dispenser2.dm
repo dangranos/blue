@@ -15,7 +15,6 @@
 
 	use_power = 1
 	idle_power_usage = 100
-	density = 1
 	anchored = 1
 
 /obj/machinery/chemical_dispenser/New()
@@ -25,10 +24,9 @@
 		for(var/type in spawn_cartridges)
 			add_cartridge(new type(src))
 
-/obj/machinery/chemical_dispenser/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=4)
-		user << "It has [cartridges.len] cartridges installed, and has space for [DISPENSER_MAX_CARTRIDGES - cartridges.len] more."
+/obj/machinery/chemical_dispenser/examine(mob/user)
+	..()
+	user << "It has [cartridges.len] cartridges installed, and has space for [DISPENSER_MAX_CARTRIDGES - cartridges.len] more."
 
 /obj/machinery/chemical_dispenser/proc/add_cartridge(obj/item/weapon/reagent_containers/chem_disp_cartridge/C, mob/user)
 	if(!istype(C))
@@ -114,6 +112,9 @@
 		return ..()
 
 /obj/machinery/chemical_dispenser/ui_interact(mob/user, ui_key = "main",var/datum/nanoui/ui = null, var/force_open = 1)
+	if(stat & (BROKEN|NOPOWER)) return
+	if(user.stat || user.restrained()) return
+
 	// this is the data which will be sent to the ui
 	var/data[0]
 	data["amount"] = amount
@@ -146,8 +147,8 @@
 		ui.open()
 
 /obj/machinery/chemical_dispenser/Topic(href, href_list)
-	if(..())
-		return 1
+	if(stat & (NOPOWER|BROKEN))
+		return 0 // don't update UIs attached to this object
 
 	if(href_list["amount"])
 		amount = round(text2num(href_list["amount"]), 1) // round to nearest 1
@@ -169,7 +170,9 @@
 	return 1 // update UIs attached to this object
 
 /obj/machinery/chemical_dispenser/attack_ai(mob/user as mob)
-	ui_interact(user)
+	src.attack_hand(user)
 
 /obj/machinery/chemical_dispenser/attack_hand(mob/user as mob)
+	if(stat & BROKEN)
+		return
 	ui_interact(user)

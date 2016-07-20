@@ -13,7 +13,7 @@
 	var/victim_name = "corpse"
 
 /obj/structure/kitchenspike/attackby(obj/item/weapon/grab/G as obj, mob/user as mob)
-	if( !(istype(G) && G.affecting && get_dist(src,G.affecting)<2) )
+	if(!istype(G, /obj/item/weapon/grab) || !G.affecting)
 		return
 	if(occupied)
 		user << "<span class = 'danger'>The spike already has something on it, finish collecting its meat first!</span>"
@@ -32,7 +32,7 @@
 
 	if(istype(victim, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = victim
-		if(!H.species.is_small)
+		if(!issmall(H))
 			return 0
 		meat_type = H.species.meat_type
 		icon_state = "spikebloody"

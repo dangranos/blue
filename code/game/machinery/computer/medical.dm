@@ -3,9 +3,10 @@
 /obj/machinery/computer/med_data//TODO:SANITY
 	name = "medical records console"
 	desc = "Used to view, edit and maintain medical records."
-	icon_state = "medcomp"
+	icon_keyboard = "med_key"
+	icon_screen = "medcomp"
 	light_color = "#315ab4"
-	req_one_access = list(access_medical, access_forensics_lockers)
+	req_one_access = list(access_medical, access_forensics_lockers, access_robotics)
 	circuit = /obj/item/weapon/circuitboard/med_data
 	var/obj/item/weapon/card/id/scan = null
 	var/authenticated = null
@@ -34,13 +35,13 @@
 		usr << "There is nothing to remove from the console."
 	return
 
-/obj/machinery/computer/med_data/attackby(obj/item/O as obj, user as mob)
-	if(istype(O, /obj/item/weapon/card/id) && !scan)
-		usr.drop_item()
+/obj/machinery/computer/med_data/attackby(var/obj/item/O, var/mob/user)
+	if(istype(O, /obj/item/weapon/card/id) && !scan && user.unEquip(O))
 		O.loc = src
 		scan = O
-		user << "You insert [O]."
-	..()
+		user << "You insert \the [O]."
+	else
+		..()
 
 /obj/machinery/computer/med_data/attack_ai(user as mob)
 	return src.attack_hand(user)
@@ -48,11 +49,11 @@
 /obj/machinery/computer/med_data/attack_hand(mob/user as mob)
 	if(..())
 		return
-	var/dat
+	var/dat = list()
 	if (src.temp)
-		dat = text("<TT>[src.temp]</TT><BR><BR><A href='?src=\ref[src];temp=1'>Clear Screen</A>")
+		dat += text("<TT>[src.temp]</TT><BR><BR><A href='?src=\ref[src];temp=1'>Clear Screen</A>")
 	else
-		dat = text("Confirm Identity: <A href='?src=\ref[];scan=1'>[]</A><HR>", src, (src.scan ? text("[]", src.scan.name) : "----------"))
+		dat += text("Confirm Identity: <A href='?src=\ref[];scan=1'>[]</A><HR>", src, (src.scan ? text("[]", src.scan.name) : "----------"))
 		if (src.authenticated)
 			switch(src.screen)
 				if(1.0)
@@ -84,8 +85,12 @@
 					if ((istype(src.active1, /datum/data/record) && data_core.general.Find(src.active1)))
 						dat += "<table><tr><td>Name: [active1.fields["name"]] \
 								ID: [active1.fields["id"]]<BR>\n	\
-								Sex: <A href='?src=\ref[src];field=sex'>[active1.fields["sex"]]</A><BR>\n	\
-								Age: <A href='?src=\ref[src];field=age'>[active1.fields["age"]]</A><BR>\n	\
+								Sex: <A href='?src=\ref[src];field=sex'>[active1.fields["sex"]]</A><BR>\n"
+						if ((istype(src.active2, /datum/data/record) && data_core.medical.Find(src.active2)))
+							dat += "Gender identity: <A href='?src=\ref[src];field=id_gender'>[active2.fields["id_gender"]]</A><BR>"
+						else
+							dat += "Gender identity: <A href='?src=\ref[src];field=id_gender'>Unknown</A><BR>"
+						dat +=  "Age: <A href='?src=\ref[src];field=age'>[active1.fields["age"]]</A><BR>\n	\
 								Fingerprint: <A href='?src=\ref[src];field=fingerprint'>[active1.fields["fingerprint"]]</A><BR>\n	\
 								Physical Status: <A href='?src=\ref[src];field=p_stat'>[active1.fields["p_stat"]]</A><BR>\n	\
 								Mental Status: <A href='?src=\ref[src];field=m_stat'>[active1.fields["m_stat"]]</A><BR></td><td align = center valign = top> \
@@ -106,15 +111,6 @@
 					dat += text("\n<A href='?src=\ref[];print_p=1'>Print Record</A><BR>\n<A href='?src=\ref[];screen=2'>Back</A><BR>", src, src)
 				if(5.0)
 					dat += "<CENTER><B>Virus Database</B></CENTER>"
-					/*	Advanced diseases is weak! Feeble! Glory to virus2!
-					for(var/Dt in typesof(/datum/disease/))
-						var/datum/disease/Dis = new Dt(0)
-						if(istype(Dis, /datum/disease/advance))
-							continue // TODO (tm): Add advance diseases to the virus database which no one uses.
-						if(!Dis.desc)
-							continue
-						dat += "<br><a href='?src=\ref[src];vir=[Dt]'>[Dis.name]</a>"
-					*/
 					for (var/ID in virusDB)
 						var/datum/data/record/v = virusDB[ID]
 						dat += "<br><a href='?src=\ref[src];vir=\ref[v]'>[v.fields["name"]]</a>"
@@ -143,6 +139,7 @@
 				else
 		else
 			dat += text("<A href='?src=\ref[];login=1'>{Log In}</A>", src)
+	dat = jointext(dat,null)
 	user << browse(text("<HEAD><TITLE>Medical Records</TITLE></HEAD><TT>[]</TT>", dat), "window=med_rec")
 	onclose(user, "med_rec")
 	return
@@ -257,10 +254,10 @@
 							src.active1.fields["fingerprint"] = t1
 					if("sex")
 						if (istype(src.active1, /datum/data/record))
-							if (src.active1.fields["sex"] == "Male")
-								src.active1.fields["sex"] = "Female"
-							else
-								src.active1.fields["sex"] = "Male"
+							src.active1.fields["sex"] = next_in_list(src.active1.fields["sex"], all_genders_text_list)
+					if("id_gender")
+						if (istype(src.active2, /datum/data/record))
+							src.active2.fields["id_gender"] = next_in_list(src.active2.fields["id_gender"], all_genders_text_list)
 					if("age")
 						if (istype(src.active1, /datum/data/record))
 							var/t1 = input("Please input age:", "Med. records", src.active1.fields["age"], null)  as num
@@ -457,7 +454,7 @@
 				var/counter = 1
 				while(src.active2.fields[text("com_[]", counter)])
 					counter++
-				src.active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD hh:mm:ss")], [game_year]<BR>[t1]")
+				src.active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD")] [worldtime2text()], [game_year]<BR>[t1]")
 
 			if (href_list["del_c"])
 				if ((istype(src.active2, /datum/data/record) && src.active2.fields[text("com_[]", href_list["del_c"])]))
@@ -469,9 +466,9 @@
 					return
 				src.active1 = null
 				src.active2 = null
-				t1 = lowertext(t1)
+				t1 = rlowertext(t1)
 				for(var/datum/data/record/R in data_core.medical)
-					if ((lowertext(R.fields["name"]) == t1 || t1 == lowertext(R.fields["id"]) || t1 == lowertext(R.fields["b_dna"])))
+					if ((rlowertext(R.fields["name"]) == t1 || t1 == rlowertext(R.fields["id"]) || t1 == rlowertext(R.fields["b_dna"])))
 						src.active2 = R
 					else
 						//Foreach continue //goto(3229)
@@ -551,6 +548,7 @@
 
 /obj/machinery/computer/med_data/laptop
 	name = "Medical Laptop"
-	desc = "Cheap Nanotrasen Laptop."
-	icon_state = "medlaptop"
-	density = 0
+	desc = "A cheap laptop."
+	icon_state = "laptop"
+	icon_keyboard = "laptop_key"
+	icon_screen = "medlaptop"

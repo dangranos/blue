@@ -3,6 +3,10 @@
 		This code is slightly more documented than normal, as requested by XSI on IRC.
 */
 
+#define TURRET_PRIORITY_TARGET 2
+#define TURRET_SECONDARY_TARGET 1
+#define TURRET_NOT_TARGET 0
+
 /obj/machinery/porta_turret
 	name = "turret"
 	icon = 'icons/obj/turrets.dmi'
@@ -28,7 +32,8 @@
 	var/projectile = null	//holder for bullettype
 	var/eprojectile = null	//holder for the shot when emagged
 	var/reqpower = 500		//holder for power needed
-	var/iconholder = null	//holder for the icon_state. 1 for orange sprite, null for blue.
+	var/iconholder = null	//holder for the icon_state. 1 for sprite based on icon_color, null for blue.
+	var/icon_color = "orange" // When iconholder is set to 1, the icon_state changes based on what is in this variable.
 	var/egun = null			//holder to handle certain guns switching bullettypes
 
 	var/last_fired = 0		//1: if the turret is cooling down from a shot, 0: turret is ready to fire
@@ -55,6 +60,7 @@
 
 	var/wrenching = 0
 	var/last_target			//last target fired at, prevents turrets from erratically firing at all valid targets in range
+	var/timeout = 10		// When a turret pops up, then finds nothing to shoot at, this number decrements until 0, when it pops down.
 
 /obj/machinery/porta_turret/crescent
 	enabled = 0
@@ -70,6 +76,13 @@
 	ailock = 1
 	lethal = 1
 	installation = /obj/item/weapon/gun/energy/laser
+
+/obj/machinery/porta_turret/ai_defense
+	name = "defense turret"
+	desc = "This varient appears to be much more durable."
+	installation = /obj/item/weapon/gun/energy/xray // For the armor pen.
+	health = 250 // Since lasers do 40 each.
+	maxhealth = 250
 
 /obj/machinery/porta_turret/New()
 	..()
@@ -144,6 +157,14 @@
 			eshot_sound = 'sound/weapons/Laser.ogg'
 			egun = 1
 
+		if(/obj/item/weapon/gun/energy/xray)
+			eprojectile = /obj/item/projectile/beam/xray
+			projectile = /obj/item/projectile/beam/stun // Otherwise we fire xrays on both modes.
+			eshot_sound = 'sound/weapons/eluger.ogg'
+			shot_sound = 'sound/weapons/Taser.ogg'
+			iconholder = 1
+			icon_color = "green"
+
 var/list/turret_icons
 
 /obj/machinery/porta_turret/update_icon()
@@ -160,7 +181,7 @@ var/list/turret_icons
 		if(powered() && enabled)
 			if(iconholder)
 				//lasers have a orange icon
-				icon_state = "orange_target_prism"
+				icon_state = "[icon_color]_target_prism"
 			else
 				//almost everything has a blue icon
 				icon_state = "target_prism"
@@ -170,11 +191,11 @@ var/list/turret_icons
 		icon_state = "turretCover"
 
 /obj/machinery/porta_turret/proc/isLocked(mob/user)
-	if(ailock && user.isSilicon())
+	if(ailock && issilicon(user))
 		user << "<span class='notice'>There seems to be a firewall preventing you from accessing this device.</span>"
 		return 1
 
-	if(locked && !user.isSilicon())
+	if(locked && !issilicon(user))
 		user << "<span class='notice'>Access denied.</span>"
 		return 1
 
@@ -236,7 +257,7 @@ var/list/turret_icons
 	return ..()
 
 
-/obj/machinery/porta_turret/Topic(href, href_list, var/nowindow = 0)
+/obj/machinery/porta_turret/Topic(href, href_list)
 	if(..())
 		return 1
 
@@ -292,18 +313,6 @@ var/list/turret_icons
 					user << "<span class='notice'>You remove the turret but did not manage to salvage anything.</span>"
 				qdel(src) // qdel
 
-	if(istype(I, /obj/item/weapon/card/emag) && !emagged)
-		//Emagging the turret makes it go bonkers and stun everyone. It also makes
-		//the turret shoot much, much faster.
-		user << "<span class='warning'>You short out [src]'s threat assessment circuits.</span>"
-		visible_message("[src] hums oddly...")
-		emagged = 1
-		iconholder = 1
-		controllock = 1
-		enabled = 0 //turns off the turret temporarily
-		sleep(60) //6 seconds for the traitor to gtfo of the area before the turret decides to ruin his shit
-		enabled = 1 //turns it back on. The cover popUp() popDown() are automatically called in process(), no need to define it here
-
 	else if((istype(I, /obj/item/weapon/wrench)))
 		if(enabled || raised)
 			user << "<span class='warning'>You cannot unsecure an active turret!</span>"
@@ -346,7 +355,7 @@ var/list/turret_icons
 
 	else
 		//if the turret was attacked with the intention of harming it:
-		user.changeNext_move(NEXT_MOVE_DELAY)
+		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 		take_damage(I.force * 0.5)
 		if(I.force * 0.5 > 1) //if the force of impact dealt at least 1 damage, the turret gets pissed off
 			if(!attacked && !emagged)
@@ -355,6 +364,20 @@ var/list/turret_icons
 					sleep(60)
 					attacked = 0
 		..()
+
+/obj/machinery/porta_turret/emag_act(var/remaining_charges, var/mob/user)
+	if(!emagged)
+		//Emagging the turret makes it go bonkers and stun everyone. It also makes
+		//the turret shoot much, much faster.
+		user << "<span class='warning'>You short out [src]'s threat assessment circuits.</span>"
+		visible_message("[src] hums oddly...")
+		emagged = 1
+		iconholder = 1
+		controllock = 1
+		enabled = 0 //turns off the turret temporarily
+		sleep(60) //6 seconds for the traitor to gtfo of the area before the turret decides to ruin his shit
+		enabled = 1 //turns it back on. The cover popUp() popDown() are automatically called in process(), no need to define it here
+		return 1
 
 /obj/machinery/porta_turret/proc/take_damage(var/force)
 	if(!raised && !raising)
@@ -369,7 +392,9 @@ var/list/turret_icons
 		die()	//the death process :(
 
 /obj/machinery/porta_turret/bullet_act(obj/item/projectile/Proj)
-	if(Proj.damage_type == HALLOSS)
+	var/damage = Proj.get_structure_damage()
+
+	if(!damage)
 		return
 
 	if(enabled)
@@ -381,8 +406,7 @@ var/list/turret_icons
 
 	..()
 
-	if((Proj.damage_type == BRUTE || Proj.damage_type == BURN))
-		take_damage(Proj.damage)
+	take_damage(damage)
 
 /obj/machinery/porta_turret/emp_act(severity)
 	if(enabled)
@@ -401,6 +425,11 @@ var/list/turret_icons
 			if(!enabled)
 				enabled=1
 
+	..()
+
+/obj/machinery/porta_turret/ai_defense/emp_act(severity)
+	if(prob(33)) // One in three chance to resist an EMP.  This is significant if an AoE EMP is involved against multiple turrets.
+		return
 	..()
 
 /obj/machinery/porta_turret/ex_act(severity)
@@ -424,8 +453,6 @@ var/list/turret_icons
 /obj/machinery/porta_turret/process()
 	//the main machinery process
 
-	set background = BACKGROUND_ENABLED
-
 	if(stat & (NOPOWER|BROKEN))
 		//if the turret has no power or is broken, make the turret pop down if it hasn't already
 		popDown()
@@ -439,19 +466,15 @@ var/list/turret_icons
 	var/list/targets = list()			//list of primary targets
 	var/list/secondarytargets = list()	//targets that are least important
 
-	for(var/obj/mecha/ME in view(7,src))
-		assess_and_assign(ME.occupant, targets, secondarytargets)
-
-	for(var/obj/vehicle/train/T in view(7,src))
-		assess_and_assign(T.load, targets, secondarytargets)
-
-	for(var/mob/living/C in view(7,src))	//loops through all living lifeforms in view
-		assess_and_assign(C, targets, secondarytargets)
+	for(var/mob/M in mobs_in_view(world.view, src))
+		assess_and_assign(M, targets, secondarytargets)
 
 	if(!tryToShootAt(targets))
 		if(!tryToShootAt(secondarytargets)) // if no valid targets, go for secondary targets
-			spawn()
-				popDown() // no valid targets, close the cover
+			timeout--
+			if(timeout <= 0)
+				spawn()
+					popDown() // no valid targets, close the cover
 
 	if(auto_repair && (health < maxhealth))
 		use_power(20000)
@@ -503,7 +526,7 @@ var/list/turret_icons
 	if(isanimal(L) || issmall(L)) // Animals are not so dangerous
 		return check_anomalies ? TURRET_SECONDARY_TARGET : TURRET_NOT_TARGET
 
-	if(isxenomorph(L) || isalien(L)) // Xenos are dangerous
+	if(isalien(L)) // Xenos are dangerous
 		return check_anomalies ? TURRET_PRIORITY_TARGET	: TURRET_NOT_TARGET
 
 	if(ishuman(L))	//if the target is a human, analyze threat level
@@ -553,6 +576,7 @@ var/list/turret_icons
 
 	set_raised_raising(1, 0)
 	update_icon()
+	timeout = 10
 
 /obj/machinery/porta_turret/proc/popDown()	//pops the turret down
 	last_target = null
@@ -573,6 +597,7 @@ var/list/turret_icons
 
 	set_raised_raising(0, 0)
 	update_icon()
+	timeout = 10
 
 /obj/machinery/porta_turret/proc/set_raised_raising(var/raised, var/raising)
 	src.raised = raised
@@ -618,7 +643,6 @@ var/list/turret_icons
 	else
 		A = new projectile(loc)
 		playsound(loc, shot_sound, 75, 1)
-	A.original = target
 
 	// Lethal/emagged turrets use twice the power due to higher energy beams
 	// Emagged turrets again use twice as much power due to higher firing rates
@@ -626,19 +650,18 @@ var/list/turret_icons
 
 	//Turrets aim for the center of mass by default.
 	//If the target is grabbing someone then the turret smartly aims for extremities
+	var/def_zone
 	var/obj/item/weapon/grab/G = locate() in target
 	if(G && G.state >= GRAB_NECK) //works because mobs are currently not allowed to upgrade to NECK if they are grabbing two people.
-		A.def_zone = pick("head", "l_hand", "r_hand", "l_foot", "r_foot", "l_arm", "r_arm", "l_leg", "r_leg")
+		def_zone = pick(BP_HEAD, BP_L_HAND, BP_R_HAND, BP_L_FOOT, BP_R_FOOT, BP_L_ARM, BP_R_ARM, BP_L_LEG, BP_R_LEG)
 	else
-		A.def_zone = pick("chest", "groin")
+		def_zone = pick(BP_TORSO, BP_GROIN)
 
 	//Shooting Code:
-	A.current = T
-	A.starting = T
-	A.yo = U.y - T.y
-	A.xo = U.x - T.x
-	spawn(1)
-		A.process()
+	A.launch(target, def_zone)
+
+	// Reset the time needed to go back down, since we just tried to shoot at someone.
+	timeout = 10
 
 /datum/turret_checks
 	var/enabled
@@ -758,11 +781,7 @@ var/list/turret_icons
 				installation = I.type //installation becomes I.type
 				gun_charge = E.power_supply.charge //the gun's charge is stored in gun_charge
 				user << "<span class='notice'>You add [I] to the turret.</span>"
-
-				if(istype(installation, /obj/item/weapon/gun/energy/lasertag/blue) || istype(installation, /obj/item/weapon/gun/energy/lasertag/red))
-					target_type = /obj/machinery/porta_turret/tag
-				else
-					target_type = /obj/machinery/porta_turret
+				target_type = /obj/machinery/porta_turret
 
 				build_step = 4
 				qdel(I) //delete the gun :(
@@ -879,3 +898,8 @@ var/list/turret_icons
 
 /atom/movable/porta_turret_cover
 	icon = 'icons/obj/turrets.dmi'
+
+
+#undef TURRET_PRIORITY_TARGET
+#undef TURRET_SECONDARY_TARGET
+#undef TURRET_NOT_TARGET

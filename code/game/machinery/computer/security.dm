@@ -3,8 +3,9 @@
 /obj/machinery/computer/secure_data//TODO:SANITY
 	name = "security records console"
 	desc = "Used to view, edit and maintain security records"
-	icon_state = "security"
-	light_color = "#a91515"
+	icon_keyboard = "security_key"
+	icon_screen = "security"
+	light_color = "#315ab4"
 	req_one_access = list(access_security, access_forensics_lockers, access_lawyer)
 	circuit = /obj/item/weapon/circuitboard/secure_data
 	var/obj/item/weapon/card/id/scan = null
@@ -56,7 +57,7 @@
 	if(..())
 		return
 	if (src.z > 6)
-		user << "\red <b>Unable to establish a connection</b>: \black You're too far away from the station!"
+		user << "<span class='warning'>Unable to establish a connection:</span> You're too far away from the station!"
 		return
 	var/dat
 
@@ -247,8 +248,7 @@ What a mess.*/
 					scan = null
 				else
 					var/obj/item/I = usr.get_active_hand()
-					if (istype(I, /obj/item/weapon/card/id))
-						usr.drop_item()
+					if (istype(I, /obj/item/weapon/card/id) && usr.unEquip(I))
 						I.loc = src
 						scan = I
 
@@ -285,8 +285,8 @@ What a mess.*/
 				if ((!( t1 ) || usr.stat || !( authenticated ) || usr.restrained() || !in_range(src, usr)))
 					return
 				Perp = new/list()
-				t1 = lowertext(t1)
-				var/list/components = text2list(t1, " ")
+				t1 = rlowertext(t1)
+				var/list/components = splittext(t1, " ")
 				if(components.len > 5)
 					return //Lets not let them search too greedily.
 				for(var/datum/data/record/R in data_core.general)
@@ -328,9 +328,9 @@ What a mess.*/
 					return
 				active1 = null
 				active2 = null
-				t1 = lowertext(t1)
+				t1 = rlowertext(t1)
 				for(var/datum/data/record/R in data_core.general)
-					if (lowertext(R.fields["fingerprint"]) == t1)
+					if (rlowertext(R.fields["fingerprint"]) == t1)
 						active1 = R
 				if (!( active1 ))
 					temp = text("Could not locate record [].", t1)
@@ -391,7 +391,7 @@ What a mess.*/
 				var/counter = 1
 				while(active2.fields[text("com_[]", counter)])
 					counter++
-				active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD hh:mm:ss")], [game_year]<BR>[t1]")
+				active2.fields[text("com_[counter]")] = text("Made by [authenticated] ([rank]) on [time2text(world.realtime, "DDD MMM DD")] [worldtime2text()], [game_year]<BR>[t1]")
 
 			if ("Delete Record (ALL)")
 				if (active1)
@@ -411,11 +411,11 @@ What a mess.*/
 //RECORD CREATE
 			if ("New Record (Security)")
 				if ((istype(active1, /datum/data/record) && !( istype(active2, /datum/data/record) )))
-					active2 = CreateSecurityRecord(active1.fields["name"], active1.fields["id"])
+					active2 = data_core.CreateSecurityRecord(active1.fields["name"], active1.fields["id"])
 					screen = 3
 
 			if ("New Record (General)")
-				active1 = CreateGeneralRecord()
+				active1 = data_core.CreateGeneralRecord()
 				active2 = null
 
 //FIELD FUNCTIONS

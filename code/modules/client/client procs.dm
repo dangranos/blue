@@ -1,10 +1,12 @@
 	////////////
 	//SECURITY//
 	////////////
-#define TOPIC_SPAM_DELAY	2		//2 ticks is about 2/10ths of a second; it was 4 ticks, but that caused too many clicks to be lost due to lag
 #define UPLOAD_LIMIT		10485760	//Restricts client uploads to the server to 10MB //Boosted this thing. What's the worst that can happen?
 #define MIN_CLIENT_VERSION	0		//Just an ambiguously low version for now, I don't want to suddenly stop people playing.
 									//I would just like the code ready should it ever need to be used.
+
+//#define TOPIC_DEBUGGING 1
+
 	/*
 	When somebody clicks a link in game, this Topic is called first.
 	It does the stuff in this proc and  then is redirected to the Topic() proc for the src=[0xWhatever]
@@ -24,10 +26,13 @@
 	if(!usr || usr != mob)	//stops us calling Topic for somebody else's client. Also helps prevent usr=null
 		return
 
-	//Reduces spamming of links by dropping calls that happen during the delay period
-	if(next_allowed_topic_time > world.time)
-		return
-	next_allowed_topic_time = world.time + TOPIC_SPAM_DELAY
+	#if defined(TOPIC_DEBUGGING)
+	world << "[src]'s Topic: [href] destined for [hsrc]."
+
+	if(href_list["nano_err"]) //nano throwing errors
+		world << "## NanoUI, Subject [src]: " + rhtml_decode(href_list["nano_err"]) //NANO DEBUG HOOK
+
+	#endif
 
 	//search the href for script injection
 	if( findtext(href,"<script",1,0) )
@@ -69,21 +74,6 @@
 
 	..()	//redirect to hsrc.Topic()
 
-/client/proc/handle_spam_prevention(var/message, var/mute_type)
-	if(config.automute_on && !holder && src.last_message == message)
-		src.last_message_count++
-		if(src.last_message_count >= SPAM_TRIGGER_AUTOMUTE)
-			src << "\red You have exceeded the spam filter limit for identical messages. An auto-mute was applied."
-			cmd_admin_mute(src.mob, mute_type, 1)
-			return 1
-		if(src.last_message_count >= SPAM_TRIGGER_WARNING)
-			src << "\red You are nearing the spam filter limit for identical messages."
-			return 0
-	else
-		last_message = message
-		src.last_message_count = 0
-		return 0
-
 //This stops files larger than UPLOAD_LIMIT being sent from client to server via input(), client.Import() etc.
 /client/AllowUpload(filename, filelength)
 	if(filelength > UPLOAD_LIMIT)
@@ -110,7 +100,7 @@
 	if(byond_version < MIN_CLIENT_VERSION)		//Out of date client.
 		return null
 
-	if(IsGuestKey(key))
+	if(!config.guests_allowed && IsGuestKey(key))
 		alert(src,"This server doesn't allow guest accounts to play. Please go to http://www.byond.com/ and register for a key.","Guest","OK")
 		del(src)
 		return
@@ -132,11 +122,6 @@
 		admins += src
 		holder.owner = src
 
-	else if(config.panicbuner && get_player_age(ckey)<1) //first connection
-		src << "Sorry but the server is currently not accepting connections from never before seen players."
-		del(src)
-		return 0
-
 	//preferences datum - also holds some persistant data for the client (because we may as well keep these datums to a minimum)
 	prefs = preferences_datums[ckey]
 	if(!prefs)
@@ -153,9 +138,6 @@
 		src << "<span class='alert'>[custom_event_msg]</span>"
 		src << "<br>"
 
-	if( (world.address == address || !address) && !host )
-		host = key
-		world.update_status()
 
 	if(holder)
 		add_admin_verbs()
@@ -166,12 +148,18 @@
 	spawn(5) // And wait a half-second, since it sounds like you can do this too fast.
 		if(src)
 			winset(src, null, "command=\".configure graphics-hwmode off\"")
+			sleep(2) // wait a bit more, possibly fixes hardware mode not re-activating right
 			winset(src, null, "command=\".configure graphics-hwmode on\"")
 
 	log_client_to_db()
 
 	send_resources()
 	nanomanager.send_resources(src)
+
+	if(!void)
+		void = new()
+		void.MakeGreed()
+	screen += void
 
 	if(prefs.lastchangelog != changelog_hash) //bolds the changelog button on the interface so we know there are updates.
 		src << "<span class='info'>You have unread updates in the changelog.</span>"
@@ -227,7 +215,7 @@
 	var/DBQuery/query = dbcon.NewQuery("SELECT id, datediff(Now(),firstseen) as age FROM erro_player WHERE ckey = '[sql_ckey]'")
 	query.Execute()
 	var/sql_id = 0
-	player_age = -1	// New players won't have an entry so knowing we have a connection we set this to zero to be updated if their is a record.
+	player_age = 0	// New players won't have an entry so knowing we have a connection we set this to zero to be updated if their is a record.
 	while(query.NextRow())
 		sql_id = query.item[1]
 		player_age = text2num(query.item[2])
@@ -288,6 +276,9 @@
 	if(inactivity > duration)	return inactivity
 	return 0
 
+/client/proc/last_activity_seconds()
+	return inactivity / 10
+
 //send resources to the client. It's here in its own proc so we can move it around easiliy if need be
 /client/proc/send_resources()
 
@@ -347,3 +338,9 @@ client/proc/MayRespawn()
 
 	// Something went wrong, client is usually kicked or transfered to a new mob at this point
 	return 0
+
+client/verb/character_setup()
+	set name = "Character Setup"
+	set category = "Preferences"
+	if(prefs)
+		prefs.ShowChoices(usr)

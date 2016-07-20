@@ -25,6 +25,5 @@
 		/obj/item/rig_module/ai_container,
 		/obj/item/rig_module/power_sink,
 		/obj/item/rig_module/electrowarfare_suite,
-		/obj/item/rig_module/chem_dispenser/combat,
-		/obj/item/rig_module/vision/thermal
+		/obj/item/rig_module/chem_dispenser/combat
 		)

@@ -6,7 +6,7 @@
 	name = "gun"
 	desc = "A gun that fires bullets."
 	icon_state = "revolver"
-	origin_tech = "combat=2;materials=2"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2)
 	w_class = 3
 	matter = list(DEFAULT_WALL_MATERIAL = 1000)
 	recoil = 1
@@ -24,6 +24,7 @@
 	//For MAGAZINE guns
 	var/magazine_type = null	//the type of magazine that the gun comes preloaded with
 	var/obj/item/ammo_magazine/ammo_magazine = null //stored magazine
+	var/allowed_magazines		//determines list of which magazines will fit in the gun
 	var/auto_eject = 0			//if the magazine should automatically eject itself when empty.
 	var/auto_eject_sound = null
 	//TODO generalize ammo icon states for guns
@@ -68,6 +69,16 @@
 /obj/item/weapon/gun/projectile/proc/process_chambered()
 	if (!chambered) return
 
+	// Aurora forensics port, gunpowder residue.
+	if(chambered.leaves_residue)
+		var/mob/living/carbon/human/H = loc
+		if(istype(H))
+			if(!H.gloves)
+				H.gunshot_residue = chambered.caliber
+			else
+				var/obj/item/clothing/G = H.gloves
+				G.gunshot_residue = chambered.caliber
+
 	switch(handle_casings)
 		if(EJECT_CASINGS) //eject casing onto ground.
 			chambered.loc = get_turf(src)
@@ -86,9 +97,9 @@
 /obj/item/weapon/gun/projectile/proc/load_ammo(var/obj/item/A, mob/user)
 	if(istype(A, /obj/item/ammo_magazine))
 		var/obj/item/ammo_magazine/AM = A
-		if(!(load_method & AM.mag_type) || caliber != AM.caliber)
-			return //incompatible
-
+		if(!(load_method & AM.mag_type) || caliber != AM.caliber || allowed_magazines && !is_type_in_list(A, allowed_magazines))
+			user << "<span class='warning'>[AM] won't load into [src]!</span>"
+			return
 		switch(AM.mag_type)
 			if(MAGAZINE)
 				if(ammo_magazine)
@@ -157,6 +168,7 @@
 			loaded.len--
 			user.put_in_hands(C)
 			user.visible_message("[user] removes \a [C] from [src].", "<span class='notice'>You remove \a [C] from [src].</span>")
+		playsound(src.loc, 'sound/weapons/empty.ogg', 50, 1)
 	else
 		user << "<span class='warning'>[src] is empty.</span>"
 	update_icon()
@@ -190,12 +202,12 @@
 		ammo_magazine = null
 		update_icon() //make sure to do this after unsetting ammo_magazine
 
-/obj/item/weapon/gun/projectile/examine(mob/user, return_dist=1)
-	.=..()
+/obj/item/weapon/gun/projectile/examine(mob/user)
+	..(user)
 	if(ammo_magazine)
 		user << "It has \a [ammo_magazine] loaded."
-		if(.<=4)
-			user << "Has [getAmmo()] round\s remaining."
+	user << "Has [getAmmo()] round\s remaining."
+	return
 
 /obj/item/weapon/gun/projectile/proc/getAmmo()
 	var/bullets = 0

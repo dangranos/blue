@@ -9,12 +9,13 @@
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	caliber = "shotgun"
-	origin_tech = "combat=4;materials=2"
+	origin_tech = list(TECH_COMBAT = 4, TECH_MATERIAL = 2)
 	load_method = SINGLE_CASING
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
 	handle_casings = HOLD_CASINGS
 	fire_sound = 'sound/weapons/shotgun.ogg'
 	var/recentpump = 0 // to prevent spammage
+	var/action_sound = 'sound/weapons/shotgunpump.ogg'
 
 /obj/item/weapon/gun/projectile/shotgun/pump/consume_next_projectile()
 	if(chambered)
@@ -27,7 +28,7 @@
 		recentpump = world.time
 
 /obj/item/weapon/gun/projectile/shotgun/pump/proc/pump(mob/M as mob)
-	playsound(M, 'sound/weapons/shotgunpump.ogg', 60, 1)
+	playsound(M, action_sound, 60, 1)
 
 	if(chambered)//We have a shell in the chamber
 		chambered.loc = get_turf(src)//Eject casing
@@ -45,7 +46,7 @@
 	desc = "Built for close quarters combat, the Hesphaistos Industries KS-40 is widely regarded as a weapon of choice for repelling boarders."
 	icon_state = "cshotgun"
 	item_state = "cshotgun"
-	origin_tech = "combat=5;materials=2"
+	origin_tech = list(TECH_COMBAT = 5, TECH_MATERIAL = 2)
 	max_shells = 7 //match the ammo box capacity, also it can hold a round in the chamber anyways, for a total of 8.
 	ammo_type = /obj/item/ammo_casing/shotgun
 
@@ -64,14 +65,13 @@
 	flags =  CONDUCT
 	slot_flags = SLOT_BACK
 	caliber = "shotgun"
-	origin_tech = "combat=3;materials=1"
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 1)
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
-	fire_sound = 'sound/weapons/shotgun_shoot.ogg'
 
 	burst_delay = 0
 	firemodes = list(
-		list(name="fire one barrel at a time", burst=1),
-		list(name="fire both barrels at once", burst=2),
+		list(mode_name="fire one barrel at a time", burst=1),
+		list(mode_name="fire both barrels at once", burst=2),
 		)
 
 /obj/item/weapon/gun/projectile/shotgun/doublebarrel/pellet
@@ -117,14 +117,3 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/pellet
 	w_class = 3
 	force = 5
-
-/obj/item/weapon/gun/projectile/shotgun/pump/combat/h680
-	name = "combat shotgun"
-	desc = "That's the Hutchinson 680, standard-issue weapon of the NT colonial infantry.."
-	icon_state = "hutchinson680"
-	item_state = "hutchinson680"
-	origin_tech = "combat=7;materials=4"
-	max_shells = 11
-	slot_flags = SLOT_BACK
-	ammo_type = /obj/item/ammo_casing/shotgun
-	fire_sound = 'sound/weapons/eventshotgun.ogg'

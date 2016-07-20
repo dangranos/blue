@@ -71,16 +71,16 @@
 
 	free_space -= length(strip_html_properly(new_text))
 
-/obj/item/weapon/paper/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=1 || istype(user, /mob/dead/observer))
-		show_content(user)
+/obj/item/weapon/paper/examine(mob/user)
+	..()
+	if(in_range(user, src) || istype(user, /mob/observer/dead))
+		show_content(usr)
 	else
 		user << "<span class='notice'>You have to go closer if you want to read it.</span>"
 	return
 
 /obj/item/weapon/paper/proc/show_content(var/mob/user, var/forceshow=0)
-	if(!(istype(user, /mob/living/carbon/human) || istype(user, /mob/dead/observer) || istype(user, /mob/living/silicon)) && !forceshow)
+	if(!(istype(user, /mob/living/carbon/human) || istype(user, /mob/observer/dead) || istype(user, /mob/living/silicon)) && !forceshow)
 		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY>[stars(info)][stamps]</BODY></HTML>", "window=[name]")
 		onclose(user, "[name]")
 	else
@@ -107,6 +107,15 @@
 	return
 
 /obj/item/weapon/paper/attack_self(mob/living/user as mob)
+	if(user.a_intent == I_HURT)
+		if(icon_state == "scrap")
+			user.show_message("<span class='warning'>\The [src] is already crumpled.</span>")
+			return
+		//crumple dat paper
+		info = stars(info,85)
+		user.visible_message("\The [user] crumples \the [src] into a ball!")
+		icon_state = "scrap"
+		return
 	user.examinate(src)
 	if(rigged && (Holiday == "April Fool's Day"))
 		if(spam_flag == 0)
@@ -131,17 +140,17 @@
 	return
 
 /obj/item/weapon/paper/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(user.zone_sel.selecting == "eyes")
-		user.visible_message("<span class='notice'> [user] holds up a paper and shows it to [M]. </span>",\
-			"<span class='notice'>You show the paper to [M]. </span>")
+	if(user.zone_sel.selecting == O_EYES)
+		user.visible_message("<span class='notice'>You show the paper to [M]. </span>", \
+			"<span class='notice'> [user] holds up a paper and shows it to [M]. </span>")
 		M.examinate(src)
 
-	else if(user.zone_sel.selecting == "mouth") // lipstick wiping
+	else if(user.zone_sel.selecting == O_MOUTH) // lipstick wiping
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			if(H == user)
 				user << "<span class='notice'>You wipe off the lipstick with [src].</span>"
-				H.lip_color = null
+				H.lip_style = null
 				H.update_body()
 			else
 				user.visible_message("<span class='warning'>[user] begins to wipe [H]'s lipstick off with \the [src].</span>", \
@@ -149,7 +158,7 @@
 				if(do_after(user, 10) && do_after(H, 10, 5, 0))	//user needs to keep their active hand, H does not.
 					user.visible_message("<span class='notice'>[user] wipes [H]'s lipstick off with \the [src].</span>", \
 										 "<span class='notice'>You wipe off [H]'s lipstick.</span>")
-					H.lip_color = null
+					H.lip_style = null
 					H.update_body()
 
 /obj/item/weapon/paper/proc/addtofield(var/id, var/text, var/links = 0)
@@ -268,12 +277,13 @@
 
 		t = "<font face=\"[crayonfont]\" color=[P ? P.colour : "black"]><b>[t]</b></font>"
 
+
 //	t = replacetext(t, "#", "") // Junk converted to nothing!
 
 //Count the fields
 	var/laststart = 1
 	while(1)
-		var/i = findtext(t, "<span class=\"paper_field\">", laststart)
+		var/i = findtext(t, "<span class=\"paper_field\">", laststart)	//</span>
 		if(i==0)
 			break
 		laststart = i+1
@@ -282,19 +292,19 @@
 	return t
 
 /obj/item/weapon/paper/proc/burnpaper(obj/item/weapon/flame/P, mob/user)
-	var/class = "<span class='warning'>"
+	var/class = "warning"
 
 	if(P.lit && !user.restrained())
 		if(istype(P, /obj/item/weapon/flame/lighter/zippo))
-			class = "<span class='rose'>"
+			class = "rose"
 
-		user.visible_message("[class][user] holds \the [P] up to \the [src], it looks like \he's trying to burn it!", \
-		"[class]You hold \the [P] up to \the [src], burning it slowly.")
+		user.visible_message("<span class='[class]'>[user] holds \the [P] up to \the [src], it looks like \he's trying to burn it!</span>", \
+		"<span class='[class]'>You hold \the [P] up to \the [src], burning it slowly.</span>")
 
 		spawn(20)
 			if(get_dist(src, user) < 2 && user.get_active_hand() == P && P.lit)
-				user.visible_message("[class][user] burns right through \the [src], turning it to ash. It flutters through the air before settling on the floor in a heap.", \
-				"[class]You burn right through \the [src], turning it to ash. It flutters through the air before settling on the floor in a heap.")
+				user.visible_message("<span class='[class]'>[user] burns right through \the [src], turning it to ash. It flutters through the air before settling on the floor in a heap.</span>", \
+				"<span class='[class]'>You burn right through \the [src], turning it to ash. It flutters through the air before settling on the floor in a heap.</span>")
 
 				if(user.get_inactive_hand() == src)
 					user.drop_from_inventory(src)
@@ -327,7 +337,17 @@
 		var/obj/item/i = usr.get_active_hand() // Check to see if he still got that darn pen, also check if he's using a crayon or pen.
 		var/iscrayon = 0
 		if(!istype(i, /obj/item/weapon/pen))
-			return
+			var/mob/living/M = usr
+			if(istype(M) && M.back && istype(M.back,/obj/item/weapon/rig))
+				var/obj/item/weapon/rig/r = M.back
+				var/obj/item/rig_module/device/pen/m = locate(/obj/item/rig_module/device/pen) in r.installed_modules
+				if(!r.offline && m)
+					i = m.device
+				else
+					return
+			else
+				return
+
 		if(istype(i, /obj/item/weapon/pen/crayon))
 			iscrayon = 1
 
@@ -349,7 +369,7 @@
 
 		var last_fields_value = fields
 
-		//t = html_encode(t)
+		//t = rhtml_encode(t)
 		t = replacetext(t, "\n", "<BR>")
 		t = parsepencode(t, i, usr, iscrayon) // Encode everything from pencode to html
 
@@ -432,6 +452,10 @@
 		B.update_icon()
 
 	else if(istype(P, /obj/item/weapon/pen))
+		if(icon_state == "scrap")
+			usr << "<span class='warning'>\The [src] is too crumpled to write on.</span>"
+			return
+
 		var/obj/item/weapon/pen/robopen/RP = P
 		if ( istype(RP) && RP.mode == 2 )
 			RP.RenamePaper(user,src)
@@ -503,24 +527,6 @@
 /obj/item/weapon/paper/djstation
 	name = "DJ Listening Outpost"
 	info = "<B>Welcome new owner!</B><BR><BR>You have purchased the latest in listening equipment. The telecommunication setup we created is the best in listening to common and private radio fequencies. Here is a step by step guide to start listening in on those saucy radio channels:<br><ol><li>Equip yourself with a multi-tool</li><li>Use the multitool on each machine, that is the broadcaster, receiver and the relay.</li><li>Turn all the machines on, it has already been configured for you to listen on.</li></ol> Simple as that. Now to listen to the private channels, you'll have to configure the intercoms, located on the front desk. Here is a list of frequencies for you to listen on.<br><ul><li>145.7 - Common Channel</li><li>144.7 - Private AI Channel</li><li>135.9 - Security Channel</li><li>135.7 - Engineering Channel</li><li>135.5 - Medical Channel</li><li>135.3 - Command Channel</li><li>135.1 - Science Channel</li><li>134.9 - Mining Channel</li><li>134.7 - Cargo Channel</li>"
-
-/obj/item/weapon/paper/cookies
-	name = "message"
-	info = "<B>Hi this Is 'Tim' at the bakery. The cookies that you ordered should be delivered by now... A list of ingredients are included... Make sure that you read them carefully!</B>"
-
-/obj/item/weapon/paper/CVIT
-	name = "CVIT crew note"
-	icon_state = "paper_words"
-	info = "Aye aye, guys, today you are hauling something very valuable. This is why you are instructed to bring three safes, two of them decoy. Whatever it is you are guarding, it must be very important. No jacking around - as soon as you leave planetary space, you are on your own, `cause we are still lacking licence for armed vessel maneuvers in this sector.  And yeah,  and we`re still playing ball this weekend, Kev, so try and get back in time."
-
-/obj/item/weapon/paper/adminanounce
-	name = "Admnistrative Anouncement"
-	icon_state = "paper_words"
-	info = "It is reported that merely closing down leisure facilities has not been successful. You and your Heads of Staff are to ensure that all crew are working hard, and not wasting time or energy. Any crew caught off duty without leave from their Head of Staff are to be warned, and on repeated offence, to be brigged until the next transfer shuttle arrives, which will take them to facilities where they can be of more use."
-
-/obj/item/weapon/paper/objectives
-	name = "Objective of a Nuclear Operative"
-	info = "<b>Objective #1</b>: Destroy the station with a nuclear device."
 
 /obj/item/weapon/paper/flag
 	icon_state = "flag_neutral"

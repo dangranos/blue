@@ -1,6 +1,6 @@
 /mob/living/carbon/human/gib()
 
-	for(var/obj/item/organ/internal/I in internal_organs)
+	for(var/obj/item/organ/I in internal_organs)
 		I.removed()
 		if(istype(loc,/turf))
 			I.throw_at(get_edge_target_turf(src,pick(alldirs)),rand(1,3),30)
@@ -15,7 +15,7 @@
 		I.throw_at(get_edge_target_turf(src,pick(alldirs)), rand(1,3), round(30/I.w_class))
 
 	..(species.gibbed_anim)
-	gibs(loc, viruses, dna, null, species.flesh_color, species.blood_color)
+	gibs(loc, dna, null, species.get_flesh_colour(src), species.get_blood_colour(src))
 
 /mob/living/carbon/human/dust()
 	if(species)
@@ -31,38 +31,42 @@
 	BITSET(hud_updateflag, STATUS_HUD)
 	BITSET(hud_updateflag, LIFE_HUD)
 
-	handle_hud_list()
-
 	//Handle species-specific deaths.
 	species.handle_death(src)
 	animate_tail_stop()
 
 	//Handle brain slugs.
-	var/obj/item/organ/external/head = get_organ("head")
-	if(head)
-		var/mob/living/simple_animal/borer/B = locate() in head.implants
-		if(B)
-			if(!B.ckey && ckey && B.controlling)
-				B.ckey = ckey
-				B.controlling = 0
-			if(B.host_brain && B.host_brain.ckey)
-				ckey = B.host_brain.ckey
-				B.host_brain.ckey = null
-				B.host_brain.name = "host brain"
-				B.host_brain.real_name = "host brain"
+	var/obj/item/organ/external/Hd = get_organ(BP_HEAD)
+	var/mob/living/simple_animal/borer/B
 
-			verbs -= /mob/living/carbon/proc/release_control
+	if(Hd)
+		for(var/I in Hd.implants)
+			if(istype(I,/mob/living/simple_animal/borer))
+				B = I
+	if(B)
+		if(!B.ckey && ckey && B.controlling)
+			B.ckey = ckey
+			B.controlling = 0
+		if(B.host_brain.ckey)
+			ckey = B.host_brain.ckey
+			B.host_brain.ckey = null
+			B.host_brain.name = "host brain"
+			B.host_brain.real_name = "host brain"
+
+		verbs -= /mob/living/carbon/proc/release_control
 
 	callHook("death", list(src, gibbed))
 
 	if(!gibbed && species.death_sound)
 		playsound(loc, species.death_sound, 80, 1, 1)
 
-
 	if(ticker && ticker.mode)
 		ticker.mode.check_win()
 
-	return ..(gibbed,species.death_message)
+	if(wearing_rig)
+		wearing_rig.notify_ai("<span class='danger'>Warning: user death event. Mobility control passed to integrated intelligence system.</span>")
+
+	return ..(gibbed,species.get_death_message(src))
 
 /mob/living/carbon/human/proc/ChangeToHusk()
 	if(HUSK in mutations)	return

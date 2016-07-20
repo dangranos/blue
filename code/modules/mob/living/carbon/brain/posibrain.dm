@@ -4,10 +4,8 @@
 	icon = 'icons/obj/assemblies.dmi'
 	icon_state = "posibrain"
 	w_class = 3
-	origin_tech = "engineering=4;materials=4;bluespace=2;programming=4"
+	origin_tech = list(TECH_ENGINEERING = 4, TECH_MATERIAL = 4, TECH_BLUESPACE = 2, TECH_DATA = 4)
 
-	construction_cost = list(DEFAULT_WALL_MATERIAL=500,"glass"=500,"silver"=200,"gold"=200,"phoron"=100,"diamond"=10)
-	construction_time = 75
 	var/searching = 0
 	var/askDelay = 10 * 60 * 1
 	req_access = list(access_robotics)
@@ -25,7 +23,7 @@
 		spawn(600) reset_search()
 
 /obj/item/device/mmi/digital/posibrain/proc/request_player()
-	for(var/mob/dead/observer/O in player_list)
+	for(var/mob/observer/dead/O in player_list)
 		if(!O.MayRespawn())
 			continue
 		if(jobban_isbanned(O, "AI") && jobban_isbanned(O, "Cyborg"))
@@ -65,7 +63,7 @@
 	src.brainmob << "<b>You are a positronic brain, brought into existence on [station_name()].</b>"
 	src.brainmob << "<b>As a synthetic intelligence, you answer to all crewmembers, as well as the AI.</b>"
 	src.brainmob << "<b>Remember, the purpose of your existence is to serve the crew and the station. Above all else, do no harm.</b>"
-	src.brainmob << "<b>Use say :b to speak to other artificial intelligences.</b>"
+	src.brainmob << "<b>Use say #b to speak to other artificial intelligences.</b>"
 	src.brainmob.mind.assigned_role = "Positronic Brain"
 
 	var/turf/T = get_turf_or_move(src.loc)
@@ -76,6 +74,7 @@
 /obj/item/device/mmi/digital/posibrain/proc/reset_search() //We give the players sixty seconds to decide, then reset the timer.
 
 	if(src.brainmob && src.brainmob.key) return
+	world.log << "Resetting Posibrain: [brainmob][brainmob ? ", [brainmob.key]" : ""]"
 
 	src.searching = 0
 	icon_state = "posibrain"
@@ -85,9 +84,10 @@
 		M.show_message("\blue The positronic brain buzzes quietly, and the golden lights fade away. Perhaps you could try again?")
 
 /obj/item/device/mmi/digital/posibrain/examine(mob/user)
-//	.=..() //Check this.
+	if(!..(user))
+		return
 
-	var/msg = "<span class='info'>*---------*\nThis is \icon[src] \a <EM>[src]</EM>!\n[desc]\n"
+	var/msg = "<span class='info'>*---------*</span>\nThis is \icon[src] \a <EM>[src]</EM>!\n[desc]\n"
 	msg += "<span class='warning'>"
 
 	if(src.brainmob && src.brainmob.key)
@@ -98,7 +98,7 @@
 			if(DEAD)			msg += "<span class='deadsay'>It appears to be completely inactive.</span>\n"
 	else
 		msg += "<span class='deadsay'>It appears to be completely inactive.</span>\n"
-	msg += "<span class='info'>*---------*</span>"
+	msg += "</span><span class='info'>*---------*</span>"
 	user << msg
 	return
 

@@ -4,7 +4,8 @@
 /obj/machinery/computer/communications
 	name = "command and communications console"
 	desc = "Used to command and control the station. Can relay long-range communications."
-	icon_state = "comm"
+	icon_keyboard = "tech_key"
+	icon_screen = "comm"
 	light_color = "#0099ff"
 	req_access = list(access_heads)
 	circuit = /obj/item/weapon/circuitboard/communications
@@ -49,7 +50,9 @@
 /obj/machinery/computer/communications/Topic(href, href_list)
 	if(..())
 		return 1
-
+	if (src.z > 1)
+		usr << "\red <b>Unable to establish a connection</b>: \black You're too far away from the station!"
+		return
 	usr.set_machine(src)
 
 	if(!href_list["operation"])
@@ -67,40 +70,29 @@
 			if (I && istype(I))
 				if(src.check_access(I))
 					authenticated = 1
-				//if(access_captain in I.access)
-					//authenticated = 2
+				if(access_captain in I.access)
+					authenticated = 2
 					crew_announcement.announcer = GetNameAndAssignmentFromId(I)
 		if("logout")
 			authenticated = 0
 			crew_announcement.announcer = ""
 
 		if("swipeidseclevel")
-			var/mob/M = usr
-			var/obj/item/weapon/card/id/I = M.get_active_hand()
-			if (istype(I, /obj/item/device/pda))
-				var/obj/item/device/pda/pda = I
-				I = pda.id
-			if (I && istype(I))
-				if(access_heads in I.access) //Let heads change the alert level.
-					var/old_level = security_level
-					if(!tmp_alertlevel) tmp_alertlevel = SEC_LEVEL_GREEN
-					if(tmp_alertlevel < SEC_LEVEL_GREEN) tmp_alertlevel = SEC_LEVEL_GREEN
-					if(tmp_alertlevel > SEC_LEVEL_BLUE) tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this
-					set_security_level(tmp_alertlevel)
-					if(security_level != old_level)
-						//Only notify the admins if an actual change happened
-						log_game("[key_name(usr)] has changed the security level to [get_security_level()].")
-						message_admins("[key_name_admin(usr)] has changed the security level to [get_security_level()].")
-					tmp_alertlevel = 0
-				else:
-					usr << "You are not authorized to do this."
-					tmp_alertlevel = 0
+			if(src.authenticated) //Let heads change the alert level.
+				var/old_level = security_level
+				if(!tmp_alertlevel) tmp_alertlevel = SEC_LEVEL_GREEN
+				if(tmp_alertlevel < SEC_LEVEL_GREEN) tmp_alertlevel = SEC_LEVEL_GREEN
+				if(tmp_alertlevel > SEC_LEVEL_BLUE) tmp_alertlevel = SEC_LEVEL_BLUE //Cannot engage delta with this
+				set_security_level(tmp_alertlevel)
+				if(security_level != old_level)
+					//Only notify the admins if an actual change happened
+					log_game("[key_name(usr)] has changed the security level to [get_security_level()].")
+					message_admins("[key_name_admin(usr)] has changed the security level to [get_security_level()].")
+				tmp_alertlevel = 0
 				state = STATE_DEFAULT
-			else
-				usr << "You need to swipe your ID."
 
 		if("announce")
-			if(src.authenticated==1)
+			if(src.authenticated==2)
 				if(message_cooldown)
 					usr << "Please allow at least one minute to pass between announcements"
 					return
@@ -177,35 +169,32 @@
 
 		// OMG CENTCOMM LETTERHEAD
 		if("MessageCentcomm")
-			if(src.authenticated==1)
+			if(src.authenticated==2)
 				if(centcomm_message_cooldown)
-					usr << "<span class='warning'>Arrays recycling. Please stand by.</span>"
+					usr << "\red Arrays recycling.  Please stand by."
 					return
-				if(!is_relay_online())//Contact Centcom has a check, Syndie doesn't to allow for Traitor funs.
-					usr <<"<span class='warning'>No Emergency Bluespace Relay detected. Unable to transmit message.</span>"
-					return
-				var/input = sanitize(input("Please choose a message to transmit to Centcomm via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response. There is a 30 second delay before you may send another message, be clear, full and concise.", "To abort, send an empty message.", ""))
+				var/input = sanitize(input("Please choose a message to transmit to [boss_short] via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response. There is a 30 second delay before you may send another message, be clear, full and concise.", "To abort, send an empty message.", ""))
 				if(!input || !(usr in view(1,src)))
 					return
 				Centcomm_announce(input, usr)
-				usr << "<span class='notice'>Message transmitted.</span>"
-				log_say("[key_name(usr)] has made an IA Centcomm announcement: [input]")
+				usr << "\blue Message transmitted."
+				log_say("[key_name(usr)] has made an IA [boss_short] announcement: [input]")
 				centcomm_message_cooldown = 1
-				spawn(300)//30 second cooldown
+				spawn(300)//10 minute cooldown
 					centcomm_message_cooldown = 0
 
 
 		// OMG SYNDICATE ...LETTERHEAD
 		if("MessageSyndicate")
-			if((src.authenticated==1) && (src.emagged))
+			if((src.authenticated==2) && (src.emagged))
 				if(centcomm_message_cooldown)
-					usr << "<span class='warning'>Arrays recycling. Please stand by.</span>"
+					usr << "\red Arrays recycling.  Please stand by."
 					return
 				var/input = sanitize(input(usr, "Please choose a message to transmit to \[ABNORMAL ROUTING CORDINATES\] via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination. Transmission does not guarantee a response. There is a 30 second delay before you may send another message, be clear, full and concise.", "To abort, send an empty message.", ""))
 				if(!input || !(usr in view(1,src)))
 					return
 				Syndicate_announce(input, usr)
-				usr << "<span class='notice'>Message transmitted.</span>"
+				usr << "\blue Message transmitted."
 				log_say("[key_name(usr)] has made an illegal announcement: [input]")
 				centcomm_message_cooldown = 1
 				spawn(300)//10 minute cooldown
@@ -264,17 +253,20 @@
 
 	src.updateUsrDialog()
 
-/obj/machinery/computer/communications/attackby(var/obj/I as obj, var/mob/user as mob)
-	if(istype(I,/obj/item/weapon/card/emag/))
+/obj/machinery/computer/communications/emag_act(var/remaining_charges, var/mob/user)
+	if(!emagged)
 		src.emagged = 1
 		user << "You scramble the communication routing circuits!"
-	..()
+		return 1
 
 /obj/machinery/computer/communications/attack_ai(var/mob/user as mob)
 	return src.attack_hand(user)
 
 /obj/machinery/computer/communications/attack_hand(var/mob/user as mob)
 	if(..())
+		return
+	if (src.z > 6)
+		user << "\red <b>Unable to establish a connection</b>: \black You're too far away from the station!"
 		return
 
 	user.set_machine(src)
@@ -295,10 +287,10 @@
 		if(STATE_DEFAULT)
 			if (src.authenticated)
 				dat += "<BR>\[ <A HREF='?src=\ref[src];operation=logout'>Log Out</A> \]"
-				if (src.authenticated==1)
+				if (src.authenticated==2)
 					dat += "<BR>\[ <A HREF='?src=\ref[src];operation=announce'>Make An Announcement</A> \]"
 					if(src.emagged == 0)
-						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=MessageCentcomm'>Send an emergency message to Centcomm</A> \]"
+						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=MessageCentcomm'>Send an emergency message to [boss_short]</A> \]"
 					else
 						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=MessageSyndicate'>Send an emergency message to \[UNKNOWN\]</A> \]"
 						dat += "<BR>\[ <A HREF='?src=\ref[src];operation=RestoreBackup'>Restore Backup Routing Data</A> \]"
@@ -360,7 +352,7 @@
 		if(STATE_CONFIRM_LEVEL)
 			dat += "Current alert level: [get_security_level()]<BR>"
 			dat += "Confirm the change to: [num2seclevel(tmp_alertlevel)]<BR>"
-			dat += "<A HREF='?src=\ref[src];operation=swipeidseclevel'>Swipe ID</A> to confirm change.<BR>"
+			dat += "<A HREF='?src=\ref[src];operation=swipeidseclevel'>OK</A> to confirm change.<BR>"
 
 	dat += "<BR>\[ [(src.state != STATE_DEFAULT) ? "<A HREF='?src=\ref[src];operation=main'>Main Menu</A> | " : ""]<A HREF='?src=\ref[user];mach_close=communications'>Close</A> \]"
 	user << browse(dat, "window=communications;size=400x500")
@@ -429,7 +421,7 @@
 		return
 
 	if(deathsquad.deployed)
-		user << "Centcom will not allow the shuttle to be called. Consider all contracts terminated."
+		user << "[boss_short] will not allow the shuttle to be called. Consider all contracts terminated."
 		return
 
 	if(emergency_shuttle.deny_shuttle)
@@ -441,7 +433,7 @@
 		return
 
 	if(emergency_shuttle.going_to_centcom())
-		user << "The emergency shuttle may not be called while returning to CentCom."
+		user << "The emergency shuttle may not be called while returning to [boss_short]."
 		return
 
 	if(emergency_shuttle.online())
@@ -464,7 +456,7 @@
 		return
 
 	if(emergency_shuttle.going_to_centcom())
-		user << "The shuttle may not be called while returning to CentCom."
+		user << "The shuttle may not be called while returning to [boss_short]."
 		return
 
 	if(emergency_shuttle.online())
@@ -474,11 +466,11 @@
 	// if force is 0, some things may stop the shuttle call
 	if(!force)
 		if(emergency_shuttle.deny_shuttle)
-			user << "Centcom does not currently have a shuttle available in your sector. Please try again later."
+			user << "[boss_short] does not currently have a shuttle available in your sector. Please try again later."
 			return
 
 		if(deathsquad.deployed == 1)
-			user << "Centcom will not allow the shuttle to be called. Consider all contracts terminated."
+			user << "[boss_short] will not allow the shuttle to be called. Consider all contracts terminated."
 			return
 
 		if(world.time < 54000) // 30 minute grace period to let the game get going
@@ -517,13 +509,6 @@
 		message_admins("[key_name_admin(user)] has recalled the shuttle.", 1)
 	return
 
-
-/proc/is_relay_online()
-    for(var/obj/machinery/bluespacerelay/M in world)
-        if(M.stat == 0)
-            return 1
-    return 0
-
 /obj/machinery/computer/communications/proc/post_status(var/command, var/data1, var/data2)
 
 	var/datum/radio_frequency/frequency = radio_controller.return_frequency(1435)
@@ -545,50 +530,3 @@
 			status_signal.data["picture_state"] = data1
 
 	frequency.post_signal(src, status_signal)
-
-
-/obj/machinery/computer/communications/Destroy()
-
-	for(var/obj/machinery/computer/communications/commconsole in world)
-		if(istype(commconsole.loc,/turf) && commconsole != src)
-			return ..()
-
-	for(var/obj/item/weapon/circuitboard/communications/commboard in world)
-		if(istype(commboard.loc,/turf) || istype(commboard.loc,/obj/item/weapon/storage))
-			return ..()
-
-	for(var/mob/living/silicon/ai/shuttlecaller in player_list)
-		if(!shuttlecaller.stat && shuttlecaller.client && istype(shuttlecaller.loc,/turf))
-			return ..()
-
-	if(ticker.mode.name == "revolution" || deathsquad.deployed)
-		return ..()
-
-	emergency_shuttle.call_evac()
-	log_game("All the AIs, comm consoles and boards are destroyed. Shuttle called.")
-	message_admins("All the AIs, comm consoles and boards are destroyed. Shuttle called.", 1)
-
-	..()
-
-/obj/item/weapon/circuitboard/communications/Destroy()
-
-	for(var/obj/machinery/computer/communications/commconsole in world)
-		if(istype(commconsole.loc,/turf))
-			return ..()
-
-	for(var/obj/item/weapon/circuitboard/communications/commboard in world)
-		if((istype(commboard.loc,/turf) || istype(commboard.loc,/obj/item/weapon/storage)) && commboard != src)
-			return ..()
-
-	for(var/mob/living/silicon/ai/shuttlecaller in player_list)
-		if(!shuttlecaller.stat && shuttlecaller.client && istype(shuttlecaller.loc,/turf))
-			return ..()
-
-	if(ticker.mode.name == "revolution" || deathsquad.deployed)
-		return ..()
-
-	emergency_shuttle.call_evac()
-	log_game("All the AIs, comm consoles and boards are destroyed. Shuttle called.")
-	message_admins("All the AIs, comm consoles and boards are destroyed. Shuttle called.", 1)
-
-	..()

@@ -1,29 +1,24 @@
 /obj
 	//Used to store information about the contents of the object.
 	var/list/matter
-
-	var/origin_tech = null	//Used by R&D to determine what research bonuses it grants.
-	var/tmp/reliability = 100	//Used by SOME devices to determine how reliable they are.
-	var/crit_fail = 0
+	var/w_class // Size of the object.
 	var/unacidable = 0 //universal "unacidabliness" var, here so you can use it in any obj.
 	animate_movement = 2
-	var/tmp/throwforce = 1
-	var/tmp/list/attack_verb = list("attacked") //Used in attackby() to say how something was attacked "[x] has been [z.attack_verb] by [y] with [z]"
-	var/tmp/sharp = 0		// whether this object cuts
-	var/tmp/edge = 0		// whether this object is more likely to dismember
-	var/tmp/in_use = 0 // If we have a user using us, this will be set on. We will check if the user has stopped using us, and thus stop updating and LAGGING EVERYTHING!
-
+	var/throwforce = 1
+	var/sharp = 0		// whether this object cuts
+	var/edge = 0		// whether this object is more likely to dismember
+	var/pry = 0			//Used in attackby() to open doors
+	var/in_use = 0 // If we have a user using us, this will be set on. We will check if the user has stopped using us, and thus stop updating and LAGGING EVERYTHING!
 	var/damtype = "brute"
-	var/force = 0
+	var/armor_penetration = 0
+	var/show_messages
 
 /obj/Destroy()
 	processing_objects -= src
-	nanomanager.close_uis(src)
 	return ..()
 
-/obj/Topic(href, href_list, var/nowindow = 0, var/datum/topic_state/state = default_state)
-	// Calling Topic without a corresponding window open causes runtime errors
-	if(!nowindow && ..())
+/obj/Topic(href, href_list, var/datum/topic_state/state = default_state)
+	if(usr && ..())
 		return 1
 
 	// In the far future no checks are made in an overriding Topic() beyond if(..()) return
@@ -35,9 +30,22 @@
 	CouldNotUseTopic(usr)
 	return 1
 
+/obj/CanUseTopic(var/mob/user, var/datum/topic_state/state)
+	if(user.CanUseObjTopic(src))
+		return ..()
+	user << "<span class='danger'>\icon[src]Access Denied!</span>"
+	return STATUS_CLOSE
+
+/mob/living/silicon/CanUseObjTopic(var/obj/O)
+	var/id = src.GetIdCard()
+	return O.check_access(id)
+
+/mob/proc/CanUseObjTopic()
+	return 1
+
 /obj/proc/CouldUseTopic(var/mob/user)
 	var/atom/host = nano_host()
-	host.add_fingerprint(user)
+	host.add_hiddenprint(user)
 
 /obj/proc/CouldNotUseTopic(var/mob/user)
 	// Nada
@@ -83,11 +91,12 @@
 		// check for TK users
 
 		if (istype(usr, /mob/living/carbon/human))
-			if(istype(usr.l_hand, /obj/item/tk_grab) || istype(usr.r_hand, /obj/item/tk_grab/))
-				if(!(usr in nearby))
-					if(usr.client && usr.machine==src)
+			var/mob/living/carbon/human/H = usr
+			if(H.get_type_in_hands(/obj/item/tk_grab))
+				if(!(H in nearby))
+					if(H.client && H.machine==src)
 						is_in_use = 1
-						src.attack_hand(usr)
+						src.attack_hand(H)
 		in_use = is_in_use
 
 /obj/proc/updateDialog()
@@ -103,6 +112,10 @@
 
 		if(!ai_in_use && !is_in_use)
 			in_use = 0
+
+/obj/attack_ghost(mob/user)
+	ui_interact(user)
+	..()
 
 /obj/proc/interact(mob/user)
 	return
@@ -125,13 +138,11 @@
 	if(istype(M) && M.client && M.machine == src)
 		src.attack_self(M)
 
-
-/obj/proc/alter_health()
-	return 1
-
 /obj/proc/hide(h)
 	return
 
+/obj/proc/hides_under_flooring()
+	return 0
 
 /obj/proc/hear_talk(mob/M as mob, text, verb, datum/language/speaking)
 	if(talking_atom)
@@ -145,4 +156,7 @@
 	return
 
 /obj/proc/see_emote(mob/M as mob, text, var/emote_type)
+	return
+
+/obj/proc/show_message(msg, type, alt, alt_type)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
 	return

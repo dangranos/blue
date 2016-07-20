@@ -108,7 +108,7 @@
 
 	var/obj/item/weapon/grab/G = I
 	if(istype(G))	// handle grabbed mob
-		if(ismob(G.affecting) && get_dist(src,G.affecting)<2)
+		if(ismob(G.affecting))
 			var/mob/GM = G.affecting
 			for (var/mob/V in viewers(usr))
 				V.show_message("[usr] starts putting [GM.name] into the disposal.", 3)
@@ -116,7 +116,7 @@
 				if (GM.client)
 					GM.client.perspective = EYE_PERSPECTIVE
 					GM.client.eye = src
-				GM.loc = src
+				GM.forceMove(src)
 				for (var/mob/C in viewers(src))
 					C.show_message("\red [GM.name] has been placed in the [src] by [user].", 3)
 				qdel(G)
@@ -132,7 +132,7 @@
 
 	user.drop_item()
 	if(I)
-		I.loc = src
+		I.forceMove(src)
 
 	user << "You place \the [I] into the [src]."
 	for(var/mob/M in viewers(src))
@@ -145,9 +145,15 @@
 // mouse drop another mob or self
 //
 /obj/machinery/disposal/MouseDrop_T(mob/target, mob/user)
-	if (!istype(target) || target.buckled || get_dist(user, src) > 1 || get_dist(user, target) > 1 || user.stat || istype(user, /mob/living/silicon/ai))
+	if(user.stat || !user.canmove || !istype(target))
 		return
-	if(isanimal(user) && target != user) return //animals cannot put mobs other than themselves into disposal
+	if(target.buckled || get_dist(user, src) > 1 || get_dist(user, target) > 1)
+		return
+
+	//animals cannot put mobs other than themselves into disposal
+	if(isanimal(user) && target != user)
+		return
+
 	src.add_fingerprint(user)
 	var/target_loc = target.loc
 	var/msg
@@ -177,7 +183,8 @@
 	if (target.client)
 		target.client.perspective = EYE_PERSPECTIVE
 		target.client.eye = src
-	target.loc = src
+
+	target.forceMove(src)
 
 	for (var/mob/C in viewers(src))
 		if(C == user)
@@ -186,10 +193,6 @@
 
 	update()
 	return
-
-// can breath normally in the disposal
-/obj/machinery/disposal/alter_health()
-	return get_turf(src)
 
 // attempt to move while inside
 /obj/machinery/disposal/relaymove(mob/user as mob)
@@ -205,7 +208,7 @@
 	if (user.client)
 		user.client.eye = user.client.mob
 		user.client.perspective = MOB_PERSPECTIVE
-	user.loc = src.loc
+	user.forceMove(src.loc)
 	update()
 	return
 
@@ -314,7 +317,7 @@
 // eject the contents of the disposal unit
 /obj/machinery/disposal/proc/eject()
 	for(var/atom/movable/AM in src)
-		AM.loc = src.loc
+		AM.forceMove(src.loc)
 		AM.pipe_eject(0)
 	update()
 
@@ -446,7 +449,7 @@
 		for(var/atom/movable/AM in H)
 			target = get_offset_target_turf(src.loc, rand(5)-rand(5), rand(5)-rand(5))
 
-			AM.loc = src.loc
+			AM.forceMove(src.loc)
 			AM.pipe_eject(0)
 			if(!istype(AM,/mob/living/silicon/robot/drone)) //Poor drones kept smashing windows and taking system damage being fired out of disposals. ~Z
 				spawn(1)
@@ -462,7 +465,7 @@
 		if(istype(I, /obj/item/projectile))
 			return
 		if(prob(75))
-			I.loc = src
+			I.forceMove(src)
 			for(var/mob/M in viewers(src))
 				M.show_message("\The [I] lands in \the [src].", 3)
 		else
@@ -511,7 +514,7 @@
 		// now everything inside the disposal gets put into the holder
 		// note AM since can contain mobs or objs
 		for(var/atom/movable/AM in D)
-			AM.loc = src
+			AM.forceMove(src)
 			if(istype(AM, /obj/structure/bigDelivery) && !hasmob)
 				var/obj/structure/bigDelivery/T = AM
 				src.destinationTag = T.sortTag
@@ -531,7 +534,7 @@
 			D.expel(src)	// no trunk connected, so expel immediately
 			return
 
-		loc = D.trunk
+		forceMove(D.trunk)
 		active = 1
 		set_dir(DOWN)
 		spawn(1)
@@ -588,7 +591,7 @@
 	// used when a a holder meets a stuck holder
 	proc/merge(var/obj/structure/disposalholder/other)
 		for(var/atom/movable/AM in other)
-			AM.loc = src		// move everything in other holder to this one
+			AM.forceMove(src)		// move everything in other holder to this one
 			if(ismob(AM))
 				var/mob/M = AM
 				if(M.client)	// if a client mob, update eye to follow this holder
@@ -652,7 +655,7 @@
 	var/health = 10 	// health points 0-10
 	layer = 2.3			// slightly lower than wires and other pipes
 	var/base_icon_state	// initial icon state on map
-	var/list/sortTypes = list()
+	var/sortType = ""
 	var/subtype = 0
 	// new pipe, set the icon_state as on map
 	New()
@@ -674,7 +677,7 @@
 				// this is unlikely, but just dump out everything into the turf in case
 
 				for(var/atom/movable/AM in H)
-					AM.loc = T
+					AM.forceMove(T)
 					AM.pipe_eject(0)
 				qdel(H)
 				..()
@@ -705,9 +708,9 @@
 			if(H2 && !H2.active)
 				H.merge(H2)
 
-			H.loc = P
+			H.forceMove(P)
 		else			// if wasn't a pipe, then set loc to turf
-			H.loc = T
+			H.forceMove(T)
 			return null
 
 		return P
@@ -716,7 +719,7 @@
 	// update the icon_state to reflect hidden status
 	proc/update()
 		var/turf/T = src.loc
-		hide(T.intact && !istype(T,/turf/space))	// space never hides pipes
+		hide(!T.is_plating() && !istype(T,/turf/space))	// space never hides pipes
 
 	// hide called by levelupdate if turf intact status changes
 	// change visibility status and force update of icon
@@ -739,25 +742,26 @@
 
 	// expel the held objects into a turf
 	// called when there is a break in the pipe
-	//
-
 	proc/expel(var/obj/structure/disposalholder/H, var/turf/T, var/direction)
+		if(!istype(H))
+			return
+
+		// Empty the holder if it is expelled into a dense turf.
+		// Leaving it intact and sitting in a wall is stupid.
+		if(T.density)
+			for(var/atom/movable/AM in H)
+				AM.loc = T
+				AM.pipe_eject(0)
+			qdel(H)
+			return
+
+
+		if(!T.is_plating() && istype(T,/turf/simulated/floor)) //intact floor, pop the tile
+			var/turf/simulated/floor/F = T
+			F.break_tile()
+			new /obj/item/stack/tile(H)	// add to holder so it will be thrown with other stuff
 
 		var/turf/target
-
-		if(T.density)		// dense ouput turf, so stop holder
-			H.active = 0
-			H.loc = src
-			return
-		if(T.intact && istype(T,/turf/simulated/floor)) //intact floor, pop the tile
-			var/turf/simulated/floor/F = T
-			//F.health	= 100
-			F.burnt	= 1
-			F.intact	= 0
-			F.levelupdate()
-			new /obj/item/stack/tile(H)	// add to holder so it will be thrown with other stuff
-			F.icon_state = "Floor[F.burnt ? "1" : ""]"
-
 		if(direction)		// direction is specified
 			if(istype(T, /turf/space)) // if ended in space, then range is unlimited
 				target = get_edge_target_turf(T, direction)
@@ -767,7 +771,7 @@
 			playsound(src, 'sound/machines/hiss.ogg', 50, 0, 0)
 			if(H)
 				for(var/atom/movable/AM in H)
-					AM.loc = T
+					AM.forceMove(T)
 					AM.pipe_eject(direction)
 					spawn(1)
 						if(AM)
@@ -782,7 +786,7 @@
 				for(var/atom/movable/AM in H)
 					target = get_offset_target_turf(T, rand(5)-rand(5), rand(5)-rand(5))
 
-					AM.loc = T
+					AM.forceMove(T)
 					AM.pipe_eject(0)
 					spawn(1)
 						if(AM)
@@ -815,7 +819,7 @@
 				// this is unlikely, but just dump out everything into the turf in case
 
 				for(var/atom/movable/AM in H)
-					AM.loc = T
+					AM.forceMove(T)
 					AM.pipe_eject(0)
 				qdel(H)
 				return
@@ -859,7 +863,7 @@
 	attackby(var/obj/item/I, var/mob/user)
 
 		var/turf/T = src.loc
-		if(T.intact)
+		if(!T.is_plating())
 			return		// prevent interaction with T-scanner revealed pipes
 		src.add_fingerprint(user)
 		if(istype(I, /obj/item/weapon/weldingtool))
@@ -900,10 +904,10 @@
 				C.ptype = 5
 			if("pipe-j1s")
 				C.ptype = 9
-				C.sortTypes = sortTypes
+				C.sortType = sortType
 			if("pipe-j2s")
 				C.ptype = 10
-				C.sortTypes = sortTypes
+				C.sortType = sortType
 ///// Z-Level stuff
 			if("pipe-u")
 				C.ptype = 11
@@ -936,7 +940,7 @@
 			// this is unlikely, but just dump out everything into the turf in case
 
 			for(var/atom/movable/AM in H)
-				AM.loc = T
+				AM.forceMove(T)
 				AM.pipe_eject(0)
 			qdel(H)
 			..()
@@ -946,6 +950,9 @@
 		if(H)
 			expel(H, T, 0)
 	..()
+
+/obj/structure/disposalpipe/hides_under_flooring()
+	return 1
 
 // *** TEST verb
 //client/verb/dispstop()
@@ -992,12 +999,9 @@
 		var/obj/structure/disposalpipe/P
 
 		if(nextdir == 12)
-			var/turf/controllerlocation = locate(1, 1, src.z)
-			for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-				if(controller.up)
-					T = locate(src.x, src.y, controller.up_target)
+			T = GetAbove(src)
 			if(!T)
-				H.loc = src.loc
+				H.forceMove(loc)
 				return
 			else
 				for(var/obj/structure/disposalpipe/down/F in T)
@@ -1013,9 +1017,9 @@
 			if(H2 && !H2.active)
 				H.merge(H2)
 
-			H.loc = P
+			H.forceMove(P)
 		else			// if wasn't a pipe, then set loc to turf
-			H.loc = T
+			H.forceMove(T)
 			return null
 
 		return P
@@ -1045,16 +1049,14 @@
 		var/obj/structure/disposalpipe/P
 
 		if(nextdir == 11)
-			var/turf/controllerlocation = locate(1, 1, src.z)
-			for(var/obj/effect/landmark/zcontroller/controller in controllerlocation)
-				if(controller.down)
-					T = locate(src.x, src.y, controller.down_target)
+			T = GetBelow(src)
 			if(!T)
-				H.loc = src.loc
+				H.forceMove(src.loc)
 				return
 			else
 				for(var/obj/structure/disposalpipe/up/F in T)
 					P = F
+
 		else
 			T = get_step(src.loc, H.dir)
 			P = H.findpipe(T)
@@ -1065,9 +1067,9 @@
 			if(H2 && !H2.active)
 				H.merge(H2)
 
-			H.loc = P
+			H.forceMove(P)
 		else			// if wasn't a pipe, then set loc to turf
-			H.loc = T
+			H.forceMove(T)
 			return null
 
 		return P
@@ -1184,23 +1186,15 @@
 	var/sortdir = 0
 
 	proc/updatedesc()
-		switch(sortTypes.len)
-			if(0) desc = initial(desc)
-			if(1) desc += "\nIt's filtering objects with the '[sortTypes[1]]' tag."
-			else
-				desc += "\nIt's filtering objects with the '[sortTypes[1]]' tag."
-				var/tmp_desc = ""
-				for(var/location in sortTypes)
-					tmp_desc += ", '[location]'"
-				desc = "\nIt's filtering objects with the [copytext(tmp_desc,2)] tags."
-
+		desc = initial(desc)
+		if(sortType)
+			desc += "\nIt's filtering objects with the '[sortType]' tag."
 
 	proc/updatename()
-		switch(sortTypes.len)
-			if(0)
-				name = initial(name)
-			if(1)
-				name = "[initial(name)] ([sortTypes][1])"
+		if(sortType)
+			name = "[initial(name)] ([sortType])"
+		else
+			name = initial(name)
 
 	proc/updatedir()
 		posdir = dir
@@ -1215,8 +1209,7 @@
 
 	New()
 		. = ..()
-		for(var/location in sortTypes)
-			tagger_locations |= location
+		if(sortType) tagger_locations |= sortType
 
 		updatedir()
 		updatename()
@@ -1231,19 +1224,14 @@
 			var/obj/item/device/destTagger/O = I
 
 			if(O.currTag)// Tag set
-				if(O.currTag in sortTypes)
-					sortTypes -= O.currTag
-					playsound(src.loc, 'sound/machines/twobeep.ogg', 100, 1)
-					user << "\blue Remove '[O.currTag]', from sort types."
-				else
-					sortTypes += O.currTag
-					playsound(src.loc, 'sound/machines/twobeep.ogg', 100, 1)
-					user << "\blue Add '[O.currTag]', to sort types."
+				sortType = O.currTag
+				playsound(src.loc, 'sound/machines/twobeep.ogg', 100, 1)
+				user << "\blue Changed filter to '[sortType]'."
 				updatename()
 				updatedesc()
 
 	proc/divert_check(var/checkTag)
-		return checkTag in sortTypes
+		return sortType == checkTag
 
 	// next direction to move
 	// if coming in from negdir, then next is primary dir or sortdir
@@ -1271,9 +1259,10 @@
 			var/obj/structure/disposalholder/H2 = locate() in P
 			if(H2 && !H2.active)
 				H.merge(H2)
-			H.loc = P
+
+			H.forceMove(P)
 		else			// if wasn't a pipe, then set loc to turf
-			H.loc = T
+			H.forceMove(T)
 			return null
 
 		return P
@@ -1354,7 +1343,7 @@
 		return
 
 	var/turf/T = src.loc
-	if(T.intact)
+	if(!T.is_plating())
 		return		// prevent interaction with T-scanner revealed pipes
 	src.add_fingerprint(user)
 	if(istype(I, /obj/item/weapon/weldingtool))
@@ -1461,7 +1450,7 @@
 
 		if(H)
 			for(var/atom/movable/AM in H)
-				AM.loc = src.loc
+				AM.forceMove(src.loc)
 				AM.pipe_eject(dir)
 				if(!istype(AM,/mob/living/silicon/robot/drone)) //Drones keep smashing windows from being fired out of chutes. Bad for the station. ~Z
 					spawn(5)

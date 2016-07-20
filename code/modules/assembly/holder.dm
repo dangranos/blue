@@ -3,7 +3,7 @@
 	icon = 'icons/obj/assemblies/new_assemblies.dmi'
 	icon_state = "holder"
 	item_state = "assembly"
-	flags = CONDUCT
+	flags = CONDUCT | PROXMOVE
 	throwforce = 5
 	w_class = 2.0
 	throw_speed = 3
@@ -85,8 +85,8 @@
 */
 
 	examine(mob/user)
-		.=..()
-		if (.<=1)
+		..(user)
+		if ((in_range(src, user) || src.loc == user))
 			if (src.secured)
 				user << "\The [src] is ready!"
 			else

@@ -11,7 +11,7 @@
 	language = null
 	default_language = "Chimpanzee"
 	greater_form = "Human"
-	is_small = 1
+	mob_size = MOB_SMALL
 	has_fine_manipulation = 0
 	show_ssd = null
 
@@ -20,25 +20,37 @@
 	death_message = "lets out a faint chimper as it collapses and stops moving..."
 	tail = "chimptail"
 
-	unarmed_attacks = list(
-		new /datum/unarmed_attack/bite,
-		new /datum/unarmed_attack/claws
-		)
+	unarmed_types = list(/datum/unarmed_attack/bite, /datum/unarmed_attack/claws)
 	inherent_verbs = list(/mob/living/proc/ventcrawl)
 	hud_type = /datum/hud_data/monkey
 	meat_type = /obj/item/weapon/reagent_containers/food/snacks/meat/monkey
-	holder_type = /obj/item/weapon/holder/monkey
 
 	rarity_value = 0.1
 	total_health = 75
 	brute_mod = 1.5
 	burn_mod = 1.5
 
-	flags = IS_RESTRICTED
+	spawn_flags = SPECIES_IS_RESTRICTED
 
 	bump_flag = MONKEY
 	swap_flags = MONKEY|SLIME|SIMPLE_ANIMAL
 	push_flags = MONKEY|SLIME|SIMPLE_ANIMAL|ALIEN
+
+	pass_flags = PASSTABLE
+
+	has_limbs = list(
+		BP_TORSO =  list("path" = /obj/item/organ/external/chest),
+		BP_GROIN =  list("path" = /obj/item/organ/external/groin),
+		BP_HEAD =   list("path" = /obj/item/organ/external/head/no_eyes),
+		BP_L_ARM =  list("path" = /obj/item/organ/external/arm),
+		BP_R_ARM =  list("path" = /obj/item/organ/external/arm/right),
+		BP_L_LEG =  list("path" = /obj/item/organ/external/leg),
+		BP_R_LEG =  list("path" = /obj/item/organ/external/leg/right),
+		BP_L_HAND = list("path" = /obj/item/organ/external/hand),
+		BP_R_HAND = list("path" = /obj/item/organ/external/hand/right),
+		BP_L_FOOT = list("path" = /obj/item/organ/external/foot),
+		BP_R_FOOT = list("path" = /obj/item/organ/external/foot/right)
+		)
 
 /datum/species/monkey/handle_npc(var/mob/living/carbon/human/H)
 	if(H.stat != CONSCIOUS)
@@ -63,7 +75,6 @@
 	flesh_color = "#AFA59E"
 	base_color = "#333333"
 	tail = "farwatail"
-	holder_type = /obj/item/weapon/holder/monkey/farwa
 
 /datum/species/monkey/skrell
 	name = "Neaera"
@@ -78,7 +89,6 @@
 	blood_color = "#1D2CBF"
 	reagent_tag = IS_SKRELL
 	tail = null
-	holder_type = /obj/item/weapon/holder/monkey/neaera
 
 /datum/species/monkey/unathi
 	name = "Stok"
@@ -93,4 +103,3 @@
 	flesh_color = "#34AF10"
 	base_color = "#066000"
 	reagent_tag = IS_UNATHI
-	holder_type = /obj/item/weapon/holder/monkey/stok

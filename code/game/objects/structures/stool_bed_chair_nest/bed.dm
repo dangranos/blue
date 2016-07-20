@@ -86,24 +86,11 @@
 				qdel(src)
 				return
 
-/obj/structure/bed/blob_act()
-	if(prob(75))
-		material.place_sheet(get_turf(src))
-		qdel(src)
-
 /obj/structure/bed/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	if(istype(W, /obj/item/weapon/wrench))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
 		dismantle()
 		qdel(src)
-	else if(istype(W, /obj/item/weapon/bedsheet))
-		user.drop_from_inventory(W, src.loc)
-		if(buckled_mob)
-			W.layer = 5
-			src.visible_message("<span class='notice'>[user] covers [buckled_mob] with \the [W].")
-		else
-			W.layer = initial(W.layer)
-			src.visible_message("<span class='notice'>[user] makes the bed with \the [W].")
 	else if(istype(W,/obj/item/stack))
 		if(padding_material)
 			user << "\The [src] is already padded."
@@ -142,7 +129,8 @@
 	else if(istype(W, /obj/item/weapon/grab))
 		var/obj/item/weapon/grab/G = W
 		var/mob/living/affecting = G.affecting
-		if(!get_dist(src,affecting)<2)
+		if(buckled_mob) //Handles trying to buckle someone else to a chair when someone else is on it
+			user  << "<span class='notice'>\The [src] already has someone buckled to it.</span>"
 			return
 		user.visible_message("<span class='notice'>[user] attempts to buckle [affecting] into \the [src]!</span>")
 		if(do_after(user, 20))
@@ -191,6 +179,22 @@
 /obj/structure/bed/alien/New(var/newloc)
 	..(newloc,"resin")
 
+/obj/structure/bed/double
+	name = "double bed"
+	icon_state = "doublebed"
+	base_icon = "doublebed"
+
+/obj/structure/bed/double/padded/New(var/newloc)
+	..(newloc,"wood","cotton")
+
+/obj/structure/bed/double/post_buckle_mob(mob/living/M as mob)
+	if(M == buckled_mob)
+		M.pixel_y = 13
+		M.old_y = 13
+	else
+		M.pixel_y = 0
+		M.old_y = 0
+
 /*
  * Roller beds
  */
@@ -222,8 +226,6 @@
 	desc = "A collapsed roller bed that can be carried around."
 	icon = 'icons/obj/rollerbed.dmi'
 	icon_state = "folded"
-	item_state = "folded"
-	slot_flags = SLOT_BACK
 	w_class = 4.0 // Can't be put in backpacks. Oh well.
 
 /obj/item/roller/attack_self(mob/user)
@@ -236,7 +238,7 @@
 	if(istype(W,/obj/item/roller_holder))
 		var/obj/item/roller_holder/RH = W
 		if(!RH.held)
-			user << "\blue You collect the roller bed."
+			user << "<span class='notice'>You collect the roller bed.</span>"
 			src.loc = RH
 			RH.held = src
 			return
@@ -257,10 +259,10 @@
 /obj/item/roller_holder/attack_self(mob/user as mob)
 
 	if(!held)
-		user << "\blue The rack is empty."
+		user << "<span class='notice'>The rack is empty.</span>"
 		return
 
-	user << "\blue You deploy the roller bed."
+	user << "<span class='notice'>You deploy the roller bed.</span>"
 	var/obj/structure/bed/roller/R = new /obj/structure/bed/roller(user.loc)
 	R.add_fingerprint(user)
 	qdel(held)
@@ -299,33 +301,3 @@
 		spawn(0)
 			qdel(src)
 		return
-
-/obj/structure/bed/sofa/right
-	name = "comfy sofa"
-	desc = "So lovely, uh."
-	icon_state = "sofa_right"
-	base_icon = "sofa_right"
-	buckle_dir = 0
-	buckle_lying = 0
-	color = null
-
-
-/obj/structure/bed/sofa/left
-	name = "comfy sofa"
-	desc = "So lovely, uh."
-	icon_state = "sofa_left"
-	base_icon = "sofa_left"
-	buckle_lying = 0
-	buckle_dir = 0
-	color = null
-
-/obj/structure/bed/sofa/New(var/newloc)
-	..(newloc,"plastic")
-
-
-/obj/structure/bed/sofa/update_icon()
-	..()
-	if(src.dir == NORTH)
-		src.layer = 5
-	else
-		src.layer = OBJ_LAYER

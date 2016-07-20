@@ -54,6 +54,7 @@
 		item_storage.remove_from_storage(removing, src.loc)
 		user.put_in_hands(removing)
 		user << "You remove [removing] from the hopper."
+		playsound(src.loc, 'sound/weapons/empty.ogg', 50, 1)
 	else
 		user << "There is nothing to remove in \the [src]."
 
@@ -98,14 +99,14 @@
 	item_storage.remove_from_storage(launched, src)
 	return launched
 
-/obj/item/weapon/gun/launcher/pneumatic/examine(mob/user, return_dist=1)
-	.=..()
-	if(.<=2)
-		user << "The valve is dialed to [pressure_setting]%."
-		if(tank)
-			user << "The tank dial reads [tank.air_contents.return_pressure()] kPa."
-		else
-			user << "Nothing is attached to the tank valve!"
+/obj/item/weapon/gun/launcher/pneumatic/examine(mob/user)
+	if(!..(user, 2))
+		return
+	user << "The valve is dialed to [pressure_setting]%."
+	if(tank)
+		user << "The tank dial reads [tank.air_contents.return_pressure()] kPa."
+	else
+		user << "Nothing is attached to the tank valve!"
 
 /obj/item/weapon/gun/launcher/pneumatic/update_release_force(obj/item/projectile)
 	if(tank)
@@ -150,7 +151,7 @@
 	icon_state = "pneumatic[buildstate]"
 
 /obj/item/weapon/cannonframe/examine(mob/user)
-	.=..()
+	..(user)
 	switch(buildstate)
 		if(1) user << "It has a pipe segment installed."
 		if(2) user << "It has a pipe segment welded in place."

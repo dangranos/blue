@@ -290,7 +290,7 @@
 						<a id='link[i]'
 						onmouseover='expand("item[i]","[M_job]","[M_name]","[M_rname]","--unused--","[M_key]","[M.lastKnownIP]",[is_antagonist],"\ref[M]")'
 						>
-						<b id='search[i]'>[M_name] - [M_rname] - [M_key] ([M_job])</b>
+						<span id='search[i]'><b>[M_name] - [M_rname] - [M_key] ([M_job])</b></span>
 						</a>
 						<br><span id='item[i]'></span>
 					</td>
@@ -392,7 +392,7 @@
 	if (ticker && ticker.current_state >= GAME_STATE_PLAYING)
 		var/dat = "<html><head><title>Round Status</title></head><body><h1><B>Round Status</B></h1>"
 		dat += "Current Game Mode: <B>[ticker.mode.name]</B><BR>"
-		dat += "Round Duration: <B>[round(world.time / 36000)]:[add_zero(world.time / 600 % 60, 2)]:[world.time / 100 % 6][world.time / 100 % 10]</B><BR>"
+		dat += "Round Duration: <B>[round_duration_as_text()]</B><BR>"
 		dat += "<B>Emergency shuttle</B><BR>"
 		if (!emergency_shuttle.online())
 			dat += "<a href='?src=\ref[src];call_shuttle=1'>Call Shuttle</a><br>"

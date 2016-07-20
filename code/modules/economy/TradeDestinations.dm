@@ -8,7 +8,7 @@ var/list/weighted_mundaneevent_locations = list()
 	var/distance = 0
 	var/list/willing_to_buy = list()
 	var/list/willing_to_sell = list()
-	var/can_shuttle_here = 0		//one day crew from the exodus will be able to travel to this destination
+	var/can_shuttle_here = 0		//one day crew from the station will be able to travel to this destination
 	var/list/viable_random_events = list()
 	var/list/temp_price_change[BIOMEDICAL]
 	var/list/viable_mundane_events = list()
@@ -38,16 +38,8 @@ var/list/weighted_mundaneevent_locations = list()
 /datum/trade_destination/anansi/get_custom_eventstring(var/event_type)
 	if(event_type == RESEARCH_BREAKTHROUGH)
 		return "Thanks to research conducted on the NSS Anansi, Second Red Cross Society wishes to announce a major breakthough in the field of \
-		[pick("mind-machine interfacing","neuroscience","nano-augmentation","genetics")]. NanoTrasen is expected to announce a co-exploitation deal within the fortnight."
+		[pick("mind-machine interfacing","neuroscience","nano-augmentation","genetics")]. [company_name] is expected to announce a co-exploitation deal within the fortnight."
 	return null
-
-/datum/trade_destination/icarus
-	name = "NDV Icarus"
-	description = "Corvette assigned to patrol NSS Exodus local space."
-	distance = 0.1
-	willing_to_buy = list()
-	willing_to_sell = list()
-	viable_random_events = list(SECURITY_BREACH, AI_LIBERATION, PIRATES)
 
 /datum/trade_destination/redolant
 	name = "OAV Redolant"
@@ -61,7 +53,7 @@ var/list/weighted_mundaneevent_locations = list()
 /datum/trade_destination/redolant/get_custom_eventstring(var/event_type)
 	if(event_type == RESEARCH_BREAKTHROUGH)
 		return "Thanks to research conducted on the OAV Redolant, Osiris Atmospherics wishes to announce a major breakthough in the field of \
-		[pick("phoron research","high energy flux capacitance","super-compressed materials","theoretical particle physics")]. NanoTrasen is expected to announce a co-exploitation deal within the fortnight."
+		[pick("phoron research","high energy flux capacitance","super-compressed materials","theoretical particle physics")]. [company_name] is expected to announce a co-exploitation deal within the fortnight."
 	return null
 
 /datum/trade_destination/beltway

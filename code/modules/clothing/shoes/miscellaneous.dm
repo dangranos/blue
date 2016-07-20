@@ -4,8 +4,8 @@
 	icon_state = "brown"
 	item_state = "brown"
 	permeability_coefficient = 0.05
-	flags = NOSLIP
-	origin_tech = "syndicate=3"
+	item_flags = NOSLIP
+	origin_tech = list(TECH_ILLEGAL = 3)
 	var/list/clothing_choices = list()
 	siemens_coefficient = 0.8
 	species_restricted = null
@@ -14,22 +14,91 @@
 	name = "mime shoes"
 	icon_state = "mime"
 
-/obj/item/clothing/shoes/jackboots/swat
+/obj/item/clothing/shoes/swat
 	name = "\improper SWAT shoes"
 	desc = "When you want to turn up the heat."
 	icon_state = "swat"
 	force = 3
 	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
-	flags = NOSLIP
+	item_flags = NOSLIP
 	siemens_coefficient = 0.6
+	var/obj/item/weapon/material/hatchet/tacknife
 
-/obj/item/clothing/shoes/jackboots/combat //Basically SWAT shoes combined with galoshes.
+/obj/item/clothing/shoes/swat/attack_hand(var/mob/living/M)
+	if(tacknife)
+		tacknife.loc = get_turf(src)
+		if(M.put_in_active_hand(tacknife))
+			M << "<span class='notice'>You slide \the [tacknife] out of [src].</span>"
+			playsound(M, 'sound/weapons/flipblade.ogg', 40, 1)
+			tacknife = null
+			update_icon()
+		return
+	..()
+
+/obj/item/clothing/shoes/swat/attackby(var/obj/item/I, var/mob/living/M)
+	if(istype(I, /obj/item/weapon/material/hatchet/tacknife))
+		if(tacknife)
+			return
+		M.drop_item()
+		tacknife = I
+		I.loc = src
+		M << "<span class='notice'>You slide the [I] into [src].</span>"
+		playsound(M, 'sound/weapons/flipblade.ogg', 40, 1)
+		update_icon()
+	..()
+
+/obj/item/clothing/shoes/swat/update_icon()
+	if(tacknife)
+		icon_state = "swat_1"
+	else
+		icon_state = initial(icon_state)
+
+//Stolen from CM, refurbished to be less terrible.
+/obj/item/clothing/shoes/marine
+	name = "combat boots"
+	desc = "Standard issue combat boots for combat scenarios or combat situations. All combat, all the time.  It can hold a Strategical knife."
+	icon_state = "jackboots"
+	item_state = "jackboots"
+	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
+	siemens_coefficient = 0.6
+	var/obj/item/weapon/material/hatchet/tacknife
+
+/obj/item/clothing/shoes/marine/attack_hand(var/mob/living/M)
+	if(tacknife)
+		tacknife.loc = get_turf(src)
+		if(M.put_in_active_hand(tacknife))
+			M << "<span class='notice'>You slide \the [tacknife] out of [src].</span>"
+			playsound(M, 'sound/weapons/flipblade.ogg', 40, 1)
+			tacknife = null
+			update_icon()
+		return
+	..()
+
+/obj/item/clothing/shoes/marine/attackby(var/obj/item/I, var/mob/living/M)
+	if(istype(I, /obj/item/weapon/material/hatchet/tacknife))
+		if(tacknife)
+			return
+		M.drop_item()
+		tacknife = I
+		I.loc = src
+		M << "<span class='notice'>You slide the [I] into [src].</span>"
+		playsound(M, 'sound/weapons/flipblade.ogg', 40, 1)
+		update_icon()
+	..()
+
+/obj/item/clothing/shoes/marine/update_icon()
+	if(tacknife)
+		icon_state = "jackboots_1"
+	else
+		icon_state = initial(icon_state)
+
+/obj/item/clothing/shoes/combat //Basically SWAT shoes combined with galoshes.
 	name = "combat boots"
 	desc = "When you REALLY want to turn up the heat"
 	icon_state = "swat"
 	force = 5
 	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
-	flags = NOSLIP
+	item_flags = NOSLIP
 	siemens_coefficient = 0.6
 
 	cold_protection = FEET
@@ -43,19 +112,8 @@
 	icon_state = "wizard"
 	species_restricted = null
 	body_parts_covered = 0
+
 	wizard_garb = 1
-
-/obj/item/clothing/shoes/gazelle
-	name = "gazelle"
-	desc = "A pair of common space gazelle"
-	icon_state = "gazelle"
-
-//ZONE-tan Loadout
-/obj/item/clothing/shoes/zone
-	name = "zone boots"
-	desc = "Nice to kick some butts."
-	icon_state = "zone"
-	body_parts_covered = FEET
 
 /obj/item/clothing/shoes/sandal/marisa
 	desc = "A pair of magic, black shoes."
@@ -131,37 +189,16 @@
 	desc = "Help you swim good."
 	name = "swimming fins"
 	icon_state = "flippers"
-	flags = NOSLIP
+	item_flags = NOSLIP
 	slowdown = SHOES_SLOWDOWN+1
 	species_restricted = null
 
-/obj/item/clothing/shoes/swat/batman
-	name = "batman boots"
-	icon_state = "batman"
-
-/obj/item/clothing/shoes/men_shoes
-	name = "high men shoes"
-	icon_state = "high_men_shoes"
-
-/obj/item/clothing/shoes/footwraps
-	name = "Footwraps"
-	desc = "Just some rags that you wrap around your foot to feel more comfortable. Better than nothing."
-	icon_state = "footwraps"
-	item_state = "footwraps"
-	species_restricted = null
-
-/obj/item/clothing/shoes/sandal/brown
-	name = "Brown Sandals"
-	desc = "Sweet looking brown sandals. Do not wear them with socks!"
-
-	icon_state = "sandals-brown"
-	item_state = "sandals-brown"
-	species_restricted = null
-
-/obj/item/clothing/shoes/sandal/pink
-	name = "Pink Sandals"
-	desc = "They radiate a cheap plastic aroma like from hell ramen."
-
-	icon_state = "sandals-pink"
-	item_state = "sandals-pink"
-	species_restricted = null
+/obj/item/clothing/shoes/winterboots
+	name = "winter boots"
+	desc = "Boots lined with 'synthetic' animal fur."
+	icon_state = "winterboots"
+	item_state = "winterboots"
+	cold_protection = FEET|LEGS
+	min_cold_protection_temperature = SHOE_MIN_COLD_PROTECTION_TEMPERATURE
+	heat_protection = FEET|LEGS
+	max_heat_protection_temperature = SHOE_MAX_HEAT_PROTECTION_TEMPERATURE

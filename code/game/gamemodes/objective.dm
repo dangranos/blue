@@ -12,6 +12,7 @@ datum/objective
 		all_objectives |= src
 		if(text)
 			explanation_text = text
+		..()
 
 	Destroy()
 		all_objectives -= src
@@ -25,10 +26,6 @@ datum/objective
 		for(var/datum/mind/possible_target in ticker.minds)
 			if(possible_target != owner && ishuman(possible_target.current) && (possible_target.current.stat != 2))
 				possible_targets += possible_target
-
-		for(var/datum/objective/O in owner.objectives)
-			possible_targets -= O.target
-
 		if(possible_targets.len > 0)
 			target = pick(possible_targets)
 
@@ -61,8 +58,6 @@ datum/objective/assassinate
 
 
 	check_completion()
-		if(!target)//If it's a free objective.
-			return 1
 		if(target && target.current)
 			if(target.current.stat == DEAD || issilicon(target.current) || isbrain(target.current) || target.current.z > 6 || !target.current.ckey) //Borgs/brains/AIs count as dead for traitor objectives. --NeoFite
 				return 1
@@ -89,8 +84,6 @@ datum/objective/anti_revolution/execute
 		return target
 
 	check_completion()
-		if(!target)//If it's a free objective.
-			return 1
 		if(target && target.current)
 			if(target.current.stat == DEAD || !ishuman(target.current))
 				return 1
@@ -118,10 +111,9 @@ datum/objective/anti_revolution/brig
 		return target
 
 	check_completion()
-		if(!target)//If it's a free objective.
-			return 1
 		if(already_completed)
 			return 1
+
 		if(target && target.current)
 			if(target.current.stat == DEAD)
 				return 0
@@ -135,7 +127,7 @@ datum/objective/anti_revolution/demote
 	find_target()
 		..()
 		if(target && target.current)
-			explanation_text = "[target.current.real_name], the [target.assigned_role]  has been classified as harmful to NanoTrasen's goals. Demote \him[target.current] to assistant."
+			explanation_text = "[target.current.real_name], the [target.assigned_role]  has been classified as harmful to [company_name]'s goals. Demote \him[target.current] to assistant."
 		else
 			explanation_text = "Free Objective"
 		return target
@@ -143,14 +135,12 @@ datum/objective/anti_revolution/demote
 	find_target_by_role(role, role_type=0)
 		..(role, role_type)
 		if(target && target.current)
-			explanation_text = "[target.current.real_name], the [!role_type ? target.assigned_role : target.special_role] has been classified as harmful to NanoTrasen's goals. Demote \him[target.current] to assistant."
+			explanation_text = "[target.current.real_name], the [!role_type ? target.assigned_role : target.special_role] has been classified as harmful to [company_name]'s goals. Demote \him[target.current] to assistant."
 		else
 			explanation_text = "Free Objective"
 		return target
 
 	check_completion()
-		if(!target)//If it's a free objective.
-			return 1
 		if(target && target.current && istype(target,/mob/living/carbon/human))
 			var/obj/item/weapon/card/id/I = target.current:wear_id
 			if(istype(I, /obj/item/device/pda))
@@ -186,10 +176,8 @@ datum/objective/debrain//I want braaaainssss
 	check_completion()
 		if(!target)//If it's a free objective.
 			return 1
-/*
 		if( !owner.current || owner.current.stat==DEAD )//If you're otherwise dead.
-			return 0									//Your dead isn't matter for employer
-*/
+			return 0
 		if( !target.current || !isbrain(target.current) )
 			return 0
 		var/atom/A = target.current
@@ -219,7 +207,7 @@ datum/objective/protect//The opposite of killing a dude.
 		return target
 
 	check_completion()
-		if(!target)//If it's a free objective.
+		if(!target)			//If it's a free objective.
 			return 1
 		if(target.current)
 			if(target.current.stat == DEAD || issilicon(target.current) || isbrain(target.current))
@@ -252,6 +240,7 @@ datum/objective/hijack
 datum/objective/block
 	explanation_text = "Do not allow any organic lifeforms to escape on the shuttle alive."
 
+
 	check_completion()
 		if(!istype(owner.current, /mob/living/silicon))
 			return 0
@@ -264,7 +253,7 @@ datum/objective/block
 		for(var/mob/living/player in player_list)
 			if(player.type in protected_mobs)	continue
 			if (player.mind)
-				if (player.stat != DEAD)
+				if (player.stat != 2)
 					if (get_turf(player) in shuttle)
 						return 0
 		return 1
@@ -361,8 +350,6 @@ datum/objective/brig
 		return target
 
 	check_completion()
-		if(!target)//If it's a free objective.
-			return 1
 		if(already_completed)
 			return 1
 
@@ -398,8 +385,6 @@ datum/objective/harm
 		return target
 
 	check_completion()
-		if(!target)//If it's a free objective.
-			return 1
 		if(already_completed)
 			return 1
 
@@ -422,7 +407,7 @@ datum/objective/harm
 				if(!found)
 					return 1
 
-			var/obj/item/organ/external/head/head = H.get_organ("head")
+			var/obj/item/organ/external/head/head = H.get_organ(BP_HEAD)
 			if(head.disfigured)
 				return 1
 		return 0
@@ -550,6 +535,7 @@ datum/objective/steal
 						if(istype(check_area, /area/shuttle/escape_pod5/centcom))
 							return 1
 			else
+
 				for(var/obj/I in all_items) //Check for items
 					if(istype(I, steal_target))
 						return 1
@@ -613,6 +599,7 @@ datum/objective/capture
 				continue
 			captured_amount+=1
 
+
 		if(captured_amount<target_amount)
 			return 0
 		return 1
@@ -673,8 +660,6 @@ datum/objective/heist/kidnap
 		return target
 
 	check_completion()
-		if(!target)//If it's a free objective.
-			return 1
 		if(target && target.current)
 			if (target.current.stat == 2)
 				return 0 // They're dead. Fail.
@@ -861,9 +846,9 @@ datum/objective/heist/salvage
 			if ( is_type_in_list(A, centcom_areas))
 				acolytes_survived++
 	if(acolytes_survived >= target_amount)
-		return 1
-	else
 		return 0
+	else
+		return 1
 
 /datum/objective/cult/eldergod
 	explanation_text = "Summon Nar-Sie via the use of the appropriate rune (Hell join self). It will only work if nine cultists stand on and around it. The convert rune is join blood self."
@@ -885,7 +870,7 @@ datum/objective/heist/salvage
 	if(target) explanation_text = "Sacrifice [target.name], the [target.assigned_role]. You will need the sacrifice rune (Hell blood join) and three acolytes to do so."
 
 /datum/objective/cult/sacrifice/check_completion()
-	return (target && cult && cult.sacrificed.Find(target))
+	return (target && cult && !cult.sacrificed.Find(target))
 
 /datum/objective/rev/find_target()
 	..()

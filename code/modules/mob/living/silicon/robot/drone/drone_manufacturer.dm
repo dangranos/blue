@@ -15,7 +15,7 @@
 	idle_power_usage = 20
 	active_power_usage = 5000
 
-	var/fabricator_tag = "Exodus"
+	var/fabricator_tag = station_short+" Upper Level"
 	var/drone_progress = 0
 	var/produce_drones = 1
 	var/time_last_drone = 500
@@ -26,7 +26,7 @@
 
 /obj/machinery/drone_fabricator/derelict
 	name = "construction drone fabricator"
-	fabricator_tag = "Derelict"
+	fabricator_tag = station_short+" Depths"
 	drone_type = /mob/living/silicon/robot/drone/construction
 
 /obj/machinery/drone_fabricator/New()
@@ -58,8 +58,8 @@
 		visible_message("\The [src] voices a strident beep, indicating a drone chassis is prepared.")
 
 /obj/machinery/drone_fabricator/examine(mob/user)
-	.=..()
-	if(produce_drones && drone_progress >= 100 && istype(user,/mob/dead) && config.allow_drone_spawn && count_drones() < config.max_maint_drones)
+	..(user)
+	if(produce_drones && drone_progress >= 100 && istype(user,/mob/observer/dead) && config.allow_drone_spawn && count_drones() < config.max_maint_drones)
 		user << "<BR><B>A drone is prepared. Select 'Join As Drone' from the Ghost tab to spawn as a maintenance drone.</B>"
 
 /obj/machinery/drone_fabricator/proc/create_drone(var/client/player)
@@ -70,11 +70,7 @@
 	if(!produce_drones || !config.allow_drone_spawn || count_drones() >= config.max_maint_drones)
 		return
 
-	if(!player || !istype(player.mob,/mob/dead))
-		return
-
-	if(jobban_isbanned(player, "Drone"))
-		player<<"<span class='warning'>You can't join game as drone!</span>"
+	if(!player || !istype(player.mob,/mob/observer/dead))
 		return
 
 	announce_ghost_joinleave(player, 0, "They have taken control over a maintenance drone.")
@@ -82,18 +78,18 @@
 	flick("h_lathe_leave",src)
 
 	time_last_drone = world.time
-	var/mob/living/silicon/robot/drone/new_drone = new drone_type(get_turf(src))
+	if(player.mob && player.mob.mind) player.mob.mind.reset()
+	var/mob/living/silicon/robot/drone/new_drone = PoolOrNew(drone_type, get_turf(src))
 	new_drone.transfer_personality(player)
 	new_drone.master_fabricator = src
 
 	drone_progress = 0
 
-/mob/dead/verb/join_as_drone()
+/mob/observer/dead/verb/join_as_drone()
 
 	set category = "Ghost"
 	set name = "Join As Drone"
 	set desc = "If there is a powered, enabled fabricator in the game world with a prepared chassis, join as a maintenance drone."
-
 
 	if(ticker.current_state < GAME_STATE_PLAYING)
 		src << "<span class='danger'>The game hasn't started yet!</span>"
@@ -117,12 +113,6 @@
 		return
 
 	var/deathtime = world.time - src.timeofdeath
-	if(istype(src,/mob/dead/observer))
-		var/mob/dead/observer/G = src
-		if(G.has_enabled_antagHUD == 1 && config.antag_hud_restricted)
-			usr << "<span class='notice'>Upon using the antagHUD you forfeighted the ability to join the round.</span>"
-			return
-
 	var/deathtimeminutes = round(deathtime / 600)
 	var/pluralcheck = "minute"
 	if(deathtimeminutes == 0)

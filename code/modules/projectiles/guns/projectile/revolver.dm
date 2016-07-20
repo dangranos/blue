@@ -1,28 +1,50 @@
 /obj/item/weapon/gun/projectile/revolver
 	name = "revolver"
-	desc = "The Lumoco Arms HE Colt is a choice revolver for when you absolutely, positively need to put a hole in the other guy. Uses .357 ammo."
+	desc = "The Lumoco Arms HE Colt is a choice revolver for when you absolutely, positively need to put a hole in the other guy. Uses .357 rounds."
 	icon_state = "revolver"
 	item_state = "revolver"
 	caliber = "357"
-	origin_tech = "combat=2;materials=2"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2)
 	handle_casings = CYCLE_CASINGS
-	max_shells = 7
+	max_shells = 6
 	ammo_type = /obj/item/ammo_casing/a357
-	fire_sound = 'sound/weapons/revolver_shoot.ogg'
+	var/chamber_offset = 0 //how many empty chambers in the cylinder until you hit a round
+
+/obj/item/weapon/gun/projectile/revolver/verb/spin_cylinder()
+	set name = "Spin cylinder"
+	set desc = "Fun when you're bored out of your skull."
+	set category = "Object"
+
+	chamber_offset = 0
+	visible_message("<span class='warning'>\The [usr] spins the cylinder of \the [src]!</span>", \
+	"<span class='notice'>You hear something metallic spin and click.</span>")
+	playsound(src.loc, 'sound/weapons/revolver_spin.ogg', 100, 1)
+	loaded = shuffle(loaded)
+	if(rand(1,max_shells) > loaded.len)
+		chamber_offset = rand(0,max_shells - loaded.len)
+
+/obj/item/weapon/gun/projectile/revolver/consume_next_projectile()
+	if(chamber_offset)
+		chamber_offset--
+		return
+	return ..()
+
+/obj/item/weapon/gun/projectile/revolver/load_ammo(var/obj/item/A, mob/user)
+	chamber_offset = 0
+	return ..()
 
 /obj/item/weapon/gun/projectile/revolver/mateba
 	name = "mateba"
-	desc = "When you absolutely, positively need a 10mm hole in the other guy. Uses .357 ammo."	//>10mm hole >.357
+	desc = "This unique looking handgun is named after an Italian company famous for the manufacture of these revolvers, and pasta kneading machines. Uses .357 rounds." // Yes I'm serious. -Spades
 	icon_state = "mateba"
-	origin_tech = "combat=2;materials=2"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2)
 
 /obj/item/weapon/gun/projectile/revolver/detective
 	name = "revolver"
 	desc = "A cheap Martian knock-off of a Smith & Wesson Model 10. Uses .38-Special rounds."
 	icon_state = "detective"
-	max_shells = 6
 	caliber = "38"
-	origin_tech = "combat=2;materials=2"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2)
 	fire_sound = 'sound/weapons/Gunshot_light.ogg'
 	ammo_type = /obj/item/ammo_casing/c38
 
@@ -46,10 +68,13 @@
 
 // Blade Runner pistol.
 /obj/item/weapon/gun/projectile/revolver/deckard
-	name = "Deckard .44"
+	name = "Deckard .38"
 	desc = "A custom-built revolver, based off the semi-popular Detective Special model."
 	icon_state = "deckard-empty"
-	ammo_type = /obj/item/ammo_magazine/c38/rubber
+	caliber = "38"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2)
+	fire_sound = 'sound/weapons/Gunshot_light.ogg'
+	ammo_type = /obj/item/ammo_casing/c38
 
 /obj/item/weapon/gun/projectile/revolver/deckard/update_icon()
 	..()
@@ -63,4 +88,36 @@
 		flick("deckard-reload",src)
 	..()
 
+/obj/item/weapon/gun/projectile/revolver/capgun
+	name = "cap gun"
+	desc = "Looks almost like the real thing! Ages 8 and up."
+	icon_state = "revolver"
+	item_state = "revolver"
+	caliber = "caps"
+	origin_tech = list(TECH_COMBAT = 1, TECH_MATERIAL = 1)
+	handle_casings = CYCLE_CASINGS
+	max_shells = 7
+	ammo_type = /obj/item/ammo_casing/cap
 
+/obj/item/weapon/gun/projectile/revolver/judge
+	name = "\"The Judge\""
+	desc = "A revolving hand-shotgun by Cybersun Industries that packs the power of a 12 guage in the palm of your hand (if you don't break your wrist). Uses 12 shotgun rounds."
+	icon_state = "judge"
+	caliber = "shotgun"
+	origin_tech = list(TECH_COMBAT = 2, TECH_MATERIAL = 2, TECH_ILLEGAL = 4)
+	max_shells = 5
+	fire_sound = 'sound/weapons/shotgun.ogg'
+	recoil = 2 // ow my fucking hand
+	accuracy = -1 // smooth bore + short barrel = shit accuracy
+	ammo_type = /obj/item/ammo_casing/shotgun
+	// ToDo: Remove accuracy debuf in exchange for slightly injuring your hand every time you fire it.
+
+/obj/item/weapon/gun/projectile/revolver/warden
+	name = "impulse revolver"
+	desc = "That's a H&R R8 Commander's Special, standard-issue impulse-action revolver of the Themis Security officers. You are in charge!"
+	icon_state = "wardenrevolver"
+	caliber = "32"
+	origin_tech = list(TECH_COMBAT = 4, TECH_MATERIAL = 3)
+	fire_sound = 'sound/weapons/fireimpulserevolver.ogg'
+	ammo_type = /obj/item/ammo_casing/caseless/wardenrevolver
+	max_shells = 6

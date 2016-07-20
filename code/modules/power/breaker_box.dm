@@ -6,7 +6,6 @@
 
 /obj/machinery/power/breakerbox
 	name = "Breaker Box"
-	desc = "Large machine with heavy duty switching circuits used for advanced grid control"
 	icon = 'icons/obj/power.dmi'
 	icon_state = "bbox_off"
 	//directwired = 0
@@ -22,7 +21,7 @@
 
 /obj/machinery/power/breakerbox/Destroy()
 	..()
-	for(var/obj/nano_module/rcon/R in world)
+	for(var/datum/nano_module/rcon/R in world)
 		R.FindDevices()
 
 /obj/machinery/power/breakerbox/activated
@@ -33,7 +32,7 @@
 	set_state(1)
 
 /obj/machinery/power/breakerbox/examine(mob/user)
-	.=..()
+	user << "Large machine with heavy duty switching circuits used for advanced grid control"
 	if(on)
 		user << "\green It seems to be online."
 	else

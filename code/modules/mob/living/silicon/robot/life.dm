@@ -2,7 +2,7 @@
 	set invisibility = 0
 	set background = 1
 
-	if (src.monkeyizing)
+	if (src.transforming)
 		return
 
 	src.blinded = null
@@ -10,6 +10,7 @@
 	//Status updates, death etc.
 	clamp_values()
 	handle_regular_status_updates()
+	handle_actions()
 
 	if(client)
 		handle_regular_hud_updates()
@@ -60,7 +61,7 @@
 			lights_on = 0
 			set_light(0)
 
-/mob/living/silicon/robot/proc/handle_regular_status_updates()
+/mob/living/silicon/robot/handle_regular_status_updates()
 
 	if(src.camera && !scrambledcodes)
 		if(src.stat == 2 || wires.IsIndexCut(BORG_WIRE_CAMERA))
@@ -96,6 +97,8 @@
 		else	//Not stunned.
 			src.stat = 0
 
+		confused = max(0, confused - 1)
+
 	else //Dead.
 		src.blinded = 1
 		src.stat = 2
@@ -113,9 +116,9 @@
 
 	src.density = !( src.lying )
 
-	if ((src.sdisabilities & BLIND))
+	if (src.sdisabilities & BLIND)
 		src.blinded = 1
-	if ((src.sdisabilities & DEAF))
+	if (src.sdisabilities & DEAF)
 		src.ear_deaf = 1
 
 	if (src.eye_blurry > 0)
@@ -143,21 +146,25 @@
 
 	return 1
 
-/mob/living/silicon/robot/proc/handle_regular_hud_updates()
+/mob/living/silicon/robot/handle_regular_hud_updates()
 
-	if (src.stat == 2 || XRAY in mutations || src.sight_mode & BORGXRAY)
+	if (src.stat == 2 || (XRAY in mutations) || (src.sight_mode & BORGXRAY))
 		src.sight |= SEE_TURFS
 		src.sight |= SEE_MOBS
 		src.sight |= SEE_OBJS
 		src.see_in_dark = 8
 		src.see_invisible = SEE_INVISIBLE_MINIMUM
-	else if (src.sight_mode & BORGMESON && src.sight_mode & BORGTHERM)
+	else if ((src.sight_mode & BORGMESON) && (src.sight_mode & BORGTHERM))
 		src.sight |= SEE_TURFS
 		src.sight |= SEE_MOBS
 		src.see_in_dark = 8
 		see_invisible = SEE_INVISIBLE_MINIMUM
 	else if (src.sight_mode & BORGMESON)
 		src.sight |= SEE_TURFS
+		src.see_in_dark = 8
+		see_invisible = SEE_INVISIBLE_MINIMUM
+	else if (src.sight_mode & BORGMATERIAL)
+		src.sight |= SEE_OBJS
 		src.see_in_dark = 8
 		see_invisible = SEE_INVISIBLE_MINIMUM
 	else if (src.sight_mode & BORGTHERM)
@@ -172,7 +179,7 @@
 		src.see_invisible = SEE_INVISIBLE_LIVING // This is normal vision (25), setting it lower for normal vision means you don't "see" things like darkness since darkness
 							 // has a "invisible" value of 15
 
-	regular_hud_updates()
+	..()
 
 	var/obj/item/borg/sight/hud/hud = (locate(/obj/item/borg/sight/hud) in src)
 	if(hud && hud.hud)
@@ -251,46 +258,38 @@
 		else
 			src.cells.icon_state = "charge-empty"
 
-//	if(bodytemp)
-//		switch(src.bodytemperature) //310.055 optimal body temp
-//			if(335 to INFINITY)
-//				src.bodytemp.icon_state = "temp2"
-//			if(320 to 335)
-//				src.bodytemp.icon_state = "temp1"
-//			if(300 to 320)
-//				src.bodytemp.icon_state = "temp0"
-//			if(260 to 300)
-//				src.bodytemp.icon_state = "temp-1"
-//			else
-//				src.bodytemp.icon_state = "temp-2"
+	if(bodytemp)
+		switch(src.bodytemperature) //310.055 optimal body temp
+			if(335 to INFINITY)
+				src.bodytemp.icon_state = "temp2"
+			if(320 to 335)
+				src.bodytemp.icon_state = "temp1"
+			if(300 to 320)
+				src.bodytemp.icon_state = "temp0"
+			if(260 to 300)
+				src.bodytemp.icon_state = "temp-1"
+			else
+				src.bodytemp.icon_state = "temp-2"
 
 //Oxygen and fire does nothing yet!!
 //	if (src.oxygen) src.oxygen.icon_state = "oxy[src.oxygen_alert ? 1 : 0]"
 //	if (src.fire) src.fire.icon_state = "fire[src.fire_alert ? 1 : 0]"
 
-	client.screen.Remove(global_hud.blurry,global_hud.druggy,global_hud.vimpaired)
-
-	if ((src.blind && src.stat != 2))
-		if(src.blinded)
-			src.blind.alpha = 255
+	if(stat != 2)
+		if(blinded)
+			overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
 		else
-			src.blind.alpha = 0
-			if (src.disabilities & NEARSIGHTED)
-				src.client.screen += global_hud.vimpaired
+			clear_fullscreen("blind")
+			set_fullscreen(disabilities & NEARSIGHTED, "impaired", /obj/screen/fullscreen/impaired, 1)
+			set_fullscreen(eye_blurry, "blurry", /obj/screen/fullscreen/blurry)
+			set_fullscreen(druggy, "high", /obj/screen/fullscreen/high)
 
-			if (src.eye_blurry)
-				src.client.screen += global_hud.blurry
-
-			if (src.druggy)
-				src.client.screen += global_hud.druggy
-
-	if (src.stat != 2)
-		if (src.machine)
-			if (src.machine.check_eye(src) < 0)
-				src.reset_view(null)
-		else
-			if(client && !client.adminobs)
-				reset_view(null)
+	if (src.machine)
+		if (src.machine.check_eye(src) < 0)
+			src.reset_view(null)
+	else
+		if(client && !client.adminobs)
+			reset_view(null)
 
 	return 1
 
@@ -313,7 +312,7 @@
 		killswitch_time --
 		if(killswitch_time <= 0)
 			if(src.client)
-				src << "\red <B>Killswitch Activated"
+				src << "<span class='danger'>Killswitch Activated</span>"
 			killswitch = 0
 			spawn(5)
 				gib()
@@ -324,11 +323,20 @@
 		weaponlock_time --
 		if(weaponlock_time <= 0)
 			if(src.client)
-				src << "\red <B>Weapon Lock Timed Out!"
+				src << "<span class='danger'>Weapon Lock Timed Out!</span>"
 			weapon_lock = 0
 			weaponlock_time = 120
 
 /mob/living/silicon/robot/update_canmove()
-	if(paralysis || stunned || weakened || buckled || lockcharge || !is_component_functioning("actuator")) canmove = 0
+	if(paralysis || stunned || weakened || buckled || lockdown || !is_component_functioning("actuator")) canmove = 0
 	else canmove = 1
 	return canmove
+
+/mob/living/silicon/robot/update_fire()
+	overlays -= image("icon"='icons/mob/OnFire.dmi', "icon_state"="Standing")
+	if(on_fire)
+		overlays += image("icon"='icons/mob/OnFire.dmi', "icon_state"="Standing")
+
+/mob/living/silicon/robot/fire_act()
+	if(!on_fire) //Silicons don't gain stacks from hotspots, but hotspots can ignite them
+		IgniteMob()

@@ -9,11 +9,15 @@
 
 /obj/item/trash/raisins
 	name = "\improper 4no raisins"
-	icon_state= "4no_raisins"
+	icon_state = "4no_raisins"
 
 /obj/item/trash/candy
 	name = "candy"
-	icon_state= "candy"
+	icon_state = "candy"
+
+/obj/item/trash/candy/proteinbar
+	name = "protein bar"
+	icon_state = "proteinbar"
 
 /obj/item/trash/cheesie
 	name = "\improper Cheesie Honkers"
@@ -71,10 +75,6 @@
 /obj/item/trash/tastybread
 	name = "bread tube"
 	icon_state = "tastybread"
-
-/obj/item/trash/chicken_bucket
-	name = "chicken bucket"
-	icon_state = "kfc_bucket"
 
 /obj/item/trash/attack(mob/M as mob, mob/living/user as mob)
 	return

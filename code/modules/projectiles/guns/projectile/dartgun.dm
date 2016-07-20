@@ -34,7 +34,7 @@
 	desc = "A rack of hollow darts."
 	icon_state = "darts"
 	item_state = "rcdammo"
-	origin_tech = "materials=2"
+	origin_tech = list(TECH_MATERIAL = 2)
 	mag_type = MAGAZINE
 	caliber = "dart"
 	ammo_type = /obj/item/ammo_casing/chemdart
@@ -43,7 +43,7 @@
 
 /obj/item/weapon/gun/projectile/dartgun
 	name = "dart gun"
-	desc = "A small gas-powered dartgun, capable of delivering chemical cocktails swiftly across short distances."
+	desc = "Zeng-Hu Pharmaceutical's entry into the arms market, the Z-H P Artemis is a gas-powered dart gun capable of delivering chemical cocktails swiftly across short distances."
 	icon_state = "dartgun-empty"
 	item_state = null
 
@@ -54,6 +54,7 @@
 	silenced = 1
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/chemdart
+	allowed_magazines = list(/obj/item/ammo_magazine/chemdart)
 	auto_eject = 0
 
 	var/list/beakers = list() //All containers inside the gun.
@@ -92,7 +93,10 @@
 		fill_dart(dart)
 
 /obj/item/weapon/gun/projectile/dartgun/examine(mob/user)
-	.=..()
+	//update_icon()
+	//if (!..(user, 2))
+	//	return
+	..()
 	if (beakers.len)
 		user << "\blue [src] contains:"
 		for(var/obj/item/weapon/reagent_containers/glass/beaker/B in beakers)
@@ -191,13 +195,3 @@
 		unload_ammo(usr)
 	src.updateUsrDialog()
 	return
-
-/obj/item/weapon/gun/projectile/dartgun/vox
-	name = "alien dart gun"
-	desc = "A small gas-powered dartgun, fitted for nonhuman hands."
-
-/obj/item/weapon/gun/projectile/dartgun/vox/medical
-	starting_chems = list("kelotane","bicaridine","anti_toxin")
-
-/obj/item/weapon/gun/projectile/dartgun/vox/raider
-	starting_chems = list("space_drugs","stoxin","impedrezene")

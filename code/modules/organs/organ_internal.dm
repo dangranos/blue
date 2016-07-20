@@ -1,64 +1,52 @@
 #define PROCESS_ACCURACY 10
 
-/obj/item/organ/internal
-	var/organ_tag = "organ"
-
-/obj/item/organ/internal/install(mob/living/carbon/human/H)
-	if(..()) return 1
-	H.internal_organs += src
-	var/obj/item/organ/internal/outdated = H.internal_organs_by_name[organ_tag]
-	if(outdated)
-		outdated.removed()
-	H.internal_organs_by_name[organ_tag] = src
-	var/obj/item/organ/external/E = H.organs_by_name[src.parent_organ]
-	if(E)
-		E.internal_organs |= src
-	if(robotic)
-		status |= ORGAN_ROBOT
-
-/obj/item/organ/internal/Destroy()
-	if(parent)
-		parent.internal_organs -= src
-		parent = null
-	return ..()
-
-/obj/item/organ/internal/removed(mob/living/user)
-	if(!istype(owner)) return
-
-	owner.internal_organs_by_name[organ_tag] = null
-	owner.internal_organs -= src
-
-	var/datum/reagent/blood/transplant_blood = locate(/datum/reagent/blood) in reagents.reagent_list
-	transplant_data = list()
-	if(!transplant_blood)
-		transplant_data["species"] =    owner.species.name
-		transplant_data["blood_type"] = owner.dna.b_type
-		transplant_data["blood_DNA"] =  owner.dna.unique_enzymes
-	else
-		transplant_data["species"] =    transplant_blood.data["species"]
-		transplant_data["blood_type"] = transplant_blood.data["blood_type"]
-		transplant_data["blood_DNA"] =  transplant_blood.data["blood_DNA"]
-
-	..()
-
 /****************************************************
 				INTERNAL ORGANS DEFINES
 ****************************************************/
+/obj/item/organ/internal
+	var/dead_icon // Icon to use when the organ has died.
+
+/obj/item/organ/internal/die()
+	..()
+	if((status & ORGAN_DEAD) && dead_icon)
+		icon_state = dead_icon
+
+/obj/item/organ/internal/Destroy()
+	if(owner)
+		owner.internal_organs.Remove(src)
+		owner.internal_organs_by_name[organ_tag] = null
+		owner.internal_organs_by_name -= organ_tag
+		while(null in owner.internal_organs)
+			owner.internal_organs -= null
+		var/obj/item/organ/external/E = owner.organs_by_name[parent_organ]
+		if(istype(E)) E.internal_organs -= src
+	return ..()
+
+/obj/item/organ/internal/remove_rejuv()
+	if(owner)
+		owner.internal_organs -= src
+		owner.internal_organs_by_name[organ_tag] = null
+		owner.internal_organs_by_name -= organ_tag
+		while(null in owner.internal_organs)
+			owner.internal_organs -= null
+		var/obj/item/organ/external/E = owner.organs_by_name[parent_organ]
+		if(istype(E)) E.internal_organs -= src
+	..()
 
 // Brain is defined in brain_item.dm.
 /obj/item/organ/internal/heart
 	name = "heart"
 	icon_state = "heart-on"
-	organ_tag = "heart"
-	parent_organ = "chest"
+	organ_tag = O_HEART
+	parent_organ = BP_TORSO
 	dead_icon = "heart-off"
 
 /obj/item/organ/internal/lungs
 	name = "lungs"
 	icon_state = "lungs"
 	gender = PLURAL
-	organ_tag = "lungs"
-	parent_organ = "chest"
+	organ_tag = O_LUNGS
+	parent_organ = BP_TORSO
 
 /obj/item/organ/internal/lungs/process()
 	..()
@@ -75,18 +63,20 @@
 			spawn owner.emote("me", 1, "coughs up blood!")
 			owner.drip(10)
 		if(prob(4))
-			spawn owner.custom_emote("gasps for air!")
+			spawn owner.emote("me", 1, "gasps for air!")
 			owner.losebreath += 15
 
 /obj/item/organ/internal/kidneys
 	name = "kidneys"
 	icon_state = "kidneys"
 	gender = PLURAL
-	organ_tag = "kidneys"
-	parent_organ = "groin"
+	organ_tag = O_KIDNEYS
+	parent_organ = BP_GROIN
 
 /obj/item/organ/internal/kidneys/process()
+
 	..()
+
 	if(!owner)
 		return
 
@@ -95,38 +85,72 @@
 	// what else kidneys can process in our reagent list.
 	var/datum/reagent/coffee = locate(/datum/reagent/drink/coffee) in owner.reagents.reagent_list
 	if(coffee)
-		if(is_broken())
-			owner.adjustToxLoss(0.3 * PROCESS_ACCURACY)
-		else if(is_bruised())
+		if(is_bruised())
 			owner.adjustToxLoss(0.1 * PROCESS_ACCURACY)
-
+		else if(is_broken())
+			owner.adjustToxLoss(0.3 * PROCESS_ACCURACY)
 
 /obj/item/organ/internal/eyes
 	name = "eyeballs"
 	icon_state = "eyes"
 	gender = PLURAL
-	organ_tag = "eyes"
-	parent_organ = "head"
-	var/eye_colour = ""
+	organ_tag = O_EYES
+	parent_organ = BP_HEAD
+	var/list/eye_colour = list(0,0,0)
 
-/obj/item/organ/internal/eyes/install(mob/living/carbon/human/H)
-	if(..()) return 1
-	// Apply our eye colour to the target.
-	if(eye_colour)
-		owner.eyes_color = eye_colour
-	else
+/obj/item/organ/internal/eyes/robotize()
+	..()
+	name = "optical sensor"
+	icon = 'icons/obj/robot_component.dmi'
+	icon_state = "camera"
+	dead_icon = "camera_broken"
+	verbs |= /obj/item/organ/internal/eyes/proc/change_eye_color
+
+/obj/item/organ/internal/eyes/robot
+	name = "optical sensor"
+
+/obj/item/organ/internal/eyes/robot/New()
+	..()
+	robotize()
+
+/obj/item/organ/internal/eyes/proc/change_eye_color()
+	set name = "Change Eye Color"
+	set desc = "Changes your robotic eye color instantly."
+	set category = "IC"
+	set src in usr
+
+	var/current_color = rgb(eye_colour[1],eye_colour[2],eye_colour[3])
+	var/new_color = input("Pick a new color for your eyes.","Eye Color", current_color) as null|color
+	if(new_color && owner)
+		// input() supplies us with a hex color, which we can't use, so we convert it to rbg values.
+		var/list/new_color_rgb_list = hex2rgb(new_color)
+		// First, update mob vars.
+		owner.r_eyes = new_color_rgb_list[1]
+		owner.g_eyes = new_color_rgb_list[2]
+		owner.b_eyes = new_color_rgb_list[3]
+		// Now sync the organ's eye_colour list.
 		update_colour()
-	owner.update_eyes()
+		// Finally, update the eye icon on the mob.
+		owner.update_eyes()
 
-/obj/item/organ/internal/eyes/proc/get_icon()
-	var/icon/eyes_icon = new/icon(owner.species.icobase, "eyes_[owner.body_build]")
-	eyes_icon.Blend(eye_colour, ICON_ADD)
-	return eyes_icon
+/obj/item/organ/internal/eyes/replaced(var/mob/living/carbon/human/target)
+
+	// Apply our eye colour to the target.
+	if(istype(target) && eye_colour)
+		target.r_eyes = eye_colour[1]
+		target.g_eyes = eye_colour[2]
+		target.b_eyes = eye_colour[3]
+		target.update_eyes()
+	..()
 
 /obj/item/organ/internal/eyes/proc/update_colour()
 	if(!owner)
 		return
-	eye_colour = owner.eyes_color ? owner.eyes_color : "#000000"
+	eye_colour = list(
+		owner.r_eyes ? owner.r_eyes : 0,
+		owner.g_eyes ? owner.g_eyes : 0,
+		owner.b_eyes ? owner.b_eyes : 0
+		)
 
 /obj/item/organ/internal/eyes/take_damage(amount, var/silent=0)
 	var/oldbroken = is_broken()
@@ -143,86 +167,11 @@
 	if(is_broken())
 		owner.eye_blind = 20
 
-/obj/item/eye_camera
-	name = "eye camera"
-	var/colour = "#ffffff"
-
-/obj/item/eye_camera/attack_self(user)
-	put_in_socket(user, user)
-
-/obj/item/eye_camera/attack(mob/living/carbon/M as mob, mob/living/carbon/user as mob)
-	if(user.zone_sel.selecting == "eyes")
-		put_in_socket(user, M)
-	else
-		..()
-
-/obj/item/eye_camera/proc/put_in_socket(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target)
-	if(target.eyecheck())
-		user << "<span class='warning'>You can't access[user == target ? "" : " [target]'s"] eye-socket.</span>"
-		return
-	var/obj/item/organ/internal/eyes/mechanic/cam/eyes = target.internal_organs_by_name["eyes"]
-	if(eyes && istype(eyes))
-		eyes.attackby(src, user)
-
-
-/obj/item/organ/internal/eyes/mechanic/cam
-	name = "mechanic eyes"
-	var/obj/item/eye_camera/camera
-	var/obj/item/eye_camera/linked_camera
-
-/obj/item/organ/internal/eyes/mechanic/cam/New(holder, install, var/color = "#ffffff")
-	..(holder, install)
-	camera = new()
-	linked_camera = camera
-	camera.colour = color
-
-/obj/item/organ/internal/eyes/mechanic/cam/verb/eject_cam()
-	if(!owner || usr!=owner) return
-	if(!camera || !camera in src) return
-	owner.put_in_hands(camera)
-	camera = null
-	verbs -= /obj/item/organ/internal/eyes/mechanic/cam/verb/eject_cam
-
-/obj/item/organ/internal/eyes/mechanic/cam/attackby(var/obj/item/eye_camera/C, mob/user)
-	if(!istype(C))
-		..()
-
-	if(camera)
-		user << "<span class='warning'>Eye-socket is not empty.</span>"
-		return
-
-	if(!owner)
-		user << "<span class='notece'>You insert [C] into eye-socket.</span>"
-	else if(user == owner)
-		user.visible_message("<span class='warning'>[user] start inserting [C] into eye-socket!</span>",\
-					"<span class='notice'>You start inserting [C] into your eye-socket</span>")
-		sleep(5)
-		if(usr.get_active_hand() != C)
-			user << "<span class='warning'>You need to keep [C] in active hand!</span>"
-			return
-		if(camera)
-			user << "<span class='warning'>Your eye socket is not empty!</span>"
-			return
-		verbs |= /obj/item/organ/internal/eyes/mechanic/cam/verb/eject_cam
-	else
-		user.visible_message("<span class='warning'>[user] try to insert [C] into [owner]'s eye-socket</span>",\
-						"<span class='notice'>You try to insert [C] into [owner]'s eye-socket</span>")
-		if(do_mob(user, owner, 15))
-			if(camera)
-				user << "<span class='warning'>Eye-socket is not empty.</span>"
-				return
-			user.visible_message("<span class='warning'>[user] insert [C] into [owner]'s eye-socket</span>",\
-							"<span class='warning'>You insert [src] into [owner]'s eye-socket</span>")
-			verbs |= /obj/item/organ/internal/eyes/mechanic/cam/verb/eject_cam
-	user.drop_from_inventory(C, src)
-	camera = C
-
-
 /obj/item/organ/internal/liver
 	name = "liver"
 	icon_state = "liver"
 	organ_tag = "liver"
-	parent_organ = "groin"
+	parent_organ = BP_GROIN
 
 /obj/item/organ/internal/liver/process()
 
@@ -233,7 +182,7 @@
 
 	if (germ_level > INFECTION_LEVEL_ONE)
 		if(prob(1))
-			owner << "\red Your skin itches."
+			owner << "<span class='danger'>Your skin itches.</span>"
 	if (germ_level > INFECTION_LEVEL_TWO)
 		if(prob(1))
 			spawn owner.vomit()
@@ -275,17 +224,53 @@
 /obj/item/organ/internal/appendix
 	name = "appendix"
 	icon_state = "appendix"
-	parent_organ = "groin"
+	parent_organ = BP_GROIN
 	organ_tag = "appendix"
+	var/inflamed = 0
+	var/inflame_progress = 0
+
+/mob/living/carbon/human/proc/appendicitis()
+	if(stat == DEAD)
+		return 0
+	var/obj/item/organ/internal/appendix/A = internal_organs_by_name[O_APPENDIX]
+	if(istype(A) && !A.inflamed)
+		A.inflamed = 1
+		return 1
+	return 0
+
+/obj/item/organ/internal/appendix/process()
+	if(!inflamed || !owner)
+		return
+
+	if(++inflame_progress > 200)
+		++inflamed
+		inflame_progress = 0
+
+	if(inflamed == 1)
+		if(prob(5))
+			owner << "<span class='warning'>You feel a stinging pain in your abdomen!</span>"
+			owner.emote("me", 1, "winces slightly.")
+	if(inflamed > 1)
+		if(prob(3))
+			owner << "<span class='warning'>You feel a stabbing pain in your abdomen!</span>"
+			owner.emote("me", 1, "winces painfully.")
+			owner.adjustToxLoss(1)
+	if(inflamed > 2)
+		if(prob(1))
+			owner.vomit()
+	if(inflamed > 3)
+		if(prob(1))
+			owner << "<span class='danger'>Your abdomen is a world of pain!</span>"
+			owner.Weaken(10)
+
+			var/obj/item/organ/external/groin = owner.get_organ(BP_GROIN)
+			var/datum/wound/W = new /datum/wound/internal_bleeding(20)
+			owner.adjustToxLoss(25)
+			groin.wounds += W
+			inflamed = 0
 
 /obj/item/organ/internal/appendix/removed()
-	if(owner)
-		var/inflamed = 0
-		for(var/datum/disease/appendicitis/appendicitis in owner.viruses)
-			inflamed = 1
-			appendicitis.cure()
-			owner.resistances += appendicitis
-		if(inflamed)
-			icon_state = "appendixinflamed"
-			name = "inflamed appendix"
+	if(inflamed)
+		icon_state = "appendixinflamed"
+		name = "inflamed appendix"
 	..()

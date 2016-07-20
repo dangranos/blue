@@ -14,7 +14,7 @@
 	throw_range = 15
 	throw_speed = 3
 
-	origin_tech = "programming=1;engineering=1;syndicate=3"
+	origin_tech = list(TECH_DATA = 1, TECH_ENGINEERING = 1, TECH_ILLEGAL = 3)
 
 	var/obj/item/device/radio/spy/radio
 	var/obj/machinery/camera/spy/camera
@@ -24,9 +24,9 @@
 	radio = new(src)
 	camera = new(src)
 
-/obj/item/device/spy_bug/examine(mob/user, return_dist = 1)
-	. = ..()
-	if(. < 1)
+/obj/item/device/spy_bug/examine(mob/user)
+	. = ..(user, 0)
+	if(.)
 		user << "It's a tiny camera, microphone, and transmission device in a happy union."
 		user << "Needs to be both configured and brought in contact with monitor device to be fully functional."
 
@@ -53,7 +53,7 @@
 
 	w_class = 2.0
 
-	origin_tech = "programming=1;engineering=1;syndicate=3"
+	origin_tech = list(TECH_DATA = 1, TECH_ENGINEERING = 1, TECH_ILLEGAL = 3)
 
 	var/operating = 0
 	var/obj/item/device/radio/spy/radio
@@ -63,9 +63,9 @@
 /obj/item/device/spy_monitor/New()
 	radio = new(src)
 
-/obj/item/device/spy_monitor/examine(mob/user, return_dist = 1)
-	. = ..()
-	if(. <= 1)
+/obj/item/device/spy_monitor/examine(mob/user)
+	. = ..(user, 1)
+	if(.)
 		user << "The time '12:00' is blinking in the corner of the screen and \the [src] looks very cheaply made."
 
 /obj/item/device/spy_monitor/attack_self(mob/user)
@@ -135,7 +135,7 @@
 
 /obj/machinery/camera/spy
 	// These cheap toys are accessible from the mercenary camera console as well
-	network = list("NUKE")
+	network = list(NETWORK_MERCENARY)
 
 /obj/machinery/camera/spy/New()
 	..()

@@ -7,7 +7,6 @@
 	health = 100
 	maxHealth = 100
 
-	bot_version = "2.5"
 	is_ranged = 1
 	preparing_arrest_sounds = new()
 
@@ -20,7 +19,7 @@
 	var/last_shot = 0
 
 /mob/living/bot/secbot/ed209/update_icons()
-	if(on && is_attacking)
+	if(on && busy)
 		icon_state = "ed209-c"
 	else
 		icon_state = "ed209[on]"
@@ -39,9 +38,9 @@
 		new /obj/item/robot_parts/r_leg(Tsec)
 	if(prob(50))
 		if(prob(50))
-			new /obj/item/clothing/head/helmet/security(Tsec)
+			new /obj/item/clothing/head/helmet(Tsec)
 		else
-			new /obj/item/clothing/suit/armor/vest(Tsec)
+			new /obj/item/clothing/suit/storage/vest(Tsec)
 
 	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 	s.set_up(3, 1, src)
@@ -50,14 +49,15 @@
 	new /obj/effect/decal/cleanable/blood/oil(Tsec)
 	qdel(src)
 
+/mob/living/bot/secbot/ed209/handleRangedTarget()
+	RangedAttack(target)
+
 /mob/living/bot/secbot/ed209/RangedAttack(var/atom/A)
 	if(last_shot + shot_delay > world.time)
 		src << "You are not ready to fire yet!"
 		return
 
 	last_shot = world.time
-	var/turf/T = get_turf(src)
-	var/turf/U = get_turf(A)
 
 	var/projectile = /obj/item/projectile/beam/stun
 	if(emagged)
@@ -66,13 +66,7 @@
 	playsound(loc, emagged ? 'sound/weapons/Laser.ogg' : 'sound/weapons/Taser.ogg', 50, 1)
 	var/obj/item/projectile/P = new projectile(loc)
 
-	P.original = A
-	P.starting = T
-	P.current = T
-	P.yo = U.y - T.y
-	P.xo = U.x - T.x
-	spawn()
-		P.process()
+	P.launch(A)
 	return
 
 // Assembly
@@ -131,7 +125,7 @@
 					name = "shielded frame assembly"
 					user << "<span class='notice'>You welded the vest to [src].</span>"
 		if(4)
-			if(istype(W, /obj/item/clothing/head/helmet/security))
+			if(istype(W, /obj/item/clothing/head/helmet))
 				user.drop_item()
 				qdel(W)
 				build_step++

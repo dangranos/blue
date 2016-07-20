@@ -112,18 +112,19 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	return 1
 
 /obj/structure/particle_accelerator/examine(mob/user)
-	.=..()
 	switch(src.construction_state)
 		if(0)
-			user << "A [name], looks like it's not attached to the flooring"
+			src.desc = text("A [name], looks like it's not attached to the flooring")
 		if(1)
-			user << "A [name], it is missing some cables"
+			src.desc = text("A [name], it is missing some cables")
 		if(2)
-			user << "A [name], the panel is open"
+			src.desc = text("A [name], the panel is open")
 		if(3)
-			user << "The [name] is assembled"
+			src.desc = text("The [name] is assembled")
 			if(powered)
-				user << src.desc_holder
+				src.desc = src.desc_holder
+	..()
+	return
 
 
 /obj/structure/particle_accelerator/attackby(obj/item/W, mob/user)
@@ -154,18 +155,6 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 				qdel(src)
 				return
 		else
-	return
-
-
-/obj/structure/particle_accelerator/blob_act()
-	if(prob(50))
-		qdel(src)
-	return
-
-
-/obj/structure/particle_accelerator/meteorhit()
-	if(prob(50))
-		qdel(src)
 	return
 
 /obj/structure/particle_accelerator/update_icon()
@@ -305,19 +294,19 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 	return
 
 /obj/machinery/particle_accelerator/examine(mob/user)
-	.=..()
 	switch(src.construction_state)
 		if(0)
-			user << "A [name], looks like it's not attached to the flooring"
+			src.desc = text("A [name], looks like it's not attached to the flooring")
 		if(1)
-			user << "A [name], it is missing some cables"
+			src.desc = text("A [name], it is missing some cables")
 		if(2)
-			user << "A [name], the panel is open"
+			src.desc = text("A [name], the panel is open")
 		if(3)
-			user << "The [name] is assembled"
+			src.desc = text("The [name] is assembled")
 			if(powered)
 				src.desc = src.desc_holder
-	return..()
+	..()
+	return
 
 
 /obj/machinery/particle_accelerator/attackby(obj/item/W, mob/user)
@@ -341,18 +330,6 @@ So, hopefully this is helpful if any more icons are to be added/changed/wonderin
 				qdel(src)
 				return
 		else
-	return
-
-
-/obj/machinery/particle_accelerator/blob_act()
-	if(prob(50))
-		qdel(src)
-	return
-
-
-/obj/machinery/particle_accelerator/meteorhit()
-	if(prob(50))
-		qdel(src)
 	return
 
 

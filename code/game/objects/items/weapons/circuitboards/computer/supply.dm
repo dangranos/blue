@@ -2,26 +2,21 @@
 #error T_BOARD macro is not defined but we need it! 
 #endif
 
-/obj/item/weapon/circuitboard/order/supply
+/obj/item/weapon/circuitboard/supplycomp
 	name = T_BOARD("supply control console")
-	build_path = /obj/machinery/computer/order/supply
-	origin_tech = "programming=3"
+	build_path = /obj/machinery/computer/supplycomp
+	origin_tech = list(TECH_DATA = 3)
 	var/contraband_enabled = 0
 
-/obj/item/weapon/circuitboard/order/supply/qm
-	name = T_BOARD("quartermaster control console")
-	build_path = /obj/machinery/computer/order/supply/qm
-	origin_tech = "programming=4"
-
-/obj/item/weapon/circuitboard/order/supply/construct(var/obj/machinery/computer/order/supply/SC)
+/obj/item/weapon/circuitboard/supplycomp/construct(var/obj/machinery/computer/supplycomp/SC)
 	if (..(SC))
 		SC.can_order_contraband = contraband_enabled
 
-/obj/item/weapon/circuitboard/order/supply/deconstruct(var/obj/machinery/computer/order/supply/SC)
+/obj/item/weapon/circuitboard/supplycomp/deconstruct(var/obj/machinery/computer/supplycomp/SC)
 	if (..(SC))
 		contraband_enabled = SC.can_order_contraband
 
-/obj/item/weapon/circuitboard/order/supply/attackby(obj/item/I as obj, mob/user as mob)
+/obj/item/weapon/circuitboard/supplycomp/attackby(obj/item/I as obj, mob/user as mob)
 	if(istype(I,/obj/item/device/multitool))
 		var/catastasis = src.contraband_enabled
 		var/opposite_catastasis

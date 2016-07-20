@@ -4,24 +4,29 @@
 
 /obj/item/clothing/head/helmet/space/rig
 	name = "helmet"
-	flags = HEADCOVERSEYES | BLOCKHAIR | HEADCOVERSMOUTH | THICKMATERIAL
-	flags_inv = 		 HIDEEARS|HIDEEYES|HIDEFACE
+	item_flags = THICKMATERIAL
+	flags_inv = 		 HIDEEARS|HIDEEYES|HIDEFACE|BLOCKHAIR
 	body_parts_covered = HEAD|FACE|EYES
 	heat_protection =    HEAD|FACE|EYES
 	cold_protection =    HEAD|FACE|EYES
 	brightness_on = 4
+	sprite_sheets = list(
+		"Tajara" = 'icons/mob/species/tajaran/helmet.dmi',
+		"Skrell" = 'icons/mob/species/skrell/helmet.dmi',
+		"Unathi" = 'icons/mob/species/unathi/helmet.dmi'
+		)
 	species_restricted = null
 
-/obj/item/clothing/gloves/rig
+/obj/item/clothing/gloves/gauntlets/rig
 	name = "gauntlets"
-	flags = THICKMATERIAL
+	item_flags = THICKMATERIAL
 	body_parts_covered = HANDS
 	heat_protection =    HANDS
 	cold_protection =    HANDS
 	species_restricted = null
 	gender = PLURAL
 
-/obj/item/clothing/shoes/magboots/toggleable/rig
+/obj/item/clothing/shoes/magboots/rig
 	name = "boots"
 	body_parts_covered = FEET
 	cold_protection = FEET
@@ -37,13 +42,41 @@
 	heat_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	cold_protection =    UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
 	flags_inv =          HIDEJUMPSUIT|HIDETAIL
-	flags =              STOPPRESSUREDAMAGE | THICKMATERIAL | AIRTIGHT
+	item_flags =              STOPPRESSUREDAMAGE | THICKMATERIAL | AIRTIGHT
 	slowdown = 0
 	//will reach 10 breach damage after 25 laser carbine blasts, 3 revolver hits, or ~1 PTR hit. Completely immune to smg or sts hits.
 	breach_threshold = 38
 	resilience = 0.2
 	can_breach = 1
+	sprite_sheets = list(
+		"Tajara" = 'icons/mob/species/tajaran/suit.dmi',
+		"Unathi" = 'icons/mob/species/unathi/suit.dmi'
+		)
 	supporting_limbs = list()
+	var/obj/item/weapon/material/hatchet/tacknife
+
+/obj/item/clothing/suit/space/rig/attack_hand(var/mob/living/M)
+	if(tacknife)
+		tacknife.loc = get_turf(src)
+		if(M.put_in_active_hand(tacknife))
+			M << "<span class='notice'>You slide \the [tacknife] out of [src].</span>"
+			playsound(M, 'sound/weapons/flipblade.ogg', 40, 1)
+			tacknife = null
+			update_icon()
+		return
+	..()
+
+/obj/item/clothing/suit/space/rig/attackby(var/obj/item/I, var/mob/living/M)
+	if(istype(I, /obj/item/weapon/material/hatchet/tacknife))
+		if(tacknife)
+			return
+		M.drop_item()
+		tacknife = I
+		I.loc = src
+		M << "<span class='notice'>You slide the [I] into [src].</span>"
+		playsound(M, 'sound/weapons/flipblade.ogg', 40, 1)
+		update_icon()
+	..()
 
 //TODO: move this to modules
 /obj/item/clothing/head/helmet/space/rig/proc/prevent_track()
@@ -95,7 +128,7 @@
 	species_restricted = null
 	gender = PLURAL
 
-/obj/item/clothing/gloves/lightrig
+/obj/item/clothing/gloves/gauntlets/lightrig
 	name = "gloves"
 	flags = THICKMATERIAL
 	body_parts_covered = HANDS

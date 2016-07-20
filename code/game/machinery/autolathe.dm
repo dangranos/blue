@@ -7,37 +7,38 @@
 	use_power = 1
 	idle_power_usage = 10
 	active_power_usage = 2000
-
-	var/tmp/list/machine_recipes
+	circuit = /obj/item/weapon/circuitboard/autolathe
+	var/list/machine_recipes
 	var/list/stored_material =  list(DEFAULT_WALL_MATERIAL = 0, "glass" = 0)
 	var/list/storage_capacity = list(DEFAULT_WALL_MATERIAL = 0, "glass" = 0)
 	var/show_category = "All"
-	var/current_color = "#ffffff"
 
 	var/hacked = 0
 	var/disabled = 0
 	var/shocked = 0
-	var/tmp/busy = 0
+	var/busy = 0
 
 	var/mat_efficiency = 1
 	var/build_time = 50
 
-	var/tmp/datum/wires/autolathe/wires = null
-
+	var/datum/wires/autolathe/wires = null
 
 /obj/machinery/autolathe/New()
-
 	..()
 	wires = new(src)
-	//Create parts for lathe.
+	circuit = new circuit(src)
 	component_parts = list()
-	component_parts += new /obj/item/weapon/circuitboard/autolathe(src)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
 	component_parts += new /obj/item/weapon/stock_parts/matter_bin(src)
 	component_parts += new /obj/item/weapon/stock_parts/manipulator(src)
 	component_parts += new /obj/item/weapon/stock_parts/console_screen(src)
 	RefreshParts()
+
+/obj/machinery/autolathe/Destroy()
+	qdel(wires)
+	wires = null
+	return ..()
 
 /obj/machinery/autolathe/proc/update_recipe_list()
 	if(!machine_recipes)
@@ -54,9 +55,7 @@
 	if(shocked)
 		shock(user, 50)
 
-	var/dat = "<style>span.box{display: inline-block; width: 20px; height: 10px; border:1px solid #000;}\
-			   span.deficiency{color: red}</style>"
-	dat += "<center><h1>Autolathe Control Panel</h1><hr/>"
+	var/dat = "<center><h1>Autolathe Control Panel</h1><hr/>"
 
 	if(!disabled)
 		dat += "<table width = '100%'>"
@@ -68,7 +67,6 @@
 			material_bottom += "<td width = '25%' align = center>[stored_material[material]]<b>/[storage_capacity[material]]</b></td>"
 
 		dat += "[material_top]</tr>[material_bottom]</tr></table><hr>"
-		dat += "<b>Current color:</b> <a href='?src=\ref[src];color=set'><span class='box' style='background-color:[current_color];'></span></a><hr><br>"
 		dat += "<h2>Printable Designs</h2><h3>Showing: <a href='?src=\ref[src];change_category=1'>[show_category]</a>.</h3></center><table width = '100%'>"
 
 		var/index = 0
@@ -89,19 +87,18 @@
 					var/sheets = round(stored_material[material]/round(R.resources[material]*mat_efficiency))
 					if(isnull(max_sheets) || max_sheets > sheets)
 						max_sheets = sheets
+					if(!isnull(stored_material[material]) && stored_material[material] < round(R.resources[material]*mat_efficiency))
+						can_make = 0
 					if(!comma)
 						comma = 1
 					else
 						material_string += ", "
-					if(!isnull(stored_material[material]) && stored_material[material] < round(R.resources[material]*mat_efficiency))
-						can_make = 0
-						material_string += "<span class='deficiency'>[round(R.resources[material] * mat_efficiency)] [material]</span>"
-					else
-						material_string += "[round(R.resources[material] * mat_efficiency)] [material]"
+					material_string += "[round(R.resources[material] * mat_efficiency)] [material]"
 				material_string += ".<br></td>"
 				//Build list of multipliers for sheets.
 				if(R.is_stack)
 					if(max_sheets && max_sheets > 0)
+						max_sheets = min(max_sheets, R.max_stack) // Limit to the max allowed by stack type.
 						multiplier_string  += "<br>"
 						for(var/i = 5;i<max_sheets;i*=2) //5,10,20,40...
 							multiplier_string  += "<a href='?src=\ref[src];make=[index];multiplier=[i]'>\[x[i]\]</a>"
@@ -148,6 +145,22 @@
 
 	if(is_robot_module(O))
 		return 0
+
+	if(istype(O,/obj/item/ammo_magazine/clip) || istype(O,/obj/item/ammo_magazine/a357) || istype(O,/obj/item/ammo_magazine/c38)) // Prevents ammo recycling exploit with speedloaders.
+		user << "\The [O] is too hazardous to recycle with the autolathe!"
+		return
+		/*  ToDo: Make this actually check for ammo and change the value of the magazine if it's empty. -Spades
+		var/obj/item/ammo_magazine/speedloader = O
+		if(speedloader.stored_ammo)
+			user << "\The [speedloader] is too hazardous to put back into the autolathe while there's ammunition inside of it!"
+			return
+		else
+			speedloader.matter = list(DEFAULT_WALL_MATERIAL = 75) // It's just a hunk of scrap metal now.
+	if(istype(O,/obj/item/ammo_magazine)) // This was just for immersion consistency with above.
+		var/obj/item/ammo_magazine/mag = O
+		if(mag.stored_ammo)
+			user << "\The [mag] is too hazardous to put back into the autolathe while there's ammunition inside of it!"
+			return*/
 
 	//Resources are being loaded.
 	var/obj/item/eating = O
@@ -226,10 +239,6 @@
 		if(!choice) return
 		show_category = choice
 
-	if(href_list["color"])
-		var/new_color = input(usr, "Choose new color:", "Items color", current_color) as color|null
-		if(new_color) current_color = new_color
-
 	if(href_list["make"] && machine_recipes)
 
 		var/index = text2num(href_list["make"])
@@ -276,9 +285,6 @@
 		if(multiplier > 1 && istype(I, /obj/item/stack))
 			var/obj/item/stack/S = I
 			S.amount = multiplier
-		if(istype(I, /obj/item/weapon/light))
-			I:brightness_color = current_color
-
 
 	updateUsrDialog()
 

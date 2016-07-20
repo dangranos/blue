@@ -25,14 +25,14 @@
 
 /datum/malf_research_ability/networking/elite_hack
 	ability = new/datum/game_mode/malfunction/verb/elite_encryption_hack()
-	price = 800
+	price = 1000
 	next = new/datum/malf_research_ability/networking/system_override()
 	name = "Elite Encryption Hack"
 
 
 /datum/malf_research_ability/networking/system_override
 	ability = new/datum/game_mode/malfunction/verb/system_override()
-	price = 2000
+	price = 2750
 	name = "System Override"
 
 // END RESEARCH DATUMS
@@ -67,11 +67,11 @@
 
 	user.hacking = 1
 	user << "Beginning APC system override..."
-	sleep(200)
+	sleep(300)
 	user << "APC hack completed. Uploading modified operation software.."
-	sleep(100)
+	sleep(200)
 	user << "Restarting APC to apply changes.."
-	sleep(50)
+	sleep(100)
 	if(A)
 		A.ai_hack(user)
 		if(A.hacker == user)
@@ -85,8 +85,8 @@
 
 /datum/game_mode/malfunction/verb/advanced_encryption_hack()
 	set category = "Software"
-	set name = "Advanced Encryption Hack"
-	set desc = "75 CPU - Attempts to bypass encryption on Central Command Quantum Relay, giving you ability to fake centcom messages. Has chance of failing."
+	set name = "Advanced Encrypthion Hack"
+	set desc = "75 CPU - Attempts to bypass encryption on the Command Quantum Relay, giving you ability to fake legitimate messages. Has chance of failing."
 	var/price = 75
 	var/mob/living/silicon/ai/user = usr
 
@@ -106,12 +106,15 @@
 			announce_hack_failure(user, "quantum message relay")
 		return
 
-	command_announcement.Announce(text, title)
+	var/datum/announcement/priority/command/AN = new/datum/announcement/priority/command()
+	AN.title = title
+	AN.Announce(text)
+
 
 /datum/game_mode/malfunction/verb/elite_encryption_hack()
 	set category = "Software"
 	set name = "Elite Encryption Hack"
-	set desc = "200 CPU - Allows you to hack station's ALERTCON system, changing alert level. Has high chance of failing."
+	set desc = "200 CPU - Allows you to hack station's ALERTCON system, changing alert level. Has high chance of failijng."
 	var/price = 200
 	var/mob/living/silicon/ai/user = usr
 	if(!ability_prechecks(user, price))
@@ -145,8 +148,8 @@
 		return
 	var/list/remaining_apcs = list()
 	for(var/obj/machinery/power/apc/A in machines)
-//		if(!(A.z in config.station_levels)) 		// Only station APCs
-//			continue
+		if(!(A.z in config.station_levels)) 		// Only station APCs
+			continue
 		if(A.hacker == user || A.aidisabled) 		// This one is already hacked, or AI control is disabled on it.
 			continue
 		remaining_apcs += A

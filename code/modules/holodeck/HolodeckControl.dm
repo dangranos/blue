@@ -1,17 +1,15 @@
 /obj/machinery/computer/HolodeckControl
 	name = "holodeck control console"
 	desc = "A computer used to control a nearby holodeck."
-	icon_state = "holocontrol"
+	icon_keyboard = "tech_key"
+	icon_screen = "holocontrol"
 
 	use_power = 1
 	active_power_usage = 8000 //8kW for the scenery + 500W per holoitem
-
-	circuit = /obj/item/weapon/circuitboard/holodeckcontrol
-
 	var/item_power_usage = 500
 
 	var/area/linkedholodeck = null
-	var/linkedholodeck_area
+	var/area/target = null
 	var/active = 0
 	var/list/holographic_objs = list()
 	var/list/holographic_mobs = list()
@@ -20,77 +18,72 @@
 	var/mob/last_to_emag = null
 	var/last_change = 0
 	var/last_gravity_change = 0
-	var/list/supported_programs
-	var/list/restricted_programs
-
-/obj/machinery/computer/HolodeckControl/New()
-	..()
-	linkedholodeck = locate(linkedholodeck_area)
-	supported_programs = list()
-	restricted_programs = list()
+	var/list/supported_programs = list( \
+	"Empty Court" = "emptycourt", \
+	"Basketball Court" = "basketball",	\
+	"Thunderdome Court" = "thunderdomecourt",	\
+	"Boxing Ring"="boxingcourt",	\
+	"Beach" = "beach",	\
+	"Desert" = "desert",	\
+	"Space" = "space",	\
+	"Picnic Area" = "picnicarea",	\
+	"Snow Field" = "snowfield",	\
+	"Theatre" = "theatre",	\
+	"Meeting Hall" = "meetinghall",	\
+	"Courtroom" = "courtroom",	\
+	"Turn Off" = "turnoff"	\
+	)
+	var/list/restricted_programs = list("Atmospheric Burn Simulation" = "burntest", "Wildlife Simulation" = "wildlifecarp")
+	var/current_program = "turnoff"
 
 /obj/machinery/computer/HolodeckControl/attack_ai(var/mob/user as mob)
 	return src.attack_hand(user)
 
 /obj/machinery/computer/HolodeckControl/attack_hand(var/mob/user as mob)
 	if(..())
-		return 1
+		return
 	user.set_machine(src)
-	var/dat
 
-	dat += "<B>Holodeck Control System</B><BR>"
-	dat += "<HR>Current Loaded Programs:<BR>"
+	ui_interact(user)
 
-	if(!linkedholodeck)
-		dat += "</span class='danger'>Warning: Unable to locate holodeck.<br></span>"
-		user << browse(dat, "window=computer;size=400x500")
-		onclose(user, "computer")
-		return
+/**
+ *  Display the NanoUI window for the Holodeck Computer.
+ *
+ *  See NanoUI documentation for details.
+ */
+/obj/machinery/computer/HolodeckControl/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
+	user.set_machine(src)
 
-	if(!supported_programs.len)
-		dat += "</span class='danger'>Warning: No supported holo-programs loaded.<br></span>"
-		user << browse(dat, "window=computer;size=400x500")
-		onclose(user, "computer")
-		return
+	var/list/data = list()
+	var/program_list[0]
+	var/restricted_program_list[0]
 
-	for(var/prog in supported_programs)
-		dat += "<A href='?src=\ref[src];program=[supported_programs[prog]]'>([prog])</A><BR>"
+	for(var/P in supported_programs)
+		program_list[++program_list.len] = list("name" = P, "program" = supported_programs[P])
 
-	dat += "<BR>"
-	dat += "<A href='?src=\ref[src];program=turnoff'>(Turn Off)</A><BR>"
+	for(var/P in restricted_programs)
+		restricted_program_list[++restricted_program_list.len] = list("name" = P, "program" = restricted_programs[P])
 
-	dat += "<BR>"
-	dat += "Please ensure that only holographic weapons are used in the holodeck if a combat simulation has been loaded.<BR>"
-
+	data["supportedPrograms"] = program_list
+	data["restrictedPrograms"] = restricted_program_list
+	data["currentProgram"] = current_program
 	if(issilicon(user))
-		dat += "<BR>"
-		if(safety_disabled)
-			if (emagged)
-				dat += "<font color=red><b>ERROR</b>: Cannot re-enable Safety Protocols.</font><BR>"
-			else
-				dat += "<A href='?src=\ref[src];AIoverride=1'>(<font color=green>Re-Enable Safety Protocols?</font>)</A><BR>"
-		else
-			dat += "<A href='?src=\ref[src];AIoverride=1'>(<font color=red>Override Safety Protocols?</font>)</A><BR>"
-
-	dat += "<BR>"
-
-	if(safety_disabled)
-		for(var/prog in restricted_programs)
-			dat += "<A href='?src=\ref[src];program=[restricted_programs[prog]]'>(<font color=red>Begin [prog]</font>)</A><BR>"
-			dat += "Ensure the holodeck is empty before testing.<BR>"
-			dat += "<BR>"
-		dat += "Safety Protocols are <font color=red> DISABLED </font><BR>"
+		data["isSilicon"] = 1
 	else
-		dat += "Safety Protocols are <font color=green> ENABLED </font><BR>"
-
+		data["isSilicon"] = null
+	data["safetyDisabled"] = safety_disabled
+	data["emagged"] = emagged
 	if(linkedholodeck.has_gravity)
-		dat += "Gravity is <A href='?src=\ref[src];gravity=1'><font color=green>(ON)</font></A><BR>"
+		data["gravity"] = 1
 	else
-		dat += "Gravity is <A href='?src=\ref[src];gravity=1'><font color=blue>(OFF)</font></A><BR>"
+		data["gravity"] = null
 
-	user << browse(dat, "window=computer;size=400x500")
-	onclose(user, "computer")
-	return
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	if (!ui)
+		ui = new(user, src, ui_key, "holodeck.tmpl", src.name, 400, 550)
+		ui.set_initial_data(data)
+		ui.open()
+		ui.set_auto_update(20)
 
 /obj/machinery/computer/HolodeckControl/Topic(href, href_list)
 	if(..())
@@ -102,6 +95,7 @@
 			var/prog = href_list["program"]
 			if(prog in holodeck_programs)
 				loadProgram(holodeck_programs[prog])
+				current_program = href_list["program"]
 
 		else if(href_list["AIoverride"])
 			if(!issilicon(usr))
@@ -123,23 +117,21 @@
 			toggleGravity(linkedholodeck)
 
 		src.add_fingerprint(usr)
-	src.updateUsrDialog()
-	return
 
-/obj/machinery/computer/HolodeckControl/attackby(var/obj/item/weapon/D as obj, var/mob/user as mob)
-	if(istype(D, /obj/item/weapon/card/emag))
-		playsound(src.loc, 'sound/effects/sparks4.ogg', 75, 1)
-		last_to_emag = user //emag again to change the owner
-		if (!emagged)
-			emagged = 1
-			safety_disabled = 1
-			update_projections()
-			user << "<span class='notice'>You vastly increase projector power and override the safety and security protocols.</span>"
-			user << "Warning.  Automatic shutoff and derezing protocols have been corrupted.  Please call Nanotrasen maintenance and do not use the simulator."
-			log_game("[key_name(usr)] emagged the Holodeck Control Computer")
-		src.updateUsrDialog()
-	else
-		..()
+	nanomanager.update_uis(src)
+
+/obj/machinery/computer/HolodeckControl/emag_act(var/remaining_charges, var/mob/user as mob)
+	playsound(src.loc, 'sound/effects/sparks4.ogg', 75, 1)
+	last_to_emag = user //emag again to change the owner
+	if (!emagged)
+		emagged = 1
+		safety_disabled = 1
+		update_projections()
+		user << "<span class='notice'>You vastly increase projector power and override the safety and security protocols.</span>"
+		user << "Warning.  Automatic shutoff and derezing protocols have been corrupted.  Please call [company_name] maintenance and do not use the simulator."
+		log_game("[key_name(usr)] emagged the Holodeck Control Computer")
+		return 1
+	return
 
 /obj/machinery/computer/HolodeckControl/proc/update_projections()
 	if (safety_disabled)
@@ -156,27 +148,16 @@
 		if (last_to_emag)
 			C.friends = list(last_to_emag)
 
+/obj/machinery/computer/HolodeckControl/New()
+	..()
+	linkedholodeck = locate(/area/holodeck/alphadeck)
+
 //This could all be done better, but it works for now.
 /obj/machinery/computer/HolodeckControl/Destroy()
 	emergencyShutdown()
 	..()
 
-/obj/machinery/computer/HolodeckControl/meteorhit(var/obj/O as obj)
-	emergencyShutdown()
-	..()
-
-
-/obj/machinery/computer/HolodeckControl/emp_act(severity)
-	emergencyShutdown()
-	..()
-
-
 /obj/machinery/computer/HolodeckControl/ex_act(severity)
-	emergencyShutdown()
-	..()
-
-
-/obj/machinery/computer/HolodeckControl/blob_act()
 	emergencyShutdown()
 	..()
 
@@ -300,6 +281,8 @@
 		if(M.mind)
 			linkedholodeck.play_ambience(M)
 
+	linkedholodeck.sound_env = A.sound_env
+
 	spawn(30)
 		for(var/obj/effect/landmark/L in linkedholodeck)
 			if(L.name=="Atmospheric Test Start")
@@ -348,28 +331,3 @@
 
 	active = 0
 	use_power = 1
-
-/obj/machinery/computer/HolodeckControl/Exodus
-	linkedholodeck_area = /area/holodeck/alphadeck
-
-/obj/machinery/computer/HolodeckControl/Exodus/New()
-	..()
-	supported_programs = list(
-	"Empty Court" 		= "emptycourt",
-	"Basketball Court" 	= "basketball",
-	"Thunderdome Court"	= "thunderdomecourt",
-	"Boxing Ring"		= "boxingcourt",
-	"Beach" 			= "beach",
-	"Desert" 			= "desert",
-	"Space" 			= "space",
-	"Picnic Area" 		= "picnicarea",
-	"Snow Field" 		= "snowfield",
-	"Theatre" 			= "theatre",
-	"Meeting Hall" 		= "meetinghall",
-	"Courtroom" 		= "courtroom"
-	)
-
-	restricted_programs = list(
-	"Atmospheric Burn Simulation" = "burntest",
-	"Wildlife Simulation" = "wildlifecarp"
-	)

@@ -6,6 +6,7 @@
 	exclaim_verb = "rustles"
 	colour = "soghun"
 	key = "q"
+	flags = RESTRICTED
 	syllables = list("hs","zt","kr","st","sh")
 
 /datum/language/diona/get_random_name()
@@ -22,7 +23,16 @@
 	colour = "soghun"
 	key = "o"
 	flags = WHITELISTED
-	syllables = list("ss","ss","ss","ss","skak","seeki","resh","las","esi","kor","sh")
+	space_chance = 40
+	syllables = list(
+		"za", "az", "ze", "ez", "zi", "iz", "zo", "oz", "zu", "uz", "zs", "sz", 
+ 		"ha", "ah", "he", "eh", "hi", "ih", "ho", "oh", "hu", "uh", "hs", "sh", 
+ 		"la", "al", "le", "el", "li", "il", "lo", "ol", "lu", "ul", "ls", "sl", 
+ 		"ka", "ak", "ke", "ek", "ki", "ik", "ko", "ok", "ku", "uk", "ks", "sk", 
+ 		"sa", "as", "se", "es", "si", "is", "so", "os", "su", "us", "ss", "ss", 
+ 		"ra", "ar", "re", "er", "ri", "ir", "ro", "or", "ru", "ur", "rs", "sr", 
+ 		"a",  "a",  "e",  "e",  "i",  "i",  "o",  "o",  "u",  "u",  "s",  "s" 
+	)
 
 /datum/language/unathi/get_random_name()
 
@@ -39,9 +49,7 @@
 	exclaim_verb = "yowls"
 	colour = "tajaran"
 	key = "j"
-	signlang_verb = list("lightly touches a chin with a paw", "waves their tail", "twitches the end of their tail",\
-						 "pins back their ears")
-	flags = WHITELISTED | NONVERBAL
+	flags = WHITELISTED
 	syllables = list("mrr","rr","tajr","kir","raj","kii","mir","kra","ahk","nal","vah","khaz","jri","ran","darr",
 	"mi","jri","dynh","manq","rhe","zar","rrhaz","kal","chur","eech","thaa","dra","jurl","mah","sanu","dra","ii'r",
 	"ka","aasi","far","wa","baq","ara","qara","zir","sam","mak","hrar","nja","rir","khan","jun","dar","rik","kah",
@@ -74,22 +82,7 @@
 	whisper_verb = "whispers"
 	colour = "solcom"
 	key = "1"
-
-/datum/language/machine
-	name = "EAL"
-	desc = "A language of encoded tones that allow for IPCs to communicate auditorily between each other in a manner that allows for easier transfer of information."
-	speech_verb = "beeps"
-	ask_verb = "beeps"
-	exclaim_verb = "loudly beeps"
-	colour = "say_quote"
-	key = "6"
 	flags = WHITELISTED
-	syllables = list("beep","beep","beep","beep","beep","boop","boop","boop","bop","bop","dee","dee","doo","doo","hiss","hss","buzz","buzz","bzz","ksssh","keey","wurr","wahh","tzzz")
-
-/datum/language/machine/get_random_name()
-	if(prob(70))
-		return "[pick(list("PBU","HIU","SINA","ARMA","OSI"))]-[rand(100, 999)]"
-	return pick(ai_names)
 
 	//syllables are at the bottom of the file
 
@@ -109,6 +102,46 @@
 			return capitalize(pick(first_names_male)) + " " + capitalize(pick(last_names))
 	else
 		return ..()
+
+/datum/language/machine
+	name = "Encoded Audio Language"
+	desc = "A efficient language of encoded tones developed by synthetics and cyborgs."
+	speech_verb = "whistles"
+	ask_verb = "chirps"
+	exclaim_verb = "whistles loudly"
+	colour = "changeling"
+	key = "6"
+	flags = NO_STUTTER
+	syllables = list("beep","beep","beep","beep","beep","boop","boop","boop","bop","bop","dee","dee","doo","doo","hiss","hss","buzz","buzz","bzz","ksssh","keey","wurr","wahh","tzzz")
+	space_chance = 10
+
+/datum/language/machine/can_speak_special(var/mob/speaker)
+	return speaker.isSynthetic()
+
+/datum/language/machine/get_random_name()
+	if(prob(70))
+		return "[pick(list("PBU","HIU","SINA","ARMA","OSI"))]-[rand(100, 999)]"
+	else
+		return pick(ai_names)
+
+/datum/language/seromi
+	name = "Schechi"
+	desc = "A trilling language spoken by the diminutive Teshari."
+	speech_verb = "chirps"
+	ask_verb = "chirrups"
+	exclaim_verb = "trills"
+	colour = "alien"
+	key = "v"
+	flags = WHITELISTED
+	space_chance = 50
+	syllables = list(
+			"ca", "ra", "ma", "sa", "na", "ta", "la", "sha", "scha", "a", "a",
+			"ce", "re", "me", "se", "ne", "te", "le", "she", "sche", "e", "e",
+			"ci", "ri", "mi", "si", "ni", "ti", "li", "shi", "schi", "i", "i"
+		)
+
+/datum/language/seromi/get_random_name(gender)
+	return ..(gender, 1, 4, 1.5)
 
 //Syllable Lists
 /*

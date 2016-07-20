@@ -121,11 +121,11 @@
 	toggle = 0
 
 	on_ui_interact(mob/living/silicon/pai/user, datum/nanoui/ui=null, force_open=1)
-		data_core.get_manifest_json()
+		data_core.get_manifest_list()
 
 		var/data[0]
 		// This is dumb, but NanoUI breaks if it has no data to send
-		data["manifest"] = list("__json_cache" = ManifestJSON)
+		data["manifest"] = PDA_Manifest
 
 		ui = nanomanager.try_update_ui(user, user, id, ui, data, force_open)
 		if(!ui)
@@ -394,8 +394,6 @@
 			hackprogress = 0
 			D.open()
 			cable.machine = null
-			qdel(cable)
-			cable = null
 			return
 		sleep(10)			// Update every second
 
@@ -512,7 +510,7 @@
 
 		else if(href_list["freq"])
 			var/new_frequency = (P.sradio.frequency + text2num(href_list["freq"]))
-			if(new_frequency < 1200 || new_frequency > 1600)
+			if(new_frequency < PUBLIC_LOW_FREQ || new_frequency > PUBLIC_HIGH_FREQ)
 				new_frequency = sanitize_frequency(new_frequency)
 			P.sradio.set_frequency(new_frequency)
 			return 1

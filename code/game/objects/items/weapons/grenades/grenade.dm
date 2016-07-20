@@ -8,9 +8,11 @@
 	throw_speed = 4
 	throw_range = 20
 	flags = CONDUCT
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_MASK|SLOT_BELT
+
 	var/active = 0
 	var/det_time = 50
+	var/loadable = 1
 
 /obj/item/weapon/grenade/proc/clown_check(var/mob/living/user)
 	if((CLUMSY in user.mutations) && prob(50))
@@ -42,9 +44,8 @@
 	return*/
 
 
-/obj/item/weapon/grenade/examine(mob/user, return_dist = 1)
-	. = ..()
-	if(.<=1)
+/obj/item/weapon/grenade/examine(mob/user)
+	if(..(user, 0))
 		if(det_time > 1)
 			user << "The timer is set to [det_time/10] seconds."
 			return

@@ -50,7 +50,7 @@
 			usr << "<span class='warning'>There's no more cable on the reel.</span>"
 
 /obj/machinery/cablelayer/examine(mob/user)
-	. = ..()
+	..()
 	user << "\The [src]'s cable reel has [cable.amount] length\s left."
 
 /obj/machinery/cablelayer/proc/load_cable(var/obj/item/stack/cable_coil/CC)
@@ -74,7 +74,7 @@
 		visible_message("A red light flashes on \the [src].")
 		return
 	cable.use(amount)
-	if(deleted(cable))
+	if(deleted(cable)) 
 		cable = null
 	return 1
 
@@ -85,10 +85,8 @@
 	if(istype(new_turf, /turf/simulated/floor))
 		var/turf/simulated/floor/T = new_turf
 		if(!T.is_plating())
-			if(!T.broken && !T.burnt)
-				new T.floor_type(T)
-			T.make_plating()
-	return !new_turf.intact
+			T.make_plating(!(T.broken || T.burnt))
+	return new_turf.is_plating()
 
 /obj/machinery/cablelayer/proc/layCable(var/turf/new_turf,var/M_Dir)
 	if(!on)

@@ -4,8 +4,14 @@
 	icon_state = "repairbot"
 
 	emote_type = 2		// pAIs emotes are heard, not seen, so they can be seen through a container (eg. person)
-	small = 1
 	pass_flags = 1
+	mob_size = MOB_SMALL
+
+	can_pull_size = 2
+	can_pull_mobs = MOB_PULL_SMALLER
+
+	idcard_type = /obj/item/weapon/card/id
+	var/idaccessible = 0
 
 	var/network = "SS13"
 	var/obj/machinery/camera/current = null
@@ -15,16 +21,14 @@
 	var/userDNA		// The DNA string of our assigned user
 	var/obj/item/device/paicard/card	// The card we inhabit
 	var/obj/item/device/radio/radio		// Our primary radio
+	var/obj/item/device/communicator/integrated/communicator	// Our integrated communicator.
 
 	var/chassis = "repairbot"   // A record of your chosen chassis.
 	var/global/list/possible_chassis = list(
 		"Drone" = "repairbot",
 		"Cat" = "cat",
 		"Mouse" = "mouse",
-		"Monkey" = "monkey",
-		"Borgi" = "borgi",
-		"Fairy" = "fairy",
-		"Spider" = "spider"
+		"Monkey" = "monkey"
 		)
 
 	var/global/list/possible_say_verbs = list(
@@ -75,11 +79,10 @@
 	var/current_pda_messaging = null
 
 /mob/living/silicon/pai/New(var/obj/item/device/paicard)
-
-	canmove = 0
 	src.loc = paicard
 	card = paicard
 	sradio = new(src)
+	communicator = new(src)
 	if(card)
 		if(!card.radio)
 			card.radio = new /obj/item/device/radio(src.card)
@@ -89,8 +92,7 @@
 	add_language("Sol Common", 1)
 	add_language("Tradeband", 1)
 	add_language("Gutter", 1)
-	add_language("Siik'maas", 1)
-	add_language("Surzhyk", 1)
+	add_language("Encoded Audio Language", 1)
 
 	verbs += /mob/living/silicon/pai/proc/choose_chassis
 	verbs += /mob/living/silicon/pai/proc/choose_verbs
@@ -126,20 +128,10 @@
 		return -1
 	return 0
 
-/mob/living/silicon/pai/blob_act()
-	if (src.stat != 2)
-		src.adjustBruteLoss(60)
-		src.updatehealth()
-		return 1
-	return 0
-
 /mob/living/silicon/pai/restrained()
 	if(istype(src.loc,/obj/item/device/paicard))
 		return 0
 	..()
-
-/mob/living/silicon/pai/MouseDrop(atom/over_object)
-	return
 
 /mob/living/silicon/pai/emp_act(severity)
 	// Silence for 2 minutes
@@ -171,17 +163,6 @@
 			src << "<font color=green>Pr1m3 d1r3c71v3 uPd473D.</font>"
 		if(3)
 			src << "<font color=green>You feel an electric surge run through your circuitry and become acutely aware at how lucky you are that you can still feel at all.</font>"
-
-// See software.dm for Topic()
-/mob/living/silicon/pai/meteorhit(obj/O as obj)
-	for(var/mob/M in viewers(src, null))
-		M.show_message(text("\red [] has been hit by []", src, O), 1)
-	if (src.health > 0)
-		src.adjustBruteLoss(30)
-		if ((O.icon_state == "flaming"))
-			src.adjustFireLoss(40)
-		src.updatehealth()
-	return
 
 /mob/living/silicon/pai/proc/switchCamera(var/obj/machinery/camera/C)
 	if (!C)
@@ -292,8 +273,6 @@
 		var/obj/item/device/pda/holder = card.loc
 		holder.pai = null
 
-	canmove = 1
-
 	src.client.perspective = EYE_PERSPECTIVE
 	src.client.eye = src
 	src.forceMove(get_turf(card))
@@ -355,12 +334,16 @@
 	set name = "Rest"
 	set category = "IC"
 
+	// Pass lying down or getting up to our pet human, if we're in a rig.
 	if(istype(src.loc,/obj/item/device/paicard))
 		resting = 0
+		var/obj/item/weapon/rig/rig = src.get_rig()
+		if(istype(rig))
+			rig.force_rest(src)
 	else
 		resting = !resting
 		icon_state = resting ? "[chassis]_rest" : "[chassis]"
-		src << "\blue You are now [resting ? "resting" : "getting up"]"
+		src << "<span class='notice'>You are now [resting ? "resting" : "getting up"]</span>"
 
 	canmove = !resting
 
@@ -398,26 +381,66 @@
 	//stop resting
 	resting = 0
 
-	//This seems redundant but not including the forced loc setting messes the behavior up.
+	// If we are being held, handle removing our holder from their inv.
+	var/obj/item/weapon/holder/H = loc
+	if(istype(H))
+		var/mob/living/M = H.loc
+		if(istype(M))
+			M.drop_from_inventory(H)
+		H.loc = get_turf(src)
+		src.loc = get_turf(H)
+
+	// Move us into the card and move the card to the ground.
 	src.loc = card
 	card.loc = get_turf(card)
 	src.forceMove(card)
 	card.forceMove(card.loc)
-	canmove = 0
+	canmove = 1
+	resting = 0
 	icon_state = "[chassis]"
-
-/mob/living/silicon/pai/start_pulling(var/atom/movable/AM)
-
-	if(istype(AM,/obj/item))
-		var/obj/item/O = AM
-		if(O.w_class == 1)
-			..()
-		else
-			src << "<span class='warning'>You are too small to pull that.</span>"
-	else
-		src << "<span class='warning'>You are too small to pull that.</span>"
-		return
 
 // No binary for pAIs.
 /mob/living/silicon/pai/binarycheck()
 	return 0
+
+// Handle being picked up.
+/mob/living/silicon/pai/get_scooped(var/mob/living/carbon/grabber, var/self_drop)
+	var/obj/item/weapon/holder/H = ..(grabber, self_drop)
+	if(!istype(H))
+		return
+	H.icon_state = "pai-[icon_state]"
+	grabber.update_inv_l_hand()
+	grabber.update_inv_r_hand()
+	return H
+
+/mob/living/silicon/pai/attackby(obj/item/weapon/W as obj, mob/user as mob)
+	var/obj/item/weapon/card/id/ID = W.GetID()
+	if(ID)
+		if (idaccessible == 1)
+			switch(alert(user, "Do you wish to add access to [src] or remove access from [src]?",,"Add Access","Remove Access", "Cancel"))
+				if("Add Access")
+					idcard.access |= ID.access
+					user << "<span class='notice'>You add the access from the [W] to [src].</span>"
+					return
+				if("Remove Access")
+					idcard.access = null
+					user << "<span class='notice'>You remove the access from [src].</span>"
+					return
+				if("Cancel")
+					return
+		else if (istype(W, /obj/item/weapon/card/id) && idaccessible == 0)
+			user << "<span class='notice'>[src] is not accepting access modifcations at this time.</span>"
+			return
+
+/mob/living/silicon/pai/verb/allowmodification()
+	set name = "Change Access Modifcation Permission"
+	set category = "pAI Commands"
+	desc = "Allows people to modify your access or block people from modifying your access."
+
+	if(idaccessible == 0)
+		idaccessible = 1
+		src << "<span class='notice'>You allow access modifications.</span>"
+
+	else
+		idaccessible = 0
+		src << "<span class='notice'>You block access modfications.</span>"

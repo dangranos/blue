@@ -1,36 +1,52 @@
 /mob/living/carbon/human
 	//Hair colour and style
-	var/hair_color = "#000000"
+	var/r_hair = 0
+	var/g_hair = 0
+	var/b_hair = 0
 	var/h_style = "Bald"
 
-	//Facial hair color and style
-	var/facial_color = "#000000"
+	//Facial hair colour and style
+	var/r_facial = 0
+	var/g_facial = 0
+	var/b_facial = 0
 	var/f_style = "Shaved"
 
-	var/eyes_color = "#000000"
-	var/s_tone = 0	//Skin tone
-	var/skin_color = "#000000"
+	//Eye colour
+	var/r_eyes = 0
+	var/g_eyes = 0
+	var/b_eyes = 0
 
-	var/body_build = BODY_DEFAULT // Only for fem rigth now
+	var/s_tone = 0	//Skin tone
+
+	//Skin colour
+	var/r_skin = 0
+	var/g_skin = 0
+	var/b_skin = 0
 
 	var/size_multiplier = 1 //multiplier for the mob's icon size
 	var/damage_multiplier = 1 //multiplies melee combat damage
 	var/icon_update = 1 //whether icon updating shall take place
 
-	var/lip_color = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
+	var/datum/body_build/body_build = null
+
+	var/lip_style = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
 
 	var/age = 30		//Player's age (pure fluff)
 	var/b_type = "A+"	//Player's bloodtype
+	var/synthetic		//If they are a synthetic (aka synthetic torso)
 
-	var/underwear = 1	//Which underwear the player wants
-	var/undershirt = 0	//Which undershirt the player wants.
+	var/list/all_underwear = list()
+	var/list/all_underwear_metadata = list()
 	var/backbag = 2		//Which backpack type the player has chosen. Nothing, Satchel or Backpack.
+	var/pdachoice = 1	//Which PDA type the player has chosen. Default, Slim, or Old.
 
 	// General information
 	var/home_system = ""
 	var/citizenship = ""
 	var/personal_faction = ""
 	var/religion = ""
+	var/antag_faction = ""
+	var/antag_vis = ""
 
 	//Equipment slots
 	var/obj/item/wear_suit = null
@@ -46,20 +62,18 @@
 	var/obj/item/r_store = null
 	var/obj/item/l_store = null
 	var/obj/item/s_store = null
-	var/obj/item/h_underwear = null
-	var/obj/item/h_socks = null
-	var/obj/item/h_undershirt = null
-//	var/obj/item/h_neck = null
+
+	var/used_skillpoints = 0
+	var/skill_specialization = null
+	var/list/skills = list()
 
 	var/icon/stand_icon = null
 	var/icon/lying_icon = null
 
-	var/speech_problem_flag = 0
+	var/voice = ""	//Instead of new say code calling GetVoice() over and over and over, we're just going to ask this variable, which gets updated in Life()
 
 	var/miming = null //Toggle for the mime's abilities.
 	var/special_voice = "" // For changing our voice. Used by a symptom.
-
-	var/failed_last_breath = 0 //This is used to determine if the mob failed a breath. If they did fail a brath, they will attempt to breathe each tick, otherwise just once per 4 ticks.
 
 	var/last_dam = -1	//Used for determining if we need to process all organs or just some or even none.
 	var/list/bad_external_organs = list()// organs we check until they are good.
@@ -70,7 +84,12 @@
 	var/hand_blood_color
 
 	var/list/flavor_texts = list()
+	var/gunshot_residue
+	var/pulling_punches    // Are you trying not to hurt your opponent?
+	var/robolimb_count = 0 // Number of robot limbs.
 
 	mob_bump_flag = HUMAN
 	mob_push_flags = ~HEAVY
 	mob_swap_flags = ~HEAVY
+
+	var/identifying_gender // In case the human identifies as another gender than it's biological

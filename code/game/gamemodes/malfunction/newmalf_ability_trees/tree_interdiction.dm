@@ -18,21 +18,21 @@
 
 /datum/malf_research_ability/interdiction/unlock_cyborg
 	ability = new/datum/game_mode/malfunction/verb/unlock_cyborg()
-	price = 400
+	price = 1200
 	next = new/datum/malf_research_ability/interdiction/hack_cyborg()
 	name = "Unlock Cyborg"
 
 
 /datum/malf_research_ability/interdiction/hack_cyborg
 	ability = new/datum/game_mode/malfunction/verb/hack_cyborg()
-	price = 800
+	price = 3000
 	next = new/datum/malf_research_ability/interdiction/hack_ai()
 	name = "Hack Cyborg"
 
 
 /datum/malf_research_ability/interdiction/hack_ai
 	ability = new/datum/game_mode/malfunction/verb/hack_ai()
-	price = 1200
+	price = 7500
 	name = "Hack AI"
 
 // END RESEARCH DATUMS
@@ -40,7 +40,7 @@
 
 /datum/game_mode/malfunction/verb/recall_shuttle()
 	set name = "Recall Shuttle"
-	set desc = "25 CPU - Sends termination signal to CentCom quantum relay aborting current shuttle call."
+	set desc = "25 CPU - Sends termination signal to quantum relay aborting current shuttle call."
 	set category = "Software"
 	var/price = 25
 	var/mob/living/silicon/ai/user = usr

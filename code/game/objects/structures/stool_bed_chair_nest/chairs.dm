@@ -7,7 +7,6 @@
 	buckle_dir = 0
 	buckle_lying = 0 //force people to sit up in chairs when buckled
 	var/propelled = 0 // Check for fire-extinguisher-driven chairs
-	var/state = 0
 
 /obj/structure/bed/chair/New()
 	..() //Todo make metal/stone chairs display as thrones
@@ -192,50 +191,3 @@
 
 /obj/structure/bed/chair/wood/wings
 	icon_state = "wooden_chair_wings"
-
-// Bar
-
-/obj/structure/bed/chair/plastic/bar
-	name = "bar stool"
-	state = 1
-	color = "#FFFFFF"
-	icon_state = "stool_padded_new"
-	base_icon = "stool_padded_new"
-	can_buckle = 0
-
-/obj/structure/bed/chair/plastic/bar/New(var/newloc)
-	..(newloc, "plastic")
-
-/obj/structure/bed/chair/plastic/bar/attackby(obj/item/weapon/W as obj, mob/user as mob)
-
-	if(istype(W, /obj/item/weapon/screwdriver))
-		switch(state)
-			if(0)
-				state = 1
-				playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
-				user.visible_message("[user.name] secures [src] to the floor.", \
-					"You secure the bolts to the floor.", \
-					"You hear a ratchet")
-				src.anchored = 1
-			if(1)
-				state = 0
-				playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
-				user.visible_message("[user.name] unsecures [src] from the floor.", \
-					"You undo the bolts.", \
-					"You hear a ratchet")
-				src.anchored = 0
-
-/obj/structure/bed/chair/plastic/shuttle
-	name = "shuttle chair"
-	icon_state = "schair"
-	base_icon = "schair"
-
-/obj/structure/bed/chair/plastic/shuttle/New(var/newloc)
-  ..(newloc, "plastic", "plastic")
-
-
-/obj/structure/bed/chair/plastic/shuttle/set_dir()
-	..()
-	update_layer()
-	if(buckled_mob)
-		buckled_mob.set_dir(dir)

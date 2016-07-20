@@ -7,12 +7,12 @@
  *		Toy crossbow
  *		Toy swords
  *		Toy bosun's whistle
- *		Toy mechs
+ *      Toy mechs
  *		Snap pops
  *		Water flower
- *		Therapy dolls
- *		Toddler doll
- *		Inflatable duck
+ *      Therapy dolls
+ *      Toddler doll
+ *      Inflatable duck
  *		Action figures
  *		Plushies
  *		Toy cult sword
@@ -48,7 +48,7 @@
 	if(!proximity) return
 	if (istype(A, /obj/structure/reagent_dispensers/watertank) && get_dist(src,A) <= 1)
 		A.reagents.trans_to_obj(src, 10)
-		user << "\blue You fill the balloon with the contents of [A]."
+		user << "<span class='notice'>You fill the balloon with the contents of [A].</span>"
 		src.desc = "A translucent balloon with some form of liquid sloshing around in it."
 		src.update_icon()
 	return
@@ -65,14 +65,14 @@
 					qdel(src)
 				else
 					src.desc = "A translucent balloon with some form of liquid sloshing around in it."
-					user << "\blue You fill the balloon with the contents of [O]."
+					user << "<span class='notice'>You fill the balloon with the contents of [O].</span>"
 					O.reagents.trans_to_obj(src, 10)
 	src.update_icon()
 	return
 
 /obj/item/toy/balloon/throw_impact(atom/hit_atom)
 	if(src.reagents.total_volume >= 1)
-		src.visible_message("\red The [src] bursts!","You hear a pop and a splash.")
+		src.visible_message("<span class='warning'>\The [src] bursts!</span>","You hear a pop and a splash.")
 		src.reagents.touch_turf(get_turf(hit_atom))
 		for(var/atom/A in get_turf(hit_atom))
 			src.reagents.touch(A)
@@ -104,7 +104,7 @@
 
 /obj/item/toy/nanotrasenballoon
 	name = "criminal balloon"
-	desc = "Across the balloon the following is printed: \"Man, I love NT soooo much. I use only NanoTrasen products. You have NO idea.\""
+	desc = "Across the balloon the following is printed: \"Man, I love NanoTrasen soooo much. I use only NT products. You have NO idea.\""
 	throwforce = 0
 	throw_speed = 4
 	throw_range = 20
@@ -134,88 +134,6 @@
 	icon_state = "singularity_s1"
 
 /*
- * Toy gun: Why isnt this an /obj/item/weapon/gun?
- */
-/obj/item/toy/gun
-	name = "cap gun"
-	desc = "There are 0 caps left. Looks almost like the real thing! Ages 8 and up. Please recycle in an autolathe when you're out of caps!"
-	icon = 'icons/obj/gun.dmi'
-	icon_state = "revolver"
-	item_state = "revolver"
-	item_icons = list(
-		icon_l_hand = 'icons/mob/items/lefthand_guns.dmi',
-		icon_r_hand = 'icons/mob/items/righthand_guns.dmi',
-		)
-	flags =  CONDUCT
-	slot_flags = SLOT_BELT|SLOT_HOLSTER
-	w_class = 3.0
-
-	matter = list("glass" = 10,DEFAULT_WALL_MATERIAL = 10)
-
-	attack_verb = list("struck", "pistol whipped", "hit", "bashed")
-	var/bullets = 7.0
-
-	examine(mob/user, return_dist = 1)
-		. = ..()
-		if(.<=1)
-			user << "There are [src.bullets] caps\s left. Looks almost like the real thing! Ages 8 and up."
-		return
-
-	attackby(obj/item/toy/ammo/gun/A as obj, mob/user as mob)
-
-		if (istype(A, /obj/item/toy/ammo/gun))
-			if (src.bullets >= 7)
-				user << "\blue It's already fully loaded!"
-				return 1
-			if (A.amount_left <= 0)
-				user << "\red There is no more caps!"
-				return 1
-			if (A.amount_left < (7 - src.bullets))
-				src.bullets += A.amount_left
-				user << text("\red You reload [] caps\s!", A.amount_left)
-				A.amount_left = 0
-			else
-				user << text("\red You reload [] caps\s!", 7 - src.bullets)
-				A.amount_left -= 7 - src.bullets
-				src.bullets = 7
-			A.update_icon()
-			return 1
-		return
-
-	afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
-		if (flag)
-			return
-		if (!(istype(usr, /mob/living/carbon/human) || ticker) && ticker.mode.name != "monkey")
-			usr << "\red You don't have the dexterity to do this!"
-			return
-		src.add_fingerprint(user)
-		if (src.bullets < 1)
-			user.show_message("\red *click* *click*", 2)
-			playsound(user, 'sound/weapons/empty.ogg', 100, 1)
-			return
-		playsound(user, 'sound/weapons/Gunshot.ogg', 100, 1)
-		src.bullets--
-		for(var/mob/O in viewers(user, null))
-			O.show_message(text("\red <B>[] fires a cap gun at []!</B>", user, target), 1, "\red You hear a gunshot", 2)
-
-/obj/item/toy/ammo/gun
-	name = "ammo-caps"
-	desc = "There are 7 caps left! Make sure to recyle the box in an autolathe when it gets empty."
-	icon = 'icons/obj/ammo.dmi'
-	icon_state = "357-7"
-	flags = CONDUCT
-	w_class = 1.0
-
-	matter = list(DEFAULT_WALL_MATERIAL = 10,"glass" = 10)
-
-	var/amount_left = 7.0
-
-	update_icon()
-		src.icon_state = text("357-[]", src.amount_left)
-		src.desc = text("There are [] caps\s left! Make sure to recycle the box in an autolathe when it gets empty.", src.amount_left)
-		return
-
-/*
  * Toy crossbow
  */
 
@@ -233,10 +151,9 @@
 	attack_verb = list("attacked", "struck", "hit")
 	var/bullets = 5
 
-	examine(mob/user, return_dist = 1)
-		. = ..()
-		if(.<=2 && bullets)
-			user << "\blue It is loaded with [bullets] foam darts!"
+	examine(mob/user)
+		if(..(user, 2) && bullets)
+			user << "<span class='notice'>It is loaded with [bullets] foam darts!</span>"
 
 	attackby(obj/item/I as obj, mob/user as mob)
 		if(istype(I, /obj/item/toy/ammo/crossbow))
@@ -244,9 +161,9 @@
 				user.drop_item()
 				qdel(I)
 				bullets++
-				user << "\blue You load the foam dart into the crossbow."
+				user << "<span class='notice'>You load the foam dart into the crossbow.</span>"
 			else
-				usr << "\red It's already fully loaded."
+				usr << "<span class='warning'>It's already fully loaded.</span>"
 
 
 	afterattack(atom/target as mob|obj|turf|area, mob/user as mob, flag)
@@ -272,7 +189,7 @@
 						if(!istype(M,/mob/living)) continue
 						if(M == user) continue
 						for(var/mob/O in viewers(world.view, D))
-							O.show_message(text("\red [] was hit by the foam dart!", M), 1)
+							O.show_message(text("<span class='warning'>\The [] was hit by the foam dart!</span>", M), 1)
 						new /obj/item/toy/ammo/crossbow(M.loc)
 						qdel(D)
 						return
@@ -294,7 +211,7 @@
 		else if (bullets == 0)
 			user.Weaken(5)
 			for(var/mob/O in viewers(world.view, user))
-				O.show_message(text("\red [] realized they were out of ammo and starting scrounging for some!", user), 1)
+				O.show_message(text("<span class='warning'>\The [] realized they were out of ammo and starting scrounging for some!</span>", user), 1)
 
 
 	attack(mob/M as mob, mob/user as mob)
@@ -306,15 +223,15 @@
 
 			for(var/mob/O in viewers(M, null))
 				if(O.client)
-					O.show_message(text("\red <B>[] casually lines up a shot with []'s head and pulls the trigger!</B>", user, M), 1, "\red You hear the sound of foam against skull", 2)
-					O.show_message(text("\red [] was hit in the head by the foam dart!", M), 1)
+					O.show_message(text("<span class='danger'>\The [] casually lines up a shot with []'s head and pulls the trigger!</span>", user, M), 1, "<span class='warning'>You hear the sound of foam against skull</span>", 2)
+					O.show_message(text("<span class='warning'>\The [] was hit in the head by the foam dart!</span>", M), 1)
 
 			playsound(user.loc, 'sound/items/syringeproj.ogg', 50, 1)
 			new /obj/item/toy/ammo/crossbow(M.loc)
 			src.bullets--
 		else if (M.lying && src.bullets == 0)
 			for(var/mob/O in viewers(M, null))
-				if (O.client)	O.show_message(text("\red <B>[] casually lines up a shot with []'s head, pulls the trigger, then realizes they are out of ammo and drops to the floor in search of some!</B>", user, M), 1, "\red You hear someone fall", 2)
+				if (O.client)	O.show_message(text("<span class='danger'>\The [] casually lines up a shot with []'s head, pulls the trigger, then realizes they are out of ammo and drops to the floor in search of some!</span>", user, M), 1, "<span class='warning'>You hear someone fall</span>", 2)
 			user.Weaken(5)
 		return
 
@@ -346,19 +263,18 @@
 	item_state = "sword0"
 	var/active = 0.0
 	w_class = 2.0
-	flags = NOSHIELD
 	attack_verb = list("attacked", "struck", "hit")
 
 	attack_self(mob/user as mob)
 		src.active = !( src.active )
 		if (src.active)
-			user << "\blue You extend the plastic blade with a quick flick of your wrist."
+			user << "<span class='notice'>You extend the plastic blade with a quick flick of your wrist.</span>"
 			playsound(user, 'sound/weapons/saberon.ogg', 50, 1)
 			src.icon_state = "swordblue"
 			src.item_state = "swordblue"
 			src.w_class = 4
 		else
-			user << "\blue You push the plastic blade back down into the handle."
+			user << "<span class='notice'>You push the plastic blade back down into the handle.</span>"
 			playsound(user, 'sound/weapons/saberoff.ogg', 50, 1)
 			src.icon_state = "sword0"
 			src.item_state = "sword0"
@@ -401,7 +317,7 @@
 		s.set_up(3, 1, src)
 		s.start()
 		new /obj/effect/decal/cleanable/ash(src.loc)
-		src.visible_message("\red The [src.name] explodes!","\red You hear a snap!")
+		src.visible_message("<span class='warning'>The [src.name] explodes!</span>","<span class='warning'>You hear a snap!</span>")
 		playsound(src, 'sound/effects/snap.ogg', 50, 1)
 		qdel(src)
 
@@ -409,13 +325,13 @@
 	if((ishuman(H))) //i guess carp and shit shouldn't set them off
 		var/mob/living/carbon/M = H
 		if(M.m_intent == "run")
-			M << "\red You step on the snap pop!"
+			M << "<span class='warning'>You step on the snap pop!</span>"
 
 			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 			s.set_up(2, 0, src)
 			s.start()
 			new /obj/effect/decal/cleanable/ash(src.loc)
-			src.visible_message("\red The [src.name] explodes!","\red You hear a snap!")
+			src.visible_message("<span class='warning'>The [src.name] explodes!</span>","<span class='warning'>You hear a snap!</span>")
 			playsound(src, 'sound/effects/snap.ogg', 50, 1)
 			qdel(src)
 
@@ -450,12 +366,12 @@
 
 	else if (istype(A, /obj/structure/reagent_dispensers/watertank) && get_dist(src,A) <= 1)
 		A.reagents.trans_to(src, 10)
-		user << "\blue You refill your flower!"
+		user << "<span class='notice'>You refill your flower!</span>"
 		return
 
 	else if (src.reagents.total_volume < 1)
 		src.empty = 1
-		user << "\blue Your flower has run dry!"
+		user << "<span class='notice'>Your flower has run dry!</span>"
 		return
 
 	else
@@ -477,27 +393,26 @@
 				for(var/atom/T in get_turf(D))
 					D.reagents.touch(T)
 					if(ismob(T) && T:client)
-						T:client << "\red [user] has sprayed you with water!"
+						T:client << "<span class='warning'>\The [user] has sprayed you with water!</span>"
 				sleep(4)
 			qdel(D)
 
 		return
 
-/obj/item/toy/waterflower/examine(mob/user, return_dist = 1)
-	. = ..()
-	if(.<1)
+/obj/item/toy/waterflower/examine(mob/user)
+	if(..(user, 0))
 		user << text("\icon[] [] units of water left!", src, src.reagents.total_volume)
 
 /*
  * Bosun's whistle
  */
 
- /obj/item/toy/bosunwhistle
- 	name = "bosun's whistle"
- 	desc = "A genuine Admiral Krush Bosun's Whistle, for the aspiring ship's captain! Suitable for ages 8 and up, do not swallow."
- 	icon = 'icons/obj/toy.dmi'
- 	icon_state = "bosunwhistle"
- 	var/cooldown = 0
+/obj/item/toy/bosunwhistle
+	name = "bosun's whistle"
+	desc = "A genuine Admiral Krush Bosun's Whistle, for the aspiring ship's captain! Suitable for ages 8 and up, do not swallow."
+	icon = 'icons/obj/toy.dmi'
+	icon_state = "bosunwhistle"
+	var/cooldown = 0
 	w_class = 1
 	slot_flags = SLOT_EARS
 
@@ -801,7 +716,7 @@
 /obj/item/toy/therapy_red
 	name = "red therapy doll"
 	desc = "A toy for therapeutic and recreational purposes. This one is red."
-	icon = 'icons/obj/weapons.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "therapyred"
 	item_state = "egg4" // It's the red egg in items_left/righthand
 	w_class = 1
@@ -809,7 +724,7 @@
 /obj/item/toy/therapy_purple
 	name = "purple therapy doll"
 	desc = "A toy for therapeutic and recreational purposes. This one is purple."
-	icon = 'icons/obj/weapons.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "therapypurple"
 	item_state = "egg1" // It's the magenta egg in items_left/righthand
 	w_class = 1
@@ -817,7 +732,7 @@
 /obj/item/toy/therapy_blue
 	name = "blue therapy doll"
 	desc = "A toy for therapeutic and recreational purposes. This one is blue."
-	icon = 'icons/obj/weapons.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "therapyblue"
 	item_state = "egg2" // It's the blue egg in items_left/righthand
 	w_class = 1
@@ -825,7 +740,7 @@
 /obj/item/toy/therapy_yellow
 	name = "yellow therapy doll"
 	desc = "A toy for therapeutic and recreational purposes. This one is yellow."
-	icon = 'icons/obj/weapons.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "therapyyellow"
 	item_state = "egg5" // It's the yellow egg in items_left/righthand
 	w_class = 1
@@ -833,7 +748,7 @@
 /obj/item/toy/therapy_orange
 	name = "orange therapy doll"
 	desc = "A toy for therapeutic and recreational purposes. This one is orange."
-	icon = 'icons/obj/weapons.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "therapyorange"
 	item_state = "egg4" // It's the red one again, lacking an orange item_state and making a new one is pointless
 	w_class = 1
@@ -841,7 +756,7 @@
 /obj/item/toy/therapy_green
 	name = "green therapy doll"
 	desc = "A toy for therapeutic and recreational purposes. This one is green."
-	icon = 'icons/obj/weapons.dmi'
+	icon = 'icons/obj/toy.dmi'
 	icon_state = "therapygreen"
 	item_state = "egg3" // It's the green egg in items_left/righthand
 	w_class = 1
@@ -862,13 +777,13 @@
 
 /obj/structure/plushie/attack_hand(mob/user)
 	if(user.a_intent == I_HELP)
-		user.visible_message("<span class='notice'><b>[user]</b> hugs [src]!</span>","<span class='notice'>You hug [src]!</span>")
+		user.visible_message("<span class='notice'><b>\The [user]</b> hugs [src]!</span>","<span class='notice'>You hug [src]!</span>")
 	else if (user.a_intent == I_HURT)
-		user.visible_message("<span class='warning'><b>[user]</b> punches [src]!</span>","<span class='warning'>You punch [src]!</span>")
+		user.visible_message("<span class='warning'><b>\The [user]</b> punches [src]!</span>","<span class='warning'>You punch [src]!</span>")
 	else if (user.a_intent == I_GRAB)
-		user.visible_message("<span class='warning'><b>[user]</b> attempts to strangle [src]!</span>","<span class='warning'>You attempt to strangle [src]!</span>")
+		user.visible_message("<span class='warning'><b>\The [user]</b> attempts to strangle [src]!</span>","<span class='warning'>You attempt to strangle [src]!</span>")
 	else
-		user.visible_message("<span class='notice'><b>[user]</b> pokes the [src].</span>","<span class='notice'>You poke the [src].</span>")
+		user.visible_message("<span class='notice'><b>\The [user]</b> pokes the [src].</span>","<span class='notice'>You poke the [src].</span>")
 		visible_message("[src] says, \"[phrase]\"")
 
 /obj/structure/plushie/ian
@@ -879,13 +794,13 @@
 
 /obj/structure/plushie/drone
 	name = "plush drone"
-	desc = "A plushie of a happy drone! It appears to be smiling, and has a small tag which reads \"N.D.V. Icarus Gift Shop\"."
+	desc = "A plushie of a happy drone! It appears to be smiling."
 	icon_state = "droneplushie"
 	phrase = "Beep boop!"
 
 /obj/structure/plushie/carp
 	name = "plush carp"
-	desc = "A plushie of an elated carp! Straight from the wilds of the Nyx frontier, now right here in your hands."
+	desc = "A plushie of an elated carp! Straight from the wilds of the Vir frontier, now right here in your hands."
 	icon_state = "carpplushie"
 	phrase = "Glorf!"
 
@@ -901,25 +816,16 @@
 	desc = "A very generic small plushie. It seems to not want to exist."
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "nymphplushie"
-	attack_verb = list("attacked", "hitted", "bashed", "smashed")
-	no_attack_log = 1
-
-/obj/item/toy/plushie/attack(mob/living/carbon/target as mob, mob/user as mob)
-	if(istype(target))
-		user.visible_message("<span class='notice'><b>[target] has been [pick(attack_verb)] with [src] by [user]!</b></span>")
-		return 1
-
-	return ..()
 
 /obj/item/toy/plushie/attack_self(mob/user as mob)
 	if(user.a_intent == I_HELP)
-		user.visible_message("<span class='notice'><b>[user]</b> hugs [src]!</span>","<span class='notice'>You hug [src]!</span>")
+		user.visible_message("<span class='notice'><b>\The [user]</b> hugs [src]!</span>","<span class='notice'>You hug [src]!</span>")
 	else if (user.a_intent == I_HURT)
-		user.visible_message("<span class='warning'><b>[user]</b> punches [src]!</span>","<span class='warning'>You punch [src]!</span>")
+		user.visible_message("<span class='warning'><b>\The [user]</b> punches [src]!</span>","<span class='warning'>You punch [src]!</span>")
 	else if (user.a_intent == I_GRAB)
-		user.visible_message("<span class='warning'><b>[user]</b> attempts to strangle [src]!</span>","<span class='warning'>You attempt to strangle [src]!</span>")
+		user.visible_message("<span class='warning'><b>\The [user]</b> attempts to strangle [src]!</span>","<span class='warning'>You attempt to strangle [src]!</span>")
 	else
-		user.visible_message("<span class='notice'><b>[user]</b> pokes the [src].</span>","<span class='notice'>You poke the [src].</span>")
+		user.visible_message("<span class='notice'><b>\The [user]</b> pokes the [src].</span>","<span class='notice'>You poke the [src].</span>")
 
 /obj/item/toy/plushie/nymph
 	name = "diona nymph plush"
@@ -951,16 +857,6 @@
 	desc = "A farwa plush doll. It's soft and comforting!"
 	icon_state = "farwaplushie"
 
-/obj/item/toy/plushie/man
-	name = "Ash Blackburn"
-	desc = "Totally what you think it is"
-	icon_state = "ashplushie"
-
-/obj/item/toy/plushie/pillow
-	name = "pillow"
-	desc = "Common white pillow. Useful for pillow-fight"
-	icon_state = "pillow"
-
 //Toy cult sword
 /obj/item/toy/cultsword
 	name = "foam sword"
@@ -991,9 +887,11 @@
 	icon = 'icons/obj/clothing/belts.dmi'
 	slot_flags = SLOT_BELT
 
-/obj/item/toy/tv
-	name = "pocket TV"
-	desc = "It seems like there is no power button. No power switch, too. Duh."
+/obj/item/toy/xmastree
+	name = "Miniature Christmas tree"
+	desc = "Tiny cute Christmas tree."
 	icon = 'icons/obj/toy.dmi'
-	icon_state = "tv"
-	item_state = "tv"
+	icon_state = "tinyxmastree"
+	w_class = 1
+	force = 1
+	throwforce = 1

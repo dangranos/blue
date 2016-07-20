@@ -54,6 +54,7 @@
 	var/datum/changeling/changeling		//changeling holder
 
 	var/rev_cooldown = 0
+	var/tcrystals = 0
 
 	// the world.time since the mob has been brigged, or -1 if not at all
 	var/brigged_since = -1
@@ -61,9 +62,16 @@
 	//put this here for easier tracking ingame
 	var/datum/money_account/initial_account
 
+	//used for antag tcrystal trading, more info in code\game\objects\items\telecrystals.dm
+	var/accept_tcrystals = 0
+
+	//used for optional self-objectives that antagonists can give themselves, which are displayed at the end of the round.
+	var/ambitions
+
 /datum/mind/New(var/key)
 	src.key = key
 
+	..()
 
 /datum/mind/proc/transfer_to(mob/living/new_character)
 	if(!istype(new_character))
@@ -102,6 +110,8 @@
 			output += "<B>Objective #[obj_count]</B>: [objective.explanation_text]"
 			obj_count++
 
+	if(ambitions)
+		output += "<HR><B>Ambitions:</B> [ambitions]<br>"
 	recipient << browse(output,"window=memory")
 
 /datum/mind/proc/edit_memory()
@@ -135,7 +145,8 @@
 
 	else
 		out += "None."
-	out += "<br><a href='?src=\ref[src];obj_add=1'>\[add\]</a>"
+	out += "<br><a href='?src=\ref[src];obj_add=1'>\[add\]</a><br><br>"
+	out += "<b>Ambitions:</b> [ambitions ? ambitions : "None"] <a href='?src=\ref[src];amb_edit=\ref[src]'>\[edit\]</a></br>"
 	usr << browse(out, "window=edit_memory[src]")
 
 /datum/mind/Topic(href, href_list)
@@ -175,6 +186,18 @@
 		if (isnull(new_memo)) return
 		memory = new_memo
 
+	else if (href_list["amb_edit"])
+		var/datum/mind/mind = locate(href_list["amb_edit"])
+		if(!mind)
+			return
+		var/new_ambition = input("Enter a new ambition", "Memory", mind.ambitions) as null|message
+		if(isnull(new_ambition))
+			return
+		if(mind)
+			mind.ambitions = sanitize(new_ambition)
+			mind.current << "<span class='warning'>Your ambitions have been changed by higher powers, they are now: [mind.ambitions]</span>"
+		log_and_message_admins("made [key_name(mind.current)]'s ambitions be '[mind.ambitions]'.")
+
 	else if (href_list["obj_edit"] || href_list["obj_add"])
 		var/datum/objective/objective
 		var/objective_pos
@@ -199,9 +222,7 @@
 		switch (new_obj_type)
 			if ("assassinate","protect","debrain", "harm", "brig")
 				//To determine what to name the objective in explanation text.
-				var/objective_type_capital = uppertext(copytext(new_obj_type, 1,2))//Capitalize first letter.
-				var/objective_type_text = copytext(new_obj_type, 2)//Leave the rest of the text.
-				var/objective_type = "[objective_type_capital][objective_type_text]"//Add them together into a text string.
+				var/objective_type = capitalize(new_obj_type) //Capitalize first letter.
 
 				var/list/possible_targets = list("Free objective")
 				for(var/datum/mind/possible_target in ticker.minds)
@@ -318,11 +339,11 @@
 						if(I in organs.implants)
 							qdel(I)
 							break
-				H << "<span class='notice'><font size =3><B>Your loyalty implant has been deactivated.</font></span>"
+				H << "<span class='notice'><font size =3><B>Your loyalty implant has been deactivated.</B></font></span>"
 				log_admin("[key_name_admin(usr)] has de-loyalty implanted [current].")
 			if("add")
-				H << "<span class='danger'><font size =3>You somehow have become the recepient of a loyalty transplant, and it just activated!</font>"
-				H.implant_loyalty(H, override = TRUE)
+				H << "<span class='danger'><font size =3>You somehow have become the recepient of a loyalty transplant, and it just activated!</font></span>"
+				H.implant_loyalty(override = TRUE)
 				log_admin("[key_name_admin(usr)] has loyalty implanted [current].")
 			else
 	else if (href_list["silicon"])
@@ -375,14 +396,12 @@
 				memory = null//Remove any memory they may have had.
 			if("crystals")
 				if (usr.client.holder.rights & R_FUN)
-					var/obj/item/device/uplink/hidden/suplink = find_syndicate_uplink()
+				//	var/obj/item/device/uplink/hidden/suplink = find_syndicate_uplink() No longer needed, uses stored in mind
 					var/crystals
-					if (suplink)
-						crystals = suplink.uses
-					crystals = input("Amount of telecrystals for [key]","Operative uplink", crystals) as null|num
+					crystals = tcrystals
+					crystals = input("Amount of telecrystals for [key]", crystals) as null|num
 					if (!isnull(crystals))
-						if (suplink)
-							suplink.uses = crystals
+						tcrystals = crystals
 
 	else if (href_list["obj_announce"])
 		var/obj_count = 1
@@ -527,8 +546,3 @@
 	..()
 	mind.assigned_role = "Juggernaut"
 	mind.special_role = "Cultist"
-
-/mob/living/parasite/meme/mind_initialize()
-	..()
-	mind.assigned_role = "Meme"
-	mind.special_role  = "Meme"

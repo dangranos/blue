@@ -30,7 +30,7 @@
 		user.put_in_active_hand(gift)
 		src.gift.add_fingerprint(user)
 	else
-		user << "\blue The gift was empty!"
+		user << "<span class='warning'>The gift was empty!</span>"
 	qdel(src)
 	return
 
@@ -41,16 +41,16 @@
 /obj/effect/spresent/relaymove(mob/user as mob)
 	if (user.stat)
 		return
-	user << "\blue You cant move."
+	user << "<span class='warning'>You can't move.</span>"
 
 /obj/effect/spresent/attackby(obj/item/weapon/W as obj, mob/user as mob)
 	..()
 
 	if (!istype(W, /obj/item/weapon/wirecutters))
-		user << "\blue I need wirecutters for that."
+		user << "<span class='warning'>I need wirecutters for that.</span>"
 		return
 
-	user << "\blue You cut open the present."
+	user << "<span class='notice'>You cut open the present.</span>"
 
 	for(var/mob/M in src) //Should only be one but whatever.
 		M.loc = src.loc
@@ -61,7 +61,7 @@
 	qdel(src)
 
 /obj/item/weapon/a_gift/attack_self(mob/M as mob)
-	var/gift_type = pick(/obj/item/weapon/sord,
+	var/gift_type = pick(
 		/obj/item/weapon/storage/wallet,
 		/obj/item/weapon/storage/photo_album,
 		/obj/item/weapon/storage/box/snappops,
@@ -80,11 +80,10 @@
 		/obj/item/weapon/bikehorn,
 		/obj/item/weapon/beach_ball,
 		/obj/item/weapon/beach_ball/holoball,
-		/obj/item/weapon/banhammer,
 		/obj/item/toy/balloon,
 		/obj/item/toy/blink,
 		/obj/item/toy/crossbow,
-		/obj/item/toy/gun,
+		/obj/item/weapon/gun/projectile/revolver/capgun,
 		/obj/item/toy/katana,
 		/obj/item/toy/prize/deathripley,
 		/obj/item/toy/prize/durand,
@@ -115,45 +114,6 @@
 	qdel(src)
 	return
 
-
-/obj/item/weapon/gift/new_year/New()
-	var/surprize = pick(/obj/item/clothing/head/witchwig,
-		/obj/item/clothing/head/philosopher_wig,
-		/obj/item/clothing/head/pirate,
-		/obj/item/clothing/head/collectable/rabbitears,
-		/obj/item/clothing/head/collectable/kitty,
-//		/obj/item/clothing/head/collectable/slime,
-		/obj/item/clothing/head/collectable/slime2,
-		/obj/item/clothing/head/collectable/tophat,
-		/obj/item/clothing/head/collectable/amp,
-		/obj/item/clothing/head/collectable/crown,
-		/obj/item/clothing/head/wizard/fake,
-		/obj/item/clothing/head/collectable/marisa,
-		/obj/item/clothing/head/collectable/suzumiyarabbitears,
-		/obj/item/clothing/head/collectable/mikururabbitears,
-		/obj/item/clothing/head/collectable/metroid,
-		/obj/item/clothing/head/cueball,
-		/obj/item/clothing/head/collectable/women_blue_hat,
-		/obj/item/clothing/head/collectable/secelitetop)
-	gift = new surprize
-
-/obj/item/weapon/gift/fatherland_protect/attack_self(mob/living/carbon/human/user as mob)
-	if(istype(user))
-		if(user.gender == MALE)
-			new /obj/random/pistol(src)
-			gift = locate(/obj) in src
-		else
-			var/surprize = pick(/obj/item/clothing/hidden/socks/white_norm,
-				/obj/item/clothing/hidden/socks/white_short,
-				/obj/item/clothing/hidden/socks/white_knee,
-				/obj/item/clothing/hidden/socks/black_norm,
-				/obj/item/clothing/hidden/socks/black_short,
-				/obj/item/clothing/hidden/socks/black_knee,
-				/obj/item/clothing/hidden/socks/thin_knee,
-				/obj/item/clothing/hidden/socks/striped_knee)
-			gift = new surprize
-	..()
-
 /*
  * Wrapping Paper
  */
@@ -164,15 +124,15 @@
 	icon_state = "wrap_paper"
 	var/amount = 20.0
 
-/obj/item/weapon/wrapping_paper/attackby(obj/item/weapon/W as obj, mob/user as mob)
+/obj/item/weapon/wrapping_paper/attackby(obj/item/weapon/W as obj, mob/living/user as mob)
 	..()
 	if (!( locate(/obj/structure/table, src.loc) ))
-		user << "\blue You MUST put the paper on a table!"
+		user << "<span class='warning'>You MUST put the paper on a table!</span>"
 	if (W.w_class < 4)
-		if ((istype(user.l_hand, /obj/item/weapon/wirecutters) || istype(user.r_hand, /obj/item/weapon/wirecutters)))
+		if (user.get_type_in_hands(/obj/item/weapon/wirecutters))
 			var/a_used = 2 ** (src.w_class - 1)
 			if (src.amount < a_used)
-				user << "\blue You need more paper!"
+				user << "<span class='warning'>You need more paper!</span>"
 				return
 			else
 				if(istype(W, /obj/item/smallDelivery) || istype(W, /obj/item/weapon/gift)) //No gift wrapping gifts!
@@ -194,15 +154,14 @@
 				qdel(src)
 				return
 		else
-			user << "\blue You need scissors!"
+			user << "<span class='warning'>You need scissors!</span>"
 	else
-		user << "\blue The object is FAR too large!"
+		user << "<span class='warning'>The object is FAR too large!</span>"
 	return
 
 
-/obj/item/weapon/wrapping_paper/examine(mob/user, return_dist=1)
-	. = ..()
-	if(.<1)
+/obj/item/weapon/wrapping_paper/examine(mob/user)
+	if(..(user, 1))
 		user << text("There is about [] square units of paper left!", src.amount)
 
 /obj/item/weapon/wrapping_paper/attack(mob/target as mob, mob/user as mob)
@@ -225,6 +184,6 @@
 			msg_admin_attack("[key_name(user)] used [src] to wrap [key_name(H)]")
 
 		else
-			user << "\blue You need more paper."
+			user << "<span class='warning'>You need more paper.</span>"
 	else
 		user << "They are moving around too much. A straightjacket would help."

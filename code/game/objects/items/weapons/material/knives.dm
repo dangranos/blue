@@ -45,6 +45,22 @@
 	update_force()
 	add_fingerprint(user)
 
+/obj/item/weapon/material/butterfly/sec
+	name = "survival knife"
+	desc = "That's a folding knife used by Themis Security personnel."
+	icon_state = "switchblade"
+	unbreakable = 1
+
+/obj/item/weapon/material/butterfly/sec/attack_self(mob/user)
+	active = !active
+	if(active)
+		user << "<span class='notice'>You flip out \the [src].</span>"
+		playsound(user, 'sound/weapons/flipblade.ogg', 15, 1)
+	else
+		user << "<span class='notice'>\The [src] can now be concealed.</span>"
+	update_force()
+	add_fingerprint(user)
+
 /*
  * Kitchen knives
  */
@@ -63,9 +79,9 @@
 	unbreakable = 1
 
 /obj/item/weapon/material/knife/suicide_act(mob/user)
-	viewers(user) << pick("\red <b>[user] is slitting \his wrists with the [src.name]! It looks like \he's trying to commit suicide.</b>", \
-						"\red <b>[user] is slitting \his throat with the [src.name]! It looks like \he's trying to commit suicide.</b>", \
-						"\red <b>[user] is slitting \his stomach open with the [src.name]! It looks like \he's trying to commit seppuku.</b>")
+	viewers(user) << pick("<span class='danger'>\The [user] is slitting \his wrists with \the [src]! It looks like \he's trying to commit suicide.</span>", \
+	                      "<span class='danger'>\The [user] is slitting \his throat with \the [src]! It looks like \he's trying to commit suicide.</span>", \
+	                      "<span class='danger'>\The [user] is slitting \his stomach open with \the [src]! It looks like \he's trying to commit seppuku.</span>")
 	return (BRUTELOSS)
 
 /obj/item/weapon/material/knife/hook

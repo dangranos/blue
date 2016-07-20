@@ -31,7 +31,7 @@
 	//must place on a wall and user must not be inside a closet/mecha/whatever
 	var/turf/W = A
 	if (!iswall(W) || !isturf(user.loc))
-		user << "\red You can't place this here!"
+		user << "<span class='warning'>You can't place this here!</span>"
 		return
 
 	var/placement_dir = get_dir(user, W)
@@ -80,7 +80,6 @@
 	name = "poster"
 	desc = "A large piece of space-resistant printed paper. "
 	icon = 'icons/obj/contraband.dmi'
-	icon_state = "bsposter9"
 	anchored = 1
 	var/serial_number	//Will hold the value of src.loc if nobody initialises it
 	var/poster_type		//So mappers can specify a desired poster
@@ -134,22 +133,22 @@
 
 
 /obj/structure/sign/poster/attack_hand(mob/user as mob)
+
 	if(ruined)
 		return
-	var/temp_loc = user.loc
-	switch(alert("Do I want to rip the poster from the wall?","You think...","Yes","No"))
-		if("Yes")
-			if(user.loc != temp_loc)
-				return
-			visible_message("<span class='warning'>[user] rips [src] in a single, decisive motion!</span>" )
-			playsound(src.loc, 'sound/items/poster_ripped.ogg', 100, 1)
-			ruined = 1
-			icon_state = "poster_ripped"
-			name = "ripped poster"
-			desc = "You can't make out anything from the poster's original print. It's ruined."
-			add_fingerprint(user)
-		if("No")
+
+	if(alert("Do I want to rip the poster from the wall?","You think...","Yes","No") == "Yes")
+
+		if(ruined || !user.Adjacent(src))
 			return
+
+		visible_message("<span class='warning'>[user] rips [src] in a single, decisive motion!</span>" )
+		playsound(src.loc, 'sound/items/poster_ripped.ogg', 100, 1)
+		ruined = 1
+		icon_state = "poster_ripped"
+		name = "ripped poster"
+		desc = "You can't make out anything from the poster's original print. It's ruined."
+		add_fingerprint(user)
 
 /obj/structure/sign/poster/proc/roll_and_drop(turf/newloc)
 	var/obj/item/weapon/contraband/poster/P = new(src, serial_number)

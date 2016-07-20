@@ -102,9 +102,8 @@
 				I.pixel_y = -3
 			overlays += I
 
-	examine(mob/user, return_dist=1)
-		.=..()
-		if(.<=4)
+	examine(mob/user)
+		if(..(user, 4))
 			if(sortTag)
 				user << "<span class='notice'>It is labeled \"[sortTag]\"</span>"
 			if(examtext)
@@ -207,9 +206,8 @@
 					I.pixel_y = -3
 			overlays += I
 
-	examine(mob/user, return_dist=1)
-		.=..()
-		if(.<=4)
+	examine(mob/user)
+		if(..(user, 4))
 			if(sortTag)
 				user << "<span class='notice'>It is labeled \"[sortTag]\"</span>"
 			if(examtext)
@@ -239,7 +237,7 @@
 			return
 
 		user.attack_log += text("\[[time_stamp()]\] <font color='blue'>Has used [src.name] on \ref[target]</font>")
-		playsound(src,'sound/machines/PAPER_Fold_01_mono.wav',100,1)
+
 
 		if (istype(target, /obj/item) && !(istype(target, /obj/item/weapon/storage) && !istype(target,/obj/item/weapon/storage/box)))
 			var/obj/item/O = target
@@ -249,7 +247,8 @@
 					if(user.client)
 						user.client.screen -= O
 				P.wrapped = O
-				O.loc = P
+				O.forceMove(P)
+				P.w_class = O.w_class
 				var/i = round(O.w_class)
 				if(i in list(1,2,3,4,5))
 					P.icon_state = "deliverycrate[i]"
@@ -305,9 +304,8 @@
 			return
 		return
 
-	examine(mob/user, return_dist=1)
-		.=..()
-		if(.<=1)
+	examine(mob/user)
+		if(..(user, 0))
 			user << "\blue There are [amount] units of package wrap left!"
 
 		return

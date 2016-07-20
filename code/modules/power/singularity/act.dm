@@ -34,7 +34,7 @@
 				src << "<span class = 'warning'>The [S] pulls \the [hand] from your grip!</span>"
 	apply_effect(current_size * 3, IRRADIATE)
 	if(shoes)
-		if(shoes.flags & NOSLIP) return 0
+		if(shoes.item_flags & NOSLIP) return 0
 	..()
 
 /obj/singularity_act()
@@ -101,13 +101,13 @@
 	return 1000
 
 /turf/singularity_act(S, current_size)
-	if(intact)
+	if(!is_plating())
 		for(var/obj/O in contents)
 			if(O.level != 1)
 				continue
 			if(O.invisibility == 101)
 				O.singularity_act(src, current_size)
-	ChangeTurf(/turf/space)
+	ChangeTurf(get_base_turf_by_area(src))
 	return 2
 
 /turf/simulated/wall/singularity_pull(S, current_size)
@@ -134,10 +134,7 @@
 /atom/proc/singuloCanEat()
 	return 1
 
-/mob/dead/singuloCanEat()
-	return 0
-
-/mob/eye/singuloCanEat()
+/mob/observer/singuloCanEat()
 	return 0
 
 /mob/new_player/singuloCanEat()

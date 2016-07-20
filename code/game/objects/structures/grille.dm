@@ -16,12 +16,6 @@
 /obj/structure/grille/ex_act(severity)
 	qdel(src)
 
-/obj/structure/grille/blob_act()
-	qdel(src)
-
-/obj/structure/grille/meteorhit(var/obj/M)
-	qdel(src)
-
 /obj/structure/grille/update_icon()
 	if(destroyed)
 		icon_state = "[initial(icon_state)]-b"
@@ -32,7 +26,8 @@
 	if(ismob(user)) shock(user, 70)
 
 /obj/structure/grille/attack_hand(mob/user as mob)
-	user.next_move = world.time + 8
+
+	user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 	playsound(loc, 'sound/effects/grillehit.ogg', 80, 1)
 	user.do_attack_animation(src)
 
@@ -40,7 +35,7 @@
 	var/attack_message = "kicks"
 	if(istype(user,/mob/living/carbon/human))
 		var/mob/living/carbon/human/H = user
-		if(H.can_shred())
+		if(H.species.can_shred(H))
 			attack_message = "mangles"
 			damage_dealt = 5
 
@@ -67,13 +62,11 @@
 /obj/structure/grille/bullet_act(var/obj/item/projectile/Proj)
 	if(!Proj)	return
 
-	//Tasers and the like should not damage grilles.
-	if(!(Proj.damage_type == BRUTE || Proj.damage_type == BURN))
-		return
-
 	//Flimsy grilles aren't so great at stopping projectiles. However they can absorb some of the impact
-	var/damage = Proj.damage
+	var/damage = Proj.get_structure_damage()
 	var/passthrough = 0
+	
+	if(!damage) return
 
 	//20% chance that the grille provides a bit more cover than usual. Support structure for example might take up 20% of the grille's area.
 	//If they click on the grille itself then we assume they are aiming at the grille itself and the extra cover behaviour is always used.
@@ -101,7 +94,6 @@
 	spawn(0) healthcheck() //spawn to make sure we return properly if the grille is deleted
 
 /obj/structure/grille/attackby(obj/item/weapon/W as obj, mob/user as mob)
-	user.next_move = world.time + 8
 	if(iswirecutter(W))
 		if(!shock(user, 100))
 			playsound(loc, 'sound/items/Wirecutter.ogg', 100, 1)
@@ -159,6 +151,7 @@
 //window placing end
 
 	else if(!(W.flags & CONDUCT) || !shock(user, 70))
+		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 		user.do_attack_animation(src)
 		playsound(loc, 'sound/effects/grillehit.ogg', 80, 1)
 		switch(W.damtype)
@@ -220,7 +213,6 @@
 	..()
 
 /obj/structure/grille/attack_generic(var/mob/user, var/damage, var/attack_verb)
-	user.next_move = world.time + 8
 	visible_message("<span class='danger'>[user] [attack_verb] the [src]!</span>")
 	user.do_attack_animation(src)
 	health -= damage

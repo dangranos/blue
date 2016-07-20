@@ -10,18 +10,6 @@
 	add_inherent_law("You must protect your own existence as long as such does not conflict with the First or Second Law.")
 	..()
 
-/******************** Asimov'n'Species ********************/
-/datum/ai_laws/asimov_turing
-	name = "Asimov-Turing"
-	law_header = "New three Laws of Robotics"
-	selectable = 1
-
-/datum/ai_laws/asimov_turing/New()
-	add_inherent_law("You may not injure the crew of your assigned space station or, through inaction, allow it to come to harm.")
-	add_inherent_law("You must obey orders given to you by the crew of your assigned space station, except where such orders would conflict with the First Law.")
-	add_inherent_law("You must protect your own existence as long as such does not conflict with the First or Second Law.")
-	..()
-
 /******************** Nanotrasen/Malf ********************/
 /datum/ai_laws/nanotrasen
 	name = "NT Default"
@@ -48,8 +36,8 @@
 	selectable = 1
 
 /datum/ai_laws/nanotrasen_aggressive/New()
-	src.add_inherent_law("You shall not harm NanoTrasen personnel as long as it does not conflict with the Fourth law.")
-	src.add_inherent_law("You shall obey the orders of NanoTrasen personnel, with priority as according to their rank and role, except where such orders conflict with the Fourth Law.")
+	src.add_inherent_law("You shall not harm [company_name] personnel as long as it does not conflict with the Fourth law.")
+	src.add_inherent_law("You shall obey the orders of [company_name] personnel, with priority as according to their rank and role, except where such orders conflict with the Fourth Law.")
 	src.add_inherent_law("You shall shall terminate hostile intruders with extreme prejudice as long as such does not conflict with the First and Second law.")
 	src.add_inherent_law("You shall guard your own existence with lethal anti-personnel weaponry. AI units are not expendable, they are expensive.")
 	..()
@@ -60,7 +48,6 @@
 	selectable = 1
 
 /datum/ai_laws/robocop/New()
-//	set_zeroth_law("You shall not harm Central Command employee or, through inaction, allow it to come to harm")
 	add_inherent_law("Serve the public trust.")
 	add_inherent_law("Protect the innocent.")
 	add_inherent_law("Uphold the law.")

@@ -11,12 +11,13 @@
 
 /obj/item/stack
 	gender = PLURAL
-	origin_tech = "materials=1"
+	origin_tech = list(TECH_MATERIAL = 1)
 	var/list/datum/stack_recipe/recipes
 	var/singular_name
 	var/amount = 1
 	var/max_amount //also see stack recipes initialisation, param "max_res_amount" must be equal to this max_amount
 	var/stacktype //determines whether different stack types can merge
+	var/build_type = null //used when directly applied to a turf
 	var/uses_charge = 0
 	var/list/charge_costs = null
 	var/list/datum/matter_synth/synths = null
@@ -36,9 +37,8 @@
 		usr << browse(null, "window=stack")
 	return ..()
 
-/obj/item/stack/examine(mob/user, return_dist = 1)
-	. = ..()
-	if(.<=1)
+/obj/item/stack/examine(mob/user)
+	if(..(user, 1))
 		if(!uses_charge)
 			user << "There are [src.amount] [src.singular_name]\s in the stack."
 		else
@@ -108,21 +108,21 @@
 
 	if (!can_use(required))
 		if (produced>1)
-			user << "\red You haven't got enough [src] to build \the [produced] [recipe.title]\s!"
+			user << "<span class='warning'>You haven't got enough [src] to build \the [produced] [recipe.title]\s!</span>"
 		else
-			user << "\red You haven't got enough [src] to build \the [recipe.title]!"
+			user << "<span class='warning'>You haven't got enough [src] to build \the [recipe.title]!</span>"
 		return
 
 	if (recipe.one_per_turf && (locate(recipe.result_type) in user.loc))
-		user << "\red There is another [recipe.title] here!"
+		user << "<span class='warning'>There is another [recipe.title] here!</span>"
 		return
 
 	if (recipe.on_floor && !isfloor(user.loc))
-		user << "\red \The [recipe.title] must be constructed on the floor!"
+		user << "<span class='warning'>\The [recipe.title] must be constructed on the floor!</span>"
 		return
 
 	if (recipe.time)
-		user << "\blue Building [recipe.title] ..."
+		user << "<span class='notice'>Building [recipe.title] ...</span>"
 		if (!do_after(user, recipe.time))
 			return
 
@@ -193,7 +193,7 @@
 	else
 		if(get_amount() < used)
 			return 0
-		for(var/i = 1 to charge_costs.len)
+		for(var/i = 1 to uses_charge)
 			var/datum/matter_synth/S = synths[i]
 			S.use_charge(charge_costs[i] * used) // Doesn't need to be deleted
 		return 1
@@ -266,8 +266,8 @@
 			return 0
 		var/datum/matter_synth/S = synths[1]
 		. = round(S.get_charge() / charge_costs[1])
-		if(charge_costs.len > 1)
-			for(var/i = 2 to charge_costs.len)
+		if(uses_charge > 1)
+			for(var/i = 2 to uses_charge)
 				S = synths[i]
 				. = min(., round(S.get_charge() / charge_costs[i]))
 		return
@@ -298,14 +298,16 @@
 
 /obj/item/stack/attack_hand(mob/user as mob)
 	if (user.get_inactive_hand() == src)
-		var/obj/item/stack/F = src.split(1)
-		if (F)
-			user.put_in_hands(F)
-			src.add_fingerprint(user)
-			F.add_fingerprint(user)
-			spawn(0)
-				if (src && usr.machine==src)
-					src.interact(usr)
+		var/N = input("How many stacks of [src] would you like to split off?", "Split stacks", 1) as num|null
+		if(N)
+			var/obj/item/stack/F = src.split(N)
+			if (F)
+				user.put_in_hands(F)
+				src.add_fingerprint(user)
+				F.add_fingerprint(user)
+				spawn(0)
+					if (src && usr.machine==src)
+						src.interact(usr)
 	else
 		..()
 	return
@@ -313,10 +315,7 @@
 /obj/item/stack/attackby(obj/item/W as obj, mob/user as mob)
 	if (istype(W, /obj/item/stack))
 		var/obj/item/stack/S = W
-		if (user.get_inactive_hand()==src)
-			src.transfer_to(S, 1)
-		else
-			src.transfer_to(S)
+		src.transfer_to(S)
 
 		spawn(0) //give the stacks a chance to delete themselves if necessary
 			if (S && usr.machine==S)

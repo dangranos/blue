@@ -1,10 +1,13 @@
 /obj/item/clothing/head/helmet
 	name = "helmet"
-	desc = "Standard defence gear. Protects the head from impacts."
+	desc = "Standard Security gear. Protects the head from impacts."
 	icon_state = "helmet"
-	flags = HEADCOVERSEYES | THICKMATERIAL
-	item_state = "helmet"
-	armor = list(melee = 50, bullet = 15, laser = 50,energy = 10, bomb = 25, bio = 0, rad = 0)
+	item_state_slots = list(
+		slot_l_hand_str = "helmet",
+		slot_r_hand_str = "helmet",
+		)
+	flags = THICKMATERIAL
+	armor = list(melee = 40, bullet = 30, laser = 30, energy = 10, bomb = 10, bio = 0, rad = 0)
 	flags_inv = HIDEEARS|HIDEEYES
 	cold_protection = HEAD
 	min_cold_protection_temperature = HELMET_MIN_COLD_PROTECTION_TEMPERATURE
@@ -12,188 +15,64 @@
 	max_heat_protection_temperature = HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.7
 	w_class = 3
-
-/obj/item/clothing/head/helmet/security
-	name = "security helmet"
-	desc = "Standard Security gear. Protects the head from impacts."
-	var/glassesup = 0
-
-	verb/glasses()
-		set category = "Object"
-		set name = "Raise glasses up/down"
-		set src in usr
-		if(usr.canmove && !usr.stat && !usr.restrained())
-			src.glassesup = !src.glassesup
-			if(src.glassesup)
-				icon_state = "[icon_state]_glassesup"
-				usr << "You raise your helmet glasses up."
-				flags_inv = HIDEEARS
-				flags = THICKMATERIAL
-			else
-				src.icon_state = initial(icon_state)
-				usr << "You place your glasses into the normal position."
-			update_clothing_icon()	//so our mob-overlays update
-
-/obj/item/clothing/head/helmet/security/flasher
-	name = "security helmet"
-	icon_state = "hardhat_justice0"
-	brightness_on = 3
-
-	attack_self()
-		toggle()
-
-	verb/toggle()
-		set category = "Object"
-		set name = "Toggle flasher"
-		set src in usr
-		if(usr.canmove && !usr.stat && !usr.restrained())
-			on = !on
-			update_flashlight(usr)
-			icon_state = "hardhat_justice[on]"
-			usr << "You toggle [src] flasher"
-			update_clothing_icon()
-
-/obj/item/clothing/head/helmet/heavy
-	name = "combat helmet"
-	desc = "That's the tactical helmet with multiple attachments. Protects the head from impacts."
-	icon_state = "combathelmet"
-	flags = HEADCOVERSEYES | THICKMATERIAL | HEADCOVERSMOUTH
-	item_state = "combathelmet"
-	armor = list(melee = 60, bullet = 50, laser = 55,energy = 45, bomb = 45, bio = 0, rad = 0)
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
-	siemens_coefficient = 0.4
-	light_overlay = "helmet_light"
-	brightness_on = 4
-	var/glassesup = 0
-
-	verb/glasses()
-		set category = "Object"
-		set name = "Raise glasses up/down"
-		set src in usr
-		if(usr.canmove && !usr.stat && !usr.restrained())
-			src.glassesup = !src.glassesup
-			if(src.glassesup)
-				icon_state = "[icon_state]_glassesup"
-				usr << "You raise your helmet visor up."
-				siemens_coefficient = 0.7
-				armor = list(melee = 40, bullet = 40, laser = 40,energy = 35, bomb = 35, bio = 0, rad = 0)
-				flags_inv = HIDEEARS
-				flags = THICKMATERIAL
-				playsound(loc, 'sound/mecha/mechmove03.ogg', 50, 1, -1)
-			else
-				src.icon_state = initial(icon_state)
-				usr << "You place your glasses into the normal position."
-				playsound(loc, 'sound/mecha/mechmove03.ogg', 50, 1, -1)
-			update_clothing_icon()	//so our mob-overlays update
-
-
-
-/obj/item/clothing/head/helmet/HoS
-	name = "Head of Security Hat"
-	desc = "The hat of the Head of Security. For showing the officers who's in charge."
-	icon_state = "hoscap"
-	flags = HEADCOVERSEYES
-	armor = list(melee = 80, bullet = 60, laser = 50,energy = 10, bomb = 25, bio = 10, rad = 0)
-	flags_inv = HIDEEARS
-	body_parts_covered = 0
-	siemens_coefficient = 0.8
-
-/obj/item/clothing/head/helmet/HoS/dermal
-	name = "Dermal Armour Patch"
-	desc = "You're not quite sure how you manage to take it on and off, but it implants nicely in your head."
-	icon_state = "dermal"
-	item_state = "dermal"
-	siemens_coefficient = 0.6
-
-/obj/item/clothing/head/helmet/HoS/solyarkin
-	name = "Internal security hat."
-	desc = "An old hat. A lot of time ago it was part of standard Internal Security gear, but now - its just memories "
-	icon_state = "secelitetop"
-	item_state = "secelitetop"
-
-/obj/item/clothing/head/helmet/warden
-	name = "warden's hat"
-	desc = "It's a special helmet issued to the Warden of a securiy force. Protects the head from impacts."
-	icon_state = "policehelm"
-	flags_inv = 0
-	body_parts_covered = 0
-
-/obj/item/clothing/head/helmet/warden/drill
-	name = "warden's drill hat"
-	desc = "You've definitely have seen that hat before."
-	icon_state = "wardendrill"
-	flags_inv = 0
-	body_parts_covered = 0
-
-/obj/item/clothing/head/helmet/hop
-	name = "crew resource's hat"
-	desc = "A stylish hat that both protects you from enraged former-crewmembers and gives you a false sense of authority."
-	icon_state = "hopcap"
-	flags_inv = 0
-	body_parts_covered = 0
-
-/obj/item/clothing/head/helmet/formalcaptain
-	name = "parade hat"
-	desc = "No one in a commanding position should be without a perfect, white hat of ultimate authority."
-	icon_state = "officercap"
-	flags_inv = 0
-	body_parts_covered = 0
+	ear_protection = 1
 
 /obj/item/clothing/head/helmet/riot
 	name = "riot helmet"
 	desc = "It's a helmet specifically designed to protect against close range attacks."
 	icon_state = "riot"
-	item_state = "helmet"
-	flags = HEADCOVERSEYES
-	armor = list(melee = 82, bullet = 15, laser = 5,energy = 5, bomb = 5, bio = 2, rad = 0)
+	armor = list(melee = 80, bullet = 10, laser = 10, energy = 10, bomb = 0, bio = 0, rad = 0)
 	flags_inv = HIDEEARS
 	siemens_coefficient = 0.7
-	var/glassesup = 0
+	action_button_name = "Toggle Visor"
 
-	verb/glasses()
-		set category = "Object"
-		set name = "Raise glasses up/down"
-		set src in usr
-		if(usr.canmove && !usr.stat && !usr.restrained())
-			src.glassesup = !src.glassesup
-			if(src.glassesup)
-				icon_state = "[icon_state]_glassesup"
-				usr << "You raise your helmet glasses up."
-				flags_inv = HIDEEARS
-				flags = THICKMATERIAL
-			else
-				src.icon_state = initial(icon_state)
-				usr << "You place your glasses into the normal position."
-			update_clothing_icon()	//so our mob-overlays update
+/obj/item/clothing/head/helmet/riot/attack_self(mob/user as mob)
+	if(src.icon_state == initial(icon_state))
+		src.icon_state = "[icon_state]up"
+		user << "You raise the visor on the riot helmet."
+	else
+		src.icon_state = initial(icon_state)
+		user << "You lower the visor on the riot helmet."
+	update_clothing_icon()	//so our mob-overlays update
+
+/obj/item/clothing/head/helmet/laserproof
+	name = "ablative helmet"
+	desc = "It's a helmet specifically designed to protect against energy projectiles."
+	icon_state = "helmet_reflec"
+	armor = list(melee = 10, bullet = 10, laser = 80 ,energy = 50, bomb = 0, bio = 0, rad = 0)
+	flags_inv = HIDEEARS
+	siemens_coefficient = 0.1
+
+/obj/item/clothing/head/helmet/bulletproof
+	name = "bullet-resistant helmet"
+	desc = "It's a helmet specifically designed to protect against ballistic projectiles."
+	icon_state = "helmet_bulletproof"
+	armor = list(melee = 10, bullet = 80, laser = 10 ,energy = 10, bomb = 0, bio = 0, rad = 0)
+	flags_inv = HIDEEARS
+	siemens_coefficient = 0.7
+
+/obj/item/clothing/head/helmet/combat
+	name = "combat helmet"
+	desc = "It's a general purpose combat helmet, designed to protect against typical dangers to your head."
+	icon_state = "helmet_combat"
+	armor = list(melee = 50, bullet = 50, laser = 50 ,energy = 30, bomb = 30, bio = 0, rad = 0)
+	flags_inv = HIDEEARS
+	siemens_coefficient = 0.6
 
 /obj/item/clothing/head/helmet/swat
 	name = "\improper SWAT helmet"
-	desc = "They're often used by highly trained Swat Members."
+	desc = "They're often used by highly trained SWAT Officers."
 	icon_state = "swat"
-	flags = HEADCOVERSEYES
-	item_state = "swat"
 	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
 	flags_inv = HIDEEARS|HIDEEYES
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.5
 
-/obj/item/clothing/head/helmet/merc
-	name = "combat helmet"
-	desc = "That's a military-grade tan helmet. Protects the head from impacts"
-	icon_state = "helmet_merc"
-	flags = THICKMATERIAL
-	item_state = "helmet_merc"
-	armor = list(melee = 65, bullet = 45, laser = 60,energy = 10, bomb = 45, bio = 0, rad = 0)
-	flags_inv = HIDEEARS
-
-
 /obj/item/clothing/head/helmet/thunderdome
 	name = "\improper Thunderdome helmet"
 	desc = "<i>'Let the battle commence!'</i>"
 	icon_state = "thunderdome"
-	flags = HEADCOVERSEYES
-	item_state = "thunderdome"
 	armor = list(melee = 80, bullet = 60, laser = 50,energy = 10, bomb = 25, bio = 10, rad = 0)
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
@@ -203,8 +82,7 @@
 	name = "gladiator helmet"
 	desc = "Ave, Imperator, morituri te salutant."
 	icon_state = "gladiator"
-	flags = HEADCOVERSEYES|HEADCOVERSMOUTH|BLOCKHAIR
-	item_state = "gladiator"
+	flags = BLOCKHAIR
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES
 	siemens_coefficient = 1
 
@@ -212,10 +90,12 @@
 	name = "tactical helmet"
 	desc = "An armored helmet capable of being fitted with a multitude of attachments."
 	icon_state = "swathelm"
-	item_state = "helmet"
-	flags = HEADCOVERSEYES
+	sprite_sheets = list(
+		"Tajara" = 'icons/mob/species/tajaran/helmet.dmi',
+		"Unathi" = 'icons/mob/species/unathi/helmet.dmi',
+		)
 
-	armor = list(melee = 62, bullet = 50, laser = 50,energy = 35, bomb = 10, bio = 2, rad = 0)
+	armor = list(melee = 60, bullet = 60, laser = 60, energy = 40, bomb = 40, bio = 0, rad = 0)
 	flags_inv = HIDEEARS
 	siemens_coefficient = 0.7
 
@@ -223,52 +103,21 @@
 	name = "Augment Array"
 	desc = "A helmet with optical and cranial augments coupled to it."
 	icon_state = "v62"
-	flags = HEADCOVERSEYES
-	item_state = "v62"
 	armor = list(melee = 80, bullet = 60, laser = 50,energy = 25, bomb = 50, bio = 10, rad = 0)
 	flags_inv = HIDEEARS|HIDEEYES
 	cold_protection = HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
 	siemens_coefficient = 0.5
 
-/obj/item/clothing/head/helmet/knight
-	name = "medieval helmet"
-	desc = "A classic metal helmet."
-	icon_state = "knight_green"
-	flags = HEADCOVERSEYES
-	item_state = "knight_green"
-	armor = list(melee = 40, bullet = 5, laser = 2,energy = 2, bomb = 2, bio = 2, rad = 0)
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE
-	siemens_coefficient = 1
-
-/obj/item/clothing/head/helmet/knight/blue
-	icon_state = "knight_blue"
-	item_state = "knight_blue"
-
-/obj/item/clothing/head/helmet/knight/yellow
-	icon_state = "knight_yellow"
-	item_state = "knight_yellow"
-
-/obj/item/clothing/head/helmet/knight/red
-	icon_state = "knight_red"
-	item_state = "knight_red"
-
-/obj/item/clothing/head/helmet/knight/green
- 	icon_state = "knight_green"
- 	item_state = "knight_green"
-
-/obj/item/clothing/head/helmet/knight/templar
-	name = "crusader helmet"
-	desc = "Deus Vult."
-	icon_state = "knight_templar"
-	item_state = "knight_templar"
-
 //Non-hardsuit ERT helmets.
 /obj/item/clothing/head/helmet/ert
 	name = "emergency response team helmet"
 	desc = "An in-atmosphere helmet worn by members of the NanoTrasen Emergency Response Team. Protects the head from impacts."
 	icon_state = "erthelmet_cmd"
-	item_state = "syndicate-helm-green"
+	item_state_slots = list(
+		slot_l_hand_str = "syndicate-helm-green",
+		slot_r_hand_str = "syndicate-helm-green",
+		)
 	armor = list(melee = 62, bullet = 50, laser = 50,energy = 35, bomb = 10, bio = 2, rad = 0)
 
 //Commander
@@ -294,14 +143,32 @@
 	desc = "A set of armor worn by medical members of the NanoTrasen Emergency Response Team. Has red and white highlights."
 	icon_state = "erthelmet_med"
 
-/obj/item/clothing/head/helmet/army
-	name = "army helmet"
-	desc = "That's the combat helmet with multiple attachments."
-	icon_state = "armyhelmet"
-	flags = HEADCOVERSEYES | THICKMATERIAL | HEADCOVERSMOUTH
-	item_state = "armyhelmet"
-	armor = list(melee = 40, bullet = 35, laser = 50,energy = 45, bomb = 45, bio = 0, rad = 0)
-	flags_inv = HIDEMASK|HIDEEARS
-	siemens_coefficient = 0.4
-	light_overlay = "helmet-army_light"
-	brightness_on = 4
+/obj/item/clothing/head/helmet/combathelm
+	name = "combat helmet"
+	desc = "It's a helmet designed for assault teams."
+	icon_state = "combathelmet_sentinel"
+	armor = list(melee = 60, bullet = 65, laser = 50, energy = 10, bomb = 35, bio = 0, rad = 0)
+	flags_inv = HIDEEARS
+	siemens_coefficient = 0.2
+	var/modetoggled = 0
+
+	verb/visor()
+		set category = "Object"
+		set name = "Toggle helmet mode"
+		set src in usr
+		if(usr.canmove && !usr.stat && !usr.restrained())
+			src.modetoggled = !src.modetoggled
+			if(src.modetoggled)
+				icon_state = "combathelmet_breacher"
+				usr << "You toggle your helmet to the Breacher mode."
+				flags_inv = HIDEEARS
+				flags = THICKMATERIAL
+				armor = list(melee = 35, bullet = 30, laser = 30, energy = 35, bomb = 25, bio = 0, rad = 0)
+				siemens_coefficient = 0.7
+			else
+				src.icon_state = initial(icon_state)
+				usr << "You toggle your helmet to the Sentinel mode."
+				armor = list(melee = 60, bullet = 60, laser = 60, energy = 35, bomb = 60, bio = 0, rad = 0)
+				siemens_coefficient = 0.3
+
+			update_clothing_icon()

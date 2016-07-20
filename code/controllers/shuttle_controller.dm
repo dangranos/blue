@@ -19,7 +19,7 @@ var/global/datum/shuttle_controller/shuttle_controller
 		var/datum/shuttle/shuttle = shuttles[shuttle_tag]
 		shuttle.init_docking_controllers()
 		shuttle.dock() //makes all shuttles docked to something at round start go into the docked state
-	
+
 	for(var/obj/machinery/embedded_controller/C in machines)
 		if(istype(C.program, /datum/computer/file/embedded_program/docking))
 			C.program.tag = null //clear the tags, 'cause we don't need 'em anymore
@@ -84,12 +84,24 @@ var/global/datum/shuttle_controller/shuttle_controller
 	shuttle.docking_controller_tag = "escape_pod_3"
 	shuttle.dock_target_station = "escape_pod_3_berth"
 	shuttle.dock_target_offsite = "escape_pod_3_recovery"
-	shuttle.transit_direction = EAST
+	shuttle.transit_direction = NORTH
 	shuttle.move_time = SHUTTLE_TRANSIT_DURATION_RETURN + rand(-30, 60)	//randomize this so it seems like the pods are being picked up one by one
 	process_shuttles += shuttle
 	shuttles["Escape Pod 3"] = shuttle
 
-	//There is no pod 4, apparently.
+	shuttle = new/datum/shuttle/ferry/escape_pod()
+	shuttle.location = 0
+	shuttle.warmup_time = 0
+	shuttle.area_station = locate(/area/shuttle/escape_pod4/station)
+	shuttle.area_offsite = locate(/area/shuttle/escape_pod4/centcom)
+	shuttle.area_transition = locate(/area/shuttle/escape_pod4/transit)
+	shuttle.docking_controller_tag = "escape_pod_4"
+	shuttle.dock_target_station = "escape_pod_4_berth"
+	shuttle.dock_target_offsite = "escape_pod_4_recovery"
+	shuttle.transit_direction = NORTH //should this be SOUTH? I have no idea.
+	shuttle.move_time = SHUTTLE_TRANSIT_DURATION_RETURN + rand(-30, 60)	//randomize this so it seems like the pods are being picked up one by one
+	process_shuttles += shuttle
+	shuttles["Escape Pod 4"] = shuttle
 
 	shuttle = new/datum/shuttle/ferry/escape_pod()
 	shuttle.location = 0
@@ -100,10 +112,66 @@ var/global/datum/shuttle_controller/shuttle_controller
 	shuttle.docking_controller_tag = "escape_pod_5"
 	shuttle.dock_target_station = "escape_pod_5_berth"
 	shuttle.dock_target_offsite = "escape_pod_5_recovery"
-	shuttle.transit_direction = EAST //should this be WEST? I have no idea.
+	shuttle.transit_direction = NORTH //should this be WEST? I have no idea.
 	shuttle.move_time = SHUTTLE_TRANSIT_DURATION_RETURN + rand(-30, 60)	//randomize this so it seems like the pods are being picked up one by one
 	process_shuttles += shuttle
 	shuttles["Escape Pod 5"] = shuttle
+
+	shuttle = new/datum/shuttle/ferry/escape_pod()
+	shuttle.location = 0
+	shuttle.warmup_time = 0
+	shuttle.area_station = locate(/area/shuttle/escape_pod6/station)
+	shuttle.area_offsite = locate(/area/shuttle/escape_pod6/centcom)
+	shuttle.area_transition = locate(/area/shuttle/escape_pod6/transit)
+	shuttle.docking_controller_tag = "escape_pod_6"
+	shuttle.dock_target_station = "escape_pod_6_berth"
+	shuttle.dock_target_offsite = "escape_pod_6_recovery"
+	shuttle.transit_direction = NORTH //should this be WEST? I have no idea.
+	shuttle.move_time = SHUTTLE_TRANSIT_DURATION_RETURN + rand(-30, 60)	//randomize this so it seems like the pods are being picked up one by one
+	process_shuttles += shuttle
+	shuttles["Escape Pod 6"] = shuttle
+
+	shuttle = new/datum/shuttle/ferry/escape_pod()
+	shuttle.location = 0
+	shuttle.warmup_time = 0
+	shuttle.area_station = locate(/area/shuttle/cryo/station)
+	shuttle.area_offsite = locate(/area/shuttle/cryo/centcom)
+	shuttle.area_transition = locate(/area/shuttle/cryo/transit)
+	shuttle.docking_controller_tag = "cryostorage_shuttle"
+	shuttle.dock_target_station = "cryostorage_shuttle_berth"
+	shuttle.dock_target_offsite = "cryostorage_shuttle_recovery"
+	shuttle.transit_direction = NORTH //should this be WEST? I have no idea.
+	shuttle.move_time = SHUTTLE_TRANSIT_DURATION_RETURN + rand(-30, 60)	//randomize this so it seems like the pods are being picked up one by one
+	process_shuttles += shuttle
+	shuttles["Cryostorage Shuttle"] = shuttle
+
+	shuttle = new/datum/shuttle/ferry/escape_pod()
+	shuttle.location = 0
+	shuttle.warmup_time = 0
+	shuttle.area_station = locate(/area/shuttle/large_escape_pod1/station)
+	shuttle.area_offsite = locate(/area/shuttle/large_escape_pod1/centcom)
+	shuttle.area_transition = locate(/area/shuttle/large_escape_pod1/transit)
+	shuttle.docking_controller_tag = "large_escape_pod_1"
+	shuttle.dock_target_station = "large_escape_pod_1_berth"
+	shuttle.dock_target_offsite = "large_escape_pod_1_recovery"
+	shuttle.transit_direction = EAST //should this be WEST? I have no idea.
+	shuttle.move_time = SHUTTLE_TRANSIT_DURATION_RETURN + rand(-30, 60)	//randomize this so it seems like the pods are being picked up one by one
+	process_shuttles += shuttle
+	shuttles["Large Escape Pod 1"] = shuttle
+
+	shuttle = new/datum/shuttle/ferry/escape_pod()
+	shuttle.location = 0
+	shuttle.warmup_time = 0
+	shuttle.area_station = locate(/area/shuttle/large_escape_pod2/station)
+	shuttle.area_offsite = locate(/area/shuttle/large_escape_pod2/centcom)
+	shuttle.area_transition = locate(/area/shuttle/large_escape_pod2/transit)
+	shuttle.docking_controller_tag = "large_escape_pod_2"
+	shuttle.dock_target_station = "large_escape_pod_2_berth"
+	shuttle.dock_target_offsite = "large_escape_pod_2_recovery"
+	shuttle.transit_direction = EAST //should this be WEST? I have no idea.
+	shuttle.move_time = SHUTTLE_TRANSIT_DURATION_RETURN + rand(-30, 60)	//randomize this so it seems like the pods are being picked up one by one
+	process_shuttles += shuttle
+	shuttles["Large Escape Pod 2"] = shuttle
 
 	//give the emergency shuttle controller it's shuttles
 	emergency_shuttle.shuttle = shuttles["Escape"]
@@ -111,7 +179,12 @@ var/global/datum/shuttle_controller/shuttle_controller
 		shuttles["Escape Pod 1"],
 		shuttles["Escape Pod 2"],
 		shuttles["Escape Pod 3"],
+		shuttles["Escape Pod 4"],
 		shuttles["Escape Pod 5"],
+		shuttles["Escape Pod 6"],
+		shuttles["Cryostorage Shuttle"],
+		shuttles["Large Escape Pod 1"],
+		shuttles["Large Escape Pod 2"],
 	)
 
 	// Supply shuttle
@@ -148,6 +221,17 @@ var/global/datum/shuttle_controller/shuttle_controller
 	shuttle.dock_target_station = "admin_shuttle_dock_airlock"
 	shuttle.dock_target_offsite = "admin_shuttle_bay"
 	shuttles["Administration"] = shuttle
+	process_shuttles += shuttle
+
+	shuttle = new()
+	shuttle.location = 1
+	shuttle.warmup_time = 10	//want some warmup time so people can cancel.
+	shuttle.area_offsite = locate(/area/shuttle/trade/centcom)
+	shuttle.area_station = locate(/area/shuttle/trade/station)
+	shuttle.docking_controller_tag = "trade_shuttle"
+	shuttle.dock_target_station = "trade_shuttle_dock_airlock"
+	shuttle.dock_target_offsite = "trade_shuttle_bay"
+	shuttles["Trade"] = shuttle
 	process_shuttles += shuttle
 
 	shuttle = new()
@@ -191,7 +275,7 @@ var/global/datum/shuttle_controller/shuttle_controller
 	var/datum/shuttle/ferry/multidock/specops/ERT = new()
 	ERT.location = 0
 	ERT.warmup_time = 10
-	ERT.area_offsite = locate(/area/shuttle/specops/station)	//centcom is the home station, the Exodus is offsite
+	ERT.area_offsite = locate(/area/shuttle/specops/station)	//centcom is the home station, the player station is offsite
 	ERT.area_station = locate(/area/shuttle/specops/centcom)
 	ERT.docking_controller_tag = "specops_shuttle_port"
 	ERT.docking_controller_tag_station = "specops_shuttle_port"
@@ -210,12 +294,12 @@ var/global/datum/shuttle_controller/shuttle_controller
 		"Fore Port Solars" = locate(/area/skipjack_station/northwest_solars),
 		"Aft Starboard Solars" = locate(/area/skipjack_station/southeast_solars),
 		"Aft Port Solars" = locate(/area/skipjack_station/southwest_solars),
-		"Mining asteroid" = locate(/area/skipjack_station/mining)
+		"Mining Station" = locate(/area/skipjack_station/mining)
 		)
 
-	VS.announcer = "NDV Icarus"
-	VS.arrival_message = "Attention, Exodus, we just tracked a small target bypassing our defensive perimeter. Can't fire on it without hitting the station - you've got incoming visitors, like it or not."
-	VS.departure_message = "Your guests are pulling away, Exodus - moving too fast for us to draw a bead on them. Looks like they're heading out of the system at a rapid clip."
+	VS.announcer = "Colony Automated Radar Array"
+	VS.arrival_message = "Attention.  Unidentified object approaching the colony."
+	VS.departure_message = "Attention.  Unidentified object exiting local space.  Unidentified object expected to escape Kara gravity well with current velocity."
 	VS.interim = locate(/area/skipjack_station/transit)
 
 	VS.warmup_time = 0
@@ -234,19 +318,19 @@ var/global/datum/shuttle_controller/shuttle_controller
 		"South of the station" = locate(/area/syndicate_station/south),
 		"Southeast of the station" = locate(/area/syndicate_station/southeast),
 		"Telecomms Satellite" = locate(/area/syndicate_station/commssat),
-		"Mining Asteroid" = locate(/area/syndicate_station/mining),
+		"Mining Station" = locate(/area/syndicate_station/mining),
 		"Arrivals dock" = locate(/area/syndicate_station/arrivals_dock),
 		)
-	
+
 	MS.docking_controller_tag = "merc_shuttle"
 	MS.destination_dock_targets = list(
 		"Mercenary Base" = "merc_base",
 		"Arrivals dock" = "nuke_shuttle_dock_airlock",
 		)
 
-	MS.announcer = "NDV Icarus"
-	MS.arrival_message = "Attention, Exodus, you have a large signature approaching the station - looks unarmed to surface scans. We're too far out to intercept - brace for visitors."
-	MS.departure_message = "Your visitors are on their way out of the system, Exodus, burning delta-v like it's nothing. Good riddance."
+	MS.announcer = "Automated Traffic Control"
+	MS.arrival_message = "Attention.  A vessel is approaching the colony."
+	MS.departure_message = "Attention.  A vessel is now leaving from the colony."
 	MS.interim = locate(/area/syndicate_station/transit)
 
 	MS.warmup_time = 0

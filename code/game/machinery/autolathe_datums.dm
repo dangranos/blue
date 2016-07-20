@@ -16,7 +16,10 @@
 			recipe.resources = list()
 			for(var/material in I.matter)
 				recipe.resources[material] = I.matter[material]*1.25 // More expensive to produce than they are to recycle.
-			qdel(I)
+		if(recipe.is_stack && istype(I, /obj/item/stack))
+			var/obj/item/stack/IS = I
+			recipe.max_stack = IS.max_amount
+		qdel(I)
 
 /datum/autolathe/recipe
 	var/name = "object"
@@ -26,15 +29,56 @@
 	var/category
 	var/power_use = 0
 	var/is_stack
+	var/max_stack
 
 /datum/autolathe/recipe/bucket
 	name = "bucket"
-	path = /obj/item/weapon/reagent_containers/glass/bucket
+	path = /obj/item/weapon/reagent_containers/glass/beaker/bucket
 	category = "General"
+
+/datum/autolathe/recipe/cooler_bottle
+	name = "water-cooler bottle"
+	path = /obj/item/weapon/reagent_containers/glass/beaker/cooler_bottle
+	category = "General"
+
+/datum/autolathe/recipe/drinkingglass
+	name = "drinking glass"
+	path = /obj/item/weapon/reagent_containers/glass/drinking/square
+	category = "General"
+	New()
+		..()
+		var/obj/O = path
+		name = initial(O.name) // generic recipes yay
+
+/datum/autolathe/recipe/drinkingglass/rocks
+	path = /obj/item/weapon/reagent_containers/glass/drinking/rocks
+
+/datum/autolathe/recipe/drinkingglass/shake
+	path = /obj/item/weapon/reagent_containers/glass/drinking/shake
+
+/datum/autolathe/recipe/drinkingglass/cocktail
+	path = /obj/item/weapon/reagent_containers/glass/drinking/cocktail
+
+/datum/autolathe/recipe/drinkingglass/shot
+	path = /obj/item/weapon/reagent_containers/glass/drinking/shot
+
+/datum/autolathe/recipe/drinkingglass/pint
+	path = /obj/item/weapon/reagent_containers/glass/drinking/pint
+
+/datum/autolathe/recipe/drinkingglass/mug
+	path = /obj/item/weapon/reagent_containers/glass/drinking/mug
+
+/datum/autolathe/recipe/drinkingglass/wine
+	path = /obj/item/weapon/reagent_containers/glass/drinking/wine
 
 /datum/autolathe/recipe/flashlight
 	name = "flashlight"
 	path = /obj/item/device/flashlight
+	category = "General"
+
+/datum/autolathe/recipe/floor_light
+	name = "floor light"
+	path = /obj/machinery/floor_light
 	category = "General"
 
 /datum/autolathe/recipe/extinguisher
@@ -102,6 +146,11 @@
 	path = /obj/item/device/radio/off
 	category = "General"
 
+/datum/autolathe/recipe/suit_cooler
+	name = "suit cooling unit"
+	path = /obj/item/device/suit_cooling_unit
+	category = "General"
+
 /datum/autolathe/recipe/weldermask
 	name = "welding mask"
 	path = /obj/item/clothing/head/welding
@@ -148,17 +197,102 @@
 
 /datum/autolathe/recipe/airalarm
 	name = "air alarm electronics"
-	path = /obj/item/weapon/airalarm_electronics
+	path = /obj/item/weapon/circuitboard/airalarm
 	category = "Engineering"
 
 /datum/autolathe/recipe/firealarm
 	name = "fire alarm electronics"
-	path = /obj/item/weapon/firealarm_electronics
+	path = /obj/item/weapon/circuitboard/firealarm
 	category = "Engineering"
 
 /datum/autolathe/recipe/powermodule
 	name = "power control module"
 	path = /obj/item/weapon/module/power_control
+	category = "Engineering"
+
+/datum/autolathe/recipe/statusdisplay
+	name = "status display electronics"
+	path = /obj/item/weapon/circuitboard/status_display
+	category = "Engineering"
+
+/datum/autolathe/recipe/aistatusdisplay
+	name = "ai status display electronics"
+	path = /obj/item/weapon/circuitboard/ai_status_display
+	category = "Engineering"
+
+/datum/autolathe/recipe/newscaster
+	name = "newscaster electronics"
+	path = /obj/item/weapon/circuitboard/newscaster
+	category = "Engineering"
+
+/datum/autolathe/recipe/atm
+	name = "atm electronics"
+	path = /obj/item/weapon/circuitboard/atm
+	category = "Engineering"
+
+/datum/autolathe/recipe/intercom
+	name = "intercom electronics"
+	path = /obj/item/weapon/circuitboard/intercom
+	category = "Engineering"
+
+/datum/autolathe/recipe/holopad
+	name = "holopad electronics"
+	path = /obj/item/weapon/circuitboard/holopad
+	category = "Engineering"
+
+/datum/autolathe/recipe/guestpass
+	name = "guestpass console electronics"
+	path = /obj/item/weapon/circuitboard/guestpass
+	category = "Engineering"
+
+/datum/autolathe/recipe/entertainment
+	name = "entertainment camera electronics"
+	path = /obj/item/weapon/circuitboard/security/telescreen/entertainment
+	category = "Engineering"
+
+/datum/autolathe/recipe/keycard
+	name = "keycard authenticator electronics"
+	path = /obj/item/weapon/circuitboard/keycard_auth
+	category = "Engineering"
+
+/datum/autolathe/recipe/photocopier
+	name = "photocopier electronics"
+	path = /obj/item/weapon/circuitboard/photocopier
+	category = "Engineering"
+
+/datum/autolathe/recipe/fax
+	name = "fax machine electronics"
+	path = /obj/item/weapon/circuitboard/fax
+	category = "Engineering"
+
+/datum/autolathe/recipe/microwave
+	name = "microwave electronics"
+	path = /obj/item/weapon/circuitboard/microwave
+	category = "Engineering"
+
+/datum/autolathe/recipe/washing
+	name = "washing machine electronics"
+	path = /obj/item/weapon/circuitboard/washing
+	category = "Engineering"
+
+/datum/autolathe/recipe/request
+	name = "request console electronics"
+	path = /obj/item/weapon/circuitboard/request
+	category = "Engineering"
+
+/datum/autolathe/recipe/motor
+	name = "motor"
+	path = /obj/item/weapon/stock_parts/motor
+	category = "Engineering"
+
+/datum/autolathe/recipe/gear
+	name = "gear"
+	path = /obj/item/weapon/stock_parts/gear
+	category = "Engineering"
+
+/datum/autolathe/recipe/spring
+	name = "spring"
+	path = /obj/item/weapon/stock_parts/spring
 	category = "Engineering"
 
 /datum/autolathe/recipe/rcd_ammo
@@ -216,36 +350,288 @@
 	path = /obj/item/weapon/reagent_containers/syringe
 	category = "Medical"
 
+/datum/autolathe/recipe/syringegun_ammo
+	name = "syringe gun cartridge"
+	path = /obj/item/weapon/syringe_cartridge
+	category = "Arms and Ammunition"
+
+////////////////
+/*Ammo casings*/
+////////////////
+
 /datum/autolathe/recipe/shotgun_blanks
-	name = "ammunition (shotgun, blank)"
+	name = "ammunition (12g, blank)"
 	path = /obj/item/ammo_casing/shotgun/blank
 	category = "Arms and Ammunition"
 
 /datum/autolathe/recipe/shotgun_beanbag
-	name = "ammunition (shotgun, beanbag)"
+	name = "ammunition (12g, beanbag)"
 	path = /obj/item/ammo_casing/shotgun/beanbag
 	category = "Arms and Ammunition"
 
 /datum/autolathe/recipe/shotgun_flash
-	name = "ammunition (shotgun, flash)"
+	name = "ammunition (12g, flash)"
 	path = /obj/item/ammo_casing/shotgun/flash
 	category = "Arms and Ammunition"
 
-/datum/autolathe/recipe/magazine_rubber
-	name = "ammunition (.45, rubber)"
-	path = /obj/item/ammo_magazine/c45m/rubber
+/datum/autolathe/recipe/shotgun
+	name = "ammunition (12g, slug)"
+	path = /obj/item/ammo_casing/shotgun
+	hidden = 1
 	category = "Arms and Ammunition"
 
-/datum/autolathe/recipe/magazine_flash
-	name = "ammunition (.45, flash)"
-	path = /obj/item/ammo_magazine/c45m/flash
+/datum/autolathe/recipe/shotgun_pellet
+	name = "ammunition (12g, pellet)"
+	path = /obj/item/ammo_casing/shotgun/pellet
+	hidden = 1
 	category = "Arms and Ammunition"
 
-/datum/autolathe/recipe/magazine_smg_rubber
-	name = "ammunition (9mm rubber top mounted)"
-	path = /obj/item/ammo_magazine/mc9mmt/rubber
+/datum/autolathe/recipe/stunshell
+	name = "ammunition (stun cartridge, shotgun)"
+	path = /obj/item/ammo_casing/shotgun/stunshell
+	hidden = 1
 	category = "Arms and Ammunition"
 
+/datum/autolathe/recipe/shotgun_magazine
+	name = "24rnd shotgun magazine (12g)"
+	path = /obj/item/ammo_magazine/g12
+	category = "Arms and Ammunition"
+	hidden = 1
+
+//////////////////
+/*Ammo magazines*/
+//////////////////
+
+/////// 5mm
+/*
+/datum/autolathe/recipe/pistol_5mm
+	name = "pistol magazine (5mm)"
+	path = /obj/item/ammo_magazine/c5mm
+	category = "Arms and Ammunition"
+	hidden = 1
+*/
+
+/////// .45
+/datum/autolathe/recipe/ammo10x45
+	name = "ammo cartridge (10x45)"
+	path = /obj/item/ammo_magazine/a10x45
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/ammo10x45hp
+	name = "ammo cartridge (10x45 hollowpoint)"
+	path = /obj/item/ammo_magazine/a10x45/hp
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/ammo57x28
+	name = "ammo mag (5.7x28)"
+	path = /obj/item/ammo_magazine/a57x28
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/ammo57x28ap
+	name = "ammo mag (5.7x28 AP)"
+	path = /obj/item/ammo_magazine/a57x28/ap
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/ammo57x28pdw
+	name = "PDW ammo mag (5.7x28)"
+	path = /obj/item/ammo_magazine/a57x28pdw
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/ammo57x28pdwap
+	name = "PDW ammo mag (5.7x28 AP)"
+	path = /obj/item/ammo_magazine/a57x28pdw/ap
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/ammo75x54
+	name = "ammo mag (7.5x54)"
+	path = /obj/item/ammo_magazine/a75x54
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/ammo75x54ap
+	name = "ammo mag (7.5x54 AP)"
+	path = /obj/item/ammo_magazine/a75x54/ap
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/* Commented out until autolathe stuff is decided/fixed. Will probably remove these entirely. -Spades
+// These should always be /empty! The idea is to fill them up manually with ammo clips.
+
+/datum/autolathe/recipe/pistol_5mm
+	name = "pistol magazine (5mm)"
+	path = /obj/item/ammo_magazine/c5mm/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/smg_5mm
+	name = "top-mounted SMG magazine (5mm)"
+	path = /obj/item/ammo_magazine/c5mmt/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/pistol_45
+	name = "pistol magazine (.45)"
+	path = /obj/item/ammo_magazine/c45m/empty
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/pistol_45uzi
+	name = "uzi magazine (.45)"
+	path = /obj/item/ammo_magazine/c45uzi/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/tommymag
+	name = "Tommygun magazine (.45)"
+	path = /obj/item/ammo_magazine/tommymag/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/tommydrum
+	name = "Tommygun drum magazine (.45)"
+	path = /obj/item/ammo_magazine/tommydrum/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/pistol_9mm
+	name = "pistol magazine (9mm)"
+	path = /obj/item/ammo_magazine/mc9mm/empty
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/smg_9mm
+	name = "top-mounted SMG magazine (9mm)"
+	path = /obj/item/ammo_magazine/mc9mmt/empty
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/smg_10mm
+	name = "SMG magazine (10mm)"
+	path = /obj/item/ammo_magazine/a10mm/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/pistol_50
+	name = "pistol magazine (.50AE)"
+	path = /obj/item/ammo_magazine/a50/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/rifle_556
+	name = "10rnd rifle magazine (5.56mm)"
+	path = /obj/item/ammo_magazine/a556/empty
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/rifle_556m
+	name = "20rnd rifle magazine (5.56mm)"
+	path = /obj/item/ammo_magazine/a556m/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/rifle_SVD
+	name = "10rnd rifle magazine (7.62mm)"
+	path = /obj/item/ammo_magazine/SVD/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/rifle_762
+	name = "20rnd rifle magazine (7.62mm)"
+	path = /obj/item/ammo_magazine/c762/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/machinegun_762
+	name = "machinegun box magazine (7.62)"
+	path = /obj/item/ammo_magazine/a762/empty
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/shotgun_magazine
+	name = "24rnd shotgun magazine (12g)"
+	path = /obj/item/ammo_magazine/g12/empty
+	category = "Arms and Ammunition"
+	hidden = 1*/
+
+///////////////////////////////
+/*Ammo clips and Speedloaders*/
+///////////////////////////////
+
+// Commented out until metal exploits with autolathe is fixed.
+/*/datum/autolathe/recipe/pistol_clip_45
+	name = "ammo clip (.45)"
+	path = /obj/item/ammo_magazine/clip/c45
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/pistol_clip_45r
+	name = "ammo clip (.45 rubber)"
+	path = /obj/item/ammo_magazine/clip/c45/rubber
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/pistol_clip_45f
+	name = "ammo clip (.45 flash)"
+	path = /obj/item/ammo_magazine/clip/c45/flash
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/pistol_clip_45p
+	name = "ammo clip (.45 practice)"
+	path = /obj/item/ammo_magazine/clip/c45/practice
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/pistol_clip_9mm
+	name = "ammo clip (9mm)"
+	path = /obj/item/ammo_magazine/clip/c9mm
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/pistol_clip_9mmr
+	name = "ammo clip (9mm rubber)"
+	path = /obj/item/ammo_magazine/clip/c9mm/rubber
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/pistol_clip_9mmp
+	name = "ammo clip (9mm practice)"
+	path = /obj/item/ammo_magazine/clip/c9mm/practice
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/pistol_clip_9mmf
+	name = "ammo clip (9mm flash)"
+	path = /obj/item/ammo_magazine/clip/c9mm/flash
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/pistol_clip_5mm
+	name = "ammo clip (5mm)"
+	path = /obj/item/ammo_magazine/clip/c5mm
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/pistol_clip_10mm
+	name = "ammo clip (10mm)"
+	path = /obj/item/ammo_magazine/clip/a10mm
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/pistol_clip_50
+	name = "ammo clip (.50AE)"
+	path = /obj/item/ammo_magazine/clip/a50
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/rifle_clip_556
+	name = "ammo clip (5.56mm)"
+	path = /obj/item/ammo_magazine/clip/a556
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/rifle_clip_556_practice
+	name = "ammo clip (5.56mm practice)"
+	path = /obj/item/ammo_magazine/clip/a556/practice
+	category = "Arms and Ammunition"
+*/
+
+//////////////
 
 /datum/autolathe/recipe/consolescreen
 	name = "console screen"
@@ -277,11 +663,6 @@
 	path = /obj/item/device/assembly/prox_sensor
 	category = "Devices and Components"
 
-/datum/autolathe/recipe/voice_analyzer
-	name = "voice analyzer"
-	path = /obj/item/device/assembly/voice
-	category = "Devices and Components"
-
 /datum/autolathe/recipe/tube
 	name = "light tube"
 	path = /obj/item/weapon/light/tube
@@ -302,99 +683,20 @@
 	path = /obj/item/weapon/camera_assembly
 	category = "Engineering"
 
+/datum/autolathe/recipe/weldinggoggles
+	name = "welding goggles"
+	path = /obj/item/clothing/glasses/welding
+	category = "General"
+
+/datum/autolathe/recipe/maglight
+ 	name = "maglight"
+ 	path = /obj/item/device/flashlight/maglight
+ 	hidden = 1
+ 	category = "General"
+
 /datum/autolathe/recipe/flamethrower
 	name = "flamethrower"
 	path = /obj/item/weapon/flamethrower/full
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_revolver_1
-	name = "ammunition (.357)"
-	path = /obj/item/ammo_magazine/a357
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_revolver_2
-	name = "ammunition (.45)"
-	path = /obj/item/ammo_magazine/c45m
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_stetchkin
-	name = "ammunition (9mm)"
-	path = /obj/item/ammo_magazine/mc9mm
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_stetchkin_flash
-	name = "ammunition (9mm, flash)"
-	path = /obj/item/ammo_magazine/mc9mm/flash
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_c20r
-	name = "ammunition (12mm)"
-	path = /obj/item/ammo_magazine/a12mm
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_arifle
-	name = "ammunition (7.62mm)"
-	path = /obj/item/ammo_magazine/c762
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_L6
-	name = "ammunition (7.62mm box)"
-	path = /obj/item/ammo_magazine/a762
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_smg40
-	name = "ammunition (.40 SMG)"
-	path = /obj/item/ammo_magazine/smg40
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_car40
-	name = "ammunition (.40 carbine)"
-	path = /obj/item/ammo_magazine/carbine40
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_smg
-	name = "ammunition (9mm top mounted)"
-	path = /obj/item/ammo_magazine/mc9mmt
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/magazine_carbine
-	name = "ammunition (5.56mm)"
-	path = /obj/item/ammo_magazine/a556
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/shotgun
-	name = "ammunition (slug, shotgun)"
-	path = /obj/item/ammo_casing/shotgun
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/shotgun_pellet
-	name = "ammunition (shell, shotgun)"
-	path = /obj/item/ammo_casing/shotgun/pellet
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/tacknife
-	name = "tactical knife"
-	path = /obj/item/weapon/material/hatchet/tacknife
-	hidden = 1
-	category = "Arms and Ammunition"
-
-/datum/autolathe/recipe/stunshell
-	name = "ammunition (stun cartridge, shotgun)"
-	path = /obj/item/ammo_casing/shotgun/stunshell
 	hidden = 1
 	category = "Arms and Ammunition"
 
@@ -428,4 +730,14 @@
 	hidden = 1
 	category = "General"
 
+/datum/autolathe/recipe/knuckledusters
+	name = "knuckle dusters"
+	path = /obj/item/weapon/material/knuckledusters
+	hidden = 1
+	category = "Arms and Ammunition"
 
+/datum/autolathe/recipe/tacknife
+	name = "tactical knife"
+	path = /obj/item/weapon/material/hatchet/tacknife
+	hidden = 1
+	category = "Arms and Ammunition"

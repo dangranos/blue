@@ -63,7 +63,7 @@
 					H.custom_pain(painMes)
 				else if (istype(M, /mob/living/carbon))
 					var/mob/living/carbon/C = M
-					if (!(C.species && (C.species.flags & NO_PAIN)))
+					if (C.can_feel_pain())
 						M << "<span class='danger'>[painMes]</span>"
 
 			gain_nutrition(rand(20,25))
@@ -120,28 +120,11 @@
 			maxHealth = 200
 			amount_grown = 0
 			regenerate_icons()
-			real_name = text("[colour] [is_adult ? "adult" : "baby"] slime ([number])")
-			name = real_name
+			name = text("[colour] [is_adult ? "adult" : "baby"] slime ([number])")
 		else
 			src << "<span class='notice'>I am not ready to evolve yet...</span>"
-	else if(!dna)
-		src << "<span class='notice'>I have already evolved...</span>"
 	else
-		if(amount_grown >= 15)
-			var/mob/living/carbon/human/H = new /mob/living/carbon/human(src.loc, dna.species)
-			if(!dna.real_name)	//to prevent null names
-				dna.real_name = "Human slime ([rand(0,999)])"
-			H.real_name = dna.real_name
-			H.Paralyse(4)
-			H.updatehealth()
-			if(mind) mind.transfer_to(H)
-			if(ckey) H.ckey = ckey
-			H.UpdateAppearance()
-			for(var/datum/language/L in languages)
-				H.add_language(L.name)
-			del(src)
-		else
-			src << "<span class='notice'>I am not ready to evolve yet...</span>"
+		src << "<span class='notice'>I have already evolved...</span>"
 
 /mob/living/carbon/slime/verb/Reproduce()
 	set category = "Slime"
@@ -149,10 +132,6 @@
 
 	if(stat)
 		src << "<span class='notice'>I must be conscious to do this...</span>"
-		return
-
-	if(dna)
-		src << "<span class='notice'>I can't reproduce... </span>"
 		return
 
 	if(is_adult)

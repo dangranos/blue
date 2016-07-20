@@ -21,7 +21,7 @@
 	generate_loot()
 
 /obj/structure/closet/crate/secure/loot/proc/generate_loot()
-	var/loot = rand(1, 100)
+	var/loot = rand(1, 99)
 	switch(loot)
 		if(1 to 5) // Common things go, 5%
 			new/obj/item/weapon/reagent_containers/glass/drinks/bottle/rum(src)
@@ -104,7 +104,7 @@
 		if(88)
 			new/obj/item/xenos_claw(src)
 		if(89)
-			new/obj/item/organ/internal/xenos/plasmavessel(src)
+			new/obj/item/clothing/head/bearpelt(src)
 		if(90)
 			new/obj/item/organ/internal/heart(src)
 		if(91)
@@ -130,7 +130,7 @@
 			new/obj/item/clothing/gloves/white(src)
 			new/obj/item/clothing/mask/gas/mime(src)
 			new/obj/item/clothing/head/beret(src)
-			new/obj/item/clothing/accessory/suspenders(src)
+			new/obj/item/clothing/suit/suspenders(src)
 			new/obj/item/weapon/pen/crayon/mime(src)
 			new/obj/item/weapon/reagent_containers/glass/drinks/bottle/bottleofnothing(src)
 		if(96)
@@ -142,8 +142,6 @@
 		if(99)
 			new/obj/item/weapon/storage/belt/champion(src)
 			new/obj/item/clothing/mask/luchador(src)
-		if(100)
-			new/obj/item/clothing/head/bearpelt(src)
 
 /obj/structure/closet/crate/secure/loot/togglelock(mob/user as mob)
 	if(!locked)
@@ -168,6 +166,11 @@
 			var/turf/T = get_turf(src.loc)
 			explosion(T, 0, 0, 1, 2)
 			qdel(src)
+
+/obj/structure/closet/crate/secure/loot/emag_act(var/remaining_charges, var/mob/user)
+	if (locked)
+		user << "<span class='notice'>The crate unlocks!</span>"
+		locked = 0
 
 /obj/structure/closet/crate/secure/loot/proc/check_input(var/input)
 	if(length(input) != codelen)

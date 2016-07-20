@@ -63,6 +63,7 @@
 
 		var/obj/item/clothing/under/U = item
 		if(istype(U))
+			U.worn_state = U.icon_state
 			U.update_rolldown_status()
 
 	// Kits are dumb so this is going to have to be hardcoded/snowflake.
@@ -74,7 +75,7 @@
 		K.new_icon_file = CUSTOM_ITEM_OBJ
 		if(istype(item, /obj/item/device/kit/paint))
 			var/obj/item/device/kit/paint/kit = item
-			kit.allowed_types = text2list(additional_data, ", ")
+			kit.allowed_types = splittext(additional_data, ", ")
 		else if(istype(item, /obj/item/device/kit/suit))
 			var/obj/item/device/kit/suit/kit = item
 			kit.new_light_overlay = additional_data
@@ -129,213 +130,58 @@
 /hook/startup/proc/load_custom_items()
 
 	var/datum/custom_item/current_data
-	var/list/L
+	for(var/line in splittext(file2text("config/custom_items.txt"), "\n"))
 
-////D00k-N00kem////
-	L = list()
+		line = trim(line)
+		if(line == "" || !line || findtext(line, "#", 1, 2))
+			continue
 
-	current_data = new()
-	current_data.assoc_key = "d00kn00kem"
-	current_data.character_name = "Natalia Lynn"
-	current_data.item_path = /obj/item/clothing/suit/storage/labcoat/augmented
-	L |= current_data
+		if(findtext(line, "{", 1, 2) || findtext(line, "}", 1, 2)) // New block!
+			if(current_data && current_data.assoc_key)
+				if(!custom_items[current_data.assoc_key])
+					custom_items[current_data.assoc_key] = list()
+				var/list/L = custom_items[current_data.assoc_key]
+				L |= current_data
+			current_data = null
 
-	current_data = new()
-	current_data.assoc_key = "d00kn00kem"
-	current_data.character_name = "Lorenzo Shere"
-	current_data.item_path = /obj/item/clothing/mask/D00k_N00kem
-	L |= current_data
+		var/split = findtext(line,":")
+		if(!split)
+			continue
+		var/field = trim(copytext(line,1,split))
+		var/field_data = trim(copytext(line,(split+1)))
+		if(!field || !field_data)
+			continue
 
-	current_data = new()
-	current_data.assoc_key = "d00kn00kem"
-	current_data.character_name = "Lorenzo Shere"
-	current_data.item_path = /obj/item/clothing/suit/storage/labcoat/long
-	L |= current_data
+		if(!current_data)
+			current_data = new()
 
-	custom_items["d00kn00kem"] = L
-
-///Shamah///
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "shamah"
-	current_data.character_name = "Niels Johansson"
-	current_data.item_path = /obj/item/clothing/suit/storage/toggle/bomber/niels
-	L |= current_data
-
-	custom_items["shamah"] = L
-
-///Lethal Ghost///
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "lethalghost"
-	current_data.character_name = "April Evans"
-	current_data.item_path = /obj/item/weapon/photo/custom
-	L |= current_data
-
-	custom_items["lethalghost"] = L
-
-///Eclipse///
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "solareclipse84"
-	current_data.req_titles = list("Head of Security")
-	current_data.character_name = "Dallas Brun"
-	current_data.item_path = /obj/item/clothing/suit/armor/hos/solyarkin
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "solareclipse84"
-	current_data.req_titles = list("Head of Security")
-	current_data.character_name = "Dallas Brun"
-	current_data.item_path = /obj/item/clothing/under/rank/head_of_security/solyarkin
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "solareclipse84"
-	current_data.req_titles = list("Head of Security")
-	current_data.character_name = "Dallas Brun"
-	current_data.item_path = /obj/item/clothing/head/helmet/HoS/solyarkin
-	L |= current_data
-
-	custom_items["solareclipse84"] = L
-
-////Wajtswv////
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "wajtswv"
-	current_data.character_name = "William Stern"
-	current_data.item_path = /obj/item/clothing/under/russobluecamooutfit
-	L |= current_data
-
-	custom_items["wajtswv"] = L
-
-////Tertiumdatur////
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "tertiumdatur"
-	current_data.character_name = "Morlaiaschorr Ilirka"
-	current_data.item_desc = "A kit for modifying a voidsuit."
-	current_data.name = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
-	current_data.item_path = /obj/item/device/kit/suit
-	current_data.req_titles = list("Atmospheric Technician", "Station Engineer")
-	current_data.kit_name = "dark brown voidsuit"
-	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
-	current_data.kit_icon = "rig-atmos_special"
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "tertiumdatur"
-	current_data.character_name = "Morlaiaschorr Ilirka"
-	current_data.item_path = /obj/item/clothing/glasses/hud/engi
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "tertiumdatur"
-	current_data.character_name = "Karamzi Khis'san"
-	current_data.item_path = /obj/item/clothing/head/floral_crown
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "tertiumdatur"
-	current_data.character_name = "Judas Insufledor"
-	current_data.item_path = /obj/item/clothing/suit/storage/judas_jacket
-	L |= current_data
-
-	custom_items["tertiumdatur"] = L
-
-////Nikiss2000////
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "nikiss2000"
-	current_data.character_name = "Hayaya Chatahahita"
-	current_data.item_path = /obj/item/clothing/head/vox_cap
-	L |= current_data
-
-	custom_items["nikiss2000"] = L
-
-////Subber////
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "subber"
-	current_data.character_name = "Claire Sandford"
-	current_data.item_path = /obj/item/clothing/suit/ianshirt/ash
-	L|=current_data
-
-	current_data = new()
-	current_data.assoc_key = "subber"
-	current_data.character_name = "Claire Sandford"
-	current_data.item_path = /obj/item/toy/plushie/man
-	L|=current_data
-
-	custom_items["subber"] = L
-
-////MarcusAga////
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "marcusaga"
-	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/under/pants/sweaterj
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "marcusaga"
-	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/suit/storage/pullover
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "marcusaga"
-	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/clothing/shoes/red_boots
-	L |= current_data
-
-	current_data = new()
-	current_data.assoc_key = "marcusaga"
-	current_data.character_name = "Bertrand Francois"
-	current_data.item_path = /obj/item/device/pda/chrome
-	L |= current_data
-
-	custom_items["marcusaga"] = L
-
-////Affectuum////
-
-	L = list()
-
-	current_data = new()
-	current_data.assoc_key = "affectuum"
-	current_data.character_name = "Sasha Winter"
-	current_data.item_path = /obj/item/clothing/under/pants/blouse
-	L|=current_data
-
-	current_data = new()
-	current_data.assoc_key = "affectuum"
-	current_data.character_name = "Sasha Winter"
-	current_data.item_path = /obj/item/clothing/suit/storage/cardigan
-	L|=current_data
-
-	current_data = new()
-	current_data.assoc_key = "affectuum"
-	current_data.character_name = "Sasha Winter"
-	current_data.item_path = /obj/item/clothing/shoes/gazelle
-	L|=current_data
-
-	custom_items["affectuum"] = L
-
+		switch(field)
+			if("ckey")
+				current_data.assoc_key = rlowertext(field_data)
+			if("character_name")
+				current_data.character_name = rlowertext(field_data)
+			if("item_path")
+				current_data.item_path = text2path(field_data)
+			if("item_name")
+				current_data.name = field_data
+			if("item_icon")
+				current_data.item_icon = field_data
+			if("inherit_inhands")
+				current_data.inherit_inhands = text2num(field_data)
+			if("item_desc")
+				current_data.item_desc = field_data
+			if("req_access")
+				current_data.req_access = text2num(field_data)
+			if("req_titles")
+				current_data.req_titles = splittext(field_data,", ")
+			if("kit_name")
+				current_data.kit_name = field_data
+			if("kit_desc")
+				current_data.kit_desc = field_data
+			if("kit_icon")
+				current_data.kit_icon = field_data
+			if("additional_data")
+				current_data.additional_data = field_data
 	return 1
 
 //gets the relevant list for the key from the listlist if it exists, check to make sure they are meant to have it and then calls the giving function
@@ -347,7 +193,7 @@
 	for(var/datum/custom_item/citem in key_list)
 
 		// Check for requisite ckey and character name.
-		if((lowertext(citem.assoc_key) != lowertext(M.ckey)) || (lowertext(citem.character_name) != lowertext(M.real_name)))
+		if((rlowertext(citem.assoc_key) != rlowertext(M.ckey)) || (rlowertext(citem.character_name) != rlowertext(M.real_name)))
 			continue
 
 		// Check for required access.

@@ -4,7 +4,7 @@
 	set category = "OOC"
 
 	if(say_disabled)	//This is here to try to identify lag problems
-		usr << "\red Speech is currently admin-disabled."
+		usr << "<span class='warning'>Speech is currently admin-disabled.</span>"
 		return
 
 	if(!mob)	return
@@ -15,14 +15,9 @@
 	msg = sanitize(msg)
 	if(!msg)	return
 
-	if(!(prefs.chat_toggles & CHAT_OOC))
-		src << "\red You have OOC muted."
+	if(!is_preference_enabled(/datum/client_preference/show_ooc))
+		src << "<span class='warning'>You have OOC muted.</span>"
 		return
-
-	if(src.mob)
-		if(jobban_isbanned(src.mob, "OOC"))
-			src << "<span class='danger'>You have been banned from OOC.</span>"
-			return
 
 	if(!holder)
 		if(!config.ooc_allowed)
@@ -34,15 +29,13 @@
 		if(prefs.muted & MUTE_OOC)
 			src << "<span class='danger'>You cannot use OOC (muted).</span>"
 			return
-		if(handle_spam_prevention(msg,MUTE_OOC))
-			return
 		if(findtext(msg, "byond://"))
 			src << "<B>Advertising other servers is not allowed.</B>"
 			log_admin("[key_name(src)] has attempted to advertise in OOC: [msg]")
 			message_admins("[key_name_admin(src)] has attempted to advertise in OOC: [msg]")
 			return
 
-	log_ooc("[key]/[mob.name] : [msg]")
+	log_ooc("[mob.name]/[key] : [msg]")
 
 	var/ooc_style = "everyone"
 	if(holder && !holder.fakekey)
@@ -54,21 +47,10 @@
 		if(holder.rights & R_ADMIN)
 			ooc_style = "admin"
 
-	var/donator_icon = ""
-
-
-	if(holder)
-		if(holder.fakekey && is_donator(holder.fakekey))
-			donator_icon = "<img class=icon src=\ref['icons/donator.dmi'] iconstate='[holder.fakekey]'>"
-		else if(is_donator(key))
-			donator_icon = "<img class=icon src=\ref['icons/donator.dmi'] iconstate='[key]'>"
-
-	else if(is_donator(key))
-		donator_icon = "<img class=icon src=\ref['icons/donator.dmi'] iconstate='[key]'>"
-
-
 	for(var/client/target in clients)
-		if(target.prefs.chat_toggles & CHAT_OOC)
+		if(target.is_preference_enabled(/datum/client_preference/show_ooc))
+			if(target.is_key_ignored(key)) // If we're ignored by this person, then do nothing.
+				continue
 			var/display_name = src.key
 			if(holder)
 				if(holder.fakekey)
@@ -77,9 +59,9 @@
 					else
 						display_name = holder.fakekey
 			if(holder && !holder.fakekey && (holder.rights & R_ADMIN) && config.allow_admin_ooccolor && (src.prefs.ooccolor != initial(src.prefs.ooccolor))) // keeping this for the badmins
-				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'>" + create_text_tag("ooc", "OOC:", target) + " <EM> [donator_icon][display_name]:</EM> <span class='message'>[msg]</span></span></font>"
+				target << "<font color='[src.prefs.ooccolor]'><span class='ooc'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></font>"
 			else
-				target << "<span class='ooc'><span class='[ooc_style]'>" + create_text_tag("ooc", "OOC:", target) + " [donator_icon]<EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
+				target << "<span class='ooc'><span class='[ooc_style]'>" + create_text_tag("ooc", "OOC:", target) + " <EM>[display_name]:</EM> <span class='message'>[msg]</span></span></span>"
 
 /client/verb/looc(msg as text)
 	set name = "LOOC"
@@ -87,24 +69,22 @@
 	set category = "OOC"
 
 	if(say_disabled)	//This is here to try to identify lag problems
-		usr << "\red Speech is currently admin-disabled."
+		usr << "<span class='danger'>Speech is currently admin-disabled.</span>"
 		return
 
-	if(src.mob)
-		if(jobban_isbanned(src.mob, "LOOC"))
-			src << "<span class='danger'>You have been banned from LOOC.</span>"
-			return
+	if(!mob)
+		return
 
-	if(!mob)	return
 	if(IsGuestKey(key))
 		src << "Guests may not use OOC."
 		return
 
 	msg = sanitize(msg)
-	if(!msg)	return
+	if(!msg)
+		return
 
-	if(!(prefs.chat_toggles & CHAT_LOOC))
-		src << "\red You have LOOC muted."
+	if(!is_preference_enabled(/datum/client_preference/show_looc))
+		src << "<span class='danger'>You have LOOC muted.</span>"
 		return
 
 	if(!holder)
@@ -114,10 +94,8 @@
 		if(!config.dooc_allowed && (mob.stat == DEAD))
 			usr << "<span class='danger'>OOC for dead mobs has been turned off.</span>"
 			return
-		if(prefs.muted & MUTE_LOOC)
-			src << "<span class='danger'>You cannot use LOOC (muted).</span>"
-			return
-		if(handle_spam_prevention(msg,MUTE_LOOC))
+		if(prefs.muted & MUTE_OOC)
+			src << "<span class='danger'>You cannot use OOC (muted).</span>"
 			return
 		if(findtext(msg, "byond://"))
 			src << "<B>Advertising other servers is not allowed.</B>"
@@ -127,31 +105,53 @@
 
 	log_ooc("(LOCAL) [mob.name]/[key] : [msg]")
 
-	var/mob/source = src.mob
-	var/list/heard = get_mobs_in_view(7, source)
+	var/mob/source = mob.get_looc_source()
+	var/turf/T = get_turf(source)
+	if(!T) return
+	var/list/in_range = get_mobs_and_objs_in_view_fast(T,world.view,0)
+	var/list/m_viewers = in_range["mobs"]
 
-	var/display_name = source.key
+	var/list/receivers = list() // Clients, not mobs.
+	var/list/r_receivers = list()
+
+	var/display_name = key
 	if(holder && holder.fakekey)
 		display_name = holder.fakekey
-	if(source.stat != DEAD)
-		display_name = source.name
+	if(mob.stat != DEAD)
+		display_name = mob.name
 
-	var/prefix
-	var/admin_stuff
-	for(var/client/target in clients)
-		if(target.prefs.chat_toggles & CHAT_LOOC)
-			admin_stuff = ""
-			if(target in admins)
-				prefix = "(R)"
-				admin_stuff += "/([source.key])"
-				if(target != source.client)
-					admin_stuff += "(<A HREF='?src=\ref[target.holder];adminplayerobservejump=\ref[mob]'>JMP</A>)"
-			if(target.mob in heard)
-				prefix = ""
-			if((target.mob in heard) || (target in admins))
-				target << "<span class='ooc'><span class='looc'>" + create_text_tag("looc", "LOOC:", target) + " <span class='prefix'>[prefix]</span><EM>[display_name][admin_stuff]:</EM> <span class='message'>[msg]</span></span></span>"
+	// Everyone in normal viewing range of the LOOC
+	for(var/mob/viewer in m_viewers)
+		if(viewer.client && viewer.client.is_preference_enabled(/datum/client_preference/show_looc))
+			receivers |= viewer.client
+		else if(istype(viewer,/mob/observer/eye)) // For AI eyes and the like
+			var/mob/observer/eye/E = viewer
+			if(E.owner && E.owner.client)
+				receivers |= E.owner.client
 
-/proc/is_donator(var/key as text)
-	if(key in donator_icons)
-		return 1
-	return 0
+	// Admins with RLOOC displayed who weren't already in
+	for(var/client/admin in admins)
+		if(!(admin in receivers) && admin.is_preference_enabled(/datum/client_preference/holder/show_rlooc))
+			r_receivers |= admin
+
+	// Send a message
+	for(var/client/target in receivers)
+		var/admin_stuff = ""
+		
+		if(target in admins)
+			admin_stuff += "/([key])"
+
+		target << "<span class='ooc'><span class='looc'>" + create_text_tag("looc", "LOOC:", target) + " <EM>[display_name][admin_stuff]:</EM> <span class='message'>[msg]</span></span></span>"
+
+	for(var/client/target in r_receivers)
+		var/admin_stuff = "/([key])([admin_jump_link(mob, target.holder)])"
+		
+		target << "<span class='ooc'><span class='looc'>" + create_text_tag("looc", "LOOC:", target) + " <span class='prefix'>(R)</span><EM>[display_name][admin_stuff]:</EM> <span class='message'>[msg]</span></span></span>"
+
+/mob/proc/get_looc_source()
+	return src
+
+/mob/living/silicon/ai/get_looc_source()
+	if(eyeobj)
+		return eyeobj
+	return src

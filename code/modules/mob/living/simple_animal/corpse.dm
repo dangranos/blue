@@ -88,8 +88,8 @@
 	name = "Syndicate Operative"
 	corpseuniform = /obj/item/clothing/under/syndicate
 	corpsesuit = /obj/item/clothing/suit/armor/vest
-	corpseshoes = /obj/item/clothing/shoes/jackboots/swat
-	corpsegloves = /obj/item/clothing/gloves/black/swat
+	corpseshoes = /obj/item/clothing/shoes/swat
+	corpsegloves = /obj/item/clothing/gloves/swat
 	corpseradio = /obj/item/device/radio/headset
 	corpsemask = /obj/item/clothing/mask/gas
 	corpsehelmet = /obj/item/clothing/head/helmet/swat
@@ -104,8 +104,8 @@
 	name = "Syndicate Commando"
 	corpseuniform = /obj/item/clothing/under/syndicate
 	corpsesuit = /obj/item/clothing/suit/space/void/merc
-	corpseshoes = /obj/item/clothing/shoes/jackboots/swat
-	corpsegloves = /obj/item/clothing/gloves/black/swat
+	corpseshoes = /obj/item/clothing/shoes/swat
+	corpsegloves = /obj/item/clothing/gloves/swat
 	corpseradio = /obj/item/device/radio/headset
 	corpsemask = /obj/item/clothing/mask/gas/syndicate
 	corpsehelmet = /obj/item/clothing/head/helmet/space/void/merc
@@ -142,7 +142,7 @@
 
 /obj/effect/landmark/mobcorpse/pirate/ranged
 	name = "Pirate Gunner"
-	corpsesuit = /obj/item/clothing/suit/storage/pirate
+	corpsesuit = /obj/item/clothing/suit/pirate
 	corpsehelmet = /obj/item/clothing/head/pirate
 
 

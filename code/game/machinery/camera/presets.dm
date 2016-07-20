@@ -1,7 +1,10 @@
 // PRESETS
 var/global/list/station_networks = list(
-										NETWORK_CIVILIAN_EAST,
-										NETWORK_CIVILIAN_WEST,
+//										NETWORK_CAFE_DOCK,
+										NETWORK_CARGO,
+										NETWORK_CIVILIAN,
+//										NETWORK_CIVILIAN_EAST,
+//										NETWORK_CIVILIAN_WEST,
 										NETWORK_COMMAND,
 										NETWORK_ENGINE,
 										NETWORK_ENGINEERING,
@@ -9,6 +12,7 @@ var/global/list/station_networks = list(
 										NETWORK_EXODUS,
 										NETWORK_MEDICAL,
 										NETWORK_MINE,
+										NETWORK_NORTHERN_STAR,
 										NETWORK_RESEARCH,
 										NETWORK_RESEARCH_OUTPOST,
 										NETWORK_ROBOTS,
@@ -25,11 +29,24 @@ var/global/list/engineering_networks = list(
 /obj/machinery/camera/network/crescent
 	network = list(NETWORK_CRESCENT)
 
+/*
+/obj/machinery/camera/network/cafe_dock
+	network = list(NETWORK_CAFE_DOCK)
+*/
+
+/obj/machinery/camera/network/cargo
+	network = list(NETWORK_CARGO)
+
+/obj/machinery/camera/network/civilian
+	network = list(NETWORK_CIVILIAN)
+
+/*
 /obj/machinery/camera/network/civilian_east
 	network = list(NETWORK_CIVILIAN_EAST)
 
 /obj/machinery/camera/network/civilian_west
 	network = list(NETWORK_CIVILIAN_WEST)
+*/
 
 /obj/machinery/camera/network/command
 	network = list(NETWORK_COMMAND)
@@ -51,6 +68,9 @@ var/global/list/engineering_networks = list(
 
 /obj/machinery/camera/network/mining
 	network = list(NETWORK_MINE)
+
+/obj/machinery/camera/network/northern_star
+	network = list(NETWORK_NORTHERN_STAR)
 
 /obj/machinery/camera/network/prison
 	network = list(NETWORK_PRISON)
@@ -83,6 +103,9 @@ var/global/list/engineering_networks = list(
 
 /obj/machinery/camera/xray
 	icon_state = "xraycam" // Thanks to Krutchen for the icons.
+
+/obj/machinery/camera/xray/command
+	network = list(NETWORK_COMMAND)
 
 /obj/machinery/camera/xray/security
 	network = list(NETWORK_SECURITY)
@@ -149,9 +172,6 @@ var/global/list/engineering_networks = list(
 	return O
 
 /obj/machinery/camera/proc/isXRay()
-	if(!assembly)
-		world.log << "Cam without assembly! At [x],[y],[z]."
-		return null
 	var/obj/item/weapon/stock_parts/scanning_module/O = locate(/obj/item/weapon/stock_parts/scanning_module) in assembly.upgrades
 	if (O && O.rating >= 2)
 		return O

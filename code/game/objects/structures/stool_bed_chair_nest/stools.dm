@@ -16,12 +16,6 @@ var/global/list/stool_cache = list() //haha stool
 /obj/item/weapon/stool/padded
 	icon_state = "stool_padded_preview" //set for the map
 
-/obj/item/weapon/stool/padded_new
-	icon_state = "stool_padded_new_preview"
-	name = "padded stool"
-	base_icon = "padded_new"
-
-
 /obj/item/weapon/stool/New(var/newloc, var/new_material, var/new_padding_material)
 	..(newloc)
 	if(!new_material)
@@ -78,6 +72,11 @@ var/global/list/stool_cache = list() //haha stool
 /obj/item/weapon/stool/attack(mob/M as mob, mob/user as mob)
 	if (prob(5) && istype(M,/mob/living))
 		user.visible_message("<span class='danger'>[user] breaks [src] over [M]'s back!</span>")
+		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
+		user.do_attack_animation(M)
+
+		user.drop_from_inventory(src)
+
 		user.remove_from_mob(src)
 		dismantle()
 		qdel(src)
@@ -100,11 +99,6 @@ var/global/list/stool_cache = list() //haha stool
 			if (prob(5))
 				qdel(src)
 				return
-
-/obj/item/weapon/stool/blob_act()
-	if(prob(75))
-		material.place_sheet(get_turf(src))
-		qdel(src)
 
 /obj/item/weapon/stool/proc/dismantle()
 	if(material)

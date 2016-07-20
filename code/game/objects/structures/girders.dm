@@ -3,6 +3,7 @@
 	anchored = 1
 	density = 1
 	layer = 2
+	w_class = 5
 	var/state = 0
 	var/health = 200
 	var/cover = 50 //how much cover the girder provides against projectiles.
@@ -28,11 +29,10 @@
 	if(Proj.original != src && !prob(cover))
 		return PROJECTILE_CONTINUE //pass through
 
-	//Tasers and the like should not damage girders.
-	if(!(Proj.damage_type == BRUTE || Proj.damage_type == BURN))
+	var/damage = Proj.get_structure_damage()
+	if(!damage)
 		return
 
-	var/damage = Proj.damage
 	if(!istype(Proj, /obj/item/projectile/beam))
 		damage *= 0.4 //non beams do reduced damage
 
@@ -143,7 +143,8 @@
 
 	user << "<span class='notice'>You begin adding the plating...</span>"
 
-	if(!do_after(user,40) || !S.use(2))
+	var/amount_to_use = reinf_material ? 1 : 2
+	if(!do_after(user,40) || !S.use(amount_to_use))
 		return 1 //once we've gotten this far don't call parent attackby()
 
 	if(anchored)
@@ -167,7 +168,7 @@
 		user << "<span class='notice'>\The [src] is already reinforced.</span>"
 		return 0
 
-	if(S.get_amount() < 2)
+	if(S.get_amount() < 1)
 		user << "<span class='notice'>There isn't enough material here to reinforce the girder.</span>"
 		return 0
 
@@ -177,7 +178,7 @@
 		return 0
 
 	user << "<span class='notice'>Now reinforcing...</span>"
-	if (!do_after(user,40) || !S.use(2))
+	if (!do_after(user,40) || !S.use(1))
 		return 1 //don't call parent attackby() past this point
 	user << "<span class='notice'>You added reinforcement!</span>"
 
@@ -202,10 +203,6 @@
 		dismantle()
 		return
 	return ..()
-
-/obj/structure/girder/blob_act()
-	if(prob(40))
-		qdel(src)
 
 
 /obj/structure/girder/ex_act(severity)

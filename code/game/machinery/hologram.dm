@@ -35,6 +35,8 @@ var/const/HOLOPAD_MODE = RANGE_BASED
 	name = "\improper AI holopad"
 	desc = "It's a floor-mounted device for projecting holographic images. It is activated remotely."
 	icon_state = "holopad0"
+	show_messages = 1
+	circuit = /obj/item/weapon/circuitboard/holopad
 
 	layer = TURF_LAYER+0.1 //Preventing mice and drones from sneaking under them.
 
@@ -45,6 +47,30 @@ var/const/HOLOPAD_MODE = RANGE_BASED
 	var/list/mob/living/silicon/ai/masters = new() //List of AIs that use the holopad
 	var/last_request = 0 //to prevent request spam. ~Carn
 	var/holo_range = 5 // Change to change how far the AI can move away from the holopad before deactivating.
+
+/obj/machinery/hologram/holopad/attackby(obj/item/I as obj, user as mob)
+	if(istype(I, /obj/item/weapon/screwdriver) && circuit)
+		user << "<span class='notice'>You start removing the glass.</span>"
+		playsound(src.loc, 'sound/items/Screwdriver.ogg', 50, 1)
+		if(do_after(user, 20))
+			var/obj/structure/frame/A = new /obj/structure/frame( src.loc )
+			var/obj/item/weapon/circuitboard/M = new circuit( A )
+			A.circuit = M
+			A.anchored = 1
+			A.density = 1
+			A.frame_type = "holopad"
+			for (var/obj/C in src)
+				C.forceMove(loc)
+			user << "<span class='notice'>You remove the glass.</span>"
+			A.state = 4
+			A.icon_state = "holopad_4"
+			M.deconstruct(src)
+			for (var/mob/living/silicon/ai/master in masters)
+				clear_holo(master)
+			qdel(src)
+	else
+		src.attack_hand(user)
+	return
 
 /obj/machinery/hologram/holopad/attack_hand(var/mob/living/carbon/human/user) //Carn: Hologram requests.
 	if(!istype(user))
@@ -113,6 +139,12 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			master.show_message(rendered, 2)
 	return
 
+/obj/machinery/hologram/holopad/show_message(msg, type, alt, alt_type)
+	for(var/mob/living/silicon/ai/master in masters)
+		var/rendered = "<i><span class='game say'>Holopad received, <span class='message'>[msg]</span></span></i>"
+		master.show_message(rendered, type)
+	return
+
 /obj/machinery/hologram/holopad/proc/create_holo(mob/living/silicon/ai/A, turf/T = loc)
 	var/obj/effect/overlay/hologram = new(T)//Spawn a blank effect at the location.
 	hologram.icon = A.holo_icon
@@ -145,17 +177,6 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 			clear_holo(master)
 			continue
 
-		if((HOLOPAD_MODE == RANGE_BASED && (get_dist(master.eyeobj, src) > holo_range)))
-			clear_holo(master)
-			continue
-
-		if(HOLOPAD_MODE == AREA_BASED)
-			var/area/holo_area = get_area(src)
-			var/area/eye_area = get_area(master.eyeobj)
-			if(eye_area != holo_area)
-				clear_holo(master)
-				continue
-
 		use_power(power_per_hologram)
 	return 1
 
@@ -165,6 +186,16 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 		var/obj/effect/overlay/H = masters[user]
 		H.loc = get_turf(user.eyeobj)
 		masters[user] = H
+		if((HOLOPAD_MODE == RANGE_BASED && (get_dist(H, src) > holo_range)))
+			clear_holo(user)
+
+		if(HOLOPAD_MODE == AREA_BASED)
+			var/area/holopad_area = get_area(src)
+			var/area/hologram_area = get_area(H)
+
+			if(!(hologram_area in holopad_area))
+				clear_holo(user)
+
 	return 1
 
 /*
@@ -188,14 +219,6 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 		if(3.0)
 			if (prob(5))
 				qdel(src)
-	return
-
-/obj/machinery/hologram/blob_act()
-	qdel(src)
-	return
-
-/obj/machinery/hologram/meteorhit()
-	qdel(src)
 	return
 
 /obj/machinery/hologram/holopad/Destroy()

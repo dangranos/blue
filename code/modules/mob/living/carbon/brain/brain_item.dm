@@ -1,9 +1,9 @@
 /obj/item/organ/internal/brain
 	name = "brain"
-	health = 400 //They need to live awhile longer than other organs.
+	health = 400 //They need to live awhile longer than other organs. Is this even used by organ code anymore?
 	desc = "A piece of juicy meat found in a person's head."
 	organ_tag = "brain"
-	parent_organ = "head"
+	parent_organ = BP_HEAD
 	vital = 1
 	icon_state = "brain2"
 	force = 1.0
@@ -11,15 +11,31 @@
 	throwforce = 1.0
 	throw_speed = 3
 	throw_range = 5
-	origin_tech = "biotech=3"
+	origin_tech = list(TECH_BIO = 3)
 	attack_verb = list("attacked", "slapped", "whacked")
 	var/mob/living/carbon/brain/brainmob = null
+
+/obj/item/organ/internal/brain/robotize()
+	replace_self_with(/obj/item/organ/internal/mmi_holder/posibrain)
+
+/obj/item/organ/internal/brain/mechassist()
+	replace_self_with(/obj/item/organ/internal/mmi_holder)
+
+/obj/item/organ/internal/brain/digitize()
+	replace_self_with(/obj/item/organ/internal/mmi_holder/robot)
+
+/obj/item/organ/internal/brain/proc/replace_self_with(replace_path)
+	var/mob/living/carbon/human/tmp_owner = owner
+	qdel(src)
+	if(tmp_owner)
+		tmp_owner.internal_organs_by_name[organ_tag] = new replace_path(tmp_owner, 1)
+		tmp_owner = null
 
 /obj/item/organ/internal/pariah_brain
 	name = "brain remnants"
 	desc = "Did someone tread on this? It looks useless for cloning or cyborgification."
 	organ_tag = "brain"
-	parent_organ = "head"
+	parent_organ = BP_HEAD
 	icon = 'icons/mob/alien.dmi'
 	icon_state = "chitin"
 	vital = 1
@@ -34,7 +50,6 @@
 	..()
 	health = config.default_brain_health
 	spawn(5)
-		create_reagents(10)
 		if(brainmob && brainmob.client)
 			brainmob.client.screen.len = null //clear the hud
 
@@ -45,23 +60,22 @@
 	..()
 
 /obj/item/organ/internal/brain/proc/transfer_identity(var/mob/living/carbon/H)
-	name = "\the [H]'s [initial(src.name)]"
-	brainmob = new(src)
-	brainmob.name = H.real_name
-	brainmob.real_name = H.real_name
-	brainmob.dna = H.dna.Clone()
-	brainmob.timeofhostdeath = H.timeofdeath
+
+	if(!brainmob)
+		brainmob = new(src)
+		brainmob.name = H.real_name
+		brainmob.real_name = H.real_name
+		brainmob.dna = H.dna.Clone()
+		brainmob.timeofhostdeath = H.timeofdeath
+
 	if(H.mind)
 		H.mind.transfer_to(brainmob)
 
-	brainmob << "<span class='notice'>You feel slightly disoriented. That's normal when you're just a [initial(src.name)].</span>"
+	brainmob << "<span class='notice'>You feel slightly disoriented. That's normal when you're just \a [initial(src.name)].</span>"
 	callHook("debrain", list(brainmob))
 
-	for(var/datum/language/L in H.languages)
-		brainmob.add_language(L.name)
-
-/obj/item/organ/internal/brain/examine(mob/user, return_dist) // -- TLE
-	.=..(user)
+/obj/item/organ/internal/brain/examine(mob/user) // -- TLE
+	..(user)
 	if(brainmob && brainmob.client)//if thar be a brain inside... the brain.
 		user << "You can feel the small spark of life still left in this one."
 	else
@@ -69,7 +83,8 @@
 
 /obj/item/organ/internal/brain/removed(var/mob/living/user)
 
-	name = "[owner.real_name]'s brain"
+	if(name == initial(name))
+		name = "\the [owner.real_name]'s [initial(name)]"
 
 	var/mob/living/simple_animal/borer/borer = owner.has_brain_worms()
 
@@ -82,7 +97,7 @@
 
 	..()
 
-/obj/item/organ/internal/brain/install(var/mob/living/target)
+/obj/item/organ/internal/brain/replaced(var/mob/living/target)
 
 	if(target.key)
 		target.ghostize()
@@ -97,56 +112,11 @@
 /obj/item/organ/internal/brain/slime
 	name = "slime core"
 	desc = "A complex, organic knot of jelly and crystalline particles."
-	robotic = 2
 	icon = 'icons/mob/slimes.dmi'
 	icon_state = "green slime extract"
-	var/clonnig_process = 0
-	var/attemps = 2
-
-/obj/item/organ/internal/brain/slime/proc/slimeclone()
-
-	if(attemps<=0) usr << "<span class = 'warning'>[src] is not react!</span>"
-	if(clonnig_process) return 0
-	clonnig_process = 1
-	attemps--
-
-	visible_message("<span class = 'notice'>It seems [src] start moving!</span>")
-	if(!brainmob || !brainmob.mind)
-		clonnig_process = 0
-		return 0
-
-	if(!brainmob.client)
-		for(var/mob/dead/observer/ghost in player_list)
-			if(ghost.mind == brainmob.mind)
-				ghost << "<b><font color = #330033><font size = 3>Someone is trying to regrown you from your brain. Return to your body if you want to be resurrected/cloned!</b> (Verbs -> Ghost -> Re-enter corpse)</font color>"
-				break
-
-		for(var/i = 0; i < 6; i++)
-			sleep(100)
-			visible_message("<span class = 'notice'>[src] moving slightly!</span>")
-			if(brainmob.client) break
-
-	if(!brainmob.client)
-		visible_message("<span class = 'warning'>It seems \the [src] stop moving</span>")
-		clonnig_process = 0
-		return 0
-
-	var/datum/mind/clonemind = brainmob.mind
-	if(clonemind.current != brainmob)
-		clonnig_process = 0
-		return 0
-
-	visible_message("<span class = 'warning'>\The [src] start growing!</span>")
-	var/mob/living/carbon/slime/S = new(src.loc)
-	brainmob.mind.transfer_to(S)
-	S.dna = brainmob.dna
-	S.a_intent = "hurt"
-	S.add_language("Galactic Common")
-	del(src)
 
 /obj/item/organ/internal/brain/golem
 	name = "chem"
 	desc = "A tightly furled roll of paper, covered with indecipherable runes."
-	robotic = 2
 	icon = 'icons/obj/wizard.dmi'
 	icon_state = "scroll"

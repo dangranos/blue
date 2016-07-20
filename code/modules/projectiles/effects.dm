@@ -126,15 +126,8 @@
 	icon_state = "muzzle_bullet"
 
 
-
 //----------------------------
-// Light laser beam
+// Impulse bullet
 //----------------------------
-/obj/effect/projectile/laserlight/tracer
-	icon_state = "lightlaser"
-
-/obj/effect/projectile/laserlight/muzzle
-	icon_state = "muzzle_lightlaser"
-
-/obj/effect/projectile/laserlight/impact
-	icon_state = "impact_lightlaser"
+/obj/effect/projectile/impulsebullet/muzzle
+	icon_state = "muzzle_impulse"
