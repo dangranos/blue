@@ -209,8 +209,6 @@ var/list/gamemode_cache = list()
 
 	var/aggressive_changelog = 0
 
-	var/list/language_prefixes = list(",","#","-")//Default language prefixes
-
 	var/show_human_death_message = 1
 
 /datum/configuration/New()
@@ -676,11 +674,6 @@ var/list/gamemode_cache = list()
 
 				if("aggressive_changelog")
 					config.aggressive_changelog = 1
-
-				if("default_language_prefixes")
-					var/list/values = splittext(value, " ")
-					if(values.len > 0)
-						language_prefixes = values
 
 				else
 					log_misc("Unknown setting in configuration: '[name]'")

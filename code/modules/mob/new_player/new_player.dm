@@ -384,7 +384,7 @@
 
 /mob/new_player/get_gender()
 	if(!client || !client.prefs) ..()
-	return client.prefs.biological_gender
+	return client.prefs.gender
 
 /mob/new_player/is_ready()
 	return ready && ..()
