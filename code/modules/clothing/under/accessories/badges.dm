@@ -101,14 +101,14 @@
 
 
 /obj/item/clothing/accessory/badge/sec/constable
-	name = " constable's badge"
-	desc = "A silver Themis Security badge. Stamped with the words 'Constable.'"
+	name = "colonial officer's badge"
+	desc = "A silver Themis Security badge. Stamped with the words 'Colonial Officer.'"
 	icon_state = "constablebadge"
 	slot_flags = SLOT_TIE | SLOT_BELT
 
 /obj/item/clothing/accessory/badge/sec/seniorconstable
-	name = "senior constable's badge"
-	desc = "A silver Themis Security badge. Stamped with the words 'Senior Constable.'"
+	name = "colonial senior officer's badge"
+	desc = "A silver Themis Security badge. Stamped with the words 'Colonial Senior Officer.'"
 	icon_state = "constablebadge"
 	slot_flags = SLOT_TIE | SLOT_BELT
 
