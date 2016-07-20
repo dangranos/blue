@@ -54,11 +54,8 @@
 			else		src << "<font color='red'>Error: Private-Message: Client not found. They may have lost connection, so try using an adminhelp!</font>"
 			return
 
-	//clean the message if it's not sent by a high-rank admin
-	//todo: sanitize for all???
-	if(!check_rights(R_SERVER|R_DEBUG,0))
-		msg = sanitize(msg)
-		if(!msg)	return
+	msg = sanitize(msg)
+	if(!msg)	return
 
 	var/recieve_pm_type = "Player"
 	if(holder)
