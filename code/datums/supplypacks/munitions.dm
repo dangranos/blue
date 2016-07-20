@@ -14,10 +14,9 @@
 	name = "Weapons crate"
 	contains = list(
 			/obj/item/weapon/melee/baton = 2,
-			/obj/item/weapon/gun/energy/gun = 2,
-			/obj/item/weapon/gun/energy/taser = 2,
-			/obj/item/weapon/gun/projectile/colt/detective = 2,
-			/obj/item/weapon/storage/box/flashbangs = 2
+			/obj/item/weapon/gun/energy/laspistol = 3,
+			/obj/item/weapon/gun/projectile/colt/detective = 1,
+			/obj/item/weapon/storage/box/teargas = 1
 			)
 	cost = 40
 	containertype = /obj/structure/closet/crate/secure/weapon
@@ -47,7 +46,7 @@
 
 /datum/supply_packs/munitions/energyweapons
 	name = "Energy weapons crate"
-	contains = list(/obj/item/weapon/gun/energy/laser = 3)
+	contains = list(/obj/item/weapon/gun/energy/lasrifle = 3)
 	cost = 50
 	containertype = /obj/structure/closet/crate/secure
 	containername = "energy weapons crate"
@@ -84,26 +83,6 @@
 	containername = "electromagnetic weapons crate"
 	access = access_armory
 
-/datum/supply_packs/randomised/munitions/automatic
-	name = "Automatic weapon crate"
-	num_contained = 2
-	contains = list(
-			/obj/item/weapon/gun/projectile/automatic/wt550,
-			/obj/item/weapon/gun/projectile/automatic/z8
-			)
-	cost = 100
-	containertype = /obj/structure/closet/crate/secure
-	containername = "Automatic weapon crate"
-	access = access_armory
-
-/datum/supply_packs/munitions/energy_guns
-	name = "energy guns crate"
-	contains = list(/obj/item/weapon/gun/energy/gun = 2)
-	cost = 50
-	containertype = /obj/structure/closet/crate/secure
-	containername = "energy guns crate"
-	access = access_armory
-
 /datum/supply_packs/munitions/bolt_rifles_competitive
  	name = "Competitive shooting crate"
  	contains = list(
@@ -129,23 +108,31 @@
 	containername = "ballistic ammunition crate"
 	access = access_armory
 
-/datum/supply_packs/randomised/munitions/autoammo
-	name = "Automatic weapon ammunition crate"
-	num_contained = 6
+/datum/supply_packs/randomised/munitions/lowcalammo
+	name = "Low caliber ammo crate"
+	num_contained = 8
 	contains = list(
-			/obj/item/ammo_magazine/mc9mmt,
-			/obj/item/ammo_magazine/mc9mmt/rubber,
-			/obj/item/ammo_magazine/a556
+			/obj/item/ammo_magazine/a357,
+			/obj/item/ammo_magazine/c45m,
+			/obj/item/ammo_magazine/mc9mm
 			)
 	cost = 25
 	containertype = /obj/structure/closet/crate/secure
 	containername = "Automatic weapon ammunition crate"
 	access = access_armory
 
-/datum/supply_packs/munitions/beanbagammo
-	name = "Beanbag shells"
-	contains = list(/obj/item/weapon/storage/box/beanbags = 3)
-	cost = 25
-	containertype = /obj/structure/closet/crate
-	containername = "Beanbag shells"
-	access = null
+/datum/supply_packs/randomised/munitions/heavycalammo
+	name = "Heavy caliber ammo crate"
+	num_contained = 8
+	contains = list(
+			/obj/item/ammo_magazine/a10mm,
+			/obj/item/ammo_magazine/a556,
+			/obj/item/ammo_magazine/a556m,
+			/obj/item/ammo_magazine/c762,
+			/obj/item/ammo_magazine/g12
+			)
+	cost = 40
+	containertype = /obj/structure/closet/crate/secure
+	containername = "Automatic weapon ammunition crate"
+	access = access_armory
+

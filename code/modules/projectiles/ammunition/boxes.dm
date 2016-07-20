@@ -23,6 +23,7 @@
 ///////10x45 caseless///////
 
 /obj/item/ammo_magazine/a10x45
+	mag_type = MAGAZINE
 	name = "ammo cartridge (10x45mm caseless)"
 	desc = "A less-lethal cartridge for 10x45 impulse guns."
 	icon_state = "traumaticmag-nlethal"
@@ -32,6 +33,7 @@
 	max_ammo = 5
 
 /obj/item/ammo_magazine/a10x45/hp
+	mag_type = MAGAZINE
 	name = "ammo cartridge (10x45mm caseless)"
 	desc = "A hollow-point cartridge for 10x45 impulse guns."
 	icon_state = "traumaticmag-lethal"
@@ -43,6 +45,7 @@
 ///////5.7x28 caseless///////
 
 /obj/item/ammo_magazine/a57x28
+	mag_type = MAGAZINE
 	name = "ammo magazine (5.7x28mm caseless)"
 	desc = "A magazine for 5.7x28 impulse guns."
 	icon_state = "5.7x28pistol"
@@ -61,6 +64,7 @@
 	ammo_type = /obj/item/ammo_casing/caseless/secpistol/ap
 
 /obj/item/ammo_magazine/a57x28pdw
+	mag_type = MAGAZINE
 	name = "PDW ammo magazine (5.7x28mm caseless)"
 	desc = "A magazine for 5.7x28 impulse guns."
 	icon_state = "5.7x28pdw"
@@ -80,6 +84,7 @@
 ///////7.5x54 caseless///////
 
 /obj/item/ammo_magazine/a75x54
+	mag_type = MAGAZINE
 	name = "ammo magazine (7.5x54mm caseless)"
 	desc = "A magazine for 7.5x54 impulse guns."
 	icon_state = "7.5x54carbine"
