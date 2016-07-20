@@ -2448,6 +2448,11 @@ area/space/atmosalert()
 	icon_state = "ai_server"
 	sound_env = SMALL_ENCLOSED
 
+/area/ai_smes_room
+	name = "AI Power Substation"
+	icon_state = "ai_foyer"
+	ambience = list('sound/ambience/ambimalf.ogg')
+
 /area/ai
 	name = "\improper AI Chamber"
 	icon_state = "ai_chamber"
