@@ -30,13 +30,13 @@
 
 /obj/item/projectile/beam/midlaser
 	damage = 40
-	armor_penetration = 10
+	armor_penetration = 20
 
 /obj/item/projectile/beam/heavylaser
 	name = "heavy laser"
 	icon_state = "heavylaser"
 	damage = 60
-	armor_penetration = 30
+	armor_penetration = 40
 
 	muzzle_type = /obj/effect/projectile/laser_heavy/muzzle
 	tracer_type = /obj/effect/projectile/laser_heavy/tracer
@@ -59,8 +59,8 @@
 /obj/item/projectile/beam/pulse
 	name = "pulse"
 	icon_state = "u_laser"
-	damage = 50
-	armor_penetration = 30
+	damage = 60
+	armor_penetration = 60
 
 	muzzle_type = /obj/effect/projectile/laser_pulse/muzzle
 	tracer_type = /obj/effect/projectile/laser_pulse/tracer

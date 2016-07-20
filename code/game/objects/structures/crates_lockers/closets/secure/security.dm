@@ -163,7 +163,7 @@
 
 /obj/structure/closet/secure_closet/seniorsecurity
 	name = "colonial senior officer's locker"
-	req_access = list(access_brig)
+	req_access = list(access_senior_security)
 	icon_state = "secureseniorconstable1"
 	icon_closed = "secureseniorconstable"
 	icon_locked = "secureseniorconstable1"
@@ -300,8 +300,8 @@
 		new /obj/item/device/radio/headset/headset_sec(src)
 		new /obj/item/device/radio/headset/headset_sec/alt(src)
 		new /obj/item/clothing/suit/armor/det_suit(src)
-		new /obj/item/ammo_magazine/c45m/rubber(src)
-		new /obj/item/ammo_magazine/c45m/rubber(src)
+		new /obj/item/ammo_magazine/c45m(src)
+		new /obj/item/ammo_magazine/c45m(src)
 		new /obj/item/taperoll/police(src)
 		new /obj/item/weapon/gun/projectile/colt/detective(src)
 		new /obj/item/clothing/accessory/holster/armpit(src)

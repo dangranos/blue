@@ -12,9 +12,9 @@
 	w_class = 3
 	origin_tech = list(TECH_COMBAT = 2)
 	attack_verb = list("beaten")
-	var/lightcolor = "#FF6A00"
+	var/lightcolor = "#33CCFF"
 	var/stunforce = 0
-	var/agonyforce = 60
+	var/agonyforce = 80
 	var/status = 0		//whether the thing is on or not
 	var/obj/item/weapon/cell/bcell = null
 	var/hitcost = 1000	//oh god why do power cells carry so much charge? We probably need to make a distinction between "industrial" sized power cells for APCs and power cells for everything else.
@@ -191,7 +191,7 @@
 	force = 3
 	throwforce = 3
 	stunforce = 0
-	agonyforce = 60	//same force as a stunbaton, but uses way more charge.
+	agonyforce = 80	//same force as a stunbaton, but uses way more charge.
 	hitcost = 500
 	attack_verb = list("poked")
 	slot_flags = null
