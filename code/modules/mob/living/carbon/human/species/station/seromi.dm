@@ -83,6 +83,13 @@
 		/datum/unarmed_attack/claws,
 		/datum/unarmed_attack/stomp/weak
 		)
+
+	restricted_jobs = list(
+		"Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
+		"Research Director", "Chief Medical Officer", "Detective",\
+		"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
+		"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
+
 /*
 	var/shock_cap = 30
 	var/hallucination_cap = 25
