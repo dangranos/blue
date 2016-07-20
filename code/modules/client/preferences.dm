@@ -49,7 +49,6 @@ datum/preferences
 	var/species_preview					//Used for the species selection window.
 	var/body = "Default"				//character body build name
 	var/list/alternate_languages = list() //Secondary language(s)
-	var/list/language_prefixes = list() //Kanguage prefix keys
 	var/list/gear						//Custom/fluff item loadout.
 
 		//Some faction information.
@@ -117,7 +116,7 @@ datum/preferences
 
 /datum/preferences/New(client/C)
 	player_setup = new(src)
-	set_biological_gender(pick(MALE, FEMALE))
+	set_gender(pick(MALE, FEMALE))
 	real_name = random_name(identifying_gender,species)
 	b_type = RANDOM_BLOOD_TYPE
 	gear = list()

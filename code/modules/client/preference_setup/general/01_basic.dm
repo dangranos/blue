@@ -1,12 +1,12 @@
 datum/preferences
-	var/biological_gender = MALE
+	var/gender = MALE
 	var/identifying_gender = MALE
 
-datum/preferences/proc/set_biological_gender(var/gender)
-	biological_gender = gender
-	identifying_gender = gender
+datum/preferences/proc/set_gender(var/gender)
+	src.gender = gender
+	src.identifying_gender = gender
 	var/datum/species/S = all_species[species ? species : "Human"]
-	body = get_body_build(biological_gender, body, S.posible_body_builds)
+	body = get_body_build(gender, body, S.posible_body_builds)
 
 /datum/category_item/player_setup_item/general/basic
 	name = "Basic"
@@ -15,7 +15,7 @@ datum/preferences/proc/set_biological_gender(var/gender)
 /datum/category_item/player_setup_item/general/basic/load_character(var/savefile/S)
 	S["real_name"]				>> pref.real_name
 	S["name_is_always_random"]	>> pref.be_random_name
-	S["gender"]					>> pref.biological_gender
+	S["gender"]					>> pref.gender
 	S["id_gender"]				>> pref.identifying_gender
 	S["age"]					>> pref.age
 	S["spawnpoint"]				>> pref.spawnpoint
@@ -24,7 +24,7 @@ datum/preferences/proc/set_biological_gender(var/gender)
 /datum/category_item/player_setup_item/general/basic/save_character(var/savefile/S)
 	S["real_name"]				<< pref.real_name
 	S["name_is_always_random"]	<< pref.be_random_name
-	S["gender"]					<< pref.biological_gender
+	S["gender"]					<< pref.gender
 	S["id_gender"]				<< pref.identifying_gender
 	S["age"]					<< pref.age
 	S["spawnpoint"]				<< pref.spawnpoint
@@ -34,8 +34,8 @@ datum/preferences/proc/set_biological_gender(var/gender)
 	if(!pref.species) pref.species = "Human"
 	var/datum/species/S = all_species[pref.species ? pref.species : "Human"]
 	pref.age                = sanitize_integer(pref.age, S.min_age, S.max_age, initial(pref.age))
-	pref.biological_gender  = sanitize_inlist(pref.biological_gender, get_genders(), pick(get_genders()))
-	pref.identifying_gender = (pref.identifying_gender in all_genders_define_list) ? pref.identifying_gender : pref.biological_gender
+	pref.gender             = sanitize_inlist(pref.gender, get_genders(), pick(get_genders()))
+	pref.identifying_gender = (pref.identifying_gender in all_genders_define_list) ? pref.identifying_gender : pref.gender
 	pref.real_name          = sanitize_name(pref.real_name, pref.species)
 	if(!pref.real_name)
 		pref.real_name      = random_name(pref.identifying_gender, pref.species)
@@ -57,7 +57,7 @@ datum/preferences/proc/set_biological_gender(var/gender)
 	if(character.dna)
 		character.dna.real_name = character.real_name
 
-	character.gender = pref.biological_gender
+	character.gender = pref.gender
 	character.identifying_gender = pref.identifying_gender
 	character.age = pref.age
 
@@ -68,7 +68,7 @@ datum/preferences/proc/set_biological_gender(var/gender)
 	. += "<a href='?src=\ref[src];random_name=1'>Randomize Name</A><br>"
 	. += "<a href='?src=\ref[src];always_random_name=1'>Always Random Name: [pref.be_random_name ? "Yes" : "No"]</a>"
 	. += "<br>"
-	. += "<b>Biological Gender:</b> <a href='?src=\ref[src];bio_gender=1'><b>[gender2text(pref.biological_gender)]</b></a><br>"
+	. += "<b>Gender:</b> <a href='?src=\ref[src];bio_gender=1'><b>[gender2text(pref.gender)]</b></a><br>"
 	. += "<b>Gender Identity:</b> <a href='?src=\ref[src];id_gender=1'><b>[gender2text(pref.identifying_gender)]</b></a><br>"
 	. += "<b>Body build: <a href='?src=\ref[src];body_build=1'>[pref.body]</a></b><br>"
 	. += "<b>Age:</b> <a href='?src=\ref[src];age=1'>[pref.age]</a><br>"
@@ -99,9 +99,9 @@ datum/preferences/proc/set_biological_gender(var/gender)
 		return TOPIC_REFRESH
 
 	else if(href_list["bio_gender"])
-		var/new_gender = input(user, "Choose your character's biological gender:", "Character Preference", pref.biological_gender) as null|anything in get_genders()
+		var/new_gender = input(user, "Choose your character's biological gender:", "Character Preference", pref.gender) as null|anything in get_genders()
 		if(new_gender && CanUseTopic(user))
-			pref.set_biological_gender(new_gender)
+			pref.set_gender(new_gender)
 		return TOPIC_REFRESH_UPDATE_PREVIEW
 
 	else if(href_list["id_gender"])
@@ -111,7 +111,7 @@ datum/preferences/proc/set_biological_gender(var/gender)
 		return TOPIC_REFRESH
 
 	else if(href_list["body_build"])
-		var/new_body_build = input("Body Shape", "Body", pref.body) as null|anything in get_body_build_list(pref.biological_gender, S.posible_body_builds)
+		var/new_body_build = input("Body Shape", "Body", pref.body) as null|anything in get_body_build_list(pref.gender, S.posible_body_builds)
 		if(new_body_build && CanUseTopic(user))
 			pref.body = new_body_build
 		return TOPIC_REFRESH_UPDATE_PREVIEW

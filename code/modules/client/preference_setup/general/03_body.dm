@@ -83,7 +83,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 // Moved from /datum/preferences/proc/copy_to()
 /datum/category_item/player_setup_item/general/body/copy_to_mob(var/mob/living/carbon/human/character)
 	// Copy basic values
-	character.body_build = get_body_build(pref.biological_gender, pref.body) // Restriction handled in sanitize, i thing
+	character.body_build = get_body_build(pref.gender, pref.body) // Restriction handled in sanitize, i thing
 	character.r_eyes	= pref.r_eyes
 	character.g_eyes	= pref.g_eyes
 	character.b_eyes	= pref.b_eyes
@@ -287,16 +287,16 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 		var/prev_species = pref.species
 		pref.species = href_list["set_species"]
 		if(prev_species != pref.species)
-			if(!(pref.biological_gender in mob_species.genders))
-				pref.set_biological_gender(mob_species.genders[1])
+			if(!(pref.gender in mob_species.genders))
+				pref.set_gender(mob_species.genders[1])
 
 			//grab one of the valid hair styles for the newly chosen species
 			var/list/valid_hairstyles = list()
 			for(var/hairstyle in hair_styles_list)
 				var/datum/sprite_accessory/S = hair_styles_list[hairstyle]
-				if(pref.biological_gender == MALE && S.gender == FEMALE)
+				if(pref.gender == MALE && S.gender == FEMALE)
 					continue
-				if(pref.biological_gender == FEMALE && S.gender == MALE)
+				if(pref.gender == FEMALE && S.gender == MALE)
 					continue
 				if(!(pref.species in S.species_allowed))
 					continue
@@ -312,9 +312,9 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 			var/list/valid_facialhairstyles = list()
 			for(var/facialhairstyle in facial_hair_styles_list)
 				var/datum/sprite_accessory/S = facial_hair_styles_list[facialhairstyle]
-				if(pref.biological_gender == MALE && S.gender == FEMALE)
+				if(pref.gender == MALE && S.gender == FEMALE)
 					continue
-				if(pref.biological_gender == FEMALE && S.gender == MALE)
+				if(pref.gender == FEMALE && S.gender == MALE)
 					continue
 				if(!(pref.species in S.species_allowed))
 					continue
@@ -336,7 +336,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 			reset_limbs() // Safety for species with incompatible manufacturers; easier than trying to do it case by case.
 
 			var/datum/species/S = all_species[pref.species]
-			pref.body = get_body_build(pref.biological_gender, pref.body, S.posible_body_builds)
+			pref.body = get_body_build(pref.gender, pref.body, S.posible_body_builds)
 			pref.age = max(min(pref.age, S.max_age), S.min_age)
 
 			return TOPIC_REFRESH_UPDATE_PREVIEW
@@ -407,9 +407,9 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 		var/list/valid_facialhairstyles = list()
 		for(var/facialhairstyle in facial_hair_styles_list)
 			var/datum/sprite_accessory/S = facial_hair_styles_list[facialhairstyle]
-			if(pref.biological_gender == MALE && S.gender == FEMALE)
+			if(pref.gender == MALE && S.gender == FEMALE)
 				continue
-			if(pref.biological_gender == FEMALE && S.gender == MALE)
+			if(pref.gender == FEMALE && S.gender == MALE)
 				continue
 			if(!(pref.species in S.species_allowed))
 				continue
