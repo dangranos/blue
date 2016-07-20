@@ -15,11 +15,11 @@
 	access = list(access_security, access_eva, access_sec_doors, access_brig, access_armory,
 			            access_forensics_lockers, access_morgue, access_maint_tunnels, access_all_personal_lockers,
 			            access_research, access_engine, access_mining, access_medical, access_construction, access_mailsorting,
-			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_external_airlocks)
+			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_external_airlocks, access_all_personal_lockers, access_cargo, access_tox)
 	minimal_access = list(access_security, access_eva, access_sec_doors, access_brig, access_armory,
 			            access_forensics_lockers, access_morgue, access_maint_tunnels, access_all_personal_lockers,
 			            access_research, access_engine, access_mining, access_medical, access_construction, access_mailsorting,
-			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_external_airlocks)
+			            access_heads, access_hos, access_RC_announce, access_keycard_auth, access_gateway, access_external_airlocks, access_all_personal_lockers, access_cargo, access_tox)
 	minimum_character_age = 25
 	minimal_player_age = 14
 
@@ -52,7 +52,7 @@
 	selection_color = "#7CB9E8"
 	idtype = /obj/item/weapon/card/id/security
 	economic_modifier = 5
-	access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_morgue, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_armory)
+	access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_morgue, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_armory, access_medical)
 	minimal_access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_armory)
 	minimal_player_age = 5
 
@@ -141,7 +141,7 @@
 			if(2) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/security(H), slot_back)
 			if(3) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel/sec(H), slot_back)
 			if(4) H.equip_to_slot_or_del(new /obj/item/weapon/storage/backpack/satchel(H), slot_back)
-		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/security(H), slot_w_uniform)
+		H.equip_to_slot_or_del(new /obj/item/clothing/under/rank/constable(H), slot_w_uniform)
 		H.equip_to_slot_or_del(new /obj/item/clothing/shoes/jackboots(H), slot_shoes)
 		H.equip_to_slot_or_del(new /obj/item/device/pda/security(H), slot_belt)
 		H.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(H), slot_gloves)
@@ -165,8 +165,8 @@
 	selection_color = "#7CB9E8"
 	idtype = /obj/item/weapon/card/id/security
 	economic_modifier = 4
-	access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_morgue, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox)
-	minimal_access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox)
+	access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_morgue, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_medical)
+	minimal_access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_medical)
 	minimal_player_age = 10
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
