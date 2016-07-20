@@ -124,22 +124,22 @@
 /* short-casing projectiles, like the kind used in pistols or SMGs */
 
 /obj/item/projectile/bullet/pistol
-	damage = 20
+	damage = 30
 
 /obj/item/projectile/bullet/pistol/ap
-	damage = 20
-	armor_penetration = 30
+	damage = 25
+	armor_penetration = 40
 
 /obj/item/projectile/bullet/pistol/medium
-	damage = 25
+	damage = 35
 
 /obj/item/projectile/bullet/pistol/strong //revolvers and matebas
 	damage = 60
 
 /obj/item/projectile/bullet/pistol/rubber //"rubber" bullets
 	name = "rubber bullet"
-	damage = 5
-	agony = 40
+	damage = 10
+	agony = 80
 	embed = 0
 	sharp = 0
 	check_armour = "melee"
@@ -149,7 +149,7 @@
 /obj/item/projectile/bullet/shotgun
 	name = "slug"
 	damage = 50
-	armor_penetration = 15
+	armor_penetration = 20
 
 /obj/item/projectile/bullet/shotgun/beanbag		//because beanbags are not bullets
 	name = "beanbag"
@@ -171,22 +171,22 @@
 /* "Rifle" rounds */
 
 /obj/item/projectile/bullet/rifle
-	armor_penetration = 15
+	armor_penetration = 25
 	penetrating = 1
 
 /obj/item/projectile/bullet/rifle/a762
-	damage = 25
+	damage = 35
 
 /obj/item/projectile/bullet/rifle/a762/ap
-	damage = 20
-	armor_penetration = 50 // At 40 or more armor, this will do more damage than standard rounds.
+	damage = 30
+	armor_penetration = 60 // At 40 or more armor, this will do more damage than standard rounds.
 
 /obj/item/projectile/bullet/rifle/a556
 	damage = 35
 
 /obj/item/projectile/bullet/rifle/a556/ap
 	damage = 30
-	armor_penetration = 50 // At 30 or more armor, this will do more damage than standard rounds.
+	armor_penetration = 60 // At 30 or more armor, this will do more damage than standard rounds.
 
 /obj/item/projectile/bullet/rifle/a145
 	damage = 80
@@ -267,7 +267,7 @@
 
 /obj/item/projectile/bullet/impulse/ap
 	damage = 20
-	armor_penetration = 30
+	armor_penetration = 40
 	sharp = 0
 
 /obj/item/projectile/bullet/impulse/revolver
@@ -275,7 +275,7 @@
 
 /obj/item/projectile/bullet/impulse/revolver/ap
 	damage = 30
-	armor_penetration = 20
+	armor_penetration = 40
 	sharp = 0
 
 /obj/item/projectile/bullet/impulse/rifle
@@ -283,5 +283,5 @@
 
 /obj/item/projectile/bullet/impulse/rifle/ap
 	damage = 30
-	armor_penetration = 40
+	armor_penetration = 60
 	sharp = 0
