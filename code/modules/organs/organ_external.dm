@@ -35,8 +35,8 @@
 	var/icon/mob_icon                  // Cached icon for use in mob overlays.
 	var/gendered_icon = 0              // Whether or not the icon state appends a gender.
 	var/s_tone                         // Skin tone.
-	var/list/s_col                     // skin colour
-	var/list/h_col                     // hair colour
+	var/s_col                          // skin colour //LETHAL GHOST
+	var/h_col                          // hair colour
 	var/body_hair                      // Icon blend for body hair if any.
 
 	// Wound and structural data.

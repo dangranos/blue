@@ -5,7 +5,7 @@
 	icon_key is [species.race_key][g][husk][fat][hulk][skeleton][s_tone]
 */
 var/global/list/human_icon_cache = list()
-var/global/list/tail_icon_cache = list() //key is [species.race_key][r_skin][g_skin][b_skin]
+var/global/list/tail_icon_cache = list() //key is [species.race_key][skin_color]
 var/global/list/light_overlay_cache = list()
 
 	///////////////////////
@@ -239,14 +239,14 @@ var/global/list/damage_icon_parts = list()
 	if(gender == FEMALE)
 		g = "female"
 
-	var/icon_key = "[species.get_race_key(src)][g][body_build.index][s_tone][r_skin][g_skin][b_skin]"
+	var/icon_key = "[species.get_race_key(src)][g][body_build.index][s_tone][skin_color]"
 	if(lip_style)
 		icon_key += "[lip_style]"
 	else
 		icon_key += "nolips"
 	var/obj/item/organ/internal/eyes/eyes = internal_organs_by_name[O_EYES]
 	if(eyes)
-		icon_key += "[rgb(eyes.eye_colour[1], eyes.eye_colour[2], eyes.eye_colour[3])]"
+		icon_key += eyes.eye_colour
 	else
 		icon_key += "#000000"
 
@@ -265,10 +265,10 @@ var/global/list/damage_icon_parts = list()
 			icon_key += "[part.species.get_race_key(part.owner)]"
 			icon_key += "[part.dna.GetUIState(DNA_UI_GENDER)]"
 			icon_key += "[part.dna.GetUIValue(DNA_UI_SKIN_TONE)]"
-			if(part.s_col && part.s_col.len >= 3)
-				icon_key += "[rgb(part.s_col[1],part.s_col[2],part.s_col[3])]"
-			if(part.body_hair && part.h_col && part.h_col.len >= 3)
-				icon_key += "[rgb(part.h_col[1],part.h_col[2],part.h_col[3])]"
+			if(part.s_col)
+				icon_key += part.s_col
+			if(part.body_hair && part.h_col)
+				icon_key += part.h_col
 			else
 				icon_key += "#000000"
 
@@ -356,25 +356,26 @@ var/global/list/damage_icon_parts = list()
 		return
 
 	//base icons
-	var/icon/face_standing	= new /icon('icons/mob/human_face.dmi',"bald_s")
+	var/icon/face_standing	= new /icon('icons/mob/human_face.dmi',"bald")
+	var/icon/hair
 
 	if(f_style)
 		var/datum/sprite_accessory/facial_hair_style = facial_hair_styles_list[f_style]
 		if(facial_hair_style && facial_hair_style.species_allowed && (src.species.get_bodytype(src) in facial_hair_style.species_allowed))
-			var/icon/facial_s = new/icon("icon" = facial_hair_style.icon, "icon_state" = "[facial_hair_style.icon_state]_s")
+			hair = new/icon(facial_hair_style.icon, facial_hair_style.icon_state)
 			if(facial_hair_style.do_colouration)
-				facial_s.Blend(rgb(r_facial, g_facial, b_facial), ICON_ADD)
+				hair.Blend(facial_color, ICON_ADD)
 
-			face_standing.Blend(facial_s, ICON_OVERLAY)
+			face_standing.Blend(hair, ICON_OVERLAY)
 
 	if(h_style && !(head && (head.flags_inv & BLOCKHEADHAIR)))
 		var/datum/sprite_accessory/hair_style = hair_styles_list[h_style]
 		if(hair_style && (src.species.get_bodytype(src) in hair_style.species_allowed))
-			var/icon/hair_s = new/icon("icon" = hair_style.icon, "icon_state" = "[hair_style.icon_state]_s")
+			hair = new/icon(hair_style.icon, hair_style.icon_state)
 			if(hair_style.do_colouration)
-				hair_s.Blend(rgb(r_hair, g_hair, b_hair), ICON_ADD)
+				hair.Blend(hair_color, ICON_ADD)
 
-			face_standing.Blend(hair_s, ICON_OVERLAY)
+			face_standing.Blend(hair, ICON_OVERLAY)
 
 	if(head_organ.nonsolid)
 		face_standing += rgb(,,,120)
@@ -1009,19 +1010,19 @@ var/global/list/damage_icon_parts = list()
 		update_icons()
 
 /mob/living/carbon/human/proc/get_tail_icon()
-	var/icon_key = "[species.get_race_key(src)][r_skin][g_skin][b_skin][r_hair][g_hair][b_hair]"
+	var/icon_key = "[species.get_race_key(src)][skin_color][hair_color]"
 	var/icon/tail_icon = tail_icon_cache[icon_key]
 	if(!tail_icon)
 		//generate a new one
 		var/species_tail_anim = species.get_tail_animation(src)
 		if(!species_tail_anim) species_tail_anim = 'icons/effects/species.dmi'
 		tail_icon = new/icon(species_tail_anim)
-		tail_icon.Blend(rgb(r_skin, g_skin, b_skin), ICON_ADD)
+		tail_icon.Blend(skin_color, ICON_ADD)
 		// The following will not work with animated tails.
 		var/use_species_tail = species.get_tail_hair(src)
 		if(use_species_tail)
 			var/icon/hair_icon = icon('icons/effects/species.dmi', "[species.get_tail(src)]_[use_species_tail]")
-			hair_icon.Blend(rgb(r_hair, g_hair, b_hair), ICON_ADD)
+			hair_icon.Blend(hair_color, ICON_ADD)
 			tail_icon.Blend(hair_icon, ICON_OVERLAY)
 		tail_icon_cache[icon_key] = tail_icon
 
@@ -1110,7 +1111,7 @@ var/global/list/damage_icon_parts = list()
 	var/image/total = new
 	for(var/obj/item/organ/external/E in organs)
 		if(E.open)
-			var/image/I = image('icons/mob/surgery.dmi', "[E.name][round(E.open)]", -SURGERY_LEVEL)
+			var/image/I = image('icons/mob/surgery.dmi', "[E.name][round(E.open)]", -SURGERY_LEVEL) // Check that
 			total.overlays += I
 	overlays_standing[SURGERY_LEVEL] = total
 	if(update_icons)   update_icons()

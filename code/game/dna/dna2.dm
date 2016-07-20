@@ -80,6 +80,7 @@ var/global/list/datum/dna/gene/dna_genes[0]
 
 	// From old dna.
 	var/b_type = "A+"  // Should probably change to an integer => string map but I'm lazy.
+	var/body_build = "Default"
 	var/real_name          // Stores the real name of the person who originally got this dna datum. Used primarily for changelings,
 
 	// New stuff
@@ -91,6 +92,7 @@ var/global/list/datum/dna/gene/dna_genes[0]
 	var/datum/dna/new_dna = new()
 	new_dna.unique_enzymes=unique_enzymes
 	new_dna.b_type=b_type
+	new_dna.body_build = body_build
 	new_dna.real_name=real_name
 	new_dna.species=species
 	for(var/b=1;b<=DNA_SE_LENGTH;b++)
@@ -129,21 +131,39 @@ var/global/list/datum/dna/gene/dna_genes[0]
 		character.f_style = "Shaved"
 	var/beard	= facial_hair_styles_list.Find(character.f_style)
 
-	SetUIValueRange(DNA_UI_HAIR_R,    character.r_hair,    255,    1)
-	SetUIValueRange(DNA_UI_HAIR_G,    character.g_hair,    255,    1)
-	SetUIValueRange(DNA_UI_HAIR_B,    character.b_hair,    255,    1)
+	body_build = character.body_build.name
 
-	SetUIValueRange(DNA_UI_BEARD_R,   character.r_facial,  255,    1)
-	SetUIValueRange(DNA_UI_BEARD_G,   character.g_facial,  255,    1)
-	SetUIValueRange(DNA_UI_BEARD_B,   character.b_facial,  255,    1)
+	var/r_part = hex2num(copytext(character.hair_color, 2, 4))
+	var/g_part = hex2num(copytext(character.hair_color, 4, 6))
+	var/b_part = hex2num(copytext(character.hair_color, 6, 8))
 
-	SetUIValueRange(DNA_UI_EYES_R,    character.r_eyes,    255,    1)
-	SetUIValueRange(DNA_UI_EYES_G,    character.g_eyes,    255,    1)
-	SetUIValueRange(DNA_UI_EYES_B,    character.b_eyes,    255,    1)
+	SetUIValueRange(DNA_UI_HAIR_R,    r_part,    255,    1)
+	SetUIValueRange(DNA_UI_HAIR_G,    g_part,    255,    1)
+	SetUIValueRange(DNA_UI_HAIR_B,    b_part,    255,    1)
 
-	SetUIValueRange(DNA_UI_SKIN_R,    character.r_skin,    255,    1)
-	SetUIValueRange(DNA_UI_SKIN_G,    character.g_skin,    255,    1)
-	SetUIValueRange(DNA_UI_SKIN_B,    character.b_skin,    255,    1)
+	r_part = hex2num(copytext(character.eyes_color, 2, 4))
+	g_part = hex2num(copytext(character.eyes_color, 4, 6))
+	b_part = hex2num(copytext(character.eyes_color, 6, 8))
+
+	SetUIValueRange(DNA_UI_EYES_R,    r_part,    255,    1)
+	SetUIValueRange(DNA_UI_EYES_G,    g_part,    255,    1)
+	SetUIValueRange(DNA_UI_EYES_B,    b_part,    255,    1)
+
+	r_part = hex2num(copytext(character.facial_color, 2, 4))
+	g_part= hex2num(copytext(character.facial_color, 4, 6))
+	b_part = hex2num(copytext(character.facial_color, 6, 8))
+
+	SetUIValueRange(DNA_UI_BEARD_R,   r_part,  255,    1)
+	SetUIValueRange(DNA_UI_BEARD_G,   g_part,  255,    1)
+	SetUIValueRange(DNA_UI_BEARD_B,   b_part,  255,    1)
+
+	r_part = hex2num(copytext(character.skin_color, 2, 4))
+	g_part = hex2num(copytext(character.skin_color, 4, 6))
+	b_part = hex2num(copytext(character.skin_color, 6, 8))
+
+	SetUIValueRange(DNA_UI_SKIN_R,    r_part,    255,    1)
+	SetUIValueRange(DNA_UI_SKIN_G,    g_part,    255,    1)
+	SetUIValueRange(DNA_UI_SKIN_B,    b_part,    255,    1)
 
 	SetUIValueRange(DNA_UI_SKIN_TONE, 35-character.s_tone, 220,    1) // Value can be negative.
 
