@@ -184,8 +184,6 @@
 /obj/structure/closet/bombclosetsecurity/New()
 	..()
 	new /obj/item/clothing/suit/bomb_suit/security( src )
-	new /obj/item/clothing/under/rank/security( src )
-	new /obj/item/clothing/shoes/brown( src )
 	new /obj/item/clothing/head/bomb_hood/security( src )
 
 /*

@@ -379,6 +379,13 @@
 	desc = "Medical Equipment"
 	region = ACCESS_REGION_MEDBAY
 
+/var/const/access_senior_security = 67
+/datum/access/sensecurity
+	id = access_senior_security
+	desc = "High Security Equipment"
+	region = ACCESS_REGION_SECURITY
+
+
 /******************
 * Central Command *
 ******************/

@@ -12,7 +12,6 @@
 
 /obj/item/weapon/gun/projectile/colt/detective
 	desc = "A Martian recreation of an old Terran pistol. Uses .45 rounds."
-	magazine_type = /obj/item/ammo_magazine/c45m/rubber
 
 /obj/item/weapon/gun/projectile/colt/detective/update_icon()
 	if(ammo_magazine)

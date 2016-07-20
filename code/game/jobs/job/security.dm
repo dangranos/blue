@@ -130,7 +130,7 @@
 	supervisors = "commissioner, brig overseer and senior officers"
 	selection_color = "#7CB9E8"
 	idtype = /obj/item/weapon/card/id/security
-	economic_modifier = 4
+	economic_modifier = 2
 	access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_morgue, access_external_airlocks)
 	minimal_access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_external_airlocks)
 	minimal_player_age = 5
@@ -165,8 +165,8 @@
 	selection_color = "#7CB9E8"
 	idtype = /obj/item/weapon/card/id/security
 	economic_modifier = 4
-	access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_morgue, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_medical)
-	minimal_access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_medical)
+	access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_morgue, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_medical, access_senior_security)
+	minimal_access = list(access_security, access_eva, access_sec_doors, access_brig, access_maint_tunnels, access_external_airlocks, access_engine, access_all_personal_lockers, access_cargo, access_research, access_mailsorting, access_tox, access_medical, access_senior_security)
 	minimal_player_age = 10
 	equip(var/mob/living/carbon/human/H)
 		if(!H)	return 0
