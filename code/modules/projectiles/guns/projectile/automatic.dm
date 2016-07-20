@@ -386,7 +386,7 @@
 	fire_sound = 'sound/weapons/fireimpulsesmg.wav'
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/a57x28pdw
-	allowed_magazines = list(/obj/item/ammo_magazine/a57x28pdw, /obj/item/ammo_magazine/a57x28pdw/ap)
+	allowed_magazines = list(/obj/item/ammo_magazine/a57x28pdw)
 	fire_delay = 0
 
 	firemodes = list(
@@ -413,7 +413,7 @@
 	fire_sound = 'sound/weapons/fireimpulserifle.wav'
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/a75x54
-	allowed_magazines = list(/obj/item/ammo_magazine/a75x54, /obj/item/ammo_magazine/a75x54/ap)
+	allowed_magazines = list(/obj/item/ammo_magazine/a75x54)
 	fire_delay = 3
 	accuracy = 2
 
