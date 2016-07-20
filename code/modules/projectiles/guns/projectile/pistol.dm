@@ -319,7 +319,7 @@
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/a10x45/
 	fire_sound = 'sound/weapons/fireimpulsepistol.wav'
-	allowed_magazines = list(/obj/item/ammo_magazine/a10x45/, /obj/item/ammo_magazine/a10x45/hp)
+	allowed_magazines = list(/obj/item/ammo_magazine/a10x45)
 
 /obj/item/weapon/gun/projectile/impulsetrauma/update_icon()
 	..()
@@ -337,7 +337,7 @@
 	load_method = MAGAZINE
 	fire_sound = 'sound/weapons/fireimpulsepistol.wav'
 	magazine_type = /obj/item/ammo_magazine/a57x28
-	allowed_magazines = list(/obj/item/ammo_magazine/a57x28, /obj/item/ammo_magazine/a57x28/ap)
+	allowed_magazines = list(/obj/item/ammo_magazine/a57x28)
 
 /obj/item/weapon/gun/projectile/impulsesec/update_icon()
 	..()
