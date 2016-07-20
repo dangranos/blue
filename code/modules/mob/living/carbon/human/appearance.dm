@@ -49,7 +49,7 @@
 	if(f_style == facial_hair_style)
 		return
 
-	if(!(facial_hair_style in facial_hair_styles_list))
+	if(!facial_hair_style in facial_hair_styles_list)
 		return
 
 	f_style = facial_hair_style
@@ -75,49 +75,41 @@
 
 	update_hair()
 
-/mob/living/carbon/human/proc/change_eye_color(var/red, var/green, var/blue)
-	if(red == r_eyes && green == g_eyes && blue == b_eyes)
+/mob/living/carbon/human/proc/change_eye_color(var/new_color)
+	if(eyes_color == new_color)
 		return
 
-	r_eyes = red
-	g_eyes = green
-	b_eyes = blue
+	eyes_color = new_color
 
 	update_eyes()
 	update_body()
 	return 1
 
-/mob/living/carbon/human/proc/change_hair_color(var/red, var/green, var/blue)
-	if(red == r_eyes && green == g_eyes && blue == b_eyes)
+/mob/living/carbon/human/proc/change_hair_color(var/new_color)
+	if(hair_color == new_color)
 		return
 
-	r_hair = red
-	g_hair = green
-	b_hair = blue
+	hair_color = new_color
 
 	force_update_limbs()
 	update_body()
 	update_hair()
 	return 1
 
-/mob/living/carbon/human/proc/change_facial_hair_color(var/red, var/green, var/blue)
-	if(red == r_facial && green == g_facial && blue == b_facial)
+/mob/living/carbon/human/proc/change_facial_hair_color(var/new_color)
+	if(facial_color == new_color)
 		return
 
-	r_facial = red
-	g_facial = green
-	b_facial = blue
+	facial_color = new_color
 
 	update_hair()
 	return 1
 
-/mob/living/carbon/human/proc/change_skin_color(var/red, var/green, var/blue)
-	if(red == r_skin && green == g_skin && blue == b_skin || !(species.appearance_flags & HAS_SKIN_COLOR))
+/mob/living/carbon/human/proc/change_skin_color(var/new_color)
+	if(skin_color == new_color || !(species.appearance_flags & HAS_SKIN_COLOR))
 		return
 
-	r_skin = red
-	g_skin = green
-	b_skin = blue
+	skin_color = new_color
 
 	force_update_limbs()
 	update_body()
