@@ -22,6 +22,9 @@
 /datum/body_build/neuter
 	gender 			= NEUTER
 
+/datum/body_build/plural
+	gender 			= PLURAL
+
 /datum/body_build/slim
 	name			= "Slim"
 	index			= "_slim"
