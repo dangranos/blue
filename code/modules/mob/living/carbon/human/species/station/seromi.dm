@@ -84,8 +84,8 @@
 		/datum/unarmed_attack/stomp/weak
 		)
 
-	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Chief Medical Officer", "Research Director",\
-							"Warden", "Detective", "Security Officer", "Medical Doctor", "Geneticist", "Paramedic",\
+	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer", "Chief Medical Officer", "Research Director",\
+							"Brig Overseer", "Detective", "Colonial Officer", "Colonial Senior Officer", "Medical Doctor", "Geneticist", "Paramedic",\
 							"Quartermaster", "Cargo Technician", "Shaft Miner", "Internal Affairs Agent")
 
 /*
