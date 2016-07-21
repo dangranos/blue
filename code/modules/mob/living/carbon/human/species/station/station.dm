@@ -176,7 +176,7 @@
 	reagent_tag = IS_SKRELL
 	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Chief Medical Officer", "Research Director",\
 						"Warden", "Detective", "Security Officer", "Station Engineer", "Atmospheric Technician",\
-						"Quartermaster", "Cargo Technician", "Shaft Miner")
+						"Quartermaster", "Cargo Technician", "Shaft Miner", "Internal Affairs Agent")
 	has_limbs = list(
 		BP_TORSO =  list("path" = /obj/item/organ/external/chest),
 		BP_GROIN =  list("path" = /obj/item/organ/external/groin),

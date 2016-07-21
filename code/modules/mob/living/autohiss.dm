@@ -59,9 +59,22 @@
 			"נ" = list("ננ", "ננ-נ", "ננננ")
 		)
 	autohiss_extra_map = list(
-			"ג" = list("פ")
+			"ג" = list("פ"),
+			"ל" = list("לנ")
 		)
 	autohiss_exempt = list("Siik'tajr")
+
+/datum/species/teshari
+	autohiss_basic_map = list(
+			"‎" = list("ט"),
+			"û" = list("ט"),
+			"י" = list("ט"),
+			"ב" = list("ןפ"),
+			"ג" = list("פ"),
+			"ך" = list("ץ"),
+			"‏" = list("ף")
+		)
+	autohiss_exempt = list("Schechi")
 
 
 /datum/species/proc/handle_autohiss(message, datum/language/lang, mode)
