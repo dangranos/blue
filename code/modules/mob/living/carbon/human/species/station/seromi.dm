@@ -25,7 +25,7 @@
 	damage_mask = 'icons/mob/human_races/masks/dam_mask_seromi.dmi'
 	blood_mask = 'icons/mob/human_races/masks/blood_seromi.dmi'
 
-	slowdown = -1
+	slowdown = -0.5
 	total_health = 50
 	brute_mod = 1.35
 	burn_mod =  1.35
@@ -84,11 +84,9 @@
 		/datum/unarmed_attack/stomp/weak
 		)
 
-	restricted_jobs = list(
-		"Captain", "Head of Personnel", "Head of Security", "Chief Engineer",\
-		"Research Director", "Chief Medical Officer", "Detective",\
-		"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
-		"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
+	restricted_jobs = list("Captain", "Head of Personnel", "Head of Security", "Chief Engineer", "Chief Medical Officer", "Research Director",\
+							"Warden", "Detective", "Security Officer", "Medical Doctor", "Geneticist", "Paramedic",\
+							"Quartermaster", "Cargo Technician", "Shaft Miner", "Internal Affairs Agent")
 
 /*
 	var/shock_cap = 30
