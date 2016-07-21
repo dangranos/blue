@@ -44,7 +44,7 @@ var/list/obj/item/device/uplink/world_uplinks = list()
 
 //Preferences stuff
 	//Bodybuilds
-var/global/list/body_builds = list("male" = list(), "female" = list(), "neuter" = list())
+var/global/list/body_builds = list("male" = list(), "female" = list(), "neuter" = list(), "plural" = list())
 	//Hairstyles
 var/global/list/hair_styles_list = list()			//stores /datum/sprite_accessory/hair indexed by name
 var/global/list/hair_styles_male_list = list()
