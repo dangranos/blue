@@ -150,12 +150,13 @@
 			usr << "<span class='danger'>The station is currently exploding. Joining would go poorly.</span>"
 			return
 
-		if(jobban_isbanned(src, client.prefs.species))
-			src << alert("You are currently banned from play [client.prefs.species].")
-			return 0
-		else if(!is_alien_whitelisted(src, all_species[client.prefs.species]))
-			src << alert("You are currently not whitelisted to play [client.prefs.species].")
-			return 0
+		if(client.prefs.species != "Human")
+			if(jobban_isbanned(src, client.prefs.species))
+				src << alert("You are currently banned from play [client.prefs.species].")
+				return 0
+			else if(!is_alien_whitelisted(src, all_species[client.prefs.species]))
+				src << alert("You are currently not whitelisted to play [client.prefs.species].")
+				return 0
 
 		var/datum/species/S = all_species[client.prefs.species]
 		if(!(S.spawn_flags & SPECIES_CAN_JOIN))
@@ -176,6 +177,7 @@
 	if(!job)	return 0
 	if(!job.is_position_available()) return 0
 	if(jobban_isbanned(src,rank))	return 0
+	if(IsJobRestricted(rank))	return 0
 	if(!job.player_old_enough(src.client))	return 0
 	return 1
 
