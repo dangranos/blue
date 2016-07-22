@@ -13,6 +13,7 @@
 	name_language = null // Use the first-name last-name generator rather than a language scrambler
 	min_age = 17
 	max_age = 110
+	health_hud_intensity = 1.5
 
 	posible_body_builds = list("Default", "Slim")
 
@@ -38,6 +39,7 @@
 	num_alternate_languages = 2
 	secondary_langs = list("Sinta'unathi")
 	name_language = "Sinta'unathi"
+	health_hud_intensity = 2.5
 
 	min_age = 18
 	max_age = 60
@@ -103,6 +105,7 @@
 	num_alternate_languages = 2
 	secondary_langs = list("Siik'tajr")
 	name_language = "Siik'tajr"
+	health_hud_intensity = 2.5
 
 	min_age = 17
 	max_age = 80
@@ -162,6 +165,7 @@
 	num_alternate_languages = 2
 	secondary_langs = list("Skrellian", "Schechi")
 	name_language = "Skrellian"
+	health_hud_intensity = 2
 
 	min_age = 19
 	max_age = 80
@@ -206,6 +210,7 @@
 	show_ssd = "completely quiescent"
 	num_alternate_languages = 1
 	name_language = "Rootspeak"
+	health_hud_intensity = 2.5
 
 	min_age = 1
 	max_age = 300
