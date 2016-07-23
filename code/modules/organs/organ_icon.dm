@@ -124,6 +124,8 @@ var/global/list/limb_icon_cache = list()
 					I.Blend(h_col, ICON_ADD)
 					limb_icon_cache[cache_key] = I
 				mob_icon.Blend(limb_icon_cache[cache_key], ICON_OVERLAY)
+	if(model)
+		icon_cache_key += "_model_[model]"
 
 	dir = EAST
 	icon = mob_icon
