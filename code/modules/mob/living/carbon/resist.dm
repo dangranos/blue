@@ -57,7 +57,7 @@
 		)
 
 	if(do_after(src, breakouttime, incapacitation_flags = INCAPACITATION_DISABLED & ~INCAPACITATION_KNOCKDOWN))
-		if(!handcuffed
+		if(!handcuffed)
 			return
 		visible_message(
 			"<span class='danger'>\The [src] manages to remove \the [handcuffed]!</span>",
