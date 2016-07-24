@@ -174,12 +174,12 @@
 /datum/gear/suit/forensics
 	display_name = "forensics long, red"
 	path = /obj/item/clothing/suit/storage/forensics/red/long
-	allowed_roles = list("Detective")
+	allowed_roles = list("Inverstigator", "Forensic Technician")
 
 /datum/gear/suit/forensics/blue
 	display_name = "forensics long, blue"
 	path = /obj/item/clothing/suit/storage/forensics/blue/long
-	allowed_roles = list("Detective")
+	allowed_roles = list("Inverstigator", "Forensic Technician")
 
 /datum/gear/suit/forensics/blue/short
 	display_name = "forensics, blue"
@@ -189,7 +189,7 @@
 /datum/gear/suit/forensics/red/short
 	display_name = "forensics, red"
 	path = /obj/item/clothing/suit/storage/forensics/red
-	allowed_roles = list("Detective")
+	allowed_roles = list("Inverstigator", "Forensic Technician")
 
 /datum/gear/suit/wintercoat
 	display_name = "winter coat"

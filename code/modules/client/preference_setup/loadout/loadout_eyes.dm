@@ -40,7 +40,7 @@
 /datum/gear/eyes/shades
 	display_name = "Sunglasses, fat (Security/Command)"
 	path = /obj/item/clothing/glasses/sunglasses/big
-	allowed_roles = list("Security Officer","Head of Security","Warden","Captain","Head of Personnel","Quartermaster","Internal Affairs Agent","Detective")
+	allowed_roles = list("Colonial Officer", "Colonial Senior Officer","Security Commissioner","Brig Overseer","Captain","Head of Personnel","Quartermaster","Internal Affairs Agent","Investigator")
 
 /datum/gear/eyes/glasses/fakesun
 	display_name = "Sunglasses, stylish"
@@ -50,3 +50,4 @@
 	display_name = "sunglasses, presciption (Security/Command)"
 	path = /obj/item/clothing/glasses/sunglasses/prescription
 	cost = 2
+	allowed_roles = list("Colonial Officer", "Colonial Senior Officer","Security Commissioner","Brig Overseer","Captain","Head of Personnel","Quartermaster","Internal Affairs Agent","Investigator")

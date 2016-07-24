@@ -90,7 +90,7 @@
  * Detective
  */
 /obj/item/clothing/under/det
-	name = "detective's suit"
+	name = "investigator's suit"
 	desc = "A rumpled white dress shirt paired with well-worn grey slacks."
 	icon_state = "detective"
 	item_state = "det"
@@ -125,7 +125,7 @@
 	starting_accessories = list(/obj/item/clothing/accessory/red_long, /obj/item/clothing/accessory/vest)
 
 /obj/item/clothing/under/det/corporate
-	name = "detective's jumpsuit"
+	name = "investigator's jumpsuit"
 	icon_state = "det_corporate"
 	item_state = "bl_suit"
 	worn_state = "det_corporate"

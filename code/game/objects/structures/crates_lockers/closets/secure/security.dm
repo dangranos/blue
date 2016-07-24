@@ -116,6 +116,7 @@
 		new /obj/item/clothing/suit/storage/hooded/wintercoat/security(src)
 		new /obj/item/device/flashlight/maglight(src)
 		new /obj/item/weapon/gun/energy/laspistol(src)
+		new /obj/item/clothing/glasses/sunglasses/sechud(src)
 		return
 
 
@@ -158,6 +159,7 @@
 		new /obj/item/ammo_magazine/a32(src)
 		new /obj/item/ammo_magazine/a32/ap(src)
 		new /obj/item/weapon/storage/firstaid/sec(src)
+		new /obj/item/clothing/glasses/sunglasses/sechud(src)
 		return
 
 
@@ -202,6 +204,8 @@
 		new /obj/item/weapon/gun/projectile/impulsesec(src)
 		new /obj/item/ammo_magazine/a57x28(src)
 		new /obj/item/ammo_magazine/a57x28(src)
+		new /obj/item/clothing/head/helmet(src)
+		new /obj/item/clothing/glasses/hud/security(src)
 		return
 
 
@@ -245,6 +249,8 @@
 		new /obj/item/ammo_magazine/a10x45(src)
 		new /obj/item/ammo_magazine/a10x45(src)
 		new /obj/item/ammo_magazine/a10x45(src)
+		new /obj/item/clothing/head/helmet(src)
+		new /obj/item/clothing/glasses/hud/security(src)
 		return
 
 
@@ -283,7 +289,7 @@
 
 /obj/structure/closet/secure_closet/detective
 	name = "detective's cabinet"
-	req_access = list(access_forensics_lockers)
+	req_access = list(access_detective)
 	icon_state = "cabinetdetective_locked"
 	icon_closed = "cabinetdetective"
 	icon_locked = "cabinetdetective_locked"
@@ -307,7 +313,6 @@
 		new /obj/item/clothing/accessory/holster/armpit(src)
 		new /obj/item/device/flashlight/maglight(src)
 		new /obj/item/weapon/reagent_containers/glass/drinks/flask/detflask(src)
-		new /obj/item/weapon/storage/briefcase/crimekit(src)
 		new /obj/item/weapon/melee/baton/shocker/loaded(src)
 		return
 
@@ -322,6 +327,30 @@
 				icon_state = icon_closed
 		else
 			icon_state = icon_opened
+
+/obj/structure/closet/secure_closet/detective/fortech
+	name = "forensic technician's cabinet"
+	req_access = list(access_forensics_lockers)
+	icon_state = "cabinetdetective_locked"
+	icon_closed = "cabinetdetective"
+	icon_locked = "cabinetdetective_locked"
+	icon_opened = "cabinetdetective_open"
+	icon_broken = "cabinetdetective_broken"
+	icon_off = "cabinetdetective_broken"
+
+	New()
+		..()
+		new /obj/item/clothing/accessory/badge/sec/detective(src)
+		new /obj/item/clothing/gloves/latex(src)
+		new /obj/item/weapon/storage/belt/detective(src)
+		new /obj/item/weapon/storage/box/evidence(src)
+		new /obj/item/device/radio/headset/headset_sec(src)
+		new /obj/item/device/radio/headset/headset_sec/alt(src)
+		new /obj/item/taperoll/police(src)
+		new /obj/item/device/flashlight/maglight(src)
+		new /obj/item/weapon/storage/briefcase/crimekit(src)
+		new /obj/item/weapon/melee/baton/shocker/loaded(src)
+		return
 
 /obj/structure/closet/secure_closet/injection
 	name = "lethal injections locker"

@@ -81,7 +81,7 @@
 		)
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Detective",\
+						"Research Director", "Chief Medical Officer", "Brig Overseer", "Colonial Senior Officer", "Investigator", "Forensic Technician", "Colonial Officer",\
 						"Medical Doctor", "Geneticist", "Chemist", "Scientist", "Roboticist",\
 						"Xenobiologist", "Quartermaster", "Internal Affairs Agent")
 
@@ -142,7 +142,7 @@
 		)
 	cold_discomfort_level = 275
 	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Brig Overseer", "Detective", "Colonial Officer", "Colonial Senior Officer",\
+						"Research Director", "Chief Medical Officer", "Brig Overseer", "Investigator", "Forensic Technician", "Colonial Officer", "Colonial Senior Officer",\
 						"Medical Doctor", "Geneticist", "Scientist", "Roboticist", "Xenobiologist",\
 						"Quartermaster", "Internal Affairs Agent")
 
@@ -179,7 +179,7 @@
 
 	reagent_tag = IS_SKRELL
 	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer", "Chief Medical Officer", "Research Director",\
-						"Brig Overseer", "Detective", "Colonial Officer", "Colonial Senior Officer", "Station Engineer", "Atmospheric Technician",\
+						"Brig Overseer", "Investigator", "Forensic Technician", "Colonial Officer", "Colonial Senior Officer", "Station Engineer", "Atmospheric Technician",\
 						"Quartermaster", "Cargo Technician", "Shaft Miner", "Internal Affairs Agent")
 	has_limbs = list(
 		BP_TORSO =  list("path" = /obj/item/organ/external/chest),
@@ -271,7 +271,7 @@
 
 	reagent_tag = IS_DIONA
 	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer",\
-						"Research Director", "Chief Medical Officer", "Brig Overseer", "Detective", "Colonial Officer", "Colonial Senior Officer",\
+						"Research Director", "Chief Medical Officer", "Brig Overseer", "Investigator", "Forensic Technician", "Colonial Officer", "Colonial Senior Officer",\
 						"Station Engineer", "Atmospheric Technician", "Medical Doctor", "Geneticist", "Paramedic",\
 						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
 

@@ -86,7 +86,7 @@
 		)
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer", "Chief Medical Officer", "Research Director",\
-							"Brig Overseer", "Detective", "Colonial Officer", "Colonial Senior Officer", "Medical Doctor", "Geneticist", "Paramedic",\
+							"Brig Overseer", "Investigator", "Forensic Technician", "Colonial Officer", "Colonial Senior Officer", "Medical Doctor", "Geneticist", "Paramedic",\
 							"Quartermaster", "Cargo Technician", "Shaft Miner", "Internal Affairs Agent")
 
 /*
