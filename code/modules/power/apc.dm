@@ -203,10 +203,9 @@
 	//if area isn't specified use current
 	if(isarea(A) && src.areastring == null)
 		src.area = A
-		name = "\improper [area.name] APC"
 	else
 		src.area = get_area_name(areastring)
-		name = "\improper [area.name] APC"
+	name = "[strip_improper(area.name)] APC"
 	area.apc = src
 	update_icon()
 
@@ -784,7 +783,9 @@
 	if (!ui)
 		// the ui does not exist, so we'll create a new() one
         // for a list of parameters and their descriptions see the code docs in \code\modules\nano\nanoui.dm
-		ui = new(user, src, ui_key, "apc.tmpl", "[area.name] - APC", 520, data["siliconUser"] ? 465 : 440)
+        //src.name/
+		//ui = new(user, src, ui_key, "apc.tmpl", "[area.name] - APC", 520, data["siliconUser"] ? 465 : 440)
+		ui = new(user, src, ui_key, "apc.tmpl", "[src.name] - APC", 520, data["siliconUser"] ? 465 : 440)
 		// when the ui is first opened this is the data it will use
 		ui.set_initial_data(data)
 		// open the new ui window
