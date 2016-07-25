@@ -203,7 +203,7 @@ obj/item/weapon/gun/energy/retro
  	item_state = "laspistol"
  	desc = "That's the NT P26, a laser pistol of the SA-59 series, a line of laser weaponry produced by Nanotrasen. Used by Themis Security."
  	fire_sound = 'sound/weapons/firelaspistol.ogg'
- 	slot_flags = SLOT_BELT
+ 	slot_flags = SLOT_BELT|SLOT_HOLSTER
  	w_class = 3
  	projectile_type = /obj/item/projectile/beam/weaklaser
  	fire_delay = 1
