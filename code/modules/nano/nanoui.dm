@@ -178,7 +178,7 @@ nanoui is used to open and update nano browser uis
 	var/name = "[src_object]"
 	name = sanitize(name)
 	var/list/config_data = list(
-			"title" = title,
+			"title" = strip_improper(title),
 			"srcObject" = list("name" = strip_improper(name)),
 			"stateKey" = state_key,
 			"status" = status,
