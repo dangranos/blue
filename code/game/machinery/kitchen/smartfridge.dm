@@ -33,6 +33,7 @@
 		wires = new/datum/wires/smartfridge/secure(src)
 	else
 		wires = new/datum/wires/smartfridge(src)
+	name = strip_improper(name)
 
 /obj/machinery/smartfridge/Destroy()
 	qdel(wires)
