@@ -159,7 +159,7 @@
 		area.apc = src
 		opened = 1
 		operating = 0
-		name = "[strip_improper(area.name)] APC"
+		name = "[area.name] APC"
 		stat |= MAINT
 		src.update_icon()
 
