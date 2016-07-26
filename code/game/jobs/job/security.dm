@@ -134,7 +134,6 @@
 		H.equip_to_slot_or_del(new /obj/item/device/pda/detective(H), slot_belt)
 		H.equip_to_slot_or_del(new /obj/item/clothing/gloves/black(H), slot_gloves)
 		H.equip_to_slot_or_del(new /obj/item/clothing/suit/storage/forensics/blue(H), slot_wear_suit)
-		H.equip_to_slot_or_del(new /obj/item/clothing/head/det(H), slot_head)
 		return 1
 
 /datum/job/constable
