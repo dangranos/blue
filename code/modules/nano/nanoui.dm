@@ -86,7 +86,7 @@ nanoui is used to open and update nano browser uis
 	add_template("main", ntemplate_filename)
 
 	if (ntitle)
-		title = sanitize(ntitle)
+		title = sanitize(strip_improper(ntitle))
 	if (nwidth)
 		width = nwidth
 	if (nheight)
@@ -179,7 +179,7 @@ nanoui is used to open and update nano browser uis
 	name = sanitize(name)
 	var/list/config_data = list(
 			"title" = title,
-			"srcObject" = list("name" = strip_improper(name)),
+			"srcObject" = list("name" = "[name]"),
 			"stateKey" = state_key,
 			"status" = status,
 			"autoUpdateLayout" = auto_update_layout,
