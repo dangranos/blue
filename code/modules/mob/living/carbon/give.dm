@@ -3,9 +3,9 @@
 	set name = "Give"
 
 	// TODO :  Change to incapacitated() on merge.
-	if(src.stat || src.lying || src.resting || src.buckled)
+	if(src.stat || src.lying || src.resting)
 		return
-	if(!istype(target) || target.stat || target.lying || target.resting || target.buckled || target.client == null)
+	if(!istype(target) || target.stat || target.lying || target.resting || target.client == null)
 		return
 
 	var/obj/item/I = src.get_active_hand()
