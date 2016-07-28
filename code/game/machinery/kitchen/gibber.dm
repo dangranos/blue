@@ -84,10 +84,11 @@
 	..()
 	usr << "The safety guard is [emagged ? "<span class='danger'>disabled</span>" : "enabled"]."
 
-/obj/machinery/gibber/emag_act(var/remaining_charges, var/mob/user)
+/*obj/machinery/gibber/emag_act(var/remaining_charges, var/mob/user)
 	emagged = !emagged
 	user << "<span class='danger'>You [emagged ? "disable" : "enable"] the gibber safety guard.</span>"
 	return 1
+*/
 
 /obj/machinery/gibber/attackby(var/obj/item/W, var/mob/user)
 	var/obj/item/weapon/grab/G = W
@@ -121,9 +122,9 @@
 		user << "<span class='danger'>This is not suitable for the gibber!</span>"
 		return
 
-	if(istype(victim,/mob/living/carbon/human) && !emagged)
+	/*if(istype(victim,/mob/living/carbon/human) && !emagged)
 		user << "<span class='danger'>The gibber safety guard is engaged!</span>"
-		return
+		return*/
 
 
 	if(victim.abiotic(1))

@@ -11,6 +11,12 @@
 		src << "<font color='red'>Error: Admin-PM: You cannot send adminhelps (Muted).</font>"
 		return
 
+
+	if(src.mob)
+		if(jobban_isbanned(src.mob, "AHELP"))
+			src << "<span class='danger'>You have been banned from Adminhelp.</span>"
+			return
+
 	adminhelped = 1 //Determines if they get the message to reply by clicking the name.
 
 	//clean the input msg

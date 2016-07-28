@@ -410,8 +410,10 @@
 	category = "Arms and Ammunition"
 	hidden = 1
 */
+////////////////////////////
+/*Themis Security ammuntion*/
+////////////////////////////
 
-/////// .45
 /datum/autolathe/recipe/ammo10x45
 	name = "ammo cartridge (10x45)"
 	path = /obj/item/ammo_magazine/a10x45
@@ -456,6 +458,17 @@
 /datum/autolathe/recipe/ammo75x54ap
 	name = "ammo mag (7.5x54 AP)"
 	path = /obj/item/ammo_magazine/a75x54/ap
+	category = "Arms and Ammunition"
+	hidden = 1
+
+/datum/autolathe/recipe/ammo45r
+	name = "ammo mag (.45 rubber)"
+	path = /obj/item/ammo_magazine/c45m/rubber
+	category = "Arms and Ammunition"
+
+/datum/autolathe/recipe/ammo45
+	name = "ammo mag (.45)"
+	path = /obj/item/ammo_magazine/c45m
 	category = "Arms and Ammunition"
 	hidden = 1
 
