@@ -73,7 +73,7 @@
 					lost_sources[++lost_sources.len] = AS.source_name
 
 			categories[categories.len]["alarms"] += list(list(
-					"name" = sanitize(A.alarm_name()),
+					"name" = sanitize(strip_improper(A.alarm_name())),
 					"origin_lost" = A.origin == null,
 					"has_cameras" = cameras.len,
 					"cameras" = cameras,

@@ -780,6 +780,7 @@
 			if(allowed(usr) && !wires.IsIndexCut(AALARM_WIRE_IDSCAN))
 				locked = !locked
 				user << "<span class='notice'>You [ locked ? "lock" : "unlock"] the Air Alarm interface.</span>"
+				return
 			else
 				user << "<span class='warning'>Access denied.</span>"
 	return ..()
