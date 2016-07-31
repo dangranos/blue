@@ -44,7 +44,7 @@
 	if(EM.add_to_queue)
 		EC.available_events += EM
 
-	log_debug("Event '[EM.name]' has completed at [worldtime2stationtime()].")
+	log_debug("Event '[EM.name]' has completed at [worldtime2stationtime(world.time)].")
 
 /datum/event_manager/proc/delay_events(var/severity, var/delay)
 	var/list/datum/event_container/EC = event_containers[severity]
