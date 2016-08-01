@@ -163,6 +163,56 @@
 	path = /obj/item/clothing/under/rank/cargotech/jeans/female
 	allowed_roles = list("Quartermaster","Cargo Technician")
 
+/datum/gear/uniform/jeans_chemist
+	display_name = "jeans, chemist"
+	path= /obj/item/clothing/under/rank/chemist/jeans
+	allowed_roles = list("Chief Medical Officer", "Chemist")
+
+/datum/gear/uniform/jeans_chemistf
+	display_name = "female jeans, chemist"
+	path= /obj/item/clothing/under/rank/chemist/jeans/female
+	allowed_roles = list("Chief Medical Officer", "Chemist")
+
+/datum/gear/uniform/jeans_sci
+	display_name = "jeans, science"
+	path= /obj/item/clothing/under/rank/scientist/jeans
+	allowed_roles = list("Research Director","Scientist", "Xenobiologist")
+
+/datum/gear/uniform/jeans_scif
+	display_name = "female jeans, science"
+	path= /obj/item/clothing/under/rank/scientist/jeans/female
+	allowed_roles = list("Research Director","Scientist", "Xenobiologist")
+
+/datum/gear/uniform/jeans_med
+	display_name = "jeans, medical"
+	path= /obj/item/clothing/under/rank/medical/jeans
+	allowed_roles = list("Medical Doctor", "Chief Medical Officer")
+
+/datum/gear/uniform/jeans_medf
+	display_name = "female jeans, medical"
+	path= /obj/item/clothing/under/rank/medical/jeans/female
+	allowed_roles = list("Medical Doctor", "Chief Medical Officer")
+
+/datum/gear/uniform/jeans_engineer
+	display_name = "jeans, engineer"
+	path= /obj/item/clothing/under/rank/engineer/jeans
+	allowed_roles = list("Chief Engineer","Station Engineer")
+
+/datum/gear/uniform/jeans_atmos
+	display_name = "jeans, atmospheric technician"
+	path= /obj/item/clothing/under/rank/atmospheric_technician/jeans
+	allowed_roles = list("Chief Engineer","Atmospheric Technician")
+
+/datum/gear/uniform/jeans_cmo
+	display_name = "jeans, CMO"
+	path= /obj/item/clothing/under/rank/chief_medical_officer/jeans
+	allowed_roles = list("Chief Medical Officer")
+
+/datum/gear/uniform/jeans_cmof
+	display_name = "female jeans, CMO"
+	path= /obj/item/clothing/under/rank/chief_medical_officer/jeans/female
+	allowed_roles = list("Chief Medical Officer")
+
 /datum/gear/uniform/suit  //amish
 	display_name = "suit, amish"
 	path = /obj/item/clothing/under/sl_suit

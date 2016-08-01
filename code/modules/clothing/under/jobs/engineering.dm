@@ -16,6 +16,12 @@
 	worn_state = "atmos"
 	rolled_sleeves = 0
 
+/obj/item/clothing/under/rank/atmospheric_technician/jeans
+	desc = "Simple blue jeans paired with white skirt. It has purple stripes on it's shoulders. Neat."
+	name = "atmospheric technician's jeans uniform"
+	icon_state = "atmosj"
+	worn_state = "atmosj"
+
 /obj/item/clothing/under/rank/engineer
 	desc = "It's an orange high visibility jumpsuit worn by engineers. It has minor radiation shielding."
 	name = "engineer's jumpsuit"
@@ -24,6 +30,12 @@
 	worn_state = "engine"
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 0, rad = 10)
 	rolled_sleeves = 0
+
+/obj/item/clothing/under/rank/engineer/jeans
+	desc = "Simple blue jeans paired with white skirt. It has blue stripes on it's shoulders and chest. Neat."
+	name = "engineer's jeans uniform"
+	icon_state = "enginej"
+	worn_state = "enginej"
 
 /obj/item/clothing/under/rank/roboticist
 	desc = "It's a slimming black jumpsuit with reinforced seams; great for industrial work."

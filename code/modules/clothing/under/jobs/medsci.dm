@@ -36,6 +36,18 @@
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 10, bio = 0, rad = 0)
 	rolled_sleeves = 0
 
+/obj/item/clothing/under/rank/scientist/jeans
+	desc = "Simple blue jeans paired with white skirt. It has purple stripes on it's shoulders. Neat."
+	name = "scientist's jeans uniform"
+	icon_state = "sciencewhitej"
+	item_state = "w_suit"
+	worn_state = "sciencewhitej"
+
+/obj/item/clothing/under/rank/scientist/jeans/female
+	icon_state = "sciencewhitej"
+	worn_state = "sciencewhitej"
+
+
 /obj/item/clothing/under/rank/chemist
 	desc = "It's made of a special fiber that gives special protection against biohazards. It has a chemist rank stripe on it."
 	name = "chemist's jumpsuit"
@@ -45,6 +57,17 @@
 	permeability_coefficient = 0.50
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 10, rad = 0)
 	rolled_sleeves = 0
+
+/obj/item/clothing/under/rank/chemist/jeans
+	desc = "Simple blue jeans paired with white skirt. It has orange stripes on it's shoulders. Neat."
+	name = "chemist's jeans uniform"
+	icon_state = "chemistrywhitej"
+	item_state = "w_suit"
+	worn_state = "chemistrywhitej"
+
+/obj/item/clothing/under/rank/chemist/jeans/female
+	icon_state = "chemistrywhitej_f"
+	worn_state = "chemistrywhitej_f"
 
 /*
  * Medical
@@ -58,6 +81,16 @@
 	permeability_coefficient = 0.50
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 10, rad = 0)
 	rolled_sleeves = 0
+
+/obj/item/clothing/under/rank/chief_medical_officer/jeans
+	desc = "Simple blue jeans paired with white skirt. It has light-blue stripes on it's shoulders. Neat."
+	name = "chief medical officer's jeans uniform"
+	icon_state = "cmoj"
+	worn_state = "cmoj"
+
+/obj/item/clothing/under/rank/chief_medical_officer/jeans/female
+	icon_state = "cmojf"
+	worn_state = "cmojf"
 
 /obj/item/clothing/under/rank/geneticist
 	desc = "It's made of a special fiber that gives special protection against biohazards. It has a genetics rank stripe on it."
@@ -120,6 +153,17 @@
 	permeability_coefficient = 0.50
 	armor = list(melee = 0, bullet = 0, laser = 0,energy = 0, bomb = 0, bio = 10, rad = 0)
 	rolled_sleeves = 0
+
+/obj/item/clothing/under/rank/medical/jeans
+	desc = "Simple blue jeans paired with white skirt. It has green cross, drawn on it's chest. Neat."
+	name = "medical doctor's jeans uniform"
+	icon_state = "medicalj"
+	item_state = "w_suit"
+	worn_state = "medicalj"
+
+/obj/item/clothing/under/rank/medical/jeans/female
+	icon_state = "medicaljf"
+	worn_state = "medicaljf"
 
 /obj/item/clothing/under/rank/medical/paramedic
 	name = "short sleeve medical jumpsuit"
