@@ -42,6 +42,7 @@ datum/preferences
 	var/body = "Default"				//character body build name
 	var/list/alternate_languages = list() //Secondary language(s)
 	var/list/gear						//Custom/fluff item loadout.
+	var/has_cortical_stack = 1
 
 		//Some faction information.
 	var/home_system = "Unset"           //System of birth.
@@ -212,7 +213,7 @@ datum/preferences
 /datum/preferences/proc/process_link(mob/user, list/href_list)
 	if(!user)	return
 
-	if(!istype(user, /mob/new_player))	return
+	if(isliving(user))	return
 
 	if(href_list["preference"] == "open_whitelist_forum")
 		if(config.forumurl)

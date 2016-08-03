@@ -210,6 +210,7 @@
 	show_ssd = "completely quiescent"
 	num_alternate_languages = 1
 	name_language = "Rootspeak"
+	spawns_with_stack = 0
 	health_hud_intensity = 2.5
 
 	min_age = 1

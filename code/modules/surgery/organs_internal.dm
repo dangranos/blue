@@ -263,6 +263,20 @@
 			user << "<span class='warning'>\The [O.organ_tag] [o_do] normally go in \the [affected.name].</span>"
 			return SURGERY_FAILURE
 
+		else if(istype(O, /obj/item/organ/stack))
+
+			if(!target.internal_organs_by_name[O.organ_tag])
+				organ_missing = 1
+			else
+				user << "<span class='warning'>\The [target] already has [o_a][O.organ_tag].</span>"
+				return SURGERY_FAILURE
+
+			if(O && affected.limb_name == O.parent_organ)
+				organ_compatible = 1
+			else
+				user << "<span class='warning'>\The [O.organ_tag] [o_do] normally go in \the [affected.name].</span>"
+				return SURGERY_FAILURE
+
 		return ..() && organ_missing && organ_compatible
 
 	begin_step(mob/user, mob/living/carbon/human/target, target_zone, obj/item/tool)

@@ -1124,6 +1124,9 @@
 		if(hud_used)
 			qdel(hud_used)
 		hud_used = new /datum/hud(src)
+	
+	if(config && config.use_cortical_stack && client && client.prefs.has_cortical_stack)
+		create_stack()
 
 	if(species)
 		return 1

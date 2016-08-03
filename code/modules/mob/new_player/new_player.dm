@@ -251,7 +251,7 @@
 		if(character.mind.role_alt_title)
 			rank = character.mind.role_alt_title
 		// can't use their name here, since cyborg namepicking is done post-spawn, so we'll just say "A new Cyborg has arrived"/"A new Android has arrived"/etc.
-		global_announcer.autosay("A new[rank ? " [rank]" : " visitor" ] [join_message ? join_message : "has arrived on the station"].", "Arrivals Announcement Computer")
+		global_announcer.autosay("A new[rank ? " [rank]" : " visitor" ] [join_message ? join_message : "has arrived on the station"].", "Arrivals Announcement Computer") //"Screws up vim dreammaker code highlight
 
 /mob/new_player/proc/LateChoices()
 	var/name = client.prefs.be_random_name ? "friend" : client.prefs.real_name
@@ -338,8 +338,9 @@
 		new_character.dna.SetSEState(GLASSESBLOCK,1,0)
 		new_character.disabilities |= NEARSIGHTED
 
-	// And uncomment this, too.
-	//new_character.dna.UpdateSE()
+		// Give them their cortical stack if we're using them.
+	if(config && config.use_cortical_stacks && client && client.prefs.has_cortical_stack/* && new_character.species.has_organ["brain"]*/)
+		new_character.create_stack()
 
 	// Do the initial caching of the player's body icons.
 	new_character.force_update_limbs()

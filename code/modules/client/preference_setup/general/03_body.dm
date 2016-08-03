@@ -20,6 +20,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	S["disabilities"]		>> pref.disabilities
 	S["organ_data"]			>> pref.organ_data
 	S["rlimb_data"]			>> pref.rlimb_data
+	$["has_cortical_stack"] >> perf.has_cortical_stack
 	S["body_type"]			>> pref.body
 	pref.preview_icon = null
 
@@ -36,6 +37,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	S["disabilities"]		<< pref.disabilities
 	S["organ_data"]			<< pref.organ_data
 	S["rlimb_data"]			<< pref.rlimb_data
+	$["has_cortical_stack"] << perf.has_cortical_stack
 	S["body_type"]			<< pref.body
 
 /datum/category_item/player_setup_item/general/body/sanitize_character(var/savefile/S)
@@ -108,6 +110,12 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	. += "<table><tr style='vertical-align:top'><td><b>Body</b> "
 	. += "(<a href='?src=\ref[src];random=1'>&reg;</A>)"
 	. += "<br>"
+
+	if(config.use_cortical_stacks)
+		. += "Neural lace: "
+		. += pref.has_cortical_stack ? "present." : "<b>not present. <font color='#FF0000'>Character is unclonable.</font></b>"
+		. += " \[<a href='?src=\ref[src];toggle_stack=1'>toggle</a>\]<br>"
+
 	. += "Species: <a href='?src=\ref[src];show_species=1'>[pref.species]</a><br>"
 	. += "Blood Type: <a href='?src=\ref[src];blood_type=1'>[pref.b_type]</a><br>"
 	if(has_flag(mob_species, HAS_SKIN_TONE))
@@ -231,6 +239,10 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	if(href_list["random"])
 		pref.randomize_appearance_and_body_for()
 		return TOPIC_REFRESH_UPDATE_PREVIEW
+
+	else if(href_list["toggle_stack"])
+		pref.has_cortical_stack = !pref.has_cortical_stack
+		return TOPIC_REFRESH
 
 	else if(href_list["blood_type"])
 		var/new_b_type = input(user, "Choose your character's blood-type:", "Character Preference") as null|anything in valid_bloodtypes
