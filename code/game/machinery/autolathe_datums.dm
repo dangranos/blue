@@ -461,7 +461,7 @@
 	category = "Arms and Ammunition"
 	hidden = 1
 
-/datum/autolathe/recipe/ammo45r
+/*datum/autolathe/recipe/ammo45r
 	name = "ammo mag (.45 rubber)"
 	path = /obj/item/ammo_magazine/c45m/rubber
 	category = "Arms and Ammunition"
@@ -470,7 +470,7 @@
 	name = "ammo mag (.45)"
 	path = /obj/item/ammo_magazine/c45m
 	category = "Arms and Ammunition"
-	hidden = 1
+	hidden = 1*/
 
 /* Commented out until autolathe stuff is decided/fixed. Will probably remove these entirely. -Spades
 // These should always be /empty! The idea is to fill them up manually with ammo clips.
