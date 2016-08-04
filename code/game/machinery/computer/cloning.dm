@@ -304,7 +304,7 @@
 		if (!subject.has_brain())
 			if(ishuman(subject))
 				var/mob/living/carbon/human/H = subject
-				if(H.species.has__organ["brain"])
+				if(H.species.has_organ["brain"])
 					scantemp = "Error: No signs of intelligence detected."
 			else
 				scantemp = "Error: No signs of intelligence detected."

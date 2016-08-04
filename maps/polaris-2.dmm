@@ -2483,7 +2483,7 @@
 "aVM" = (/obj/structure/table/rack,/obj/item/clothing/glasses/thermal/plain/monocle,/turf/unsimulated/floor{tag = "icon-asteroid"; icon_state = "asteroid"},/area/syndicate_mothership{name = "\improper Raider Base"})
 "aVN" = (/obj/effect/landmark{name = "voxstart"},/turf/unsimulated/floor{tag = "icon-cult"; name = "plating"; icon_state = "cult"},/area/syndicate_mothership{name = "\improper Raider Base"})
 "aVO" = (/obj/item/weapon/tank/nitrogen,/turf/unsimulated/floor{tag = "icon-asteroid"; icon_state = "asteroid"},/area/syndicate_mothership{name = "\improper Raider Base"})
-"aVP" = (/obj/item/organ/internal/stack,/turf/unsimulated/floor{tag = "icon-asteroid"; icon_state = "asteroid"},/area/syndicate_mothership{name = "\improper Raider Base"})
+"aVP" = (/turf/unsimulated/floor{tag = "icon-asteroid"; icon_state = "asteroid"},/area/syndicate_mothership{name = "\improper Raider Base"})
 "aVQ" = (/obj/structure/bed/chair,/turf/unsimulated/floor{tag = "icon-cult"; name = "plating"; icon_state = "cult"},/area/syndicate_mothership{name = "\improper Raider Base"})
 "aVR" = (/obj/structure/grille,/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 1},/obj/structure/window/reinforced{dir = 8},/turf/unsimulated/floor{icon_state = "dark"},/area/syndicate_mothership{name = "\improper Raider Base"})
 "aVS" = (/obj/structure/grille,/obj/structure/window/reinforced,/obj/structure/window/reinforced{dir = 1},/turf/unsimulated/floor{icon_state = "dark"},/area/syndicate_mothership{name = "\improper Raider Base"})

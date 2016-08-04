@@ -45,11 +45,11 @@
 
 obj/machinery/resleever/process()
 
-	if(occupant)
-		occupant.Paralyse(4) // We need to always keep the occupant sleeping if they're in here.
 	if(stat & (NOPOWER|BROKEN) || !anchored)
 		update_use_power(0)
 		return
+	if(occupant)
+		occupant.Paralyse(4) // We need to always keep the occupant sleeping if they're in here.
 	if(resleeving)
 		update_use_power(2)
 		if(remaining < timetosleeve)
@@ -100,21 +100,12 @@ obj/machinery/resleever/process()
 		usr << "\The [src] doesn't appear to function."
 		return
 
-	tg_ui_interact(user)
+	ui_interact(user)
 
-/obj/machinery/resleever/ui_status(mob/user, datum/ui_state/state)
+/obj/machinery/resleever/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 1)
 	if(!anchored || inoperable())
-		return UI_CLOSE
-	return ..()
+		return
 
-
-/obj/machinery/resleever/tg_ui_interact(mob/user, ui_key = "main", datum/tgui/ui = null, force_open = 0, datum/tgui/master_ui = null, datum/ui_state/state = default_state)
-	ui = tgui_process.try_update_ui(user, src, ui_key, ui, force_open)
-	if(!ui)
-		ui = new(user, src, ui_key, "resleever", "Neural Lace Resleever", 300, 300, master_ui, state)
-		ui.open()
-
-/obj/machinery/resleever/ui_data()
 	var/list/data = list(
 		"name" = occupant_name,
 		"lace" = lace_name,
@@ -125,22 +116,29 @@ obj/machinery/resleever/process()
 		"timetosleeve" = 120,
 		"ready" = readyToBegin()
 	)
+	ui = nanomanager.try_update_ui(user, src, ui_key, ui, data, force_open)
+	if(!ui)
+		ui = new(user, src, ui_key, "resleever.tmpl", "Neural Lace Resleever", 300, 300)
+		ui.set_initial_data(data)
+		ui.open()
+		ui.set_auto_update(1)
 
-	return data
-
-/obj/machinery/resleever/ui_act(action, params)
+/obj/machinery/resleever/Topic(href, href_list)
 	if(..())
-		return TRUE
-	switch(action)
-		if("begin")
-			sleeve()
-			resleeving = 1
-		if("eject")
-			eject_occupant()
-		if("ejectlace")
-			eject_lace()
-	update_icon()
-	return TRUE
+		return 1
+	
+	if(href_list["begin"])
+		sleeve()
+		resleeving = 1
+		. = 1
+	if(href_list["eject"])
+		eject_occupant()
+		. = 1
+	if(href_list["ejectlace"])
+		eject_lace()
+		. = 1
+	if(.)
+		update_icon()
 
 /obj/machinery/resleever/proc/sleeve()
 	if(lace && occupant)

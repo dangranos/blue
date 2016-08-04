@@ -92,8 +92,8 @@
 		clonemind = locate(R.mind)
 		if(!istype(clonemind, /datum/mind))	//not a mind
 			return 0
-	    	if(clonemind.current && clonemind.current.stat != DEAD)	//mind is associated with a non-dead body
-			return 0
+			if(clonemind.current && clonemind.current.stat != DEAD)	//mind is associated with a non-dead body
+				return 0
 		if(clonemind.active)	//somebody is using that mind
 			if(ckey(clonemind.key) != R.ckey)
 				return 0
@@ -126,7 +126,7 @@
 	//Here let's calculate their health so the pod doesn't immediately eject them!!!
 	H.updatehealth()
 	
-        if(clonemind)
+	if(clonemind)
 		clonemind.transfer_to(H)
 		if(R.ckey)
 			H.ckey = R.ckey

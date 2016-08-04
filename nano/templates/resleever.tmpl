@@ -1,0 +1,42 @@
+<h3>Neural Lace Resleever</h3>
+
+<div class="item">
+	<div class="itemLabel">
+		Occupant
+	</div>
+	<div class="itemContent">
+		{{:data.name}} 
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemLabel">
+		Neural Lace backup
+	</div>
+	<div class="itemContent">
+		{{:data.lace}} 
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemLabel">
+		Occupant
+	</div>
+	<div class="itemContent">
+		{{:helper.displayBar(data.remaining, 0, data.timetosleeve)}}
+	</div>
+</div>
+
+<div class="item">
+	<div class="itemContent">
+		{{:helper.link('Start Procedure', null, {'begin' : 1}, data.ready ? null : 'disabled')}}
+	</div>
+</div>
+<div class="item">
+	<div class="itemContent">
+		{{:helper.link('Eject Occupant', 'eject', {'eject' : 1}, data.isOccupiedEjectable ? null : 'disabled')}}
+	</div>
+	<div class="itemContent">
+		{{:helper.link('Eject Lace', 'eject', {'ejectlace' : 1}, data.isLaceEjectable ? null : 'disabled')}}
+	</div>
+</div>

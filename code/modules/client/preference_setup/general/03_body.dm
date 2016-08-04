@@ -20,7 +20,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	S["disabilities"]		>> pref.disabilities
 	S["organ_data"]			>> pref.organ_data
 	S["rlimb_data"]			>> pref.rlimb_data
-	$["has_cortical_stack"] >> perf.has_cortical_stack
+	S["has_cortical_stack"] >> pref.has_cortical_stack
 	S["body_type"]			>> pref.body
 	pref.preview_icon = null
 
@@ -37,7 +37,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	S["disabilities"]		<< pref.disabilities
 	S["organ_data"]			<< pref.organ_data
 	S["rlimb_data"]			<< pref.rlimb_data
-	$["has_cortical_stack"] << perf.has_cortical_stack
+	S["has_cortical_stack"] << pref.has_cortical_stack
 	S["body_type"]			<< pref.body
 
 /datum/category_item/player_setup_item/general/body/sanitize_character(var/savefile/S)
