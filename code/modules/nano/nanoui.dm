@@ -95,6 +95,8 @@ nanoui is used to open and update nano browser uis
 		ref = nref
 
 	add_common_assets()
+	var/datum/asset/assets = get_asset_datum(/datum/asset/nanoui)
+	assets.send(user, ntemplate_filename)
 
  /**
   * Use this proc to add assets which are common to (and required by) all nano uis
@@ -179,13 +181,15 @@ nanoui is used to open and update nano browser uis
 	name = sanitize(name)
 	var/list/config_data = list(
 			"title" = title,
-			"srcObject" = list("name" = "[name]"),
+			"srcObject" = list("name" = name),
 			"stateKey" = state_key,
 			"status" = status,
 			"autoUpdateLayout" = auto_update_layout,
 			"autoUpdateContent" = auto_update_content,
 			"showMap" = show_map,
+			"mapName" = using_map.path,
 			"mapZLevel" = map_z_level,
+			"mapZLevels" = using_map.map_levels,
 			"user" = list("name" = user.name)
 		)
 	return config_data
@@ -347,13 +351,13 @@ nanoui is used to open and update nano browser uis
 
 	var/template_data_json = "{}" // An empty JSON object
 	if (templates.len > 0)
-		template_data_json = strip_improper(list2json(templates))
+		template_data_json = strip_improper(json_encode(templates))
 
 	var/list/send_data = get_send_data(initial_data)
-	var/initial_data_json = replacetext(replacetext(list2json_usecache(send_data), "&#34;", "&amp;#34;"), "'", "&#39;")
+	var/initial_data_json = replacetext(replacetext(json_encode(send_data), "&#34;", "&amp;#34;"), "'", "&#39;")
 	initial_data_json = strip_improper(initial_data_json);
 
-	var/url_parameters_json = list2json(list("src" = "\ref[src]"))
+	var/url_parameters_json = json_encode(list("src" = "\ref[src]"))
 
 	return {"
 <!DOCTYPE html>
@@ -400,6 +404,11 @@ nanoui is used to open and update nano browser uis
 /datum/nanoui/proc/open()
 	if(!user.client)
 		return
+
+	// An attempted fix to UIs sometimes locking up spamming runtime errors due to src_object being null for whatever reason.
+	// This hard-deletes the UI, preventing the device that uses the UI from being locked up permanently.
+	if(!src_object)
+		del(src)
 
 	var/window_size = ""
 	if (width && height)
@@ -467,7 +476,7 @@ nanoui is used to open and update nano browser uis
 	var/list/send_data = get_send_data(data)
 
 	//user << list2json_usecache(send_data) // used for debugging //NANO DEBUG HOOK
-	user << output(list2params(list(strip_improper(list2json_usecache(send_data)))),"[window_id].browser:receiveUpdateData")
+	user << output(list2params(list(strip_improper(json_encode(send_data)))),"[window_id].browser:receiveUpdateData")
 
  /**
   * This Topic() proc is called whenever a user clicks on a link within a Nano UI
@@ -488,8 +497,12 @@ nanoui is used to open and update nano browser uis
 		map_update = 1
 
 	if(href_list["mapZLevel"])
-		set_map_z_level(text2num(href_list["mapZLevel"]))
+		var/map_z = text2num(href_list["mapZLevel"])
+		if(map_z in using_map.map_levels)
+			set_map_z_level(map_z)
 		map_update = 1
+		else
+			return
 
 	if ((src_object && src_object.Topic(href, href_list, state)) || map_update)
 		nanomanager.update_uis(src_object) // update all UIs attached to src_object
