@@ -91,7 +91,7 @@
 /datum/feed_network/proc/insert_message_in_channel(var/datum/feed_channel/FC, var/datum/feed_message/newMsg)
 	FC.messages += newMsg
 	if(newMsg.img)
-		register_asset("newscaster_photo[snaitize(FC.channel_name)]_[FC..messages.len].png", newMsg.img)
+		register_asset("newscaster_photo[sanitize(FC.channel_name)]_[FC.messages.len].png", newMsg.img)
 	newMsg.parent_channel = FC
 	FC.update()
 	alert_readers(FC.announcement)

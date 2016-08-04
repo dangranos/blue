@@ -291,7 +291,7 @@
 
 	spawn (10) //removing this spawn causes all clients to not get verbs.
 		//Precache the client with all other assets slowly, so as to not block other browse() calls
-		getFilesSlow(src, asset_cache.cache, register_asset = FALSE
+		getFilesSlow(src, asset_cache.cache, register_asset = FALSE)
 
 
 mob/proc/MayRespawn()
