@@ -130,59 +130,23 @@
 /hook/startup/proc/load_custom_items()
 
 	var/datum/custom_item/current_data
-	for(var/line in splittext(file2text("config/custom_items.txt"), "\n"))
+	var/list/L
 
-		line = trim(line)
-		if(line == "" || !line || findtext(line, "#", 1, 2))
-			continue
+//Dangranos
 
-		if(findtext(line, "{", 1, 2) || findtext(line, "}", 1, 2)) // New block!
-			if(current_data && current_data.assoc_key)
-				if(!custom_items[current_data.assoc_key])
-					custom_items[current_data.assoc_key] = list()
-				var/list/L = custom_items[current_data.assoc_key]
-				L |= current_data
-			current_data = null
+	L = list()
 
-		var/split = findtext(line,":")
-		if(!split)
-			continue
-		var/field = trim(copytext(line,1,split))
-		var/field_data = trim(copytext(line,(split+1)))
-		if(!field || !field_data)
-			continue
-
-		if(!current_data)
-			current_data = new()
-
-		switch(field)
-			if("ckey")
-				current_data.assoc_key = rlowertext(field_data)
-			if("character_name")
-				current_data.character_name = rlowertext(field_data)
-			if("item_path")
-				current_data.item_path = text2path(field_data)
-			if("item_name")
-				current_data.name = field_data
-			if("item_icon")
-				current_data.item_icon = field_data
-			if("inherit_inhands")
-				current_data.inherit_inhands = text2num(field_data)
-			if("item_desc")
-				current_data.item_desc = field_data
-			if("req_access")
-				current_data.req_access = text2num(field_data)
-			if("req_titles")
-				current_data.req_titles = splittext(field_data,", ")
-			if("kit_name")
-				current_data.kit_name = field_data
-			if("kit_desc")
-				current_data.kit_desc = field_data
-			if("kit_icon")
-				current_data.kit_icon = field_data
-			if("additional_data")
-				current_data.additional_data = field_data
-	return 1
+	current_data = new()
+	current_data.assoc_key = "dangranos"
+	current_data.character_name = "Jahnii Hiiran"
+	current_data.item_desc = "A kit for modifying a voidsuit."
+	current_data.name = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.item_path = /obj/item/device/kit/suit
+	current_data.req_titles = list("Atmospheric Technician", "Station Engineer")
+	current_data.kit_name = "dark brown voidsuit"
+	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.kit_icon = "rig-atmos_special"
+	L |= current_data
 
 //gets the relevant list for the key from the listlist if it exists, check to make sure they are meant to have it and then calls the giving function
 /proc/equip_custom_items(mob/living/carbon/human/M)
