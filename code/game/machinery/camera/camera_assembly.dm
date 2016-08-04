@@ -91,7 +91,7 @@
 					return
 
 				var/area/camera_area = get_area(src)
-				var/temptag = "[sanitize(camera_area.name)] ([rand(1, 999)])"
+				var/temptag = "[sanitize(strip_improper(camera_area.name))] ([rand(1, 999)])"
 				input = sanitizeSafe(input(usr, "How would you like to name the camera?", "Set Camera Name", camera_name ? camera_name : temptag), MAX_NAME_LEN)
 
 				state = 4
