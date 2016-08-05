@@ -19,6 +19,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 	var/list/voted = list()
 	var/list/current_votes = list()
 	var/list/additional_text = list()
+	var/dead_allowed = 0
 
 /datum/controller/vote/New()
 	if(vote != src)
@@ -59,6 +60,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 	voted.Cut()
 	current_votes.Cut()
 	additional_text.Cut()
+	dead_allowed = 0
 
 /datum/controller/vote/proc/get_result() // Get the highest number of votes
 	var/greatest_votes = 0
@@ -168,7 +170,7 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 
 /datum/controller/vote/proc/submit_vote(var/ckey, var/newVote)
 	if(mode)
-		if(config.vote_no_dead && usr.stat == DEAD && !usr.client.holder)
+		if(!dead_allowed && config.vote_no_dead && usr.stat == DEAD && !usr.client.holder)
 			return
 		if(current_votes[ckey])
 			choices[choices[current_votes[ckey]]]--
@@ -186,6 +188,8 @@ var/global/list/round_voters = list() // Keeps track of the individuals voting f
 				return 0
 
 		reset()
+
+		dead_allowed = automatic && !(admins && admins.len)
 
 		switch(vote_type)
 			if(VOTE_RESTART)
