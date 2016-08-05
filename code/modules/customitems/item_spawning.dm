@@ -140,11 +140,11 @@
 	current_data.assoc_key = "dangranos"
 	current_data.character_name = "Jahnii Hiiran"
 	current_data.item_desc = "A kit for modifying a voidsuit."
-	current_data.name = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.name = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one is suitable only for tajaran."
 	current_data.item_path = /obj/item/device/kit/suit
-	current_data.req_titles = list("Atmospheric Technician", "Station Engineer")
+	current_data.req_titles = list("Atmospheric Technician", "Station Engineer", "Maintenance Technician", "Engine Technician", "Electrician")
 	current_data.kit_name = "dark brown voidsuit"
-	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one suitable only for tajaran."
+	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one os suitable only for tajaran."
 	current_data.kit_icon = "rig-atmos_special"
 	L |= current_data
 
