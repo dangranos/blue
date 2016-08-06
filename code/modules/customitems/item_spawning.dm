@@ -132,21 +132,24 @@
 	var/datum/custom_item/current_data
 	var/list/L
 
-//Dangranos
-
-	L = list()
+	//Dangranos
+	custom_items["dangranos"] = list()
+	L = custom_items["dangranos"]
 
 	current_data = new()
 	current_data.assoc_key = "dangranos"
 	current_data.character_name = "Jahnii Hiiran"
-	current_data.item_desc = "A kit for modifying a voidsuit."
-	current_data.name = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one is suitable only for tajaran."
+	current_data.name = "A kit for modifying a voidsuit."
+	current_data.item_desc = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one is suitable only for tajaran."
 	current_data.item_path = /obj/item/device/kit/suit
 	current_data.req_titles = list("Atmospheric Technician", "Station Engineer", "Maintenance Technician", "Engine Technician", "Electrician")
 	current_data.kit_name = "dark brown voidsuit"
-	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one os suitable only for tajaran."
+	current_data.kit_desc = "Brown refitted version of the ordinary atmospherics voidsuit made by Aether A&R. This one is suitable only for tajaran."
 	current_data.kit_icon = "rig-atmos_special"
 	L |= current_data
+	current_data = null
+
+	return 1
 
 //gets the relevant list for the key from the listlist if it exists, check to make sure they are meant to have it and then calls the giving function
 /proc/equip_custom_items(mob/living/carbon/human/M)
