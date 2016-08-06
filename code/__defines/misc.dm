@@ -167,3 +167,7 @@
 #define ANTAG_HIDDEN	"Hidden"
 #define ANTAG_SHARED	"Shared"
 #define ANTAG_KNOWN		"Known"
+
+//Grid for Item Placement
+#define CELLS 8								//Amount of cells per row/column in grid
+#define CELLSIZE (world.icon_size/CELLS) //Size of a cell in pixels

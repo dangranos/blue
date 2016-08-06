@@ -11,6 +11,7 @@
 	throw_range = 20
 	matter = list(DEFAULT_WALL_MATERIAL = SHEET_MATERIAL_AMOUNT / 2)
 	max_amount = 60
+	place_centered = 1
 	attack_verb = list("hit", "bludgeoned", "whacked")
 
 /obj/item/stack/rods/fifty //Calling this path still fifty because sixty is confusing
