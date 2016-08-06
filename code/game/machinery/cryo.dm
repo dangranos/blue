@@ -366,3 +366,6 @@
 
 /datum/data/function/proc/display()
 	return
+
+/obj/machinery/atmospherics/components/unary/cryo_cell/can_crawl_through()
+	return //can't ventcrawl in or out of cryo.

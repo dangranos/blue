@@ -42,5 +42,8 @@
 	var/on_fire = 0 //The "Are we on fire?" var
 	var/fire_stacks
 
+	var/list/icon/pipes_shown = list()
+	var/is_ventcrawling = 0
+
 	var/failed_last_breath = 0 //This is used to determine if the mob failed a breath. If they did fail a brath, they will attempt to breathe each tick, otherwise just once per 4 ticks.
 	var/lastpuke = 0

@@ -27,6 +27,7 @@ Pipelines + Other Objects -> Pipe network
 
 	var/initialize_directions = 0
 	var/pipe_color
+	var/image/pipe_image = null
 
 	var/global/datum/pipe_icon_manager/icon_manager
 
@@ -41,6 +42,17 @@ Pipelines + Other Objects -> Pipe network
 	if(!pipe_color_check(pipe_color))
 		pipe_color = null
 	..()
+
+/obj/machinery/atmospherics/Destroy()
+	for(var/mob/living/M in src)
+		M.remove_ventcrawl()
+		M.forceMove(src.loc)
+	if(pipe_image)
+		for(var/mob/living/M in player_list)
+			if(M.client)
+				M.client.images -= pipe_image
+				M.pipes_shown -= pipe_image
+		pipe_image = null
 
 /obj/machinery/atmospherics/attackby(atom/A, mob/user as mob)
 	if(istype(A, /obj/item/device/pipe_painter))
@@ -123,3 +135,43 @@ obj/machinery/atmospherics/proc/check_connect_types(obj/machinery/atmospherics/a
 
 /obj/machinery/atmospherics/update_icon()
 	return null
+
+// Find a connecting /obj/machinery/atmospherics in specified direction.
+/obj/machinery/atmospherics/proc/findConnecting(var/direction)
+	for(var/obj/machinery/atmospherics/target in get_step(src,direction))
+		if(target.initialize_directions & get_dir(target,src))
+			if(isConnectable(target, direction) && target.isConnectable(src, turn(direction, 180)))
+				return target
+
+//Called when checking connectability in findConnecting()
+//This is checked for both pipes in establishing a connection - the base behaviour will work fine nearly every time
+/obj/machinery/atmospherics/proc/isConnectable(var/obj/machinery/atmospherics/target, var/direction)
+	return (connect_types & target.connect_types)
+
+/obj/machinery/atmospherics/relaymove(mob/living/user, direction)
+	if(!(direction & initialize_directions)) //can't go in a way we aren't connecting to
+		return
+
+	var/obj/machinery/atmospherics/target_move = findConnecting(direction)
+	if(target_move)
+		if(is_type_in_list(target_move, ventcrawl_machinery) && target_move.can_crawl_through())
+			user.remove_ventcrawl()
+			user.forceMove(target_move.loc) //handles entering and so on
+			user.visible_message("You hear something squeezing through the ducts.", "You climb out the ventilation system.")
+		else if(target_move.can_crawl_through())
+			if(target_move.return_network(target_move) != return_network(src))
+				user.remove_ventcrawl()
+				user.add_ventcrawl(target_move)
+			user.forceMove(target_move)
+			user.client.eye = target_move //if we don't do this, Byond only updates the eye every tick - required for smooth movement
+	else
+		if((direction & initialize_directions) || is_type_in_list(src, ventcrawl_machinery) && src.can_crawl_through()) //if we move in a way the pipe can connect, but doesn't - or we're in a vent
+			user.remove_ventcrawl()
+			user.forceMove(src.loc)
+			user.visible_message("You hear something squeezing through the pipes.", "You climb out the ventilation system.")
+	user.canmove = 0
+	spawn(1)
+		user.canmove = 1
+
+/obj/machinery/atmospherics/proc/can_crawl_through()
+	return 1
