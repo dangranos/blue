@@ -1073,12 +1073,19 @@ CIRCUITS BELOW
 	build_path = /obj/item/weapon/circuitboard/supplycomp
 	sort_string = "KAAAB"
 
+/datum/design/circuit/seed_extractor
+	name = "seed extractor"
+	id = "seed_extractor"
+	req_tech = list(TECH_DATA = 1)
+	build_path = /obj/item/weapon/circuitboard/seed_extractor
+	sort_string = "KBAAA"
+
 /datum/design/circuit/biogenerator
 	name = "biogenerator"
 	id = "biogenerator"
 	req_tech = list(TECH_DATA = 2)
 	build_path = /obj/item/weapon/circuitboard/biogenerator
-	sort_string = "KBAAA"
+	sort_string = "KBBAA"
 
 /datum/design/circuit/miningdrill
 	name = "mining drill head"

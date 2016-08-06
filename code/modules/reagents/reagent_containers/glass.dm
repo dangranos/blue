@@ -39,6 +39,7 @@
 		/obj/machinery/computer/centrifuge,
 		/obj/machinery/sleeper,
 		/obj/machinery/smartfridge/,
+		/obj/machinery/seed_extractor,
 		/obj/machinery/biogenerator,
 		/obj/structure/frame,
 		/obj/machinery/radiocarbon_spectrometer,
