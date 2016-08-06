@@ -138,7 +138,7 @@
 		user << "<span class='warning'>There's nothing to put \the [W] on! Try adding plating to \the [src] first.</span>"
 		return
 
-	if(user.drop_from_inventory(W, src.loc))
+	if(user.canUnEquip(W) && user.drop_from_inventory(W, src.loc))
 		auto_align(W, click_params)
 	return
 
@@ -155,7 +155,6 @@ Note: This proc can be overwritten to allow for different types of auto-alignmen
 */
 /obj/item/var/list/center_of_mass = list("x"=16,"y"=16)
 /obj/item/var/place_centered = 0
-var/list/CoM_cache = list() // Global cache for quick requests of center_of_mass offsets that were already translated into numerics once.
 /obj/structure/table/proc/auto_align(obj/item/W, click_params)
 	if (W.place_centered) // Clothing, material stacks, generally items with large sprites where exact placement would be unhandy.
 		W.pixel_x = rand(-W.randpixel, W.randpixel)
@@ -165,14 +164,6 @@ var/list/CoM_cache = list() // Global cache for quick requests of center_of_mass
 
 	if (!click_params)
 		return
-
-	// Cache handling for center_of_mass
-	if (!CoM_cache[W.center_of_mass])
-		var/list/L = params2list(W.center_of_mass)
-		L["x"] = text2num(L["x"])
-		L["y"] = text2num(L["y"])
-		CoM_cache[W.center_of_mass] = L
-	var/list/CoM = CoM_cache[W.center_of_mass]
 
 	var/list/click_data = params2list(click_params)
 	if (!click_data["icon-x"] || !click_data["icon-y"])
@@ -185,8 +176,8 @@ var/list/CoM_cache = list() // Global cache for quick requests of center_of_mass
 	var/cell_x = Clamp(round(mouse_x/CELLSIZE), 0, CELLS-1) // Ranging from 0 to CELLS-1
 	var/cell_y = Clamp(round(mouse_y/CELLSIZE), 0, CELLS-1)
 
-	W.pixel_x = (CELLSIZE * (cell_x + 0.5)) - CoM["x"]
-	W.pixel_y = (CELLSIZE * (cell_y + 0.5)) - CoM["y"]
+	W.pixel_x = (CELLSIZE * (cell_x + 0.5)) - center_of_mass["x"]
+	W.pixel_y = (CELLSIZE * (cell_y + 0.5)) - center_of_mass["y"]
 	W.pixel_z = 0
 
 /obj/structure/table/rack/auto_align(obj/item/W, click_params)
