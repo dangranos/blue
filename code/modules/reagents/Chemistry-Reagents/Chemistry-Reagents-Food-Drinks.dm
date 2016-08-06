@@ -11,6 +11,26 @@
 	var/injectable = 0
 	color = "#664330"
 
+/datum/reagent/nutriment/mix_data(var/list/newdata, var/newamount)
+
+	if(!islist(newdata) || !newdata.len)
+		return
+
+	//add the new taste data
+	for(var/taste in newdata)
+		if(taste in data)
+			data[taste] += (newdata[taste] ? newdata[taste] : 1)
+		else
+			data[taste] = (newdata[taste] ? newdata[taste] : 1)
+
+	//cull all tastes below 10% of total
+	var/totalFlavor = 0
+	for(var/taste in data)
+		totalFlavor += data[taste]
+	for(var/taste in data)
+		if(data[taste]/totalFlavor < 0.1)
+			data -= taste
+
 /datum/reagent/nutriment/affect_blood(var/mob/living/carbon/M, var/alien, var/removed)
 	if(!injectable)
 		M.adjustToxLoss(0.1 * removed)
