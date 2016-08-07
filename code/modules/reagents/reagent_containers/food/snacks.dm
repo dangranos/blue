@@ -385,7 +385,7 @@
 	filling_color = "#D9C386"
 	var/overlay_state = "box-donut1"
 	center_of_mass = list("x"=13, "y"=16)
-	nutriment_desc = list("sweetness", "donut")
+	nutriment_desc = list("sweetness" = 2, "donut" = 3)
 
 /obj/item/weapon/reagent_containers/food/snacks/donut/normal
 	name = "donut"
@@ -2176,7 +2176,7 @@
 	trash = /obj/item/trash/snack_bowl
 	filling_color = "#76B87F"
 	center_of_mass = list("x"=17, "y"=11)
-	nutriment_desc = list("100% real salad")
+	nutriment_desc = list("100% real salad" = 2)
 	nutriment_amt = 6
 	New()
 		..()
