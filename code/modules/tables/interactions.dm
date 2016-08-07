@@ -176,8 +176,8 @@ Note: This proc can be overwritten to allow for different types of auto-alignmen
 	var/cell_x = Clamp(round(mouse_x/CELLSIZE), 0, CELLS-1) // Ranging from 0 to CELLS-1
 	var/cell_y = Clamp(round(mouse_y/CELLSIZE), 0, CELLS-1)
 
-	W.pixel_x = (CELLSIZE * (cell_x + 0.5)) - center_of_mass["x"]
-	W.pixel_y = (CELLSIZE * (cell_y + 0.5)) - center_of_mass["y"]
+	W.pixel_x = (CELLSIZE * (cell_x + 0.5)) - W.center_of_mass["x"]
+	W.pixel_y = (CELLSIZE * (cell_y + 0.5)) - W.center_of_mass["y"]
 	W.pixel_z = 0
 
 /obj/structure/table/rack/auto_align(obj/item/W, click_params)
