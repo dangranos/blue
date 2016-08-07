@@ -175,11 +175,9 @@ nanoui is used to open and update nano browser uis
   * @return /list config data
   */
 /datum/nanoui/proc/get_config_data()
-	var/name = "[src_object]"
-	name = sanitize(name)
 	var/list/config_data = list(
 			"title" = title,
-			"srcObject" = list("name" = "[name]"),
+			"srcObject" = list("name" = "[src_object]"), // sanitaze breaks NanoUI
 			"stateKey" = state_key,
 			"status" = status,
 			"autoUpdateLayout" = auto_update_layout,

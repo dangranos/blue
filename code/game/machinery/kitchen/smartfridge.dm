@@ -33,9 +33,6 @@
 		wires = new/datum/wires/smartfridge/secure(src)
 	else
 		wires = new/datum/wires/smartfridge(src)
-	// Do not delete this. If you want delete, check first!
-	// LethalGhost special for you =)
-	name = strip_improper(name)
 
 /obj/machinery/smartfridge/Destroy()
 	qdel(wires)

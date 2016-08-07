@@ -1,7 +1,7 @@
 //This file was auto-corrected by findeclaration.exe on 25.5.2012 20:42:31
 
 /obj/machinery/computer/card
-	name = "ID card modification console"
+	name = "\improper ID card modification console"
 	desc = "Terminal for programming employee ID cards to access parts of the station."
 	icon_keyboard = "id_key"
 	icon_screen = "id"

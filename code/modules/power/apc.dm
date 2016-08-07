@@ -205,7 +205,7 @@
 		src.area = A
 	else
 		src.area = get_area_name(areastring)
-	name = "[strip_improper(area.name)] APC"
+	name = "\improper [area.name] APC"
 	area.apc = src
 	update_icon()
 
