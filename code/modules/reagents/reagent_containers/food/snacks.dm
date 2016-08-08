@@ -2258,10 +2258,10 @@
 	filling_color = "#8AFF75"
 	bitesize = 2
 	center_of_mass = list("x"=16, "y"=13)
-	nutriment_amt = 2
 	New()
 		..()
 		if(!(reagents.total_volume))
+			reagents.add_reagent("nutriment", 2, list("bread" = 2))
 			reagents.add_reagent("protein", 4)
 
 /obj/item/weapon/reagent_containers/food/snacks/sliceable/bananabread
@@ -2304,7 +2304,7 @@
 	bitesize = 2
 	center_of_mass = list("x"=16, "y"=9)
 	nutriment_desc = list("tofu" = 10)
-	nutriment_amt = 10
+	nutriment_amt = 30
 
 /obj/item/weapon/reagent_containers/food/snacks/tofubreadslice
 	name = "Tofubread slice"
@@ -2318,7 +2318,7 @@
 /obj/item/weapon/reagent_containers/food/snacks/tofubreadslice/New()
 	..()
 	if(!(reagents.total_volume))
-		reagents.add_reagent("nutriment", 6)
+		reagents.add_reagent("nutriment", 6, list("tofu"=2))
 
 
 /obj/item/weapon/reagent_containers/food/snacks/sliceable/carrotcake
@@ -2344,11 +2344,11 @@
 	filling_color = "#FFD675"
 	bitesize = 2
 	center_of_mass = list("x"=16, "y"=14)
-	nutriment_amt = 5
 
 /obj/item/weapon/reagent_containers/food/snacks/carrotcakeslice/New()
 	..()
 	if(!(reagents.total_volume))
+		reagents.add_reagent("nutriment", 5, list("cake" = 2, "sweetness" = 2, "carrot" = 3))
 		reagents.add_reagent("imidazoline", 2)
 
 /obj/item/weapon/reagent_containers/food/snacks/sliceable/braincake
