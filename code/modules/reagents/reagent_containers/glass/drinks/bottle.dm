@@ -8,7 +8,7 @@
 	amount_per_transfer_from_this = 10
 	volume = 100
 	item_state = "broken_beer" //Generic held-item sprite until unique ones are made.
-	force = 5
+	force = 6
 	flags = 0 //starts closed
 	isGlass = 1
 
