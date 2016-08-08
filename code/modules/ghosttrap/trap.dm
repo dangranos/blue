@@ -112,3 +112,16 @@ proc/populate_ghost_traps()
 	if(istype(target,/mob/living/carbon/alien/diona))
 		target << "<B>You are \a [target], one of a race of drifting interstellar plantlike creatures that sometimes share their seeds with human traders.</B>"
 		target << "<B>Too much darkness will send you into shock and starve you, but light will help you heal.</B>"
+
+/******************
+* Wizard Familiar *
+******************/
+/datum/ghosttrap/familiar
+	object = "wizard familiar"
+	pref_check = MODE_WIZARD
+	ghost_trap_message = "They are occupying a familiar now."
+	ghost_trap_role = "Wizard Familiar"
+	ban_checks = list(MODE_WIZARD)
+
+/datum/ghosttrap/familiar/welcome_candidate(var/mob/target)
+	return 0

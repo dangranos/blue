@@ -1,7 +1,6 @@
 /spell/area_teleport
 	name = "Teleport"
 	desc = "This spell teleports you to a type of area of your selection."
-
 	school = "abjuration"
 	charge_max = 600
 	spell_flags = NEEDSCLOTHES
@@ -39,7 +38,7 @@
 		if(istype(thearea, /list))
 			thearea = thearea[1]
 	var/list/L = list()
-	for(var/turf/T in get_area_turfs(thearea.type))
+	for(var/turf/T in get_area_turfs(thearea))
 		if(!T.density)
 			var/clear = 1
 			for(var/obj/O in T)
