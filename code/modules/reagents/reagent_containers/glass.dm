@@ -212,7 +212,7 @@ var/global/list/broken_bottle_icon_cache = list()
 
 	name = "broken [name]"
 	desc = "Careful, those edges are sharp."
-	force = 9
+	force = 10
 	attack_verb = list("stabbed", "slashed", "attacked")
 	sharp = 1
 	icon = get_broken_icon()
