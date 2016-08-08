@@ -4,18 +4,6 @@
 #define INVESTABLE			8
 //spells/spellbooks have a variable for this but as artefacts are literal items they do not.
 //so we do this instead.
-var/list/artefact_feedback = list(/obj/structure/closet/wizard/armor = 		"HS",
-								/obj/item/weapon/gun/energy/staff/focus = 	"MF",
-								/obj/item/weapon/monster_manual = 			"MA",
-								/obj/item/weapon/magic_rock = 				"RA",
-								/obj/item/weapon/contract/apprentice = 		"CP",
-								/obj/structure/closet/wizard/souls = 		"SS",
-								/obj/item/weapon/contract/wizard/tk = 		"TK",
-								/obj/structure/closet/wizard/scrying = 		"SO",
-								/obj/item/weapon/teleportation_scroll = 	"TS",
-								/obj/item/weapon/gun/energy/staff = 		"ST",
-								/obj/item/weapon/gun/energy/staff/animate =	"SA",
-								/obj/item/weapon/dice/d20/cursed = 			"DW")
 
 /obj/item/weapon/spellbook
 	name = "master spell book"
@@ -276,7 +264,6 @@ var/list/artefact_feedback = list(/obj/structure/closet/wizard/armor = 		"HS",
 	var/name = "\improper Book of Tomes"
 	var/desc = "The legendary book of spells of the wizard."
 	var/book_desc = "Holds information on the various tomes available to a wizard"
-	var/feedback = "" //doesn't need one.
 	var/book_flags = NOREVERT
 	var/max_uses = 1
 	var/title = "Book of Tomes"
