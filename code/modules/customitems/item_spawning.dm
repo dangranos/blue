@@ -139,7 +139,7 @@
 	current_data = new()
 	current_data.assoc_key = "dangranos"
 	current_data.character_name = "Jahnii Hiiran"
-	current_data.name = "A kit for modifying a voidsuit."
+	current_data.name = "brown voidsuit modification kit"
 	current_data.item_desc = "Brown refitted modification of the ordinary atmospherics voidsuit made by Aether A&R. This one is suitable only for tajaran."
 	current_data.item_path = /obj/item/device/kit/suit
 	current_data.req_titles = list("Atmospheric Technician", "Station Engineer", "Maintenance Technician", "Engine Technician", "Electrician")
