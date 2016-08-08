@@ -43,9 +43,9 @@
 		if(istype(held_item,/obj/item/weapon/grab))
 			var/obj/item/weapon/grab/G = held_item
 			if(G.affecting)
-				G.affecting.electrocute_act(10 * siemens,src,1.0,BP_TORSO)
+				G.affecting.electrocute_act(10 * siemens,src,1.0,BP_CHEST)
 				var/agony = 80 * siemens //Does more than if hit with an electric hand, since grabbing is slower.
-				G.affecting.stun_effect_act(0, agony, BP_TORSO, src)
+				G.affecting.stun_effect_act(0, agony, BP_CHEST, src)
 
 				msg_admin_attack("[key_name(src)] shocked [key_name(G.affecting)] with the [src].")
 
@@ -144,8 +144,8 @@
 			src << "<span class='warning'>We require more chemicals to electrocute [C]!</span>"
 			return 0
 
-		C.electrocute_act(electrocute_amount * siemens,src,1.0,BP_TORSO)
-		C.stun_effect_act(0, agony_amount * siemens, BP_TORSO, src)
+		C.electrocute_act(electrocute_amount * siemens,src,1.0,BP_CHEST)
+		C.stun_effect_act(0, agony_amount * siemens, BP_CHEST, src)
 
 		msg_admin_attack("[key_name(user)] shocked [key_name(C)] with the [src].")
 

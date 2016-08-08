@@ -72,7 +72,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 	character.b_type	   = pref.b_type
 
 	// Destroy/cyborgize organs and limbs.
-	for(var/name in list(BP_HEAD, BP_L_HAND, BP_R_HAND, BP_L_ARM, BP_R_ARM, BP_L_FOOT, BP_R_FOOT, BP_L_LEG, BP_R_LEG, BP_GROIN, BP_TORSO))
+	for(var/name in list(BP_HEAD, BP_L_HAND, BP_R_HAND, BP_L_ARM, BP_R_ARM, BP_L_FOOT, BP_R_FOOT, BP_L_LEG, BP_R_LEG, BP_GROIN, BP_CHEST))
 		var/status = pref.organ_data[name]
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(O)
@@ -123,7 +123,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 		var/organ_name = null
 		switch(name)
 
-			if(BP_TORSO)
+			if(BP_CHEST)
 				organ_name = "torso"
 			if(BP_GROIN)
 				organ_name = "groin"
@@ -391,7 +391,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 		var/datum/species/current_species = all_species[pref.species]
 		if(!current_species.has_organ["brain"])
 			limb_selection_list -= "Full Body"
-		else if(pref.organ_data[BP_TORSO] == "cyborg")
+		else if(pref.organ_data[BP_CHEST] == "cyborg")
 			limb_selection_list |= "Head"
 
 		var/organ_tag = input(user, "Which limb do you want to change?") as null|anything in limb_selection_list
@@ -433,7 +433,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 				limb =        BP_HEAD
 				choice_options = list("Prosthesis")
 			if("Full Body")
-				limb =        BP_TORSO
+				limb =        BP_CHEST
 				third_limb =  BP_GROIN
 				choice_options = list("Normal","Prosthesis")
 
@@ -442,8 +442,8 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 
 		switch(new_state)
 			if("Normal")
-				if(limb == BP_TORSO)
-					for(var/other_limb in BP_ALL - BP_TORSO)
+				if(limb == BP_CHEST)
+					for(var/other_limb in BP_ALL - BP_CHEST)
 						pref.organ_data[other_limb] = null
 						pref.rlimb_data[other_limb] = null
 				pref.organ_data[limb] = null
@@ -453,7 +453,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 					pref.rlimb_data[third_limb] = null
 
 			if("Amputated")
-				if(limb == BP_TORSO)
+				if(limb == BP_CHEST)
 					return
 				pref.organ_data[limb] = "amputated"
 				pref.rlimb_data[limb] = null
@@ -486,8 +486,8 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 				if(third_limb && pref.organ_data[third_limb] == "amputated")
 					pref.organ_data[third_limb] = null
 
-				if(limb == BP_TORSO)
-					for(var/other_limb in BP_ALL - BP_TORSO)
+				if(limb == BP_CHEST)
+					for(var/other_limb in BP_ALL - BP_CHEST)
 						if(pref.organ_data[other_limb])
 							continue
 						pref.organ_data[other_limb] = "cyborg"
@@ -517,7 +517,7 @@ var/global/list/valid_bloodtypes = list("A+", "A-", "B+", "B-", "AB+", "AB-", "O
 				organ = "brain"
 
 		var/list/organ_choices = list("Normal","Assisted","Mechanical")
-		if(pref.organ_data[BP_TORSO] == "cyborg")
+		if(pref.organ_data[BP_CHEST] == "cyborg")
 			organ_choices -= "Normal"
 			if(organ_name == "Brain")
 				organ_choices += "Digital"

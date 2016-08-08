@@ -29,7 +29,7 @@
 		H.stat = DEAD
 		H.gender = gender
 		for(var/obj/item/organ/external/EO in H.organs)
-			if(EO.organ_tag == BP_TORSO || EO.organ_tag == BP_GROIN)
+			if(EO.organ_tag == BP_CHEST || EO.organ_tag == BP_GROIN)
 				continue //Roboticizing a torso does all the children and wastes time, do it later
 			else
 				EO.remove_rejuv()

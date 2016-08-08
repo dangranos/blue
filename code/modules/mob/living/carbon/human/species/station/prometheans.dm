@@ -51,10 +51,12 @@ var/datum/species/shapeshifter/promethean/prometheans
 	siemens_coefficient =   -1
 	rarity_value =          5
 
-	unarmed_types = list(/datum/unarmed_attack/slime_glomp)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/slime_glomp
+	)
 	has_organ =     list(O_BRAIN = /obj/item/organ/internal/brain/slime) // Slime core.
 	has_limbs = list(
-		BP_TORSO =  list("path" = /obj/item/organ/external/chest/unbreakable/slime),
+		BP_CHEST =  list("path" = /obj/item/organ/external/chest/unbreakable/slime),
 		BP_GROIN =  list("path" = /obj/item/organ/external/groin/unbreakable/slime),
 		BP_HEAD =   list("path" = /obj/item/organ/external/head/unbreakable/slime),
 		BP_L_ARM =  list("path" = /obj/item/organ/external/arm/unbreakable/slime),

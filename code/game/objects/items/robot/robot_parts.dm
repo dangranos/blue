@@ -48,7 +48,7 @@
 	name = "cyborg chest"
 	desc = "A heavily reinforced case containing cyborg logic boards, with space for a standard power cell."
 	icon_state = "chest"
-	part = list(BP_GROIN,BP_TORSO)
+	part = list(BP_GROIN,BP_CHEST)
 	var/wires = 0.0
 	var/obj/item/weapon/cell/cell = null
 

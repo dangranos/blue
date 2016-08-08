@@ -2,7 +2,12 @@
 	name = "Human"
 	name_plural = "Humans"
 	primitive_form = "Monkey"
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/punch, /datum/unarmed_attack/bite)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/punch,
+		new /datum/unarmed_attack/bite
+	)
 	blurb = "Humanity originated in the Sol system, and over the last five centuries has spread \
 	colonies across a wide swathe of space. They hold a wide range of forms and creeds.<br/><br/> \
 	While the central Sol government maintains control of its far-flung people, powerful corporate \
@@ -30,7 +35,12 @@
 	deform = 'icons/mob/human_races/r_def_lizard.dmi'
 	tail = "sogtail"
 	tail_animation = 'icons/mob/species/unathi/tail.dmi'
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/claws,
+		new /datum/unarmed_attack/bite/sharp
+	)
 	primitive_form = "Stok"
 	darksight = 3
 	gluttonous = 1
@@ -96,7 +106,12 @@
 	deform = 'icons/mob/human_races/r_def_tajaran.dmi'
 	tail = "tajtail"
 	tail_animation = 'icons/mob/species/tajaran/tail.dmi'
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/claws, /datum/unarmed_attack/bite/sharp)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/claws,
+		new /datum/unarmed_attack/bite/sharp
+	)
 	darksight = 8
 	slowdown = -0.5
 	brute_mod = 1.15
@@ -156,7 +171,7 @@
 	icobase = 'icons/mob/human_races/r_skrell.dmi'
 	deform = 'icons/mob/human_races/r_def_skrell.dmi'
 	primitive_form = "Neaera"
-	unarmed_types = list(/datum/unarmed_attack/punch)
+	unarmed_attacks = list(new /datum/unarmed_attack/punch)
 	blurb = "An amphibious species, Skrell come from the star system known as Qerr'Vallis, which translates to 'Star of \
 	the royals' or 'Light of the Crown'.<br/><br/>Skrell are a highly advanced and logical race who live under the rule \
 	of the Qerr'Katish, a caste within their society which keeps the empire of the Skrell running smoothly. Skrell are \
@@ -169,7 +184,7 @@
 
 	min_age = 19
 	max_age = 80
-	
+
 	posible_body_builds = list("Default", "Slim")
 
 	spawn_flags = SPECIES_CAN_JOIN | SPECIES_IS_WHITELISTED
@@ -183,19 +198,6 @@
 	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer", "Chief Medical Officer", "Research Director",\
 						"Brig Overseer", "Investigator", "Forensic Technician", "Colonial Officer", "Colonial Senior Officer", "Station Engineer", "Atmospheric Technician",\
 						"Quartermaster", "Cargo Technician", "Shaft Miner", "Internal Affairs Agent")
-	has_limbs = list(
-		BP_TORSO =  list("path" = /obj/item/organ/external/chest),
-		BP_GROIN =  list("path" = /obj/item/organ/external/groin),
-		BP_HEAD =   list("path" = /obj/item/organ/external/head/skrell),
-		BP_L_ARM =  list("path" = /obj/item/organ/external/arm),
-		BP_R_ARM =  list("path" = /obj/item/organ/external/arm/right),
-		BP_L_LEG =  list("path" = /obj/item/organ/external/leg),
-		BP_R_LEG =  list("path" = /obj/item/organ/external/leg/right),
-		BP_L_HAND = list("path" = /obj/item/organ/external/hand),
-		BP_R_HAND = list("path" = /obj/item/organ/external/hand/right),
-		BP_L_FOOT = list("path" = /obj/item/organ/external/foot),
-		BP_R_FOOT = list("path" = /obj/item/organ/external/foot/right)
-		)
 
 /datum/species/diona
 	name = "Diona"
@@ -203,11 +205,15 @@
 	icobase = 'icons/mob/human_races/r_diona.dmi'
 	deform = 'icons/mob/human_races/r_def_plant.dmi'
 	language = "Rootspeak"
-	unarmed_types = list(/datum/unarmed_attack/stomp, /datum/unarmed_attack/kick, /datum/unarmed_attack/diona)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/stomp,
+		new /datum/unarmed_attack/kick,
+		new /datum/unarmed_attack/diona
+	)
 	//primitive_form = "Nymph"
 	slowdown = 7
 	rarity_value = 3
-	hud_type = /datum/hud_data/diona
+	hud = new /datum/hud_data/diona
 	siemens_coefficient = 0.3
 	show_ssd = "completely quiescent"
 	num_alternate_languages = 1
@@ -232,25 +238,25 @@
 		O_GBLADDER = /obj/item/organ/internal/diona/bladder,
 		O_POLYP =    /obj/item/organ/internal/diona/polyp,
 		O_ANCHOR =   /obj/item/organ/internal/diona/ligament
-		)
+	)
 
 	has_limbs = list(
-		BP_TORSO =  list("path" = /obj/item/organ/external/diona/chest),
-		BP_GROIN =  list("path" = /obj/item/organ/external/diona/groin),
-		BP_HEAD =   list("path" = /obj/item/organ/external/head/no_eyes/diona),
-		BP_L_ARM =  list("path" = /obj/item/organ/external/diona/arm),
-		BP_R_ARM =  list("path" = /obj/item/organ/external/diona/arm/right),
-		BP_L_LEG =  list("path" = /obj/item/organ/external/diona/leg),
-		BP_R_LEG =  list("path" = /obj/item/organ/external/diona/leg/right),
-		BP_L_HAND = list("path" = /obj/item/organ/external/diona/hand),
-		BP_R_HAND = list("path" = /obj/item/organ/external/diona/hand/right),
-		BP_L_FOOT = list("path" = /obj/item/organ/external/diona/foot),
-		BP_R_FOOT = list("path" = /obj/item/organ/external/diona/foot/right)
-		)
+		BP_CHEST =  new /datum/organ_description/diona,
+		BP_GROIN =  new /datum/organ_description/groin/diona,
+		BP_HEAD =   new /datum/organ_description/head/diona,
+		BP_L_ARM =  new /datum/organ_description/arm/left/diona,
+		BP_R_ARM =  new /datum/organ_description/arm/right/diona,
+		BP_L_LEG =  new /datum/organ_description/leg/left/diona,
+		BP_R_LEG =  new /datum/organ_description/leg/right/diona,
+		BP_L_HAND = new /datum/organ_description/hand/left/diona,
+		BP_R_HAND = new /datum/organ_description/hand/right/diona,
+		BP_L_FOOT = new /datum/organ_description/foot/left/diona,
+		BP_R_FOOT = new /datum/organ_description/foot/right/diona
+	)
 
 	inherent_verbs = list(
 		/mob/living/carbon/human/proc/diona_split_nymph
-		)
+	)
 
 	warning_low_pressure = 50
 	hazard_low_pressure = -1
@@ -278,6 +284,7 @@
 						"Scientist", "Roboticist", "Bartender", "Quartermaster", "Internal Affairs Agent")
 
 	genders = list(PLURAL)
+
 /datum/species/diona/can_understand(var/mob/other)
 	var/mob/living/carbon/alien/diona/D = other
 	if(istype(D))

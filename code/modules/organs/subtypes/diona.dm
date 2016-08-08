@@ -26,8 +26,7 @@
 
 /obj/item/organ/external/diona/chest
 	name = "core trunk"
-	organ_tag = BP_TORSO
-	icon_name = "torso"
+	organ_tag = BP_CHEST
 	max_damage = 200
 	min_broken_damage = 50
 	w_class = 5
@@ -37,92 +36,30 @@
 	parent_organ = null
 	gendered_icon = 1
 
+/obj/item/organ/external/diona/head
+	max_damage = 50
+	min_broken_damage = 25
+	slot_flags = SLOT_BELT
+
 /obj/item/organ/external/diona/groin
 	name = "fork"
 	organ_tag = BP_GROIN
-	icon_name = "groin"
 	max_damage = 100
 	min_broken_damage = 50
 	w_class = 4
 	body_part = LOWER_TORSO
-	parent_organ = BP_TORSO
+	parent_organ = BP_CHEST
 	gendered_icon = 1
 
-/obj/item/organ/external/diona/arm
-	name = "left upper tendril"
-	organ_tag = "l_arm"
-	icon_name = "l_arm"
+/obj/item/organ/external/diona/limb
 	max_damage = 35
 	min_broken_damage = 20
 	w_class = 3
-	body_part = ARM_LEFT
-	parent_organ = BP_TORSO
-	can_grasp = 1
 
-/obj/item/organ/external/diona/arm/right
-	name = "right upper tendril"
-	organ_tag = "r_arm"
-	icon_name = "r_arm"
-	body_part = ARM_RIGHT
-
-/obj/item/organ/external/diona/leg
-	name = "left lower tendril"
-	organ_tag = "l_leg"
-	icon_name = "l_leg"
-	max_damage = 35
-	min_broken_damage = 20
-	w_class = 3
-	body_part = LEG_LEFT
-	icon_position = LEFT
-	parent_organ = BP_GROIN
-	can_stand = 1
-
-/obj/item/organ/external/diona/leg/right
-	name = "right lower tendril"
-	organ_tag = "r_leg"
-	icon_name = "r_leg"
-	body_part = LEG_RIGHT
-	icon_position = RIGHT
-
-/obj/item/organ/external/diona/foot
-	name = "left foot"
-	organ_tag = "l_foot"
-	icon_name = "l_foot"
+/obj/item/organ/external/diona/tiny
 	max_damage = 20
 	min_broken_damage = 10
 	w_class = 2
-	body_part = FOOT_LEFT
-	icon_position = LEFT
-	parent_organ = "l_leg"
-	can_stand = 1
-
-/obj/item/organ/external/diona/foot/right
-	name = "right foot"
-	organ_tag = "r_foot"
-	icon_name = "r_foot"
-	body_part = FOOT_RIGHT
-	icon_position = RIGHT
-	parent_organ = "r_leg"
-	joint = "right ankle"
-	amputation_point = "right ankle"
-
-/obj/item/organ/external/diona/hand
-	name = "left grasper"
-	organ_tag = "l_hand"
-	icon_name = "l_hand"
-	max_damage = 30
-	min_broken_damage = 15
-	w_class = 2
-	body_part = HAND_LEFT
-	parent_organ = "l_arm"
-	can_grasp = 1
-
-/obj/item/organ/external/diona/hand/right
-	name = "right grasper"
-	organ_tag = "r_hand"
-	icon_name = "r_hand"
-	body_part = HAND_RIGHT
-	parent_organ = "r_arm"
 
 //DIONA ORGANS.
 /obj/item/organ/external/diona/removed()
@@ -156,7 +93,7 @@
 
 /obj/item/organ/internal/diona/strata
 	name = "neural strata"
-	parent_organ = BP_TORSO
+	parent_organ = BP_CHEST
 
 /obj/item/organ/internal/diona/bladder
 	name = "gas bladder"
@@ -176,7 +113,7 @@
 
 /obj/item/organ/internal/diona/nutrients
 	name = O_NUTRIENT
-	parent_organ = BP_TORSO
+	parent_organ = BP_CHEST
 
 // These are different to the standard diona organs as they have a purpose in other
 // species (absorbing radiation and light respectively)
@@ -198,13 +135,3 @@
 
 /obj/item/organ/internal/diona/node/removed()
 	return
-
-/obj/item/organ/external/head/no_eyes/diona
-	max_damage = 50
-	min_broken_damage = 25
-	cannot_break = 1
-	amputation_point = "branch"
-	joint = "structural ligament"
-	dislocated = -1
-	vital = 0
-	slot_flags = SLOT_BELT

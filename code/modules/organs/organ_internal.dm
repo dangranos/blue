@@ -11,6 +11,13 @@
 	if((status & ORGAN_DEAD) && dead_icon)
 		icon_state = dead_icon
 
+/obj/item/organ/internal/install(mob/living/carbon/human/H)
+	if(..(H)) return 1
+	H.internal_organs |= src
+	H.internal_organs_by_name[organ_tag] = src
+	if(parent)
+		parent.internal_organs |= src
+
 /obj/item/organ/internal/Destroy()
 	if(owner)
 		owner.internal_organs.Remove(src)
@@ -21,6 +28,16 @@
 		var/obj/item/organ/external/E = owner.organs_by_name[parent_organ]
 		if(istype(E)) E.internal_organs -= src
 	return ..()
+
+/obj/item/organ/internal/removed(var/mob/living/user)
+	..()
+
+	owner.internal_organs_by_name[organ_tag] = null
+	owner.internal_organs -= src
+
+	// Remove parent references
+	parent.internal_organs -= src
+	parent = null
 
 /obj/item/organ/internal/remove_rejuv()
 	if(owner)
@@ -38,7 +55,7 @@
 	name = "heart"
 	icon_state = "heart-on"
 	organ_tag = O_HEART
-	parent_organ = BP_TORSO
+	parent_organ = BP_CHEST
 	dead_icon = "heart-off"
 
 /obj/item/organ/internal/lungs
@@ -46,7 +63,7 @@
 	icon_state = "lungs"
 	gender = PLURAL
 	organ_tag = O_LUNGS
-	parent_organ = BP_TORSO
+	parent_organ = BP_CHEST
 
 /obj/item/organ/internal/lungs/process()
 	..()
@@ -96,7 +113,8 @@
 	gender = PLURAL
 	organ_tag = O_EYES
 	parent_organ = BP_HEAD
-	var/eye_colour = "#000000"
+	var/eye_colour = ""
+	var/icon/mob_icon = null
 
 /obj/item/organ/internal/eyes/robotize()
 	..()
@@ -127,18 +145,24 @@
 		// Finally, update the eye icon on the mob.
 		owner.update_eyes()
 
-/obj/item/organ/internal/eyes/replaced(var/mob/living/carbon/human/target)
-
+/obj/item/organ/internal/eyes/install(var/mob/living/carbon/human/target)
+	if(..()) return 1
 	// Apply our eye colour to the target.
-	if(istype(target) && eye_colour)
+	if(eye_colour)
 		target.eyes_color = eye_colour
+		regenerate_icon()
 		target.update_eyes()
-	..()
+
+/obj/item/organ/internal/eyes/proc/regenerate_icon()
+	if(!owner) return
+	mob_icon = new/icon(owner.species.get_icobase(owner), "eyes[owner.body_build.index]")
+	mob_icon.Blend(eye_colour, ICON_ADD)
 
 /obj/item/organ/internal/eyes/proc/update_colour()
 	if(!owner)
 		return
-	eye_colour = owner.eyes_color ? owner.eyes_color : "#000000"
+	eye_colour = owner.eyes_color
+	regenerate_icon()
 
 /obj/item/organ/internal/eyes/take_damage(amount, var/silent=0)
 	var/oldbroken = is_broken()

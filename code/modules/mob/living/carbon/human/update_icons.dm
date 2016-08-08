@@ -199,10 +199,10 @@ var/global/list/damage_icon_parts = list()
 		O.update_icon()
 		if(O.damage_state == "00") continue
 		var/icon/DI
-		var/cache_index = "[O.damage_state]/[O.icon_name]/[species.get_blood_colour(src)]/[species.get_bodytype(src)]"
+		var/cache_index = "[O.damage_state]/[O.organ_tag]/[species.get_blood_colour(src)]/[species.get_bodytype(src)]"
 		if(damage_icon_parts[cache_index] == null)
 			DI = new /icon(species.get_damage_overlays(src), O.damage_state)			// the damage icon for whole human
-			DI.Blend(new /icon(species.get_damage_mask(src), O.icon_name), ICON_MULTIPLY)	// mask with this organ's pixels
+			DI.Blend(new /icon(species.get_damage_mask(src), O.organ_tag), ICON_MULTIPLY)	// mask with this organ's pixels
 			DI.Blend(species.get_blood_colour(src), ICON_MULTIPLY)
 			damage_icon_parts[cache_index] = DI
 		else
@@ -228,7 +228,7 @@ var/global/list/damage_icon_parts = list()
 	robolimb_count = 0
 
 	//CACHING: Generate an index key from visible bodyparts.
-	//0 = destroyed, 1 = normal, 2 = robotic, 3 = necrotic.
+	//0 = destroyed, 1 = normal, 2 = robotic, 3 = mutated, 4 = necrotic.
 
 	//Create a new, blank icon for our mob to use.
 	if(stand_icon)
@@ -240,8 +240,8 @@ var/global/list/damage_icon_parts = list()
 		g = "female"
 
 	var/icon_key = "[species.get_race_key(src)][g][body_build.index][s_tone][skin_color]"
-	if(lip_style)
-		icon_key += "[lip_style]"
+	if(lip_color)
+		icon_key += lip_color
 	else
 		icon_key += "nolips"
 	var/obj/item/organ/internal/eyes/eyes = internal_organs_by_name[O_EYES]
@@ -252,25 +252,11 @@ var/global/list/damage_icon_parts = list()
 
 	for(var/organ_tag in species.has_limbs)
 		var/obj/item/organ/external/part = organs_by_name[organ_tag]
-		if(isnull(part) || part.is_stump())
+		if(isnull(part))
 			icon_key += "0"
-		else if(part.robotic >= ORGAN_ROBOT)
-			icon_key += "2[part.model ? "-[part.model]": ""]"
-			robolimb_count++
-		else if(part.status & ORGAN_DEAD)
-			icon_key += "3"
 		else
-			icon_key += "1"
-		if(part)
-			icon_key += "[part.species.get_race_key(part.owner)]"
-			icon_key += "[part.dna.GetUIState(DNA_UI_GENDER)]"
-			icon_key += "[part.dna.GetUIValue(DNA_UI_SKIN_TONE)]"
-			if(part.s_col)
-				icon_key += part.s_col
-			if(part.body_hair && part.h_col)
-				icon_key += part.h_col
-			else
-				icon_key += "#000000"
+			icon_key += part.get_icon_key()
+			if(part.robotic >= ORGAN_ROBOT) robolimb_count++
 
 	icon_key = "[icon_key][husk ? 1 : 0][fat ? 1 : 0][hulk ? 1 : 0][skeleton ? 1 : 0]"
 
@@ -279,7 +265,7 @@ var/global/list/damage_icon_parts = list()
 		base_icon = human_icon_cache[icon_key]
 	else
 		//BEGIN CACHED ICON GENERATION.
-		base_icon = icon('icons/mob/human.dmi',"blank")
+		base_icon = icon('icons/mob/human.dmi', "blank")
 
 		for(var/obj/item/organ/external/part in organs)
 			var/icon/temp = part.get_icon(skeleton)
@@ -322,11 +308,12 @@ var/global/list/damage_icon_parts = list()
 	//END CACHED ICON GENERATION.
 	stand_icon.Blend(base_icon,ICON_OVERLAY)
 
-	if(update_icons)
-		update_icons()
 
 	//tail
 	update_tail_showing(0)
+
+	if(update_icons)
+		update_icons()
 
 //UNDERWEAR OVERLAY
 /mob/living/carbon/human/proc/update_underwear(var/update_icons=1)
@@ -346,7 +333,7 @@ var/global/list/damage_icon_parts = list()
 	overlays_standing[HAIR_LAYER]	= null
 
 	var/obj/item/organ/external/head/head_organ = get_organ(BP_HEAD)
-	if(!head_organ || head_organ.is_stump() )
+	if(!head_organ || head_organ.is_stump() || (SKELETON in src.mutations))
 		if(update_icons)   update_icons()
 		return
 
@@ -465,7 +452,7 @@ var/global/list/damage_icon_parts = list()
 //vvvvvv UPDATE_INV PROCS vvvvvv
 
 /mob/living/carbon/human/update_inv_w_uniform(var/update_icons=1)
-	if(w_uniform && istype(w_uniform, /obj/item/clothing/under) )
+	if(w_uniform)
 		w_uniform.screen_loc = ui_iclothing
 
 		//determine the icon to use
@@ -488,7 +475,6 @@ var/global/list/damage_icon_parts = list()
 		else
 			under_state = w_uniform.icon_state
 
-		//need to append _s to the icon state for legacy compatibility
 		var/image/standing = image(under_icon, under_state)
 		standing.color = w_uniform.color
 
@@ -500,7 +486,7 @@ var/global/list/damage_icon_parts = list()
 
 		//accessories
 		var/obj/item/clothing/under/under = w_uniform
-		if(under.accessories.len)
+		if(istype(under) && under.accessories.len)
 			var/image/accessory
 			for(var/obj/item/clothing/accessory/A in under.accessories)
 				accessory = image(body_build.ties_icon, A.icon_state)
@@ -630,7 +616,7 @@ var/global/list/damage_icon_parts = list()
 	if(update_icons)   update_icons()
 
 /mob/living/carbon/human/update_inv_shoes(var/update_icons=1)
-	if(shoes && !((wear_suit && wear_suit.flags_inv & HIDESHOES) || (w_uniform && w_uniform.flags_inv & HIDESHOES)))
+	if(shoes && !(wear_suit && wear_suit.flags_inv & HIDESHOES || w_uniform && w_uniform.flags_inv & HIDESHOES))
 
 		var/image/standing
 		if(shoes.icon_override)
@@ -865,7 +851,7 @@ var/global/list/damage_icon_parts = list()
 			overlay_state = back.icon_state
 
 		//apply color
-		var/image/standing = image(icon = overlay_icon, icon_state = overlay_state)
+		var/image/standing = image(overlay_icon, overlay_state)
 		standing.color = back.color
 
 		//create the image
@@ -881,7 +867,7 @@ var/global/list/damage_icon_parts = list()
 	if(client)
 		client.screen |= contents
 		if(hud_used)
-			hud_used.hidden_inventory_update() 	//Updates the screenloc of the items on the 'other' inventory bar
+			hud_used.hidden_inventory_update()	//Updates the screenloc of the items on the 'other' inventory bar
 
 
 /mob/living/carbon/human/update_inv_handcuffed(var/update_icons=1)
@@ -949,7 +935,7 @@ var/global/list/damage_icon_parts = list()
 			t_icon = 'icons/mob/items/righthand.dmi'
 
 		//apply color
-		var/image/standing = image(icon = t_icon, icon_state = t_state)
+		var/image/standing = image(t_icon, t_state)
 		standing.color = r_hand.color
 
 		overlays_standing[R_HAND_LAYER] = standing
@@ -1002,8 +988,8 @@ var/global/list/damage_icon_parts = list()
 	var/species_tail = species.get_tail(src)
 
 	if(species_tail && !(wear_suit && wear_suit.flags_inv & HIDETAIL))
-		var/icon/tail_s = get_tail_icon()
-		overlays_standing[TAIL_LAYER] = image(tail_s, "[species_tail]_s")
+		var/icon/tail = species.get_icobase(src)
+		overlays_standing[TAIL_LAYER] = image(tail, "tail")
 		animate_tail_reset(0)
 
 	if(update_icons)
@@ -1015,13 +1001,13 @@ var/global/list/damage_icon_parts = list()
 	if(!tail_icon)
 		//generate a new one
 		var/species_tail_anim = species.get_tail_animation(src)
-		if(!species_tail_anim) species_tail_anim = 'icons/effects/species.dmi'
+		if(!species_tail_anim) species_tail_anim = species.get_icobase(src)
 		tail_icon = new/icon(species_tail_anim)
 		tail_icon.Blend(skin_color, ICON_ADD)
 		// The following will not work with animated tails.
 		var/use_species_tail = species.get_tail_hair(src)
 		if(use_species_tail)
-			var/icon/hair_icon = icon('icons/effects/species.dmi', "[species.get_tail(src)]_[use_species_tail]")
+			var/icon/hair_icon = icon(species_tail_anim, "tail_feathers")
 			hair_icon.Blend(hair_color, ICON_ADD)
 			tail_icon.Blend(hair_icon, ICON_OVERLAY)
 		tail_icon_cache[icon_key] = tail_icon
@@ -1094,7 +1080,7 @@ var/global/list/damage_icon_parts = list()
 		if(wear_suit.icon_state in C.IconStates())
 			standing = image(C, wear_suit.icon_state)
 
-	overlays_standing[COLLAR_LAYER]	= standing
+	overlays_standing[COLLAR_LAYER] = standing
 
 	if(update_icons)   update_icons()
 
@@ -1111,7 +1097,7 @@ var/global/list/damage_icon_parts = list()
 	var/image/total = new
 	for(var/obj/item/organ/external/E in organs)
 		if(E.open)
-			var/image/I = image('icons/mob/surgery.dmi', "[E.name][round(E.open)]", -SURGERY_LEVEL) // Check that
+			var/image/I = image('icons/mob/surgery.dmi', "[E.name][round(E.open)]", -SURGERY_LEVEL)
 			total.overlays += I
 	overlays_standing[SURGERY_LEVEL] = total
 	if(update_icons)   update_icons()

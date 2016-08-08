@@ -27,32 +27,24 @@
 	for(var/obj/item/I in list(wear_suit, w_uniform, back, gloves, head, s_store) )
 		tally += I.slowdown
 
-	// Hands are also included, to make the 'take off your armor instantly and carry it with you to go faster' trick no longer viable.
-	// This is done seperately to disallow negative numbers.
-	for(var/obj/item/I in list(r_hand, l_hand) )
-		tally += max(I.slowdown, 0)
-
 	if(istype(buckled, /obj/structure/bed/chair/wheelchair))
 		for(var/organ_name in list(BP_L_HAND, BP_R_HAND, BP_L_ARM, BP_R_ARM))
 			var/obj/item/organ/external/E = get_organ(organ_name)
-			if(!E || E.is_stump())
+			if(!E)
 				tally += 4
-			if(E.status & ORGAN_SPLINTED)
-				tally += 0.5
-			else if(E.status & ORGAN_BROKEN)
-				tally += 1.5
+			else
+				tally += E.get_tally()
 	else
 		if(shoes)
 			tally += shoes.slowdown
 
 		for(var/organ_name in list(BP_L_LEG, BP_R_LEG, BP_L_FOOT, BP_R_FOOT))
 			var/obj/item/organ/external/E = get_organ(organ_name)
-			if(!E || E.is_stump())
+			if(!E)
 				tally += 4
-			else if(E.status & ORGAN_SPLINTED)
-				tally += 0.5
-			else if(E.status & ORGAN_BROKEN)
-				tally += 1.5
+			else
+				tally += E.get_tally()
+
 
 	if(shock_stage >= 10) tally += 3
 

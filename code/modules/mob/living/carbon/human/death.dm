@@ -1,6 +1,6 @@
 /mob/living/carbon/human/gib()
 
-	for(var/obj/item/organ/I in internal_organs)
+	for(var/obj/item/organ/internal/I in internal_organs)
 		I.removed()
 		if(istype(loc,/turf))
 			I.throw_at(get_edge_target_turf(src,pick(alldirs)),rand(1,3),30)

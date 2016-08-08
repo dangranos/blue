@@ -56,7 +56,7 @@
 	//This is what hides what
 	var/list/hidden = list(
 		BP_GROIN = skipgroin,
-		BP_TORSO = skipchest,
+		BP_CHEST = skipchest,
 		BP_HEAD  = skipface,
 		BP_L_ARM = skiparms,
 		BP_R_ARM = skiparms,
@@ -72,9 +72,6 @@
 	var/datum/gender/T = gender_datums[get_gender()]
 	if(skipjumpsuit && skipface) //big suits/masks/helmets make it hard to tell their gender
 		T = gender_datums[PLURAL]
-	else
-		if(icon)
-			msg += "\icon[icon] " //fucking BYOND: this should stop dreamseeker crashing if we -somehow- examine somebody before their icon is generated
 
 	if(!T)
 		// Just in case someone VVs the gender to something strange. It'll runtime anyway when it hits usages, better to CRASH() now with a helpful message.
@@ -255,7 +252,7 @@
 		msg += "[T.He] [T.is] small halfling!\n"
 
 	var/distance = get_dist(usr,src)
-	if(istype(usr, /mob/observer/dead) || usr.stat == 2) // ghosts can see anything
+	if(istype(usr, /mob/observer/dead) || usr.stat == DEAD) // ghosts can see anything
 		distance = 1
 	if (src.stat)
 		msg += "<span class='warning'>[T.He] [T.is]n't responding to anything around [T.him] and seems to be asleep.</span>\n"
@@ -300,14 +297,13 @@
 
 	for(var/organ_tag in species.has_limbs)
 
-		var/list/organ_data = species.has_limbs[organ_tag]
-		var/organ_descriptor = organ_data["descriptor"]
+		var/datum/organ_description/organ_data = species.has_limbs[organ_tag]
 
 		var/obj/item/organ/external/E = organs_by_name[organ_tag]
 		if(!E)
-			wound_flavor_text["[organ_descriptor]"] = "<span class='warning'><b>[T.He] [T.is] missing [T.his] [organ_descriptor].</b></span>\n"
+			wound_flavor_text[organ_data.name] = "<span class='warning'><b>[T.He] [T.is] missing [T.his] [organ_data.name].</b></span>\n"
 		else if(E.is_stump())
-			wound_flavor_text["[organ_descriptor]"] = "<span class='warning'><b>[T.He] [T.has] a stump where [T.his] [organ_descriptor] should be.</b></span>\n"
+			wound_flavor_text[organ_data.name] = "<span class='warning'><b>[T.He] [T.has] a stump where [T.his] [organ_data.name] should be.</b></span>\n"
 		else
 			continue
 
@@ -316,28 +312,28 @@
 			if((temp.organ_tag in hidden) && hidden[temp.organ_tag])
 				continue //Organ is hidden, don't talk about it
 			if(temp.status & ORGAN_DESTROYED)
-				wound_flavor_text["[temp.name]"] = "<span class='warning'><b>[T.He] [T.is] missing [T.his] [temp.name].</b></span>\n"
+				wound_flavor_text[temp.name] = "<span class='warning'><b>[T.He] [T.is] missing [T.his] [temp.name].</b></span>\n"
 				continue
 			if(!looks_synth && temp.robotic == ORGAN_ROBOT)
 				if(!(temp.brute_dam + temp.burn_dam))
-					wound_flavor_text["[temp.name]"] = "[T.He] [T.has] a [temp.name].\n"
+					wound_flavor_text[temp.name] = "[T.He] [T.has] a [temp.name].\n"
 				else
-					wound_flavor_text["[temp.name]"] = "<span class='warning'>[T.He] [T.has] a [temp.name] with [temp.get_wounds_desc()]!</span>\n"
+					wound_flavor_text[temp.name] = "<span class='warning'>[T.He] [T.has] a [temp.name] with [temp.get_wounds_desc()]!</span>\n"
 				continue
 			else if(temp.wounds.len > 0 || temp.open)
 				if(temp.is_stump() && temp.parent_organ && organs_by_name[temp.parent_organ])
 					var/obj/item/organ/external/parent = organs_by_name[temp.parent_organ]
-					wound_flavor_text["[temp.name]"] = "<span class='warning'>[T.He] has [temp.get_wounds_desc()] on [T.his] [parent.name].</span><br>"
+					wound_flavor_text[temp.name] = "<span class='warning'>[T.He] has [temp.get_wounds_desc()] on [T.his] [parent.name].</span><br>"
 				else
-					wound_flavor_text["[temp.name]"] = "<span class='warning'>[T.He] has [temp.get_wounds_desc()] on [T.his] [temp.name].</span><br>"
+					wound_flavor_text[temp.name] = "<span class='warning'>[T.He] has [temp.get_wounds_desc()] on [T.his] [temp.name].</span><br>"
 				if(temp.status & ORGAN_BLEEDING)
-					is_bleeding["[temp.name]"] = "<span class='danger'>[T.His] [temp.name] is bleeding!</span><br>"
+					is_bleeding[temp.name] = "<span class='danger'>[T.His] [temp.name] is bleeding!</span><br>"
 			else
-				wound_flavor_text["[temp.name]"] = ""
+				wound_flavor_text[temp.name] = ""
 			if(temp.dislocated == 2)
-				wound_flavor_text["[temp.name]"] += "<span class='warning'>[T.His] [temp.joint] is dislocated!</span><br>"
+				wound_flavor_text[temp.name] += "<span class='warning'>[T.His] [temp.joint] is dislocated!</span><br>"
 			if(((temp.status & ORGAN_BROKEN) && temp.brute_dam > temp.min_broken_damage) || (temp.status & ORGAN_MUTATED))
-				wound_flavor_text["[temp.name]"] += "<span class='warning'>[T.His] [temp.name] is dented and swollen!</span><br>"
+				wound_flavor_text[temp.name] += "<span class='warning'>[T.His] [temp.name] is dented and swollen!</span><br>"
 
 	for(var/limb in wound_flavor_text)
 		msg += wound_flavor_text[limb]
@@ -394,8 +390,12 @@
 		msg += "<span class = 'deptradio'>Physical status:</span> <a href='?src=\ref[src];medical=1'>\[[medical]\]</a>\n"
 		msg += "<span class = 'deptradio'>Medical records:</span> <a href='?src=\ref[src];medrecord=`'>\[View\]</a> <a href='?src=\ref[src];medrecordadd=`'>\[Add comment\]</a>\n"
 
+		var/obj/item/clothing/under/U = w_uniform
+		if(U && istype(U) && U.sensor_mode >= 2)
+			msg += "<span class='deptradio'><b>Damage Specifics:</span> <span style=\"color:blue\">[round(src.getOxyLoss(), 1)]</span>-<span style=\"color:green\">[round(src.getToxLoss(), 1)]</span>-<span style=\"color:#FFA500\">[round(src.getFireLoss(), 1)]</span>-<span style=\"color:red\">[round(src.getBruteLoss(), 1)]</span></b>\n"
 
-	if(print_flavor_text()) msg += "[print_flavor_text()]\n"
+	var/flavor = print_flavor_text()
+	if(flavor) msg += "[flavor]\n"
 
 	msg += "*---------*</span>"
 	if (pose)
@@ -425,5 +425,12 @@
 				return istype(R.module_state_1, /obj/item/borg/sight/hud/med) || istype(R.module_state_2, /obj/item/borg/sight/hud/med) || istype(R.module_state_3, /obj/item/borg/sight/hud/med)
 			else
 				return 0
+	else if(istype(M, /mob/living/silicon/pai))
+		var/mob/living/silicon/pai/P = M
+		switch(hudtype)
+			if("security")
+				return P.secHUD
+			if("medical")
+				return P.medHUD
 	else
 		return 0

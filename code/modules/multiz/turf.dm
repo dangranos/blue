@@ -69,7 +69,7 @@
 				var/mob/living/carbon/human/H = mover
 				var/damage = 5
 				H.apply_damage(rand(0, damage), BRUTE, BP_HEAD)
-				H.apply_damage(rand(0, damage), BRUTE, BP_TORSO)
+				H.apply_damage(rand(0, damage), BRUTE, BP_CHEST)
 				H.apply_damage(rand(0, damage), BRUTE, BP_L_LEG)
 				H.apply_damage(rand(0, damage), BRUTE, BP_R_LEG)
 				H.apply_damage(rand(0, damage), BRUTE, BP_L_ARM)

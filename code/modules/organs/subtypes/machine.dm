@@ -4,14 +4,14 @@
 	icon = 'icons/obj/power.dmi'
 	icon_state = "scell"
 	organ_tag = "cell"
-	parent_organ = BP_TORSO
+	parent_organ = BP_CHEST
 	vital = 1
 
 /obj/item/organ/internal/cell/New()
 	robotize()
 	..()
 
-/obj/item/organ/internal/cell/replaced()
+/obj/item/organ/internal/cell/install()
 	..()
 	// This is very ghetto way of rebooting an IPC. TODO better way.
 	if(owner && owner.stat == DEAD)
@@ -44,7 +44,6 @@
 	update_from_mmi()
 
 /obj/item/organ/internal/mmi_holder/proc/update_from_mmi()
-
 	if(!stored_mmi.brainmob)
 		stored_mmi.brainmob = new(stored_mmi)
 		stored_mmi.brainobj = new(stored_mmi)

@@ -51,12 +51,11 @@
 	var/name_language = "Galactic Common"    // The language to use when determining names for this species, or null to use the first name/last name generator
 
 	// Combat vars.
-	var/total_health = 100                   // Point at which the mob will enter crit.
-	var/list/unarmed_types = list(           // Possible unarmed attacks that the mob will use in combat,
-		/datum/unarmed_attack,
-		/datum/unarmed_attack/bite
-		)
-	var/list/unarmed_attacks = null          // For empty hand harm-intent attack
+	var/total_health = 100					// Point at which the mob will enter crit.
+	var/list/unarmed_attacks = list(		// For empty hand harm-intent attack
+		new /datum/unarmed_attack,
+		new /datum/unarmed_attack/bite
+	)
 	var/brute_mod =     1                    // Physical damage multiplier.
 	var/burn_mod =      1                    // Burn damage multiplier.
 	var/oxy_mod =       1                    // Oxyloss modifier
@@ -108,8 +107,7 @@
 		)
 
 	// HUD data vars.
-	var/datum/hud_data/hud
-	var/hud_type
+	var/datum/hud_data/hud = new
 	var/health_hud_intensity = 1  // This modifies how intensely the health hud is colored.
 
 	// Body/form vars.
@@ -139,18 +137,18 @@
 	var/vision_organ              // If set, this organ is required for vision. Defaults to "eyes" if the species has them.
 
 	var/list/has_limbs = list(
-		BP_TORSO =  list("path" = /obj/item/organ/external/chest),
-		BP_GROIN =  list("path" = /obj/item/organ/external/groin),
-		BP_HEAD =   list("path" = /obj/item/organ/external/head),
-		BP_L_ARM =  list("path" = /obj/item/organ/external/arm),
-		BP_R_ARM =  list("path" = /obj/item/organ/external/arm/right),
-		BP_L_LEG =  list("path" = /obj/item/organ/external/leg),
-		BP_R_LEG =  list("path" = /obj/item/organ/external/leg/right),
-		BP_L_HAND = list("path" = /obj/item/organ/external/hand),
-		BP_R_HAND = list("path" = /obj/item/organ/external/hand/right),
-		BP_L_FOOT = list("path" = /obj/item/organ/external/foot),
-		BP_R_FOOT = list("path" = /obj/item/organ/external/foot/right)
-		)
+		BP_CHEST  = new /datum/organ_description,
+		BP_GROIN  = new /datum/organ_description/groin,
+		BP_HEAD   = new /datum/organ_description/head,
+		BP_L_ARM  = new /datum/organ_description/arm/left,
+		BP_R_ARM  = new /datum/organ_description/arm/right,
+		BP_L_LEG  = new /datum/organ_description/leg/left,
+		BP_R_LEG  = new /datum/organ_description/leg/right,
+		BP_L_HAND = new /datum/organ_description/hand/left,
+		BP_R_HAND = new /datum/organ_description/hand/right,
+		BP_L_FOOT = new /datum/organ_description/foot/left,
+		BP_R_FOOT = new /datum/organ_description/foot/right
+	)
 
 	var/list/genders = list(MALE, FEMALE)
 
@@ -163,18 +161,10 @@
 	var/list/restricted_jobs = list()
 
 /datum/species/New()
-	if(hud_type)
-		hud = new hud_type()
-	else
-		hud = new()
 
 	//If the species has eyes, they are the default vision organ
 	if(!vision_organ && has_organ[O_EYES])
 		vision_organ = O_EYES
-
-	unarmed_attacks = list()
-	for(var/u_type in unarmed_types)
-		unarmed_attacks += new u_type()
 
 	if(gluttonous)
 		if(!inherent_verbs)
@@ -195,33 +185,24 @@
 /datum/species/proc/create_organs(var/mob/living/carbon/human/H) //Handles creation of mob organs.
 
 	H.mob_size = mob_size
-	for(var/obj/item/organ/organ in H.contents)
-		if((organ in H.organs) || (organ in H.internal_organs))
-			qdel(organ)
+	for(var/obj/item/organ/organ in (H.organs+H.internal_organs))
+		qdel(organ)
 
-	if(H.organs)                  H.organs.Cut()
-	if(H.internal_organs)         H.internal_organs.Cut()
-	if(H.organs_by_name)          H.organs_by_name.Cut()
-	if(H.internal_organs_by_name) H.internal_organs_by_name.Cut()
+	if(H.organs.len)                  H.organs.Cut()
+	if(H.internal_organs.len)         H.internal_organs.Cut()
+	if(H.organs_by_name.len)          H.organs_by_name.Cut()
+	if(H.internal_organs_by_name.len) H.internal_organs_by_name.Cut()
 
-	H.organs = list()
-	H.internal_organs = list()
-	H.organs_by_name = list()
-	H.internal_organs_by_name = list()
+	var/organ_type = null
 
 	for(var/limb_type in has_limbs)
-		var/list/organ_data = has_limbs[limb_type]
-		var/limb_path = organ_data["path"]
-		var/obj/item/organ/O = new limb_path(H)
-		organ_data["descriptor"] = O.name
+		var/datum/organ_description/OD = has_limbs[limb_type]
+		organ_type = OD.default_type
+		new organ_type(H, OD)
 
-	for(var/organ_tag in has_organ)
-		var/organ_type = has_organ[organ_tag]
-		var/obj/item/organ/O = new organ_type(H,1)
-		if(organ_tag != O.organ_tag)
-			warning("[O.type] has a default organ tag \"[O.organ_tag]\" that differs from the species' organ tag \"[organ_tag]\". Updating organ_tag to match.")
-			O.organ_tag = organ_tag
-		H.internal_organs_by_name[organ_tag] = O
+	for(var/organ in has_organ)
+		organ_type = has_organ[organ]
+		new organ_type(H)
 
 
 /datum/species/proc/hug(var/mob/living/carbon/human/H,var/mob/living/target)

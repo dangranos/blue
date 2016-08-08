@@ -1,7 +1,7 @@
 /datum/body_build
 	var/name			= "Default"
-	var/gender 			= MALE
-	var/index			= "" 					// For icon_ovveride body_build supply
+	var/gender			= MALE
+	var/index			= ""	// For icon_ovveride body_build supply
 	var/uniform_icon	= 'icons/mob/uniform.dmi'
 	var/suit_icon		= 'icons/mob/suit.dmi'
 	var/gloves_icon		= 'icons/mob/hands.dmi'
@@ -17,18 +17,18 @@
 	var/ties_icon		= 'icons/mob/ties.dmi'
 
 /datum/body_build/female
-	gender 			= FEMALE
+	gender			= FEMALE
 
 /datum/body_build/neuter
-	gender 			= NEUTER
+	gender			= NEUTER
 
 /datum/body_build/plural
-	gender 			= PLURAL
+	gender			= PLURAL
 
 /datum/body_build/slim
 	name			= "Slim"
 	index			= "_slim"
-	gender 			= FEMALE
+	gender			= FEMALE
 	uniform_icon	= 'icons/mob/uniform_slim.dmi'
 	suit_icon		= 'icons/mob/suit_slim.dmi'
 	gloves_icon		= 'icons/mob/hands_slim.dmi'

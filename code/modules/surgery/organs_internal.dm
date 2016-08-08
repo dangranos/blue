@@ -279,7 +279,7 @@
 		var/obj/item/organ/O = tool
 		if(istype(O))
 			user.remove_from_mob(O)
-			O.replaced(target,affected)
+			O.install(target)
 
 	fail_step(mob/living/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
 		user.visible_message("<span class='warning'>[user]'s hand slips, damaging \the [tool]!</span>", \

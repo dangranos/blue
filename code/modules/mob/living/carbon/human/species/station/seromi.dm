@@ -53,22 +53,8 @@
 	heat_discomfort_strings = list(
 		"Your feathers prickle in the heat.",
 		"You feel uncomfortably warm.",
-		)
+	)
 	cold_discomfort_level = 180
-
-	has_limbs = list(
-		BP_TORSO =  list("path" = /obj/item/organ/external/chest),
-		BP_GROIN =  list("path" = /obj/item/organ/external/groin),
-		BP_HEAD =   list("path" = /obj/item/organ/external/head/seromi),
-		BP_L_ARM =  list("path" = /obj/item/organ/external/arm),
-		BP_R_ARM =  list("path" = /obj/item/organ/external/arm/right),
-		BP_L_LEG =  list("path" = /obj/item/organ/external/leg),
-		BP_R_LEG =  list("path" = /obj/item/organ/external/leg/right),
-		BP_L_HAND = list("path" = /obj/item/organ/external/hand/seromi),
-		BP_R_HAND = list("path" = /obj/item/organ/external/hand/right/seromi),
-		BP_L_FOOT = list("path" = /obj/item/organ/external/foot/seromi),
-		BP_R_FOOT = list("path" = /obj/item/organ/external/foot/right/seromi)
-		)
 
 	has_organ = list(
 		O_HEART =    /obj/item/organ/internal/heart,
@@ -77,13 +63,13 @@
 		O_KIDNEYS =  /obj/item/organ/internal/kidneys,
 		O_BRAIN =    /obj/item/organ/internal/brain,
 		O_EYES =     /obj/item/organ/internal/eyes
-		)
+	)
 
-	unarmed_types = list(
-		/datum/unarmed_attack/bite/sharp,
-		/datum/unarmed_attack/claws,
-		/datum/unarmed_attack/stomp/weak
-		)
+	unarmed_attacks = list(
+		new /datum/unarmed_attack/bite/sharp,
+		new /datum/unarmed_attack/claws,
+		new /datum/unarmed_attack/stomp/weak
+	)
 
 	restricted_jobs = list("Captain", "Head of Personnel", "Security Commissioner", "Chief Engineer", "Chief Medical Officer", "Research Director",\
 							"Brig Overseer", "Investigator", "Forensic Technician", "Colonial Officer", "Colonial Senior Officer", "Medical Doctor", "Geneticist", "Paramedic",\
