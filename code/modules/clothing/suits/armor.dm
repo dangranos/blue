@@ -388,3 +388,80 @@
 				siemens_coefficient = 0.1
 
 			update_clothing_icon()
+
+/obj/item/clothing/suit/storage/vest/heavy/assault
+	name = "armor vest"
+	desc = "no desc."
+	icon_state = "webvest"
+	item_state = "webvest"
+	armor = list(melee = 40, bullet = 60, laser = 40, energy = 25, bomb = 25, bio = 0, rad = 0)
+	slowdown = 1
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS
+
+/obj/item/clothing/suit/storage/vest/heavy/assault/nsf
+	name = "NSF armor vest"
+	desc = "no desc."
+	icon_state = "nsfassaultarmor"
+	item_state = "nsfassaultarmor"
+
+/obj/item/clothing/suit/storage/vest/heavy/assault/ucf
+	name = "UCF armor vest"
+	icon_state = "ucfassaultarmor"
+	item_state = "ucfassaultarmor"
+
+/obj/item/clothing/suit/storage/vest/heavy/scout
+	name = "cloak"
+	desc = "no desc."
+	icon_state = "webvest"
+	item_state = "webvest"
+	armor = list(melee = 10, bullet = 5, laser = 0, energy = 0, bomb = 0, bio = 0, rad = 0)
+	slowdown = -1
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS|HEAD
+
+/obj/item/clothing/suit/storage/vest/heavy/scout/ucf
+	name = "UCF cloak"
+	icon_state = "ucfscoutcloak"
+	item_state = "ucfscoutcloak"
+
+/obj/item/clothing/suit/storage/vest/heavy/scout/nsf
+	name = "NSF cloak"
+	icon_state = "nsfscoutcloak"
+	item_state = "nsfscoutcloak"
+
+/obj/item/clothing/suit/storage/vest/heavy/support
+	name = "heavy armor"
+	desc = "no desc."
+	icon_state = "webvest"
+	item_state = "webvest"
+	armor = list(melee = 70, bullet = 80, laser = 70, energy = 60, bomb = 85, bio = 70, rad = 70)
+	slowdown = 2
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS|HANDS
+
+/obj/item/clothing/suit/storage/vest/heavy/support/ucf
+	name = "UCF heavy armor"
+	icon_state = "ucfsupportarmor"
+	item_state = "ucfsupportarmor"
+
+/obj/item/clothing/suit/storage/vest/heavy/support/nsf
+	name = "NSF heavy armor"
+	icon_state = "nsfsupportarmor"
+	item_state = "nsfsupportarmor"
+
+/obj/item/clothing/suit/storage/vest/heavy/specialist
+	name = "armor vest"
+	desc = "no desc."
+	icon_state = "webvest"
+	item_state = "webvest"
+	armor = list(melee = 40, bullet = 40, laser = 30, energy = 30, bomb = 35, bio = 20, rad = 20)
+	slowdown = 0
+	body_parts_covered = UPPER_TORSO|LOWER_TORSO
+
+/obj/item/clothing/suit/storage/vest/heavy/specialist/ucf
+	name = "UCF light armor vest"
+	icon_state = "ucfspecialistarmor"
+	item_state = "ucfspecialistarmor"
+
+/obj/item/clothing/suit/storage/vest/heavy/specialist/nsf
+	name = "NSF light armor vest"
+	icon_state = "nsfspecialistarmor"
+	item_state = "nsfspecialistarmor"

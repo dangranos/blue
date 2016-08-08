@@ -181,12 +181,18 @@
 	damage = 30
 	armor_penetration = 60 // At 40 or more armor, this will do more damage than standard rounds.
 
+/obj/item/projectile/bullet/rifle/a762/hp
+	damage = 55
+
 /obj/item/projectile/bullet/rifle/a556
 	damage = 35
 
 /obj/item/projectile/bullet/rifle/a556/ap
 	damage = 30
 	armor_penetration = 60 // At 30 or more armor, this will do more damage than standard rounds.
+
+/obj/item/projectile/bullet/rifle/a556/hp
+	damage = 55
 
 /obj/item/projectile/bullet/rifle/a145
 	damage = 80

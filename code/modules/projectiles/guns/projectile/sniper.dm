@@ -66,6 +66,54 @@
 
 	toggle_scope(2.0)
 
+/obj/item/weapon/gun/projectile/heavysniper/svl
+	name = "SVL rifle"
+	desc = "no desc."
+	icon_state = "svl"
+	item_state = "l6closed-empty" // placeholder
+	w_class = 5 // So it can't fit in a backpack.
+	force = 15
+	slot_flags = SLOT_BACK
+	caliber = "a127"
+	recoil = 3 //extra kickback
+	fire_sound = 'sound/weapons/sniper.ogg' // extra boom
+	handle_casings = HOLD_CASINGS
+	load_method = SINGLE_CASING | SPEEDLOADER
+	max_shells = 5
+	ammo_type = /obj/item/ammo_casing/a127
+	accuracy = 2
+	scoped_accuracy = 5
+
+/obj/item/weapon/gun/projectile/heavysniper/update_icon()
+	if(bolt_open)
+		icon_state = "svl-empty"
+	else
+		icon_state = "svl"
+
+/obj/item/weapon/gun/projectile/heavysniper/barrett
+	name = "L97 rifle"
+	desc = "no desc."
+	icon_state = "barretsniper"
+	item_state = "l6closed-empty" // placeholder
+	w_class = 5 // So it can't fit in a backpack.
+	force = 15
+	slot_flags = SLOT_BACK
+	caliber = "a127"
+	recoil = 3 //extra kickback
+	fire_sound = 'sound/weapons/sniper.ogg' // extra boom
+	handle_casings = HOLD_CASINGS
+	load_method = SINGLE_CASING | SPEEDLOADER
+	max_shells = 5
+	ammo_type = /obj/item/ammo_casing/a127
+	accuracy = 2
+	scoped_accuracy = 5
+
+/obj/item/weapon/gun/projectile/heavysniper/update_icon()
+	if(bolt_open)
+		icon_state = "barretsniper-empty"
+	else
+		icon_state = "barretsniper"
+
 ////////////// Dragunov Sniper Rifle //////////////
 
 /* // Commented out until it's not worthless. Also might be nice to have a new icon that looks more sci-fi Dragunov-ish.

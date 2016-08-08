@@ -154,11 +154,22 @@
 	desc = "A 7.62mm armor-piercing bullet casing."
 	projectile_type = /obj/item/projectile/bullet/rifle/a762/ap
 
+/obj/item/ammo_casing/a762/hp
+	desc = "A 7.62mm hollow-point bullet casing."
+	projectile_type = /obj/item/projectile/bullet/rifle/a762/hp
+
 /obj/item/ammo_casing/a762p
 	desc = "A 7.62mm practice bullet casing."
 	caliber = "a762"
 	icon_state = "rifle-casing" // Need to make an icon for these
 	projectile_type = /obj/item/projectile/bullet/rifle/practice
+
+/obj/item/ammo_casing/a127
+	desc = "A 12.7mm shell."
+	icon_state = "lcasing"
+	caliber = "a127"
+	projectile_type = /obj/item/projectile/bullet/rifle/a145
+	matter = list(DEFAULT_WALL_MATERIAL = 1250)
 
 /obj/item/ammo_casing/a762/blank
 	desc = "A blank 7.62mm bullet casing."
@@ -181,6 +192,10 @@
 /obj/item/ammo_casing/a556/ap
 	desc = "A 5.56mm armor-piercing bullet casing."
 	projectile_type = /obj/item/projectile/bullet/rifle/a556/ap
+
+/obj/item/ammo_casing/a556/hp
+	desc = "A 5.56mm hollow-point bullet casing."
+	projectile_type = /obj/item/projectile/bullet/rifle/a556/hp
 
 /obj/item/ammo_casing/a556p
 	desc = "A 5.56mm practice bullet casing."

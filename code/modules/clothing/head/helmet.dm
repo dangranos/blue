@@ -172,3 +172,46 @@
 				siemens_coefficient = 0.3
 
 			update_clothing_icon()
+
+/obj/item/clothing/head/helmet/assault
+	name = "helmet"
+	icon_state = "helmet"
+	armor = list(melee = 50, bullet = 40, laser = 30, energy = 10, bomb = 10, bio = 0, rad = 0)
+
+/obj/item/clothing/head/helmet/assault/nsf
+	name = "NSF helmet"
+	desc = "no desc."
+	icon_state = "nsfhelmetassault"
+
+/obj/item/clothing/head/helmet/assault/ucf
+	name = "UCF helmet"
+	desc = "no desc."
+	icon_state = "ucfhelmetassault"
+
+/obj/item/clothing/head/helmet/specialist
+	name = "headwear"
+	icon_state = "helmet"
+	armor = list(melee = 10, bullet = 5, laser = 0, energy = 0, bomb = 10, bio = 0, rad = 0)
+
+/obj/item/clothing/head/helmet/specialist/ucf
+	name = "UCF cap"
+	desc = "no desc."
+	icon_state = "ucfhelmetspecialist"
+
+/obj/item/clothing/head/helmet/specialist/nsf
+	name = "NSF cap"
+	desc = "no desc."
+	icon_state = "nsfhelmetspecialist"
+
+/obj/item/clothing/head/helmet/support
+	name = "helmet"
+	icon_state = "helmet"
+	armor = list(melee = 60, bullet = 70, laser = 50, energy = 40, bomb = 40, bio = 0, rad = 0)
+
+/obj/item/clothing/head/helmet/support/nsf
+	name = "NSF heavy helmet"
+	icon_state = "nsfhelmetsupport"
+
+/obj/item/clothing/head/helmet/support/ucf
+	name = "UCF heavy helmet"
+	icon_state = "ucfhelmetsupport"

@@ -344,3 +344,38 @@
 		icon_state = "[initial(icon_state)]"
 	else
 		icon_state = "[initial(icon_state)]-empty"
+
+/obj/item/weapon/gun/projectile/pl
+	name = "\improper Lebedev PL"
+	desc = "no desc."
+	icon_state = "pl"
+	caliber = "9mm"
+	load_method = MAGAZINE
+	fire_sound = 'sound/weapons/semiauto.ogg'
+	magazine_type = /obj/item/ammo_magazine/new9mm
+	allowed_magazines = list(/obj/item/ammo_magazine/new9mm)
+
+/obj/item/weapon/gun/projectile/pl/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "[initial(icon_state)]"
+	else
+		icon_state = "[initial(icon_state)]-empty"
+
+
+/obj/item/weapon/gun/projectile/l15
+	name = "\improper L15 pistol"
+	desc = "no desc."
+	icon_state = "l15"
+	caliber = "9mm"
+	load_method = MAGAZINE
+	fire_sound = 'sound/weapons/semiauto.ogg'
+	magazine_type = /obj/item/ammo_magazine/new9mm
+	allowed_magazines = list(/obj/item/ammo_magazine/new9mm)
+
+/obj/item/weapon/gun/projectile/l15/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "[initial(icon_state)]"
+	else
+		icon_state = "[initial(icon_state)]-empty"

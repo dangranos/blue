@@ -26,3 +26,35 @@
 	worn_state = "tactifool"
 	siemens_coefficient = 1
 	rolled_sleeves = 0
+
+/obj/item/clothing/under/nsf
+	name = "\improper NSF uniform"
+	desc = "no desc."
+	icon_state = "nsf_uniform"
+	item_state = "bl_suit"
+	worn_state = "nsf_uniform"
+	rolled_sleeves = 0
+
+/obj/item/clothing/under/nsfshort
+	name = "\improper short-sleeved NSF uniform"
+	desc = "no desc."
+	icon_state = "nsf_uniform_shortsleeved"
+	item_state = "bl_suit"
+	worn_state = "nsf_uniform_shortsleeved"
+	rolled_sleeves = 0
+
+/obj/item/clothing/under/ucf
+	name = "\improper UCF uniform"
+	desc = "no desc."
+	icon_state = "ucf_uniform"
+	item_state = "bl_suit"
+	worn_state = "ucf_uniform"
+	rolled_sleeves = 0
+
+/obj/item/clothing/under/ucfshort
+	name = "\improper short-sleeved UCF uniform"
+	desc = "no desc."
+	icon_state = "ucf_uniform_shortsleeved"
+	item_state = "bl_suit"
+	worn_state = "ucf_uniform_shortsleeved"
+	rolled_sleeves = 0

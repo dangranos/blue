@@ -428,3 +428,373 @@
 		icon_state = "impulsecarbine"
 	else
 		icon_state = "impulsecarbine-empty"
+
+/obj/item/weapon/gun/projectile/automatic/alsu68
+	name = "AL-68SU"
+	desc = "no desc."
+	icon_state = "al-su68"
+	item_state = "carbine"
+	w_class = 4
+	caliber = "a762"
+	origin_tech = list(TECH_COMBAT = 7, TECH_MATERIAL = 5)
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/ar762
+	allowed_magazines = list(/obj/item/ammo_magazine/ar762)
+	fire_delay = 0
+	accuracy = 1
+
+	firemodes = list(
+		list(mode_name="semiauto", burst=1, fire_delay=0),
+		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=2,    burst_accuracy=list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0)),
+		list(mode_name="short bursts", burst=5, fire_delay=null, move_delay=2,    burst_accuracy=list(0,-1,-1,-1,-2), dispersion=list(0.0, 0.6, 0.6, 0.6, 1.0))
+		)
+
+/obj/item/weapon/gun/projectile/automatic/alsu68/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "al-su68"
+	else
+		icon_state = "al-su68-empty"
+
+/obj/item/weapon/gun/projectile/automatic/al68marksman
+	name = "scoped AL-68"
+	desc = "no desc."
+	icon_state = "al68marksman"
+	item_state = "carbine"
+	w_class = 5
+	caliber = "a762"
+	origin_tech = list(TECH_COMBAT = 7, TECH_MATERIAL = 5)
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/r762
+	allowed_magazines = list(/obj/item/ammo_magazine/r762)
+	fire_delay = 4
+	accuracy = 2
+	scoped_accuracy = 4
+
+	firemodes = list(
+		list(mode_name="semiauto", burst=1, fire_delay=0)
+		)
+
+/obj/item/weapon/gun/projectile/automatic/al68marksman/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "al68marksman"
+	else
+		icon_state = "al68marksman-empty"
+
+/obj/item/weapon/gun/projectile/automatic/al68marksman/verb/scope()
+	set category = "Object"
+	set name = "Use Scope"
+	set popup_menu = 1
+
+	toggle_scope(1.3)
+
+/obj/item/weapon/gun/projectile/automatic/al68grenadier
+	name = "AL68-GP"
+	desc = "no desc."
+	icon_state = "al68-grenadier"
+	item_state = "carbine"
+	w_class = 5
+	caliber = "a762"
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/ar762
+	allowed_magazines = list(/obj/item/ammo_magazine/ar762)
+	fire_delay = 1
+	accuracy = 3
+	var/use_launcher = 0
+	var/obj/item/weapon/gun/launcher/grenade/underslung/launcher
+
+	firemodes = list(
+		list(mode_name="semiauto", burst=1, fire_delay=0),
+		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=2,    burst_accuracy=list(2,1,1), dispersion=list(0.0, 0.3, 0.3)),
+		list(mode_name="fire grenades",  burst=null, fire_delay=null, move_delay=null, use_launcher=1,    burst_accuracy=null, dispersion=null)
+		)
+
+/obj/item/weapon/gun/projectile/automatic/al68grenadier/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "al68-grenadier"
+	else
+		icon_state = "al68-grenadier-empty"
+
+/obj/item/weapon/gun/projectile/automatic/al68grenadier/New()
+	..()
+	launcher = new(src)
+
+/obj/item/weapon/gun/projectile/automatic/al68grenadier/attackby(obj/item/I, mob/user)
+	if((istype(I, /obj/item/weapon/grenade)))
+		launcher.load(I, user)
+	else
+		..()
+
+/obj/item/weapon/gun/projectile/automatic/al68grenadier/attack_hand(mob/user)
+	if(user.get_inactive_hand() == src && use_launcher)
+		launcher.unload(user)
+	else
+		..()
+
+/obj/item/weapon/gun/projectile/automatic/al68grenadier/Fire(atom/target, mob/living/user, params, pointblank=0, reflex=0)
+	if(use_launcher)
+		launcher.Fire(target, user, params, pointblank, reflex)
+		if(!launcher.chambered)
+			switch_firemodes(user) //switch back automatically
+	else
+		..()
+
+/obj/item/weapon/gun/projectile/automatic/m8
+	name = "M8 carbine"
+	desc = "no desc."
+	icon_state = "m8"
+	item_state = "carbine"
+	w_class = 4
+	caliber = "a556"
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/ar556
+	allowed_magazines = list(/obj/item/ammo_magazine/ar556)
+	fire_delay = 0
+	accuracy = 1
+
+	firemodes = list(
+		list(mode_name="semiauto", burst=1, fire_delay=0),
+		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=2,    burst_accuracy=list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0)),
+		list(mode_name="short bursts", burst=5, fire_delay=null, move_delay=2,    burst_accuracy=list(0,-1,-1,-1,-2), dispersion=list(0.0, 0.6, 0.6, 0.6, 1.0))
+		)
+
+/obj/item/weapon/gun/projectile/automatic/m8/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "m8"
+	else
+		icon_state = "m8-empty"
+
+
+/obj/item/weapon/gun/projectile/automatic/m27marksman
+	name = "scoped M27"
+	desc = "no desc."
+	icon_state = "m27marksman"
+	item_state = "carbine"
+	w_class = 5
+	caliber = "a556"
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/r556
+	allowed_magazines = list(/obj/item/ammo_magazine/r556)
+	fire_delay = 4
+	accuracy = 2
+	scoped_accuracy = 4
+
+	firemodes = list(
+		list(mode_name="semiauto", burst=1, fire_delay=0)
+		)
+
+/obj/item/weapon/gun/projectile/automatic/m27marksman/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "m27marksman"
+	else
+		icon_state = "m27marksman-empty"
+
+/obj/item/weapon/gun/projectile/automatic/m27marksman/verb/scope()
+	set category = "Object"
+	set name = "Use Scope"
+	set popup_menu = 1
+
+	toggle_scope(1.3)
+
+/obj/item/weapon/gun/projectile/automatic/m27grenadier
+	name = "M27-GL"
+	desc = "no desc."
+	icon_state = "m27grenadier"
+	item_state = "carbine"
+	w_class = 7
+	caliber = "a556"
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/ar556
+	allowed_magazines = list(/obj/item/ammo_magazine/ar556)
+	fire_delay = 1
+	accuracy = 3
+	var/use_launcher = 0
+	var/obj/item/weapon/gun/launcher/grenade/underslung/launcher
+
+	firemodes = list(
+		list(mode_name="semiauto", burst=1, fire_delay=0),
+		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=2,    burst_accuracy=list(2,1,1), dispersion=list(0.0, 0.3, 0.3)),
+		list(mode_name="fire grenades",  burst=null, fire_delay=null, move_delay=null, use_launcher=1,    burst_accuracy=null, dispersion=null)
+		)
+
+/obj/item/weapon/gun/projectile/automatic/m27grenadier/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "m27grenadier"
+	else
+		icon_state = "m27grenadier-empty"
+
+/obj/item/weapon/gun/projectile/automatic/m27grenadier/New()
+	..()
+	launcher = new(src)
+
+/obj/item/weapon/gun/projectile/automatic/m27grenadier/attackby(obj/item/I, mob/user)
+	if((istype(I, /obj/item/weapon/grenade)))
+		launcher.load(I, user)
+	else
+		..()
+
+/obj/item/weapon/gun/projectile/automatic/m27grenadier/attack_hand(mob/user)
+	if(user.get_inactive_hand() == src && use_launcher)
+		launcher.unload(user)
+	else
+		..()
+
+/obj/item/weapon/gun/projectile/automatic/m27grenadier/Fire(atom/target, mob/living/user, params, pointblank=0, reflex=0)
+	if(use_launcher)
+		launcher.Fire(target, user, params, pointblank, reflex)
+		if(!launcher.chambered)
+			switch_firemodes(user) //switch back automatically
+	else
+		..()
+
+/obj/item/weapon/gun/projectile/automatic/m219
+	name = "light machine gun"
+	desc = "no desc."
+	icon_state = "m219"
+	item_state = "l6closed"
+	w_class = 4
+	force = 15
+	slot_flags = 0
+	max_shells = 100
+	caliber = "a556"
+	origin_tech = list(TECH_COMBAT = 6, TECH_MATERIAL = 1, TECH_ILLEGAL = 2)
+	slot_flags = SLOT_BACK
+	ammo_type = "/obj/item/ammo_casing/a556/ap" // Is this really needed anymore?
+	fire_sound = 'sound/weapons/machinegun.ogg'
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/saw556
+	allowed_magazines = list(/obj/item/ammo_magazine/saw556)
+
+	one_handed_penalty = 6
+
+	firemodes = list(
+		list(mode_name="semiauto",       burst=1, fire_delay=0,    move_delay=null, burst_accuracy=null, dispersion=null),
+		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=4,    burst_accuracy=list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0)),
+		list(mode_name="short bursts",	burst=5, move_delay=6, burst_accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.6, 1.0, 1.0, 1.0, 1.2))
+		)
+
+	var/cover_open = 0
+
+/obj/item/weapon/gun/projectile/automatic/m219/special_check(mob/user)
+	if(cover_open)
+		user << "<span class='warning'>[src]'s cover is open! Close it before firing!</span>"
+		return 0
+	return ..()
+
+/obj/item/weapon/gun/projectile/automatic/m219/proc/toggle_cover(mob/user)
+	cover_open = !cover_open
+	user << "<span class='notice'>You [cover_open ? "open" : "close"] [src]'s cover.</span>"
+	update_icon()
+	update_held_icon()
+
+/obj/item/weapon/gun/projectile/automatic/m219/attack_self(mob/user as mob)
+	if(cover_open)
+		toggle_cover(user) //close the cover
+	else
+		return ..() //once closed, behave like normal
+
+/obj/item/weapon/gun/projectile/automatic/m219/attack_hand(mob/user as mob)
+	if(!cover_open && user.get_inactive_hand() == src)
+		toggle_cover(user) //open the cover
+	else
+		return ..() //once open, behave like normal
+
+/obj/item/weapon/gun/projectile/automatic/m219/load_ammo(var/obj/item/A, mob/user)
+	if(!cover_open)
+		user << "<span class='warning'>You need to open the cover to load [src].</span>"
+		return
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/m219/unload_ammo(mob/user, var/allow_dump=1)
+	if(!cover_open)
+		user << "<span class='warning'>You need to open the cover to unload [src].</span>"
+		return
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/m219/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "m219"
+	else
+		icon_state = "m219-empty"
+
+/obj/item/weapon/gun/projectile/automatic/rpl
+	name = "RPL"
+	desc = "no desc."
+	icon_state = "rpl"
+	item_state = "l6closed"
+	w_class = 4
+	force = 15
+	slot_flags = 0
+	max_shells = 100
+	caliber = "a762"
+	slot_flags = SLOT_BACK
+	ammo_type = "/obj/item/ammo_casing/a762/ap"
+	fire_sound = 'sound/weapons/machinegun.ogg'
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/saw762
+	allowed_magazines = list(/obj/item/ammo_magazine/saw762)
+
+	one_handed_penalty = 6
+
+	firemodes = list(
+		list(mode_name="semiauto",       burst=1, fire_delay=0,    move_delay=null, burst_accuracy=null, dispersion=null),
+		list(mode_name="3-round bursts", burst=3, fire_delay=null, move_delay=4,    burst_accuracy=list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0)),
+		list(mode_name="short bursts",	burst=5, move_delay=6, burst_accuracy = list(0,-1,-1,-2,-2), dispersion = list(0.6, 1.0, 1.0, 1.0, 1.2))
+		)
+
+	var/cover_open = 0
+
+/obj/item/weapon/gun/projectile/automatic/rpl/special_check(mob/user)
+	if(cover_open)
+		user << "<span class='warning'>[src]'s cover is open! Close it before firing!</span>"
+		return 0
+	return ..()
+
+/obj/item/weapon/gun/projectile/automatic/rpl/proc/toggle_cover(mob/user)
+	cover_open = !cover_open
+	user << "<span class='notice'>You [cover_open ? "open" : "close"] [src]'s cover.</span>"
+	update_icon()
+	update_held_icon()
+
+/obj/item/weapon/gun/projectile/automatic/rpl/attack_self(mob/user as mob)
+	if(cover_open)
+		toggle_cover(user) //close the cover
+	else
+		return ..() //once closed, behave like normal
+
+/obj/item/weapon/gun/projectile/automatic/rpl/attack_hand(mob/user as mob)
+	if(!cover_open && user.get_inactive_hand() == src)
+		toggle_cover(user) //open the cover
+	else
+		return ..() //once open, behave like normal
+
+/obj/item/weapon/gun/projectile/automatic/rpl/load_ammo(var/obj/item/A, mob/user)
+	if(!cover_open)
+		user << "<span class='warning'>You need to open the cover to load [src].</span>"
+		return
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/rpl/unload_ammo(mob/user, var/allow_dump=1)
+	if(!cover_open)
+		user << "<span class='warning'>You need to open the cover to unload [src].</span>"
+		return
+	..()
+
+/obj/item/weapon/gun/projectile/automatic/rpl/update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "rpl"
+	else
+		icon_state = "rpl-empty"

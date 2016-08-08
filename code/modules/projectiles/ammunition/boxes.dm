@@ -254,6 +254,15 @@
 	max_ammo = 20
 	multiple_sprites = 1
 
+/obj/item/ammo_magazine/new9mm
+	name = "magazine (9mm)"
+	icon_state = "9x19p"
+	mag_type = MAGAZINE
+	caliber = "9mm"
+	ammo_type = /obj/item/ammo_casing/c9mm
+	max_ammo = 12
+	multiple_sprites = 1
+
 /obj/item/ammo_magazine/mc9mmt/empty
 	initial_ammo = 0
 
@@ -577,3 +586,68 @@
 	matter = list(DEFAULT_WALL_MATERIAL = 600)
 	max_ammo = 7
 	multiple_sprites = 1
+
+//tdome stuff
+
+/obj/item/ammo_magazine/ar556
+	name = "magazine (5.56mm)"
+	icon_state = "5.56ar"
+	mag_type = MAGAZINE
+	caliber = "a556"
+	ammo_type = /obj/item/ammo_casing/a556
+	max_ammo = 30
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/r556
+	name = "magazine (5.56mm)"
+	icon_state = "5.56rifle"
+	mag_type = MAGAZINE
+	caliber = "a556"
+	ammo_type = /obj/item/ammo_casing/a556/hp
+	max_ammo = 15
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/saw556
+	name = "magazine box (5.56mm)"
+	icon_state = "5.56saw"
+	mag_type = MAGAZINE
+	caliber = "a556"
+	ammo_type = /obj/item/ammo_casing/a556/ap
+	max_ammo = 100
+	w_class = 3
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/ar762
+	name = "magazine (7.62mm)"
+	icon_state = "7.62ar"
+	mag_type = MAGAZINE
+	caliber = "a762"
+	ammo_type = /obj/item/ammo_casing/a762
+	max_ammo = 30
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/r762
+	name = "magazine (7.62mm)"
+	icon_state = "7.62rifle"
+	mag_type = MAGAZINE
+	caliber = "a762"
+	ammo_type = /obj/item/ammo_casing/a762/hp
+	max_ammo = 15
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/saw762
+	name = "magazine box (7.62mm)"
+	icon_state = "7.62saw"
+	mag_type = MAGAZINE
+	caliber = "a762"
+	ammo_type = /obj/item/ammo_casing/a762/ap
+	max_ammo = 100
+	w_class = 3
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/a127
+	name = "ammunition clip (12.7mm)"
+	icon_state = "12.7"
+	caliber = "a127"
+	ammo_type = /obj/item/ammo_casing/a127
+	max_ammo = 5

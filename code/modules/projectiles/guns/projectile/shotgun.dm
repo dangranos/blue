@@ -117,3 +117,20 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/pellet
 	w_class = 3
 	force = 5
+
+/obj/item/weapon/gun/projectile/shotgun/pump/combat/m5shotgun
+	name = "M5 shotgun"
+	desc = "no desc"
+	icon_state = "m5shotgun"
+	item_state = "cshotgun"
+	max_shells = 7
+	ammo_type = /obj/item/ammo_casing/shotgun/pellet
+
+/obj/item/weapon/gun/projectile/shotgun/pump/combat/nmoz54
+	name = "NMOZ-54 shotgun"
+	desc = "no desc"
+	icon_state = "nmoz54"
+	item_state = "cshotgun"
+	max_shells = 7
+	ammo_type = /obj/item/ammo_casing/shotgun/pellet
+

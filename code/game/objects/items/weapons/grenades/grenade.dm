@@ -113,3 +113,14 @@
 	walk(src, null, null)
 	..()
 	return
+
+/obj/item/weapon/grenade/underslung
+	name = "40mm underslung grenade"
+	icon_state = "underslung"
+	throw_speed = 5
+
+/obj/item/weapon/grenade/underslung/prime()
+	var/turf/T = get_turf(src)
+	if(T)
+		explosion(T, 0, 1, 4, 7, 1, 0)
+	qdel(src)
