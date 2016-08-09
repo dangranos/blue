@@ -9,6 +9,7 @@
 	icon = 'icons/obj/chemical.dmi'
 	icon_state = null
 	item_state = "atoxinbottle"
+	center_of_mass = list("x"=15, "y"=10)
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = list(5,10,15,25,30,60)
 	flags = 0

@@ -233,6 +233,8 @@
 		usr.drop_item()
 		if(W)
 			W.forceMove(src.loc)
+			W.pixel_x = 0
+			W.pixel_y = 0
 	else if(istype(W, /obj/item/weapon/packageWrap))
 		return
 	else if(istype(W, /obj/item/weapon/weldingtool))

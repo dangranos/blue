@@ -1,6 +1,3 @@
-#define CELLS 8
-#define CELLSIZE (32/CELLS)
-
 /obj/item/weapon/reagent_containers
 	name = "Container"
 	desc = "..."
@@ -10,7 +7,6 @@
 	var/amount_per_transfer_from_this = 5
 	var/possible_transfer_amounts = list(5,10,15,25,30)
 	var/volume = 30
-	var/list/center_of_mass = list() // Used for table placement
 
 /obj/item/weapon/reagent_containers/verb/set_APTFT() //set amount_per_transfer_from_this
 	set name = "Set transfer amount"
@@ -176,6 +172,3 @@
 	var/trans = reagents.trans_to(target, amount_per_transfer_from_this)
 	user << "<span class='notice'>You transfer [trans] units of the solution to [target].</span>"
 	return 1
-
-#undef CELLS
-#undef CELLSIZE

@@ -72,7 +72,7 @@
 	return
 
 
-/obj/structure/table/attackby(obj/item/W as obj, mob/user as mob)
+/obj/structure/table/attackby(obj/item/W as obj, mob/user as mob, var/click_params)
 	if (!W) return
 
 	// Handle harm intent grabbing/tabling.
@@ -138,9 +138,59 @@
 		user << "<span class='warning'>There's nothing to put \the [W] on! Try adding plating to \the [src] first.</span>"
 		return
 
-	if(item_place)
-		user.drop_item(src.loc)
+	if(user.canUnEquip(W) && user.drop_from_inventory(W, src.loc))
+		auto_align(W, click_params)
 	return
+
+/*
+Automatic alignment of items to an invisible grid, defined by CELLS and CELLSIZE, defined in code/__defines/misc.dm.
+Since the grid will be shifted to own a cell that is perfectly centered on the turf, we end up with two 'cell halves'
+on edges of each row/column.
+Each item defines a center_of_mass, which is the pixel of a sprite where its projected center of mass toward a turf
+surface can be assumed. For a piece of paper, this will be in its center. For a bottle, it will be (near) the bottom
+of the sprite.
+auto_align() will then place the sprite so the defined center_of_mass is at the bottom left corner of the grid cell
+closest to where the cursor has clicked on.
+Note: This proc can be overwritten to allow for different types of auto-alignment.
+*/
+/obj/item/var/list/center_of_mass = list("x"=16,"y"=16)
+/obj/item/var/place_centered = 0
+/obj/structure/table/proc/auto_align(obj/item/W, click_params)
+	if (W.place_centered) // Clothing, material stacks, generally items with large sprites where exact placement would be unhandy.
+		W.pixel_x = rand(-W.randpixel, W.randpixel)
+		W.pixel_y = rand(-W.randpixel, W.randpixel)
+		W.pixel_z = 0
+		return
+
+	if (!click_params)
+		return
+
+	var/list/click_data = params2list(click_params)
+	if (!click_data["icon-x"] || !click_data["icon-y"])
+		return
+
+	// Calculation to apply new pixelshift.
+	var/mouse_x = text2num(click_data["icon-x"])-1 // Ranging from 0 to 31
+	var/mouse_y = text2num(click_data["icon-y"])-1
+
+	var/cell_x = Clamp(round(mouse_x/CELLSIZE), 0, CELLS-1) // Ranging from 0 to CELLS-1
+	var/cell_y = Clamp(round(mouse_y/CELLSIZE), 0, CELLS-1)
+
+	W.pixel_x = (CELLSIZE * (cell_x + 0.5)) - center_of_mass["x"]
+	W.pixel_y = (CELLSIZE * (cell_y + 0.5)) - center_of_mass["y"]
+	W.pixel_z = 0
+
+/obj/structure/table/rack/auto_align(obj/item/W, click_params)
+	if(W && W.place_centered)
+		..(W)
+	var/i = -1
+	for (var/obj/item/I in get_turf(src))
+		if (I.anchored || I.place_centered)
+			continue
+		i++
+		I.pixel_x = max(3-i*3, -3) + 1 // There's a sprite layering bug for 0/0 pixelshift, so we avoid it.
+		I.pixel_y = max(4-i*4, -4) + 1
+		I.pixel_z = 0
 
 /obj/structure/table/attack_tk() // no telehulk sorry
 	return
