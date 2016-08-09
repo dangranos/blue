@@ -34,6 +34,7 @@
 	default_type = /obj/item/organ/external/limb
 	parent_organ = "chest"
 	can_grasp = 1
+	drop_on_remove = list(slot_gloves, slot_handcuffed)
 
 /datum/organ_description/arm/left
 	name = "left arm"
@@ -49,31 +50,10 @@
 	joint = "right elbow"
 	amputation_point = "right shoulder"
 
-/datum/organ_description/leg
-	default_type = /obj/item/organ/external/limb
-	parent_organ = "groin"
-	can_stand = 1
-
-/datum/organ_description/leg/left
-	name = "left leg"
-	organ_tag = "l_leg"
-	body_part = LEG_LEFT
-	icon_position = LEFT
-	joint = "left knee"
-	amputation_point = "left hip"
-
-/datum/organ_description/leg/right
-	name = "right leg"
-	organ_tag = "r_leg"
-	body_part = LEG_RIGHT
-	icon_position = RIGHT
-	joint = "right knee"
-	amputation_point = "right hip"
-
 /datum/organ_description/hand
 	default_type = /obj/item/organ/external/tiny
 	can_grasp = 1
-	drop_on_remove = list(slot_gloves)
+	drop_on_remove = list(slot_gloves, slot_handcuffed)
 
 /datum/organ_description/hand/left
 	organ_tag = "l_hand"
@@ -91,10 +71,32 @@
 	joint = "right wrist"
 	amputation_point = "right wrist"
 
+/datum/organ_description/leg
+	default_type = /obj/item/organ/external/limb
+	parent_organ = "groin"
+	can_stand = 1
+	drop_on_remove = list(slot_shoes, slot_legcuffed)
+
+/datum/organ_description/leg/left
+	name = "left leg"
+	organ_tag = "l_leg"
+	body_part = LEG_LEFT
+	icon_position = LEFT
+	joint = "left knee"
+	amputation_point = "left hip"
+
+/datum/organ_description/leg/right
+	name = "right leg"
+	organ_tag = "r_leg"
+	body_part = LEG_RIGHT
+	icon_position = RIGHT
+	joint = "right knee"
+	amputation_point = "right hip"
+
 /datum/organ_description/foot
 	default_type = /obj/item/organ/external/tiny
 	can_stand = 1
-	drop_on_remove = list(slot_shoes)
+	drop_on_remove = list(slot_shoes, slot_legcuffed)
 
 /datum/organ_description/foot/left
 	organ_tag = "l_foot"

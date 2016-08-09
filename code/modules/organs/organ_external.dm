@@ -138,19 +138,18 @@
 		return
 
 	var/is_robotic = robotic >= ORGAN_ROBOT
-	var/mob/living/carbon/human/victim = owner
 
-	victim.organs -= src
-	victim.organs_by_name[organ_tag] = null // Remove from owner's vars.
-	victim.bad_external_organs -= src
+	owner.organs -= src
+	owner.organs_by_name[organ_tag] = null // Remove from owner's vars.
+	owner.bad_external_organs -= src
 
-	..()
+	drop_items()
 
 	for(var/atom/movable/implant in implants)
 		//large items and non-item objs fall to the floor, everything else stays
 		var/obj/item/I = implant
 		if(istype(I) && I.w_class < 3)
-			implant.loc = get_turf(victim.loc)
+			implant.loc = get_turf(owner)
 		else
 			implant.loc = src
 	implants.Cut()
@@ -173,7 +172,8 @@
 	parent.children -= src
 	parent = null
 
-	release_restraints(victim)
+	var/mob/living/carbon/human/victim = owner
+	..()
 
 	//Robotic limbs explode if sabotaged.
 	if(is_robotic && sabotaged)
@@ -194,7 +194,7 @@
 
 
 /obj/item/organ/external/emp_act(severity)
-	if(!(robotic >= ORGAN_ROBOT))
+	if(robotic < ORGAN_ROBOT)
 		return
 	switch (severity)
 		if (1)
@@ -276,7 +276,6 @@
 		O = O.parent
 	return 0
 
-
 /obj/item/organ/external/proc/dislocate()
 	if(dislocated == -1)
 		return
@@ -303,6 +302,16 @@
 	damage = min(max_damage, (brute_dam + burn_dam))
 	return
 
+/obj/item/organ/external/proc/drop_items()
+	if(!owner) return
+	var/obj/item/dropped = null
+	for(var/slot in drop_on_remove)
+		dropped = owner.get_equipped_item(slot)
+		if(dropped)
+			owner.visible_message(\
+				"\The [dropped] falls off of [owner.name].",\
+				"\The [dropped] falls off you.")
+			owner.drop_from_inventory(dropped)
 
 /****************************************************
 			   DAMAGE PROCS
@@ -983,22 +992,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/proc/is_stump()
 	return 0
 
-/obj/item/organ/external/proc/release_restraints(var/mob/living/carbon/human/holder)
-	if(!holder)
-		holder = owner
-	if(!holder)
-		return
-	if (holder.handcuffed && body_part in list(ARM_LEFT, ARM_RIGHT, HAND_LEFT, HAND_RIGHT))
-		holder.visible_message(\
-			"\The [holder.handcuffed.name] falls off of [holder.name].",\
-			"\The [holder.handcuffed.name] falls off you.")
-		holder.drop_from_inventory(holder.handcuffed)
-	if (holder.legcuffed && body_part in list(FOOT_LEFT, FOOT_RIGHT, LEG_LEFT, LEG_RIGHT))
-		holder.visible_message(\
-			"\The [holder.legcuffed.name] falls off of [holder.name].",\
-			"\The [holder.legcuffed.name] falls off you.")
-		holder.drop_from_inventory(holder.legcuffed)
-
 // checks if all wounds on the organ are bandaged
 /obj/item/organ/external/proc/is_bandaged()
 	for(var/datum/wound/W in wounds)
@@ -1076,7 +1069,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 	// Fractures have a chance of getting you out of restraints
 	if (prob(25))
-		release_restraints()
+		drop_items()
 
 	// This is mostly for the ninja suit to stop ninja being so crippled by breaks.
 	// TODO: consider moving this to a suit proc or process() or something during
@@ -1191,64 +1184,6 @@ Note that amputating the affected organ does in fact remove the infection from t
 		var/mob/living/H = W.loc
 		H.drop_from_inventory(W)
 	W.loc = owner
-
-/obj/item/organ/external/removed(var/mob/living/user, var/ignore_children = 0)
-	if(!owner)
-		return
-	var/is_robotic = robotic >= ORGAN_ROBOT
-	var/mob/living/carbon/human/victim = owner
-
-	..()
-
-	victim.bad_external_organs -= src
-
-	for(var/atom/movable/implant in implants)
-		//large items and non-item objs fall to the floor, everything else stays
-		var/obj/item/I = implant
-		if(istype(I) && I.w_class < 3)
-			implant.loc = get_turf(victim.loc)
-		else
-			implant.loc = src
-	implants.Cut()
-
-	// Attached organs also fly off.
-	if(!ignore_children)
-		for(var/obj/item/organ/external/O in children)
-			O.removed()
-			if(O)
-				O.loc = src
-				for(var/obj/item/I in O.contents)
-					I.loc = src
-
-	// Grab all the internal giblets too.
-	for(var/obj/item/organ/organ in internal_organs)
-		organ.removed()
-		organ.loc = src
-
-	// Remove parent references
-	parent.children -= src
-	parent = null
-
-	release_restraints(victim)
-	victim.organs -= src
-	victim.organs_by_name[organ_tag] = null // Remove from owner's vars.
-
-	//Robotic limbs explode if sabotaged.
-	if(is_robotic && sabotaged)
-		victim.visible_message(
-			"<span class='danger'>\The [victim]'s [src.name] explodes violently!</span>",\
-			"<span class='danger'>Your [src.name] explodes!</span>",\
-			"<span class='danger'>You hear an explosion!</span>")
-		explosion(get_turf(owner),-1,-1,2,3)
-		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
-		spark_system.set_up(5, 0, victim)
-		spark_system.attach(owner)
-		spark_system.start()
-		spawn(10)
-			qdel(spark_system)
-		qdel(src)
-
-	victim.update_body()
 
 /obj/item/organ/external/proc/disfigure(var/type = "brute")
 	if (disfigured)
