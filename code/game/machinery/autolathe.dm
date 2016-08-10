@@ -301,7 +301,6 @@
 
 /obj/machinery/autolathe/proc/canBuild(var/datum/autolathe/recipe/R, var/multiplier=1)
 	for(var/material in R.resources)
-		world << material
 		if(!isnull(stored_material[material]))
 			if(stored_material[material] < (round(R.resources[material] * mat_efficiency) * multiplier))
 				return 0
