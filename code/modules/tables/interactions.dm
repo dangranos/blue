@@ -137,8 +137,8 @@
 	if(can_plate && !material)
 		user << "<span class='warning'>There's nothing to put \the [W] on! Try adding plating to \the [src] first.</span>"
 		return
-
-	if(user.canUnEquip(W) && user.drop_from_inventory(W, src.loc))
+	if(user.canUnEquip(W))
+		user.drop_from_inventory(W, src.loc)
 		auto_align(W, click_params)
 	return
 
